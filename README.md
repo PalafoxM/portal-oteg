@@ -4,7 +4,7 @@
 
 ##### 1) Clonar o descargar el proyecto del repositorio
 
-`git clone https://gitlab.com/wdavilav/apolo.git`
+`git clone https://gitlab.com/sectur-gto/portal-oteg`
 
 ##### 2) Crear un entorno virtual para posteriormente instalar las librerias del proyecto
 
