@@ -1,0 +1,14 @@
+<h1> Regististrar Ususario </h1>
+
+{% if form.erros %}
+ <p>
+    Error en el formulario
+ </p>
+
+{%endif%}
+
+<form action="{%url 'register'%}" method="POST">
+    {% csrf_token %}
+    {{form}}
+
+</form>     

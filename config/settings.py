@@ -11,8 +11,10 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import sys
 sys.path.insert(0, './app/web')
+sys.path.insert(0, './app/back')
 
 import home
+import logIn
 
 
 from pathlib import Path
