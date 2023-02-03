@@ -9,19 +9,18 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
+import config.db as db
+import os
+from pathlib import Path
+
 import sys
 sys.path.insert(0, './app/web')
 sys.path.insert(0, './app/back')
 
-import home
+import usuarios
 import logIn
+import home
 
-
-from pathlib import Path
-
-import os
-
-import config.db as db
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -49,7 +48,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'logIn',
-    'home'
+    'home',
+    'usuarios',
 ]
 
 MIDDLEWARE = [
@@ -75,6 +75,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
             ],
         },
     },

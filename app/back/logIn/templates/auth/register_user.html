@@ -1,14 +1,31 @@
 <h1> Regististrar Ususario </h1>
 
-{% if form.erros %}
- <p>
-    Error en el formulario
- </p>
+
+
+<section>
+    {% if messages %}
+    {% for message in messages %}
+    <div>
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+
+</section>
+
+{% if form.errors %}
+<p>
+    Error en el formulario..
+</p>
 
 {%endif%}
 
-<form action="{%url 'register'%}" method="POST">
-    {% csrf_token %}
-    {{form}}
+<form action="{%url 'register'%}" method="POST" enctype='multipart/form-data'>
 
-</form>     
+
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" value="Registrar" />
+
+
+</form>
