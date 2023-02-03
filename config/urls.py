@@ -23,4 +23,6 @@ urlpatterns = [
     path('users/',include('django.contrib.auth.urls')),
     path('users/',include('logIn.urls')),
     path('admin-oteg/',include('colaboradores.urls')),
+    path('users/',include('usuarios.urls')),
+    
 ]

@@ -1,0 +1,170 @@
+<nav class="navbar navbar-expand-lg justify-content-center" data-bs-theme="dark" style="background-color: #1c2331">
+    <div class="collapse navbar-collapse jtext-center" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            {% if user.is_authenticated %}
+
+            <li>
+                <a href="{% url 'logout' %}">Log Out</a>
+            </li>
+
+            {%else%}
+            <li>
+                <a href="{% url 'login' %}">Log In</a>
+            </li>
+            {% endif %}
+
+            <li>
+                <a href="{% url 'register' %}">Registrar Nuevo Usuario</a>
+            </li>
+
+            <li>
+                <a href="{% url 'users_crud' %}">Usuarios Registrados</a>
+            </li>
+
+
+
+        </ul>
+    </div>
+</nav>
+
+
+
+
+<h1>Edit User {{ user.username }}</h1>
+
+<form method="post" enctype='multipart/form-data'>
+
+    {% csrf_token %}
+
+    <div>
+        <label for="username">Nombre Usuario:</label>
+        <input type="text" name="username" value="{{ user.username }}">
+    </div>
+
+    <div>
+        <label for="first_name">Nombre:</label>
+        <input type="text" name="first_name" value="{{ user.first_name }}">
+    </div>
+
+    <div>
+        <label for="last_name">Apellido Paterno:</label>
+        <input type="text" name="last_name" value="{{ user.last_name }}">
+    </div>
+
+
+    <div>
+        <label for="apellido_materno">Apellido Materno:</label>
+        <input type="text" name="apellido_materno" value="{{ profile.apellido_materno }}">
+    </div>
+
+    <div>
+        <label for="fecha_cumple">Fecha de Cumpleaños:</label>
+        <input type="date" name="fecha_cumple" value="{{ profile.fecha_cumple }}">
+    </div>
+
+
+    <div>
+        <label for="email">Correo Electrónico:</label>
+        <input type="text" name="email" value="{{ user.email }}">
+    </div>
+
+    <div>
+        <label for="tel">Teléfono:</label>
+        <input type="number" name="tel" value="{{ profile.tel }}">
+    </div>
+
+
+    <div>
+        <label for="facebook">Facebook:</label>
+        <input type="text" name="facebook" value="{{ profile.facebook }}">
+    </div>
+
+    <div>
+        <label for="twitter">Twitter:</label>
+        <input type="text" name="twitter" value="{{ profile.twitter }}">
+    </div>
+
+    <div>
+        <label for="ciudad">Ciudad:</label>
+        <input type="text" name="ciudad" value="{{ profile.ciudad}}">
+    </div>
+
+
+    <div>
+        <label for="estado">Estado:</label>
+        <input type="text" name="estado" value="{{ profile.estado}}">
+    </div>
+
+
+    <div>
+        <label for="empresa_institucion">Empresa o institucion:</label>
+        <input type="text" name="empresa_institucion" value="{{ profile.empresa_institucion}}">
+    </div>
+
+    <div>
+        <label for="cargo">Cargo:</label>
+        <input type="text" name="cargo" value="{{ profile.cargo}}">
+    </div>
+
+    <div>
+        <label for="licenciatura">licenciatura:</label>
+        <input type="text" name="licenciatura" value="{{ profile.licenciatura}}">
+    </div>
+
+
+
+    <div>
+        <label for="universidad_licenciatura">Universidad licenciatura:</label>
+        <input type="text" name="universidad_licenciatura" value="{{ profile.universidad_licenciatura}}">
+    </div>
+
+
+    <div>
+        <label for="maestria">Maestria:</label>
+        <input type="text" name="maestria" value="{{ profile.maestria}}">
+    </div>
+
+    
+    <div>
+        <label for="universidad_maestria">Universidad maestria:</label>
+        <input type="text" name="universidad_maestria" value="{{ profile.universidad_maestria}}">
+    </div>
+
+    
+    <div>
+        <label for="doctorado">Doctorado:</label>
+        <input type="text" name="doctorado" value="{{ profile.doctorado}}">
+    </div>
+
+    
+    <div>
+        <label for="universidad_doctorado">Universidad_doctorado:</label>
+        <input type="text" name="universidad_doctorado" value="{{ profile.universidad_doctorado}}">
+    </div>
+
+    <div>
+        <label for="universidad_doctorado">Foto:</label>
+        <p>Valor actual {{ profile.photo }}</p>
+        {{ form.as_p }}
+    </div>
+
+    
+
+    <div>
+        <label for="experiencia">Experiencia:</label>
+        <textarea type="text" name="experiencia" value="{{ profile.experiencia}}"> </textarea>
+    </div>
+
+
+    <div>
+        <label for="boletin">Boletin:</label>
+        <input type="checkbox" name="boletin" {% if profile.boletin %} checked="checked"{% endif %}>
+    </div>
+
+
+
+
+
+
+    <input type="submit" value="Save Changes">
+</form>

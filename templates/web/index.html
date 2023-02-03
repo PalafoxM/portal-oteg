@@ -25,7 +25,7 @@
 
   <!-- Header -->
   <header class="">
-    <nav class="navbar navbar-expand-lg justify-content-center" data-bs-theme="dark"  style="background-color: #1c2331">
+    <nav class="navbar navbar-expand-lg justify-content-center" data-bs-theme="dark" style="background-color: #1c2331">
       <div class="collapse navbar-collapse jtext-center" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
@@ -46,6 +46,19 @@
           <li class="nav-item">
             <a class="nav-link " href="#">Solicitudes</a>
           </li>
+          {% if user.is_authenticated %}
+
+          <li>
+            <a href="{% url 'user_panel' %}">Panel Admin</a>
+          </li>
+
+          {%else%}
+          <li>
+            <a href="{% url 'login' %}">Log In</a>
+          </li>
+          {% endif %}
+
+
         </ul>
       </div>
     </nav>
@@ -55,9 +68,12 @@
   <div class="container">
     <div id="carouselExampleIndicators" class="carousel slide">
       <div class="carousel-indicators">
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
+          aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+          aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+          aria-label="Slide 3"></button>
       </div>
       <div class="carousel-inner">
         <div class="carousel-item active">
@@ -70,11 +86,13 @@
           <img src="https://picsum.photos/id/58/800/300" class="d-block w-100" alt="...">
         </div>
       </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+        data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Previous</span>
       </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+        data-bs-slide="next">
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Next</span>
       </button>
@@ -89,43 +107,49 @@
     ">
         <h2>TABLERO DE CONTROL</h2>
         <h5>¿Qué es?</h5>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur magnam quisquam, ab exercitationem natus ullam excepturi eos dolore molestias quo illum ipsa voluptate! Molestias facilis magni optio asperiores natus nihil!</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur magnam quisquam, ab exercitationem
+          natus ullam excepturi eos dolore molestias quo illum ipsa voluptate! Molestias facilis magni optio asperiores
+          natus nihil!</p>
       </div>
     </div>
     <div class="row">
       <div class="col-lg-3">
-        <div class="card" >
+        <div class="card">
           <img src="https://picsum.photos/id/237/200" class="card-img-top" alt="...">
           <div class="card-body">
             <h3>Titulo</h3>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+              content.</p>
           </div>
         </div>
       </div>
       <div class="col-lg-3">
         <div class="card" ">
-          <img src="https://picsum.photos/id/58/200" class="card-img-top" alt="...">
+          <img src=" https://picsum.photos/id/58/200" class="card-img-top" alt="...">
           <div class="card-body">
             <h3>Titulo</h3>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+              content.</p>
           </div>
         </div>
       </div>
       <div class="col-lg-3">
-        <div class="card" >
+        <div class="card">
           <img src="https://picsum.photos/id/39/200" class="card-img-top" alt="...">
           <div class="card-body">
             <h3>Titulo</h3>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+              content.</p>
           </div>
         </div>
       </div>
       <div class="col-lg-3">
-        <div class="card" >
+        <div class="card">
           <img src="https://picsum.photos/id/89/200" class="card-img-top" alt="...">
           <div class="card-body">
             <h3>Titulo</h3>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+              content.</p>
           </div>
         </div>
       </div>
@@ -142,12 +166,12 @@
     ">
       </div>
       <div class="col-lg-4">
-          <ul>
-            <li>Mayo 2022 30.00%</li>
-            <li>Abril 2022 31.30%</li>
-            <li>Marzo 2022 31.30%</li>
-            <li>Febrero 2022 31.30%</li>
-          </ul>
+        <ul>
+          <li>Mayo 2022 30.00%</li>
+          <li>Abril 2022 31.30%</li>
+          <li>Marzo 2022 31.30%</li>
+          <li>Febrero 2022 31.30%</li>
+        </ul>
       </div>
     </div>
 
@@ -166,7 +190,9 @@
             <h6 class="text-uppercase fw-bold">OTEG</h6>
             <hr class="mb-4 mt-0 d-inline-block mx-auto" style="width: 60px; background-color: #7c4dff; height: 2px" />
             <p>
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Facilis unde quidem commodi voluptates placeat dolorem delectus ipsum, culpa impedit! Mollitia laborum praesentium provident voluptas eum, perferendis dolorem hic aliquam atque!
+              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Facilis unde quidem commodi voluptates placeat
+              dolorem delectus ipsum, culpa impedit! Mollitia laborum praesentium provident voluptas eum, perferendis
+              dolorem hic aliquam atque!
             </p>
           </div>
           <!-- Grid column -->
