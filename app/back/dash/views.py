@@ -6,8 +6,6 @@ from django.contrib.auth.decorators import login_required
 
 
 @login_required(login_url='login')
-def my_profile(req):
-    username = req.user.username
-    return render(req, 'users/profile.html', {"username": username})
-
-
+def dash (request):
+    username = request.user.username
+    return render(request, 'dash/dash.html' , {"username": username})

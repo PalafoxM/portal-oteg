@@ -30,7 +30,7 @@ def logInUser(req):
             # else:
 
             login(req, user)
-            return redirect('user_panel')
+            return redirect('dash')
         else:
             messages.success(req, 'Usuario o Contraseña Incorrectos')
             return redirect('login')
@@ -68,7 +68,7 @@ def register_user(req):
                 user = authenticate(req, username=username, password=password)
                 login(req, user)
                 messages.success(req, 'Usuario creado exitosamente')
-                return redirect('user_panel')
+                return redirect('dash')
     else:
         form = CustomUserCreationForm(req.POST)
 
