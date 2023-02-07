@@ -24,9 +24,12 @@ import sys
 sys.path.insert(0, './app/web')
 sys.path.insert(0, './app/back')
 
-import usuarios
-import logIn
 import home
+import logIn
+import usuarios
+import otros
+import dash
+
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -61,6 +64,8 @@ INSTALLED_APPS = [
     'usuarios',
     # librerias
     'widget_tweaks',
+    'otros',
+    'dash'
 ]
 
 MIDDLEWARE = [
