@@ -59,6 +59,8 @@ INSTALLED_APPS = [
     'colaboradores',
     'contenido',
     'usuarios',
+    # librerias
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
