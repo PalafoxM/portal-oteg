@@ -1,13 +1,13 @@
 import re
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from django.contrib import messages
-from django.contrib.auth.forms import UserCreationForm
-from .models import Profile
-from django.contrib.auth.decorators import login_required
-from .forms import CustomUserCreationForm
-from .forms import ImageUploadForm
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth import update_session_auth_hash
+from .forms import CustomUserCreationForm, ProfileForm, UserForm ,PasswordChangeFormCustom
+
 from .models import User, Profile
+from django.contrib import messages
+
 
 # Create your views here.
 
@@ -45,6 +45,7 @@ def logOutUser(req):
 
 
 @login_required(login_url='login')
+@user_passes_test(lambda u: u.has_perm("auth.view_user"))
 def register_user(req):
 
     def validate(string):
@@ -86,6 +87,12 @@ def profile(req):
 def users_crud(req):
     users = User.objects.all()
 
+    context = {
+        'users': users,
+        'request': req
+
+    }
+
     return render(req, 'auth/users_crud.html', {'users': users})
 
 
@@ -96,49 +103,36 @@ def delete_user(req, user_id):
 
 
 @login_required(login_url='login')
-def edit_user(req, user_id):
+def edit_user_pwd(req):
+    if req.method == 'POST':
+        form = PasswordChangeFormCustom(req.user, req.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(req, user)
+            return redirect('dash')
+    else:
+        form = PasswordChangeFormCustom(req.user)
+    return render(req, 'auth/edit_user_pwd.html', {
+        'form': form
+    })
 
+
+@login_required(login_url='login')
+def edit_user(req, user_id):
     user = User.objects.get(id=user_id)
     profile = user.profile
 
     if req.method == 'POST':
+        form = ProfileForm(req.POST, req.FILES, instance=profile)
+        from_2 = UserForm(req.POST,instance=user)
 
-        form = ImageUploadForm(req.POST, req.FILES)
-
-        if form.is_valid():
-            photo = form.cleaned_data['image']
-            # save the photo to the model
-            new_photo = Profile(photo=photo)
-            new_photo.save()
-
-        user.username = req.POST['username']
-        user.first_name = req.POST['first_name']
-        user.last_name = req.POST['last_name']
-        profile.apellido_materno = req.POST['apellido_materno']
-        profile.apellido_paterno = req.POST['last_name']
-        profile.fecha_cumple = req.POST['fecha_cumple']
-        user.email = req.POST['email']
-        profile.tel = req.POST['tel']
-        profile.facebook = req.POST['facebook']
-        profile.twitter = req.POST['twitter']
-        profile.ciudad = req.POST['ciudad']
-        profile.estado = req.POST['estado']
-        profile.empresa_institucion = req.POST['empresa_institucion']
-        profile.cargo = req.POST['cargo']
-        profile.licenciatura = req.POST['licenciatura']
-        profile.universidad_licenciatura = req.POST['universidad_licenciatura']
-        profile.maestria = req.POST['maestria']
-        profile.universidad_maestria = req.POST['universidad_maestria']
-        profile.doctorado = req.POST['doctorado']
-        profile.universidad_doctorado = req.POST['universidad_doctorado']
-        profile.experiencia = req.POST['experiencia']
-        profile.boletin = req.POST['boletin']
-
-        user.save()
-        profile.save()
-        return redirect('users_crud')
+        if form.is_valid() and from_2.is_valid():
+            form.save()
+            from_2.save()
+            return redirect('users_crud')
 
     else:
-        form = ImageUploadForm()
+        form = ProfileForm(instance=profile)
+        from_2 = UserForm(instance=user)
 
-    return render(req, 'auth/edit_user.html', {'user': user, 'profile': profile, 'form': form})
+    return render(req, 'auth/edit_user2.html', {'form': form, "form_2": from_2,  'user': user})
