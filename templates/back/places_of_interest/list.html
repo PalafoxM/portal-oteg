@@ -1,0 +1,39 @@
+{% extends 'back/list.html' %}
+{% load static %}
+{% block head_list %}
+    <!-- <script src="{% static 'admin/banner/list.js' %}"></script> -->
+{% endblock %}
+
+{% block columns %}
+    <tr>
+        <th scope="col" style="width: 10%;">id</th>
+        <th scope="col" style="width: 20%;">Sitio Web</th>
+        <th scope="col" style="width: 20%;">Opciones</th>
+    </tr>
+{% endblock %}
+
+{% block rows %}
+                    {% for place in places %}
+                        <tr>
+                            <th>{{ place.id }}</th>
+                            <th>{{place.sito_web}}</th>
+                            <th>
+                                <a href="{% url 'colaboradores:place_delete' place.id %}" class="btn btn-danger btn-icon-split">
+                                    <span class="icon text-white-50">
+                                        <i class="fas fa-trash"></i>
+                                    </span>
+                                    <span class="text">Eliminar</span>
+                                </a>
+                                <a href="{% url 'colaboradores:place_update' place.id %}" class="btn btn-primary btn-icon-split">
+                                    <span class="icon text-white-50">
+                                        <i class="fas fa-edit"></i>
+                                    </span>
+                                    <span class="text">Editar</span>
+                                </a>
+                            </th>
+                        </tr>
+                    {% endfor %}
+{% endblock %}
+
+{% block javascript %}
+{% endblock %}
