@@ -1,4 +1,5 @@
 from django.db import models
+from django.forms import model_to_dict
 
 class Publications(models.Model):
     section = models.CharField(max_length=100, verbose_name="Sección")
@@ -12,12 +13,16 @@ class Publications(models.Model):
     fiel = models.FileField(upload_to='archivo/%y/%m/%d', null=True, blank=True)
     date_created = models.DateTimeField(auto_now=True)
 
-def __str__(self):
-    return self.publication
+    def __str__(self):
+        return self.publication
+    
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
 
 
-class Meta:
-    verbose_name = 'Publicación'
-    verbose_name_plural = 'Publicaciones'
-    db_table = 'publications'
-    ordering = ['-id']
+    class Meta:
+        verbose_name = 'Publicación'
+        verbose_name_plural = 'Publicaciones'
+        db_table = 'publications'
+        ordering = ['-id']
