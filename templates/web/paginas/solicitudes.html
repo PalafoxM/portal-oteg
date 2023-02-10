@@ -1,0 +1,48 @@
+{% extends 'web/body.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+
+<!-- contenido -->
+{% block content %}
+<form method="post" action="" enctype="multipart/form-data">
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Solicitudes</h6>
+            <hr class="sidebar-divider">
+        </div>
+        <div class="card-body">
+            {% csrf_token %}
+            <input type="hidden" name="action" >
+            {% if form.errors %}
+                        <div class="alert alert-danger alert-dismissible">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <h5><i class="icon fas fa-ban"></i> Ha ocurrido un error al querer guardar el registro</h5>
+                            <ul>
+                                {% for field in form %}
+                                    {% for error in field.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+
+            {% for field in form.visible_fields %}
+                <div class="from-gruop">
+                    <label for="email">{{field.label}}</label>
+                    {{field|add_class:'form-control'}}
+
+                </div>
+            {% endfor %}
+            <!-- {{ form }} -->
+        </div>
+        <div class="card-footer">
+            
+            <button type="submit" class="btn btn-primary ">
+                <i class="fas fa-save"></i> Guardar
+            </button>
+        </div>
+    </div>
+</form>
+{% endblock %}
