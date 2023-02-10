@@ -9,12 +9,6 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-import sys
-sys.path.insert(0, './app/web')
-sys.path.insert(0, './app/back')
-
-import home
-
 
 import config.db as db
 import os
@@ -57,8 +51,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'logIn',
+    # web
     'home',
+    'oteg',
+    'solicitudes',
+    # back
+    'logIn',
     'colaboradores',
     'contenido',
     'usuarios',
@@ -150,3 +148,12 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Email configuration
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'purpura.dev@gmail.com'
+EMAIL_HOST_PASSWORD = 'thlimulqerlcqlwd'
+EMAIL_PORT = 587
+EMAIL_USE_TLS   = True
