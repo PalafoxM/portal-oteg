@@ -12,9 +12,11 @@
                 <a href="{% url 'login' %}">Log In</a>
             </li>
             {% endif %}
+            
 
             <li>
                 <a href="{% url 'register' %}">Registrar Nuevo Usuario</a>
+
             </li>
 
             <li>
@@ -49,7 +51,7 @@
                     {% csrf_token %}
                     <input type="submit" value="Delete">
                 </form>
-   
+
             </td>
         </tr>
         {% endfor %}

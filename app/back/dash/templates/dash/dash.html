@@ -14,13 +14,25 @@
             </li>
             {% endif %}
 
+            {% for group in groups %}
+            {% if group.name == "super_admin" %}
+
             <li>
                 <a href="{% url 'register' %}">Registrar Nuevo Usuario</a>
             </li>
+                
 
             <li>
                 <a href="{% url 'users_crud' %}">Usuarios Registrados</a>
             </li>
+
+            {% endif %}
+            {% endfor %}
+
+            <li>
+                <a href="{% url 'edit_user_pwd' %}">Cambiar Contraseña</a>
+            </li>
+
 
             <p>otros</p>
 
