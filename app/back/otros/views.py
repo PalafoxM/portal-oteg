@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import SeccionesCentroDocumental, Categorias
 from .forms import SeccionCentroDocumentalForm
 from .forms import CategoriasForm
+from django.urls import reverse_lazy
 
 # Create your views here.
 
@@ -70,3 +71,12 @@ def add_categoria(request, seccion_id):
     else:
         form = CategoriasForm()
     return render(request, 'otros/add_categoria.html', {'form': form})
+
+
+def descargas_list(request):
+    data = {
+        'title': 'Listado de Banners',
+        'descargas': [{'name': 'Listado de Boletín'},{'name': 'Listado de Colaboradores'}],
+        'create_url': '#' #reverse_lazy('colaboradores:descraga_create')
+    }
+    return render(request, 'back/descargas/list.html', data)

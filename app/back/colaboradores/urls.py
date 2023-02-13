@@ -1,6 +1,7 @@
 from django.urls import path
 from colaboradores.views import *
 from contenido.views import *
+from otros.views import *
 
 app_name = 'colaboradores'
 
@@ -19,4 +20,6 @@ urlpatterns = [
     path('place-of-interest/add', PlaceCreateView.as_view(), name='place_create'),
     path('place-of-interest/edit/<int:pk>/', PlaceUpdateView.as_view(), name='place_update'),
     path('place-of-interest/delete/<int:pk>/', PlaceDeleteView.as_view(), name='place_delete'),
+    # otros
+    path('descargas/list', descargas_list, name='descargas_list'),
 ]

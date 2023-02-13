@@ -7,7 +7,7 @@
             <a class="nav-link active" aria-current="page" href="#">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">OTEG</a>
+            <a class="nav-link" href="{% url 'oteg' %}">OTEG</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Indicadores</a>
@@ -19,17 +19,17 @@
             <a class="nav-link " href="https://guanajuato.mx/">Información turistica</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link " href="#">Solicitudes</a>
+            <a class="nav-link " href="{% url 'solicitudes' %}">Solicitudes</a>
           </li>
           {% if user.is_authenticated %}
 
           <li class="nav-item">
-            <a href="{% url 'dash' %}">Panel Admin</a>
+            <a class="nav-link " href="{% url 'dash' %}">Panel Admin</a>
           </li>
 
           {%else%}
           <li class="nav-item">
-            <a href="{% url 'login' %}">Log In</a>
+            <a class="nav-link " href="{% url 'login' %}">Log In</a>
           </li>
           {% endif %}
 
