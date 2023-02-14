@@ -73,7 +73,8 @@
                         <!-- <h6 class="collapse-header">Custom Components:</h6> -->
                         <a class="collapse-item" href="buttons.html">Eventos</a>
                         <a class="collapse-item" href="cards.html">Noticias</a>
-                        <a class="collapse-item" href="cards.html">Banners</a>
+                        <a class="collapse-item" href="{% url 'dashboard:banner_list' %}">Banners</a>
+                        <a class="collapse-item" href="{% url 'dashboard:place_list' %}">Sitios de Interes</a>
                     </div>
                 </div>
             </li>
@@ -88,7 +89,7 @@
                 <div id="collapseUtilities" class="collapse" aria-labelledby="headingTwo"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="buttons.html">Publicaciones</a>
+                        <a class="collapse-item" href="{% url 'dashboard:publicacion_list' %}">Publicaciones</a>
                     </div>
                 </div>
             </li>
@@ -113,7 +114,21 @@
                 </div>
             </li>
 
-
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOtros"
+                    aria-expanded="true" aria-controls="collapseOtros">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Otros</span>
+                </a>
+                <div id="collapseOtros" class="collapse" aria-labelledby="headingTwo"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="#">Secciones Centro Documental</a>
+                        <a class="collapse-item" href="{% url 'dashboard:descargas_list' %}">Descargas</a>
+                    </div>
+                </div>
+            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -261,7 +276,7 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <a class="btn btn-primary" href="#">Logout</a>
                 </div>
             </div>
         </div>

@@ -18,13 +18,13 @@
                             <th>{{ banner.id }}</th>
                             <th>{{banner.name}}</th>
                             <th>
-                                <a href="{% url 'colaboradores:banner_delete' banner.id %}" class="btn btn-danger btn-icon-split">
+                                <a href="{% url 'dashboard:banner_delete' banner.id %}" class="btn btn-danger btn-icon-split">
                                     <span class="icon text-white-50">
                                         <i class="fas fa-trash"></i>
                                     </span>
                                     <span class="text">Eliminar</span>
                                 </a>
-                                <a href="{% url 'colaboradores:banner_update' banner.id %}" class="btn btn-primary btn-icon-split">
+                                <a href="{% url 'dashboard:banner_update' banner.id %}" class="btn btn-primary btn-icon-split">
                                     <span class="icon text-white-50">
                                         <i class="fas fa-edit"></i>
                                     </span>

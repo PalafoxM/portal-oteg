@@ -16,13 +16,12 @@ from pathlib import Path
 
 import sys
 sys.path.insert(0, './app/web')
-sys.path.insert(0, './app/back')
+sys.path.insert(0, './app/')
 
 import home
 import logIn
-import usuarios
-import otros
-import dash
+import back
+# import dash
 
 
 
@@ -55,15 +54,14 @@ INSTALLED_APPS = [
     'home',
     'oteg',
     'solicitudes',
+
     # back
     'logIn',
-    'colaboradores',
-    'contenido',
-    'usuarios',
+    'back',
+    # 'dash'
+
     # librerias
     'widget_tweaks',
-    'otros',
-    'dash'
 ]
 
 MIDDLEWARE = [
