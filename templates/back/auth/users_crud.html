@@ -1,0 +1,59 @@
+<nav class="navbar navbar-expand-lg justify-content-center" data-bs-theme="dark" style="background-color: #1c2331">
+    <div class="collapse navbar-collapse jtext-center" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            {% if user.is_authenticated %}
+
+            <li>
+                <a href="{% url 'login:logout' %}">Log Out</a>
+            </li>
+
+            {%else%}
+            <li>
+                <a href="{% url 'login:login' %}">Log In</a>
+            </li>
+            {% endif %}
+            
+
+            <li>
+                <a href="{% url 'login:register' %}">Registrar Nuevo Usuario</a>
+
+            </li>
+
+            <li>
+                <a href="{% url 'login:users_crud' %}">Usuarios Registrados</a>
+            </li>
+
+
+
+        </ul>
+    </div>
+</nav>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            <td>
+                <form action="{% url 'login:edit_user' user.id %}" method="get">
+                    <input type="submit" value="Edit">
+                </form>
+                <form action="{% url 'login:delete_user' user.id %}" method="post">
+                    {% csrf_token %}
+                    <input type="submit" value="Delete">
+                </form>
+
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
