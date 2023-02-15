@@ -21,6 +21,8 @@ urlpatterns = [
     path('place-of-interest/add', PlaceCreateView.as_view(), name='place_create'),
     path('place-of-interest/edit/<int:pk>/', PlaceUpdateView.as_view(), name='place_update'),
     path('place-of-interest/delete/<int:pk>/', PlaceDeleteView.as_view(), name='place_delete'),
+    # contenido -> eventos
+    path('eventos/list', EventoListView.as_view(), name='eventos_list'),
     # otros
     path('centrodocumental/list', centro_documental, name='centrodocumental'),
     path('addcategoria', add_seccion_centro_documental, name='addseccion'),

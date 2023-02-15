@@ -24,12 +24,12 @@
           {% if user.is_authenticated %}
 
           <li class="nav-item">
-            <a class="nav-link " href="{% url 'dash' %}">Panel Admin</a>
+            <a class="nav-link " href="{% url 'dashboard:publicacion_list' %}">Panel Admin</a>
           </li>
 
           {%else%}
           <li class="nav-item">
-            <a class="nav-link " href="{% url 'login' %}">Log In</a>
+            <a class="nav-link " href="{% url 'login_user' %}">Log In</a>
           </li>
           {% endif %}
 

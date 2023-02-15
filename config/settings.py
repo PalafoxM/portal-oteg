@@ -16,7 +16,7 @@ from pathlib import Path
 
 import sys
 sys.path.insert(0, './app/web')
-sys.path.insert(0, './app/')
+sys.path.insert(0, './app')
 
 import home
 import logIn
@@ -137,6 +137,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
+MEDIA_ROOT = '/media/'
+MEDIA_ROOT =  os.path.join(BASE_DIR, 'media')
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),

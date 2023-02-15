@@ -80,6 +80,12 @@ class Categorias(models.Model):
     visible = models.BooleanField(default=True)
     seccion = models.ForeignKey(SeccionesCentroDocumental, on_delete=models.CASCADE , null=True, blank=True)
 
+class Evento (models.Model):
+    titulo = models.CharField(max_length=100)
+    descripcion = models.TextField()
+    fecha_inicio = models.DateField()
+    imagen = models.ImageField(null=True, blank=True ,upload_to='images/')
+
 # class Profile(models.Model):
 #     user = models.OneToOneField(User,null=True, on_delete=models.CASCADE)
 #     apellido_paterno = models.CharField(max_length=100, null=True, blank=True)

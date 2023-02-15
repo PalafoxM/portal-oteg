@@ -3,7 +3,7 @@ from django.http import JsonResponse, HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
-from back.models import  Banner, PlacesOfInterest
+from back.models import  Banner, PlacesOfInterest,Evento
 from back.forms import BannerForm, PlacesOfInterestForm
 
 # Create your views here.
@@ -240,3 +240,14 @@ class PlaceDeleteView(DeleteView):
         context['entity'] = 'Sitio de Interest'
         context['list_url'] = self.success_url
         return context
+
+
+class EventoListView(ListView):
+    model = Evento
+    template_name = 'back/eventos/list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Listado Eventos'
+        return context
+
