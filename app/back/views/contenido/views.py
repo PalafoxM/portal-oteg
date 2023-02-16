@@ -3,8 +3,8 @@ from django.http import JsonResponse, HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
-from back.models import  Banner, PlacesOfInterest,Evento
-from back.forms import BannerForm, PlacesOfInterestForm
+from back.models import  Banner, PlacesOfInterest,Evento , Noticia
+from back.forms import BannerForm, PlacesOfInterestForm , NoticiaForm
 
 # Create your views here.
 def baners_list(request):
@@ -251,3 +251,28 @@ class EventoListView(ListView):
         context['title'] = 'Listado Eventos'
         return context
 
+class NoticiaListView(ListView):
+    model = Noticia
+    template_name = 'back/noticias/list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Listado Noticias'
+        context['create_url'] =  reverse_lazy('dashboard:noticia_create')
+        return context
+    
+
+class NoticiaCreateView(CreateView):
+    model = Noticia
+    form_class = NoticiaForm
+    template_name = 'back/publicaciones/create.html'
+    success_url = reverse_lazy('dashboard:noticias_list')
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Crear una Noticia'
+        context['entity'] = 'Noticia'
+        context['list_url'] = reverse_lazy('dashboard:noticias_list')
+        context['action'] = 'add'
+        return context

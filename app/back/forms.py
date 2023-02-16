@@ -261,3 +261,10 @@ class CategoriasForm(forms.ModelForm):
         model = Categorias
         fields = ['nombre_categoria', 'fecha_creacion',
                   'publicacion', 'visible', 'seccion']
+
+class NoticiaForm(ModelForm):
+
+    class Meta:
+        model = Noticia
+        fields = ['titulo', 'descripcion', 'sitio_web',
+                  'imagen', 'fecha_nota', 'autor_foto', 'autor_nota', 'fecha_recuperacion']

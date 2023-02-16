@@ -113,3 +113,12 @@ class Evento (models.Model):
 #     def __str__(self):
 #         return str(self.user)
 
+class Noticia (models.Model):
+    titulo = models.CharField(max_length=100)
+    descripcion = models.TextField()
+    sitio_web = models.URLField()
+    imagen = models.ImageField(null=True, blank=True ,upload_to='images/')
+    fecha_nota = models.DateField()
+    autor_foto = models.CharField(max_length=100)
+    autor_nota = models.CharField(max_length=100)
+    fecha_recuperacion = models.DateField()
