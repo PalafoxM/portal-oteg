@@ -15,12 +15,11 @@ import os
 from pathlib import Path
 
 import sys
-sys.path.insert(0, './app/web')
 sys.path.insert(0, './app')
 
-import home
 import logIn
 import back
+import web
 # import dash
 
 
@@ -51,12 +50,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # web
-    'home',
-    'oteg',
-    'solicitudes',
-
-    # back
+    'web',
+    # auth
     'logIn',
+    # back
     'back',
     # 'dash'
 
