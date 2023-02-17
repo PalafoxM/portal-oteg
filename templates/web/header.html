@@ -21,6 +21,22 @@
           <li class="nav-item">
             <a class="nav-link " href="{% url 'solicitudes' %}">Solicitudes</a>
           </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Segmentos Turísticos
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{% url 'turisticos' %}">Segmentos Turísticos</a></li>
+              <li><a class="dropdown-item" href="{% url 'cultural' %}">Cultural</a></li>
+              <li><a class="dropdown-item" href="{% url 'naturaleza' %}">Naturaliza</a></li>
+              <li><a class="dropdown-item" href="{% url 'deportivo' %}">Deportivo</a></li>
+              <li><a class="dropdown-item" href="{% url 'romance' %}">Romance</a></li>
+              <li><a class="dropdown-item" href="{% url 'gastronomico' %}">Gastronómico</a></li>
+              <li><a class="dropdown-item" href="{% url 'wellness' %}">Wellness</a></li>
+              <li><a class="dropdown-item" href="{% url 'mice' %}">MICE</a></li>
+              <li><a class="dropdown-item" href="{% url 'destilados' %}">Destilados</a></li>
+            </ul>
+          </li>
           {% if user.is_authenticated %}
 
           <li class="nav-item">
