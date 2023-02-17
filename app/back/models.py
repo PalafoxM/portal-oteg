@@ -39,8 +39,10 @@ class Banner(models.Model):
 
     def __str__(self):
         return self.name
-
-
+    
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
     class Meta:
         verbose_name = 'Banner'
         verbose_name_plural = 'Banners'
@@ -56,10 +58,9 @@ class PlacesOfInterest(models.Model):
     def __str__(self):
         return self.sito_web
     
-    # def toJSON(self):
-    #     item = model_to_dict(self)
-    #     return item
-
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
 
     class Meta:
         verbose_name = 'places_of_interest'
@@ -86,33 +87,6 @@ class Evento (models.Model):
     fecha_inicio = models.DateField()
     imagen = models.ImageField(null=True, blank=True ,upload_to='images/')
 
-# class Profile(models.Model):
-#     user = models.OneToOneField(User,null=True, on_delete=models.CASCADE)
-#     apellido_paterno = models.CharField(max_length=100, null=True, blank=True)
-#     apellido_materno  = models.CharField(max_length=100, null=True, blank=True)
-#     fecha_cumple = models.DateField(null=True, blank=True)
-#     direccion = models.CharField(max_length=100, null=True, blank=True)
-#     tel = models.CharField(max_length=100, null=True, blank=True)
-#     facebook = models.CharField(max_length=100, null=True, blank=True)
-#     twitter = models.CharField(max_length=100, null=True, blank=True)
-#     ciudad = models.CharField(max_length=100, null=True, blank=True)
-#     estado = models.CharField(max_length=100, null=True, blank=True)
-#     empresa_institucion = models.CharField(max_length=100, null=True, blank=True)
-#     cargo = models.CharField(max_length=100, null=True, blank=True)
-#     licenciatura = models.CharField(max_length=100, null=True, blank=True)
-#     universidad_licenciatura = models.CharField(max_length=100, null=True, blank=True)
-#     maestria = models.CharField(max_length=100, null=True, blank=True)
-#     universidad_maestria = models.CharField(max_length=100, null=True, blank=True)
-#     doctorado = models.CharField(max_length=100, null=True, blank=True)
-#     universidad_doctorado = models.CharField(max_length=100, null=True, blank=True)
-#     photo = models.ImageField(null=True, blank=True, upload_to='images/profile/')
-#     experiencia = models.TextField(null=True, blank=True)
-#     boletin = models.BooleanField(default=False)
-#     fecha_registro = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-
-#     def __str__(self):
-#         return str(self.user)
-
 class Noticia (models.Model):
     titulo = models.CharField(max_length=100)
     descripcion = models.TextField()
@@ -122,3 +96,22 @@ class Noticia (models.Model):
     autor_foto = models.CharField(max_length=100)
     autor_nota = models.CharField(max_length=100)
     fecha_recuperacion = models.DateField()
+
+class Alba(models.Model):
+    archivo = models.ImageField(null=True, blank=True ,upload_to='pdf/')
+    visible =  models.BooleanField(default=True)
+    date_updated = models.DateTimeField(auto_now=True,)
+    date_created = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.visible
+    
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+
+    class Meta:
+        verbose_name = 'alba'
+        verbose_name_plural = 'alba'
+        db_table = 'alba'
+        ordering = ['-id']

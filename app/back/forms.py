@@ -8,9 +8,6 @@ from django.contrib.auth.models import User, Group
 class PublicationForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # for form in self.visible_fields():
-        #     form.field.widget.attrs['class'] = 'form-control'
-
 
     class Meta:
         model = Publications
@@ -23,24 +20,11 @@ class PublicationForm(ModelForm):
             'name': TextInput(attrs = { 'placeholder': 'Ingresa un Nombre '}),
         }
     
-    # def save(self, commit=True):
-    #     data = {}
-    #     form = super()
-    #     try:
-    #         if form.is_valid():
-    #             form.save()
-    #         else:
-    #             data['error'] = form.errors
-    #     except Exception as e:
-    #         data['error'] = str(e)
-    #     return data
+
 
 class BannerForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # for form in self.visible_fields():
-        #     form.field.widget.attrs['class'] = 'form-control'
-
 
     class Meta:
         model = Banner
@@ -50,22 +34,10 @@ class BannerForm(ModelForm):
             'banner_url': TextInput(attrs = { 'placeholder': 'Ingresa un Enlace'}), 
         }
     
-    # def save(self, commit=True):
-    #     data = {}
-    #     form = super()
-    #     try:
-    #         if form.is_valid():
-    #             form.save()
-    #         else:
-    #             data['error'] = form.errors
-    #     except Exception as e:
-    #         data['error'] = str(e)
-    #     return data
     
 class PlacesOfInterestForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
 
     class Meta:
         model = PlacesOfInterest
@@ -75,17 +47,7 @@ class PlacesOfInterestForm(ModelForm):
             'decription': TextInput(attrs = { 'placeholder': 'Ingresa un Descripcion'}), 
         }
     
-    # def save(self, commit=True):
-    #     data = {}
-    #     form = super()
-    #     try:
-    #         if form.is_valid():
-    #             form.save()
-    #         else:
-    #             data['error'] = form.errors
-    #     except Exception as e:
-    #         data['error'] = str(e)
-    #     return data
+
 
 class PasswordChangeFormCustom(PasswordChangeForm):
 
@@ -268,3 +230,8 @@ class NoticiaForm(ModelForm):
         model = Noticia
         fields = ['titulo', 'descripcion', 'sitio_web',
                   'imagen', 'fecha_nota', 'autor_foto', 'autor_nota', 'fecha_recuperacion']
+        
+class AlbaForm(forms.ModelForm):
+    class Meta:
+        model = Alba
+        fields = ['archivo', 'visible']

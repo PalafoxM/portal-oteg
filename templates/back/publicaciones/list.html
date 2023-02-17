@@ -1,28 +1,12 @@
-{% extends 'back/index.html' %}
+{% extends 'back/list.html' %}
 {% load static %}
 
-{% block head %}
-<link href="{% static 'admin/vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+{% block head_list %}
 {% endblock %}
 
 
-{% block content %}
-<!-- DataTales Example -->
-<div class="card shadow mb-4">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">{{title}}</h6>
-        <hr class="sidebar-divider">
-        <a id="botonMas" href="{% url 'dashboard:publicacion_create' %}" class="btn btn-primary btn-icon-split">
-            <span class="icon text-white-50">
-                <i class="fas fa-plus"></i>
-            </span>
-            <span class="text">Crear Publicación</span>
-        </a>
-    </div>
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead>
+{% block columns %}
+
                     <tr>
                         <th>ID</th>
                         <th>Nombre</th>
@@ -31,48 +15,13 @@
                         <th>Categoria</th>
                         <th>Acciones</th>
                     </tr>
-                </thead>
-                <tbody>
-                    {% for publicacion in publicaciones %}
-                        <tr>
-                            <th>{{ publicacion.id }}</th>
-                            <th>{{publicacion.name}}</th>
-                            <th>{{publicacion.date_created}}</th>
-                            <th>{{publicacion.section}}</th>
-                            <th>{{publicacion.category}}</th>
-                            <th>
-                                <a href="{% url 'dashboard:publicacion_delete' publicacion.id %}" class="btn btn-danger btn-icon-split">
-                                    <span class="icon text-white-50">
-                                        <i class="fas fa-trash"></i>
-                                    </span>
-                                    <span class="text">Eliminar</span>
-                                </a>
-                                <a href="{% url 'dashboard:publicacion_update' publicacion.id %}" class="btn btn-primary btn-icon-split">
-                                    <span class="icon text-white-50">
-                                        <i class="fas fa-edit"></i>
-                                    </span>
-                                    <span class="text">Editar</span>
-                                </a>
-                            </th>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
 {% endblock %}
 
-{% block footerjs %}
-<!-- Page level custom scripts -->
-<script src="{% static 'admin/js/demo/datatables-demo.js' %}"></script>
-<script type="text/javascript">
-    $(function (){
-        $('#botonMas').on('click', function(){
-            $.ajax({
-                url: ''
-            })
-        })
-    })
-</script>
+{% block rows %}
+{% endblock %}
+
+
+{% block javascript %}
+<script src="{% static 'admin/publicaciones/list.js' %}"></script>
+
 {% endblock %}
