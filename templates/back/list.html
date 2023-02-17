@@ -2,14 +2,12 @@
 {% load static %}
 
 {% block head %}
-<link href="{% static 'admin/vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
-<!-- <link rel="stylesheet" href="{% static 'lib/datatables-1.10.25/css/dataTables.bootstrap4.min.css' %}"/>
+
+<link rel="stylesheet" href="{% static 'lib/datatables-1.10.25/css/dataTables.bootstrap4.min.css' %}"/>
 <link rel="stylesheet"
       href="{% static 'lib/datatables-1.10.25/plugins/responsive-2.2.9/css/responsive.bootstrap4.min.css' %}"/>
-<script src="{% static 'lib/datatables-1.10.25/js/jquery.dataTables.js' %}"></script>
-<script src="{% static 'lib/datatables-1.10.25/js/dataTables.bootstrap4.min.js' %}"></script>
-<script src="{% static 'lib/datatables-1.10.25/plugins/responsive-2.2.9/js/dataTables.responsive.min.js' %}"></script>
-<script src="{% static 'lib/datatables-1.10.25/plugins/responsive-2.2.9/js/responsive.bootstrap4.min.js' %}"></script> -->
+
+
 
 <!-- head_list -->
 {% block head_list %}
@@ -35,7 +33,7 @@
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <table class="table table-bordered" id="dataTable" >
                 <thead>
                     {% block columns %}
 
@@ -53,16 +51,15 @@
 {% endblock %}
 
 {% block footerjs %}
-<script src="{% static 'admin/js/demo/datatables-demo.js' %}"></script>
-<!-- Page level custom scripts -->
-<!-- <script src="{% static 'admin/js/demo/datatables-demo.js' %}"></script> -->
-<script type="text/javascript">
-    $(function (){
-        $('#botonMas').on('click', function(){
-            $.ajax({
-                url: ''
-            })
-        })
-    })
+
+<script src="{% static 'lib/datatables-1.10.25/js/jquery.dataTables.js' %}"></script>
+<script src="{% static 'lib/datatables-1.10.25/js/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'lib/datatables-1.10.25/plugins/responsive-2.2.9/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'lib/datatables-1.10.25/plugins/responsive-2.2.9/js/responsive.bootstrap4.min.js' %}"></script>
+<script type="application/javascript">
+    $(document).ready(function() {
+        $('#dataTable').DataTable();
+    });
 </script>
+
 {% endblock %}

@@ -18,11 +18,18 @@
     <!-- Custom styles for this template-->
     <link href="{% static 'admin/css/sb-admin-2.css' %}" rel="stylesheet">
 
+    <!-- Sweetalert2 -->
+    <script src="{% static 'lib/sweetalert2-11.7.1/sweetalert2.all.min.js' %}"></script>
+
+    <!-- Functions -->
+    <script src="{% static 'admin/js/main.js' %}"></script>
+    <script src="{% static 'admin/js/functions.js' %}"></script>
+
     <!-- block de header D -->
     {% block head %}
 
     {% endblock %}
-    
+
 
 
 </head>
@@ -121,8 +128,7 @@
                     <i class="fas fa-fw fa-cog"></i>
                     <span>Otros</span>
                 </a>
-                <div id="collapseOtros" class="collapse" aria-labelledby="headingTwo"
-                    data-parent="#accordionSidebar">
+                <div id="collapseOtros" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="#">Secciones Centro Documental</a>
                         <a class="collapse-item" href="{% url 'dashboard:descargas_list' %}">Descargas</a>
@@ -293,14 +299,14 @@
     <script src="{% static 'admin/js/sb-admin-2.min.js' %}"></script>
 
     <!-- Page level plugins -->
-    <script src="{% static 'admin/vendor/datatables/jquery.dataTables.min.js' %}"></script>
-    <script src="{% static 'admin/vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+    <!-- <script src="{% static 'admin/vendor/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'admin/vendor/datatables/dataTables.bootstrap4.min.js' %}"></script> -->
 
     <!-- block de footer js -->
     {% block footerjs %}
-    
+
     {% endblock %}
-    
+
     <!-- Block javascript D-->
     {% block javascript %}
 

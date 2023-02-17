@@ -18,7 +18,7 @@ var banner = {
             },
             columns: [
                 {"data": "id"},
-                {"data": "name"},
+                {"data": "sito_web"},
                 {"data": "id"},
             ],
             columnDefs: [
