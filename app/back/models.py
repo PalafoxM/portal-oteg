@@ -98,13 +98,13 @@ class Noticia (models.Model):
     fecha_recuperacion = models.DateField()
 
 class Alba(models.Model):
-    logotipo = models.CharField(max_length=100, verbose_name="Logotipo")
-    sito_web = models.CharField(max_length=100, verbose_name="Link")
-    decription = models.CharField(max_length=100, verbose_name="Descripcion")
+    archivo = models.ImageField(null=True, blank=True ,upload_to='pdf/')
+    visible =  models.BooleanField(default=True)
+    date_updated = models.DateTimeField(auto_now=True,)
     date_created = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.sito_web
+        return self.visible
     
     def toJSON(self):
         item = model_to_dict(self)

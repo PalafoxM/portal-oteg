@@ -26,6 +26,11 @@ urlpatterns = [
     #contenido -> noticias
     path('noticias/list', NoticiaListView.as_view(), name='noticias_list'),
     path('noticias/add', NoticiaCreateView.as_view(), name='noticia_create'),
+    # contenido -> places of interest
+    path('alba/list', AlbaListView.as_view(), name='alba_list'),
+    path('alba/add', AlbaCreateView.as_view(), name='alba_create'),
+    path('alba/edit/<int:pk>/', AlbaUpdateView.as_view(), name='alba_update'),
+    path('alba/delete/<int:pk>/', AlbaDeleteView.as_view(), name='alba_delete'),
     # otros
     path('centrodocumental/list', centro_documental, name='centrodocumental'),
     path('addcategoria', add_seccion_centro_documental, name='addseccion'),

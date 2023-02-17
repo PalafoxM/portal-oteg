@@ -230,3 +230,8 @@ class NoticiaForm(ModelForm):
         model = Noticia
         fields = ['titulo', 'descripcion', 'sitio_web',
                   'imagen', 'fecha_nota', 'autor_foto', 'autor_nota', 'fecha_recuperacion']
+        
+class AlbaForm(forms.ModelForm):
+    class Meta:
+        model = Alba
+        fields = ['archivo', 'visible']
