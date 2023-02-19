@@ -1,0 +1,163 @@
+{% load static %}
+
+<!-- Footer -->
+<footer class="text-center text-lg-start bg-white text-muted">
+
+    <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
+
+        <div class="me-5 d-none d-lg-block">
+            <span>Redes Sociales:</span>
+        </div>
+
+        <div style="display: flex; gap: 1rem;">
+            <div>
+                <a class="link-secondary" href="https://www.facebook.com/observatoriotgto/">
+                    <i class="fa-brands fa-square-facebook"></i>
+                </a>
+            </div>
+            <div>
+                <a class="link-secondary" href="https://twitter.com/ObservaTur_GTO">
+                    <i class="fa-brands fa-square-twitter"></i>
+                </a>
+            </div>
+
+
+        </div>
+        <!-- Right -->
+    </section>
+    <!-- Section: Social media -->
+
+    <!-- Section: Links  -->
+    <section class="">
+        <div class="container text-center text-md-start mt-5">
+            <!-- Grid row -->
+            <div class="row mt-3">
+                <!-- Grid column -->
+                <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+                    <!-- Content -->
+                    <h6 class="text-uppercase fw-bold mb-4">
+                      OTEG
+                    </h6>
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Id quae perferendis doloribus ducimus vero quos voluptatibus, eos praesentium, quidem, architecto quo? Ab quidem itaque optio ipsam accusamus, deserunt cumque adipisci!
+                    </p>
+                </div>
+                <!-- Grid column -->
+
+                <!-- Grid column -->
+                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+                    <!-- Links -->
+                    <h6 class="text-uppercase fw-bold mb-4">
+                        Indicadores
+                    </h6>
+                    <p>
+                        <a href="#!" class="text-reset"> Pacto Centro Occidente</a>
+                    </p>
+                    <p>
+                        <a href="#!" class="text-reset"> Indicadores Nacionales</a>
+                    </p>
+                    <p>
+                        <a href="#!" class="text-reset"> Tablero de control</a>
+                    </p>
+                    <p>
+                        <a href="#!" class="text-reset"> - Gestión de destinos</a>
+                    </p>
+                    <p>
+                        <a href="#!" class="text-reset"> - Economía Inclusiva</a>
+                    </p>
+
+                    <p>
+                        <a href="#!" class="text-reset"> - Sociedad y cultura</a>
+                    </p>
+
+                    <p>
+                        <a href="#!" class="text-reset"> - Medio ambiente</a>
+                    </p>
+                </div>
+                <!-- Grid column -->
+
+                <!-- Grid column -->
+                <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+                    <!-- Links -->
+                    <h6 class="text-uppercase fw-bold mb-4">
+                        PUBLICACIONES
+                    </h6>
+                    <p>
+                        <a href="#!" class="text-reset">Perfil de Visitante a Ciudad</a>
+                    </p>
+                    <p>
+                        <a href="#!" class="text-reset">Perfil de Visitante a Evento</a>
+                    </p>
+                    <p>
+                        <a href="#!" class="text-reset">Marco Normativo de Turismo</a>
+                    </p>
+                    <p>
+                        <a href="#!" class="text-reset">Noticias Turísticas</a>
+                    </p>
+                    <p>
+                        <a href="#!" class="text-reset">Sustentabilidad</a>
+                    </p>
+                    <p>
+                        <a href="#!" class="text-reset">Reportes Mensuales</a>
+                    </p>
+                    <p>
+                        <a href="#!" class="text-reset">Barómetro Turístico</a>
+                    </p>
+                    <p>
+                        <a href="#!" class="text-reset">Ponencias de Eventos</a>
+                    </p>
+                    <p>
+                        <a href="#!" class="text-reset">Revista OTEG</a>
+                    </p>
+                    <p>
+                        <a href="#!" class="text-reset">Segmentos Turísticos</a>
+                    </p>
+                    <p>
+                        <a href="#!" class="text-reset">Inventario Turístico</a>
+                    </p>
+                    <p>
+                        <a href="#!" class="text-reset">Otras Publicaciones</a>
+                    </p>
+                </div>
+                <!-- Grid column -->
+
+                <!-- Grid column -->
+                <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+                    <!-- Links -->
+                    <h6 class="text-uppercase fw-bold mb-4">INFORMACIÓN TURÍSTICA</h6>
+                    <h6 class="text-uppercase fw-bold mb-4">Solicitudes</h6>
+                    <h6 class="text-uppercase fw-bold mb-4">Eventos y Actividades</h6>
+                    <p>
+                        <a href="#!" class="text-reset"> - internacionales</a>
+                    </p>
+                    <p>
+                        <a href="#!" class="text-reset"> - Nacionales</a>
+                    </p>
+                    <p>
+                        <a href="#!" class="text-reset"> - Inventario Turístico</a>
+                    </p>
+                    <p>
+                        <a href="#!" class="text-reset"> - Estatales</a>
+                    </p>
+
+                    <h6 class="text-uppercase fw-bold mb-4">Protocolo ALBA</h6>
+                    <h6 class="text-uppercase fw-bold mb-4">Glosario</h6>
+                    <a style="text-decoration: none; " href="{% url 'preguntasf' %}"><h6 class="text-uppercase fw-bold mb-4">Preguntas frecuentes</h6></a>
+                    <h6 class="text-uppercase fw-bold mb-4">Sitios de interés</h6>
+        
+                </div>
+                <!-- Grid column -->
+            </div>
+            <!-- Grid row -->
+        </div>
+    </section>
+
+
+    <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.025);">
+        © 2021 Copyright:
+        <a class="text-reset fw-bold" href="">Purpura Analytics</a>
+    </div>
+
+    {% block footer %}{% endblock %}
+</footer>
+<!-- Footer -->

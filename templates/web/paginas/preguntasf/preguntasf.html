@@ -1,0 +1,158 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+{% include 'web/header.html' %}
+
+<style>
+    .quiz-card {
+        width: 400px;
+        height: 200px;
+        padding: 20px;
+        margin: 20px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .quiz-card h3 {
+        font-weight: bold;
+    }
+
+    .question {
+        margin-bottom: 20px;
+    }
+
+    .answer {
+        display: none;
+    }
+
+    .hide {
+        display: none;
+    }
+
+    .reveal-answer {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .reveal-answer:hover {
+        background-color: #0056b3;
+    }
+
+    .reveal-answer:focus {
+        outline: none;
+    }
+
+    .show-answer .answer {
+        display: block;
+    }
+</style>
+
+<section class="container">
+    <h1 class="text-center">PREGUNTAS FRECUENTES</h1>
+    <p class=" text-muted"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius quos facere quo debitis autem
+        eaque aspernatur
+        ipsam vel, sint magni officia dolore molestiae! Magnam, officiis quos corrupti iure consequatur sequi!
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet similique soluta ipsum, provident commodi
+        error numquam? Dolor repudiandae quibusdam quo numquam. Necessitatibus perspiciatis magnam deleniti laudantium
+        quae adipisci? Cum, quos?
+    </p>
+
+    <div class="mt-3">
+        <div class="row">
+            <div class="col-sm text-center">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas a
+            </div>
+            <div class="col-sm text-center">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas a
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm text-center">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas a
+            </div>
+            <div class="col-sm text-center">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas a
+            </div>
+        </div>
+    </div>
+    <div class="mt-3">
+        <div class="row">
+            <div class="col-sm text-center">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas a
+            </div>
+            <div class="col-sm text-center">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas a
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm text-center">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas a
+            </div>
+            <div class="col-sm text-center">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas a
+            </div>
+        </div>
+    </div>
+    <div class="mt-3">
+        <div class="row">
+            <div class="col-sm text-center">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas a
+            </div>
+            <div class="col-sm text-center">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas a
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm text-center">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas a
+            </div>
+            <div class="col-sm text-center">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas a
+            </div>
+        </div>
+    </div>
+    <div class="mt-3">
+        <div class="row">
+            <div class="col-sm text-center">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas a
+            </div>
+            <div class="col-sm text-center">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas a
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm text-center">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas a
+            </div>
+            <div class="col-sm text-center">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas a
+            </div>
+        </div>
+    </div>
+
+
+    <div class="quiz-card">
+        <div class="question">
+            <h3>Question:</h3>
+            <p>What is the capital of France?</p>
+        </div>
+        <div class="answer">
+            <h3>Answer:</h3>
+            <p>Paris</p>
+        </div>
+        <button class="reveal-answer">Ver Respuesta</button>
+    </div>
+</section>
+
+<script>
+    document.querySelector('.reveal-answer').addEventListener('click', function () {
+        document.querySelector('.quiz-card').classList.toggle('show-answer');
+        document.querySelector('.question').classList.toggle('hide');
+    });
+</script>
