@@ -263,6 +263,7 @@ class CategoriasForm(forms.ModelForm):
                   'publicacion', 'visible', 'seccion']
 
 class NoticiaForm(ModelForm):
+    
 
     class Meta:
         model = Noticia
