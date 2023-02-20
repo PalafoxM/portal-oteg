@@ -51,12 +51,12 @@ class Banner(models.Model):
 
 class PlacesOfInterest(models.Model):
     logotipo = models.CharField(max_length=100, verbose_name="Logotipo")
-    sito_web = models.CharField(max_length=100, verbose_name="Link")
+    sitio_web = models.URLField(verbose_name="Link")
     decription = models.CharField(max_length=100, verbose_name="Descripcion")
     date_created = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.sito_web
+        return self.sitio_web
     
     def toJSON(self):
         item = model_to_dict(self)
@@ -103,8 +103,8 @@ class Alba(models.Model):
     date_updated = models.DateTimeField(auto_now=True,)
     date_created = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
-        return self.visible
+    # def __str__(self):
+    #     return self.visible
     
     def toJSON(self):
         item = model_to_dict(self)

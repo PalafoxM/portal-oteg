@@ -74,7 +74,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('logotipo', models.CharField(max_length=100, verbose_name='Logotipo')),
-                ('sito_web', models.CharField(max_length=100, verbose_name='Link')),
+                ('sitio_web', models.CharField(max_length=100, verbose_name='Link')),
                 ('decription', models.CharField(max_length=100, verbose_name='Descripcion')),
                 ('date_created', models.DateTimeField(auto_now=True)),
             ],
