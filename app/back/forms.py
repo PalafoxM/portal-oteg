@@ -43,7 +43,7 @@ class PlacesOfInterestForm(ModelForm):
         model = PlacesOfInterest
         fields = '__all__'
         widgets = {
-            'sito_web': TextInput(attrs = { 'placeholder': 'Ingresa un Sitio Web'}),
+            'sitio_web': TextInput(attrs = { 'placeholder': 'Ingresa un Sitio Web'}),
             'decription': TextInput(attrs = { 'placeholder': 'Ingresa un Descripcion'}), 
         }
     

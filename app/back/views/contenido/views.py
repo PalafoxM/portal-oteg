@@ -151,7 +151,7 @@ class PlaceListView(ListView):
 class  PlaceCreateView(CreateView):
     model = PlacesOfInterest
     form_class = PlacesOfInterestForm
-    template_name = 'back/form.html'
+    template_name = 'back/form.html' 
     success_url = reverse_lazy('dashboard:place_list')
 
     def post(self, request, *args, **kwargs):
@@ -168,7 +168,7 @@ class  PlaceCreateView(CreateView):
             else:
                 data['error'] = 'No ha ingresado a ninguna opción'
         except Exception as e:
-            data['error'] = str(e) + ' que fallo?'
+            data['error'] = str(e)
         return JsonResponse(data)
 
     def get_context_data(self, **kwargs):
