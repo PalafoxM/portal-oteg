@@ -1,15 +1,13 @@
 {% extends 'back/list.html' %}
-
 {% load static %}
-
-
 {% block head_list %}
+    <!-- <script src="{% static 'admin/banner/list.js' %}"></script> -->
 {% endblock %}
 
 {% block columns %}
     <tr>
         <th scope="col" style="width: 10%;">id</th>
-        <th scope="col" style="width: 20%;">Sitio Web</th>
+        <th scope="col" style="width: 20%;">Es visible?</th>
         <th scope="col" style="width: 20%;">Opciones</th>
     </tr>
 {% endblock %}
@@ -19,6 +17,5 @@
 {% endblock %}
 
 {% block javascript %}
-<script src="{% static 'admin/sitios-interes/list.js' %}"></script>
-
+<script src="{% static 'admin/alba/listv2.js' %}"></script>
 {% endblock %}

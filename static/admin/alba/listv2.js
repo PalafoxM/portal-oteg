@@ -6,7 +6,7 @@ var banner = {
             destroy: true,
             deferRender: true,
             ajax: {
-                url: pathname,
+                url: 'list',
                 type: 'POST',
                 data: {
                     'action': 'search'
@@ -18,7 +18,7 @@ var banner = {
             },
             columns: [
                 {"data": "id"},
-                {"data": "name"},
+                {"data": "archivo"},
                 {"data": "id"},
             ],
             columnDefs: [

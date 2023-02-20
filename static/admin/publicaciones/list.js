@@ -19,6 +19,9 @@ var banner = {
             columns: [
                 {"data": "id"},
                 {"data": "name"},
+                {"data": "date_created"},
+                {"data": "section"},
+                {"data": "category"},
                 {"data": "id"},
             ],
             columnDefs: [

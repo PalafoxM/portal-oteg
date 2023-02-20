@@ -1,6 +1,6 @@
 {% extends 'back/index.html' %}
 {% load widget_tweaks %}
-{% load static %}
+
 {% block content %}
 <form method="post" action="" enctype="multipart/form-data">
     <div class="card shadow mb-4">
@@ -12,59 +12,42 @@
             {% csrf_token %}
             <input type="hidden" name="action" value="{{ action }}">
             {% if form.errors %}
-            <div class="alert alert-danger alert-dismissible">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                <h5><i class="icon fas fa-ban"></i> Ha ocurrido un error al querer guardar el registro</h5>
-                <ul>
-                    {% for field in form %}
-                    {% for error in field.errors %}
-                    <li>{{ error }}</li>
-                    {% endfor %}
-                    {% endfor %}
-                </ul>
-            </div>
-            {% endif %}
+                        <div class="alert alert-danger alert-dismissible">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <h5><i class="icon fas fa-ban"></i> Ha ocurrido un error al querer guardar el registro</h5>
+                            <ul>
+                                {% for field in form %}
+                                    {% for error in field.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                        
+                    <p class="text-center font-weight-bold mt-3">
+                        <i class="fas fa-trash fa-3x"></i><br><br>
+                        ¿Estas seguro de eliminar el registro N° {{ object.id }}?
+                    </p>
 
-            {% for field in form.visible_fields %}
-            <div class="from-gruop">
-                <label for="email">{{field.label}}</label>
-                {{field|add_class:'form-control'|attr:'autocomplete:off'}}
-
-            </div>
-            {% endfor %}
-            <!-- {{ form }} -->
         </div>
         <div class="card-footer">
-
+            
             <button type="submit" class="btn btn-primary ">
-                <i class="fas fa-save"></i> Guardar
+                <i class="fas fa-save"></i> Si, aceptar
             </button>
+            <a href="{{ list_url }}" class="btn btn-danger btn-flat">
+                <i class="fas fa-times"></i> Cancelar
+            </a>
+
         </div>
     </div>
 </form>
-
-
 {% endblock %}
 
 {% block javascript %}
-<!-- <script src="{% static 'admin/js/functions.js' %}"></script> -->
 <script type="application/javascript">
-    {% if form.errors %}
-    var errors = '';
-    {% for field in form %}
-    {% for error in field.errors %}
-    errors += '{{ error }}\n';
-    {% endfor %}
-    {% endfor %}
-    {% for error in form.non_field_errors %}
-    errors += '{{ error }}\n';
-    {% endfor %}
-    Swal.fire({
-        title: 'Error!',
-        text: errors,
-        icon: 'error'
-    });
-    {% endif %}
+
 
     // $(function () {
     $('form').on('submit', function (e) {
@@ -82,14 +65,13 @@
                 Swal.fire({
                     icon: 'success',
                     title: 'Buen trabajo!',
-                    text: 'Se creo el registro de forma exitosa.',
+                    text: 'Operación exitosa.',
                     timer: 2000,
                     showConfirmButton: false
                 }).then(function() {
                         window.location.href = '{{ list_url }}';
                     
                 })
-                // location.href = '{{ list_url }}';
                 return false;
             }
             message_error(data.error);

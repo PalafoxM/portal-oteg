@@ -2,6 +2,44 @@
 
 <link rel="stylesheet" type="text/css" href="{% static 'fontawesome-free/css/all.min.css' %}">
 <header class="">
+    <nav class="navbar navbar-expand-lg justify-content-center" data-bs-theme="dark" style="background-color: #1c2331">
+      <div class="collapse navbar-collapse jtext-center" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'oteg' %}">OTEG</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Indicadores</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link " href="#">Publicaciones</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link " href="https://guanajuato.mx/">Información turistica</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link " href="{% url 'solicitudes' %}">Solicitudes</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Segmentos Turísticos
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{% url 'turisticos' %}">Segmentos Turísticos</a></li>
+              <li><a class="dropdown-item" href="{% url 'cultural' %}">Cultural</a></li>
+              <li><a class="dropdown-item" href="{% url 'naturaleza' %}">Naturaliza</a></li>
+              <li><a class="dropdown-item" href="{% url 'deportivo' %}">Deportivo</a></li>
+              <li><a class="dropdown-item" href="{% url 'romance' %}">Romance</a></li>
+              <li><a class="dropdown-item" href="{% url 'gastronomico' %}">Gastronómico</a></li>
+              <li><a class="dropdown-item" href="{% url 'wellness' %}">Wellness</a></li>
+              <li><a class="dropdown-item" href="{% url 'mice' %}">MICE</a></li>
+              <li><a class="dropdown-item" href="{% url 'destilados' %}">Destilados</a></li>
+            </ul>
+          </li>
+     
 
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="collapse navbar-collapse jtext-center" id="navbarSupportedContent">
@@ -30,14 +68,14 @@
         </li>
         {% if user.is_authenticated %}
 
-        <li class="nav-item">
-          <a class="nav-link " href="{% url 'dashboard:publicacion_list' %}">Panel Admin</a>
-        </li>
+          <li class="nav-item">
+            <a class="nav-link " href="{% url 'dashboard:publicacion_list' %}">Panel Admin</a>
+          </li>
 
-        {%else%}
-        <li class="nav-item">
-          <a class="nav-link " href="{% url 'login_user' %}">Log In</a>
-        </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link " href="{% url 'login_user' %}">Log In</a>
+          </li>
         {% endif %}
 
 

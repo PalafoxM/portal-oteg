@@ -7,17 +7,17 @@ from back.views.usuarios.views import *
 app_name = 'dashboard'
 
 urlpatterns = [
-    path('publicaciones/list', publicaciones_list, name='publicacion_list'),
+    path('publicaciones/list', PublicationsListView.as_view(), name='publicacion_list'),
     path('publicaciones/add', PublicationsCreateView.as_view(), name='publicacion_create'),
     path('publicaciones/edit/<int:pk>/', PublicationUpdateView.as_view(), name='publicacion_update'),
     path('publicaciones/delete/<int:pk>/', PublicationDeleteView.as_view(), name='publicacion_delete'),
     # contenido -> banner
-    path('banner/list', baners_list, name='banner_list'),
+    path('banner/list', BannerListView.as_view(), name='banner_list'),
     path('banner/add', BannerCreateView.as_view(), name='banner_create'),
     path('banner/edit/<int:pk>/', BannerUpdateView.as_view(), name='banner_update'),
     path('banner/delete/<int:pk>/', BanneDeleteView.as_view(), name='banner_delete'),
     # contenido -> places of interest
-    path('place-of-interest/list', places_list, name='place_list'),
+    path('place-of-interest/list', PlaceListView.as_view(), name='place_list'),
     path('place-of-interest/add', PlaceCreateView.as_view(), name='place_create'),
     path('place-of-interest/edit/<int:pk>/', PlaceUpdateView.as_view(), name='place_update'),
     path('place-of-interest/delete/<int:pk>/', PlaceDeleteView.as_view(), name='place_delete'),
@@ -26,6 +26,11 @@ urlpatterns = [
     #contenido -> noticias
     path('noticias/list', NoticiaListView.as_view(), name='noticias_list'),
     path('noticias/add', NoticiaCreateView.as_view(), name='noticia_create'),
+    # contenido -> places of interest
+    path('alba/list', AlbaListView.as_view(), name='alba_list'),
+    path('alba/add', AlbaCreateView.as_view(), name='alba_create'),
+    path('alba/edit/<int:pk>/', AlbaUpdateView.as_view(), name='alba_update'),
+    path('alba/delete/<int:pk>/', AlbaDeleteView.as_view(), name='alba_delete'),
     # otros
     path('centrodocumental/list', centro_documental, name='centrodocumental'),
     path('addcategoria', add_seccion_centro_documental, name='addseccion'),
