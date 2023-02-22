@@ -5,3 +5,4 @@ from .models import *
 admin.site.register(Evento)
 admin.site.register(Noticia)
 admin.site.register(Banner)
+admin.site.register(Alba)

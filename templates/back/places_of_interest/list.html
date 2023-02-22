@@ -15,10 +15,29 @@
 {% endblock %}
 
 {% block rows %}
-
+    {% for place in object_list %}
+        <tr>
+            <th>{{ place.id }}</th>
+            <th>{{place.sitio_web}}</th>
+            <th>
+                <a href="{% url 'dashboard:place_delete' place.id %}" class="btn btn-danger btn-icon-split">
+                    <span class="icon text-white-50">
+                        <i class="fas fa-trash"></i>
+                    </span>
+                    <span class="text">Eliminar</span>
+                </a>
+                <a href="{% url 'dashboard:place_update' place.id %}" class="btn btn-primary btn-icon-split">
+                    <span class="icon text-white-50">
+                        <i class="fas fa-edit"></i>
+                    </span>
+                    <span class="text">Editar</span>
+                </a>
+            </th>
+        </tr>
+    {% endfor %}
 {% endblock %}
 
 {% block javascript %}
-<script src="{% static 'admin/sitios-interes/list.js' %}"></script>
+<!-- <script src="{% static 'admin/sitios-interes/list.js' %}"></script> -->
 
 {% endblock %}

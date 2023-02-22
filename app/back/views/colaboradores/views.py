@@ -28,7 +28,7 @@ class PublicationsListView(ListView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Listado de publicaciones'
         context['create_url'] = reverse_lazy('dashboard:publicacion_create')
-        context['entity'] = 'Categorias'
+        context['entity'] = 'Publicaciones'
         return context
 
 class  PublicationsCreateView(CreateView):
