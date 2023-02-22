@@ -35,5 +35,9 @@ urlpatterns = [
     path('pueblos-magicos/',PueblosmagicosView.as_view(), name='pueblos_magicos'),
     #Publicaciones
     path('perfil_visistante_ciudad/',PerfilVisitanteCiudad.as_view(), name='perfil_visistante_ciudad'),
+    path('potencias-eventos/',PotenciasEventos.as_view(), name='potencias-eventos'),
+    path('otras-publicaciones/',OtasPublicaciones.as_view(), name='otras-publicaciones'),
+    path('revista-oteg/',RevistaOTEG.as_view(), name='revista-oteg'),
+    path('inventario-turistico/',InventarioTuristico.as_view(), name='inventario-turistico'),
 
 ]
