@@ -1,0 +1,279 @@
+{% load static %}
+
+{% include 'web/header.html' %}
+
+
+<div class="banner">
+    {% load static %}
+
+    <!doctype html>
+    <html lang="en">
+
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+
+        <title>OTEG</title>
+
+        <!-- custom css -->
+        <link rel="stylesheet" href="{% static 'web/css/baner.css' %}">
+
+
+        <!-- animate css link -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+        <!-- google font link -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Coiny&display=swap" rel="stylesheet">
+    </head>
+
+    <body>
+
+        <!-- slider section -->
+        <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to='0' class="active"
+                    aria-current="flase" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to='1' class=""
+                    aria-current="flase" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to='2' class=""
+                    aria-current="flase" aria-label="Slide 3"></button>
+
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to='3' class=""
+                    aria-current="flase" aria-label="Slide 4"></button>
+
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to='4' class=""
+                    aria-current="flase" aria-label="Slide 5"></button>
+
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to='5' class=""
+                    aria-current="flase" aria-label="Slide 6"></button>
+            </div>
+
+
+            <div class="carousel-inner">
+
+
+
+
+                <div class="carousel-item active">
+                    <div class="image-container">
+                        <img src="https://nuestrasnoticiasbajio.com/wp-content/uploads/2020/01/comonfort-1.jpg" class=""
+                            alt="sliderImg">
+                    </div>
+
+                    <div class="carousel-caption d-none d-md-block">
+                        <h1 class="animate__animated animate__fadeInRight ">Comonfort</h1>
+                        <h3 class="animate__animated animate__zoomIn"></h3>
+                        <a href="{{object.link}}"
+                            class="button animate__animated animate__zoomIn mt-3 py-3 px-5 btn font-weight-bold"></a>
+                    </div>
+                </div>
+
+                <div class="carousel-item ">
+
+
+                    <div class="image-container">
+                        <img src="https://www.cultura.gob.mx/turismocultural/destino_mes/guanajuato/imgs/baner_dolores.jpg"
+                            class="" alt="sliderImg">
+                    </div>
+
+                    <div class="carousel-caption d-none d-md-block">
+                        <h1 class="animate__animated animate__fadeInRight ">Dolores </h1>
+                        <h3 class="animate__animated animate__zoomIn">Hidalgo</h3>
+                        <a href=""
+                            class="button animate__animated animate__zoomIn mt-3 py-3 px-5 btn font-weight-bold"></a>
+                    </div>
+                </div>
+
+                <div class="carousel-item">
+                    <div class="image-container">
+                        <img src="https://www.pueblosmexico.com.mx/IMG/arton23426.jpg" class="" alt="sliderImg">
+                    </div>
+
+                    <div class="carousel-caption d-none d-md-block">
+                        <h1 class="animate__animated animate__fadeInRight ">Mineral de Pozos</h1>
+                        <h3 class="animate__animated animate__zoomIn"></h3>
+                        <a href="{{object.link}}"
+                            class="button animate__animated animate__zoomIn mt-3 py-3 px-5 btn font-weight-bold"></a>
+                    </div>
+                </div>
+
+
+                <div class="carousel-item">
+                    <div class="image-container">
+                        <img src="https://salvatierrapueblomagico.com/wp-content/uploads/2020/04/hacienda1.jpg" class=""
+                            alt="sliderImg">
+                    </div>
+
+                    <div class="carousel-caption d-none d-md-block">
+                        <h1 class="animate__animated animate__fadeInRight ">Salvatierra</h1>
+                        <h3 class="animate__animated animate__zoomIn"></h3>
+                        <a href="{{object.link}}"
+                            class="button animate__animated animate__zoomIn mt-3 py-3 px-5 btn font-weight-bold"></a>
+                    </div>
+                </div>
+
+                <div class="carousel-item">
+                    <div class="image-container">
+                        <img src="https://cdn.forbes.com.mx/2022/04/Yuriria-Pueblo-Magico.jpg" class="" alt="sliderImg">
+                    </div>
+
+                    <div class="carousel-caption d-none d-md-block">
+                        <h1 class="animate__animated animate__fadeInRight ">Yuriria</h1>
+                        <h3 class="animate__animated animate__zoomIn"></h3>
+                        <a href="{{object.link}}"
+                            class="button animate__animated animate__zoomIn mt-3 py-3 px-5 btn font-weight-bold"></a>
+                    </div>
+                </div>
+
+
+                <div class="carousel-item">
+                    <div class="image-container">
+                        <img src="https://www.gob.mx/cms/uploads/article/main_image/84971/Guanajuato_Jalpa-de-canovas-web_.jpg"
+                            class="" alt="sliderImg">
+                    </div>
+
+                    <div class="carousel-caption d-none d-md-block">
+                        <h1 class="animate__animated animate__fadeInRight ">Jalpa de Canovas</h1>
+                        <h3 class="animate__animated animate__zoomIn"></h3>
+                        <a href="{{object.link}}"
+                            class="button animate__animated animate__zoomIn mt-3 py-3 px-5 btn font-weight-bold"></a>
+                    </div>
+                </div>
+
+
+
+
+
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+
+        <!-- Option 1: Bootstrap Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+            crossorigin="anonymous"></script>
+    </body>
+
+    </html>
+</div>
+
+<section class="container mt-5">
+    <h2>Descripción</h2>
+
+    Lorem ipsumLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+    laborum.
+</section>
+
+<section class="container">
+    <div class="row">
+
+        <div class="col mt-5">
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top"
+                    src="https://nuestrasnoticiasbajio.com/wp-content/uploads/2020/01/comonfort-1.jpg"
+                    alt="Card image cap">
+                <div class="card-body">
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                        card's content.</p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col mt-5">
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top"
+                    src="https://nuestrasnoticiasbajio.com/wp-content/uploads/2020/01/comonfort-1.jpg"
+                    alt="Card image cap">
+                <div class="card-body">
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                        card's content.</p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col mt-5">
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top"
+                    src="https://nuestrasnoticiasbajio.com/wp-content/uploads/2020/01/comonfort-1.jpg"
+                    alt="Card image cap">
+                <div class="card-body">
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                        card's content.</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+        <div class="row">
+
+        <div class="col mt-5">
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top"
+                    src="https://nuestrasnoticiasbajio.com/wp-content/uploads/2020/01/comonfort-1.jpg"
+                    alt="Card image cap">
+                <div class="card-body">
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                        card's content.</p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col mt-5">
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top"
+                    src="https://nuestrasnoticiasbajio.com/wp-content/uploads/2020/01/comonfort-1.jpg"
+                    alt="Card image cap">
+                <div class="card-body">
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                        card's content.</p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col  mt-5">
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top"
+                    src="https://nuestrasnoticiasbajio.com/wp-content/uploads/2020/01/comonfort-1.jpg"
+                    alt="Card image cap">
+                <div class="card-body">
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                        card's content.</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+
+
+{% include 'web/components/footer/footer.html' %}

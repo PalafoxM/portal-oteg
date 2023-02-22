@@ -8,6 +8,8 @@ from web.views.sitios_interes.views import *
 from web.views.protocoloalba.views import *
 from web.views.solicitudes.views import *
 from web.views.segmentosTuristicos.views import *
+from web.views.pueblos_magicos.views import *
+from web.views.publicaciones.views import *
 
 
 urlpatterns = [
@@ -30,4 +32,6 @@ urlpatterns = [
     path('segmento-turistico/mice',MiceView.as_view(), name='mice'),
     path('segmento-turistico/destilados',DestiladosView.as_view(), name='destilados'),
     path('segmento-turistico/segmentos-turisticos',TuristicosView.as_view(), name='turisticos'),
+    path('pueblos-magicos/',PueblosmagicosView.as_view(), name='pueblos_magicos'),
+
 ]
