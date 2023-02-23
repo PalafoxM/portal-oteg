@@ -34,6 +34,7 @@ urlpatterns = [
     path('segmento-turistico/segmentos-turisticos',TuristicosView.as_view(), name='turisticos'),
     path('pueblos-magicos/',PueblosmagicosView.as_view(), name='pueblos_magicos'),
     #Publicaciones
-    path('perfil_visistante_ciudad/',PerfilVisitanteCiudad.as_view(), name='perfil_visistante_ciudad'),
-
+    path('publicaciones/perfil_visistante_ciudad/<int:pk>/',PerfilVisitanteCiudad.as_view(), name='perfil_visistante_ciudad'),
+    path('publicaciones_pdf_viewer/<int:pk>/',PublicacionesPDFViewer.as_view(), name='publicaciones_pdf_viewer'),
+    path('pdf/<int:pk>/', PDFDownloadView.as_view(), name='pdf_download'),
 ]

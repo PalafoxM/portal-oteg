@@ -1,0 +1,71 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'fontawesome-free/css/all.min.css' %}">
+
+
+
+{% include 'web/header.html' %}
+
+<style>
+    .container {
+        position: relative;
+        /* set container position to relative */
+        width: 100%;
+        height: 100%;
+    }
+
+    .corner-div {
+        position: absolute;
+        /* set corner-div position to absolute */
+        top: 1.5;
+        /* position it at the top */
+        right: 70;
+        /* position it at the right */
+        width: 200px;
+        height: 56px;
+        background-color: #0288d1;
+        z-index: 999;
+        /* set a high z-index value to make it appear over other elements */
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10rem;
+
+
+    }
+
+    .corner-div:hover {
+        cursor: pointer;
+        background-color: #026ad1;
+    }
+</style>
+
+
+<div class="container mt-3">
+    <p>
+        <a href="{%url 'perfil_visistante_ciudad' pk=pdf.seccion%}" class="text-reset" style="padding-left: 12px;">Regresar a la
+            Lista</a>
+    </p>
+    <div>
+
+        <div class="container">
+            <a href="{% url 'pdf_download' pk=pdf.id %}">
+                <div class="corner-div">
+                    <h5 style="font-size: small; font-weight: bold; color: #FFFF; margin: 0;">DESCARGAR PDF</h5><i
+                        style="color: #FFFF; padding-left: 10px;" class="fa-solid fa-cloud-arrow-down"></i>
+                </div>
+            </a>
+
+            <iframe height="80%" width="100%" src="{{pdf.url}}} #zoom=100&view=fitH" frameborder="0"></iframe>
+
+        </div>
+
+        {% include 'web/components/footer/footer.html' %}
+
+        {% load static %}
+        {% include 'web/components/footer/footer.html' %}
+
+
+        <!-- https://upcommons.upc.edu/bitstream/handle/2099.3/36408/9788483013380.pdf#zoom=100&view=fitH -->
