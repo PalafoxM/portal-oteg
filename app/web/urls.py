@@ -37,4 +37,10 @@ urlpatterns = [
     path('publicaciones/perfil_visistante_ciudad/<int:pk>/',PerfilVisitanteCiudad.as_view(), name='perfil_visistante_ciudad'),
     path('publicaciones_pdf_viewer/<int:pk>/',PublicacionesPDFViewer.as_view(), name='publicaciones_pdf_viewer'),
     path('pdf/<int:pk>/', PDFDownloadView.as_view(), name='pdf_download'),
+    path('perfil_visistante_ciudad/',PerfilVisitanteCiudad.as_view(), name='perfil_visistante_ciudad'),
+    path('potencias-eventos/',PotenciasEventos.as_view(), name='potencias-eventos'),
+    path('otras-publicaciones/',OtasPublicaciones.as_view(), name='otras-publicaciones'),
+    path('revista-oteg/',RevistaOTEG.as_view(), name='revista-oteg'),
+    path('inventario-turistico/',InventarioTuristico.as_view(), name='inventario-turistico'),
+
 ]
