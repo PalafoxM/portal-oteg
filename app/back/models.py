@@ -2,6 +2,7 @@ from django.db import models
 from django.forms import model_to_dict
 from django.contrib.auth.models import User
 
+
 # Create your models here.
 class Publications(models.Model):
     section = models.CharField(max_length=100, verbose_name="Sección")
@@ -85,7 +86,8 @@ class Evento (models.Model):
     titulo = models.CharField(max_length=100)
     descripcion = models.TextField()
     fecha_inicio = models.DateField()
-    imagen = models.ImageField(null=True, blank=True ,upload_to='images/')
+    imagen = models.ImageField(upload_to='images/')
+
 
 class Noticia (models.Model):
     titulo = models.CharField(max_length=100)

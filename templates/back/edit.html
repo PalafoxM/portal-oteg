@@ -1,0 +1,74 @@
+{% extends 'back/index.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block content %}
+<div class="card shadow mb-4">
+    <form method="post" enctype="multipart/form-data" class="sweet-alert-form">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">{{title}}</h6>
+
+        </div>
+        <div class="card-body">
+            {% csrf_token %}
+            {% if form.errors %}
+            <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h5><i class="icon fas fa-ban"></i> Ha ocurrido un error al querer guardar el registro</h5>
+                <ul>
+                    {% for field in form %}
+                    {% for error in field.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+            {{ form.as_p }}
+        </div>
+        <div class="card-footer">
+
+            <button type="submit" class="btn btn-primary ">
+                <i class="fas fa-save"></i> Guardar
+            </button>
+        </div>
+    </form>
+
+
+</div>
+
+{% endblock %}
+
+
+
+{% block javascript %}
+{{ block.super }}
+<script type="application/javascript">
+    $(function () {
+        $('form.sweet-alert-form').sweetAlertForm({
+            success: function(response) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Buen trabajo!',
+                    text: 'Operación exitosa.',
+                    timer: 2000,
+                    showConfirmButton: false
+                }).then(function() {
+                    window.location.href = '{{ list_url }}';
+                });
+            },
+            error: function(response) {
+                var errors = '';
+                for (var field in response.errors) {
+                    errors += response.errors[field].join('\n');
+                }
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: errors
+                });
+            }
+        });
+    });
+</script>
+{% endblock %}

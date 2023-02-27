@@ -1,0 +1,186 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'fontawesome-free/css/all.min.css' %}">
+
+{% include 'web/header.html' %}
+
+
+
+<style>
+    .container2 {
+        position: relative;
+        /* set container position to relative */
+        width: 100%;
+        height: 80%;
+    }
+
+    .corner-div {
+        position: absolute;
+        /* set corner-div position to absolute */
+        top: 1.5;
+        /* position it at the top */
+        right: 70;
+        /* position it at the right */
+        width: 200px;
+        height: 56px;
+        background-color: #0288d1;
+        z-index: 999;
+        /* set a high z-index value to make it appear over other elements */
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10rem;
+
+
+    }
+
+    .corner-div:hover {
+        cursor: pointer;
+        background-color: #026ad1;
+    }
+</style>
+
+
+
+<div class="container mt-4">
+
+    <div>
+        <h3 class="text-center">Barómetro Turístico</h3>
+        <p>Es un estudio cualitativo y cuantitativo que examina la opinión y valoración presente, pasada y futura de la
+            actividad turística y económica dentro del estado de Guanajuato, con fundamento en la experiencia de líderes
+            de opinión, para el diseño de estrategias en pro del desarrollo turístico del Estado.</p>
+    </div>
+
+
+    <div class="container2">
+        <a href="{% url 'pdfDownload_Bar' pk=pdf.id %}">
+            <div class="corner-div">
+                <h5 style="font-size: small; font-weight: bold; color: #FFFF; margin: 0;">DESCARGAR PDF</h5><i
+                    style="color: #FFFF; padding-left: 10px;" class="fa-solid fa-cloud-arrow-down"></i>
+            </div>
+        </a>
+        <iframe height="80%" width="100%" src="{{pdf.url}}} #zoom=100&view=fitH" frameborder="0"></iframe>
+    </div>
+    <h3 class="text-center">Buscador Barómetro Turístico</h3>
+
+    <form id="search-form" class="d-flex mt-5" role="search">
+        <select name="year" class="form-select me-2">
+            <option value="">Todos los años</option>
+            {% for year in years %}
+            <option value="{{ year }}">{{ year }}</option>
+            {% endfor %}
+        </select>
+        <select name="bim" class="form-select me-2">
+            <option value="">Todos Bimestres</option>
+
+            <option value="1">Primer Semestre</option>
+            <option value="2">Segundo Semestre</option>
+
+        </select>
+
+        <input type="text" class="form-control me-2" name="q" placeholder="Search for PDF name">
+        <button type="submit" class="btn btn-outline-success">Search</button>
+    </form>
+
+    
+    <div id="search-results" style="display: flex; "></div>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: '{% url "search" %}',
+                data: { q: '' },
+                success: function (data) {
+
+                    var html = '';
+                    var containerHeight = $('#search-results').height();
+                    var rowHeight = 0;
+                    var rowHtml = '<div class="row">';
+
+                    for (var i = 0; i < data.length; i++) {
+                        var itemHtml = '<div class="col-md-2 mb-2 ">' +
+                            '<div style="width:10rem; height:10rem; display: flex; flex-direction: column;  justify-content: center; align-items: center; margin-right:30px;">' +
+                            '<a href="' + data[i].url + '">' +
+                            '<i style="font-size: 4rem; cursor: pointer; color: #ad0b00; align-self:flex-end;"class="fa-solid fa-file-pdf"></i>' +
+                            '</a>' +
+                            '<p style="font-size: 10px; text-align: center;">' + data[i].nombrePDF + '</p>' +
+                            '</div>' +
+                            '</div>';
+
+                        rowHtml += itemHtml;
+                        rowHeight = Math.max(rowHeight, $(itemHtml).height());
+
+                        if (rowHeight > containerHeight) {
+                            // Add the current row to the HTML and start a new one
+                            html += rowHtml + '</div>';
+                            rowHtml = '<div class="row">';
+                            rowHeight = $(itemHtml).height();
+                        }
+                    }
+
+                    // Add any remaining items to the last row
+                    if (rowHtml !== '<div class="row">') {
+                        html += rowHtml + '</div>';
+                    }
+
+                    $('#search-results').html(html);
+                }
+            });
+
+            $('#search-form').on('submit', function (event) {
+                event.preventDefault();
+                var query = $(this).find('input[name="q"]').val();
+                var year = $(this).find('select[name="year"]').val();
+                var bim = $(this).find('select[name="bim"]').val();
+                $.ajax({
+                    url: '{% url "search" %}',
+                    data: { q: query, year: year, bim: bim },
+                    success: function (data) {
+                        var html = '';
+                        var containerHeight = $('#search-results').height();
+                        var rowHeight = 0;
+                        var rowHtml = '<div class="row">';
+
+                        for (var i = 0; i < data.length; i++) {
+                            var itemHtml = '<div class="col-md-3 mb-3">' +
+                                '<div style="width:10rem; height:10rem; display: flex; flex-direction: column;  justify-content: center; align-items: center; margin-right:30px;">' +
+                                '<a href="' + data[i].url + '">' +
+                                '<i style="font-size: 4rem; cursor: pointer; color: #ad0b00; align-self:flex-end;"class="fa-solid fa-file-pdf"></i>' +
+                                '</a>' +
+                                '<p style="font-size: 10px; text-align: center;">' + data[i].nombrePDF + '</p>' +
+                                '</div>' +
+                                '</div>';
+
+                            rowHtml += itemHtml;
+                            rowHeight = Math.max(rowHeight, $(itemHtml).height());
+
+                            if (rowHeight > containerHeight) {
+                                // Add the current row to the HTML and start a new one
+                                html += rowHtml + '</div>';
+                                rowHtml = '<div class="row">';
+                                rowHeight = $(itemHtml).height();
+                            }
+                        }
+
+                        // Add any remaining items to the last row
+                        if (rowHtml !== '<div class="row">') {
+                            html += rowHtml + '</div>';
+                        }
+
+                        $('#search-results').html(html);
+                    }
+                });
+            });
+        });
+    </script>
+
+
+
+
+</div>
+
+{% include 'web/components/footer/footer.html' %}

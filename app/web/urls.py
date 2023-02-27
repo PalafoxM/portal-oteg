@@ -42,5 +42,10 @@ urlpatterns = [
     path('otras-publicaciones/',OtasPublicaciones.as_view(), name='otras-publicaciones'),
     path('revista-oteg/',RevistaOTEG.as_view(), name='revista-oteg'),
     path('inventario-turistico/',InventarioTuristico.as_view(), name='inventario-turistico'),
+    path('barometro-turistico/',BarometroTuristicoView.as_view(), name='barometro-turistico'),
+    path('pdfDownload_Bar/<int:pk>/', PDFDownloadBarometro.as_view(), name='pdfDownload_Bar'),
+    path('search/', search, name='search'),
+    path('noticias_turisticas/',NoticiasTuristicasView.as_view(), name='noticias_turisticas'),
+
 
 ]

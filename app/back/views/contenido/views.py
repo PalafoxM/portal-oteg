@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponseRedirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy , reverse
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from back.models import  *
+from back.forms import *
 
-from back.models import  Banner, PlacesOfInterest,Evento , Noticia, Alba
-from back.forms import BannerForm, PlacesOfInterestForm , NoticiaForm, AlbaForm
 
 # Create your views here.
 class BannerListView(ListView):
@@ -239,19 +239,123 @@ class PlaceDeleteView(DeleteView):
         context['list_url'] = self.success_url
         return context
 
-
+# Eventos
 class EventoListView(ListView):
     model = Evento
-    template_name = 'back/eventos/list.html'
+    template_name = 'back/eventos/viewer.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Listado Eventos'
+        context['create_url'] = reverse_lazy('dashboard:evento_create')
+        context['delete_url'] = reverse_lazy('dashboard:evento_delete',args=[0])
+        return context
+    
+class EventoCreateView(CreateView):
+    model = Evento
+    form_class = EventoForm
+    template_name = 'back/components/create_update.html'
+    success_url = reverse_lazy('dashboard:eventos_list')
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST, request.FILES)
+        if form.is_valid():
+            self.object = form.save()
+            data = {
+                'success': True,
+                'message': 'Evento creado exitosamente.',
+                'url': self.success_url
+            }
+            return JsonResponse(data)
+        else:
+            data = {
+                'success': False,
+                'message': 'Hubo un error al crear el evento.',
+                'errors': form.errors
+            }
+            return JsonResponse(data)
+
+    def form_invalid(self, form):
+        response = super().form_invalid(form)
+        data = {
+            'success': False,
+            'message': 'Hubo un error al crear el evento.',
+            'errors': form.errors
+        }
+        return JsonResponse(data)
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        data = {
+            'success': True,
+            'message': 'Evento creado exitosamente.',
+            'url': self.success_url
+        }
+        return JsonResponse(data)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Crear Evento'
+        context['entity'] = 'Evento'
+        context['list_url'] = reverse_lazy('dashboard:eventos_list')
+        context['action'] = 'add'
         return context
 
+class EventoDeleteView(DeleteView):
+    model = Evento
+    success_url = reverse_lazy('dashboard:eventos_list')
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        self.object.delete()
+        return HttpResponseRedirect(success_url)
+
+
+def is_ajax(request):
+    return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
+
+class EventoUpdateView(UpdateView):
+    model = Evento
+    form_class = EventoForm
+    template_name = 'back/components/create_update.html'
+    success_url = reverse_lazy('dashboard:eventos_list')
+
+    def form_invalid(self, form):
+        response = super().form_invalid(form)
+        data = {
+            'success': False,
+            'message': 'Hubo un error al crear el evento.',
+            'errors': form.errors
+        }
+        if is_ajax(self.request):
+            return JsonResponse(data)
+        else:
+            return response
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        data = {
+            'success': True,
+            'message': 'Evento creado exitosamente.',
+            'url': self.success_url
+        }
+        if is_ajax(self.request):
+            return JsonResponse(data)
+        else:
+            return response
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = self.form_class(instance=self.object)
+        context['list_url'] = reverse_lazy('dashboard:eventos_list')
+        return context
+
+
+# Noticias
 class NoticiaListView(ListView):
     model = Noticia
-    template_name = 'back/noticias/list.html'
+    template_name = 'back/noticias/viewer.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -263,10 +367,45 @@ class NoticiaListView(ListView):
 class NoticiaCreateView(CreateView):
     model = Noticia
     form_class = NoticiaForm
-    template_name = 'back/publicaciones/create.html'
+    template_name = 'back/components/create_update.html'
     success_url = reverse_lazy('dashboard:noticias_list')
 
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST, request.FILES)
+        if form.is_valid():
+            self.object = form.save()
+            data = {
+                'success': True,
+                'message': 'Evento creado exitosamente.',
+                'url': self.success_url
+            }
+            return JsonResponse(data)
+        else:
+            data = {
+                'success': False,
+                'message': 'Hubo un error al crear el evento.',
+                'errors': form.errors
+            }
+            return JsonResponse(data)
 
+    def form_invalid(self, form):
+        response = super().form_invalid(form)
+        data = {
+            'success': False,
+            'message': 'Hubo un error al crear el evento.',
+            'errors': form.errors
+        }
+        return JsonResponse(data)
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        data = {
+            'success': True,
+            'message': 'Evento creado exitosamente.',
+            'url': self.success_url
+        }
+        return JsonResponse(data)
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Crear una Noticia'
@@ -274,7 +413,55 @@ class NoticiaCreateView(CreateView):
         context['list_url'] = reverse_lazy('dashboard:noticias_list')
         context['action'] = 'add'
         return context
+    
+class NoticiaDeleteView(DeleteView):
+    model = Noticia
+    success_url = reverse_lazy('dashboard:noticias_list')
 
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        self.object.delete()
+        return HttpResponseRedirect(success_url)
+
+class NoticiaUpdateView(UpdateView):
+    model = Noticia
+    form_class = NoticiaForm
+    template_name = 'back/components/create_update.html'
+    success_url = reverse_lazy('dashboard:noticias_list')
+
+    def form_invalid(self, form):
+        response = super().form_invalid(form)
+        data = {
+            'success': False,
+            'message': 'Hubo un error al crear el evento.',
+            'errors': form.errors
+        }
+        if is_ajax(self.request):
+            return JsonResponse(data)
+        else:
+            return response
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        data = {
+            'success': True,
+            'message': 'Evento creado exitosamente.',
+            'url': self.success_url
+        }
+        if is_ajax(self.request):
+            return JsonResponse(data)
+        else:
+            return response
+        
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = self.form_class(instance=self.object)
+        context['list_url'] = reverse_lazy('dashboard:noticias_list')
+        return context
+
+
+        
 class AlbaListView(ListView):
     model = Alba
     template_name = 'back/alba/list.html'

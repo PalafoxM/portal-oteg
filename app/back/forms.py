@@ -226,7 +226,6 @@ class CategoriasForm(forms.ModelForm):
 
 class NoticiaForm(ModelForm):
     
-
     class Meta:
         model = Noticia
         fields = ['titulo', 'descripcion', 'sitio_web',
@@ -236,3 +235,18 @@ class AlbaForm(forms.ModelForm):
     class Meta:
         model = Alba
         fields = ['archivo', 'visible']
+
+
+class EventoForm(forms.ModelForm):
+    class Meta:
+        model = Evento
+        fields = ['titulo', 'descripcion', 'fecha_inicio', 'imagen']
+
+        widgets = {
+            'titulo': forms.TextInput(attrs={'class': 'form-control'}),
+            'descripcion': forms.Textarea(attrs={'class': 'form-control'}),
+            'fecha_inicio': forms.DateInput(attrs={'class': 'form-control'}),
+            'imagen': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
+        }
+
+

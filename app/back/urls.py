@@ -23,9 +23,16 @@ urlpatterns = [
     path('place-of-interest/delete/<int:pk>/', PlaceDeleteView.as_view(), name='place_delete'),
     # contenido -> eventos
     path('eventos/list', EventoListView.as_view(), name='eventos_list'),
+    path('crear_evento/', EventoCreateView.as_view(), name='evento_create'),
+    path('eventos/eliminar/<int:pk>/', EventoDeleteView.as_view(), name='evento_delete'),
+    path('eventos/editar/<int:pk>/', EventoUpdateView.as_view(), name='evento_update'),
+
     #contenido -> noticias
     path('noticias/list', NoticiaListView.as_view(), name='noticias_list'),
     path('noticias/add', NoticiaCreateView.as_view(), name='noticia_create'),
+    path('noticias/edit/<int:pk>/', NoticiaUpdateView.as_view(), name='noticia_update'),
+    path('noticias/delete/<int:pk>/', NoticiaDeleteView.as_view(), name='noticia_delete'),
+    
     # contenido -> places of interest
     path('alba/list', AlbaListView.as_view(), name='alba_list'),
     path('alba/add', AlbaCreateView.as_view(), name='alba_create'),
