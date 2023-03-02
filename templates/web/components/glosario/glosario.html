@@ -1,0 +1,267 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+
+<!-- CSS for the modal -->
+<style>
+    /* Center the modal on the screen */
+    #myModal {
+        display: none;
+        /* Hide the modal by default */
+        position: fixed;
+        /* Stay in place */
+        z-index: 1;
+        /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%;
+        /* Full width */
+        height: 100%;
+        /* Full height */
+        overflow: auto;
+        /* Enable scroll if needed */
+        background-color: rgba(0, 0, 0, 0.4);
+        /* Black background with opacity */
+    }
+
+    /* Style the modal content */
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        /* 15% from the top and centered */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        /* Could be more or less, depending on screen size */
+    }
+
+    /* Style the close button */
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+</style>
+
+<section class="container">
+    <h3 class="text-muted" >Glosario</h3>
+
+    <form id="search-form-words" class="d-flex mt-5" role="search">
+        <input type="text" class="form-control me-2" name="w" placeholder="Buscar por Nombre ">
+        <button type="submit" class="btn btn-outline-success">Search</button>
+    </form>
+
+    <button  class="btn btn-outline-primary btn-lg" id="button1"> A</button>
+    <button  class="btn btn-outline-primary btn-lg" id="button2"> B</button>
+    <button  class="btn btn-outline-primary btn-lg" id="button3"> C</button>
+    <button  class="btn btn-outline-primary btn-lg" id="button4"> D</button>
+    <button  class="btn btn-outline-primary btn-lg" id="button5"> E</button>
+    <button  class="btn btn-outline-primary btn-lg" id="button6"> F</button>
+    <button  class="btn btn-outline-primary btn-lg" id="button7"> G</button>
+    <button  class="btn btn-outline-primary btn-lg" id="button8"> H</button>
+    <button  class="btn btn-outline-primary btn-lg" id="button9"> I</button>
+    <button  class="btn btn-outline-primary btn-lg" id="button10"> J</button>
+    <button  class="btn btn-outline-primary btn-lg" id="button11"> K</button>
+    <button  class="btn btn-outline-primary btn-lg" id="button12"> L</button>
+    <button  class="btn btn-outline-primary btn-lg" id="button13"> M</button>
+    <button  class="btn btn-outline-primary btn-lg" id="button14"> N</button>
+    <button  class="btn btn-outline-primary btn-lg" id="button15"> Ñ</button>
+    <button  class="btn btn-outline-primary btn-lg" id="button16"> O</button>
+    <button  class="btn btn-outline-primary btn-lg" id="button17"> P</button>
+    <button  class="btn btn-outline-primary btn-lg" id="button18"> Q</button>
+    <button  class="btn btn-outline-primary btn-lg" id="button19"> R</button>
+    <button  class="btn btn-outline-primary btn-lg" id="button20"> S</button>
+    <button  class="btn btn-outline-primary btn-lg" id="button21"> T</button>
+    <button  class="btn btn-outline-primary btn-lg" id="button22"> U</button>
+    <button  class="btn btn-outline-primary btn-lg" id="button23"> V</button>
+    <button  class="btn btn-outline-primary btn-lg" id="button24"> W</button>
+    <button  class="btn btn-outline-primary btn-lg" id="button25"> X</button>
+    <button  class="btn btn-outline-primary btn-lg" id="button26"> Y</button>
+    <button  class="btn btn-outline-primary btn-lg" id="button27"> Z</button>
+
+    <div id="myModal" class="modal">
+        <div id='modal-content' class="modal-content">
+            <span class="close">&times;</span>
+            <p>Modal content goes here...</p>
+        </div>
+    </div>
+
+</section>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        var modal = document.getElementById('myModal');
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                $(modal).hide();
+            }
+        }
+
+        $('.close').click(function () {
+            $('#myModal').hide();
+        });
+
+
+        $('#open-modal').click(function () {
+            $('#myModal').show();
+        });
+
+        $('.close').click(function () {
+            $('#myModal').hide();
+        });
+
+    });
+    // Open the modal when the button is clicked
+    for (var i = 1; i <= 27; i++) {
+    $('#button'+i).on('click', function () {
+        // Set the URL of the Django view to call based on the button clicked
+        var w;
+
+        if ($(this).attr('id') === 'button1') {
+            w = 'a';
+        }
+        else if ($(this).attr('id') === 'button2') {
+            w = 'b';
+        }
+        else if ($(this).attr('id') === 'button3') {
+            w = 'c';
+        } else if ($(this).attr('id') === 'button4') {
+            w = 'd';
+        } else if ($(this).attr('id') === 'button5') {
+            w = 'e';
+        } else if ($(this).attr('id') === 'button6') {
+            w = 'f';
+        } else if ($(this).attr('id') === 'button7') {
+            w = 'g';
+        } else if ($(this).attr('id') === 'button8') {
+            w = 'h';
+        } else if ($(this).attr('id') === 'button9') {
+            w = 'i';
+        } else if ($(this).attr('id') === 'button10') {
+            w = 'j';
+        } else if ($(this).attr('id') === 'button11') {
+            w = 'k';
+        } else if ($(this).attr('id') === 'button12') {
+            w = 'l';
+        } else if ($(this).attr('id') === 'button13') {
+            w = 'm';
+        } else if ($(this).attr('id') === 'button14') {
+            w = 'n';
+        } else if ($(this).attr('id') === 'button15') {
+            w = 'ñ';
+        } else if ($(this).attr('id') === 'button16') {
+            w = 'o';
+        } else if ($(this).attr('id') === 'button17') {
+            w = 'p';
+        } else if ($(this).attr('id') === 'button18') {
+            w = 'q';
+        } else if ($(this).attr('id') === 'button19') {
+            w = 'r';
+        } else if ($(this).attr('id') === 'button20') {
+            w = 's';
+        } else if ($(this).attr('id') === 'button21') {
+            w = 't';
+        } else if ($(this).attr('id') === 'button22') {
+            w = 'u';
+        } else if ($(this).attr('id') === 'button23') {
+            w = 'v';
+        } else if ($(this).attr('id') === 'button24') {
+            w = 'w';
+        } else if ($(this).attr('id') === 'button25') {
+            w = 'x';
+        } else if ($(this).attr('id') === 'button26') {
+            w = 'y';
+        } else if ($(this).attr('id') === 'button27') {
+            w = 'z';
+        }
+
+
+        // Make an AJAX request to the Django view
+        $.ajax({
+            url: '{% url "search_words" %}',
+            data: {
+                'w': w
+            },
+            success: function (data) {
+                // Update the modal content with the data returned from the server
+                console.log(data);
+                var html = '';
+
+                if (data.length > 0) {
+                    for (var i = 0; i < data.length; i++) {
+                        html += '<button  class="btn btn-outline-primary mt-1" type="button" data-bs-toggle="collapse" aria-expanded="false" data-bs-target="#multiCollapseExample' + i + '" aria-expanded="false" aria-controls="multiCollapseExample' + i + '">' + data[i].palabra + '</button>';
+                        // Wrap the definicion element in a collapse div with id matching the data-target attribute
+                        html += '<div class="collapse multi-collapse" id="multiCollapseExample' + i + '">  <div class="card card-body"> '
+                            + data[i].definicion + '</div></div>';
+                    }
+                }
+                else {
+                    html += '<p>No hay palabras</p>';
+                }
+
+                $('#modal-content').html(html);
+                $('#myModal').show();
+            },
+            error: function (xhr, status, error) {
+                // Handle any errors that occur during the AJAX request
+                console.log(xhr.responseText);
+            }
+        });
+    });
+    }
+
+    $('#search-form-words').on('submit', function (event) {
+        event.preventDefault();
+        var word = $(this).find('input[name="w"]').val();
+        $.ajax({
+            url: '{% url "search_words" %}',
+            data: {
+                'w':'',
+                'word': word
+            },
+            success: function (data) {
+                // Update the modal content with the data returned from the server
+                console.log(data);
+                var html = '';
+
+                if (data.length > 0) {
+                    for (var i = 0; i < data.length; i++) {
+                        html += '<button  class="btn btn-outline-primary mt-1" type="button" data-bs-toggle="collapse" aria-expanded="false" data-bs-target="#multiCollapseExample' + i + '" aria-expanded="false" aria-controls="multiCollapseExample' + i + '">' + data[i].palabra + '</button>';
+                        // Wrap the definicion element in a collapse div with id matching the data-target attribute
+                        html += '<div class="collapse multi-collapse" id="multiCollapseExample' + i + '">  <div class="card card-body"> '
+                            + data[i].definicion + '</div></div>';
+                    }
+                }
+                else {
+                    html += '<p>No hay palabras</p>';
+                }
+
+                $('#modal-content').html(html);
+                $('#myModal').show();
+            },
+            error: function (xhr, status, error) {
+                // Handle any errors that occur during the AJAX request
+                console.log(xhr.responseText);
+            }
+        });
+    });
+
+
+
+
+
+
+</script>

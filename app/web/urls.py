@@ -45,7 +45,11 @@ urlpatterns = [
     path('barometro-turistico/',BarometroTuristicoView.as_view(), name='barometro-turistico'),
     path('pdfDownload_Bar/<int:pk>/', PDFDownloadBarometro.as_view(), name='pdfDownload_Bar'),
     path('search/', search, name='search'),
+    path('search_noticias/', search_noticias, name='search_noticias'),
     path('noticias_turisticas/',NoticiasTuristicasView.as_view(), name='noticias_turisticas'),
+    path('search_words/', search_words, name='search_words'),
+    path('reportes_mensuales/',ReportesMensualesView.as_view(), name='reportes_mensuales'),
+    path('chart_data/', chart_data, name='chart_data'),
 
 
 ]

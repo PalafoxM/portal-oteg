@@ -1,7 +1,7 @@
 from django.views.generic import TemplateView , View 
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
-from web.models import PerfilVisistantePDF , BarometroTuristico
+from web.models import PerfilVisistantePDF , BarometroTuristico , Glosario , DataPoint
 from django.http import HttpResponse ,StreamingHttpResponse
 from django.core.signals import request_finished
 from django.dispatch import receiver
@@ -11,9 +11,12 @@ from django.db.models import F
 import requests
 from django.http import JsonResponse
 from django.views.decorators.http import require_GET
+from back.models import Banner ,Noticia 
+from datetime import datetime , timedelta
+
+
 
 #Perfil de Visitante a Ciudad
-
 class PerfilVisitanteCiudad (TemplateView):
 
     template_name = 'web/paginas/publicaciones/perfil_visitante_ciudad.html'
@@ -108,7 +111,6 @@ class BarometroTuristicoView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         pdf =  most_recent_register = BarometroTuristico.objects.latest('fecha_registro')
-
         distinct_years = BarometroTuristico.objects.values('yearPDF').distinct().order_by('yearPDF')
         years_list = [item['yearPDF'] for item in distinct_years]
         context['years'] = years_list
@@ -118,12 +120,25 @@ class BarometroTuristicoView(TemplateView):
 
 # Noticias Turisticas
 class NoticiasTuristicasView(TemplateView):
+        model =  PerfilVisistantePDF
         template_name = 'web/paginas/publicaciones/noticias_turisticas.html'
-    
+        
         def get_context_data(self, **kwargs):
             context = super().get_context_data(**kwargs)
             context['title'] = 'Noticias Turisticas'
+            context['publicaciones'] = PerfilVisistantePDF.objects.order_by(F('fecha_registro').desc(nulls_last=True))[:10] # order by date
             return context
+
+
+class ReportesMensualesView (TemplateView):
+    template_name = 'web/paginas/publicaciones/reportes_mensuales.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        distinct_years = DataPoint.objects.values('year').distinct().order_by('year')
+        years_list = [item['year'] for item in distinct_years]
+        context['years'] = years_list
+
+        return context
 
 
 @require_GET
@@ -140,4 +155,69 @@ def search(request):
 
     data = [{'nombrePDF': obj.nombrePDF, 'url': obj.url} for obj in results]
     return JsonResponse(data, safe=False)
+
+@require_GET
+def search_noticias(request):
+        q = request.GET.get('q', '')
+        year = request.GET.get('year', '')
+
+        results = PerfilVisistantePDF.objects.filter(nombrePDF__icontains=q).order_by(F('fecha_registro').desc(nulls_last=True))
+        
+        if year:
+            results = results.filter(fecha_registro__icontains=year)    
+
+        data = [{'nombrePDF': obj.nombrePDF, 'url': obj.url , 'fecha_registro':datetime.strftime(obj.fecha_registro, "%Y-%m-%d")} for obj in results]
+        return JsonResponse(data, safe=False)
+
+@require_GET
+def search_words(request):
+    w = request.GET.get('w', '')
+    word = request.GET.get('word', '')
+
+    if w == '':
+        results = Glosario.objects.filter(palabra__icontains=word)
+    else:
+        results = Glosario.objects.filter(palabra__istartswith=w)
+    
+    data = [{'palabra': obj.palabra, 'definicion': obj.definicion} for obj in results]
+    return JsonResponse(data, safe=False)
+
+@require_GET
+
+def chart_data(request):
+    # Retrieve the filter options from the Ajax request
+    filter_option = request.GET.get('filter_option', None)
+    filter_option2 = request.GET.get('filter_option2', None)
+    
+    # Retrieve the data from the database based on the filter option
+    queryset = DataPoint.objects.filter(estado=filter_option, year=filter_option2)
+    
+    # Convert the data to a format that can be used by Chart.js
+    # extract the values for each month
+    jan_data = [data.enero_data for data in queryset if data.enero_data is not None]
+    feb_data = [data.febrero_data for data in queryset if data.febrero_data is not None]
+    mar_data = [data.marzo_data for data in queryset if data.marzo_data is not None]
+    apr_data = [data.abril_data for data in queryset if data.abril_data is not None]
+    may_data = [data.mayo_data for data in queryset if data.mayo_data is not None]
+    jun_data = [data.junio_data for data in queryset if data.junio_data is not None]
+    jul_data = [data.julio_data for data in queryset if data.julio_data is not None]
+    aug_data = [data.agosto_data for data in queryset if data.agosto_data is not None]
+    sep_data = [data.septiembre_data for data in queryset if data.septiembre_data is not None]
+    oct_data = [data.octubre_data for data in queryset if data.octubre_data is not None]
+    nov_data = [data.noviembre_data for data in queryset if data.noviembre_data is not None]
+    dec_data = [data.diciembre_data for data in queryset if data.diciembre_data is not None]
+
+# combine the data into a single list
+    output_list = jan_data + feb_data + mar_data + apr_data + may_data + jun_data + jul_data + aug_data + sep_data + oct_data + nov_data + dec_data
+
+
+
+    chart_data = {
+        'labels': ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+        'values': output_list,
+    }
+    
+    # Return the data in JSON format
+    return JsonResponse(chart_data)
+
 

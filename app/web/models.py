@@ -19,7 +19,8 @@ class PerfilVisistantePDF (models.Model):
     yearPDF = models.IntegerField(null=True, blank=False)
     num_descargas = models.IntegerField(null=True, blank=True, default=0)
     fecha_registro = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-
+    imagen = models.ImageField(upload_to='images/', null=True, blank=True)
+    
 class BarometroTuristico (models.Model):
     semestre = models.IntegerField(null=True, blank=False)
     nombrePDF = models.CharField(max_length=100, null=True, blank=True)
@@ -27,3 +28,26 @@ class BarometroTuristico (models.Model):
     yearPDF = models.IntegerField(null=True, blank=False)
     num_descargas = models.IntegerField(null=True, blank=True, default=0)
     fecha_registro = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+
+
+class Glosario (models.Model):
+    palabra = models.CharField(max_length=100, null=True, blank=True)
+    definicion = models.CharField(max_length=100, null=True, blank=True)
+    fecha_registro = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+
+class DataPoint(models.Model):
+    fecha_registro = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    year = models.IntegerField(null=True, blank=False)
+    enero_data = models.IntegerField(null=True, blank=True)
+    febrero_data = models.IntegerField(null=True, blank=True)
+    marzo_data = models.IntegerField(null=True, blank=True)
+    abril_data = models.IntegerField(null=True, blank=True)
+    mayo_data = models.IntegerField(null=True, blank=True)
+    junio_data = models.IntegerField(null=True, blank=True)
+    julio_data = models.IntegerField(null=True, blank=True)
+    agosto_data = models.IntegerField(null=True, blank=True)
+    septiembre_data = models.IntegerField(null=True, blank=True)
+    octubre_data = models.IntegerField(null=True, blank=True)
+    noviembre_data = models.IntegerField(null=True, blank=True)  
+    diciembre_data = models.IntegerField(null=True, blank=True)
+    estado = models.CharField(max_length=100, null=True, blank=True)

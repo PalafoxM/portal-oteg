@@ -230,6 +230,19 @@ class NoticiaForm(ModelForm):
         model = Noticia
         fields = ['titulo', 'descripcion', 'sitio_web',
                   'imagen', 'fecha_nota', 'autor_foto', 'autor_nota', 'fecha_recuperacion']
+        widgets = {
+
+            'titulo': forms.TextInput(attrs={'class': 'form-control'}),
+            'descripcion': forms.Textarea(attrs={'class': 'form-control'}),
+            'sitio_web': forms.TextInput(attrs={'class': 'form-control'}),
+            'imagen': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
+            'fecha_nota': forms.DateInput(attrs={'class': 'form-control'}),
+            'autor_foto': forms.TextInput(attrs={'class': 'form-control'}),
+            'autor_nota': forms.TextInput(attrs={'class': 'form-control'}),
+            'fecha_recuperacion': forms.DateInput(attrs={'class': 'form-control'}),
+
+        }
+        
         
 class AlbaForm(forms.ModelForm):
     class Meta:

@@ -1,0 +1,138 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+{% include 'web/header.html' %}
+<div class="container">
+    <h2> Descripción </h2>
+    <p>
+
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+        laborum.
+    </p>
+
+
+</div>
+
+<div class="container ">
+
+    <form id="search-form" class="d-flex mt-5" role="search">
+        <select class="form-control me-2" id="filter-option">
+            <option value="1">Estado</option>
+            <option value="2">Celaya</option>
+            <option value="3">Dolores Hidalgo</option>
+            <option value="4">Guanajuato</option>
+            <option value="5">Irapuato</option>
+            <option value="6">Irapuato</option>
+            <option value="7">León</option>
+            <option value="8">Salamanca</option>
+            <option value="9">San Miguel de Allende</option>
+            <option value="10">Silao</option>
+        </select>
+        <select class="form-control me-2" id="filter-option2">
+            {% for year in years %}
+            <option value="{{ year }}">{{ year }}</option>
+            {% endfor %}
+        </select>
+    </form>
+
+    <div style="width: 100%; display: flex; justify-content: center; align-items: center;">
+        <div style="width: 70%;">
+            <canvas id="my-chart"></canvas>
+        </div>
+    </div>
+
+
+    <script>
+        var chart;
+        $(document).ready(function () {
+            // Retrieve the initial data for the chart
+            $.ajax({
+                url: '{% url "chart_data"%}',
+                type: 'GET',
+                data: {
+                    filter_option: $('#filter-option').val(),
+                    filter_option2: $('#filter-option2').val(),
+                },
+                success: function (chartData) {
+                    // Create the chart using the retrieved data
+                    var ctx = document.getElementById('my-chart').getContext('2d');
+                    chart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: chartData.labels,
+                            datasets: [{
+                                label: $('#filter-option2').val(),
+                                data: chartData.values,
+                                borderColor: 'blue',
+                                backgroundColor: 'rgba(54, 162, 235, 0.8)',
+                            }],
+
+                        },
+                        options: {
+                            scales: {
+
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }]
+                            }
+                        }
+                    });
+
+                    loadChart();
+                },
+            });
+
+
+
+            // Handle the change event on the filter option
+            $("#filter-option, #filter-option2").on('change', function () {
+                // Retrieve the filtered data for the chart
+                const colorPalette = [
+                    'rgba(255, 99, 132, 0.8)',
+                    'rgba(54, 162, 235, 0.8)',
+                    'rgba(255, 206, 86, 0.8)',
+                    'rgba(75, 192, 192, 0.8)',
+                    'rgba(153, 102, 255, 0.8)',
+                    'rgba(255, 159, 64, 0.8)',
+                    'rgba(220, 220, 220, 0.8)',
+                    'rgba(247, 70, 74, 0.8)',
+                    'rgba(70, 191, 189, 0.8)',
+                    'rgba(253, 180, 92, 0.8)',
+                    'rgba(148, 159, 177, 0.8)',
+                    'rgba(77, 83, 96, 0.8)'
+                ];
+
+                $.ajax({
+                    url: '{% url "chart_data"%}',
+                    type: 'GET',
+                    data: {
+                        filter_option: $('#filter-option').val(),
+                        filter_option2: $('#filter-option2').val(),
+                    },
+                    success: function (chartData) {
+                        // Update the chart with the filtered data
+                        chart.data.labels = chartData.labels;
+                        chart.data.datasets[0].data = chartData.values;
+                        chart.data.datasets[0].label = $('#filter-option2').val();
+                        chart.data.datasets[0].backgroundColor = colorPalette[Math.floor(Math.random() * 12)]
+                        chart.update();
+                    },
+                });
+            });
+        });
+    </script>
+</div>
+
+
+
+{% include 'web/components/footer/footer.html' %}
