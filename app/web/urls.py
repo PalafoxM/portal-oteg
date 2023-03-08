@@ -48,13 +48,18 @@ urlpatterns = [
     path('barometro-turistico/',BarometroTuristicoView.as_view(), name='barometro-turistico'),
     path('pdfDownload-Bar/<int:pk>/', PDFDownloadBarometro.as_view(), name='pdfDownload_Bar'),
     path('search/', search, name='search'),
-    path('noticias-turisticas/',NoticiasTuristicasView.as_view(), name='noticias_turisticas'),
     # sustentabilidad
     path('sustentabilidad/',Sustentabilidad.as_view(), name='sustentabilidad'),
     # eniot
     path('eniot/',Eniot.as_view(), name='eniot'),
     # entorno-nacional
     path('entorno-nacional/',EntornoNacional.as_view(), name='entorno-nacional'),
+    # 
+    path('search_noticias/', search_noticias, name='search_noticias'),
+    path('noticias_turisticas/',NoticiasTuristicasView.as_view(), name='noticias_turisticas'),
+    path('search_words/', search_words, name='search_words'),
+    path('reportes_mensuales/',ReportesMensualesView.as_view(), name='reportes_mensuales'),
+    path('chart_data/', chart_data, name='chart_data'),
 
 
 ]
