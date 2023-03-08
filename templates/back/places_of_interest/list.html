@@ -20,18 +20,21 @@
             <th>{{ place.id }}</th>
             <th>{{place.sitio_web}}</th>
             <th>
-                <a href="{% url 'dashboard:place_delete' place.id %}" class="btn btn-danger btn-icon-split">
-                    <span class="icon text-white-50">
-                        <i class="fas fa-trash"></i>
-                    </span>
-                    <span class="text">Eliminar</span>
-                </a>
                 <a href="{% url 'dashboard:place_update' place.id %}" class="btn btn-primary btn-icon-split">
                     <span class="icon text-white-50">
                         <i class="fas fa-edit"></i>
                     </span>
                     <span class="text">Editar</span>
                 </a>
+                <form method="post" action="{% url 'dashboard:place_delete' place.id %}" >
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger btn-icon-split" onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-trash"></i>
+                        </span>
+                        <span class="text">Eliminar</span>
+                    </button>
+                </form>
             </th>
         </tr>
     {% endfor %}
