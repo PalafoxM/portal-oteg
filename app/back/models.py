@@ -33,7 +33,7 @@ class Publications(models.Model):
 class Banner(models.Model):
     name = models.CharField(max_length=100, verbose_name="Nombre")
     banner_url = models.CharField(max_length=100, verbose_name="Enlace")
-    publication = models.BooleanField(default=True)
+    publication = models.BooleanField(default=True, verbose_name="Publicación")
     imagen = models.ImageField(null=True, blank=True ,upload_to='images/')
     date_created = models.DateTimeField(auto_now=True)
 

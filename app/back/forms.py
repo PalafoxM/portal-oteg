@@ -1,4 +1,4 @@
-from django.forms import ModelForm, TextInput
+from django.forms import ModelForm, TextInput, ClearableFileInput, CheckboxInput
 from .models import *
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
@@ -13,11 +13,12 @@ class PublicationForm(ModelForm):
         model = Publications
         fields = '__all__'
         widgets = {
-            'section': TextInput(attrs = { 'placeholder': 'Ingresa una Sección'}),
-            'category': TextInput(attrs = { 'placeholder': 'Ingresa una Categroia'}),            
-            'type': TextInput(attrs = { 'placeholder': 'Ingresa un Tipo'}),
-            'download': TextInput(attrs = { 'placeholder': 'Descarga'}),
-            'name': TextInput(attrs = { 'placeholder': 'Ingresa un Nombre '}),
+            'section': TextInput(attrs = { 'placeholder': 'Ingresa una Sección', 'class': 'form-control'}),
+            'category': TextInput(attrs = { 'placeholder': 'Ingresa una Categroia', 'class': 'form-control'}),            
+            'type': TextInput(attrs = { 'placeholder': 'Ingresa un Tipo', 'class': 'form-control'}),
+            'download': TextInput(attrs = { 'placeholder': 'Descarga', 'class': 'form-control'}),
+            'name': TextInput(attrs = { 'placeholder': 'Ingresa un Nombre ', 'class': 'form-control'}),
+            'fiel': ClearableFileInput(attrs = { 'placeholder': 'Ingresa una imagen', 'class': 'form-control-file'}), 
         }
     
 
@@ -30,8 +31,10 @@ class BannerForm(ModelForm):
         model = Banner
         fields = '__all__'
         widgets = {
-            'name': TextInput(attrs = { 'placeholder': 'Ingresa una Nombre'}),
-            'banner_url': TextInput(attrs = { 'placeholder': 'Ingresa un Enlace'}), 
+            'name': TextInput(attrs = { 'placeholder': 'Ingresa una Nombre', 'class': 'form-control'}),
+            'banner_url': TextInput(attrs = { 'placeholder': 'Ingresa un Enlace', 'class': 'form-control'}), 
+            'publication': CheckboxInput(attrs = { 'placeholder': 'Ingresa una Publicación', 'class': 'form-control'}), 
+            'imagen': ClearableFileInput(attrs = { 'placeholder': 'Ingresa una imagen', 'class': 'form-control-file'}), 
         }
     
     
@@ -43,8 +46,8 @@ class PlacesOfInterestForm(ModelForm):
         model = PlacesOfInterest
         fields = '__all__'
         widgets = {
-            'sitio_web': TextInput(attrs = { 'placeholder': 'Ingresa un Sitio Web'}),
-            'decription': TextInput(attrs = { 'placeholder': 'Ingresa un Descripcion'}), 
+            'sitio_web': TextInput(attrs = { 'placeholder': 'Ingresa un Sitio Web', 'class': 'form-control'}),
+            'decription': TextInput(attrs = { 'placeholder': 'Ingresa un Descripcion', 'class': 'form-control'}), 
         }
     
 
