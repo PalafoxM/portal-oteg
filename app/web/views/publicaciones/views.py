@@ -1,7 +1,7 @@
 from django.views.generic import TemplateView , View 
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
-from web.models import PerfilVisistantePDF , BarometroTuristico , Glosario , DataPoint
+from web.models import PerfilVisistantePDF , BarometroTuristico , Glosario , DataPoint , Encuesta
 from django.http import HttpResponse ,StreamingHttpResponse
 from django.core.signals import request_finished
 from django.dispatch import receiver
@@ -113,6 +113,8 @@ class BarometroTuristicoView(TemplateView):
         pdf =  most_recent_register = BarometroTuristico.objects.latest('fecha_registro')
         distinct_years = BarometroTuristico.objects.values('yearPDF').distinct().order_by('yearPDF')
         years_list = [item['yearPDF'] for item in distinct_years]
+        encuesta  = Encuesta.objects.latest('fecha_registro')
+        context['encuesta'] = encuesta
         context['years'] = years_list
         context['pdf'] = pdf
         return context
