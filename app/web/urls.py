@@ -13,6 +13,7 @@ from web.views.publicaciones.views import *
 from web.views.sustentabilidad.views import *
 from web.views.eniot.views import *
 from web.views.entornonacional.views import *
+from web.views.inventario.views import *
 
 
 urlpatterns = [
@@ -54,6 +55,9 @@ urlpatterns = [
     path('eniot/',Eniot.as_view(), name='eniot'),
     # entorno-nacional
     path('entorno-nacional/',EntornoNacional.as_view(), name='entorno-nacional'),
+    # 
+    # entorno-nacional
+    path('inventario-turistico/',InventarioTuristico.as_view(), name='inventario-turistico'),
     # 
     path('search_noticias/', search_noticias, name='search_noticias'),
     path('noticias_turisticas/',NoticiasTuristicasView.as_view(), name='noticias_turisticas'),
