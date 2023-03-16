@@ -86,7 +86,22 @@ class Evento (models.Model):
     titulo = models.CharField(max_length=100)
     descripcion = models.TextField()
     fecha_inicio = models.DateField()
+    fecha_fin = models.DateField()
     imagen = models.ImageField(upload_to='images/')
+
+    def __str__(self):
+        return self.titulo
+
+    def toJSON(self):
+        # item = model_to_dict(self)
+        return {
+            "id": self.id,
+            "titulo": self.titulo,
+            "descripcion": self.descripcion,
+            "fecha_inicio": self.fecha_inicio,
+            "fecha_fin": self.fecha_fin,
+        }
+    
 
 
 class Noticia (models.Model):

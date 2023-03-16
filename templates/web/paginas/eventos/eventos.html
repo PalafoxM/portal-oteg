@@ -1,0 +1,71 @@
+{% extends 'web/body.html' %}
+{% load static %}
+
+{% block head %}
+<style>
+    #calendar {
+        max-width: 1100px;
+        margin: 40px auto;
+        padding: 0 10px;
+    }
+</style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.js"></script>
+<script>
+    // var evento = {{eventos}};
+    // console.log(evento);
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var initialLocaleCode = 'es';
+        var localeSelectorEl = document.getElementById('locale-selector');
+        var calendarEl = document.getElementById('calendar');
+        let fechaActual = new Date().toISOString().slice(0, 10);
+        console.log(fechaActual)
+        let eventos = []
+        $(document).ready(function () {
+            fetch('{% url "eventos-list1" %}')
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                    eventos = []
+
+                    data.forEach(element => {
+                        eventos.push({
+                            title: element.descripcion,
+                            start: element.fecha_inicio,
+                            end: element.fecha_fin
+                        })
+                    });
+
+                    var calendar = new FullCalendar.Calendar(calendarEl, {
+                        initialView: 'dayGridMonth',
+                        initialDate: fechaActual,
+                        headerToolbar: {
+                            left: 'prev,next today',
+                            center: 'title',
+                            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                        },
+                        locale: 'es',
+                        events: eventos
+                    });
+                    calendar.render();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+    });
+
+</script>
+{% endblock %}
+
+<!-- contenido -->
+{% block content %}
+<div class="row row-cols-1 row-cols-md-1 mt-5">
+    <div class="col mt-5">
+        <div id='calendar'></div>
+        <div id="search-results" style="display: flex; "></div>
+    </div>
+</div>
+
+{% endblock %}
