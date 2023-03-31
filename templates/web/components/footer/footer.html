@@ -36,10 +36,12 @@
                 <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
                     <!-- Content -->
                     <h6 class="text-uppercase fw-bold mb-4">
-                      OTEG
+                        OTEG
                     </h6>
                     <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Id quae perferendis doloribus ducimus vero quos voluptatibus, eos praesentium, quidem, architecto quo? Ab quidem itaque optio ipsam accusamus, deserunt cumque adipisci!
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Id quae perferendis doloribus ducimus
+                        vero quos voluptatibus, eos praesentium, quidem, architecto quo? Ab quidem itaque optio ipsam
+                        accusamus, deserunt cumque adipisci!
                     </p>
                 </div>
                 <!-- Grid column -->
@@ -83,13 +85,16 @@
                         PUBLICACIONES
                     </h6>
                     <p>
-                        <a href="{%url 'perfil_visistante_ciudad' 1 %}" class="text-reset">Perfil de Visitante a Ciudad</a>
+                        <a href="{%url 'perfil_visistante_ciudad' 1 %}" class="text-reset">Perfil de Visitante a
+                            Ciudad</a>
                     </p>
                     <p>
-                        <a href="{%url 'perfil_visistante_ciudad' 2 %}" class="text-reset">Perfil de Visitante a Evento</a>
+                        <a href="{%url 'perfil_visistante_ciudad' 2 %}" class="text-reset">Perfil de Visitante a
+                            Evento</a>
                     </p>
                     <p>
-                        <a href="{%url 'perfil_visistante_ciudad' 3 %}" class="text-reset">Marco Normativo de Turismo</a>
+                        <a href="{%url 'perfil_visistante_ciudad' 3 %}" class="text-reset">Marco Normativo de
+                            Turismo</a>
                     </p>
                     <p>
                         <a href="{%url 'noticias_turisticas' %}" class="text-reset">Noticias Turísticas</a>
@@ -122,6 +127,8 @@
                     <p>
                         <a href="{%url 'noticias_turisticas' %}" class="text-reset">Glosario</a>
                     </p>
+
+                    <div id="sections"></div>
                 </div>
                 <!-- Grid column -->
 
@@ -144,12 +151,20 @@
                         <a href="#!" class="text-reset"> - Estatales</a>
                     </p>
 
-                    <a style="text-decoration: none; " href="{% url 'protocolo_alba' %}"><h6 class="text-uppercase fw-bold mb-4">Protocolo Alba</h6></a>
+                    <a style="text-decoration: none; " href="{% url 'protocolo_alba' %}">
+                        <h6 class="text-uppercase fw-bold mb-4">Protocolo Alba</h6>
+                    </a>
                     <h6 class="text-uppercase fw-bold mb-4">Glosario</h6>
-                    <a style="text-decoration: none; " href="{% url 'preguntasf' %}"><h6 class="text-uppercase fw-bold mb-4">Preguntas frecuentes</h6></a>
-                    <a style="text-decoration: none; " href="{% url 'sitios_interes' %}"><h6 class="text-uppercase fw-bold mb-4">Sitios de interés</h6></a>
-                    <a style="text-decoration: none; " href="{% url 'pueblos_magicos' %}"><h6 class="text-uppercase fw-bold mb-4">Pueblos Magicos</h6></a>
-                
+                    <a style="text-decoration: none; " href="{% url 'preguntasf' %}">
+                        <h6 class="text-uppercase fw-bold mb-4">Preguntas frecuentes</h6>
+                    </a>
+                    <a style="text-decoration: none; " href="{% url 'sitios_interes' %}">
+                        <h6 class="text-uppercase fw-bold mb-4">Sitios de interés</h6>
+                    </a>
+                    <a style="text-decoration: none; " href="{% url 'pueblos_magicos' %}">
+                        <h6 class="text-uppercase fw-bold mb-4">Pueblos Magicos</h6>
+                    </a>
+
                 </div>
                 <!-- Grid column -->
             </div>
@@ -166,3 +181,31 @@
     {% block footer %}{% endblock %}
 </footer>
 <!-- Footer -->
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: '{% url "dashboard:get_sections" %}',
+            data: { q: '' },
+
+            success: function (data) {
+                var html = '';
+                var containerHeight = $('#sections').height();
+                var rowHeight = 0;
+                var rowHtml = '<div class="row">';
+
+                for (var i = 0; i < data.length; i++) {
+                    //var url = '{% url "notica_viewer" pk=1 %}'.replace('1', data[i].id);
+
+                    //var itemHtml = '<p><a href="' + url + '" class="text-reset">' + data[i].titulo + '</a></p>';
+                    var itemHtml = '<p><a href ="" class="text-reset">' + data[i].titulo + '</a></p>';
+
+                    $('#sections').append(itemHtml);
+                }
+            }
+        });
+    });
+
+</script>

@@ -1,6 +1,7 @@
 from django.db import models
 from django.forms import model_to_dict
 from django.contrib.auth.models import User
+from ckeditor.fields import RichTextField
 
 
 # Create your models here.
@@ -76,10 +77,10 @@ class SeccionesCentroDocumental(models.Model):
 
 
 class Categorias(models.Model):
-    nombre_categoria = models.CharField(max_length=100)
+    nombre_categoria = models.CharField(max_length=100 , null=True, blank=True)
     fecha_creacion = models.DateField()
-    publicacion = models.BooleanField(default=False)
-    visible = models.BooleanField(default=True)
+    publicacion = models.BooleanField(default=False , null=True, blank=True)
+    visible = models.BooleanField(default=True  , null=True, blank=True)
     seccion = models.ForeignKey(SeccionesCentroDocumental, on_delete=models.CASCADE , null=True, blank=True)
 
 class Evento (models.Model):
@@ -91,13 +92,19 @@ class Evento (models.Model):
 
 class Noticia (models.Model):
     titulo = models.CharField(max_length=100)
-    descripcion = models.TextField()
+    descripcion = RichTextField()
     sitio_web = models.URLField()
     imagen = models.ImageField(null=True, blank=True ,upload_to='images/')
     fecha_nota = models.DateField()
     autor_foto = models.CharField(max_length=100)
     autor_nota = models.CharField(max_length=100)
     fecha_recuperacion = models.DateField()
+
+
+class Glosario (models.Model):
+    palabra = models.CharField(max_length=100, null=True, blank=True)
+    definicion = models.CharField(max_length=100, null=True, blank=True)
+
 
 class Alba(models.Model):
     archivo = models.ImageField(null=True, blank=True ,upload_to='pdf/')

@@ -4,6 +4,7 @@ from django.urls import reverse_lazy , reverse
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from back.models import  *
 from back.forms import *
+from web.models import *
 
 
 # Create your views here.
@@ -367,7 +368,7 @@ class NoticiaListView(ListView):
 class NoticiaCreateView(CreateView):
     model = Noticia
     form_class = NoticiaForm
-    template_name = 'back/components/create_update.html'
+    template_name = 'back/components/create_update_CKE.html'
     success_url = reverse_lazy('dashboard:noticias_list')
 
     def post(self, request, *args, **kwargs):
@@ -427,7 +428,7 @@ class NoticiaDeleteView(DeleteView):
 class NoticiaUpdateView(UpdateView):
     model = Noticia
     form_class = NoticiaForm
-    template_name = 'back/components/create_update.html'
+    template_name = 'back/components/create_update_CKE.html'
     success_url = reverse_lazy('dashboard:noticias_list')
 
     def form_invalid(self, form):
@@ -459,7 +460,223 @@ class NoticiaUpdateView(UpdateView):
         context['form'] = self.form_class(instance=self.object)
         context['list_url'] = reverse_lazy('dashboard:noticias_list')
         return context
+    
 
+#Glosario   
+
+class GlosarioListView(ListView):
+    model = Glosario
+    template_name = 'back/glosario/viewer.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Listado Glosario'
+        context['create_url'] =  reverse_lazy('dashboard:glosario_create')
+        return context
+    
+class GlosarioCreateView(CreateView):
+    model = Glosario
+    form_class =GlosarioForm
+    template_name = 'back/components/create_update.html'
+    success_url = reverse_lazy('dashboard:glosario_list')
+    
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            self.object = form.save()
+            data = {
+                'success': True,
+                'message': 'Palabra Creada exitosamente.',
+                'url': self.success_url
+            }
+            return JsonResponse(data)
+        else:
+            data = {
+                'success': False,
+                'message': 'Hubo un error al crear registro.',
+                'errors': form.errors
+            }
+            return JsonResponse(data)
+
+    def form_invalid(self, form):
+        response = super().form_invalid(form)
+        data = {
+            'success': False,
+            'message': 'Hubo un error al crear registro.',
+            'errors': form.errors
+        }
+        return JsonResponse(data)
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        data = {
+            'success': True,
+            'message': 'Registro creado exitosamente.',
+            'url': self.success_url
+        }
+        return JsonResponse(data)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Crear una Palabra'
+        context['entity'] = 'Glosario'
+        context['list_url'] = reverse_lazy('dashboard:glosario_list')
+        context['action'] = 'add'
+        return context
+    
+class GlosarioDeleteView(DeleteView):
+    model = Glosario
+    success_url = reverse_lazy('dashboard:glosario_list')
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        self.object.delete()
+        return HttpResponseRedirect(success_url)
+
+
+class GlosarioUpdateView(UpdateView):
+    model = Glosario
+    form_class = GlosarioForm
+    template_name = 'back/components/create_update.html'
+    success_url = reverse_lazy('dashboard:glosario_list')
+
+    def form_invalid(self, form):
+        response = super().form_invalid(form)
+        data = {
+            'success': False,
+            'message': 'Hubo un error al crear el evento.',
+            'errors': form.errors
+        }
+        if is_ajax(self.request):
+            return JsonResponse(data)
+        else:
+            return response
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        data = {
+            'success': True,
+            'message': 'Evento creado exitosamente.',
+            'url': self.success_url
+        }
+        if is_ajax(self.request):
+            return JsonResponse(data)
+        else:
+            return response
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = self.form_class(instance=self.object)
+        context['list_url'] = reverse_lazy('dashboard:glosario_list')
+        return context
+
+class BarometroListView(ListView):
+    model = BarometroTuristico
+    template_name = 'back/barometro/viewer.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Listado Barometro'
+        context['create_url'] =  reverse_lazy('dashboard:barometro_create')
+        return context
+        
+class BarometroCreateView(CreateView):
+    model = BarometroTuristico
+    form_class = BarometroForm
+    template_name = 'back/components/create_update.html'
+    success_url = reverse_lazy('dashboard:barometro_list')
+    
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            self.object = form.save()
+            data = {
+                'success': True,
+                'message': 'Palabra Creada exitosamente.',
+                'url': self.success_url
+            }
+            return JsonResponse(data)
+        else:
+            data = {
+                'success': False,
+                'message': 'Hubo un error al crear registro.',
+                'errors': form.errors
+            }
+            return JsonResponse(data)
+
+    def form_invalid(self, form):
+        response = super().form_invalid(form)
+        data = {
+            'success': False,
+            'message': 'Hubo un error al crear registro.',
+            'errors': form.errors
+        }
+        return JsonResponse(data)
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        data = {
+            'success': True,
+            'message': 'Registro creado exitosamente.',
+            'url': self.success_url
+        }
+        return JsonResponse(data)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Crear una Documento'
+        context['entity'] = 'Barometro'
+        context['list_url'] = reverse_lazy('dashboard:barometro_list')
+        context['action'] = 'add'
+        return context
+    
+class BarometroDeleteView(DeleteView):
+    model = BarometroTuristico
+    success_url = reverse_lazy('dashboard:barometro_list')
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        self.object.delete()
+        return HttpResponseRedirect(success_url)
+
+class BarometroUpdateView(UpdateView):
+    model = BarometroTuristico
+    form_class = BarometroForm
+    template_name = 'back/components/create_update.html'
+    success_url = reverse_lazy('dashboard:barometro_list')
+
+    def form_invalid(self, form):
+        response = super().form_invalid(form)
+        data = {
+            'success': False,
+            'message': 'Hubo un error al crear el evento.',
+            'errors': form.errors
+        }
+        if is_ajax(self.request):
+            return JsonResponse(data)
+        else:
+            return response
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        data = {
+            'success': True,
+            'message': 'Evento creado exitosamente.',
+            'url': self.success_url
+        }
+        if is_ajax(self.request):
+            return JsonResponse(data)
+        else:
+            return response
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = self.form_class(instance=self.object)
+        context['list_url'] = reverse_lazy('dashboard:barometro_list')
+        return context
+    
 
         
 class AlbaListView(ListView):

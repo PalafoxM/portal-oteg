@@ -1,0 +1,58 @@
+{% extends 'back/components/list.html' %}
+{% load static %}
+{% block head_list %}
+<!-- <script src="{% static 'admin/banner/list.js' %}"></script> -->
+{% endblock %}
+
+{% block columns %}
+<tr>
+    <th scope="col" style="width: 10%;">id</th>
+    <th scope="col" style="width: 20%;">Seccion </th>
+    <th scope="col" style="width: 20%;">Acciones</th>
+
+{% endblock %}
+
+{% block rows %}
+{% for e in object_list %}
+<tr>
+    <th>{{e.id}}</th>
+    <th>{{e.seccion }}</th>
+    <th>
+
+        <form method="get" action="{% url 'dashboard:categorias_list' e.id %}" >
+            {% csrf_token %}
+            <button type="submit" class="btn btn-info btn-icon-split">
+                <span class="icon text-white-50">
+                    <i class="fa fa-plus"></i>
+                    
+                </span>
+                <span class="text"> Categorias</span>
+            </button>
+        </form>
+
+        
+        <form method="post" action="{% url 'dashboard:CEDC_delete' e.id %}" >
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger btn-icon-split" onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">
+                <span class="icon text-white-50">
+                    <i class="fas fa-trash"></i>
+                </span>
+                <span class="text">Eliminar</span>
+            </button>
+        </form>
+
+        
+        <form method="get" action="{% url 'dashboard:CEDC_update' e.id %}" >
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary btn-icon-split">
+                <span class="icon text-white-50">
+                    <i class="fas fa-pencil-alt"></i>
+                </span>
+                <span class="text">Editar</span>
+            </button>
+        </form>
+
+    </th>
+</tr>
+{% endfor %}
+{% endblock %}

@@ -38,13 +38,38 @@ urlpatterns = [
     path('alba/add', AlbaCreateView.as_view(), name='alba_create'),
     path('alba/edit/<int:pk>/', AlbaUpdateView.as_view(), name='alba_update'),
     path('alba/delete/<int:pk>/', AlbaDeleteView.as_view(), name='alba_delete'),
+
+
     # otros
-    path('centrodocumental/list', centro_documental, name='centrodocumental'),
-    path('addcategoria', add_seccion_centro_documental, name='addseccion'),
-    path('delete_seccion/<int:seccion_id>/', delete_seccion, name='delete_seccion'),
-    path('edit_seccion/<int:seccion_id>/', edit_seccion, name='edit_seccion'),
-    path('add_categoria/<int:seccion_id>/', add_categoria, name='add_categoria'),
+    path('centrodocumental/list', CentroDocumentalView.as_view(), name='centrodocumental'),
+    path('add_section', SeccionCentroDocumentalCreate.as_view(), name='centrodocumenta_create'),
+
+    path('delete_seccion/<int:pk>/', SeccionCentroDocumentalDelete.as_view(), name='CEDC_delete'),
+    path('edit_seccion/<int:pk>/', SeccionCentroDocumentalUpdate.as_view(), name='CEDC_update'),
+    path('get_sections',get_sections, name='get_sections'),
+
+
+    #categorias de centro documental
+    path('categorias/<int:pk>/', CategoriasListView.as_view(), name='categorias_list'),
+    path('add_categoria/<int:pk>/', CategoriasCreateView.as_view() , name='add_categoria'),
+    path('delete_categoria/<int:seccion_pk>/<int:pk>/', CategoriasDeleteView.as_view(), name='categoria_delete'),
+    path('edit_categoria/<int:seccion_pk>/<int:pk>/', CategoriasUpdateView.as_view(), name='categoria_update'),
+
+
     path('descargas/list', descargas_list, name='descargas_list'),
+
+    #Glosario
+    path('glosario/list', GlosarioListView.as_view(), name='glosario_list'),
+    path('glosario/add', GlosarioCreateView.as_view(), name='glosario_create'),
+    path('glosario/edit/<int:pk>/', GlosarioUpdateView.as_view(), name='glosario_updateg'),
+    path('glosario/delete/<int:pk>/', GlosarioDeleteView.as_view(), name='glosario_delete'),
+
+    # Barometro
+    path('barometro/list', BarometroListView.as_view(), name='barometro_list'),
+    path('barometro/add', BarometroCreateView.as_view(), name='barometro_create'),
+    path('barometro/edit/<int:pk>/', BarometroUpdateView.as_view(), name='barometro_update'),
+    path('barometro/delete/<int:pk>/', BarometroDeleteView.as_view(), name='barometro_delete'),
+   
     # Usuarios
     path('usuarios/list', my_profile, name='profile'),
 ]

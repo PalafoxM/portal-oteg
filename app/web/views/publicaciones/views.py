@@ -1,7 +1,8 @@
 from django.views.generic import TemplateView , View 
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
-from web.models import PerfilVisistantePDF , BarometroTuristico , Glosario , DataPoint , Encuesta
+from web.models import PerfilVisistantePDF , BarometroTuristico , DataPoint , Encuesta
+from back.models import Glosario
 from django.http import HttpResponse ,StreamingHttpResponse
 from django.core.signals import request_finished
 from django.dispatch import receiver
@@ -81,6 +82,7 @@ class OtasPublicaciones (TemplateView):
 class InventarioTuristico (TemplateView):
     template_name = 'web/paginas/publicaciones/inventario_turistico.html'
 
+
 class PDFDownloadBarometro(View):
     def get(self, request, *args, **kwargs):
         # Get the PDF object
@@ -122,13 +124,13 @@ class BarometroTuristicoView(TemplateView):
 
 # Noticias Turisticas
 class NoticiasTuristicasView(TemplateView):
-        model =  PerfilVisistantePDF
+        model =  Noticia
         template_name = 'web/paginas/publicaciones/noticias_turisticas.html'
         
         def get_context_data(self, **kwargs):
             context = super().get_context_data(**kwargs)
             context['title'] = 'Noticias Turisticas'
-            context['publicaciones'] = PerfilVisistantePDF.objects.order_by(F('fecha_registro').desc(nulls_last=True))[:10] # order by date
+            context['publicaciones'] = Noticia.objects.order_by(F('fecha_nota').desc(nulls_last=True))[:10] # order by date
             return context
 
 
@@ -140,6 +142,23 @@ class ReportesMensualesView (TemplateView):
         years_list = [item['year'] for item in distinct_years]
         context['years'] = years_list
 
+        return context
+
+
+class NoticiaViewer (TemplateView):
+    template_name = 'web/components/noticia_viewer/noticia_viewer.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        noticia = get_object_or_404(Noticia, id=self.kwargs.get('pk'))
+        context['noticia'] = noticia
+        return context
+    
+class BarometroViewer (TemplateView):
+    template_name = 'web/paginas/publicaciones/barometro_turistico_viewer.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        barometro = get_object_or_404(BarometroTuristico, id=self.kwargs.get('pk'))
+        context['pdf'] = barometro
         return context
 
 
@@ -155,7 +174,7 @@ def search(request):
     if bim:
         results = results.filter(semestre__icontains=bim)
 
-    data = [{'nombrePDF': obj.nombrePDF, 'url': obj.url} for obj in results]
+    data = [{'nombrePDF': obj.nombrePDF, 'url': obj.url ,'id':obj.id} for obj in results]
     return JsonResponse(data, safe=False)
 
 @require_GET
@@ -163,12 +182,12 @@ def search_noticias(request):
         q = request.GET.get('q', '')
         year = request.GET.get('year', '')
 
-        results = PerfilVisistantePDF.objects.filter(nombrePDF__icontains=q).order_by(F('fecha_registro').desc(nulls_last=True))
+        results = Noticia.objects.filter(titulo__icontains=q).order_by(F('fecha_nota').desc(nulls_last=True))
         
         if year:
-            results = results.filter(fecha_registro__icontains=year)    
+            results = results.filter(fecha_nota__icontains=year)    
 
-        data = [{'nombrePDF': obj.nombrePDF, 'url': obj.url , 'fecha_registro':datetime.strftime(obj.fecha_registro, "%Y-%m-%d")} for obj in results]
+        data = [{'titulo': obj.titulo, 'id': obj.id , 'fecha_registro':datetime.strftime(obj.fecha_nota, "%Y-%m-%d")} for obj in results]
         return JsonResponse(data, safe=False)
 
 @require_GET

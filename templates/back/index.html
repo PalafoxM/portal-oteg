@@ -82,7 +82,7 @@
                         <a class="collapse-item" href="{%url 'dashboard:noticias_list' %}">Noticias</a>
                         <a class="collapse-item" href="{% url 'dashboard:banner_list' %}">Banners</a>
                         <a class="collapse-item" href="{% url 'dashboard:place_list' %}">Sitios de Interes</a>
-                        <a class="collapse-item" href="{% url 'dashboard:alba_list' %}">Protocolo Alba</a>
+                        <a class="collapse-item" href="{% url 'dashboard:barometro_list' %}">Barómetro Turístico</a>
                     </div>
                 </div>
             </li>
@@ -116,7 +116,7 @@
                         <a class="collapse-item" href="buttons.html">Indicadores Nacionales</a>
                         <a class="collapse-item" href="buttons.html">Indicadores Nacionales Trimestrales</a>
                         <a class="collapse-item" href="buttons.html">Gráfica Barómetro Turístico</a>
-                        <a class="collapse-item" href="buttons.html">Glosario</a>
+                        <a class="collapse-item" href="{% url 'dashboard:glosario_list' %}">Glosario</a>
                         <a class="collapse-item" href="buttons.html">Comparativo Destino</a>
                     </div>
                 </div>
@@ -124,19 +124,21 @@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
+
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOtros"
                     aria-expanded="true" aria-controls="collapseOtros">
                     <i class="fas fa-fw fa-cog"></i>
                     <span>Otros</span>
                 </a>
+
                 <div id="collapseOtros" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="#">Secciones Centro Documental</a>
+                        <a class="collapse-item" href="{% url 'dashboard:centrodocumental' %}">Secciones Centro Documental</a>
                         <a class="collapse-item" href="{% url 'dashboard:descargas_list' %}">Descargas</a>
                     </div>
                 </div>
-            </li>
 
+            </li>
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
@@ -144,9 +146,7 @@
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
-
-
-
+            
         </ul>
         <!-- End of Sidebar -->
 

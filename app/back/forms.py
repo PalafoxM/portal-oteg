@@ -1,9 +1,11 @@
 from django.forms import ModelForm, TextInput
 from .models import *
+from web.models import *
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from django.contrib.auth.models import User, Group
+from ckeditor.widgets import CKEditorWidget
 
 class PublicationForm(ModelForm):
     def __init__(self, *args, **kwargs):
@@ -96,8 +98,7 @@ class DateInput(forms.DateInput):
 class UserForm(forms.ModelForm):
 
     password = forms.CharField(widget=forms.HiddenInput, required=False)
-    user_permissions = forms.CharField(
-        widget=forms.HiddenInput, required=False)
+    user_permissions = forms.CharField(widget=forms.HiddenInput, required=False)
     is_staff = forms.CharField(widget=forms.HiddenInput, required=False)
     is_active = forms.CharField(widget=forms.HiddenInput, required=False)
     is_superuser = forms.CharField(widget=forms.HiddenInput, required=False)
@@ -213,18 +214,42 @@ class SeccionCentroDocumentalForm(forms.ModelForm):
     class Meta:
         model = SeccionesCentroDocumental
         fields = ['seccion', 'descripcion', 'observacion']
+        widgets = {
+            'seccion': forms.TextInput(attrs={'class': 'form-control'}),
+            'descripcion': forms.Textarea(attrs={'class': 'form-control'}),
+            'observacion': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
 
 
 class CategoriasForm(forms.ModelForm):
-    seccion = forms.IntegerField(widget=forms.HiddenInput, required=False)
-    fecha_creacion = forms.DateField(required=False, widget=DateInput)
-
+    
     class Meta:
         model = Categorias
-        fields = ['nombre_categoria', 'fecha_creacion',
-                  'publicacion', 'visible', 'seccion']
+        fields = ['nombre_categoria', 'fecha_creacion', 'publicacion', 'visible', 'seccion']
+
+        widgets = {
+            'nombre_categoria': forms.TextInput(attrs={'class': 'form-control'}),
+            'fecha_creacion': forms.DateInput(attrs={'class': 'form-control'}),
+            'publicacion': forms.CheckboxInput(attrs={'class': 'form-control'}),
+            'visible': forms.CheckboxInput(attrs={'class': 'form-control'}),
+            'seccion': forms.Select(attrs={'class': 'form-control'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        pk = kwargs.pop('pk', None)
+        super().__init__(*args, **kwargs)
+        if pk:
+            seccion = SeccionesCentroDocumental.objects.get(pk=pk)
+            self.fields['seccion'].initial = seccion
+            self.fields['seccion'].widget = forms.HiddenInput()
+    
+
+
 
 class NoticiaForm(ModelForm):
+
+    descripcion = forms.CharField(widget=CKEditorWidget())
     
     class Meta:
         model = Noticia
@@ -233,7 +258,6 @@ class NoticiaForm(ModelForm):
         widgets = {
 
             'titulo': forms.TextInput(attrs={'class': 'form-control'}),
-            'descripcion': forms.Textarea(attrs={'class': 'form-control'}),
             'sitio_web': forms.TextInput(attrs={'class': 'form-control'}),
             'imagen': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
             'fecha_nota': forms.DateInput(attrs={'class': 'form-control'}),
@@ -242,7 +266,20 @@ class NoticiaForm(ModelForm):
             'fecha_recuperacion': forms.DateInput(attrs={'class': 'form-control'}),
 
         }
-        
+
+
+class BarometroForm(forms.ModelForm):
+    class Meta:
+        model = BarometroTuristico
+        fields = ['semestre', 'nombrePDF', 'url', 'yearPDF']
+        widgets = {
+            'semestre': forms.NumberInput(attrs={'class': 'form-control', 'required': True}),
+            'nombrePDF': forms.TextInput(attrs={'class': 'form-control'}),
+            'url': forms.URLInput(attrs={'class': 'form-control'}),
+            'yearPDF': forms.NumberInput(attrs={'class': 'form-control', 'required': True}),
+        }
+
+
         
 class AlbaForm(forms.ModelForm):
     class Meta:
@@ -263,3 +300,16 @@ class EventoForm(forms.ModelForm):
         }
 
 
+class GlosarioForm(forms.ModelForm):
+
+    class Meta:
+        model = Glosario
+        fields = ['palabra', 'definicion']
+        labels = {
+            'palabra': 'Palabra',
+            'definicion': 'Definición',
+        }
+        widgets = {
+            'palabra': forms.TextInput(attrs={'class': 'form-control'}),
+            'definicion': forms.TextInput(attrs={'class': 'form-control'}),
+        }

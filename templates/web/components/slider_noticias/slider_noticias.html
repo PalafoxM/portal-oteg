@@ -1,6 +1,5 @@
 
 {% load static %}
-
 <style>
 .image-container2 {
     width: 100%;
@@ -23,23 +22,26 @@
 <link rel="stylesheet" type="text/css" href="{% static 'fontawesome-free/css/all.min.css' %}">
 <div id="carouselExample" class="carousel slide mt-5">
     <div class="carousel-inner">
-        {% for noticia in  noticias %}
+        {% for pub in  publicaciones %}
         <div class="carousel-item {% if forloop.counter0 == 0 %}active{% endif %}">
             <div class="container" style="display: flex; justify-content: center;">
                 <div class="card mb-3" style="width: 80%;">
                     <div class="row g-0" style="width: 100%;">
                         <div class="col-md-4">
-                            {% if noticia.imagen %}
+                            {% if pub.imagen %}
                             <div class="image-container2">
-                                <img src="{{noticia.imagen.url}}" style="border-radius: 10px;" alt="...">
+                                <img src="{{pub.imagen.url}}" style="border-radius: 10px;" alt="...">
                             </div>
                             {% endif %}
                         </div>
                         <div class="col-md-8">
                             <div class="card-body">
-                                <h5 class="card-title">{{noticia.titulo}}</h5>
-                                <p class="card-text">{{noticia.descripcion}}</p>
-                                <p class="card-text"><small class="text-muted">{{noticia.fecha_recuperacion}}</small></p>
+                                <h5 class="card-title">{{pub.titulo}}</h5>
+    
+                                <p class="card-text">Fecha Nota: {{pub.fecha_nota}}</p>
+                                <p class="card-text">descripcion {{pub.descripcion|truncatechars:750|safe}}</p>
+                        
+                                <a href="{% url 'notica_viewer' pk=pub.id %}"><button type="button" class="btn btn-outline-primary"><i class="fa-solid fa-file"></i> Ver mas...</button></a>
                             </div>
                         </div>
                     </div>
@@ -47,10 +49,6 @@
             </div>
         </div>
     {% endfor %}
-
-
-
-
 
 
     </div>

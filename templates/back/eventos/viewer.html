@@ -32,7 +32,7 @@
         </form>
 
         
-        <form method="post" action="{% url 'dashboard:evento_update' e.id %}" >
+        <form method="get" action="{% url 'dashboard:evento_update' e.id %}" >
             {% csrf_token %}
             <button type="submit" class="btn btn-primary btn-icon-split">
                 <span class="icon text-white-50">
