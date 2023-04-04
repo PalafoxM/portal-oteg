@@ -1,6 +1,15 @@
 {% extends 'back/index.html' %}
 {% load widget_tweaks %}
 {% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+
+{% endblock %}
+
+
 {% block content %}
 <div class="card shadow mb-4">
     <form method="post" enctype="multipart/form-data">
@@ -45,6 +54,13 @@
 
 {% block javascript %}
 <script type="application/javascript">
+
+    alert("kwjkljl")
+    flatpickr(".fecha-input", {
+        enableTime: true,
+        dateFormat: "Y-m-d H:i",
+        time_24hr: true,
+    });
     $(function () {
         $('form').on('submit', function (e) {
             e.preventDefault();

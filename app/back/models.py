@@ -87,6 +87,8 @@ class Evento (models.Model):
     descripcion = models.TextField()
     fecha_inicio = models.DateField()
     fecha_fin = models.DateField()
+    tipo_evento = models.TextField()
+    tipo_evento1 = models.TextField()
     imagen = models.ImageField(upload_to='images/')
 
     def __str__(self):
@@ -100,6 +102,7 @@ class Evento (models.Model):
             "descripcion": self.descripcion,
             "fecha_inicio": self.fecha_inicio,
             "fecha_fin": self.fecha_fin,
+            "tipo_evento": self.tipo_evento,
         }
     
 

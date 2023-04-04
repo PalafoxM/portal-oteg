@@ -1,0 +1,224 @@
+{% extends 'back/index.html' %}
+{% load widget_tweaks %}
+{% load static %}
+{% block content %}
+<div class="card shadow mb-4">
+    <form method="post" enctype="multipart/form-data">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">{{title}}</h6>
+
+        </div>
+        <div class="card-body">
+            {% csrf_token %}
+            {% if form.errors %}
+            <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h5><i class="icon fas fa-ban"></i> Ha ocurrido un error al querer guardar el registro</h5>
+                <ul>
+                    {% for field in form %}
+                    {% for error in field.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+             <!-- {{ form.as_p }} -->
+            <!-- {{ profile_form.as_p }} - -->
+            <div class="form-group">
+                {{ form.username.label_tag }}
+                {{ form.username }}
+            </div>
+            
+            <div class="form-group">
+                {{ form.first_name.label_tag }}
+                {{ form.first_name }}
+            </div>
+            
+            <div class="form-group">
+                {{ form.last_name.label_tag }}
+                {{ form.last_name }}
+            </div>
+            
+            <div class="form-group">
+                {{ profile_form.apellido_materno.label_tag }}
+                {{ profile_form.apellido_materno }}
+            </div>
+            
+            <div class="form-group">
+                {{ profile_form.fecha_cumple.label_tag }}
+                {{ profile_form.fecha_cumple }}
+            </div>
+            
+            <div class="form-group">
+                {{ profile_form.direccion.label_tag }}
+                {{ profile_form.direccion }}
+            </div>
+            
+            <div class="form-group">
+                {{ profile_form.tel.label_tag }}
+                {{ profile_form.tel }}
+            </div>
+            
+            <div class="form-group">
+                {{ form.email.label_tag }}
+                {{ form.email }}
+            </div>
+            
+            <div class="form-group">
+                {{ profile_form.facebook.label_tag }}
+                {{ profile_form.facebook }}
+            </div>
+            
+            <div class="form-group">
+                {{ profile_form.twitter.label_tag }}
+                {{ profile_form.twitter }}
+            </div>
+            
+            <div class="form-group">
+                {{ profile_form.ciudad.label_tag }}
+                {{ profile_form.ciudad }}
+            </div>
+            
+            <div class="form-group">
+                {{ profile_form.estado.label_tag }}
+                {{ profile_form.estado }}
+            </div>
+            
+            <div class="form-group">
+                {{ profile_form.empresa_institucion.label_tag }}
+                {{ profile_form.empresa_institucion }}
+            </div>
+            
+            <div class="form-group">
+                {{ profile_form.cargo.label_tag }}
+                {{ profile_form.cargo }}
+            </div>
+            
+            <div class="form-group">
+                {{ profile_form.licenciatura.label_tag }}
+                {{ profile_form.licenciatura }}
+            </div>
+            
+            <div class="form-group">
+                {{ profile_form.universidad_licenciatura.label_tag }}
+                {{ profile_form.universidad_licenciatura }}
+            </div>
+            
+            <div class="form-group">
+                {{ profile_form.maestria.label_tag }}
+                {{ profile_form.maestria }}
+            </div>
+            
+            <div class="form-group">
+                {{ profile_form.universidad_maestria.label_tag }}
+                {{ profile_form.universidad_maestria }}
+            </div>
+            
+            <div class="form-group">
+                {{ profile_form.doctorado.label_tag }}
+                {{ profile_form.doctorado }}
+            </div>
+            
+            <div class="form-group">
+                {{ profile_form.universidad_doctorado.label_tag }}
+                {{ profile_form.universidad_doctorado }}
+            </div>
+            
+            <div class="form-group">
+                {{ profile_form.photo.label_tag }}
+                {{ profile_form.photo }}
+            </div>
+            
+            <div class="form-group">
+                {{ profile_form.experiencia.label_tag }}
+                {{ profile_form.experiencia }}
+            </div>
+            
+            <div class="form-group">
+                {{ form.boletin }}
+                {{ form.boletin.label_tag }}
+            </div>
+            
+            <div class="form-group">
+                {{ form.group.label_tag }}
+                {{ form.group }}
+            </div>
+            
+        </div>
+        <div class="card-footer">
+
+            <button type="submit" class="btn btn-primary ">
+                <i class="fas fa-save"></i> Guardar
+            </button>
+
+            <div id="baker" class="btn btn-danger ">
+                <i class="fas fa-times"></i> Cancelar
+            </div>
+        </div>
+    </form>
+
+
+</div>
+
+{% endblock %}
+
+
+{% block javascript %}
+<script type="application/javascript">
+    $(function () {
+        $('form').on('submit', function (e) {
+            e.preventDefault();
+            var parameters = new FormData(this);
+            $.ajax({
+                url: window.location.pathname,
+                type: 'POST',
+                data: parameters,
+                processData: false,
+                contentType: false,
+                dataType: 'json'
+            }).done(function (data) {
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Buen trabajo!',
+                        text: 'Operación exitosa.',
+                        timer: 2000,
+                        showConfirmButton: false
+                    }).then(function () {
+                        window.location.href = '{{ list_url }}';
+                    });
+                } else {
+                    console.log(data.errors)
+                    var errors = '';
+                    for (var field in data.errors) {
+                        if (Array.isArray(data.errors[field])) {
+                            errors += data.errors[field].join('\n');
+                        } else {
+                            errors += data.errors[field];
+                        }
+                    }
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: errors
+                    });
+                }
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                alert(textStatus + ': ' + errorThrown);
+            }).always(function (data) {
+
+            });
+        });
+    });
+
+    $('#baker').on('click', function (e) {
+        e.preventDefault();
+        if (confirm('¿Está seguro de cancelar la operación?...los datos no guardados se perderán')) {
+            window.location.href = '{{ list_url }}';
+        }else{
+            return false;
+        }
+    });
+</script>
+{% endblock %}
