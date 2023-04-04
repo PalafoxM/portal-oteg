@@ -14,6 +14,7 @@ from web.views.sustentabilidad.views import *
 from web.views.eniot.views import *
 from web.views.entornonacional.views import *
 from web.views.inventario.views import *
+from web.views.eventos.views import *
 
 
 urlpatterns = [
@@ -64,6 +65,10 @@ urlpatterns = [
     path('search_words/', search_words, name='search_words'),
     path('reportes_mensuales/',ReportesMensualesView.as_view(), name='reportes_mensuales'),
     path('chart_data/', chart_data, name='chart_data'),
+    # eventos
+    path('eventos/',EventosView.as_view(), name='eventos'),
+    path('eventos-list1/', eventos_list, name='eventos-list1'),
+    # 
 
 
 ]

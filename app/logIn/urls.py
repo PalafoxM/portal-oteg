@@ -1,6 +1,6 @@
 from django.urls import path
 from .import views 
-from .views import delete_user,edit_user,edit_user_pwd
+from .views import delete_user,edit_user,edit_user_pwd, UserListView, UserAndProfileCreateView, UserAndProfileUpdateView
 
 
 urlpatterns = [
@@ -11,4 +11,7 @@ urlpatterns = [
     path('delete_user/<int:user_id>/', delete_user, name='delete_user'),
     path('edit_user/<int:user_id>/', edit_user, name='edit_user'),
     path('edit_user_pwd', edit_user_pwd, name='edit_user_pwd'),
+    path('usuarios-list', UserListView.as_view(), name='usuarios-list'),
+    path('usuario-perfil-create', UserAndProfileCreateView.as_view(), name='usuarios-perfil-create'),
+    path('usuario-perfil-update/<int:pk>', UserAndProfileUpdateView.as_view(), name='usuarios-perfil-update'),
 ]

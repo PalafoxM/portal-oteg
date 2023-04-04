@@ -1,5 +1,6 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.forms import ModelForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from .models import Profile
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from django.contrib.auth.models import User, Group
@@ -51,60 +52,141 @@ class ProfileForm(forms.ModelForm):
         }
 
 
-class UserForm(forms.ModelForm):
+class UserForm(ModelForm):
 
-    password = forms.CharField(widget=forms.HiddenInput, required=False)
-    user_permissions = forms.CharField(
-        widget=forms.HiddenInput, required=False)
-    is_staff = forms.CharField(widget=forms.HiddenInput, required=False)
-    is_active = forms.CharField(widget=forms.HiddenInput, required=False)
-    is_superuser = forms.CharField(widget=forms.HiddenInput, required=False)
-    last_login = forms.CharField(widget=forms.HiddenInput, required=False)
-    date_joined = forms.CharField(widget=forms.HiddenInput, required=False)
-    username = forms.CharField(max_length=100, label='Nombre de Usuario')
-    first_name = forms.CharField(max_length=100, label='Nombre')
-    last_name = forms.CharField(widget=forms.HiddenInput, required=False)
-    groups = forms.ModelMultipleChoiceField(
-        queryset=Group.objects.all(), label='Roles / Permisos')
-    exclude = ['password', 'user_permissions', 'is_staff', 'is_active',
-               'is_superuser', 'last_login', 'date_joined', 'last_name']
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['first_name'].widget.attrs['autofocus'] = True
 
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'email', 'groups')
+        fields = 'first_name', 'last_name', 'email', 'username', 'password', 'groups'
         widgets = {
-            'fecha_cumple': DateInput(),
+            'first_name': forms.TextInput(
+                attrs={
+                    'placeholder': 'Ingrese sus nombres',
+                }
+            ),
+            'last_name': forms.TextInput(
+                attrs={
+                    'placeholder': 'Ingrese sus apellidos',
+                }
+            ),
+            'email': forms.TextInput(
+                attrs={
+                    'placeholder': 'Ingrese su email',
+                }
+            ),
+            'username': forms.TextInput(
+                attrs={
+                    'placeholder': 'Ingrese su username',
+                }
+            ),
+            'password': forms.PasswordInput(render_value=True,
+                                            attrs={
+                                                'placeholder': 'Ingrese su password',
+                                            }
+                                            ),
+            'groups': forms.SelectMultiple(attrs={
+                'class': 'form-control select2',
+                'style': 'width: 100%',
+                'multiple': 'multiple'
+            })
         }
+        exclude = ['user_permissions', 'last_login',
+                   'date_joined', 'is_superuser', 'is_active', 'is_staff']
+        
+        def clean_groups(self):
+            groups = self.cleaned_data.get('groups')
+            for group in groups:
+                if not group.user_set.count() == 0:
+                    raise forms.ValidationError("Este grupo ya está asignado a otro usuario.")
+            return groups
+
+
+class ProfileForm(ModelForm):
+
+    class Meta:
+        model = Profile
+        fields = ('apellido_paterno', 'apellido_materno', 'fecha_cumple', 'direccion', 'tel', 'facebook', 'twitter', 'ciudad', 'estado', 'empresa_institucion', 'cargo', 'licenciatura', 'universidad_licenciatura', 'maestria', 'universidad_maestria', 'doctorado', 'universidad_doctorado', 'photo', 'experiencia', 'boletin')
+        widgets = {
+            'apellido_paterno': forms.TextInput(attrs={'placeholder': 'Apellido paterno', 'class': 'form-control'}),
+            'apellido_materno': forms.TextInput(attrs={'placeholder': 'Apellido materno', 'class': 'form-control'}),
+            'fecha_cumple': forms.DateInput(attrs={'placeholder': 'Fecha de cumpleaños', 'class': 'form-control'}),
+            'direccion': forms.TextInput(attrs={'placeholder': 'Dirección', 'class': 'form-control'}),
+            'tel': forms.TextInput(attrs={'placeholder': 'Teléfono', 'class': 'form-control'}),
+            'facebook': forms.TextInput(attrs={'placeholder': 'Facebook', 'class': 'form-control'}),
+            'twitter': forms.TextInput(attrs={'placeholder': 'Twitter', 'class': 'form-control'}),
+            'ciudad': forms.TextInput(attrs={'placeholder': 'Ciudad', 'class': 'form-control'}),
+            'estado': forms.TextInput(attrs={'placeholder': 'Estado', 'class': 'form-control'}),
+            'empresa_institucion': forms.TextInput(attrs={'placeholder': 'Empresa o institución', 'class': 'form-control'}),
+            'cargo': forms.TextInput(attrs={'placeholder': 'Cargo'}),
+            'licenciatura': forms.TextInput(attrs={'placeholder': 'Licenciatura', 'class': 'form-control'}),
+            'universidad_licenciatura': forms.TextInput(attrs={'placeholder': 'Universidad de licenciatura', 'class': 'form-control'}),
+            'maestria': forms.TextInput(attrs={'placeholder': 'Maestría', 'class': 'form-control'}),
+            'universidad_maestria': forms.TextInput(attrs={'placeholder': 'Universidad de maestría', 'class': 'form-control'}),
+            'doctorado': forms.TextInput(attrs={'placeholder': 'Doctorado', 'class': 'form-control'}),
+            'universidad_doctorado': forms.TextInput(attrs={'placeholder': 'Universidad de doctorado', 'class': 'form-control'}),
+            'experiencia': forms.Textarea(attrs={'placeholder': 'Experiencia', 'class': 'form-control'}),
+            'image': forms.ClearableFileInput(attrs={'placeholder': 'Imagen de perfil', 'class': 'form-control'})
+        }
+
+        
 
 
 class CustomUserCreationForm(UserCreationForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['password1'].required = False
+        self.fields['password2'].required = False
 
-    username = forms.CharField(max_length=100, label='Nombre de Usuario')
-    first_name = forms.CharField(max_length=100, label='Nombre')
-    last_name = forms.CharField(max_length=100, label='Apellido Paterno')
-    apellido_materno = forms.CharField(
-        max_length=100, label='Apellido Materno')
-    fecha_cumple = forms.DateField(
-        required=False, widget=DateInput, label='Fecha de Cumpleaños')
-    direccion = forms.CharField(max_length=100, label='Dirección')
-    tel = forms.CharField(max_length=100, required=False, label='Teléfono')
-    email = forms.EmailField(max_length=100, label='Correo Electrónico')
-    facebook = forms.CharField(max_length=100, required=False)
-    twitter = forms.CharField(max_length=100, required=False)
-    ciudad = forms.CharField(max_length=100, required=False)
-    estado = forms.CharField(max_length=100, required=False)
-    empresa_institucion = forms.CharField(
-        max_length=100, required=False, label='Empresa o Institución')
-    cargo = forms.CharField(max_length=100, required=False)
-    licenciatura = forms.CharField(max_length=100, required=False)
-    universidad_licenciatura = forms.CharField(max_length=100, required=False)
-    maestria = forms.CharField(max_length=100, required=False)
-    universidad_maestria = forms.CharField(max_length=100, required=False)
-    doctorado = forms.CharField(max_length=100, required=False)
-    universidad_doctorado = forms.CharField(max_length=100, required=False)
+    
+    print("CustomUserCreationForm")
+
+    username = forms.CharField(max_length=100, label='Nombre de Usuario', widget=forms.TextInput(
+        attrs={'placeholder': 'Nombre de usuario', 'class': 'form-control'}))
+    first_name = forms.CharField(max_length=100, label='Nombre', widget=forms.TextInput(
+        attrs={'placeholder': 'Nombre', 'class': 'form-control'}))
+    last_name = forms.CharField(max_length=100, label='Apellido Paterno', widget=forms.TextInput(
+        attrs={'placeholder': 'Apellido paterno', 'class': 'form-control'}))
+    apellido_materno = forms.CharField(max_length=100, label='Apellido Materno', widget=forms.TextInput(
+        attrs={'placeholder': 'Apellido materno', 'class': 'form-control'}))
+    fecha_cumple = forms.DateField(required=False, widget=DateInput(
+        attrs={'placeholder': 'Fecha de cumpleaños', 'class': 'form-control'}), label='Fecha de Cumpleaños')
+    direccion = forms.CharField(max_length=100, label='Dirección', widget=forms.TextInput(
+        attrs={'placeholder': 'Dirección', 'class': 'form-control'}))
+    tel = forms.CharField(max_length=100, required=False, label='Teléfono',
+                          widget=forms.TextInput(attrs={'placeholder': 'Teléfono', 'class': 'form-control'}))
+    email = forms.EmailField(max_length=100, label='Correo Electrónico', widget=forms.EmailInput(
+        attrs={'placeholder': 'Correo electrónico', 'class': 'form-control'}))
+    facebook = forms.CharField(max_length=100, required=False, widget=forms.TextInput(
+        attrs={'placeholder': 'Facebook', 'class': 'form-control'}))
+    twitter = forms.CharField(max_length=100, required=False, widget=forms.TextInput(
+        attrs={'placeholder': 'Twitter', 'class': 'form-control'}))
+    ciudad = forms.CharField(max_length=100, required=False, widget=forms.TextInput(
+        attrs={'placeholder': 'Ciudad', 'class': 'form-control'}))
+    estado = forms.CharField(max_length=100, required=False, widget=forms.TextInput(
+        attrs={'placeholder': 'Estado', 'class': 'form-control'}))
+    empresa_institucion = forms.CharField(max_length=100, required=False, label='Empresa o Institución', widget=forms.TextInput(
+        attrs={'placeholder': 'Empresa o institución', 'class': 'form-control'}))
+    cargo = forms.CharField(max_length=100, required=False,
+                            widget=forms.TextInput(attrs={'placeholder': 'Cargo', 'class': 'form-control'}))
+    licenciatura = forms.CharField(max_length=100, required=False, widget=forms.TextInput(
+        attrs={'placeholder': 'Licenciatura', 'class': 'form-control'}))
+    universidad_licenciatura = forms.CharField(max_length=100, required=False, widget=forms.TextInput(
+        attrs={'placeholder': 'Universidad de la licenciatura', 'class': 'form-control'}))
+    maestria = forms.CharField(max_length=100, required=False, widget=forms.TextInput(
+        attrs={'placeholder': 'Maestría', 'class': 'form-control'}))
+    universidad_maestria = forms.CharField(max_length=100, required=False, widget=forms.TextInput(
+        attrs={'placeholder': 'Universidad de la maestría', 'class': 'form-control'}))
+    doctorado = forms.CharField(max_length=100, required=False, widget=forms.TextInput(
+        attrs={'placeholder': 'Doctorado', 'class': 'form-control'}))
+    universidad_doctorado = forms.CharField(max_length=100, required=False, widget=forms.TextInput(
+        attrs={'placeholder': 'Universidad del doctorado', 'class': 'form-control'}))
     photo = forms.ImageField(widget=forms.ClearableFileInput(
-        attrs={'multiple': True}), label='Fotografía')
-    experiencia = forms.CharField(widget=forms.Textarea, required=False)
+        attrs={'multiple': True}), label='Fotografía', required=False)
+    experiencia = forms.CharField(widget=forms.Textarea(
+        attrs={'placeholder': 'Experiencia'}), required=False)
     boletin = forms.BooleanField(
         required=False, label='Deseo recibir boletín de noticias')
     group = forms.ModelChoiceField(
@@ -119,6 +201,18 @@ class CustomUserCreationForm(UserCreationForm):
         fields = ('username', 'first_name', 'last_name', 'apellido_materno', 'fecha_cumple', 'direccion', 'tel', 'email', 'facebook', 'twitter', 'ciudad', 'estado', 'empresa_institucion',
                   'cargo', 'licenciatura', 'universidad_licenciatura', 'maestria', 'universidad_maestria', 'doctorado', 'universidad_doctorado', 'photo', 'experiencia', 'boletin', 'group')
 
+    def cleaned_data(self):
+        cleaned_data = super().cleaned_data()
+        email = cleaned_data.get('email')
+        username = cleaned_data.get('username')
+        if email and User.objects.filter(email=email).exists():
+            print("paso 1 cleaned_data")
+            self.add_error('email', 'Este correo electrónico ya está en uso.')
+        if username and User.objects.filter(username=username).exists():
+            print("paso 2 cleaned_data")
+            self.add_error('username', 'Este nombre de usuario ya está en uso.')
+        return cleaned_data
+    
     def save(self, commit=True):
 
         user = super().save(commit=False)
@@ -161,3 +255,120 @@ class CustomUserCreationForm(UserCreationForm):
 
 class ImageUploadForm(forms.Form):
     image = forms.FileField()
+
+
+class CustomUserUpdateForm(UserChangeForm):
+    
+
+    username = forms.CharField(max_length=100, label='Nombre de Usuario', widget=forms.TextInput(
+        attrs={'placeholder': 'Nombre de usuario', 'class': 'form-control'}))
+    first_name = forms.CharField(max_length=100, label='Nombre', widget=forms.TextInput(
+        attrs={'placeholder': 'Nombre', 'class': 'form-control'}))
+    last_name = forms.CharField(max_length=100, label='Apellido Paterno', widget=forms.TextInput(
+        attrs={'placeholder': 'Apellido paterno', 'class': 'form-control'}))
+    apellido_materno = forms.CharField(max_length=100, label='Apellido Materno', widget=forms.TextInput(
+        attrs={'placeholder': 'Apellido materno', 'class': 'form-control'}))
+    fecha_cumple = forms.DateField(required=False, widget=DateInput(
+        attrs={'placeholder': 'Fecha de cumpleaños', 'class': 'form-control'}), label='Fecha de Cumpleaños')
+    direccion = forms.CharField(max_length=100, label='Dirección', widget=forms.TextInput(
+        attrs={'placeholder': 'Dirección', 'class': 'form-control'}))
+    tel = forms.CharField(max_length=100, required=False, label='Teléfono',
+                          widget=forms.TextInput(attrs={'placeholder': 'Teléfono', 'class': 'form-control'}))
+    email = forms.EmailField(max_length=100, label='Correo Electrónico', widget=forms.EmailInput(
+        attrs={'placeholder': 'Correo electrónico', 'class': 'form-control'}))
+    facebook = forms.CharField(max_length=100, required=False, widget=forms.TextInput(
+        attrs={'placeholder': 'Facebook', 'class': 'form-control'}))
+    twitter = forms.CharField(max_length=100, required=False, widget=forms.TextInput(
+        attrs={'placeholder': 'Twitter', 'class': 'form-control'}))
+    ciudad = forms.CharField(max_length=100, required=False, widget=forms.TextInput(
+        attrs={'placeholder': 'Ciudad', 'class': 'form-control'}))
+    estado = forms.CharField(max_length=100, required=False, widget=forms.TextInput(
+        attrs={'placeholder': 'Estado', 'class': 'form-control'}))
+    empresa_institucion = forms.CharField(max_length=100, required=False, label='Empresa o Institución', widget=forms.TextInput(
+        attrs={'placeholder': 'Empresa o institución', 'class': 'form-control'}))
+    cargo = forms.CharField(max_length=100, required=False,
+                            widget=forms.TextInput(attrs={'placeholder': 'Cargo', 'class': 'form-control'}))
+    licenciatura = forms.CharField(max_length=100, required=False, widget=forms.TextInput(
+        attrs={'placeholder': 'Licenciatura', 'class': 'form-control'}))
+    universidad_licenciatura = forms.CharField(max_length=100, required=False, widget=forms.TextInput(
+        attrs={'placeholder': 'Universidad de la licenciatura', 'class': 'form-control'}))
+    maestria = forms.CharField(max_length=100, required=False, widget=forms.TextInput(
+        attrs={'placeholder': 'Maestría', 'class': 'form-control'}))
+    universidad_maestria = forms.CharField(max_length=100, required=False, widget=forms.TextInput(
+        attrs={'placeholder': 'Universidad de la maestría', 'class': 'form-control'}))
+    doctorado = forms.CharField(max_length=100, required=False, widget=forms.TextInput(
+        attrs={'placeholder': 'Doctorado', 'class': 'form-control'}))
+    universidad_doctorado = forms.CharField(max_length=100, required=False, widget=forms.TextInput(
+        attrs={'placeholder': 'Universidad del doctorado', 'class': 'form-control'}))
+    photo = forms.ImageField(widget=forms.ClearableFileInput(
+        attrs={'multiple': True}), label='Fotografía', required=False)
+    experiencia = forms.CharField(widget=forms.Textarea(
+        attrs={'placeholder': 'Experiencia'}), required=False)
+    boletin = forms.BooleanField(
+        required=False, label='Deseo recibir boletín de noticias')
+    group = forms.ModelChoiceField(
+        queryset=Group.objects.all(), label='Rol / Permisos')
+
+    class Meta:
+        model = User
+        widgets = {
+            'fecha_cumple': DateInput(),
+        }
+
+        fields = ('username', 'first_name', 'last_name', 'apellido_materno', 'fecha_cumple', 'direccion', 'tel', 'email', 'facebook', 'twitter', 'ciudad', 'estado', 'empresa_institucion',
+                  'cargo', 'licenciatura', 'universidad_licenciatura', 'maestria', 'universidad_maestria', 'doctorado', 'universidad_doctorado', 'photo', 'experiencia', 'boletin', 'group')
+
+    def cleaned_data(self):
+        print("cleaned_data")
+        cleaned_data = super().cleaned_data()
+        email = cleaned_data.get('email')
+        username = cleaned_data.get('username')
+        if email and User.objects.filter(email=email).exists():
+            print("paso 1 cleaned_data")
+            self.add_error('email', 'Este correo electrónico ya está en uso.')
+        if username and User.objects.filter(username=username).exists():
+            print("paso 2 cleaned_data")
+            self.add_error('username', 'Este nombre de usuario ya está en uso.')
+        return cleaned_data
+    
+    def save(self, commit=True):
+
+        user = super().save(commit=False)
+
+        user.first_name = self.cleaned_data['first_name']
+        user.last_name = self.cleaned_data['last_name']
+        user.email = self.cleaned_data['email']
+
+        if commit:
+            user.save()
+            self.cleaned_data['group'].user_set.add(user)
+
+        # update fecha_cumple and direccion in Profile
+        try:
+            profile = Profile.objects.get(user=user)
+        except Profile.DoesNotExist:
+            profile = Profile(user=user)
+
+        profile.apellido_materno = self.cleaned_data['apellido_materno']
+        profile.apellido_paterno = self.cleaned_data['last_name']
+        profile.direccion = self.cleaned_data['direccion']
+        profile.fecha_cumple = self.cleaned_data['fecha_cumple']
+        profile.tel = self.cleaned_data['tel']
+        profile.facebook = self.cleaned_data['facebook']
+        profile.twitter = self.cleaned_data['twitter']
+        profile.ciudad = self.cleaned_data['ciudad']
+        profile.estado = self.cleaned_data['estado']
+        profile.empresa_institucion = self.cleaned_data['empresa_institucion']
+        profile.cargo = self.cleaned_data['cargo']
+        profile.licenciatura = self.cleaned_data['licenciatura']
+        profile.universidad_licenciatura = self.cleaned_data['universidad_licenciatura']
+        profile.maestria = self.cleaned_data['maestria']
+        profile.universidad_maestria = self.cleaned_data['universidad_maestria']
+        profile.doctorado = self.cleaned_data['doctorado']
+        profile.universidad_doctorado = self.cleaned_data['universidad_doctorado']
+        profile.photo = self.cleaned_data['photo']
+        profile.experiencia = self.cleaned_data['experiencia']
+        profile.boletin = self.cleaned_data['boletin']
+        profile.save()
+
+        return user

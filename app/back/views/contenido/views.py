@@ -58,7 +58,6 @@ class  BannerCreateView(CreateView):
         
 
     def form_invalid(self, form):
-        print("form_invalid")
         response = super().form_invalid(form)
         data = {
             'success': False,
@@ -68,7 +67,6 @@ class  BannerCreateView(CreateView):
         return JsonResponse(data)
 
     def form_valid(self, form):
-        print("form_valid")
         response = super().form_valid(form)
         data = {
             'success': True,

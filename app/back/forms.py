@@ -252,17 +252,39 @@ class AlbaForm(forms.ModelForm):
         model = Alba
         fields = ['archivo', 'visible']
 
+class DateInput(forms.DateInput):
+    input_type = 'date'
 
 class EventoForm(forms.ModelForm):
+    
+
+    # fecha_inicio = forms.DateField(required=False, widget=DateInput(
+    #     attrs={'placeholder': 'Fecha Inicio', 'class': 'form-control'}), label='Fecha Inicio', input_formats=['%Y-%m-%d'])
+    # fecha_fin = forms.DateField(required=False, widget=DateInput(
+    #     attrs={'placeholder': 'Fecha Fin', 'class': 'form-control'}), label='Fecha Fin', input_formats=['%Y-%m-%d'])
+    
+    TIPOS_EVENTO_CHOICES = [
+        ('', 'Seleccionar'),
+        ('internacionales', 'Internacionales'),
+        ('nacionales', 'Nacionales'),
+        ('estatales', 'Estatales'),
+    ]
+     
+    tipo_evento = forms.ChoiceField(choices=TIPOS_EVENTO_CHOICES, widget=forms.Select(attrs={'class': 'form-control'}))
+
     class Meta:
         model = Evento
-        fields = ['titulo', 'descripcion', 'fecha_inicio', 'imagen']
-
+        fields = ['tipo_evento', 'titulo', 'descripcion', 'fecha_inicio', 'fecha_fin', 'imagen']
         widgets = {
+            'tipo_evento': forms.TextInput(attrs={'class': 'form-control'}),
             'titulo': forms.TextInput(attrs={'class': 'form-control'}),
             'descripcion': forms.Textarea(attrs={'class': 'form-control'}),
-            'fecha_inicio': forms.DateInput(attrs={'class': 'form-control'}),
+            'fecha_inicio': forms.TextInput(attrs={'class': 'form-control fecha-input', 'placeholder': 'Fecha de inicio'}),
+            'fecha_fin': forms.TextInput(attrs={'class': 'form-control fecha-input', 'placeholder': 'Fecha de fin'}),
             'imagen': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
         }
-
-
+        labels = {
+            'tipo_evento': 'Tipo de Evento',
+        }
+    
+   
