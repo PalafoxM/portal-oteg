@@ -41,7 +41,47 @@
 </style>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
 <script>
+    const placeId = "ChIJh4Wp5Ad0K4QRs0g-pR_tlCk";
+    const apiKey = "AIzaSyDxCZ1EwE67LjQ77VT--XdDC4iY9X1ddAw";
+
+    const url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&key=${apiKey}`;
+
+    var config = {
+    method: 'get',
+    url: url,
+    headers: {
+        'Access-Control-Allow-Origin': '*'
+     }
+    };
+
+    axios(config)
+    .then(function (response) {
+    console.log("response: ",JSON.stringify(response.data));
+    })
+    .catch(function (error) {
+    console.log("Error: ",error);
+    });
+    const address = "Antigua Casa Bram / Apartamento Mineral de Plata, Guanajuato, México";
+
+    const url1 = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${apiKey}`;
+
+    axios.get(url1)
+    .then(response => {
+        if (response.data.results.length > 0) {
+        const placeId = response.data.results[0].place_id;
+        console.log("Place ID: ", placeId);
+        } else {
+        console.log("No se encontraron resultados");
+        }
+    })
+    .catch(error => {
+        console.log("Error: ", error);
+    });
+
+
     document.addEventListener('DOMContentLoaded', function () {
     var initialLocaleCode = 'es';
     var localeSelectorEl = document.getElementById('locale-selector');
