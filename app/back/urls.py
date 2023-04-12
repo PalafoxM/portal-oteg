@@ -3,6 +3,7 @@ from back.views.colaboradores.views import *
 from back.views.contenido.views import *
 from back.views.otros.views import *
 from back.views.usuarios.views import *
+from back.views.estadisticas.views import *
 
 app_name = 'dashboard'
 
@@ -47,4 +48,10 @@ urlpatterns = [
     path('descargas/list', descargas_list, name='descargas_list'),
     # Usuarios
     path('usuarios/list', my_profile, name='profile'),
+    #estadisticas
+    path('inventario-hotelero/list', InventarioHoteleroListView.as_view(), name='inventario_hotelero_list'),
+    path('inventario-hotelero/add', InventarioHoteleroCreateView.as_view(), name='inventario_hotelero_create'),
+    path('inventario-hotelero/edit/<int:pk>/', InventarioHoteleroUpdateView.as_view(), name='inventario_hotelero_update'),
+    path('inventario-hotelero/delete/<int:pk>/', InventarioHoteleroDeleteView.as_view(), name='inventario_hotelero_delete'),
+    path('inventario-hotelero/carga-masiva', CargaMasivaView.as_view(), name='inventario_hotelero_carga_masiva'),
 ]

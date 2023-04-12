@@ -257,11 +257,6 @@ class DateInput(forms.DateInput):
 
 class EventoForm(forms.ModelForm):
     
-
-    # fecha_inicio = forms.DateField(required=False, widget=DateInput(
-    #     attrs={'placeholder': 'Fecha Inicio', 'class': 'form-control'}), label='Fecha Inicio', input_formats=['%Y-%m-%d'])
-    # fecha_fin = forms.DateField(required=False, widget=DateInput(
-    #     attrs={'placeholder': 'Fecha Fin', 'class': 'form-control'}), label='Fecha Fin', input_formats=['%Y-%m-%d'])
     
     TIPOS_EVENTO_CHOICES = [
         ('', 'Seleccionar'),
@@ -288,3 +283,17 @@ class EventoForm(forms.ModelForm):
         }
     
    
+class InventarioHoteleroForm(ModelForm):
+    class Meta:
+        model = InventarioHotelero
+        fields = ['destino', 'fecha', 'categoria', 'habitaciones', 'establecimientos']
+        widgets = {
+            'destino': forms.TextInput(attrs={'class': 'form-control'}),
+            'fecha': forms.DateInput(attrs={'class': 'form-control fecha-input'}),
+            'categoria': forms.TextInput(attrs={'class': 'form-control'}),
+            'habitaciones': forms.NumberInput(attrs={'class': 'form-control'}),
+            'establecimientos': forms.NumberInput(attrs={'class': 'form-control'}),
+        }
+
+class CargaMasivaForm(forms.Form):
+    archivo = forms.FileField(label='Seleccione un archivo', help_text='(xlsx, csv)')

@@ -1,0 +1,39 @@
+{% extends 'back/index.html' %}
+
+{% block content %}
+<h1>Carga masiva</h1>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Cargar archivo</button>
+</form>
+
+
+{% if errores %}
+<div class="alert alert-danger mt-3">
+    <ul>
+        {% for error in errores %}
+        <li>{{ error }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+{% if registros_incorrectos %}
+<div class="alert alert-danger mt-3">
+    <ul>
+        {% for error in registros_incorrectos %}
+        <li>{{ error }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+{% if registros_correctos %}
+<div class="alert alert-success mt-3">
+    <ul>
+        {% for error in registros_correctos %}
+        <li>{{ error }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+{% endblock %}
