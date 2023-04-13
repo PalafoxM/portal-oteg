@@ -197,3 +197,18 @@ class InventarioHoteleroEntNac(models.Model):
         verbose_name_plural = 'inventario_hotelero_ent_nac'
         db_table = 'inventario_hotelero_ent_nac'
         ordering = ['-id']
+class CalidadAire(models.Model):
+    
+    fecha = models.DateField()
+    municipio = models.CharField(max_length=555)
+    calidad_del_aire = models.CharField(max_length=2255)
+    
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+
+    class Meta:
+        verbose_name = 'aire'
+        verbose_name_plural = 'aire'
+        db_table = 'aire'
+        ordering = ['-id']

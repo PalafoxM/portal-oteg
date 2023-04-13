@@ -6,6 +6,7 @@ from back.views.usuarios.views import *
 from back.views.inventario_hotelero_gto.views import *
 from back.views.inversion_publica.views import *
 from back.views.inventario_hotelero_ent_nac.views import *
+from back.views.calidad_aire.views import *
 
 app_name = 'dashboard'
 
@@ -68,4 +69,10 @@ urlpatterns = [
     path('inventario-hotelero-ent-nac/edit/<int:pk>/', InventarioHoteleroEntNacUpdateView.as_view(), name='inventario_hotelero_ent_nac_update'),
     path('inventario-hotelero-ent-nac/delete/<int:pk>/', InventarioHoteleroEntNacDeleteView.as_view(), name='inventario_hotelero_ent_nac_delete'),
     path('inventario-hotelero-ent-nac/carga-masiva', InventarioHoteleroEntNacCargaMasivaView.as_view(), name='inventario_hotelero_ent_nac_carga_masiva'),
+    #calidad_aire
+    path('calidad-aire/list', CalidadAireListView.as_view(), name='calidad_aire_list'),
+    path('calidad-aire/add', CalidadAireCreateView.as_view(), name='calidad_aire_create'),
+    path('calidad-aire/edit/<int:pk>/', CalidadAireUpdateView.as_view(), name='calidad_aire_update'),
+    path('calidad-aire/delete/<int:pk>/', CalidadAireDeleteView.as_view(), name='calidad_aire_delete'),
+    path('calidad-aire/carga-masiva', CalidadAireCargaMasivaView.as_view(), name='calidad_aire_carga_masiva'),
 ]
