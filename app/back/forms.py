@@ -195,3 +195,13 @@ class InventarioHoteleroEntNacForm(ModelForm):
             'habitaciones': forms.NumberInput(attrs={'class': 'form-control'}),
             'establecimientos': forms.NumberInput(attrs={'class': 'form-control'}),
         }
+
+class CalidadAireForm(forms.ModelForm):
+    class Meta:
+        model = CalidadAire
+        fields = ['fecha', 'municipio', 'calidad_del_aire']
+        widgets = {
+            'fecha': forms.DateInput(attrs={'class': 'form-control fecha-input'}),
+            'municipio': forms.TextInput(attrs={'class': 'form-control'}),
+            'calidad_del_aire': forms.TextInput(attrs={'class': 'form-control'}),
+        }
