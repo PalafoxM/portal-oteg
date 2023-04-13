@@ -154,3 +154,26 @@ class InventarioHotelero(models.Model):
         verbose_name_plural = 'inventario_hotelero_gto'
         db_table = 'inventario_hotelero_gto'
         ordering = ['-id']
+
+class InversionPublica(models.Model):
+    fecha = models.DateField()
+    municipio = models.CharField(max_length=255)
+    nombre_obra = models.CharField(max_length=255)
+    monto_inversion_municipal = models.FloatField()
+    monto_inversion_estatal = models.FloatField()
+    monto_inversion_federal = models.FloatField()
+
+    def __str__(self):
+        return f"{self.municipio} - {self.nombre_obra} ({self.fecha})"
+
+    def toJSON(self):
+        """
+        Método para serializar el objeto a formato JSON.
+        """
+        item = model_to_dict(self)
+        return item
+
+    class Meta:
+        verbose_name_plural = "Inversiones Públicas"
+        db_table = "inversion_publica"
+        ordering = ['-id']

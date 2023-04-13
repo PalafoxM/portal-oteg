@@ -169,3 +169,17 @@ class InventarioHoteleroForm(ModelForm):
 
 class CargaMasivaForm(forms.Form):
     archivo = forms.FileField(label='Seleccione un archivo', help_text='(xlsx, csv)')
+
+
+class InversionPublicaForm(forms.ModelForm):
+    class Meta:
+        model = InversionPublica
+        fields = ['fecha', 'municipio', 'nombre_obra', 'monto_inversion_municipal', 'monto_inversion_estatal', 'monto_inversion_federal']
+        widgets = {
+            'fecha': forms.DateInput(attrs={'class': 'form-control fecha-input'}),
+            'municipio': forms.TextInput(attrs={'class': 'form-control'}),
+            'nombre_obra': forms.TextInput(attrs={'class': 'form-control'}),
+            'monto_inversion_municipal': forms.NumberInput(attrs={'class': 'form-control'}),
+            'monto_inversion_estatal': forms.NumberInput(attrs={'class': 'form-control'}),
+            'monto_inversion_federal': forms.NumberInput(attrs={'class': 'form-control'}),
+        }
