@@ -5,6 +5,7 @@ from back.views.otros.views import *
 from back.views.usuarios.views import *
 from back.views.inventario_hotelero_gto.views import *
 from back.views.inversion_publica.views import *
+from back.views.inventario_hotelero_ent_nac.views import *
 
 app_name = 'dashboard'
 
@@ -61,4 +62,10 @@ urlpatterns = [
     path('inversion-publica/edit/<int:pk>/', InversionPublicaUpdateView.as_view(), name='inversion_publica_update'),
     path('inversion-publica/delete/<int:pk>/', InversionPublicaDeleteView.as_view(), name='inversion_publica_delete'),
     path('inversion-publica/carga-masiva', InversionPublicaCargaMasivaView.as_view(), name='inversion_publica_carga_masiva'),
+    #inventario_hotelero_ent_nac
+    path('inventario-hotelero-ent-nac/list', InventarioHoteleroEntNacListView.as_view(), name='inventario_hotelero_ent_nac_list'),
+    path('inventario-hotelero-ent-nac/add', InventarioHoteleroEntNacCreateView.as_view(), name='inventario_hotelero_ent_nac_create'),
+    path('inventario-hotelero-ent-nac/edit/<int:pk>/', InventarioHoteleroEntNacUpdateView.as_view(), name='inventario_hotelero_ent_nac_update'),
+    path('inventario-hotelero-ent-nac/delete/<int:pk>/', InventarioHoteleroEntNacDeleteView.as_view(), name='inventario_hotelero_ent_nac_delete'),
+    path('inventario-hotelero-ent-nac/carga-masiva', InventarioHoteleroEntNacCargaMasivaView.as_view(), name='inventario_hotelero_ent_nac_carga_masiva'),
 ]

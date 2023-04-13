@@ -177,3 +177,23 @@ class InversionPublica(models.Model):
         verbose_name_plural = "Inversiones Públicas"
         db_table = "inversion_publica"
         ordering = ['-id']
+
+class InventarioHoteleroEntNac(models.Model):
+    
+    destino = models.CharField(max_length=255)
+    fecha = models.DateField()
+    categoria = models.CharField(max_length=255)
+    habitaciones = models.IntegerField()
+    establecimientos = models.IntegerField()
+    date_updated = models.DateTimeField(auto_now=True,)
+    date_created = models.DateTimeField(auto_now=True)
+    
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+
+    class Meta:
+        verbose_name = 'inventario_hotelero_ent_nac'
+        verbose_name_plural = 'inventario_hotelero_ent_nac'
+        db_table = 'inventario_hotelero_ent_nac'
+        ordering = ['-id']
