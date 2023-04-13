@@ -3,7 +3,7 @@ from back.views.colaboradores.views import *
 from back.views.contenido.views import *
 from back.views.otros.views import *
 from back.views.usuarios.views import *
-from back.views.estadisticas.views import *
+from back.views.inventario_hotelero_gto.views import *
 
 app_name = 'dashboard'
 
@@ -24,7 +24,7 @@ urlpatterns = [
     path('place-of-interest/delete/<int:pk>/', PlaceDeleteView.as_view(), name='place_delete'),
     # contenido -> eventos
     path('eventos/list', EventoListView.as_view(), name='eventos_list'),
-    path('crear_evento/', EventoCreateView.as_view(), name='evento_create'),
+    path('crear-evento/', EventoCreateView.as_view(), name='evento_create'),
     path('eventos/eliminar/<int:pk>/', EventoDeleteView.as_view(), name='evento_delete'),
     path('eventos/editar/<int:pk>/', EventoUpdateView.as_view(), name='evento_update'),
 
@@ -42,16 +42,16 @@ urlpatterns = [
     # otros
     path('centrodocumental/list', centro_documental, name='centrodocumental'),
     path('addcategoria', add_seccion_centro_documental, name='addseccion'),
-    path('delete_seccion/<int:seccion_id>/', delete_seccion, name='delete_seccion'),
-    path('edit_seccion/<int:seccion_id>/', edit_seccion, name='edit_seccion'),
-    path('add_categoria/<int:seccion_id>/', add_categoria, name='add_categoria'),
+    path('delete-seccion/<int:seccion_id>/', delete_seccion, name='delete_seccion'),
+    path('edit_-eccion/<int:seccion_id>/', edit_seccion, name='edit_seccion'),
+    path('add-categoria/<int:seccion_id>/', add_categoria, name='add_categoria'),
     path('descargas/list', descargas_list, name='descargas_list'),
     # Usuarios
     path('usuarios/list', my_profile, name='profile'),
-    #estadisticas
-    path('inventario-hotelero/list', InventarioHoteleroListView.as_view(), name='inventario_hotelero_list'),
-    path('inventario-hotelero/add', InventarioHoteleroCreateView.as_view(), name='inventario_hotelero_create'),
-    path('inventario-hotelero/edit/<int:pk>/', InventarioHoteleroUpdateView.as_view(), name='inventario_hotelero_update'),
-    path('inventario-hotelero/delete/<int:pk>/', InventarioHoteleroDeleteView.as_view(), name='inventario_hotelero_delete'),
-    path('inventario-hotelero/carga-masiva', CargaMasivaView.as_view(), name='inventario_hotelero_carga_masiva'),
+    #inventario_hotelero_gto
+    path('inventario-hotelero-gto/list', InventarioHoteleroListView.as_view(), name='inventario_hotelero_list'),
+    path('inventario-hotelero-gto/add', InventarioHoteleroCreateView.as_view(), name='inventario_hotelero_create'),
+    path('inventario-hotelero-gto/edit/<int:pk>/', InventarioHoteleroUpdateView.as_view(), name='inventario_hotelero_update'),
+    path('inventario-hotelero-gto/delete/<int:pk>/', InventarioHoteleroDeleteView.as_view(), name='inventario_hotelero_delete'),
+    path('inventario-hotelero-gto/carga-masiva', CargaMasivaView.as_view(), name='inventario_hotelero_carga_masiva'),
 ]

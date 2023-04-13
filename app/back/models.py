@@ -104,8 +104,6 @@ class Evento (models.Model):
             "fecha_fin": self.fecha_fin,
             "tipo_evento": self.tipo_evento,
         }
-    
-
 
 class Noticia (models.Model):
     titulo = models.CharField(max_length=100)
