@@ -183,3 +183,15 @@ class InversionPublicaForm(forms.ModelForm):
             'monto_inversion_estatal': forms.NumberInput(attrs={'class': 'form-control'}),
             'monto_inversion_federal': forms.NumberInput(attrs={'class': 'form-control'}),
         }
+
+class InventarioHoteleroEntNacForm(ModelForm):
+    class Meta:
+        model = InventarioHoteleroEntNac
+        fields = ['destino', 'fecha', 'categoria', 'habitaciones', 'establecimientos']
+        widgets = {
+            'destino': forms.TextInput(attrs={'class': 'form-control'}),
+            'fecha': forms.DateInput(attrs={'class': 'form-control fecha-input'}),
+            'categoria': forms.TextInput(attrs={'class': 'form-control'}),
+            'habitaciones': forms.NumberInput(attrs={'class': 'form-control'}),
+            'establecimientos': forms.NumberInput(attrs={'class': 'form-control'}),
+        }
