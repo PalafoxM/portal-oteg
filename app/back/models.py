@@ -104,8 +104,6 @@ class Evento (models.Model):
             "fecha_fin": self.fecha_fin,
             "tipo_evento": self.tipo_evento,
         }
-    
-
 
 class Noticia (models.Model):
     titulo = models.CharField(max_length=100)
@@ -134,4 +132,25 @@ class Alba(models.Model):
         verbose_name = 'alba'
         verbose_name_plural = 'alba'
         db_table = 'alba'
+        ordering = ['-id']
+
+
+class InventarioHotelero(models.Model):
+    
+    destino = models.CharField(max_length=255)
+    fecha = models.DateField()
+    categoria = models.CharField(max_length=255)
+    habitaciones = models.IntegerField()
+    establecimientos = models.IntegerField()
+    date_updated = models.DateTimeField(auto_now=True,)
+    date_created = models.DateTimeField(auto_now=True)
+    
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+
+    class Meta:
+        verbose_name = 'inventario_hotelero_gto'
+        verbose_name_plural = 'inventario_hotelero_gto'
+        db_table = 'inventario_hotelero_gto'
         ordering = ['-id']

@@ -59,6 +59,7 @@ INSTALLED_APPS = [
 
     # librerias
     'widget_tweaks',
+    # 'google_translate',
 ]
 
 MIDDLEWARE = [

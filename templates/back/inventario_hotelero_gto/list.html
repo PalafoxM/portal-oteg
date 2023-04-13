@@ -1,0 +1,54 @@
+{% extends 'back/components/list.html' %}
+{% load static %}
+{% block head_list %}
+<!-- <script src="{% static 'admin/banner/list.js' %}"></script> -->
+{% endblock %}
+
+{% block columns %}
+<tr>
+    <th scope="col" style="width: 10%;">id</th>
+    <th scope="col" style="width: 20%;">Destino</th>
+    <th scope="col" style="width: 20%;">Fecha</th>
+    <th scope="col" style="width: 20%;">Categoria</th>
+    <th scope="col" style="width: 20%;">habitaciones</th>
+    <th scope="col" style="width: 20%;">establecimientos</th>
+    <th scope="col" style="width: 20%;">Opciones</th>
+</tr>
+{% endblock %}
+
+{% block rows %}
+{% for e in object_list %}
+<tr>
+    <th>{{e.id}}</th>
+    <th>{{e.destino}}</th>
+    <th>{{e.fecha}}</th>
+    <th>{{e.categoria}}</th>
+    <th>{{e.habitaciones}}</th>
+    <th>{{e.establecimientos}}</th>
+    <th>
+        
+        <form method="post" action="{% url 'dashboard:inventario_hotelero_delete' e.id %}" >
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger btn-icon-split" onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">
+                <span class="icon text-white-50">
+                    <i class="fas fa-trash"></i>
+                </span>
+                <span class="text">Eliminar</span>
+            </button>
+        </form>
+
+        
+        <form method="post" action="{% url 'dashboard:inventario_hotelero_update' e.id %}" >
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary btn-icon-split">
+                <span class="icon text-white-50">
+                    <i class="fas fa-pencil-alt"></i>
+                </span>
+                <span class="text">Editar</span>
+            </button>
+        </form>
+
+    </th>
+</tr>
+{% endfor %}
+{% endblock %}

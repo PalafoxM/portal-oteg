@@ -30,6 +30,14 @@
             </span>
             <span class="text">Nuevo Registro</span>
         </a>
+        {% if carga_masiva_url %}
+        <a id="botonMas" href="{{ carga_masiva_url }}" class="btn btn-outline-primary btn-icon-split">
+            <span class="icon ">
+                <i class="fas fa-file"></i>
+            </span>
+            <span class="text">Carga Masiva</span>
+        </a>
+        {% endif %}
     </div>
     <div class="card-body">
         <div class="table-responsive">
