@@ -4,6 +4,7 @@ from back.views.contenido.views import *
 from back.views.otros.views import *
 from back.views.usuarios.views import *
 from back.views.inventario_hotelero_gto.views import *
+from back.views.inversion_publica.views import *
 
 app_name = 'dashboard'
 
@@ -54,4 +55,10 @@ urlpatterns = [
     path('inventario-hotelero-gto/edit/<int:pk>/', InventarioHoteleroUpdateView.as_view(), name='inventario_hotelero_update'),
     path('inventario-hotelero-gto/delete/<int:pk>/', InventarioHoteleroDeleteView.as_view(), name='inventario_hotelero_delete'),
     path('inventario-hotelero-gto/carga-masiva', CargaMasivaView.as_view(), name='inventario_hotelero_carga_masiva'),
+    #inversion_publica
+    path('inversion-publica/list', InversionPublicaListView.as_view(), name='inversion_publica_list'),
+    path('inversion-publica/add', InversionPublicaCreateView.as_view(), name='inversion_publica_create'),
+    path('inversion-publica/edit/<int:pk>/', InversionPublicaUpdateView.as_view(), name='inversion_publica_update'),
+    path('inversion-publica/delete/<int:pk>/', InversionPublicaDeleteView.as_view(), name='inversion_publica_delete'),
+    path('inversion-publica/carga-masiva', InversionPublicaCargaMasivaView.as_view(), name='inversion_publica_carga_masiva'),
 ]
