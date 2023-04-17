@@ -204,4 +204,5 @@ class CalidadAireForm(forms.ModelForm):
             'fecha': forms.DateInput(attrs={'class': 'form-control fecha-input'}),
             'municipio': forms.TextInput(attrs={'class': 'form-control'}),
             'calidad_del_aire': forms.TextInput(attrs={'class': 'form-control'}),
-        }
+        },
+        using = 'ecosistema'

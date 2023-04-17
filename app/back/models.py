@@ -3,6 +3,10 @@ from django.forms import model_to_dict
 from django.contrib.auth.models import User
 
 
+class EcosistemaManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().using('ecosistema')
+
 # Create your models here.
 class Publications(models.Model):
     section = models.CharField(max_length=100, verbose_name="Sección")
@@ -90,6 +94,8 @@ class Evento (models.Model):
     tipo_evento = models.TextField()
     tipo_evento1 = models.TextField()
     imagen = models.ImageField(upload_to='images/')
+    date_updated = models.DateTimeField(auto_now=True,)
+    date_created = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.titulo
@@ -144,6 +150,9 @@ class InventarioHotelero(models.Model):
     establecimientos = models.IntegerField()
     date_updated = models.DateTimeField(auto_now=True,)
     date_created = models.DateTimeField(auto_now=True)
+
+    # Usa el enrutador para guardar el modelo en la base de datos correcta
+    # objects = EcosistemaManager()
     
     def toJSON(self):
         item = model_to_dict(self)
@@ -162,6 +171,9 @@ class InversionPublica(models.Model):
     monto_inversion_municipal = models.FloatField()
     monto_inversion_estatal = models.FloatField()
     monto_inversion_federal = models.FloatField()
+
+    # Usa el enrutador para guardar el modelo en la base de datos correcta
+    # objects = EcosistemaManager()
 
     def __str__(self):
         return f"{self.municipio} - {self.nombre_obra} ({self.fecha})"
@@ -187,6 +199,9 @@ class InventarioHoteleroEntNac(models.Model):
     establecimientos = models.IntegerField()
     date_updated = models.DateTimeField(auto_now=True,)
     date_created = models.DateTimeField(auto_now=True)
+
+    # Usa el enrutador para guardar el modelo en la base de datos correcta
+    # objects = EcosistemaManager()
     
     def toJSON(self):
         item = model_to_dict(self)
@@ -197,12 +212,16 @@ class InventarioHoteleroEntNac(models.Model):
         verbose_name_plural = 'inventario_hotelero_ent_nac'
         db_table = 'inventario_hotelero_ent_nac'
         ordering = ['-id']
+
+
 class CalidadAire(models.Model):
-    
     fecha = models.DateField()
     municipio = models.CharField(max_length=555)
     calidad_del_aire = models.CharField(max_length=2255)
-    
+
+    # Usa el enrutador para guardar el modelo en la base de datos correcta
+    objects = EcosistemaManager()
+
     def toJSON(self):
         item = model_to_dict(self)
         return item
