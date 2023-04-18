@@ -461,7 +461,6 @@ class NoticiaUpdateView(UpdateView):
         context['list_url'] = reverse_lazy('dashboard:noticias_list')
         return context
     
-
 #Glosario   
 
 class GlosarioListView(ListView):

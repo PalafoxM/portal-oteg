@@ -7,21 +7,42 @@ from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from django.contrib.auth.models import User, Group
 from ckeditor.widgets import CKEditorWidget
 
-class PublicationForm(ModelForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+# class SeccionChoiceField(forms.ModelChoiceField):
+#     def label_from_instance(self, obj):
+#         return obj.seccion
 
+
+# class PublicationForm(forms.ModelForm):
+#     section = SeccionChoiceField(queryset=SeccionesCentroDocumental.objects.all(), empty_label=None)
+#     category = forms.ModelChoiceField(queryset=Categorias.objects.all(), to_field_name='nombre_categoria', empty_label=None)
+
+#     class Meta:
+#         model = Publications
+#         fields = ['section', 'category', 'publication', 'visible', 'recent', 'type', 'num_descargas', 'name', 'url']
+#         labels = {
+#             'section': 'Sección',
+#             'category': 'Categoría',
+#             'publication': 'Publicación',
+#             'visible': 'Visible',
+#             'recent': 'Reciente',
+#             'type': 'Tipo',
+#             'num_descargas': 'Número de descargas',
+#             'name': 'Nombre',
+#             'url': 'URL',
+#         }
+
+class PublicationForm(forms.ModelForm):
     class Meta:
         model = Publications
+        exclude = ('category', 'section', 'num_descargas')
         fields = '__all__'
         widgets = {
-            'section': TextInput(attrs = { 'placeholder': 'Ingresa una Sección'}),
-            'category': TextInput(attrs = { 'placeholder': 'Ingresa una Categroia'}),            
-            'type': TextInput(attrs = { 'placeholder': 'Ingresa un Tipo'}),
-            'download': TextInput(attrs = { 'placeholder': 'Descarga'}),
-            'name': TextInput(attrs = { 'placeholder': 'Ingresa un Nombre '}),
+
+            'type': forms.Select(attrs={'class': 'form-control'}),
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'url': forms.TextInput(attrs={'class': 'form-control'}),
+
         }
-    
 
 
 class BannerForm(ModelForm):
@@ -32,11 +53,11 @@ class BannerForm(ModelForm):
         model = Banner
         fields = '__all__'
         widgets = {
-            'name': TextInput(attrs = { 'placeholder': 'Ingresa una Nombre'}),
-            'banner_url': TextInput(attrs = { 'placeholder': 'Ingresa un Enlace'}), 
+            'name': TextInput(attrs={'placeholder': 'Ingresa una Nombre'}),
+            'banner_url': TextInput(attrs={'placeholder': 'Ingresa un Enlace'}),
         }
-    
-    
+
+
 class PlacesOfInterestForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -45,10 +66,9 @@ class PlacesOfInterestForm(ModelForm):
         model = PlacesOfInterest
         fields = '__all__'
         widgets = {
-            'sitio_web': TextInput(attrs = { 'placeholder': 'Ingresa un Sitio Web'}),
-            'decription': TextInput(attrs = { 'placeholder': 'Ingresa un Descripcion'}), 
+            'sitio_web': TextInput(attrs={'placeholder': 'Ingresa un Sitio Web'}),
+            'decription': TextInput(attrs={'placeholder': 'Ingresa un Descripcion'}),
         }
-    
 
 
 class PasswordChangeFormCustom(PasswordChangeForm):
@@ -98,7 +118,8 @@ class DateInput(forms.DateInput):
 class UserForm(forms.ModelForm):
 
     password = forms.CharField(widget=forms.HiddenInput, required=False)
-    user_permissions = forms.CharField(widget=forms.HiddenInput, required=False)
+    user_permissions = forms.CharField(
+        widget=forms.HiddenInput, required=False)
     is_staff = forms.CharField(widget=forms.HiddenInput, required=False)
     is_active = forms.CharField(widget=forms.HiddenInput, required=False)
     is_superuser = forms.CharField(widget=forms.HiddenInput, required=False)
@@ -221,12 +242,12 @@ class SeccionCentroDocumentalForm(forms.ModelForm):
         }
 
 
-
 class CategoriasForm(forms.ModelForm):
-    
+
     class Meta:
         model = Categorias
-        fields = ['nombre_categoria', 'fecha_creacion', 'publicacion', 'visible', 'seccion']
+        fields = ['nombre_categoria', 'fecha_creacion',
+                  'publicacion', 'visible', 'seccion']
 
         widgets = {
             'nombre_categoria': forms.TextInput(attrs={'class': 'form-control'}),
@@ -243,14 +264,12 @@ class CategoriasForm(forms.ModelForm):
             seccion = SeccionesCentroDocumental.objects.get(pk=pk)
             self.fields['seccion'].initial = seccion
             self.fields['seccion'].widget = forms.HiddenInput()
-    
-
 
 
 class NoticiaForm(ModelForm):
 
     descripcion = forms.CharField(widget=CKEditorWidget())
-    
+
     class Meta:
         model = Noticia
         fields = ['titulo', 'descripcion', 'sitio_web',
@@ -280,7 +299,6 @@ class BarometroForm(forms.ModelForm):
         }
 
 
-        
 class AlbaForm(forms.ModelForm):
     class Meta:
         model = Alba
@@ -313,3 +331,35 @@ class GlosarioForm(forms.ModelForm):
             'palabra': forms.TextInput(attrs={'class': 'form-control'}),
             'definicion': forms.TextInput(attrs={'class': 'form-control'}),
         }
+
+
+class DataTurForm(forms.ModelForm):
+
+    class Meta:
+        model = DataTour
+        fields = ['fecha', 'destino', 'categoria', 'cuartos_registrados',
+                  'cuartos_disponibles', 'cuartos_disponibles_prom',
+                  'cuartos_ocupados', 'cuartos_ocupados_residentes',
+                  'cuartos_ocupados_no_residentes', 'llegadas_turistas',
+                  'llegadas_turistas_residentes', 'llegadas_turistas_no_residentes',
+                  'turistas_noche', 'turistas_noche_residentes', 'turistas_noche_no_residentes',
+                  'porcentaje_ocupacion', 'porcentaje_ocupacion_residentes',
+                  'porcentaje_ocupacion_no_residentes', 'estadia_promedio',
+                  'estadia_promedio_residentes', 'estadia_promedio_no_residentes',
+                  'densidad_ocupacion', 'densidad_ocupacion_residentes',
+                  'densidad_ocupacion_no_residentes']
+        widgets = {
+            'fecha': forms.DateInput(format='%d/%m/%Y'),
+        }
+
+        
+class GastoDerramaForm (forms.ModelForm):
+    class Meta:
+        model = GastoDerrama
+        fields = ['anio', 'categoria', 'destino', 'gasto_diario_promedio','participacion','estadia_promedio']
+
+
+class OtrosAnualesForm (forms.ModelForm):
+    class Meta:
+        model = otros_anuales
+        fields = '__all__'

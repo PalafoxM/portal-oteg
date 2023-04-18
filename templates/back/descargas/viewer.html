@@ -1,0 +1,55 @@
+{% extends 'back/components/list.html' %}
+{% load static %}
+<!-- <script src="{% static 'admin/banner/list.js' %}"></script> -->
+
+{% block columns %}
+
+<tr>
+    <th scope="col" style="width: 20%;">Nombre</th>
+    <th scope="col" style="width: 20%;">No. Descargas</th>
+    <th scope="col" style="width: 20%;">Seccion</th>
+    <th scope="col" style="width: 20%;">Categoria</th>
+    <th scope="col" style="width: 20%;">Archivo</th>
+</tr>
+
+{% endblock %}
+
+{% block rows %}
+{% for e in object_list %}
+
+<tr>
+    <th>
+        {% if e.nombrePDF %}
+        {{e.nombrePDF}}</th>
+    {% else %}
+    {{e.name}}</th>
+    {% endif %}
+    <th>{{e.num_descargas}}</th>
+    <th>
+        {% if e.section %}
+        {{e.section.seccion}}
+        {% else %}
+        <span>BarometroTuristico</span>
+        {% endif %}
+    </th>
+    <th>
+        {{e.definicion}}
+
+        {% if e.category %}
+        {{e.category.nombre_categoria}}
+        {% else %}
+        Año :{{e.yearPDF}}, Semestre :{{e.semestre}}
+        {% endif %}
+
+    </th>
+    <th>
+        {% if e.url %}
+        <a href="{% url 'pdf_back' pk=e.id %}">
+            Descargar   
+        </a>
+        {% endif %}
+    </th>
+</tr>
+
+{% endfor %}
+{% endblock %}

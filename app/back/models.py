@@ -5,31 +5,6 @@ from ckeditor.fields import RichTextField
 
 
 # Create your models here.
-class Publications(models.Model):
-    section = models.CharField(max_length=100, verbose_name="Sección")
-    category = models.CharField(max_length=100, verbose_name="Categoria")
-    publication = models.BooleanField(default=True)
-    visible =  models.BooleanField(default=True)
-    recent = models.BooleanField(default=True)
-    type = models.CharField(max_length=100, verbose_name="Tipo")
-    download = models.CharField(max_length=100, verbose_name="Descarga")
-    name = models.CharField(max_length=100, verbose_name="Nombre")
-    fiel = models.FileField(upload_to='archivo/%y/%m/%d', null=True, blank=True)
-    date_created = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.publication
-    
-    def toJSON(self):
-        item = model_to_dict(self)
-        return item
-
-
-    class Meta:
-        verbose_name = 'Publicación'
-        verbose_name_plural = 'Publicaciones'
-        db_table = 'publications'
-        ordering = ['-id']
 
 class Banner(models.Model):
     name = models.CharField(max_length=100, verbose_name="Nombre")
@@ -37,7 +12,6 @@ class Banner(models.Model):
     publication = models.BooleanField(default=True)
     imagen = models.ImageField(null=True, blank=True ,upload_to='images/')
     date_created = models.DateTimeField(auto_now=True)
-
 
     def __str__(self):
         return self.name
@@ -83,6 +57,27 @@ class Categorias(models.Model):
     visible = models.BooleanField(default=True  , null=True, blank=True)
     seccion = models.ForeignKey(SeccionesCentroDocumental, on_delete=models.CASCADE , null=True, blank=True)
 
+class Publications(models.Model):
+
+    TYPE_CHOICES = (
+        ('1', 'PDF'),
+        ('2', 'MP3'),
+        ('3', 'XLS'),
+    )
+  
+    section = models.ForeignKey(SeccionesCentroDocumental, on_delete=models.CASCADE , null=True, blank=True)
+    category = models.ForeignKey(Categorias, on_delete=models.CASCADE , null=True, blank=True)
+    publication = models.BooleanField(default=True)
+    visible =  models.BooleanField(default=True)
+    recent = models.BooleanField(default=True)
+    type = models.CharField(max_length=10, choices=TYPE_CHOICES)
+    num_descargas = models.IntegerField(null=True, blank=True, default=0)
+    name = models.CharField(max_length=100, verbose_name="Nombre")
+    url = models.URLField(max_length=100, null=True, blank=True)
+    date_created = models.DateTimeField(auto_now=True)
+    num_descargas = models.IntegerField(null=True, blank=True, default=0)
+    
+
 class Evento (models.Model):
     titulo = models.CharField(max_length=100)
     descripcion = models.TextField()
@@ -124,3 +119,56 @@ class Alba(models.Model):
         verbose_name_plural = 'alba'
         db_table = 'alba'
         ordering = ['-id']
+
+# #Fuentes de Informacion
+class catalogo_categorias(models.Model):
+    categoria = models.CharField(max_length=100, null=True, blank=True)
+
+class catalogo_destinos(models.Model):
+    destino = models.CharField(max_length=100, null=True, blank=True)
+
+class DataTour (models.Model):
+    fecha = models.DateField()
+    destino = models.CharField(max_length=255)
+    categoria = models.CharField(max_length=255)
+    cuartos_registrados = models.IntegerField()
+    cuartos_disponibles = models.IntegerField()
+    cuartos_disponibles_prom = models.IntegerField()
+    cuartos_ocupados = models.IntegerField()
+    cuartos_ocupados_residentes = models.IntegerField()
+    cuartos_ocupados_no_residentes = models.IntegerField()
+    llegadas_turistas = models.IntegerField()
+    llegadas_turistas_residentes = models.IntegerField()
+    llegadas_turistas_no_residentes = models.IntegerField()
+    turistas_noche = models.IntegerField()
+    turistas_noche_residentes = models.IntegerField()
+    turistas_noche_no_residentes = models.IntegerField()
+    porcentaje_ocupacion = models.FloatField()
+    porcentaje_ocupacion_residentes = models.FloatField()
+    porcentaje_ocupacion_no_residentes = models.FloatField()
+    estadia_promedio = models.FloatField()
+    estadia_promedio_residentes = models.FloatField()
+    estadia_promedio_no_residentes = models.FloatField()
+    densidad_ocupacion = models.FloatField()
+    densidad_ocupacion_residentes = models.FloatField()
+    densidad_ocupacion_no_residentes = models.FloatField()
+    fecha_recuperacion = models.DateTimeField(auto_now=True)
+
+# Fuentes informacion
+class GastoDerrama(models.Model):
+    anio = models.IntegerField()
+    categoria = models.CharField(max_length=255)
+    destino = models.CharField(max_length=255)
+    gasto_diario_promedio = models.FloatField()
+    participacion = models.FloatField()
+    estadia_promedio = models.FloatField()
+    
+    
+# Fuentes informacion
+class otros_anuales(models.Model):
+    anio = models.IntegerField()
+    pib_total_sector_72 = models.FloatField()
+    pib_total_de_actividades_terciarias = models.FloatField()
+    basura_generada_por_persona_diaria = models.FloatField()
+    
+    

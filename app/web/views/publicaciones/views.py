@@ -2,7 +2,7 @@ from django.views.generic import TemplateView , View
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from web.models import PerfilVisistantePDF , BarometroTuristico , DataPoint , Encuesta
-from back.models import Glosario
+from back.models import *
 from django.http import HttpResponse ,StreamingHttpResponse
 from django.core.signals import request_finished
 from django.dispatch import receiver
@@ -14,6 +14,7 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_GET
 from back.models import Banner ,Noticia 
 from datetime import datetime , timedelta
+from django.http import Http404
 
 
 
@@ -25,6 +26,7 @@ class PerfilVisitanteCiudad (TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Perfil de visitante'
+
         pdfs = PerfilVisistantePDF.objects.filter(seccion=self.kwargs.get('pk')).order_by('subseccion', '-yearPDF')
         grouped_pdfs = groupby(pdfs, attrgetter('subseccion'))
 
@@ -35,13 +37,38 @@ class PerfilVisitanteCiudad (TemplateView):
         context['subseccion_data'] = subseccion_data
         return context
     
+class PublicacionesSecciones (TemplateView):
+    template_name = 'web/paginas/publicaciones/publicaciones_secciones.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        try : 
+
+            seccion = get_object_or_404(SeccionesCentroDocumental, id=self.kwargs.get('pk'))
+        except :
+            raise Http404("No existe la seccion")
+    
+
+        publicaciones = Publications.objects.filter(section=seccion).order_by('-date_created')
+
+        groped_publicaciones = groupby(publicaciones, attrgetter('category'))
+
+        publicaciones_data = []
+        for category, category_publicaciones in groped_publicaciones:
+            publicaciones_data.append((category, list(category_publicaciones)))
+
+        context['publicaciones_data'] = publicaciones_data
+
+        context['seccion'] = seccion.seccion
+        return context
+    
 
     
 class PublicacionesPDFViewer (TemplateView):
     template_name = 'web/paginas/publicaciones/pdf_viewer.html'
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        pdf = get_object_or_404(PerfilVisistantePDF, id=self.kwargs.get('pk'))
+        pdf = get_object_or_404(Publications, id=self.kwargs.get('pk'))
         context['pdf'] = pdf
         return context
     
@@ -49,18 +76,18 @@ class PublicacionesPDFViewer (TemplateView):
 class PDFDownloadView(View):
     def get(self, request, *args, **kwargs):
         # Get the PDF object
-        pdf = get_object_or_404(PerfilVisistantePDF, id=kwargs['pk'])
+        pdf = get_object_or_404(Publications, id=kwargs['pk'])
 
         # Download the file from the URL
         r = requests.get(pdf.url, stream=True)
         # how to know the request is successful?
         if r.status_code != 200:
-            return redirect('perfil_visistante_ciudad')
+            return redirect('publicaciones_secciones')
         
         # Send the file as a response
         response = StreamingHttpResponse(r.iter_content(chunk_size=1024))
         response['Content-Type'] = 'application/pdf'
-        response['Content-Disposition'] = 'attachment; filename="%s.pdf"' % pdf.nombrePDF
+        response['Content-Disposition'] = 'attachment; filename="%s.pdf"' % pdf.name
 
         try:
             pdf.num_descargas += 1
@@ -68,6 +95,25 @@ class PDFDownloadView(View):
         except (ConnectionResetError ,BrokenPipeError):
             pass
         return response
+    
+class PDFDownloadViewBack(View):
+    def get(self, request, *args, **kwargs):
+        # Get the PDF object
+        pdf = get_object_or_404(Publications, id=kwargs['pk'])
+
+        # Download the file from the URL
+        r = requests.get(pdf.url, stream=True)
+        # how to know the request is successful?
+        if r.status_code != 200:
+            return redirect('publicaciones_secciones')
+        
+        # Send the file as a response
+        response = StreamingHttpResponse(r.iter_content(chunk_size=1024))
+        response['Content-Type'] = 'application/pdf'
+        response['Content-Disposition'] = 'attachment; filename="%s.pdf"' % pdf.name
+
+        return response
+    
     
 # Perfil de Visitante a Evento
 class PotenciasEventos (TemplateView):

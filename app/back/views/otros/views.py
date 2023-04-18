@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from back.models import SeccionesCentroDocumental, Categorias
+from back.models import *
+from web.models import *
+
 from back.forms import SeccionCentroDocumentalForm
 from back.forms import CategoriasForm
 from django.urls import reverse_lazy
@@ -272,13 +274,32 @@ class CategoriasUpdateView(UpdateView):
 
 
 def descargas_list(request):
+
     data = {
         'title': 'Listado de Banners',
         'descargas': [{'name': 'Listado de Boletín'},{'name': 'Listado de Colaboradores'}],
-        'create_url': '#' #reverse_lazy('dashboard:descraga_create')
+        'create_url': '#'
     }
+
     return render(request, 'back/descargas/list.html', data)
 
+class DescargasView (ListView):
+
+    template_name = 'back/descargas/viewer.html'
+    context_object_name = 'descargas'
+    paginate_by = 10
+
+    def get_queryset(self):
+        queryset1 = Publications.objects.all()
+        queryset2 = BarometroTuristico.objects.all()
+        queryset = list(queryset1) + list(queryset2)
+        return queryset
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Listado de Descargas'
+        return context      
 
 
 @require_GET
@@ -287,5 +308,5 @@ def get_sections(request):
 
     results = SeccionesCentroDocumental.objects.all()  
 
-    data = [{'titulo': obj.seccion } for obj in results]
+    data = [{'titulo': obj.seccion, 'id': obj.id } for obj in results]
     return JsonResponse(data, safe=False)

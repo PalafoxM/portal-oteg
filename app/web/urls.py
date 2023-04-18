@@ -35,8 +35,12 @@ urlpatterns = [
     path('pueblos-magicos/',PueblosmagicosView.as_view(), name='pueblos_magicos'),
     #Publicaciones
     path('publicaciones/perfil_visistante_ciudad/<int:pk>/',PerfilVisitanteCiudad.as_view(), name='perfil_visistante_ciudad'),
+    
+    path('puplicaciones/seccion/<int:pk>/',PublicacionesSecciones.as_view(), name='publicaciones_secciones'),
+    
     path('publicaciones_pdf_viewer/<int:pk>/',PublicacionesPDFViewer.as_view(), name='publicaciones_pdf_viewer'),
     path('pdf/<int:pk>/', PDFDownloadView.as_view(), name='pdf_download'),
+    path('pdf/back/<int:pk>/', PDFDownloadViewBack.as_view(), name='pdf_back'),
     path('perfil_visistante_ciudad/',PerfilVisitanteCiudad.as_view(), name='perfil_visistante_ciudad'),
     path('potencias-eventos/',PotenciasEventos.as_view(), name='potencias-eventos'),
     path('otras-publicaciones/',OtasPublicaciones.as_view(), name='otras-publicaciones'),

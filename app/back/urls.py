@@ -3,6 +3,9 @@ from back.views.colaboradores.views import *
 from back.views.contenido.views import *
 from back.views.otros.views import *
 from back.views.usuarios.views import *
+from back.views.fuente_info_datatur.views import *
+from back.views.fuente_info_gasto_derrama.views import *
+from back.views.fuente_info_otros_anuales.views import *
 
 app_name = 'dashboard'
 
@@ -54,9 +57,10 @@ urlpatterns = [
     path('add_categoria/<int:pk>/', CategoriasCreateView.as_view() , name='add_categoria'),
     path('delete_categoria/<int:seccion_pk>/<int:pk>/', CategoriasDeleteView.as_view(), name='categoria_delete'),
     path('edit_categoria/<int:seccion_pk>/<int:pk>/', CategoriasUpdateView.as_view(), name='categoria_update'),
+    path('descargas/list',DescargasView.as_view(), name='descargas_list'),
 
-
-    path('descargas/list', descargas_list, name='descargas_list'),
+    
+    path('get_categories', get_categories, name='get_categories'),
 
     #Glosario
     path('glosario/list', GlosarioListView.as_view(), name='glosario_list'),
@@ -69,7 +73,26 @@ urlpatterns = [
     path('barometro/add', BarometroCreateView.as_view(), name='barometro_create'),
     path('barometro/edit/<int:pk>/', BarometroUpdateView.as_view(), name='barometro_update'),
     path('barometro/delete/<int:pk>/', BarometroDeleteView.as_view(), name='barometro_delete'),
-   
-    # Usuarios
+
+
+    #Fuentes de informacion DataTur
+    path('fuentes_info/datatur', FuenteInfoDatatur.as_view(), name='fuente_info_datatour'),
+    path('fuentes_info/datatur/add', FuenteInfoDataturCreate.as_view(), name='fuente_info_datatour_create'),
+    path('fuentes_info/datatur/edit/<int:pk>/', FuenteInfoDataturUpdate.as_view(), name='fuente_info_datatour_update'),
+    path('fuentes_info/datatur/delete/<int:pk>/', FuenteInfoDataturDelete.as_view(), name='fuente_info_datatour_delete'),
+    path('upload_file', upload_file, name='upload_file2'),
+    #Fuentes de informacion Gasto Derrama
+    path('fuentes_info/gasto_derrama', FuenteInfoGastoDerrama.as_view(), name='fuente_info_gasto_derrama'),
+    path('fuentes_info/gasto_derrama/add', FuenteInfoGastoDerramaCreate.as_view(), name='fuente_info_gasto_derrama_create'),
+    path('fuentes_info/gasto_derrama/edit/<int:pk>/', FuenteInfoGastoDerramaUpdate.as_view(), name='fuente_info_gasto_derrama_update'),
+    path('fuentes_info/gasto_derrama/delete/<int:pk>/', FuenteInfoGastoDerramaDelete.as_view(), name='fuente_info_gasto_derrama_delete'),
+
+    #Fuentes de informacion Otros Anuales
+    path('fuentes_info/otros_anuales', FuenteInfoOtrosAnuales.as_view(), name='fuente_info_otros_anuales'),
+    path('fuentes_info/otros_anuales/add', FuenteInfoOtrosAnualesCreate.as_view(), name='fuente_info_otros_anuales_create'),
+    path('fuentes_info/otros_anuales/edit/<int:pk>/', FuenteInfoOtrosAnualesUpdate.as_view(), name='fuente_info_otros_anuales_update'),
+    path('fuentes_info/otros_anuales/delete/<int:pk>/', FuenteInfoOtrosAnualesDelete.as_view(), name='fuente_info_otros_anuales_delete'),
+    
     path('usuarios/list', my_profile, name='profile'),
+
 ]

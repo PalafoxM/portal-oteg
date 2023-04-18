@@ -185,6 +185,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
+
     $(document).ready(function () {
         $.ajax({
             url: '{% url "dashboard:get_sections" %}',
@@ -197,10 +198,10 @@
                 var rowHtml = '<div class="row">';
 
                 for (var i = 0; i < data.length; i++) {
-                    //var url = '{% url "notica_viewer" pk=1 %}'.replace('1', data[i].id);
+                    var url = '{% url "publicaciones_secciones" pk=1 %}'.replace('1', data[i].id);
 
-                    //var itemHtml = '<p><a href="' + url + '" class="text-reset">' + data[i].titulo + '</a></p>';
-                    var itemHtml = '<p><a href ="" class="text-reset">' + data[i].titulo + '</a></p>';
+                    var itemHtml = '<p><a href="' + url + '" class="text-reset">' + data[i].titulo + '</a></p>';
+                    //var itemHtml = '<p><a href ="" class="text-reset">' + data[i].titulo + '</a></p>';
 
                     $('#sections').append(itemHtml);
                 }
