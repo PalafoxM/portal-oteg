@@ -104,12 +104,6 @@ urlpatterns = [
     path('fuentes_info/zonas_arqueologicas/edit/<int:pk>/', FuenteInfoZonasArqueologicasUpdate.as_view(), name='fuente_info_zonas_arqueologicas_update'),
     path('fuentes_info/zonas_arqueologicas/delete/<int:pk>/', FuenteInfoZonasArqueologicasDelete.as_view(), name='fuente_info_zonas_arqueologicas_delete'),
     path('usuarios/list', my_profile, name='profile'),
-
-    path('centrodocumental/list', centro_documental, name='centrodocumental'),
-    path('addcategoria', add_seccion_centro_documental, name='addseccion'),
-    path('delete-seccion/<int:seccion_id>/', delete_seccion, name='delete_seccion'),
-    path('edit_-eccion/<int:seccion_id>/', edit_seccion, name='edit_seccion'),
-    path('add-categoria/<int:seccion_id>/', add_categoria, name='add_categoria'),
     path('descargas/list', descargas_list, name='descargas_list'),
     # Usuarios
     path('usuarios/list', my_profile, name='profile'),
