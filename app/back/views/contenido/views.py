@@ -30,6 +30,11 @@ class BannerListView(ListView):
         context['title'] = 'Listado de banners'
         context['create_url'] = reverse_lazy('dashboard:banner_create')
         context['entity'] = 'Categorias'
+        context['dropped_sidebar '] = False
+        context['dropped '] = False
+        context['moduleActive '] = 'Estadisticas'
+        context['list'] = '2'
+        context['subModuleActive '] = 'funtes-informacion'
         return context
 
 class  BannerCreateView(CreateView):

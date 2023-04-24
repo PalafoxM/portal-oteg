@@ -1,0 +1,38 @@
+
+{% load static %}
+<ul class="sidebar navbar-nav toggled pt-5 container-fluid p-0">
+    <div class="mb-5">
+        <img src="https://picsum.photos/id/48/800/400" alt="" class="image-logo image-logo-dropped{% if dropped_sidebar %}image-logo-dropped{% endif %}">
+    </div>
+
+    <div >
+        <li class="nav-item dropdown list-selected {% if moduleActive == 'Estadisticas' %}list-selected{% endif %}" >
+        <a class="nav-link pl-4 list-selected-bg" role="button" aria-haspopup="true" aria-expanded="false"
+        class="{% if list == 2 %}list-selected-bg{% endif %}">
+
+            <img class="mr-3 icon-list" src="{% static 'images/icons/icon-almacenes.png' %}" >
+            <span class="etq-sidebar pr-4">Estadisticas </span> <i class="fas fa-caret-down float-right pr-3"></i>
+
+        </a>
+        <ul class=" p-0 sublist " >
+
+            <li class="list-item {% if subModuleActive == 'funtes-informacion' %}sublistlist-hover sublistlist-selected{% endif %}" >
+            
+            <a href="{% url 'dashboard:banner_list' %}"> Fuentes de informacion </a>
+            </li>
+            
+            <li class="list-item {% if subModuleActive == 'reportes' %}sublistlist-hover sublistlist-selected{% endif %}" >
+                <a href="{% url 'dashboard:banner_list' %}"> Reportes</a> 
+            </li>
+
+        </ul>
+    </li>
+    </div>
+    
+    <div id="sidebarToggle" (click)="dropSidebar()" class="container-button-drop"
+        [ngClass]="{'toggle-btn-menu-dropped': dropped_sidebar === true}">
+        <i class="fas fa-arrow-left toggle-btn-icon" *ngIf="dropped_sidebar === false"></i>
+        <i class="fas fa-arrow-right toggle-btn-icon" *ngIf="dropped_sidebar === true"></i>
+    </div>
+
+</ul>

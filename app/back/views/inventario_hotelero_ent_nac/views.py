@@ -12,6 +12,10 @@ import csv
 import os
 import datetime
 from django.urls import reverse
+import openpyxl
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+
 
 
 
@@ -161,6 +165,21 @@ class InventarioHoteleroEntNacCargaMasivaView(View):
 
         if len(registros_incorrectos) > 0 or len(registros_existentes) > 0:
             messages.error(request, 'Hay errores de registros')
+            # Cree y envíe el archivo de Excel con las filas incorrectas
+            workbook = self.crear_archivo_excel(registros_incorrectos)
+            
+            response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+            response['Content-Disposition'] = 'attachment; filename=registros_incorrectos.xlsx'
+            workbook.save(response)
+            
+            return render(request, self.template_name, {
+                'form': form,
+                'registros_correctos': registros_correctos,
+                'registros_incorrectos': registros_incorrectos,
+                'registros_existentes': registros_existentes,
+                'descargar_archivo': True
+            })
+
             
         else:
             return HttpResponseRedirect(reverse('dashboard:inventario_hotelero_ent_nac_list'))
@@ -254,6 +273,52 @@ class InventarioHoteleroEntNacCargaMasivaView(View):
         except Exception as e:
             print(f"Error al procesar el archivo {archivo}: {e}")
         return registros_correctos, registros_incorrectos, registros_existentes
+    
+    def crear_archivo_excel(self, registros_incorrectos):
+        workbook = openpyxl.Workbook()
+        worksheet = workbook.active
+
+        # Add headers to the worksheet
+        worksheet['A1'] = 'Fila'
+        worksheet['B1'] = 'Destino'
+        worksheet['C1'] = 'Fecha'
+        worksheet['D1'] = 'Categoría'
+        worksheet['E1'] = 'Habitaciones'
+        worksheet['F1'] = 'Establecimientos'
+        worksheet['G1'] = 'Error'
+
+        # Add the incorrect rows to the worksheet
+        for i, row in enumerate(registros_incorrectos):
+            fila = i + 2
+            # worksheet.cell(row=fila, column=1, value=row['fila'])
+            worksheet.cell(row=fila, column=2, value=row['destino'])
+            worksheet.cell(row=fila, column=3, value=row['fecha'])
+            worksheet.cell(row=fila, column=4, value=row['categoria'])
+            worksheet.cell(row=fila, column=5, value=row['habitaciones'])
+            worksheet.cell(row=fila, column=6, value=row['establecimientos'])
+            # worksheet.cell(row=fila, column=7, value=row['error'])
+
+        # Set the column widths to auto-fit
+        for column in worksheet.columns:
+            max_length = 0
+            column_name = column[0].column_letter
+            for cell in column:
+                try:
+                    if len(str(cell.value)) > max_length:
+                        max_length = len(str(cell.value))
+                except:
+                    pass
+            adjusted_width = (max_length + 2)
+            worksheet.column_dimensions[column_name].width = adjusted_width
+
+        # Create the response with the Excel file
+        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response['Content-Disposition'] = 'attachment; filename=registros_incorrectos.xls'
+
+        
+
+        # workbook.save(response)
+        return workbook
 
     
     

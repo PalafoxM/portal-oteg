@@ -212,6 +212,7 @@ class InventarioHoteleroEntNac(models.Model):
         verbose_name_plural = 'inventario_hotelero_ent_nac'
         db_table = 'inventario_hotelero_ent_nac'
         ordering = ['-id']
+        app_label = 'ecosistema'
 
 
 class CalidadAire(models.Model):
@@ -231,3 +232,4 @@ class CalidadAire(models.Model):
         verbose_name_plural = 'aire'
         db_table = 'aire'
         ordering = ['-id']
+        app_label = 'ecosistema'

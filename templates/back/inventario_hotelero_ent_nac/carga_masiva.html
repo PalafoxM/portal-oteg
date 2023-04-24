@@ -22,28 +22,8 @@
 {% if registros_incorrectos %}
       <div class="alert alert-danger mt-3">
         <h4>No se pudieron guardar las siguientes filas:</h4>
-        <table class="table table-striped table-bordered">
-          <thead>
-            <tr>
-              <th>Destino</th>
-              <th>Fecha</th>
-              <th>Categoría</th>
-              <th>Habitaciones</th>
-              <th>Establecimientos</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for registro in registros_incorrectos %}
-              <tr>
-                <td>{{ registro.destino }}</td>
-                <td>{{ registro.fecha }}</td>
-                <td>{{ registro.categoria }}</td>
-                <td>{{ registro.habitaciones }}</td>
-                <td>{{ registro.establecimientos }}</td>
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+        <a href="{% url 'dashboard:inventario_hotelero_ent_nac_carga_masiva' %}?descargar_archivo=1" class="btn btn-primary">Descargar archivo de errores</a>
+        <!-- <a href="{% url 'dashboard:inventario_hotelero_ent_nac_carga_masiva' %}?descargar_archivo=1" class="btn btn-primary">Descargar archivo de errores</a> -->
       </div>
     {% endif %}
 

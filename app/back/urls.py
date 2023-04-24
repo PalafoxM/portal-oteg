@@ -8,6 +8,9 @@ from back.views.inversion_publica.views import *
 from back.views.inventario_hotelero_ent_nac.views import *
 from back.views.calidad_aire.views import *
 
+from django.conf import settings
+from django.conf.urls.static import static
+
 app_name = 'dashboard'
 
 urlpatterns = [
@@ -75,4 +78,4 @@ urlpatterns = [
     path('calidad-aire/edit/<int:pk>/', CalidadAireUpdateView.as_view(), name='calidad_aire_update'),
     path('calidad-aire/delete/<int:pk>/', CalidadAireDeleteView.as_view(), name='calidad_aire_delete'),
     path('calidad-aire/carga-masiva', CalidadAireCargaMasivaView.as_view(), name='calidad_aire_carga_masiva'),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
