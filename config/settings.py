@@ -10,9 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
-import config.db as db
+# import config.db as db
+from .db import DATABASES
 import os
 from pathlib import Path
+from dotenv import load_dotenv
 
 import sys
 sys.path.insert(0, './app')
@@ -22,7 +24,8 @@ import back
 import web
 # import dash
 
-
+# carga las variables de entorno desde el archivo .env
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -32,10 +35,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-%_jzooz7_zsrmhnd2abdsx$ed60-bd3(ray@w)_wt61jo7d2&='
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG')
 
 ALLOWED_HOSTS = []
 
@@ -61,6 +64,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'ckeditor',
     'ckeditor_uploader',
+    # 'google_translate',
 ]
 
 
@@ -100,7 +104,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = db.MYSQL
+DATABASES = DATABASES
 
 
 # Password validation
@@ -177,7 +181,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Email configuration
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'purpura.dev@gmail.com'
-EMAIL_HOST_PASSWORD = 'thlimulqerlcqlwd'
+EMAIL_HOST_USER = os.getenv('MAIL_USERNAME')
+EMAIL_HOST_PASSWORD = os.getenv('MAIL_PASSWORD')
 EMAIL_PORT = 587
-EMAIL_USE_TLS   = True
+EMAIL_USE_TLS = True
+

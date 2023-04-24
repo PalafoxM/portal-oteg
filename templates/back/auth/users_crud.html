@@ -1,59 +1,53 @@
-<nav class="navbar navbar-expand-lg justify-content-center" data-bs-theme="dark" style="background-color: #1c2331">
-    <div class="collapse navbar-collapse jtext-center" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            {% if user.is_authenticated %}
+{% extends 'back/list.html' %}
+{% load static %}
+{% block head_list %}
+{% endblock %}
 
-            <li>
-                <a href="{% url 'login:logout' %}">Log Out</a>
-            </li>
+{% block columns %}
+    <tr>
+        <th scope="col" style="width: 10%;">ID</th>
+        <th scope="col" style="width: 10%;">Username</th>
+        <th scope="col" style="width: 10%;">Nombre</th>
+        <th scope="col" style="width: 20%;">Email</th>
+        <th scope="col" style="width: 20%;">Actions</th>
+    </tr>
+{% endblock %}
 
-            {%else%}
-            <li>
-                <a href="{% url 'login:login' %}">Log In</a>
-            </li>
-            {% endif %}
-            
-
-            <li>
-                <a href="{% url 'login:register' %}">Registrar Nuevo Usuario</a>
-
-            </li>
-
-            <li>
-                <a href="{% url 'login:users_crud' %}">Usuarios Registrados</a>
-            </li>
-
-
-
-        </ul>
-    </div>
-</nav>
-
-
-<table>
-    <thead>
+{% block rows %}
+    {% for user in object_list %}
         <tr>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for user in users %}
-        <tr>
+            <td>{{ user.id }}</td>
             <td>{{ user.username }}</td>
+            <td>{{ user.first_name }} {{ user.last_name }}</td>
             <td>{{ user.email }}</td>
             <td>
-                <form action="{% url 'login:edit_user' user.id %}" method="get">
+                <a href="{% url 'usuarios-perfil-update' user.id  %}" class="btn btn-primary btn-icon-split">
+                    <span class="icon text-white-50">
+                        <i class="fas fa-edit"></i>
+                    </span>
+                    <span class="text">Editar</span>
+                </a>
+                <!-- <form action="{% url 'edit_user' user.id %}" method="get">
                     <input type="submit" value="Edit">
-                </form>
-                <form action="{% url 'login:delete_user' user.id %}" method="post">
+                </form> -->
+                <!-- <form action="{% url 'delete_user' user.id %}" method="post">
                     {% csrf_token %}
                     <input type="submit" value="Delete">
+                </form> -->
+                <form method="post" action="{% url 'delete_user' user.id %}" >
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger btn-icon-split" onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-trash"></i>
+                        </span>
+                        <span class="text">Eliminar</span>
+                    </button>
                 </form>
 
             </td>
         </tr>
-        {% endfor %}
-    </tbody>
-</table>
+    {% endfor %}
+{% endblock %}
+
+{% block javascript %}
+{% endblock %}

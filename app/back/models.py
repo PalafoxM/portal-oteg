@@ -4,6 +4,10 @@ from django.contrib.auth.models import User
 from ckeditor.fields import RichTextField
 
 
+class EcosistemaManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().using('ecosistema')
+
 # Create your models here.
 
 class Banner(models.Model):
@@ -89,8 +93,26 @@ class Evento (models.Model):
     titulo = models.CharField(max_length=100)
     descripcion = models.TextField()
     fecha_inicio = models.DateField()
+    fecha_fin = models.DateField()
+    tipo_evento = models.TextField()
+    tipo_evento1 = models.TextField()
     imagen = models.ImageField(upload_to='images/')
+    date_updated = models.DateTimeField(auto_now=True,)
+    date_created = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.titulo
+
+    def toJSON(self):
+        # item = model_to_dict(self)
+        return {
+            "id": self.id,
+            "titulo": self.titulo,
+            "descripcion": self.descripcion,
+            "fecha_inicio": self.fecha_inicio,
+            "fecha_fin": self.fecha_fin,
+            "tipo_evento": self.tipo_evento,
+        }
 
 class Noticia (models.Model):
     titulo = models.CharField(max_length=100)
@@ -198,3 +220,94 @@ class zonas_arqueologicas_museos(models.Model):
 class catalogo_zonaz_arq_museos (models.Model):
     museo_zona_arqueologica = models.CharField(max_length=455)
     tipo = models.CharField(max_length=455)
+
+class InventarioHotelero(models.Model):
+    
+    destino = models.CharField(max_length=255)
+    fecha = models.DateField()
+    categoria = models.CharField(max_length=255)
+    habitaciones = models.IntegerField()
+    establecimientos = models.IntegerField()
+    date_updated = models.DateTimeField(auto_now=True,)
+    date_created = models.DateTimeField(auto_now=True)
+
+    # Usa el enrutador para guardar el modelo en la base de datos correcta
+    # objects = EcosistemaManager()
+    
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+
+    class Meta:
+        verbose_name = 'inventario_hotelero_gto'
+        verbose_name_plural = 'inventario_hotelero_gto'
+        db_table = 'inventario_hotelero_gto'
+        ordering = ['-id']
+
+class InversionPublica(models.Model):
+    fecha = models.DateField()
+    municipio = models.CharField(max_length=255)
+    nombre_obra = models.CharField(max_length=255)
+    monto_inversion_municipal = models.FloatField()
+    monto_inversion_estatal = models.FloatField()
+    monto_inversion_federal = models.FloatField()
+
+    # Usa el enrutador para guardar el modelo en la base de datos correcta
+    # objects = EcosistemaManager()
+
+    def __str__(self):
+        return f"{self.municipio} - {self.nombre_obra} ({self.fecha})"
+
+    def toJSON(self):
+        """
+        Método para serializar el objeto a formato JSON.
+        """
+        item = model_to_dict(self)
+        return item
+
+    class Meta:
+        verbose_name_plural = "Inversiones Públicas"
+        db_table = "inversion_publica"
+        ordering = ['-id']
+
+class InventarioHoteleroEntNac(models.Model):
+    
+    destino = models.CharField(max_length=255)
+    fecha = models.DateField()
+    categoria = models.CharField(max_length=255)
+    habitaciones = models.IntegerField()
+    establecimientos = models.IntegerField()
+    date_updated = models.DateTimeField(auto_now=True,)
+    date_created = models.DateTimeField(auto_now=True)
+
+    # Usa el enrutador para guardar el modelo en la base de datos correcta
+    # objects = EcosistemaManager()
+    
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+
+    class Meta:
+        verbose_name = 'inventario_hotelero_ent_nac'
+        verbose_name_plural = 'inventario_hotelero_ent_nac'
+        db_table = 'inventario_hotelero_ent_nac'
+        ordering = ['-id']
+
+
+class CalidadAire(models.Model):
+    fecha = models.DateField()
+    municipio = models.CharField(max_length=555)
+    calidad_del_aire = models.CharField(max_length=2255)
+
+    # Usa el enrutador para guardar el modelo en la base de datos correcta
+    objects = EcosistemaManager()
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+
+    class Meta:
+        verbose_name = 'aire'
+        verbose_name_plural = 'aire'
+        db_table = 'aire'
+        ordering = ['-id']

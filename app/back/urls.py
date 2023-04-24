@@ -7,6 +7,10 @@ from back.views.fuente_info_datatur.views import *
 from back.views.fuente_info_gasto_derrama.views import *
 from back.views.fuente_info_otros_anuales.views import *
 from back.views.fuente_info_zonas_arq.views import *
+from back.views.inventario_hotelero_gto.views import *
+from back.views.inversion_publica.views import *
+from back.views.inventario_hotelero_ent_nac.views import *
+from back.views.calidad_aire.views import *
 
 app_name = 'dashboard'
 
@@ -27,7 +31,7 @@ urlpatterns = [
     path('place-of-interest/delete/<int:pk>/', PlaceDeleteView.as_view(), name='place_delete'),
     # contenido -> eventos
     path('eventos/list', EventoListView.as_view(), name='eventos_list'),
-    path('crear_evento/', EventoCreateView.as_view(), name='evento_create'),
+    path('crear-evento/', EventoCreateView.as_view(), name='evento_create'),
     path('eventos/eliminar/<int:pk>/', EventoDeleteView.as_view(), name='evento_delete'),
     path('eventos/editar/<int:pk>/', EventoUpdateView.as_view(), name='evento_update'),
 
@@ -101,4 +105,36 @@ urlpatterns = [
     path('fuentes_info/zonas_arqueologicas/delete/<int:pk>/', FuenteInfoZonasArqueologicasDelete.as_view(), name='fuente_info_zonas_arqueologicas_delete'),
     path('usuarios/list', my_profile, name='profile'),
 
+    path('centrodocumental/list', centro_documental, name='centrodocumental'),
+    path('addcategoria', add_seccion_centro_documental, name='addseccion'),
+    path('delete-seccion/<int:seccion_id>/', delete_seccion, name='delete_seccion'),
+    path('edit_-eccion/<int:seccion_id>/', edit_seccion, name='edit_seccion'),
+    path('add-categoria/<int:seccion_id>/', add_categoria, name='add_categoria'),
+    path('descargas/list', descargas_list, name='descargas_list'),
+    # Usuarios
+    path('usuarios/list', my_profile, name='profile'),
+    #inventario_hotelero_gto
+    path('inventario-hotelero-gto/list', InventarioHoteleroListView.as_view(), name='inventario_hotelero_list'),
+    path('inventario-hotelero-gto/add', InventarioHoteleroCreateView.as_view(), name='inventario_hotelero_create'),
+    path('inventario-hotelero-gto/edit/<int:pk>/', InventarioHoteleroUpdateView.as_view(), name='inventario_hotelero_update'),
+    path('inventario-hotelero-gto/delete/<int:pk>/', InventarioHoteleroDeleteView.as_view(), name='inventario_hotelero_delete'),
+    path('inventario-hotelero-gto/carga-masiva', CargaMasivaView.as_view(), name='inventario_hotelero_carga_masiva'),
+    #inversion_publica
+    path('inversion-publica/list', InversionPublicaListView.as_view(), name='inversion_publica_list'),
+    path('inversion-publica/add', InversionPublicaCreateView.as_view(), name='inversion_publica_create'),
+    path('inversion-publica/edit/<int:pk>/', InversionPublicaUpdateView.as_view(), name='inversion_publica_update'),
+    path('inversion-publica/delete/<int:pk>/', InversionPublicaDeleteView.as_view(), name='inversion_publica_delete'),
+    path('inversion-publica/carga-masiva', InversionPublicaCargaMasivaView.as_view(), name='inversion_publica_carga_masiva'),
+    #inventario_hotelero_ent_nac
+    path('inventario-hotelero-ent-nac/list', InventarioHoteleroEntNacListView.as_view(), name='inventario_hotelero_ent_nac_list'),
+    path('inventario-hotelero-ent-nac/add', InventarioHoteleroEntNacCreateView.as_view(), name='inventario_hotelero_ent_nac_create'),
+    path('inventario-hotelero-ent-nac/edit/<int:pk>/', InventarioHoteleroEntNacUpdateView.as_view(), name='inventario_hotelero_ent_nac_update'),
+    path('inventario-hotelero-ent-nac/delete/<int:pk>/', InventarioHoteleroEntNacDeleteView.as_view(), name='inventario_hotelero_ent_nac_delete'),
+    path('inventario-hotelero-ent-nac/carga-masiva', InventarioHoteleroEntNacCargaMasivaView.as_view(), name='inventario_hotelero_ent_nac_carga_masiva'),
+    #calidad_aire
+    path('calidad-aire/list', CalidadAireListView.as_view(), name='calidad_aire_list'),
+    path('calidad-aire/add', CalidadAireCreateView.as_view(), name='calidad_aire_create'),
+    path('calidad-aire/edit/<int:pk>/', CalidadAireUpdateView.as_view(), name='calidad_aire_update'),
+    path('calidad-aire/delete/<int:pk>/', CalidadAireDeleteView.as_view(), name='calidad_aire_delete'),
+    path('calidad-aire/carga-masiva', CalidadAireCargaMasivaView.as_view(), name='calidad_aire_carga_masiva'),
 ]

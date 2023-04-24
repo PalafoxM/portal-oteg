@@ -36,24 +36,44 @@ class BannerListView(ListView):
 class  BannerCreateView(CreateView):
     model = Banner
     form_class = BannerForm
-    template_name = 'back/form.html'
+    template_name = 'back/components/create_update.html'
     success_url = reverse_lazy('dashboard:banner_list')
 
     def post(self, request, *args, **kwargs):
-        data = {}
-        try:
-            action = request.POST['action']
-            if action == 'add':
-                form = self.get_form()
-                if form.is_valid():
-                    form.save()
-                else:
-                    print(' cual error '+ form.errors)
-                    data['error'] = form.errors
-            else:
-                data['error'] = 'No ha ingresado a ninguna opción'
-        except Exception as e:
-            data['error'] = str(e) + ' que fallo?'
+        form = self.form_class(request.POST, request.FILES)
+        if form.is_valid():
+            self.object = form.save()
+            data = {
+                'success': True,
+                'message': 'Banner creado exitosamente.',
+                'url': self.success_url
+            }
+            return JsonResponse(data)
+        else:
+            data = {
+                'success': False,
+                'message': 'Hubo un error al crear un Banner.',
+                'errors': form.errors
+            }
+            return JsonResponse(data)
+        
+
+    def form_invalid(self, form):
+        response = super().form_invalid(form)
+        data = {
+            'success': False,
+            'message': 'Hubo un error al crear un Banner.',
+            'errors': form.errors
+        }
+        return JsonResponse(data)
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        data = {
+            'success': True,
+            'message': 'Banner creado exitosamente.',
+            'url': self.success_url
+        }
         return JsonResponse(data)
 
     def get_context_data(self, **kwargs):
@@ -67,61 +87,51 @@ class  BannerCreateView(CreateView):
 class BannerUpdateView( UpdateView):
     model = Banner
     form_class = BannerForm
-    template_name = 'back/form.html'
+    template_name = 'back/components/create_update.html'
     success_url = reverse_lazy('dashboard:banner_list')
 
-    def dispatch(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        return super().dispatch(request, *args, **kwargs)
+    def form_invalid(self, form):
+        response = super().form_invalid(form)
+        data = {
+            'success': False,
+            'message': 'Hubo un error al crear el Banner.',
+            'errors': form.errors
+        }
+        if is_ajax(self.request):
+            return JsonResponse(data)
+        else:
+            return response
 
-    def post(self, request, *args, **kwargs):
-        data = {}
-        try:
-            action = request.POST['action']
-            if action == 'edit':
-                form = self.get_form()
-                if form.is_valid():
-                    form.save()
-                else:
-                    print(' cual error '+ form.errors)
-                    data['error'] = form.errors
-            else:
-                data['error'] = 'No ha ingresado a ninguna opción'
-        except Exception as e:
-            data['error'] = str(e) + ' que fallo?'
-        return JsonResponse(data)
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        data = {
+            'success': True,
+            'message': 'Banner creado exitosamente.',
+            'url': self.success_url
+        }
+        if is_ajax(self.request):
+            return JsonResponse(data)
+        else:
+            return response
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Edición una Pulicacion'
         context['entity'] = 'Banners'
         context['list_url'] = reverse_lazy('dashboard:banner_list')
-        context['action'] = 'edit'
+        context['form'] = self.form_class(instance=self.object)
         return context
 
 class BanneDeleteView(DeleteView):
     model = Banner
-    template_name = 'back/delete.html'
+    # template_name = 'back/delete.html'
     success_url = reverse_lazy('dashboard:banner_list')
     
-    def dispatch(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        return super().dispatch(request, *args, **kwargs)
-
     def post(self, request, *args, **kwargs):
-        data = {}
-        try:
-            self.object.delete()
-        except Exception as e:
-            data['error'] = str(e)
-        return JsonResponse(data)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Eliminación de una Publicación'
-        context['entity'] = 'Publicaciones'
-        context['list_url'] = self.success_url
-        return context
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        self.object.delete()
+        return HttpResponseRedirect(success_url)
 
 class PlaceListView(ListView):
     model = PlacesOfInterest
@@ -152,24 +162,46 @@ class PlaceListView(ListView):
 class  PlaceCreateView(CreateView):
     model = PlacesOfInterest
     form_class = PlacesOfInterestForm
-    template_name = 'back/form.html' 
+    template_name = 'back/components/create_update.html' 
     success_url = reverse_lazy('dashboard:place_list')
 
     def post(self, request, *args, **kwargs):
-        data = {}
-        try:
-            action = request.POST['action']
-            if action == 'add':
-                form = self.get_form()
-                if form.is_valid():
-                    form.save()
-                else:
-                    print(' cual error '+ form.errors)
-                    data['error'] = form.errors
-            else:
-                data['error'] = 'No ha ingresado a ninguna opción'
-        except Exception as e:
-            data['error'] = str(e)
+        form = self.form_class(request.POST, request.FILES)
+        if form.is_valid():
+            self.object = form.save()
+            data = {
+                'success': True,
+                'message': 'Sitio de Interest creado exitosamente.',
+                'url': self.success_url
+            }
+            return JsonResponse(data)
+        else:
+            data = {
+                'success': False,
+                'message': 'Hubo un error al crear un Sitio de Interest.',
+                'errors': form.errors
+            }
+            return JsonResponse(data)
+        
+
+    def form_invalid(self, form):
+        print("form_invalid")
+        response = super().form_invalid(form)
+        data = {
+            'success': False,
+            'message': 'Hubo un error al crear un Sitio de Interest.',
+            'errors': form.errors
+        }
+        return JsonResponse(data)
+
+    def form_valid(self, form):
+        print("form_valid")
+        response = super().form_valid(form)
+        data = {
+            'success': True,
+            'message': 'Sitio de Interest creado exitosamente.',
+            'url': self.success_url
+        }
         return JsonResponse(data)
 
     def get_context_data(self, **kwargs):
@@ -177,68 +209,57 @@ class  PlaceCreateView(CreateView):
         context['title'] = 'Crear un Sitio de Interest'
         context['entity'] = 'Sitio de Interes'
         context['list_url'] = reverse_lazy('dashboard:place_list')
-        context['action'] = 'add'
         return context
 
 class PlaceUpdateView( UpdateView):
     model = PlacesOfInterest
     form_class = PlacesOfInterestForm
-    template_name = 'back/form.html'
+    template_name = 'back/components/create_update.html'
     success_url = reverse_lazy('dashboard:place_list')
 
-    def dispatch(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        return super().dispatch(request, *args, **kwargs)
+    def form_invalid(self, form):
+        response = super().form_invalid(form)
+        data = {
+            'success': False,
+            'message': 'Hubo un error al crear el Sitio de Interest.',
+            'errors': form.errors
+        }
+        if is_ajax(self.request):
+            return JsonResponse(data)
+        else:
+            return response
 
-    def post(self, request, *args, **kwargs):
-        data = {}
-        try:
-            action = request.POST['action']
-            if action == 'edit':
-                form = self.get_form()
-                if form.is_valid():
-                    form.save()
-                else:
-                    print(' cual error '+ form.errors)
-                    data['error'] = form.errors
-            else:
-                data['error'] = 'No ha ingresado a ninguna opción'
-        except Exception as e:
-            data['error'] = str(e) + ' que fallo?'
-        return JsonResponse(data)
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        data = {
+            'success': True,
+            'message': 'Sitio de Interest creado exitosamente.',
+            'url': self.success_url
+        }
+        if is_ajax(self.request):
+            return JsonResponse(data)
+        else:
+            return response
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Edición de un Sitio de Interest'
         context['entity'] = 'Sitio de Interest'
         context['list_url'] = reverse_lazy('dashboard:place_list')
-        context['action'] = 'edit'
+        context['form'] = self.form_class(instance=self.object)
         return context
 
 class PlaceDeleteView(DeleteView):
     model = PlacesOfInterest
-    template_name = 'back/delete.html'
+    # template_name = 'back/delete.html'
     success_url = reverse_lazy('dashboard:place_list')
     
 
-    def dispatch(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        return super().dispatch(request, *args, **kwargs)
-
     def post(self, request, *args, **kwargs):
-        data = {}
-        try:
-            self.object.delete()
-        except Exception as e:
-            data['error'] = str(e)
-        return JsonResponse(data)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Eliminación de un Sitio de Interest'
-        context['entity'] = 'Sitio de Interest'
-        context['list_url'] = self.success_url
-        return context
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        self.object.delete()
+        return HttpResponseRedirect(success_url)
 
 # Eventos
 class EventoListView(ListView):
@@ -707,24 +728,46 @@ class AlbaListView(ListView):
 class  AlbaCreateView(CreateView):
     model = Alba
     form_class = AlbaForm
-    template_name = 'back/form.html'
+    template_name = 'back/components/create_update.html'
     success_url = reverse_lazy('dashboard:alba_list')
 
     def post(self, request, *args, **kwargs):
-        data = {}
-        try:
-            action = request.POST['action']
-            if action == 'add':
-                form = self.get_form()
-                if form.is_valid():
-                    form.save()
-                else:
-                    print(' cual error '+ form.errors)
-                    data['error'] = form.errors
-            else:
-                data['error'] = 'No ha ingresado a ninguna opción'
-        except Exception as e:
-            data['error'] = str(e) + ' que fallo?'
+        form = self.form_class(request.POST, request.FILES)
+        if form.is_valid():
+            self.object = form.save()
+            data = {
+                'success': True,
+                'message': 'Archivo Alba creado exitosamente.',
+                'url': self.success_url
+            }
+            return JsonResponse(data)
+        else:
+            data = {
+                'success': False,
+                'message': 'Hubo un error al crear un Archivo Alba.',
+                'errors': form.errors
+            }
+            return JsonResponse(data)
+        
+
+    def form_invalid(self, form):
+        print("form_invalid")
+        response = super().form_invalid(form)
+        data = {
+            'success': False,
+            'message': 'Hubo un error al crear un Archivo Alba.',
+            'errors': form.errors
+        }
+        return JsonResponse(data)
+
+    def form_valid(self, form):
+        print("form_valid")
+        response = super().form_valid(form)
+        data = {
+            'success': True,
+            'message': 'Archivo Alba creado exitosamente.',
+            'url': self.success_url
+        }
         return JsonResponse(data)
 
     def get_context_data(self, **kwargs):
@@ -732,65 +775,54 @@ class  AlbaCreateView(CreateView):
         context['title'] = 'Subir Archivo Alba'
         context['entity'] = 'Alba'
         context['list_url'] = reverse_lazy('dashboard:alba_list')
-        context['action'] = 'add'
         return context
 
 class AlbaUpdateView( UpdateView):
     model = Alba
     form_class = AlbaForm
-    template_name = 'back/form.html'
+    template_name = 'back/components/create_update.html'
     success_url = reverse_lazy('dashboard:alba_list')
 
-    def dispatch(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        return super().dispatch(request, *args, **kwargs)
+    def form_invalid(self, form):
+        response = super().form_invalid(form)
+        data = {
+            'success': False,
+            'message': 'Hubo un error al crear el Archivo Alba.',
+            'errors': form.errors
+        }
+        if is_ajax(self.request):
+            return JsonResponse(data)
+        else:
+            return response
 
-    def post(self, request, *args, **kwargs):
-        data = {}
-        try:
-            action = request.POST['action']
-            if action == 'edit':
-                form = self.get_form()
-                if form.is_valid():
-                    form.save()
-                else:
-                    print(' cual error '+ form.errors)
-                    data['error'] = form.errors
-            else:
-                data['error'] = 'No ha ingresado a ninguna opción'
-        except Exception as e:
-            data['error'] = str(e)
-        return JsonResponse(data)
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        data = {
+            'success': True,
+            'message': 'Archivo Alba creado exitosamente.',
+            'url': self.success_url
+        }
+        if is_ajax(self.request):
+            return JsonResponse(data)
+        else:
+            return response
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Edición de Archivo Alba'
         context['entity'] = 'Alba'
         context['list_url'] = reverse_lazy('dashboard:alba_list')
-        context['action'] = 'edit'
+        context['form'] = self.form_class(instance=self.object)
         return context
 
 class AlbaDeleteView(DeleteView):
     model = PlacesOfInterest
-    template_name = 'back/delete.html'
+    # template_name = 'back/delete.html'
     success_url = reverse_lazy('dashboard:alba_list')
     
 
-    def dispatch(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        return super().dispatch(request, *args, **kwargs)
-
     def post(self, request, *args, **kwargs):
-        data = {}
-        try:
-            self.object.delete()
-        except Exception as e:
-            data['error'] = str(e)
-        return JsonResponse(data)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Eliminación de archivo Alba'
-        context['entity'] = 'Alba'
-        context['list_url'] = self.success_url
-        return context
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        self.object.delete()
+        return HttpResponseRedirect(success_url)

@@ -1,0 +1,228 @@
+{% extends 'web/body.html' %}
+{% load static %}
+
+
+<!-- contenido -->
+{% block content %}
+
+<div class="row pl-5 pr-5 pt-5 pb-5">
+    <div class="col-lg-12 mt-5 text-center">
+        <h3>ENIOT</h3>
+        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum laudantium impedit, labore dolores dolorum voluptatibus accusantium debitis voluptas velit ratione molestiae nulla cum, voluptate temporibus aperiam rem dolore est eaque.</p>
+    </div>
+</div>
+<div class="row mb-5">
+    <div id="carouselExampleIndicators" class="carousel slide">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
+            aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+            aria-label="Slide 2"></button>
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+            aria-label="Slide 3"></button>
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3"
+            aria-label="Slide 3"></button>
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4"
+            aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="https://picsum.photos/id/28/800/300" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+                <h5>Recuerdos del último evento</h5>
+                <button type="button" class="btn btn-primary">Ver más</button>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="https://picsum.photos/id/20/800/300" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+                <h5>Recuerdos del último evento</h5>
+                <button type="button" class="btn btn-primary">Ver más</button>
+            </div> 
+        </div>
+        <div class="carousel-item">
+            <img src="https://picsum.photos/id/29/800/300" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+                <h5>Recuerdos del último evento</h5>
+                <button type="button" class="btn btn-primary">Ver más</button>
+            </div>   
+        </div>
+        <div class="carousel-item">
+            <img src="https://picsum.photos/id/30/800/300" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+                <h5>Recuerdos del último evento</h5>
+                <button type="button" class="btn btn-primary">Ver más</button>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="https://picsum.photos/id/31/800/300" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+                <h5>Recuerdos del último evento</h5>
+                <button type="button" class="btn btn-primary">Ver más</button>
+            </div>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+          data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+          data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+</div>
+<div class="row row-cols-1 row-cols-md-4 g-4">
+    <div class="col">
+      <div class="card">
+        <img src="https://picsum.photos/id/48/800/400" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Formulario de registro</h5>
+         </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card">
+        <img src="https://picsum.photos/id/46/800/400" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Programa de la próxima edición</h5>
+          </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card">
+        <img src="https://picsum.photos/id/47/800/400" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Memorias</h5>
+          </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card">
+        <img src="https://picsum.photos/id/38/800/400" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Ponencia a eventos</h5>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row pl-5 pr-5 pt-5 pb-5">
+    <div class="col-lg-12 mt-5 text-center">
+        
+      <h3 class="text-center">Buscador de Todos los Eventos</h3>
+      
+      <form id="search-form" class="d-flex mt-5" role="search">
+          <select name="year" class="form-select me-2">
+              <option value="">Todos los años</option>
+              {% for year in years %}
+              <option value="{{ year }}">{{ year }}</option>
+              {% endfor %}
+          </select>
+      
+          <input type="text" class="form-control me-2" name="q" placeholder="Search for PDF name">
+          <button type="submit" class="btn btn-outline-success">Search</button>
+      </form>
+      
+      
+      <div id="search-results" style="display: flex; "></div>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: '{% url "search" %}',
+            data: { q: '' },
+            success: function (data) {
+
+                var html = '';
+                var containerHeight = $('#search-results').height();
+                var rowHeight = 0;
+                var rowHtml = '<div class="row">';
+
+                for (var i = 0; i < data.length; i++) {
+                    var itemHtml = '<div class="col-md-2 mb-2 ">' +
+                        '<div style="width:10rem; height:10rem; display: flex; flex-direction: column;  justify-content: center; align-items: center; margin-right:30px;">' +
+                        '<a href="' + data[i].url + '">' +
+                        '<i style="font-size: 4rem; cursor: pointer; color: #ad0b00; align-self:flex-end;"class="fa-solid fa-file-pdf"></i>' +
+                        '</a>' +
+                        '<p style="font-size: 10px; text-align: center;">' + data[i].nombrePDF + '</p>' +
+                        '</div>' +
+                        '</div>';
+
+                    rowHtml += itemHtml;
+                    rowHeight = Math.max(rowHeight, $(itemHtml).height());
+
+                    if (rowHeight > containerHeight) {
+                        // Add the current row to the HTML and start a new one
+                        html += rowHtml + '</div>';
+                        rowHtml = '<div class="row">';
+                        rowHeight = $(itemHtml).height();
+                    }
+                }
+
+                // Add any remaining items to the last row
+                if (rowHtml !== '<div class="row">') {
+                    html += rowHtml + '</div>';
+                }
+
+                $('#search-results').html(html);
+            }
+        });
+
+        $('#search-form').on('submit', function (event) {
+            event.preventDefault();
+            var query = $(this).find('input[name="q"]').val();
+            var year = $(this).find('select[name="year"]').val();
+            var bim = $(this).find('select[name="bim"]').val();
+            $.ajax({
+                url: '{% url "search" %}',
+                data: { q: query, year: year, bim: bim },
+                success: function (data) {
+                    var html = '';
+                    var containerHeight = $('#search-results').height();
+                    var rowHeight = 0;
+                    var rowHtml = '<div class="row">';
+
+                    for (var i = 0; i < data.length; i++) {
+                        var itemHtml = '<div class="col-md-3 mb-3">' +
+                            '<div style="width:10rem; height:10rem; display: flex; flex-direction: column;  justify-content: center; align-items: center; margin-right:30px;">' +
+                            '<a href="' + data[i].url + '">' +
+                            '<i style="font-size: 4rem; cursor: pointer; color: #ad0b00; align-self:flex-end;"class="fa-solid fa-file-pdf"></i>' +
+                            '</a>' +
+                            '<p style="font-size: 10px; text-align: center;">' + data[i].nombrePDF + '</p>' +
+                            '</div>' +
+                            '</div>';
+
+                        rowHtml += itemHtml;
+                        rowHeight = Math.max(rowHeight, $(itemHtml).height());
+
+                        if (rowHeight > containerHeight) {
+                            // Add the current row to the HTML and start a new one
+                            html += rowHtml + '</div>';
+                            rowHtml = '<div class="row">';
+                            rowHeight = $(itemHtml).height();
+                        }
+                    }
+
+                    // Add any remaining items to the last row
+                    if (rowHtml !== '<div class="row">') {
+                        html += rowHtml + '</div>';
+                    }
+
+                    $('#search-results').html(html);
+                }
+            });
+        });
+    });
+</script>
+</div>
+
+
+
+{% endblock %}

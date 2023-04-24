@@ -112,7 +112,10 @@
                 <div id="collapseEstadisticas" class="collapse" aria-labelledby="headingTwo"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="buttons.html">Tablero de Control</a>
+                        <a class="collapse-item" href="buttons.html">Fuentes de información</a>
+                        <a class="collapse-item" href="buttons.html">Reportes/Indicadores</a>
+                        <a class="collapse-item" href="buttons.html">Glosario</a>
+                        <!-- <a class="collapse-item" href="buttons.html">Tablero de Control</a>
                         <a class="collapse-item" href="buttons.html">Indicadores Nacionales</a>
                         <a class="collapse-item" href="buttons.html">Indicadores Nacionales Trimestrales</a>
                         <a class="collapse-item" href="buttons.html">Gráfica Barómetro Turístico</a>
@@ -122,6 +125,8 @@
                         <a  class ="collapse-item" href="{% url 'dashboard:fuente_info_otros_anuales' %}">Fuente Info Gasto Otros Anuales</a>
                         <a  class ="collapse-item" href="{% url 'dashboard:fuente_info_zonas_arqueologicas' %}"> Fuente Info Zonas Arqueologicas</a>
                         <a class="collapse-item" href="buttons.html">Comparativo Destino</a>
+                        <a class="collapse-item" href="buttons.html">Glosario</a>
+                        <a class="collapse-item" href="buttons.html">Comparativo Destino</a> -->
                     </div>
                 </div>
             </li>
@@ -143,6 +148,20 @@
                 </div>
 
             </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#usuarios"
+                    aria-expanded="true" aria-controls="usuarios">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Usuarios</span>
+                </a>
+                <div id="usuarios" class="collapse" aria-labelledby="headingTwo"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="{% url 'usuarios-list'  %}">Usuarios</a>
+                    </div>
+                </div>
+            </li>
+
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
@@ -232,11 +251,7 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
-                    </div>
+                    
 
 
                     {% block content %}
