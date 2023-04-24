@@ -32,8 +32,7 @@ def logInUser(req):
             return redirect('dashboard:publicacion_list')
         else:
             messages.success(req, 'Usuario o Contraseña Incorrectos')
-            return redirect('login:login')
-
+            return redirect('login_user')
     else:
         return render(req, 'back/auth/logIn.html', {})
 

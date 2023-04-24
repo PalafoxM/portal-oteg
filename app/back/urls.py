@@ -6,6 +6,7 @@ from back.views.usuarios.views import *
 from back.views.fuente_info_datatur.views import *
 from back.views.fuente_info_gasto_derrama.views import *
 from back.views.fuente_info_otros_anuales.views import *
+from back.views.fuente_info_zonas_arq.views import *
 
 app_name = 'dashboard'
 
@@ -58,9 +59,9 @@ urlpatterns = [
     path('delete_categoria/<int:seccion_pk>/<int:pk>/', CategoriasDeleteView.as_view(), name='categoria_delete'),
     path('edit_categoria/<int:seccion_pk>/<int:pk>/', CategoriasUpdateView.as_view(), name='categoria_update'),
     path('descargas/list',DescargasView.as_view(), name='descargas_list'),
-
-    
     path('get_categories', get_categories, name='get_categories'),
+
+
 
     #Glosario
     path('glosario/list', GlosarioListView.as_view(), name='glosario_list'),
@@ -93,6 +94,11 @@ urlpatterns = [
     path('fuentes_info/otros_anuales/edit/<int:pk>/', FuenteInfoOtrosAnualesUpdate.as_view(), name='fuente_info_otros_anuales_update'),
     path('fuentes_info/otros_anuales/delete/<int:pk>/', FuenteInfoOtrosAnualesDelete.as_view(), name='fuente_info_otros_anuales_delete'),
     
+    #Fuentes de informacion Zonas Arqueologicas
+    path('fuentes_info/zonas_arqueologicas', FuenteInfoZonasArqueologicas.as_view(), name='fuente_info_zonas_arqueologicas'),
+    path('fuentes_info/zonas_arqueologicas/add', FuenteInfoZonasArqueologicasCreate.as_view(), name='fuente_info_zonas_arqueologicas_create'),
+    path('fuentes_info/zonas_arqueologicas/edit/<int:pk>/', FuenteInfoZonasArqueologicasUpdate.as_view(), name='fuente_info_zonas_arqueologicas_update'),
+    path('fuentes_info/zonas_arqueologicas/delete/<int:pk>/', FuenteInfoZonasArqueologicasDelete.as_view(), name='fuente_info_zonas_arqueologicas_delete'),
     path('usuarios/list', my_profile, name='profile'),
 
 ]

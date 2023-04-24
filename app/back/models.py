@@ -10,20 +10,22 @@ class Banner(models.Model):
     name = models.CharField(max_length=100, verbose_name="Nombre")
     banner_url = models.CharField(max_length=100, verbose_name="Enlace")
     publication = models.BooleanField(default=True)
-    imagen = models.ImageField(null=True, blank=True ,upload_to='images/')
+    imagen = models.ImageField(null=True, blank=True, upload_to='images/')
     date_created = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
-    
+
     def toJSON(self):
         item = model_to_dict(self)
         return item
+
     class Meta:
         verbose_name = 'Banner'
         verbose_name_plural = 'Banners'
         db_table = 'banners'
         ordering = ['-id']
+
 
 class PlacesOfInterest(models.Model):
     logotipo = models.CharField(max_length=100, verbose_name="Logotipo")
@@ -33,7 +35,7 @@ class PlacesOfInterest(models.Model):
 
     def __str__(self):
         return self.sitio_web
-    
+
     def toJSON(self):
         item = model_to_dict(self)
         return item
@@ -44,6 +46,7 @@ class PlacesOfInterest(models.Model):
         db_table = 'places_of_interest'
         ordering = ['-id']
 
+
 class SeccionesCentroDocumental(models.Model):
     seccion = models.CharField(max_length=100)
     descripcion = models.TextField()
@@ -51,11 +54,13 @@ class SeccionesCentroDocumental(models.Model):
 
 
 class Categorias(models.Model):
-    nombre_categoria = models.CharField(max_length=100 , null=True, blank=True)
+    nombre_categoria = models.CharField(max_length=100, null=True, blank=True)
     fecha_creacion = models.DateField()
-    publicacion = models.BooleanField(default=False , null=True, blank=True)
-    visible = models.BooleanField(default=True  , null=True, blank=True)
-    seccion = models.ForeignKey(SeccionesCentroDocumental, on_delete=models.CASCADE , null=True, blank=True)
+    publicacion = models.BooleanField(default=False, null=True, blank=True)
+    visible = models.BooleanField(default=True, null=True, blank=True)
+    seccion = models.ForeignKey(
+        SeccionesCentroDocumental, on_delete=models.CASCADE, null=True, blank=True)
+
 
 class Publications(models.Model):
 
@@ -64,11 +69,13 @@ class Publications(models.Model):
         ('2', 'MP3'),
         ('3', 'XLS'),
     )
-  
-    section = models.ForeignKey(SeccionesCentroDocumental, on_delete=models.CASCADE , null=True, blank=True)
-    category = models.ForeignKey(Categorias, on_delete=models.CASCADE , null=True, blank=True)
+
+    section = models.ForeignKey(
+        SeccionesCentroDocumental, on_delete=models.CASCADE, null=True, blank=True)
+    category = models.ForeignKey(
+        Categorias, on_delete=models.CASCADE, null=True, blank=True)
     publication = models.BooleanField(default=True)
-    visible =  models.BooleanField(default=True)
+    visible = models.BooleanField(default=True)
     recent = models.BooleanField(default=True)
     type = models.CharField(max_length=10, choices=TYPE_CHOICES)
     num_descargas = models.IntegerField(null=True, blank=True, default=0)
@@ -76,7 +83,7 @@ class Publications(models.Model):
     url = models.URLField(max_length=100, null=True, blank=True)
     date_created = models.DateTimeField(auto_now=True)
     num_descargas = models.IntegerField(null=True, blank=True, default=0)
-    
+
 
 class Evento (models.Model):
     titulo = models.CharField(max_length=100)
@@ -89,7 +96,7 @@ class Noticia (models.Model):
     titulo = models.CharField(max_length=100)
     descripcion = RichTextField()
     sitio_web = models.URLField()
-    imagen = models.ImageField(null=True, blank=True ,upload_to='images/')
+    imagen = models.ImageField(null=True, blank=True, upload_to='images/')
     fecha_nota = models.DateField()
     autor_foto = models.CharField(max_length=100)
     autor_nota = models.CharField(max_length=100)
@@ -102,14 +109,14 @@ class Glosario (models.Model):
 
 
 class Alba(models.Model):
-    archivo = models.ImageField(null=True, blank=True ,upload_to='pdf/')
-    visible =  models.BooleanField(default=True)
+    archivo = models.ImageField(null=True, blank=True, upload_to='pdf/')
+    visible = models.BooleanField(default=True)
     date_updated = models.DateTimeField(auto_now=True,)
     date_created = models.DateTimeField(auto_now=True)
 
     # def __str__(self):
     #     return self.visible
-    
+
     def toJSON(self):
         item = model_to_dict(self)
         return item
@@ -121,11 +128,16 @@ class Alba(models.Model):
         ordering = ['-id']
 
 # #Fuentes de Informacion
+
+
 class catalogo_categorias(models.Model):
+    db = 'db2'
     categoria = models.CharField(max_length=100, null=True, blank=True)
+
 
 class catalogo_destinos(models.Model):
     destino = models.CharField(max_length=100, null=True, blank=True)
+
 
 class DataTour (models.Model):
     fecha = models.DateField()
@@ -155,6 +167,8 @@ class DataTour (models.Model):
     fecha_recuperacion = models.DateTimeField(auto_now=True)
 
 # Fuentes informacion
+
+
 class GastoDerrama(models.Model):
     anio = models.IntegerField()
     categoria = models.CharField(max_length=255)
@@ -162,13 +176,25 @@ class GastoDerrama(models.Model):
     gasto_diario_promedio = models.FloatField()
     participacion = models.FloatField()
     estadia_promedio = models.FloatField()
-    
-    
+
+
 # Fuentes informacion
 class otros_anuales(models.Model):
     anio = models.IntegerField()
     pib_total_sector_72 = models.FloatField()
     pib_total_de_actividades_terciarias = models.FloatField()
     basura_generada_por_persona_diaria = models.FloatField()
-    
-    
+
+
+class zonas_arqueologicas_museos(models.Model):
+    destino = models.CharField(max_length=255)
+    museo_zona_arqueologica = models.CharField(max_length=455)
+    fecha = models.DateField()
+    origen_visitante = models.CharField(max_length=455)
+    visitantes = models.IntegerField()
+    tipo = models.CharField(max_length=455, null=True, blank=True)
+
+
+class catalogo_zonaz_arq_museos (models.Model):
+    museo_zona_arqueologica = models.CharField(max_length=455)
+    tipo = models.CharField(max_length=455)

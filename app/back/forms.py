@@ -363,3 +363,24 @@ class OtrosAnualesForm (forms.ModelForm):
     class Meta:
         model = otros_anuales
         fields = '__all__'
+
+
+class ZonasArqueologicasMuseosForm (forms.ModelForm):
+
+    TIPO_CHOICES = (
+        ('museo', 'Museo'),
+        ('zona_arq', 'Zona Arqueológica'),
+    )
+    tipo = forms.ChoiceField(choices=TIPO_CHOICES, required=False)
+
+    ORIGEN_CHOICES = (
+        ('', '----------------'),
+        ('nacional', 'Nacional'),
+        ('internacional', 'Internacional'),
+    )
+    origen_visitante = forms.ChoiceField(choices=ORIGEN_CHOICES, required=False)
+
+
+    class Meta:
+        model = zonas_arqueologicas_museos
+        fields = ('destino', 'museo_zona_arqueologica', 'fecha', 'origen_visitante', 'visitantes', 'tipo')

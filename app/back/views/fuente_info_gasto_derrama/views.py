@@ -26,20 +26,6 @@ class FuenteInfoGastoDerrama (ListView):
     model = GastoDerrama
     template_name = 'back/fuente_info_gasto_derrama/viewer.html'
 
-    def post(self, request, *args, **kwargs):
-        data = {}
-        try:
-            action = request.POST['action']
-            if action == 'search':
-                data = []
-                for i in PlacesOfInterest.objects.all():
-                    data.append(i.toJSON())
-            else:
-                data['error'] = 'Ha ocurrido un error'
-        except Exception as e:
-            data['error'] = str(e)
-        return JsonResponse(data, safe=False)
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Listado de Fuentes de Informacion Gasto Derrama'

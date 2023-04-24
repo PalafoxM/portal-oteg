@@ -15,37 +15,32 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.views.decorators.http import require_GET
 from django.views.decorators.http import require_POST
-from django.shortcuts import get_object_or_404
-#serializers
-# render to string
 from django.template.loader import render_to_string
-
-
 
 
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 
-class FuenteInfoDatatur (ListView):
-    model = DataTour
-    template_name = 'back/fuente_info_datatur/viewer.html'
+class FuenteInfoZonasArqueologicas (ListView):
+    model = zonas_arqueologicas_museos
+    template_name = 'back/fuente_info_zonas_arq/viewer.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Listado de Fuentes de Informacion de DataTour'
+        context['title'] = 'Listado de Fuentes de Informacion Zonas Arqueologicas'
         context['create_url'] = reverse_lazy(
-            'dashboard:fuente_info_datatour_create')
-        context['entity'] = 'Categorias'
+            'dashboard:fuente_info_zonas_arqueologicas_create')
+        context['entity'] = 'Zonas Arqueologicas'
         context['is_fuente'] = True
         return context
 
 
-class FuenteInfoDataturCreate (CreateView):
-    model = DataTour
-    form_class = DataTurForm
-    template_name = 'back/components/create_update_fuentes_info.html'
-    success_url = reverse_lazy('dashboard:fuente_info_datatour')
+class FuenteInfoZonasArqueologicasCreate (CreateView):
+    model = zonas_arqueologicas_museos
+    form_class = ZonasArqueologicasMuseosForm
+    template_name = 'back/fuente_info_zonas_arq/create_update_fuentes_info.html'
+    success_url = reverse_lazy('dashboard:fuente_info_zonas_arqueologicas')
 
     def get_object(self, **kwargs):
         queryset = self.get_queryset()
@@ -59,60 +54,45 @@ class FuenteInfoDataturCreate (CreateView):
         replace_data = request.POST.get('replace_data')
         if form.is_valid():
             # Check if there is already a record with the same fecha, destino and categoria
-       
+
             fecha = form.cleaned_data['fecha']
             destino = form.cleaned_data['destino']
-            categoria = form.cleaned_data['categoria']
+            origen = form.cleaned_data['origen_visitante']
+            museo_zona_arqueologica_form = form.cleaned_data['museo_zona_arqueologica']
+
             try:
-                existing_object = self.get_object(fecha=fecha, destino=destino, categoria=categoria)
-             
+                existing_object = self.get_object(fecha=fecha, destino=destino, origen_visitante=origen, museo_zona_arqueologica=museo_zona_arqueologica_form)
 
             except DataTour.DoesNotExist:
-                existing_object = None 
+                existing_object = None
 
-            existing_category = catalogo_categorias.objects.filter(categoria=categoria).exists()
-            existing_catalogo = catalogo_destinos.objects.filter(destino=destino).exists()
-
-            if request.POST.get('catalog') == 'on':
-                if not existing_category:
-                    catalogo_categorias.objects.create(categoria=categoria)
-                if not existing_catalogo:
-                    catalogo_destinos.objects.create(destino=destino)
-
-                self.object = form.save()
-                
-                data = {
-                    'success': True,
-                    'message': 'Data created successfully.',
-                    'url': self.success_url
-                }
-                return JsonResponse(data)
-                
-
+            existing_catalogo = catalogo_destinos.objects.filter(
+                destino=destino).exists()
+            museo_zona_arqueologica = catalogo_zonaz_arq_museos.objects.filter(museo_zona_arqueologica=museo_zona_arqueologica_form).exists()
 
             # If there is no existing data, save the new data
-            if not existing_category or not existing_catalogo:
+            if not museo_zona_arqueologica or not existing_catalogo:
 
-                if not existing_category and not existing_catalogo:
-    
+                if not museo_zona_arqueologica and not existing_catalogo:
+
                     data = {
                         'success': False,
                         'missingData': True,
-                        'categoria': categoria,
-                        'destino': destino, 
+                        'museo_Z_A': museo_zona_arqueologica_form,
+                        'destino': destino,
                         'message': 'No existe la categoria o el destino en el catalogo',
                     }
                     return JsonResponse(data)
-                
-                if not existing_category:
+
+                if not museo_zona_arqueologica:
                     data = {
                         'success': False,
                         'missingData': True,
-                        'categoria': categoria,
-                        'message': 'No existe la categoria en el catalogo',
+                        'museo_Z_A': museo_zona_arqueologica_form,
+                        'message': 'No existe la Zona Arqueologica o Museo en el catalogo',
                     }
                     return JsonResponse(data)
-                
+
                 if not existing_catalogo:
                     data = {
                         'success': False,
@@ -121,14 +101,12 @@ class FuenteInfoDataturCreate (CreateView):
                         'message': 'No existe el destino en el catalogo',
                     }
                     return JsonResponse(data)
-            
-                       
 
             # If there is existing data and replace_data is True, delete the existing data
             if existing_object and request.POST.get('replace_data') == 'on':
-                #existing_object.delete()
+                # existing_object.delete()
                 # Save the new data
-                #self.object = form.save()
+                # self.object = form.save()
 
                 for field in form.cleaned_data:
                     if field == 'replace_data':
@@ -140,24 +118,27 @@ class FuenteInfoDataturCreate (CreateView):
                     'success': True,
                     'message': 'Data created successfully.',
                     'url': self.success_url,
-                    
+
                 }
                 return JsonResponse(data)
-            
+
             # If there is existing data and replace_data is False, return an error
 
-            if existing_object  :
-                data = DataTour.objects.filter(fecha=fecha, destino=destino, categoria=categoria)
-                
-                data_list = list(data.values('fecha', 'destino', 'categoria','cuartos_registrados', 'cuartos_disponibles', 'cuartos_disponibles_prom' ,'cuartos_ocupados','cuartos_ocupados_residentes','cuartos_ocupados_no_residentes','llegadas_turistas','llegadas_turistas_residentes','llegadas_turistas_no_residentes','turistas_noche','turistas_noche_residentes', 'turistas_noche_no_residentes','porcentaje_ocupacion','porcentaje_ocupacion_residentes','porcentaje_ocupacion_no_residentes','estadia_promedio','estadia_promedio_residentes','estadia_promedio_no_residentes','densidad_ocupacion','densidad_ocupacion_residentes','densidad_ocupacion_no_residentes','fecha_recuperacion'))                                                 
-                data_list2 =  list(form.cleaned_data.values())
-                table_html = render_to_string('back/fuente_info_datatur/data_tour_table.html', {'data_list': data_list , 'actual':True , 'data_list2':data_list2})                            
-                
+            if existing_object:
+                data = zonas_arqueologicas_museos.objects.filter(
+                    fecha=fecha, destino=destino, origen_visitante=origen, museo_zona_arqueologica=museo_zona_arqueologica_form)
+
+                data_list = list(data.values(
+                    'fecha', 'destino', 'museo_zona_arqueologica', 'origen_visitante', 'visitantes', 'tipo'))
+                data_list2 = list(form.cleaned_data.values())
+                table_html = render_to_string('back/fuente_info_zonas_arq/table.html', {
+                                              'data_list': data_list, 'actual': True, 'data_list2': data_list2})
+
                 datajsn = {
-                        'success': False,
-                        'message': 'Hubo un error al crear registro.',
-                        'errors': 'Ya existe un registro con la misma fecha, destino y categoria.',
-                        'existing_object': table_html
+                    'success': False,
+                    'message': 'Hubo un error al crear registro.',
+                    'errors': 'Ya existe un registro con la misma fecha, destino , origen y museo o zona arqueologica',
+                    'existing_object': table_html
                 }
 
                 return JsonResponse(datajsn)
@@ -174,7 +155,7 @@ class FuenteInfoDataturCreate (CreateView):
                 'success': False,
                 'message': 'Error creating data.',
                 'errors': form.errors,
-                'format_errors':True
+                'format_errors': True
             }
             return JsonResponse(data)
 
@@ -195,27 +176,26 @@ class FuenteInfoDataturCreate (CreateView):
             'url': self.success_url
         }
         return JsonResponse(data)
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Crear una fuente'
         context['entity'] = 'Glosario'
-        context['list_url'] = reverse_lazy('dashboard:fuente_info_datatour')
+        context['list_url'] = reverse_lazy('dashboard:fuente_info_zonas_arqueologicas')
         context['action'] = 'add'
         return context
 
-class FuenteInfoDataturUpdate(UpdateView):
-    
-    model = DataTour
-    form_class = DataTurForm
-    template_name = 'back/components/create_update_fuentes_info.html'
-    success_url = reverse_lazy('dashboard:fuente_info_datatour')
+class FuenteInfoZonasArqueologicasUpdate (UpdateView):
+    model = zonas_arqueologicas_museos
+    form_class = ZonasArqueologicasMuseosForm
+    template_name = 'back/fuente_info_zonas_arq/create_update_fuentes_info.html'
+    success_url = reverse_lazy('dashboard:fuente_info_zonas_arqueologicas')
 
     def form_invalid(self, form):
         response = super().form_invalid(form)
         data = {
             'success': False,
-            'message': 'Hubo un error al crear el evento.',
+            'message': 'Hubo un error al subir los datos.',
             'errors': form.errors
         }
         if is_ajax(self.request):
@@ -227,7 +207,7 @@ class FuenteInfoDataturUpdate(UpdateView):
         response = super().form_valid(form)
         data = {
             'success': True,
-            'message': 'Evento creado exitosamente.',
+            'message': 'Fuente creada exitosamente.',
             'url': self.success_url
         }
         if is_ajax(self.request):
@@ -237,22 +217,23 @@ class FuenteInfoDataturUpdate(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['list_url'] = reverse_lazy('dashboard:fuente_info_datatour')
+        context['list_url'] = reverse_lazy('dashboard:fuente_info_zonas_arqueologicas')
             # Set the widget for the 'destino' field to read-only text input
         context['form'].fields['destino'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
         # Set the widget for the 'fecha' field to read-only text input
+        context['form'].fields['museo_zona_arqueologica'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
+        # Set the widget for the 'categoria' field to read-only text input
         context['form'].fields['fecha'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
         # Set the widget for the 'categoria' field to read-only text input
-        context['form'].fields['categoria'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
+        context['form'].fields['origen_visitante'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
         context['title'] = 'Editar fuente'
-        context['edit_msg'] = 'Los Campos Destino, Fecha y Categoria no pueden ser editados'    
+        context['edit_msg'] = 'Los Campos Destino, Fecha, Museo o Zona Arqueologica y Origen Visitante no pueden ser editados' 
 
         return context
 
-
-class FuenteInfoDataturDelete(DeleteView):
-    model = DataTour
-    success_url = reverse_lazy('dashboard:fuente_info_datatour')
+class FuenteInfoZonasArqueologicasDelete (DeleteView):
+    model = zonas_arqueologicas_museos
+    success_url = reverse_lazy('dashboard:fuente_info_zonas_arqueologicas')
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -260,19 +241,3 @@ class FuenteInfoDataturDelete(DeleteView):
         self.object.delete()
         return HttpResponseRedirect(success_url)
 
-@require_GET
-def upload_file(request):
-    if request.method == 'GET' and request.FILES['file']:
-        file = request.FILES['file']
-        if file.name.endswith('.csv'):
-            data = pd.read_csv(file)
-            # Process the CSV data and save it to the database
-            # ...
-        elif file.name.endswith('.xlsx'):
-            data = pd.read_excel(file)
-            # Process the Excel data and save it to the database
-            # ...
-        else:
-            return HttpResponse('Invalid file type')
-        return HttpResponse('File uploaded successfully')
-    return HttpResponse('No file uploaded')
