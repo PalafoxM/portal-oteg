@@ -42,7 +42,7 @@
 }
 .main-container{
     height: 100vh;
-    width:50px !important;
+    width:58px !important;
     background-color: #FC8126;
 
 }
@@ -58,9 +58,9 @@
     align-items: center;
     justify-content: center;
 }
-i{
+/* i{
     color: white;
-}
+} */
 
 
 .icon-containers:hover div{

@@ -1,51 +1,48 @@
 {% load static %}
-<div class=" main-container sidebar side">
+<div class=" main-container sidebar2 side">
 
     <section>
-        {% if droppes_sidebar %}
-        <div >
-            <div class="icon-containers" >
+        <div>
+            <div class="icon-containers">
                 <div>
                     <img src="https://picsum.photos/id/48/800/400" class="isotipo">
                 </div>
                 <!-- <i class="fab fa-joomla"></i> -->
             </div>
         </div>
-        {% endif %}
 
         <div class="icon-containers" role="button" tooltip="Crear Requisición" flow="right">
             <div>
-                <img src="{% static 'images/icons/plus.png' %}" class="icons">
+                <img src="images/icons/plus.png" class="icons">
             </div>
             <!-- <i class="fas fa-plus-circle icon-plus"></i> -->
         </div>
-        {% if droppes_sidebar %}
-        <div >
-            <div class="icon-containers" >
+        <div>
+            <div class="icon-containers">
                 <div>
-                    <img src="{% static 'images/icons/icon-almacenes-white.png' %}" class="icons-dropped">
+                    <img src="images/icons/plus.png" class="icons">
                 </div>
                 <!-- <i class="fas fa-truck"></i> -->
             </div>
         </div>
-        {% endif %}
 
 
 
     </section>
 
     <section style="bottom: 0px; position: absolute;">
-        
+
 
         <div class="icon-containers">
-            <div role="button" tooltip="Mi perfil" flow="right" [routerLink]="['/pages/colaboradores/profile']">
-                <img src="../../../assets/images/icons/user.png" class="icons">
+            <div role="button" tooltip="Mi perfil" flow="right"
+                [routerLink]="['/pages/colaboradores/profile']">
+                <img src="images/icons/user.png" class="icons">
             </div>
             <!-- <i class="fas fa-user"></i> -->
         </div>
         <div class="icon-containers" (click)="logaout()">
             <div role="button" tooltip="Cerrar sesión" flow="right">
-                <img src="../../../assets/images/icons/lock.png" class="icons">
+                <img src="images/icons/lock.png" class="icons">
                 <!-- <i class="fas fa-lock"></i> -->
             </div>
         </div>

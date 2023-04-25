@@ -107,8 +107,11 @@ urlpatterns = [
     path('fuentes_info/zonas_arqueologicas/edit/<int:pk>/', FuenteInfoZonasArqueologicasUpdate.as_view(), name='fuente_info_zonas_arqueologicas_update'),
     path('fuentes_info/zonas_arqueologicas/delete/<int:pk>/', FuenteInfoZonasArqueologicasDelete.as_view(), name='fuente_info_zonas_arqueologicas_delete'),
     path('usuarios/list', my_profile, name='profile'),
+<<<<<<< HEAD
 
    
+=======
+>>>>>>> origin/develop
     path('descargas/list', descargas_list, name='descargas_list'),
     # Usuarios
     path('usuarios/list', my_profile, name='profile'),

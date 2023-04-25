@@ -22,12 +22,13 @@
     <script src="{% static 'lib/sweetalert2-11.7.1/sweetalert2.all.min.js' %}"></script>
 
     <!-- Functions -->
-    <script src="{% static 'admin/js/main.js' %}"></script>
-    <script src="{% static 'admin/js/functions.js' %}"></script>
+    <!-- <script src="{% static 'admin/js/main.js' %}"></script> -->
+    <!-- <script src="{% static 'admin/js/functions.js' %}"></script> -->
 
     <link href="{% static 'scss/menu.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'scss/sidebar.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'scss/sidebar2.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'scss/table.css' %}" rel="stylesheet" type="text/css">
 
     <!-- block de header D -->
     {% block head %}
@@ -54,8 +55,9 @@
         </div>
         <div  class="inner-header pl-3">
             <div class="container-fluid title-container">
+                <i class='bx bx-menu'></i>
                 <label class="title" >{{title}}</label>
-                <h5 class="subtitle mb-0">{{title}}</h5>
+                <!-- <h5 class="subtitle mb-0">{{title}}</h5> -->
             </div>
         </div>
         
@@ -63,19 +65,19 @@
         <div>
             <div class="container-fluid breadcrumb-container  justify-content-end align-items-center  mb-5" style="padding-right: 30px; padding-left: 63px;">
 
-                <label class="m-0" >Inicio > graneles > add</label>
+                <label class="m-0" >Inicio > publicaciones > add</label>
             </div>
         </div>
     
         <div  class="inner-c pl-3">
-            <!-- <div class="container-fluid">
-                <div class="row"> -->
+            <div class="container-fluid">
+                <div class="row">
                     {% block content %}
 
                     {% endblock %}
-                <!-- </div>
+                </div>
             
-            </div> -->
+            </div>
             
             
         </div>
@@ -87,8 +89,6 @@
                 </div>
                 
         </div>
-        <app-error></app-error>
-    
     </div>
       
                 
@@ -103,11 +103,29 @@
     <script src="{% static 'admin/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="{% static 'admin/js/sb-admin-2.min.js' %}"></script>
+    <!-- <script src="{% static 'admin/js/sb-admin-2.min.js' %}"></script> -->
 
     <!-- Page level plugins -->
-    <!-- <script src="{% static 'admin/vendor/datatables/jquery.dataTables.min.js' %}"></script>
-    <script src="{% static 'admin/vendor/datatables/dataTables.bootstrap4.min.js' %}"></script> -->
+    <script>
+        const arrows = document.querySelectorAll(".arrow");
+
+        arrows.forEach((arrow) => {
+        arrow.addEventListener("click", (e) => {
+            const arrowParent = e.target.closest(".arrow").parentElement.parentElement;
+            arrowParent.classList.toggle("showMenu");
+        });
+        });
+
+        const sidebar = document.querySelector(".sidebar");
+        const sidebarBtn = document.querySelector(".bx-menu");
+
+        sidebarBtn.addEventListener("click", () => {
+            console.log("dssd")
+            sidebar.classList.toggle("close");
+        });
+
+
+    </script>
 
     <!-- block de footer js -->
     {% block footerjs %}
