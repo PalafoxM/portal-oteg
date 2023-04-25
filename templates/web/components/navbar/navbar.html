@@ -130,20 +130,25 @@
         width: 100%;
         z-index: 999;
     }
+
+
+
+
+    
 </style>
 
 <div class="all-fixed">
     <nav class="custom-nav">
         <div class="items-container">
-            <a class="custom-nav-item not-sub" href="{% url 'home' %}">Inicio</a>
-            <a class="custom-nav-item not-sub" href="{% url 'oteg' %}">OTEG</a>
+            <a class="custom-nav-item not-sub"href="{% url 'inicio' %}">Inicio</a>
+            <a class="custom-nav-item not-sub" href="#">OTEG</a>
             <a class="custom-nav-item" id="indicadores" href="#">Indicadores</a>
             <a class="custom-nav-item" id="publicaciones" href="#">Publicaciones</a>
             <a class="custom-nav-item not-sub" href="#">Información Turistica</a>
-            <a class="custom-nav-item" id="eventos" href="{% url 'eventos' %}">Eventos y actividades</a>
-            <a class="custom-nav-item not-sub" href="{% url 'solicitudes' %}">Solicitudes</a>
-            <a class="custom-nav-item not-sub" href="#">Protocolo Alba</a>
-            <a class="custom-nav-item not-sub" href="#">Barómetro Turístico</a>
+            <a class="custom-nav-item" id="eventos" href="#">Eventos y actividades</a>
+            <a class="custom-nav-item not-sub" href="#">Solicitudes</a>
+            <a class="custom-nav-item not-sub" href="{% url 'protocolo_alba' %}">Protocolo Alba</a>
+            <a class="custom-nav-item not-sub" href="{%url 'barometro-turistico' %}" class="text-reset">Barómetro Turístico</a>
             <a class="custom-nav-item not-sub" href="#">Glosario</a>
             {% if user.is_authenticated %}
             <a class="custom-nav-item not-sub" href="{% url 'dashboard:publicacion_list' %}">Panel Admin</a>
@@ -244,11 +249,7 @@
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa dolor nulla quia amet a nihil
                         dolorem commodi, tempora velit, hic consectetur sit, similique omnis praesentium accusamus
                         nesciunt laboriosam. Provident, blanditiis.</p>
-                    <a class="custom-nav-item" href="#">Barómetro Turístico</a>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa dolor nulla quia amet a nihil
-                        dolorem commodi, tempora velit, hic consectetur sit, similique omnis praesentium accusamus
-                        nesciunt laboriosam. Provident, blanditiis.</p>
-                    <a class="custom-nav-item" href="#">Barómetro Turístico</a>
+                    <a href="{%url 'barometro-turistico' %}">Barómetro Turístico</a>
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa dolor nulla quia amet a nihil
                         dolorem commodi, tempora velit, hic consectetur sit, similique omnis praesentium accusamus
                         nesciunt laboriosam. Provident, blanditiis.</p>

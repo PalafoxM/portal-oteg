@@ -1,0 +1,54 @@
+{% extends 'back/components/list.html' %}
+{% load static %}
+{% block head_list %}
+<!-- <script src="{% static 'admin/banner/list.js' %}"></script> -->
+{% endblock %}
+
+{% block columns %}
+<tr>
+    <th>ID</th>
+    <th>Nombre</th>
+    <th>Fecha</th>
+    <th>Sección</th>
+    <th>Categoria</th>
+    <th>Acciones</th>
+
+</tr>
+{% endblock %}
+
+{% block rows %}
+{% for e in object_list %}
+<tr>
+    <th>{{e.id }}</th>
+    <th>{{e.name}}</th>
+    <th>{{e.date_created}}</th>
+    <th>{{e.section.seccion}}</th>
+    <th>{{e.category.nombre_categoria}}</th>
+    
+    <th>
+        
+        <form method="post" action="{% url 'dashboard:publicacion_delete' e.id %}" >
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger btn-icon-split" onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">
+                <span class="icon text-white-50">
+                    <i class="fas fa-trash"></i>
+                </span>
+                <span class="text">Eliminar</span>
+            </button>
+        </form>
+
+
+        <form method="get" action="{% url 'dashboard:publicacion_update' e.id %}" >
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary btn-icon-split">
+                <span class="icon text-white-50">
+                    <i class="fas fa-pencil-alt"></i>
+                </span>
+                <span class="text">Editar</span>
+            </button>
+        </form>
+
+    </th>
+</tr>
+{% endfor %}
+{% endblock %}

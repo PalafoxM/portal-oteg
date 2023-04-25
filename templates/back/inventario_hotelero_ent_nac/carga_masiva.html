@@ -1,6 +1,36 @@
 {% extends 'back/index.html' %}
 
 {% block content %}
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script>
+  var datos = {{ descargar_url|safe }};
+  console.log(datos|| 0)
+  function descargarArchivo() {
+    const csrftoken = getCookie('csrftoken');
+    let registros = {{ descargar_url|safe }};
+
+    axios.post('{% url 'dashboard:descargar_archivo' %}', JSON.stringify(registros), {
+      headers: {
+        'X-CSRFToken': csrftoken,
+        'Content-Type': 'application/json',
+      },
+      responseType: 'blob',
+    }).then((response) => {
+      // Crear un enlace de descarga con la respuesta del servidor
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'registros_incorrectos.xlsx');
+      document.body.appendChild(link);
+      link.click();
+    }).catch((error) => {
+      console.log('Error:', error);
+    });
+  }
+
+
+</script>
 <h1>Carga masiva</h1>
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
@@ -21,64 +51,21 @@
 {% endif %}
 {% if registros_incorrectos %}
       <div class="alert alert-danger mt-3">
-        <h4>No se pudieron guardar las siguientes filas:</h4>
-        <a href="{% url 'dashboard:inventario_hotelero_ent_nac_carga_masiva' %}?descargar_archivo=1" class="btn btn-primary">Descargar archivo de errores</a>
-        <!-- <a href="{% url 'dashboard:inventario_hotelero_ent_nac_carga_masiva' %}?descargar_archivo=1" class="btn btn-primary">Descargar archivo de errores</a> -->
+        <h4>Existen {{registros_incorrectos|length}} filas con errores de un total de {{num_filas_procesadas}} filas</h4>
+
+        <button id="descargar-btn" onclick="descargarArchivo()" class="btn btn-danger">Descargar archivo de errores</button>
       </div>
     {% endif %}
 
     {% if registros_correctos %}
       <div class="alert alert-success mt-3">
-        <h4>Se guardaron las siguientes filas:</h4>
-        <table class="table table-striped table-bordered">
-          <thead>
-            <tr>
-              <th>Destino</th>
-              <th>Fecha</th>
-              <th>Categoría</th>
-              <th>Habitaciones</th>
-              <th>Establecimientos</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for registro in registros_correctos %}
-              <tr>
-                <td>{{ registro.destino }}</td>
-                <td>{{ registro.fecha }}</td>
-                <td>{{ registro.categoria }}</td>
-                <td>{{ registro.habitaciones }}</td>
-                <td>{{ registro.establecimientos }}</td>
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+        <h4>Se han guardado {{registros_correctos|length}} filas de un total de {{num_filas_procesadas}} filas</h4>
       </div>
     {% endif %}
 {% if registros_existentes %}
 <div class="alert alert-warning mt-3">
-    <h4>Las siguientes filas ya existían en la base de datos y no se guardaron:</h4>
-    <table class="table table-striped table-bordered">
-        <thead>
-          <tr>
-            <th>Destino</th>
-            <th>Fecha</th>
-            <th>Categoría</th>
-            <th>Habitaciones</th>
-            <th>Establecimientos</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for registro in registros_existentes %}
-            <tr>
-              <td>{{ registro.destino }}</td>
-              <td>{{ registro.fecha }}</td>
-              <td>{{ registro.categoria }}</td>
-              <td>{{ registro.habitaciones }}</td>
-              <td>{{ registro.establecimientos }}</td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+  <h4>Ya existen {{registros_existentes|length}} registros de un total de {{num_filas_procesadas}} filas en la base de datos y no se han guardado</h4>
+    
 </div>
 {% endif %}
 {% endblock %}

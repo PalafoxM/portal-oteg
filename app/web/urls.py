@@ -39,6 +39,14 @@ urlpatterns = [
     path('segmento-turistico/',TuristicosView.as_view(), name='turisticos'),
     path('pueblos-magicos/',PueblosmagicosView.as_view(), name='pueblos_magicos'),
     #Publicaciones
+    path('publicaciones/perfil_visistante_ciudad/<int:pk>/',PerfilVisitanteCiudad.as_view(), name='perfil_visistante_ciudad'),
+    
+    path('puplicaciones/seccion/<int:pk>/',PublicacionesSecciones.as_view(), name='publicaciones_secciones'),
+    
+    path('publicaciones_pdf_viewer/<int:pk>/',PublicacionesPDFViewer.as_view(), name='publicaciones_pdf_viewer'),
+    path('pdf/<int:pk>/', PDFDownloadView.as_view(), name='pdf_download'),
+    path('pdf/back/<int:pk>/', PDFDownloadViewBack.as_view(), name='pdf_back'),
+    path('perfil_visistante_ciudad/',PerfilVisitanteCiudad.as_view(), name='perfil_visistante_ciudad'),
     path('publicaciones/perfil-visistante-ciudad/<int:pk>/',PerfilVisitanteCiudad.as_view(), name='perfil_visistante_ciudad'),
     path('publicaciones-pdf-viewer/<int:pk>/',PublicacionesPDFViewer.as_view(), name='publicaciones_pdf_viewer'),
     path('pdf/<int:pk>/', PDFDownloadView.as_view(), name='pdf_download'),
@@ -62,9 +70,12 @@ urlpatterns = [
     # 
     path('search_noticias/', search_noticias, name='search_noticias'),
     path('noticias_turisticas/',NoticiasTuristicasView.as_view(), name='noticias_turisticas'),
+    path('notica_viewer/<int:pk>/',NoticiaViewer.as_view(), name='notica_viewer'),
     path('search_words/', search_words, name='search_words'),
     path('reportes_mensuales/',ReportesMensualesView.as_view(), name='reportes_mensuales'),
     path('chart_data/', chart_data, name='chart_data'),
+    path('barometro_viewer/<int:pk>/', BarometroViewer.as_view(), name='barometro_viewer'),
+
     # eventos
     path('eventos/',EventosView.as_view(), name='eventos'),
     path('eventos-list1/', eventos_list, name='eventos-list1'),

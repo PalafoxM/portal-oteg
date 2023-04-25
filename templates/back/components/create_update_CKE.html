@@ -1,0 +1,129 @@
+{% extends 'back/index.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+
+{% block extrahead %}
+<script>window.CKEDITOR_BASEPATH = '/my_static/ckeditor/ckeditor/';</script>
+{{ block.super }}
+{% endblock %}
+
+
+{% block content %}
+<div class="card shadow mb-4">
+    <form method="post" enctype="multipart/form-data">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">{{title}}</h6>
+
+        </div>
+        <div class="card-body">
+            {% csrf_token %}
+            {{ form.media }}
+            {% if form.errors %}
+            <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h5><i class="icon fas fa-ban"></i> Ha ocurrido un error al querer guardar el registro</h5>
+                <ul>
+                    {% for field in form %}
+                    {% for error in field.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+            {{ form.as_p }}
+        </div>
+        <div class="card-footer">
+
+            <button type="submit" class="btn btn-primary ">
+                <i class="fas fa-save"></i> Guardar
+            </button>
+
+            <div id="baker" class="btn btn-danger ">
+                <i class="fas fa-times"></i> Cancelar
+            </div>
+        </div>
+    </form>
+
+
+</div>
+
+{% endblock %}
+
+<script type="text/javascript" src="{% static " ckeditor/ckeditor-init.js" %}"></script>
+<script type="text/javascript" src="{% static " ckeditor/ckeditor/ckeditor.js" %}"></script>
+
+
+{% block javascript %}
+<script type="application/javascript">
+    $(function () {
+        $('form').on('submit', function (e) {
+            e.preventDefault();
+            
+            var parameters = new FormData(this);
+
+            setTimeout(function () {
+                for (var instanceName in CKEDITOR.instances) {
+
+                    console.log(instanceName);
+
+                    var instance = CKEDITOR.instances[instanceName];
+
+                    if (instance) {
+                        CKEDITOR.instances[instanceName].updateElement();
+                        instance.setData(instance.getData());
+                        
+                    }
+                }
+            }, 500);
+
+            parameters.set('descripcion', CKEDITOR.instances['id_descripcion'].getData());
+
+            $.ajax({
+                url: window.location.pathname,
+                type: 'POST',
+                data: parameters,
+                processData: false,
+                contentType: false,
+                dataType: 'json'
+            }).done(function (data) {
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Buen trabajo!',
+                        text: 'Operación exitosa.',
+                        timer: 2000,
+                        showConfirmButton: false
+                    }).then(function () {
+                        window.location.href = '{{ list_url }}';
+                    });
+                } else {
+                    var errors = '';
+                    for (var field in data.errors) {
+                        errors += data.errors[field].join('\n');
+                    }
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: errors
+                    });
+                }
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                alert(textStatus + ': ' + errorThrown);
+            }).always(function (data) {
+
+            });
+        });
+    });
+
+    $('#baker').on('click', function (e) {
+        e.preventDefault();
+        if (confirm('¿Está seguro de cancelar la operación?...los datos no guardados se perderán')) {
+            window.location.href = '{{ list_url }}';
+        } else {
+            return false;
+        }
+    });
+</script>
+{% endblock %}

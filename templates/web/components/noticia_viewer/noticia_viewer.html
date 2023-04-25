@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'fontawesome-free/css/all.min.css' %}">
+</head>
+
+<body>
+    {% include 'web/components/navbar/navbar.html' %}
+
+</body>
+
+
+<div class="container" style="margin-top: 5rem;">
+
+    <p>
+        <a href="{%url 'noticias_turisticas'%}" class="text-reset" style="padding-left: 12px;">Regresar a la
+            Lista</a>
+    </p>
+    <h1>{{noticia.titulo}}</h1>
+    <img src="{{noticia.imagen.url}}" style="width: 100%" alt="...">
+    <p class="card-text"><small class="text-muted">Fecha:{{noticia.fecha_nota}}</small></p>
+    <p class="card-text">{{noticia.descripcion|safe}}</p>
+    <p class="card-text"><small class="text-muted">Autor de la nota:{{noticia.autor_nota}}</small></p>
+    <p class="card-text"><small class="text-muted">Autor de la foto:{{noticia.autor_foto}}</small></p>
+    <div style="display: flex; gap: 5px;">
+        <p class="card-text"><small class="text-muted">Sitio web de la nota: </small></p>
+        <a class="card-text" href="{{noticia.sitio_web}}"><small class="">{{noticia.sitio_web}}</small></a>
+    </div>
+
+    <p class="card-text"><small class="text-muted">Fecha de Recuperación::{{noticia.fecha_recuperacion}}</small></p>
+
+
+
+
+
+</div>
+
+{% include 'web/components/footer/footer.html' %}
+
+
+</html>

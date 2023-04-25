@@ -18,7 +18,14 @@
 <tr>
     <th>{{e.id}}</th>
     <th>{{e.titulo}}</th>
+    {% if e.imagen %}
+
     <th><img src="{{e.imagen.url}}" alt="" width="100px"></th>
+
+    {% else %}
+    <th>No hay imagen disponible</th>
+    {% endif %}
+
     <th>
         
         <form method="post" action="{% url 'dashboard:noticia_delete' e.id %}" >
@@ -31,8 +38,7 @@
             </button>
         </form>
 
-        
-        <form method="post" action="{% url 'dashboard:noticia_update' e.id %}" >
+        <form method="get" action="{% url 'dashboard:noticia_update' e.id %}" >
             {% csrf_token %}
             <button type="submit" class="btn btn-primary btn-icon-split">
                 <span class="icon text-white-50">

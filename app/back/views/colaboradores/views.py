@@ -1,141 +1,177 @@
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.shortcuts import render
-from back.models import  Publications
+from back.models import *
 from back.forms import PublicationForm
 from django.http import JsonResponse, HttpResponseRedirect
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
+#onjet of 404
+from django.shortcuts import get_object_or_404
+from django.http import JsonResponse
+from django.views.decorators.http import require_GET
+
 
 # Create your views here.
 class PublicationsListView(ListView):
-    model = Publications
-    template_name = 'back/publicaciones/list.html' 
 
-    def post(self, request, *args, **kwargs):
-        data = {}
-        try:
-            action = request.POST['action']
-            if action == 'search':
-                data = []
-                for i in Publications.objects.all():
-                    data.append(i.toJSON())
-            else:
-                data['error'] = 'Ha ocurrido un error'
-        except Exception as e:
-            data['error'] = str(e)
-        return JsonResponse(data, safe=False)
+    model = Publications
+    template_name = 'back/publicaciones/viewer.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Listado de publicaciones'
-        context['create_url'] = reverse_lazy('dashboard:publicacion_create')
-        context['entity'] = 'Publicaciones'
+        context['title'] = 'Listado de Publicaciones'
+        context['create_url'] =  reverse_lazy('dashboard:publicacion_create')
         return context
+    
 
-class  PublicationsCreateView(CreateView):
+class PublicationsCreateView(CreateView):
     model = Publications
     form_class = PublicationForm
-    template_name = 'back/components/create_update.html'
+    template_name = 'back/components/create_update_dynamic.html'
     success_url = reverse_lazy('dashboard:publicacion_list')
-
+    
     def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST, request.FILES)
+        form = self.form_class(request.POST)
+
         if form.is_valid():
-            self.object = form.save()
+            section_id = request.POST.get('section')
+            category_id = request.POST.get('category')
+            section = SeccionesCentroDocumental.objects.get(pk=section_id)
+            category = Categorias.objects.get(pk=category_id)
+            
+            # Set the section and category on the Publication object
+            publication = form.save(commit=False)
+            publication.section = section
+            publication.category = category
+            publication.save()
+
+            #self.object = form.save()
             data = {
                 'success': True,
-                'message': 'Publicacion creada exitosamente.',
+                'message': 'Palabra Creada exitosamente.',
                 'url': self.success_url
             }
             return JsonResponse(data)
         else:
             data = {
                 'success': False,
-                'message': 'Hubo un error al crear una Publicacion.',
+                'message': 'Hubo un error al crear registro.',
                 'errors': form.errors
             }
             return JsonResponse(data)
-        
 
     def form_invalid(self, form):
-        print("form_invalid")
         response = super().form_invalid(form)
         data = {
             'success': False,
-            'message': 'Hubo un error al crear una Publicacion.',
+            'message': 'Hubo un error al crear registro.',
             'errors': form.errors
         }
         return JsonResponse(data)
 
     def form_valid(self, form):
-        print("form_valid")
         response = super().form_valid(form)
+        data = {
+            'success': True,
+            'message': 'Registro creado exitosamente.',
+            'url': self.success_url
+        }
+        return JsonResponse(data)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Crear una Publicacion'
+        context['entity'] = 'Publicaciones'
+        context['sections'] = SeccionesCentroDocumental.objects.all()
+        context['list_url'] = reverse_lazy('dashboard:publicacion_list')
+        context['action'] = 'add'
+        return context
+
+def is_ajax(request):
+    return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
+
+
+class PublicationUpdateView(UpdateView):
+    model = Publications
+    form_class = PublicationForm
+    template_name = 'back/components/update_dynamic.html'
+    success_url = reverse_lazy('dashboard:publicacion_list')
+
+
+    def form_invalid(self, form):
+        response = super().form_invalid(form)
+        data = {
+            'success': False,
+            'message': 'Hubo un error al crear la publicacion.',
+            'errors': form.errors
+        }
+        if is_ajax(self.request):
+            return JsonResponse(data)
+        else:
+            return response
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        section_id = self.request.POST.get('section')
+        category_id = self.request.POST.get('category')
+        section = SeccionesCentroDocumental.objects.get(pk=section_id)
+        category = Categorias.objects.get(pk=category_id)
+        
+        # Set the section and category on the Publication object
+        publication = form.save(commit=False)
+        publication.section = section
+        publication.category = category
+        publication.save()
+
+
+
         data = {
             'success': True,
             'message': 'Publicacion creada exitosamente.',
             'url': self.success_url
         }
-        return JsonResponse(data)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Crear Publicacion'
-        context['entity'] = 'Publicacciones'
-        context['list_url'] = reverse_lazy('dashboard:publicacion_list')
-        context['action'] = 'add'
-        return context
-
-
-def is_ajax(request):
-    return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
-
-class PublicationUpdateView( UpdateView):
-    model = Publications
-    form_class = PublicationForm
-    template_name = 'back/components/create_update.html'
-    success_url = reverse_lazy('dashboard:publicacion_list')
-
-    def form_invalid(self, form):
-        response = super().form_invalid(form)
-        data = {
-            'success': False,
-            'message': 'Hubo un error al crear la Publicación.',
-            'errors': form.errors
-        }
         if is_ajax(self.request):
             return JsonResponse(data)
         else:
             return response
-
-    def form_valid(self, form):
-        response = super().form_valid(form)
-        data = {
-            'success': True,
-            'message': 'Publicación creada exitosamente.',
-            'url': self.success_url
-        }
-        if is_ajax(self.request):
-            return JsonResponse(data)
-        else:
-            return response
-    
+        
+        
+    def get_object(self):
+        # Get the Publicacion object to update based on the pk value from the URL
+        pk = self.kwargs.get('pk')
+        return Publications.objects.get(pk=pk)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Edición una Pulicacion'
-        context['entity'] = 'Publicacciones'
-        context['list_url'] = reverse_lazy('dashboard:publicacion_list')
+        context['sections'] = SeccionesCentroDocumental.objects.all()
         context['form'] = self.form_class(instance=self.object)
+        context['list_url'] = reverse_lazy('dashboard:publicacion_list')
+        context ['pk'] = self.kwargs.get('pk')
+        context ['section'] = self.object.section.id
+        context ['category'] = self.object.category.id
         return context
-
 
 
 class PublicationDeleteView(DeleteView):
     model = Publications
-    # template_name = 'back/delete.html'
     success_url = reverse_lazy('dashboard:publicacion_list')
-    
+
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         success_url = self.get_success_url()
         self.object.delete()
         return HttpResponseRedirect(success_url)
+    
+@require_GET
+def get_categories(request):
+    section_id = request.GET.get('section_id', 0)
+
+    if section_id:
+        seccion = get_object_or_404(SeccionesCentroDocumental, id=section_id)
+
+        categories = Categorias.objects.filter(seccion=seccion)
+
+
+    data = [{'key': c.id, 'value': c.nombre_categoria} for c in categories]
+
+    return JsonResponse(data, safe=False)

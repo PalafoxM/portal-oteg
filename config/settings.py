@@ -62,8 +62,12 @@ INSTALLED_APPS = [
 
     # librerias
     'widget_tweaks',
+    'ckeditor',
+    'ckeditor_uploader',
     # 'google_translate',
 ]
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -102,7 +106,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = DATABASES
-DATABASE_ROUTERS = ['config.db.EcosistemaRouter']
+# DATABASE_ROUTERS = ['config.db.EcosistemaRouter']
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -139,11 +143,11 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
-MEDIA_ROOT = '/media/'
 MEDIA_ROOT =  os.path.join(BASE_DIR, 'media')
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'project_static'),
+    os.path.join(BASE_DIR, 'static/fonts'),
 ]
 # STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
@@ -165,11 +169,34 @@ STATICFILES_DIRS = [
 # ]
 
 
+STATIC_ROOT = BASE_DIR / 'static'
+
+CKEDITOR_UPLOAD_PATH = "uploads/"
+
+
+CKEDITOR_CONFIGS = {
+    'awesome_ckeditor': {
+        'toolbar': 'Basic',
+    },
+}
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+            ['Bold', 'Italic', 'Underline'],
+            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+            ['Link', 'Unlink'],
+            ['RemoveFormat', 'Source']
+        ]
+    }
+}
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 
 # Email configuration
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
