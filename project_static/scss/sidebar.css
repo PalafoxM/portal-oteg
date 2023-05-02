@@ -55,6 +55,15 @@
 .sidebar .nav-links::-webkit-scrollbar {
   display: none;
 }
+.sidebar .nav-links a {
+  text-align: center;
+  padding: 0.75rem 1.5rem;
+  width: 90px;
+}
+/* .sidebar .nav-links a span{
+  font-size: 0.65rem;
+  display: block;
+} */
 .sidebar .nav-links li {
   position: relative;
   list-style: none;
@@ -85,6 +94,11 @@
   cursor: pointer;
   transition: all 0.3s ease;
 }
+.sidebar .nav-links li img {
+  margin-right: 10px;
+  width: 20px;
+  height: auto;
+}
 .sidebar .nav-links li.showMenu i.arrow {
   transform: rotate(-180deg);
 }
@@ -96,10 +110,13 @@
   align-items: center;
   text-decoration: none;
 }
+.etq-sidebar{
+  font-family: 'Avenir-medium';
+}
 .sidebar .nav-links li a .link_name {
   font-size: 1rem;
   display: block;
-  /* font-weight: 400; */
+  font-weight: 400;
   color: #4A4A4A;
   transition: all 0.4s ease;
 }
@@ -265,7 +282,7 @@
 }
 
 .icons-list{
-  background-color: #131414;
+  /* background-color: #131414; */
   margin-right: 10px;
   width: 20px;
   height: auto;

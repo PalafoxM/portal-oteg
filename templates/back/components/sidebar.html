@@ -7,44 +7,74 @@
     </div>
     <ul class="nav-links">
         <li>
-            <a href="#">
-                <i class='bx bx-grid-alt'></i>
-                <!-- <img src="images/icons/plus.png" class="icons-list"> -->
-                <span class="link_name">Dashboard</span>
-            </a>
-            <ul class="sub-menu blank">
-                <li><a class="link_name" href="#">Category 11</a></li>
-            </ul>
-        </li>
-        <li>
             <div class="icon-link">
                 <a href="#">
-                    <!-- <img src="images/icons/plus.png" class="icons-list"> -->
-                    <i class='bx bx-collection'></i>
-                    <span class="link_name">funetes de informacion</span>
+                    <img src="{% static 'images/icons/icon-reportes.png' %}" class="icons-list">
+                    <!-- <i class='bx bx-line-chart'></i> -->
+                    <span class="link_name ">funetes de informacion</span>
                 </a>
                 <i class='bx bxs-chevron-down arrow'></i>
             </div>
             <ul class="sub-menu">
-                <li><a class="link_name" href="#">Category</a></li>
-                <li><a href="#">HTML & CSS</a></li>
-                <li><a href="#">JavaScript</a></li>
-                <li><a href="#">PHP & MySQL</a></li>
+                <li><a class="link_name" href="#">Estadísticas</a></li>
+                <li><a href="#">Fuentes de información</a></li>
+                <li><a href="#">Reportes</a></li>
             </ul>
         </li>
         <li>
             <div class="icon-link">
                 <a href="#">
-                    <i class='bx bx-book-alt'></i>
-                    <span class="link_name">Posts</span>
+                    <img src="{% static 'images/icons/icon-exportacion.png' %}" class="icons-list">
+                    <!-- <i class='bx bx-book-alt'></i> -->
+                    <span class="link_name">CEDOC</span>
                 </a>
                 <i class='bx bxs-chevron-down arrow'></i>
             </div>
             <ul class="sub-menu">
                 <li><a class="link_name" href="#">Posts</a></li>
-                <li><a href="#">Web Design</a></li>
-                <li><a href="#">Login Form</a></li>
-                <li><a href="#">Card Design</a></li>
+                <li><a href="{%url 'dashboard:publicacion_list'  %}">Publicaciones</a></li>
+                <li><a href="{%url 'dashboard:descargas_list'  %}">Descargar</a></li>
+            </ul>
+        </li>
+        <li>
+            <div class="icon-link">
+                <a href="#">
+                    <img src="{% static 'images/icons/icon-catalogos.png' %}" class="icons-list">
+                    <!-- <i class='bx bx-book-alt'></i> -->
+                    <span class="link_name">Contenido</span>
+                </a>
+                <i class='bx bxs-chevron-down arrow'></i>
+            </div>
+            <ul class="sub-menu">
+                <li><a class="link_name" href="#">Posts</a></li>
+                <li><a href="{%url 'dashboard:banner_list'  %}">Banners</a></li>
+                <li><a href="{%url 'dashboard:noticias_list'  %}">Noticias</a></li>
+                <li><a href="{%url 'dashboard:eventos_list'  %}">Eventos</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">
+                <img src="{% static 'images/icons/icon-users.png' %}" class="icons-list">
+              <!-- <i class='bx bx-line-chart'></i> -->
+              <span class="link_name">Colaboradores</span>
+            </a>
+            <ul class="sub-menu blank">
+              <li><a class="link_name" href="{%url 'usuarios-list'  %}">Colaboradores</a></li>
+            </ul>
+          </li>
+        <li>
+            <div class="icon-link">
+                <a href="#">
+                    <img src="{% static 'images/icons/icon-users.png' %}" class="icons-list">
+                    <!-- <i class='bx bx-book-alt'></i> -->
+                    <span class="link_name">Otros</span>
+                </a>
+                <i class='bx bxs-chevron-down arrow'></i>
+            </div>
+            <ul class="sub-menu">
+                <li><a class="link_name" href="#">Posts</a></li>
+                <li><a href="{%url 'dashboard:glosario_list'  %}">Glosario</a></li>
+                <li><a href="{%url 'dashboard:place_list'  %}">Sitios de interés</a></li>
             </ul>
         </li>
     </ul>

@@ -85,6 +85,11 @@
   cursor: pointer;
   transition: all 0.3s ease;
 }
+.sidebar .nav-links li img {
+  margin-right: 10px;
+  width: 20px;
+  height: auto;
+}
 .sidebar .nav-links li.showMenu i.arrow {
   transform: rotate(-180deg);
 }
@@ -265,7 +270,7 @@
 }
 
 .icons-list{
-  background-color: #131414;
+  /* background-color: #131414; */
   margin-right: 10px;
   width: 20px;
   height: auto;
