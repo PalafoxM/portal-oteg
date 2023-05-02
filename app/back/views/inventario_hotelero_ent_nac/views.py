@@ -18,6 +18,9 @@ from django.template.loader import render_to_string
 from urllib.parse import urlencode
 from urllib.parse import unquote_plus
 import json
+from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino
+import pandas as pd
+
 
 
 
@@ -147,7 +150,7 @@ class InventarioHoteleroEntNacCargaMasivaView(View):
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {'form': form, 'title': 'Carga Masiva'})
 
 
     def post(self, request, *args, **kwargs):
@@ -246,9 +249,27 @@ class InventarioHoteleroEntNacCargaMasivaView(View):
             # print(datos)
             for row in datos:
                 num_filas_procesadas += 1
-                destino = row['destino']
+
+                # Limpieza de datos
+                destino = clean_str_col(row['destino'])
+                categoria = clean_str_col(row['categoria'])
+
+                # Homologación de datos
+                destino = homologar_columna_destino(destino)
+                categoria = homologar_columna_categoria(categoria)
+
+                # Validar si el destino y categoria son válidos
+                if destino not in CatalagoDestino.objects.values_list('destino', flat=True):
+                    print(f"El destino {destino} no está en la tabla CatalagoDestino")
+                    registros_incorrectos.append(row)
+                    continue
+                if categoria not in CatalagoCategoria.objects.values_list('categoria', flat=True):
+                    print(f"La categoría {categoria} no está en la tabla CatalagoCategoria")
+                    registros_incorrectos.append(row)
+                    continue
+
+
                 fecha = row['fecha']
-                categoria = row['categoria']
                 habitaciones = row['habitaciones']
                 establecimientos = row['establecimientos']
 

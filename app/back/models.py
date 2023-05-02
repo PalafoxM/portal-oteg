@@ -304,3 +304,12 @@ class CalidadAire(models.Model):
         verbose_name_plural = 'aire'
         db_table = 'aire'
         ordering = ['-id']
+
+
+# catalagos para destino y categoriaclass Categoria(models.Model):
+class CatalagoCategoria(models.Model):
+    categoria = models.CharField(max_length=255)
+
+class CatalagoDestino(models.Model):
+    destino = models.CharField(max_length=455)
+    entidad = models.CharField(max_length=455)
