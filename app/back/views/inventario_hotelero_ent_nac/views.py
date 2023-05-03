@@ -12,6 +12,17 @@ import csv
 import os
 import datetime
 from django.urls import reverse
+import openpyxl
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+from urllib.parse import urlencode
+from urllib.parse import unquote_plus
+import json
+from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino
+import pandas as pd
+
+
+
 
 
 
@@ -139,19 +150,20 @@ class InventarioHoteleroEntNacCargaMasivaView(View):
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {'form': form, 'title': 'Carga Masiva'})
 
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST, request.FILES)
         registros_correctos, registros_incorrectos, registros_existentes = [], [], []
+        num_filas_procesadas = 0
         archivo = request.FILES.get('archivo', None)
         if archivo:
             extension = os.path.splitext(archivo.name)[1]
             if extension == '.xlsx':
                 registros_correctos, registros_incorrectos, registros_existentes = self.procesar_archivo_xlsx(archivo)
             elif extension == '.csv':
-                registros_correctos, registros_incorrectos, registros_existentes = self.procesar_archivo_csv(archivo)
+                registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas = self.procesar_archivo_csv(archivo)
             else:
                 messages.error(request, 'El archivo debe ser un archivo .xlsx o .csv')
                 registros_incorrectos.append("El archivo debe ser un archivo .xlsx o .csv")
@@ -161,6 +173,19 @@ class InventarioHoteleroEntNacCargaMasivaView(View):
 
         if len(registros_incorrectos) > 0 or len(registros_existentes) > 0:
             messages.error(request, 'Hay errores de registros')
+            # Codificamos los datos en formato JSON
+            print(registros_incorrectos)
+            datos_json = json.dumps(registros_incorrectos)
+            
+            return render(request, self.template_name, {
+                'form': form,
+                'registros_correctos': registros_correctos,
+                'registros_incorrectos': registros_incorrectos,
+                'registros_existentes': registros_existentes,
+                'descargar_url': datos_json,
+                'num_filas_procesadas': num_filas_procesadas,
+            })
+
             
         else:
             return HttpResponseRedirect(reverse('dashboard:inventario_hotelero_ent_nac_list'))
@@ -205,10 +230,10 @@ class InventarioHoteleroEntNacCargaMasivaView(View):
                         # Si no existe, se guarda la nueva instancia del modelo en la base de datos y se guarda en la lista de registros correctos
                         inventario = InventarioHoteleroEntNac(destino=destino, fecha=fecha_obj, categoria=categoria, habitaciones=habitaciones_int, establecimientos=establecimientos_int)
                         inventario.save()
-                        registros_correctos.append({'fila': i, 'destino': destino, 'fecha': fecha_obj, 'categoria': categoria, 'habitaciones': habitaciones_int, 'establecimientos': establecimientos_int})
+                        registros_correctos.append({'destino': destino, 'fecha': fecha_str, 'categoria': categoria, 'habitaciones': habitaciones_int, 'establecimientos': establecimientos_int})
                 except (ValueError, TypeError) as e:
                     # Si los datos no son válidos, se guarda el número de fila en la lista de registros incorrectos
-                    registros_incorrectos.append({'fila': i, 'destino': destino, 'fecha': fecha, 'categoria': categoria, 'habitaciones': habitaciones, 'establecimientos': establecimientos, 'error': str(e)})
+                    registros_incorrectos.append({'destino': destino, 'fecha': fecha_str, 'categoria': categoria, 'habitaciones': habitaciones, 'establecimientos': establecimientos, 'error': str(e)})
                     
         except FileNotFoundError:
                 print(f"El archivo {archivo} no se pudo abrir")
@@ -218,13 +243,33 @@ class InventarioHoteleroEntNacCargaMasivaView(View):
     def procesar_archivo_csv(self, archivo):
         archivo = self.request.FILES['archivo']
         registros_correctos, registros_incorrectos, registros_existentes = [], [], []
+        num_filas_procesadas = 0
         try:
             datos = csv.DictReader(archivo.read().decode('latin-1').splitlines())
             # print(datos)
             for row in datos:
-                destino = row['destino']
+                num_filas_procesadas += 1
+
+                # Limpieza de datos
+                destino = clean_str_col(row['destino'])
+                categoria = clean_str_col(row['categoria'])
+
+                # Homologación de datos
+                destino = homologar_columna_destino(destino)
+                categoria = homologar_columna_categoria(categoria)
+
+                # Validar si el destino y categoria son válidos
+                if destino not in CatalagoDestino.objects.values_list('destino', flat=True):
+                    print(f"El destino {destino} no está en la tabla CatalagoDestino")
+                    registros_incorrectos.append(row)
+                    continue
+                if categoria not in CatalagoCategoria.objects.values_list('categoria', flat=True):
+                    print(f"La categoría {categoria} no está en la tabla CatalagoCategoria")
+                    registros_incorrectos.append(row)
+                    continue
+
+
                 fecha = row['fecha']
-                categoria = row['categoria']
                 habitaciones = row['habitaciones']
                 establecimientos = row['establecimientos']
 
@@ -253,9 +298,68 @@ class InventarioHoteleroEntNacCargaMasivaView(View):
             print(f"No se encontró el archivo {archivo}")
         except Exception as e:
             print(f"Error al procesar el archivo {archivo}: {e}")
-        return registros_correctos, registros_incorrectos, registros_existentes
+        return registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas
+    
+    
+    
 
     
     
+class DescargarArchivoView(View):
+
+    def crear_archivo_excel(self, registros_incorrectos):
+        workbook = openpyxl.Workbook()
+        worksheet = workbook.active
+
+        # Add headers to the worksheet
+        worksheet['A1'] = 'Destino'
+        worksheet['B1'] = 'Fecha'
+        worksheet['C1'] = 'Categoría'
+        worksheet['D1'] = 'Habitaciones'
+        worksheet['E1'] = 'Establecimientos'
+        # worksheet['F1'] = 'Error'
+
+        # Add the incorrect rows to the worksheet
+        for i, row in enumerate(registros_incorrectos):
+            fila = i + 2
+            # worksheet.cell(row=fila, column=1, value=row['fila'])
+            worksheet.cell(row=fila, column=1, value=row['destino'])
+            worksheet.cell(row=fila, column=2, value=row['fecha'])
+            worksheet.cell(row=fila, column=3, value=row['categoria'])
+            worksheet.cell(row=fila, column=4, value=row['habitaciones'])
+            worksheet.cell(row=fila, column=5, value=row['establecimientos'])
+            # worksheet.cell(row=fila, column=7, value=row['error'])
+
+        # Set the column widths to auto-fit
+        for column in worksheet.columns:
+            max_length = 0
+            column_name = column[0].column_letter
+            for cell in column:
+                try:
+                    if len(str(cell.value)) > max_length:
+                        max_length = len(str(cell.value))
+                except:
+                    pass
+            adjusted_width = (max_length + 2)
+            worksheet.column_dimensions[column_name].width = adjusted_width
+
+        # Create the response with the Excel file
+        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response['Content-Disposition'] = 'attachment; filename=registros_incorrectos.xls'
+
+        
+
+        # workbook.save(response)
+        return workbook
     
-    
+    def post(self, request, *args, **kwargs):
+        # Obtener los registros incorrectos del cuerpo de la petición
+        registros_incorrectos = json.loads(request.body)
+
+        # Crear y enviar el archivo de Excel con las filas incorrectas
+        workbook = self.crear_archivo_excel(registros_incorrectos)
+
+        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response['Content-Disposition'] = 'attachment; filename=registros_incorrectos.xlsx'
+        workbook.save(response)
+        return response

@@ -92,6 +92,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'config.context_processors.global_variables'
 
             ],
         },
@@ -105,7 +106,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = DATABASES
-
+# DATABASE_ROUTERS = ['config.db.EcosistemaRouter']
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -148,6 +149,25 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'project_static'),
     os.path.join(BASE_DIR, 'static/fonts'),
 ]
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+
+# SASS_PROCESSOR_INCLUDE_DIRS = [
+#     os.path.join(BASE_DIR, 'static/scss'),
+# ]
+# STATICFILES_FINDERS = [
+#     'django.contrib.staticfiles.finders.FileSystemFinder',
+#     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+#     'sass_processor.finders.CssFinder',
+# ]
+
+# SASS_PROCESSOR_ENABLED = True
+# SASS_PROCESSOR_ROOT = 'static/scss/'
+# SASS_PROCESSOR_OUTPUT_DIR = 'static/css/'
+# SASS_PROCESSOR_INCLUDE_DIRS = [
+#     'static/scss/',
+# ]
+
 
 STATIC_ROOT = BASE_DIR / 'static'
 

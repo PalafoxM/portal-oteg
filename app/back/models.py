@@ -88,6 +88,8 @@ class Publications(models.Model):
     date_created = models.DateTimeField(auto_now=True)
     num_descargas = models.IntegerField(null=True, blank=True, default=0)
 
+    
+
 
 class Evento (models.Model):
     titulo = models.CharField(max_length=100)
@@ -153,8 +155,10 @@ class Alba(models.Model):
 
 
 class catalogo_categorias(models.Model):
-    db = 'db2'
+    # db = 'db2'
     categoria = models.CharField(max_length=100, null=True, blank=True)
+
+
 
 
 class catalogo_destinos(models.Model):
@@ -231,8 +235,6 @@ class InventarioHotelero(models.Model):
     date_updated = models.DateTimeField(auto_now=True,)
     date_created = models.DateTimeField(auto_now=True)
 
-    # Usa el enrutador para guardar el modelo en la base de datos correcta
-    # objects = EcosistemaManager()
     
     def toJSON(self):
         item = model_to_dict(self)
@@ -241,7 +243,7 @@ class InventarioHotelero(models.Model):
     class Meta:
         verbose_name = 'inventario_hotelero_gto'
         verbose_name_plural = 'inventario_hotelero_gto'
-        db_table = 'inventario_hotelero_gto'
+        db_table = "inventario_hotelero_gto"
         ordering = ['-id']
 
 class InversionPublica(models.Model):
@@ -251,9 +253,6 @@ class InversionPublica(models.Model):
     monto_inversion_municipal = models.FloatField()
     monto_inversion_estatal = models.FloatField()
     monto_inversion_federal = models.FloatField()
-
-    # Usa el enrutador para guardar el modelo en la base de datos correcta
-    # objects = EcosistemaManager()
 
     def __str__(self):
         return f"{self.municipio} - {self.nombre_obra} ({self.fecha})"
@@ -279,9 +278,6 @@ class InventarioHoteleroEntNac(models.Model):
     establecimientos = models.IntegerField()
     date_updated = models.DateTimeField(auto_now=True,)
     date_created = models.DateTimeField(auto_now=True)
-
-    # Usa el enrutador para guardar el modelo en la base de datos correcta
-    # objects = EcosistemaManager()
     
     def toJSON(self):
         item = model_to_dict(self)
@@ -299,9 +295,6 @@ class CalidadAire(models.Model):
     municipio = models.CharField(max_length=555)
     calidad_del_aire = models.CharField(max_length=2255)
 
-    # Usa el enrutador para guardar el modelo en la base de datos correcta
-    objects = EcosistemaManager()
-
     def toJSON(self):
         item = model_to_dict(self)
         return item
@@ -311,3 +304,12 @@ class CalidadAire(models.Model):
         verbose_name_plural = 'aire'
         db_table = 'aire'
         ordering = ['-id']
+
+
+# catalagos para destino y categoriaclass Categoria(models.Model):
+class CatalagoCategoria(models.Model):
+    categoria = models.CharField(max_length=255)
+
+class CatalagoDestino(models.Model):
+    destino = models.CharField(max_length=455)
+    entidad = models.CharField(max_length=455)

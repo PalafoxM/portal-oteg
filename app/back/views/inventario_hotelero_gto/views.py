@@ -26,7 +26,7 @@ class InventarioHoteleroListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Listado de inventario hotelero'
+        context['title'] = 'Hoteles GTO'
         context['create_url'] = reverse_lazy('dashboard:inventario_hotelero_create')
         context['carga_masiva_url'] = reverse_lazy('dashboard:inventario_hotelero_carga_masiva')
         context['entity'] = 'Inventario Hotelero'

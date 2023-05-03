@@ -12,6 +12,9 @@ from back.views.inversion_publica.views import *
 from back.views.inventario_hotelero_ent_nac.views import *
 from back.views.calidad_aire.views import *
 
+from django.conf import settings
+from django.conf.urls.static import static
+
 app_name = 'dashboard'
 
 urlpatterns = [
@@ -104,6 +107,8 @@ urlpatterns = [
     path('fuentes_info/zonas_arqueologicas/edit/<int:pk>/', FuenteInfoZonasArqueologicasUpdate.as_view(), name='fuente_info_zonas_arqueologicas_update'),
     path('fuentes_info/zonas_arqueologicas/delete/<int:pk>/', FuenteInfoZonasArqueologicasDelete.as_view(), name='fuente_info_zonas_arqueologicas_delete'),
     path('usuarios/list', my_profile, name='profile'),
+
+   
     path('descargas/list', descargas_list, name='descargas_list'),
     # Usuarios
     path('usuarios/list', my_profile, name='profile'),
@@ -125,10 +130,12 @@ urlpatterns = [
     path('inventario-hotelero-ent-nac/edit/<int:pk>/', InventarioHoteleroEntNacUpdateView.as_view(), name='inventario_hotelero_ent_nac_update'),
     path('inventario-hotelero-ent-nac/delete/<int:pk>/', InventarioHoteleroEntNacDeleteView.as_view(), name='inventario_hotelero_ent_nac_delete'),
     path('inventario-hotelero-ent-nac/carga-masiva', InventarioHoteleroEntNacCargaMasivaView.as_view(), name='inventario_hotelero_ent_nac_carga_masiva'),
+    path('inventario-hotelero-ent-nac/descargar-archivo', DescargarArchivoView.as_view(), name='descargar_archivo'),
+
     #calidad_aire
     path('calidad-aire/list', CalidadAireListView.as_view(), name='calidad_aire_list'),
     path('calidad-aire/add', CalidadAireCreateView.as_view(), name='calidad_aire_create'),
     path('calidad-aire/edit/<int:pk>/', CalidadAireUpdateView.as_view(), name='calidad_aire_update'),
     path('calidad-aire/delete/<int:pk>/', CalidadAireDeleteView.as_view(), name='calidad_aire_delete'),
     path('calidad-aire/carga-masiva', CalidadAireCargaMasivaView.as_view(), name='calidad_aire_carga_masiva'),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
