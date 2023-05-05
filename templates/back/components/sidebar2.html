@@ -40,7 +40,7 @@
             </div>
             <!-- <i class="fas fa-user"></i> -->
         </div>
-        <div class="icon-containers" (click)="logaout()">
+        <div class="icon-containers" onclick="location.href='{% url 'login_user' %}'">
             <div role="button" tooltip="Cerrar sesión" flow="right">
                 <img src="{% static 'images/icons/lock.png' %}" class="icons">
                 <!-- <i class="fas fa-lock"></i> -->
