@@ -30,6 +30,7 @@ class InversionPublicaListView(ListView):
         context['create_url'] = reverse_lazy('dashboard:inversion_publica_create')
         context['carga_masiva_url'] = reverse_lazy('dashboard:inversion_publica_carga_masiva')
         context['entity'] = 'Inversion Publica'
+        context['is_fuente'] = True
         return context
 
 class  InversionPublicaCreateView(CreateView):

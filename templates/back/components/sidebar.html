@@ -11,13 +11,13 @@
                 <a href="#">
                     <img src="{% static 'images/icons/icon-reportes.png' %}" class="icons-list">
                     <!-- <i class='bx bx-line-chart'></i> -->
-                    <span class="link_name ">funetes de informacion</span>
+                    <span class="link_name ">Estadísticas</span>
                 </a>
                 <i class='bx bxs-chevron-down arrow'></i>
             </div>
             <ul class="sub-menu">
                 <li><a class="link_name" href="#">Estadísticas</a></li>
-                <li><a href="#">Fuentes de información</a></li>
+                <li><a href="{%url 'dashboard:fuente_informacion'  %}">Fuentes de información</a></li>
                 <li><a href="#">Reportes</a></li>
             </ul>
         </li>
@@ -53,7 +53,7 @@
             </ul>
         </li>
         <li>
-            <a href="#">
+            <a href="{%url 'usuarios-list'  %}">
                 <img src="{% static 'images/icons/icon-users.png' %}" class="icons-list">
               <!-- <i class='bx bx-line-chart'></i> -->
               <span class="link_name">Colaboradores</span>

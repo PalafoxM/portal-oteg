@@ -44,7 +44,7 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  position: absolute;
+  /* position: absolute; */
   top: auto;
   font-family: 'Avenir-Medium';
   font-size: 16px;

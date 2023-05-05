@@ -11,6 +11,7 @@ from back.views.inventario_hotelero_gto.views import *
 from back.views.inversion_publica.views import *
 from back.views.inventario_hotelero_ent_nac.views import *
 from back.views.calidad_aire.views import *
+from back.views.fuente_informacion.view import *
 
 from django.conf import settings
 from django.conf.urls.static import static
@@ -118,6 +119,7 @@ urlpatterns = [
     path('inventario-hotelero-gto/edit/<int:pk>/', InventarioHoteleroUpdateView.as_view(), name='inventario_hotelero_update'),
     path('inventario-hotelero-gto/delete/<int:pk>/', InventarioHoteleroDeleteView.as_view(), name='inventario_hotelero_delete'),
     path('inventario-hotelero-gto/carga-masiva', CargaMasivaView.as_view(), name='inventario_hotelero_carga_masiva'),
+    path('inventario-hotelero-gto/descargar-archivo', DescargarArchivoGTOView.as_view(), name='descargar_archivo_gto'),
     #inversion_publica
     path('inversion-publica/list', InversionPublicaListView.as_view(), name='inversion_publica_list'),
     path('inversion-publica/add', InversionPublicaCreateView.as_view(), name='inversion_publica_create'),
@@ -138,4 +140,7 @@ urlpatterns = [
     path('calidad-aire/edit/<int:pk>/', CalidadAireUpdateView.as_view(), name='calidad_aire_update'),
     path('calidad-aire/delete/<int:pk>/', CalidadAireDeleteView.as_view(), name='calidad_aire_delete'),
     path('calidad-aire/carga-masiva', CalidadAireCargaMasivaView.as_view(), name='calidad_aire_carga_masiva'),
+
+    # fuentes de informacion list
+    path('fuente-informacion', FuentesInfoView.as_view(), name='fuente_informacion'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

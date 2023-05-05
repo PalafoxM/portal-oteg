@@ -14,12 +14,10 @@ import datetime
 from django.urls import reverse
 import openpyxl
 from django.http import HttpResponse
-from django.template.loader import render_to_string
-from urllib.parse import urlencode
-from urllib.parse import unquote_plus
+
 import json
 from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino
-import pandas as pd
+
 
 
 
@@ -41,6 +39,7 @@ class InventarioHoteleroEntNacListView(ListView):
         context['create_url'] = reverse_lazy('dashboard:inventario_hotelero_ent_nac_create')
         context['carga_masiva_url'] = reverse_lazy('dashboard:inventario_hotelero_ent_nac_carga_masiva')
         context['entity'] = 'Inventario Hotelero'
+        context['is_fuente'] = True
         return context
 
 class  InventarioHoteleroEntNacCreateView(CreateView):
@@ -161,7 +160,7 @@ class InventarioHoteleroEntNacCargaMasivaView(View):
         if archivo:
             extension = os.path.splitext(archivo.name)[1]
             if extension == '.xlsx':
-                registros_correctos, registros_incorrectos, registros_existentes = self.procesar_archivo_xlsx(archivo)
+                registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas = self.procesar_archivo_xlsx(archivo)
             elif extension == '.csv':
                 registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas = self.procesar_archivo_csv(archivo)
             else:
@@ -179,6 +178,7 @@ class InventarioHoteleroEntNacCargaMasivaView(View):
             
             return render(request, self.template_name, {
                 'form': form,
+                'title': 'Carga Masiva',
                 'registros_correctos': registros_correctos,
                 'registros_incorrectos': registros_incorrectos,
                 'registros_existentes': registros_existentes,
@@ -190,15 +190,11 @@ class InventarioHoteleroEntNacCargaMasivaView(View):
         else:
             return HttpResponseRedirect(reverse('dashboard:inventario_hotelero_ent_nac_list'))
         
-        return render(request, self.template_name, {
-            'form': form,
-            'registros_correctos': registros_correctos,
-            'registros_incorrectos': registros_incorrectos,
-            'registros_existentes': registros_existentes,
-        })
+        
 
     def procesar_archivo_xlsx(self, archivo):
         registros_correctos, registros_incorrectos, registros_existentes = [], [], []
+        num_filas_procesadas = 0
         try:
             workbook = load_workbook(filename=archivo, read_only=True)
             worksheet = workbook.active
@@ -206,9 +202,29 @@ class InventarioHoteleroEntNacCargaMasivaView(View):
             for i, row in enumerate(filas):
                 if i == 0:
                     continue # Ignorar la primera fila si es el encabezado
-                destino = row[0].value
+                
+                num_filas_procesadas += 1
+
+                # Limpieza de datos
+                destino = clean_str_col(row[0].value)
+                categoria = clean_str_col(row[2].value)
+
+                # Homologación de datos
+                destino = homologar_columna_destino(destino)
+                categoria = homologar_columna_categoria(categoria)
+
+                # Validar si el destino y categoria son válidos
+                if destino not in CatalagoDestino.objects.values_list('destino', flat=True):
+                    print(f"El destino {destino} no está en la tabla CatalagoDestino")
+                    registros_incorrectos.append(row)
+                    continue
+                if categoria not in CatalagoCategoria.objects.values_list('categoria', flat=True):
+                    print(f"La categoría {categoria} no está en la tabla CatalagoCategoria")
+                    registros_incorrectos.append(row)
+                    continue
+
+
                 fecha = row[1].value.date()
-                categoria = row[2].value
                 habitaciones = row[3].value
                 establecimientos = row[4].value
 
@@ -216,7 +232,6 @@ class InventarioHoteleroEntNacCargaMasivaView(View):
                     # Validar los datos
                     fecha_str = str(fecha)
                     fecha_obj = datetime.datetime.strptime(fecha_str, '%Y-%m-%d').date()
-                    # fecha_obj = datetime.datetime.strptime(fecha, '%Y-%m-%d').date()
                     habitaciones_int = int(habitaciones)
                     establecimientos_int = int(establecimientos)
 
@@ -238,7 +253,7 @@ class InventarioHoteleroEntNacCargaMasivaView(View):
         except FileNotFoundError:
                 print(f"El archivo {archivo} no se pudo abrir")
                 
-        return registros_correctos, registros_incorrectos, registros_existentes
+        return registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas
     
     def procesar_archivo_csv(self, archivo):
         archivo = self.request.FILES['archivo']

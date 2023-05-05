@@ -1,0 +1,80 @@
+{% extends 'back/components/list.html' %}
+{% load static %}
+{% block head_list %}
+<!-- <script src="{% static 'admin/banner/list.js' %}"></script> -->
+{% endblock %}
+
+{% block columns %}
+<tr class="text-center table-header">
+    <th class="text-left pl-3">Nombre de la fuente</th>
+    <th class="text-left pl-3">Estatus</th>
+    <th class="actions">Acciones</th>
+</tr>
+{% endblock %}
+
+{% block rows %}
+
+<!-- <tr class="tr-space"></tr> -->
+<tr class="text-center table-body mt-2">
+    <td class="text-left pl-3">Hoteles nacionales</td>
+    <td class="text-center pl-3">Estatus</td>
+    <!-- <td class="hidden-t" style="width: 146px;">
+        <div class="ml-3 mr-3" [ngClass]="{'flete-true': user.estatus, 'flete-false': !user.estatus}">
+            <span *ngIf="user.estatus">Activo</span>
+            <span *ngIf="!user.estatus">Inactivo</span>
+        </div>
+    </td> -->
+    <td class="actions-container">
+        <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="location.href='{% url 'dashboard:inventario_hotelero_ent_nac_list' %}'">
+            <i class="far fa-eye"></i>
+        </button>
+    </td>
+</tr>
+<tr class="text-center table-body mt-2">
+    <td class="text-left pl-3">Hoteles GTO</td>
+    <td class="text-center pl-3">Estatus</td>
+    <!-- <td class="hidden-t" style="width: 146px;">
+        <div class="ml-3 mr-3" [ngClass]="{'flete-true': user.estatus, 'flete-false': !user.estatus}">
+            <span *ngIf="user.estatus">Activo</span>
+            <span *ngIf="!user.estatus">Inactivo</span>
+        </div>
+    </td> -->
+    <td class="actions-container">
+        <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="location.href='{% url 'dashboard:inventario_hotelero_list' %}'">
+            <i class="far fa-eye"></i>
+        </button>
+    </td>
+</tr>
+<tr class="text-center table-body mt-2">
+    <td class="text-left pl-3">Inversión publica</td>
+    <td class="text-center pl-3">Estatus</td>
+    <!-- <td class="hidden-t" style="width: 146px;">
+        <div class="ml-3 mr-3" [ngClass]="{'flete-true': user.estatus, 'flete-false': !user.estatus}">
+            <span *ngIf="user.estatus">Activo</span>
+            <span *ngIf="!user.estatus">Inactivo</span>
+        </div>
+    </td> -->
+    <td class="actions-container">
+        <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="location.href='{% url 'dashboard:inversion_publica_list' %}'">
+            <i class="far fa-eye"></i>
+        </button>
+    </td>
+</tr>
+<tr class="text-center table-body mt-2">
+    <td class="text-left pl-3">Aire</td>
+    <td class="text-center pl-3">Estatus</td>
+    <!-- <td class="hidden-t" style="width: 146px;">
+        <div class="ml-3 mr-3" [ngClass]="{'flete-true': user.estatus, 'flete-false': !user.estatus}">
+            <span *ngIf="user.estatus">Activo</span>
+            <span *ngIf="!user.estatus">Inactivo</span>
+        </div>
+    </td> -->
+    <td class="actions-container">
+        <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="location.href='{% url 'dashboard:calidad_aire_list' %}'">
+            <i class="far fa-eye"></i>
+        </button>
+    </td>
+</tr>
+
+
+{% endblock %}
