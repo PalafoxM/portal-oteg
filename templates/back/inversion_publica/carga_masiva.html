@@ -1,110 +1,95 @@
 {% extends 'back/index.html' %}
 
 {% block content %}
-<h1>Carga masiva</h1>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script>
+  function getCookie(name) {
+  var cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    var cookies = document.cookie.split(';');
+    for (var i = 0; i < cookies.length; i++) {
+      var cookie = cookies[i].trim();
+      if (cookie.substring(0, name.length + 1) === (name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
+
+  var datos = {{ descargar_url|safe }};
+  console.log(datos|| 0)
+  function descargarArchivo() {
+    const csrftoken = getCookie('csrftoken');
+    let registros = {{ descargar_url|safe }};
+    console.log("registro: r",registros)
+
+    axios.post('{% url 'dashboard:descargar_archivo_inversion_publica' %}', JSON.stringify(registros), {
+      headers: {
+        'X-CSRFToken': csrftoken,
+        'Content-Type': 'application/json',
+      },
+      responseType: 'blob',
+    }).then((response) => {
+      // Crear un enlace de descarga con la respuesta del servidor
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'registros_incorrectos.xlsx');
+      document.body.appendChild(link);
+      link.click();
+    }).catch((error) => {
+      console.log('Error:', error);
+    });
+  }
+
+
+</script
+<h1>{{title}}</h1>
+<div class="col-12"></div>
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
     <button class="btn btn-primary" type="submit">Cargar archivo</button>
-    <a href="{% url 'dashboard:inventario_hotelero_list' %}" class="btn btn-outline-danger">Cancelar</a>
+    <a href="{% url 'dashboard:inversion_publica_list' %}" class="btn btn-outline-danger">Cancelar</a>
 </form>
+</div>
 
 
 {% if errores %}
-<div class="alert alert-danger mt-3">
-    <ul>
-        {% for error in errores %}
-        <li>{{ error }}</li>
-        {% endfor %}
-    </ul>
+<div class="col">
+
+  <div class="alert alert-danger mt-3">
+      <ul>
+          {% for error in errores %}
+          <li>{{ error }}</li>
+          {% endfor %}
+      </ul>
+  </div>
 </div>
 {% endif %}
 {% if registros_incorrectos %}
-      <div class="alert alert-danger mt-3">
-        <h4>No se pudieron guardar las siguientes filas:</h4>
-        <table class="table table-striped table-bordered">
-          <thead>
-            <tr>
-              <th>Fecha</th>
-              <th>Municipio</th>
-              <th>Nombre Obra</th>
-              <th>Monto Inversion Municipal</th>
-              <th>Monto Inversion Estatal</th>
-              <th>Monto Inversion Federal</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for registro in registros_incorrectos %}
-              <tr>
-                <td>{{ registro.fecha }}</td>
-                <td>{{ registro.municipio }}</td>
-                <td>{{ registro.nombre_obra }}</td>
-                <td>{{ registro.monto_inversion_municipal }}</td>
-                <td>{{ registro.monto_inversion_estatal }}</td>
-                <td>{{ registro.monto_inversion_federal }}</td>
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-    {% endif %}
+<div class="col">
+
+  <div class="alert alert-danger mt-3">
+    <h4>Existen {{registros_incorrectos|length}} filas con errores de un total de {{num_filas_procesadas}} filas</h4>
+
+    <button id="descargar-btn" onclick="descargarArchivo()" class="btn btn-danger">Descargar archivo de errores</button>
+  </div>
+</div>
+{% endif %}
 
     {% if registros_correctos %}
       <div class="alert alert-success mt-3">
-        <h4>Se guardaron las siguientes filas:</h4>
-        <table class="table table-striped table-bordered">
-          <thead>
-            <tr>
-              <th>Fecha</th>
-              <th>Municipio</th>
-              <th>Nombre Obra</th>
-              <th>Monto Inversion Municipal</th>
-              <th>Monto Inversion Estatal</th>
-              <th>Monto Inversion Federal</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for registro in registros_correctos %}
-              <tr>
-                <td>{{ registro.fecha }}</td>
-                <td>{{ registro.municipio }}</td>
-                <td>{{ registro.nombre_obra }}</td>
-                <td>{{ registro.monto_inversion_municipal }}</td>
-                <td>{{ registro.monto_inversion_estatal }}</td>
-                <td>{{ registro.monto_inversion_federal }}</td>
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+        <h4>Se han guardado {{registros_correctos|length}} filas de un total de {{num_filas_procesadas}} filas</h4>
       </div>
     {% endif %}
 {% if registros_existentes %}
 <div class="alert alert-warning mt-3">
-    <h4>Las siguientes filas ya existían en la base de datos y no se guardaron:</h4>
-    <table class="table table-striped table-bordered">
-        <thead>
-          <tr>
-            <th>Fecha</th>
-              <th>Municipio</th>
-              <th>Nombre Obra</th>
-              <th>Monto Inversion Municipal</th>
-              <th>Monto Inversion Estatal</th>
-              <th>Monto Inversion Federal</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for registro in registros_existentes %}
-            <tr>
-              <td>{{ registro.fecha }}</td>
-                <td>{{ registro.municipio }}</td>
-                <td>{{ registro.nombre_obra }}</td>
-                <td>{{ registro.monto_inversion_municipal }}</td>
-                <td>{{ registro.monto_inversion_estatal }}</td>
-                <td>{{ registro.monto_inversion_federal }}</td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+  <h4>Ya existen {{registros_existentes|length}} registros de un total de {{num_filas_procesadas}} filas en la base de datos y no se han guardado</h4>
+    
 </div>
 {% endif %}
 {% endblock %}

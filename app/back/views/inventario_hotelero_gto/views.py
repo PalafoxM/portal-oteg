@@ -34,7 +34,7 @@ class InventarioHoteleroListView(ListView):
         context['title'] = 'Hoteles GTO'
         context['create_url'] = reverse_lazy('dashboard:inventario_hotelero_create')
         context['carga_masiva_url'] = reverse_lazy('dashboard:inventario_hotelero_carga_masiva')
-        context['entity'] = 'Inventario Hotelero'
+        context['entity'] = 'Hoteles GTO'
         context['is_fuente'] = True
         return context
 
@@ -121,10 +121,11 @@ class InventarioHoteleroUpdateView( UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Editar Inventario Hotelero'
-        context['entity'] = 'Inventario Hotelero'
+        context['title'] = 'Editar Hotel GTO'
+        context['entity'] = 'Hoteles GTO'
         context['list_url'] = reverse_lazy('dashboard:inventario_hotelero_list')
         context['form'] = self.form_class(instance=self.object)
+        context['action'] = 'adit'
         return context
 
 class InventarioHoteleroDeleteView(DeleteView):

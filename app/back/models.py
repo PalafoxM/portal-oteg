@@ -248,14 +248,15 @@ class InventarioHotelero(models.Model):
 
 class InversionPublica(models.Model):
     fecha = models.DateField()
-    municipio = models.CharField(max_length=255)
-    nombre_obra = models.CharField(max_length=255)
-    monto_inversion_municipal = models.FloatField()
-    monto_inversion_estatal = models.FloatField()
-    monto_inversion_federal = models.FloatField()
+    destino = models.CharField(max_length=255)
+    monto_total = models.FloatField()
+    nombre_de_la_obra = models.CharField(max_length=255)
+    monto_de_inversion_municipal = models.FloatField()
+    monto_de_inversion_estatal = models.FloatField()
+    monto_de_inversion_federal = models.FloatField()
 
     def __str__(self):
-        return f"{self.municipio} - {self.nombre_obra} ({self.fecha})"
+        return f"{self.destino} - {self.nombre_de_la_obra} ({self.fecha})"
 
     def toJSON(self):
         """
@@ -292,7 +293,7 @@ class InventarioHoteleroEntNac(models.Model):
 
 class CalidadAire(models.Model):
     fecha = models.DateField()
-    municipio = models.CharField(max_length=555)
+    destino = models.CharField(max_length=555)
     calidad_del_aire = models.CharField(max_length=2255)
 
     def toJSON(self):

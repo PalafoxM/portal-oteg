@@ -304,14 +304,15 @@ class ZonasArqueologicasMuseosForm (forms.ModelForm):
 class InversionPublicaForm(forms.ModelForm):
     class Meta:
         model = InversionPublica
-        fields = ['fecha', 'municipio', 'nombre_obra', 'monto_inversion_municipal', 'monto_inversion_estatal', 'monto_inversion_federal']
+        fields = ['fecha', 'destino', 'nombre_de_la_obra', 'monto_de_inversion_municipal', 'monto_de_inversion_estatal', 'monto_de_inversion_federal', 'monto_total']
         widgets = {
             'fecha': forms.DateInput(attrs={'class': 'form-control fecha-input'}),
-            'municipio': forms.TextInput(attrs={'class': 'form-control'}),
-            'nombre_obra': forms.TextInput(attrs={'class': 'form-control'}),
-            'monto_inversion_municipal': forms.NumberInput(attrs={'class': 'form-control'}),
-            'monto_inversion_estatal': forms.NumberInput(attrs={'class': 'form-control'}),
-            'monto_inversion_federal': forms.NumberInput(attrs={'class': 'form-control'}),
+            'destino': forms.TextInput(attrs={'class': 'form-control'}),
+            'nombre_de_la_obra': forms.TextInput(attrs={'class': 'form-control'}),
+            'monto_de_inversion_municipal': forms.NumberInput(attrs={'class': 'form-control'}),
+            'monto_de_inversion_estatal': forms.NumberInput(attrs={'class': 'form-control'}),
+            'monto_de_inversion_federal': forms.NumberInput(attrs={'class': 'form-control'}),
+            'monto_total': forms.NumberInput(attrs={'class': 'form-control'}),
         }
 
 class InventarioHoteleroEntNacForm(ModelForm):
@@ -329,10 +330,10 @@ class InventarioHoteleroEntNacForm(ModelForm):
 class CalidadAireForm(forms.ModelForm):
     class Meta:
         model = CalidadAire
-        fields = ['fecha', 'municipio', 'calidad_del_aire']
+        fields = ['fecha', 'destino', 'calidad_del_aire']
         widgets = {
             'fecha': forms.DateInput(attrs={'class': 'form-control fecha-input'}),
-            'municipio': forms.TextInput(attrs={'class': 'form-control'}),
+            'destino': forms.TextInput(attrs={'class': 'form-control'}),
             'calidad_del_aire': forms.TextInput(attrs={'class': 'form-control'}),
         },
         using = 'ecosistema'
