@@ -126,6 +126,7 @@ urlpatterns = [
     path('inversion-publica/edit/<int:pk>/', InversionPublicaUpdateView.as_view(), name='inversion_publica_update'),
     path('inversion-publica/delete/<int:pk>/', InversionPublicaDeleteView.as_view(), name='inversion_publica_delete'),
     path('inversion-publica/carga-masiva', InversionPublicaCargaMasivaView.as_view(), name='inversion_publica_carga_masiva'),
+    path('inventario-hotelero-ent-nac/descargar-archivo', DescargarArchivoInversionPublicaView.as_view(), name='descargar_archivo_inversion_publica'),
     #inventario_hotelero_ent_nac
     path('inventario-hotelero-ent-nac/list', InventarioHoteleroEntNacListView.as_view(), name='inventario_hotelero_ent_nac_list'),
     path('inventario-hotelero-ent-nac/add', InventarioHoteleroEntNacCreateView.as_view(), name='inventario_hotelero_ent_nac_create'),
@@ -140,6 +141,7 @@ urlpatterns = [
     path('calidad-aire/edit/<int:pk>/', CalidadAireUpdateView.as_view(), name='calidad_aire_update'),
     path('calidad-aire/delete/<int:pk>/', CalidadAireDeleteView.as_view(), name='calidad_aire_delete'),
     path('calidad-aire/carga-masiva', CalidadAireCargaMasivaView.as_view(), name='calidad_aire_carga_masiva'),
+    path('calidad-aire/descargar-archivo', DescargarArchivoAireView.as_view(), name='descargar_archivo_aire'),
 
     # fuentes de informacion list
     path('fuente-informacion', FuentesInfoView.as_view(), name='fuente_informacion'),

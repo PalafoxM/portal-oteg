@@ -12,6 +12,12 @@ import csv
 import os
 import datetime
 from django.urls import reverse
+# para archivo excel
+import openpyxl
+from django.http import HttpResponse
+import json
+from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino
+
 
 
 
@@ -26,10 +32,10 @@ class InversionPublicaListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Listado de Inversion Publica'
+        context['title'] = 'Listado de Inversión publica'
         context['create_url'] = reverse_lazy('dashboard:inversion_publica_create')
         context['carga_masiva_url'] = reverse_lazy('dashboard:inversion_publica_carga_masiva')
-        context['entity'] = 'Inversion Publica'
+        context['entity'] = 'Inversión publica'
         context['is_fuente'] = True
         return context
 
@@ -79,7 +85,7 @@ class  InversionPublicaCreateView(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Crear Registro'
-        context['entity'] = 'Inversion Publica'
+        context['entity'] = 'Inversión publica'
         context['list_url'] = reverse_lazy('dashboard:inversion_publica_list')
         context['action'] = 'add'
         return context
@@ -116,10 +122,11 @@ class InversionPublicaUpdateView( UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Editar Inversion Publica'
-        context['entity'] = 'Inversion Publica'
+        context['title'] = 'Editar Inversión publica'
+        context['entity'] = 'Inversión publica'
         context['list_url'] = reverse_lazy('dashboard:inversion_publica_list')
         context['form'] = self.form_class(instance=self.object)
+        context['action'] = 'edit'
         return context
 
 class InversionPublicaDeleteView(DeleteView):
@@ -140,19 +147,20 @@ class InversionPublicaCargaMasivaView(View):
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {'form': form, 'title': 'Carga Masiva'})
 
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST, request.FILES)
         registros_correctos, registros_incorrectos, registros_existentes = [], [], []
+        num_filas_procesadas = 0
         archivo = request.FILES.get('archivo', None)
         if archivo:
             extension = os.path.splitext(archivo.name)[1]
             if extension == '.xlsx':
-                registros_correctos, registros_incorrectos, registros_existentes = self.procesar_archivo_xlsx(archivo)
+                registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas = self.procesar_archivo_xlsx(archivo)
             elif extension == '.csv':
-                registros_correctos, registros_incorrectos, registros_existentes = self.procesar_archivo_csv(archivo)
+                registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas = self.procesar_archivo_csv(archivo)
             else:
                 messages.error(request, 'El archivo debe ser un archivo .xlsx o .csv')
                 registros_incorrectos.append("El archivo debe ser un archivo .xlsx o .csv")
@@ -162,19 +170,26 @@ class InversionPublicaCargaMasivaView(View):
 
         if len(registros_incorrectos) > 0 or len(registros_existentes) > 0:
             messages.error(request, 'Hay errores de registros')
+            datos_json = json.dumps(registros_incorrectos)
+            
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Carga Masiva',
+                'registros_correctos': registros_correctos,
+                'registros_incorrectos': registros_incorrectos,
+                'registros_existentes': registros_existentes,
+                'descargar_url': datos_json,
+                'num_filas_procesadas': num_filas_procesadas,
+            })
             
         else:
             return HttpResponseRedirect(reverse('dashboard:inversion_publica_list'))
         
-        return render(request, self.template_name, {
-            'form': form,
-            'registros_correctos': registros_correctos,
-            'registros_incorrectos': registros_incorrectos,
-            'registros_existentes': registros_existentes,
-        })
+        
 
     def procesar_archivo_xlsx(self, archivo):
         registros_correctos, registros_incorrectos, registros_existentes = [], [], []
+        num_filas_procesadas = 0
         try:
             workbook = load_workbook(filename=archivo, read_only=True)
             worksheet = workbook.active
@@ -182,36 +197,49 @@ class InversionPublicaCargaMasivaView(View):
             for i, row in enumerate(filas):
                 if i == 0:
                     continue # Ignorar la primera fila si es el encabezado
+                num_filas_procesadas += 1
+                # Limpieza de datos
+                destino = clean_str_col(row[1].value)
+
+                # Homologación de datos
+                destino = homologar_columna_destino(destino)
+
+                # Validar si el destino es válido
+                if destino not in CatalagoDestino.objects.values_list('destino', flat=True):
+                    print(f"El destino {destino} no está en la tabla CatalagoDestino")
+                    registros_incorrectos.append(row)
+                    continue
+                
                 fecha = row[0].value.date()
-                municipio = row[1].value
-                nombre_obra = row[2].value
-                monto_inversion_municipal = row[3].value
-                monto_inversion_estatal = row[4].value
-                monto_inversion_federal = row[5].value
+                nombre_de_la_obra = row[2].value
+                monto_de_inversion_municipal = row[3].value
+                monto_de_inversion_estatal = row[4].value
+                monto_de_inversion_federal = row[5].value
+                monto_total = row[6].value
 
                 try:
                     # Validar los datos
                     fecha_str = str(fecha)
                     fecha_obj = datetime.datetime.strptime(fecha_str, '%Y-%m-%d').date()
-                    # fecha_obj = datetime.datetime.strptime(fecha, '%Y-%m-%d').date()
-                    monto_inversion_municipal_float = float(monto_inversion_municipal)
-                    monto_inversion_estatal_float = float(monto_inversion_estatal)
-                    monto_inversion_federal_float = float(monto_inversion_federal)
+                    monto_de_inversion_municipal_float = float(monto_de_inversion_municipal)
+                    monto_de_inversion_estatal_float = float(monto_de_inversion_estatal)
+                    monto_de_inversion_federal_float = float(monto_de_inversion_federal)
+                    monto_total_float = float(monto_total)
 
                     # Buscar si la fila ya existe en la base de datos
-                    inventario_existente = InversionPublica.objects.filter(fecha=fecha_obj, municipio=municipio, nombre_obra=nombre_obra)
+                    inventario_existente = InversionPublica.objects.filter(fecha=fecha_obj, destino=destino, nombre_de_la_obra=nombre_de_la_obra)
                     if inventario_existente.exists():
                         # Si ya existe, se omite la fila y se guarda en la lista de registros incorrectos
                         print(f"La fila {row} ya existe en la base de datos")
-                        registros_existentes.append({'fila': i, 'fecha': fecha_obj, 'municipio': municipio, 'nombre_obra': nombre_obra, 'monto_inversion_municipal': monto_inversion_municipal_float, 'monto_inversion_estatal': monto_inversion_estatal_float, 'monto_inversion_federal': monto_inversion_federal_float})
+                        registros_existentes.append({ 'fecha': fecha_obj, 'destino': destino, 'nombre_de_la_obra': nombre_de_la_obra, 'monto_de_inversion_municipal': monto_de_inversion_municipal_float, 'monto_de_inversion_estatal': monto_de_inversion_estatal_float, 'monto_de_inversion_federal': monto_de_inversion_federal_float, 'monto_total': monto_total_float})
                     else:
                         # Si no existe, se guarda la nueva instancia del modelo en la base de datos y se guarda en la lista de registros correctos
-                        inventario = InversionPublica(fecha=fecha_obj, municipio=municipio, nombre_obra=nombre_obra, monto_inversion_municipal=monto_inversion_municipal_float, monto_inversion_estatal=monto_inversion_estatal_float, monto_inversion_federal=monto_inversion_federal_float)
+                        inventario = InversionPublica(fecha=fecha_obj, destino=destino, nombre_de_la_obra=nombre_de_la_obra, monto_de_inversion_municipal=monto_de_inversion_municipal_float, monto_de_inversion_estatal=monto_de_inversion_estatal_float, monto_de_inversion_federal=monto_de_inversion_federal_float, monto_total=monto_total_float)
                         inventario.save()
-                        registros_correctos.append({'fila': i,  'fecha': fecha_obj, 'municipio': municipio, 'nombre_obra': nombre_obra, 'monto_inversion_municipal': monto_inversion_municipal_float, 'monto_inversion_estatal': monto_inversion_estatal_float, 'monto_inversion_federal': monto_inversion_federal_float})
+                        registros_correctos.append({  'fecha': fecha_obj, 'destino': destino, 'nombre_de_la_obra': nombre_de_la_obra, 'monto_de_inversion_municipal': monto_de_inversion_municipal_float, 'monto_de_inversion_estatal': monto_de_inversion_estatal_float, 'monto_de_inversion_federal': monto_de_inversion_federal_float, 'monto_total': monto_total_float})
                 except (ValueError, TypeError) as e:
                     # Si los datos no son válidos, se guarda el número de fila en la lista de registros incorrectos
-                    registros_incorrectos.append({'fila': i,'fecha': fecha, 'municipio': municipio, 'nombre_obra': nombre_obra, 'monto_inversion_municipal': monto_inversion_municipal, 'monto_inversion_estatal': monto_inversion_estatal, 'monto_inversion_federal': monto_inversion_federal, 'error': str(e)})
+                    registros_incorrectos.append({'fecha': fecha, 'destino': destino, 'nombre_de_la_obra': nombre_de_la_obra, 'monto_de_inversion_municipal': monto_de_inversion_municipal, 'monto_de_inversion_estatal': monto_de_inversion_estatal, 'monto_de_inversion_federal': monto_de_inversion_federal_float, 'monto_total': monto_total})
                     
         except FileNotFoundError:
                 print(f"El archivo {archivo} no se pudo abrir")
@@ -221,34 +249,50 @@ class InversionPublicaCargaMasivaView(View):
     def procesar_archivo_csv(self, archivo):
         archivo = self.request.FILES['archivo']
         registros_correctos, registros_incorrectos, registros_existentes = [], [], []
+        num_filas_procesadas = 0
         try:
             datos = csv.DictReader(archivo.read().decode('latin-1').splitlines())
             # print(datos)
             for row in datos:
+                num_filas_procesadas += 1
+
+                # Limpieza de datos
+                destino = clean_str_col(row['destino'])
+
+                # Homologación de datos
+                destino = homologar_columna_destino(destino)
+
+                # Validar si el destino es válido
+                if destino not in CatalagoDestino.objects.values_list('destino', flat=True):
+                    print(f"El destino {destino} no está en la tabla CatalagoDestino")
+                    registros_incorrectos.append(row)
+                    continue
+
                 fecha = row['fecha']
-                municipio = row['municipio']
-                nombre_obra = row['nombre_obra']
-                monto_inversion_municipal = row['monto_inversion_municipal']
-                monto_inversion_estatal = row['monto_inversion_estatal']
-                monto_inversion_federal = row['monto_inversion_federal']
+                nombre_de_la_obra = row['nombre_de_la_obra']
+                monto_de_inversion_municipal = row['monto_de_inversion_municipal']
+                monto_de_inversion_estatal = row['monto_de_inversion_estatal']
+                monto_de_inversion_federal = row['monto_de_inversion_federal']
+                monto_total = row['monto_total']
 
                 try:
                     # Validar los datos
                     fecha_str = str(fecha)
                     fecha_obj = datetime.datetime.strptime(fecha_str, '%d/%m/%Y').date()
-                    monto_inversion_municipal_float = float(monto_inversion_municipal)
-                    monto_inversion_estatal_float = float(monto_inversion_estatal)
-                    monto_inversion_federal_float = float(monto_inversion_federal)
+                    monto_de_inversion_municipal_float = float(monto_de_inversion_municipal)
+                    monto_de_inversion_estatal_float = float(monto_de_inversion_estatal)
+                    monto_de_inversion_federal_float = float(monto_de_inversion_federal)
+                    monto_total_float = float(monto_total)
 
                     # Buscar si la fila ya existe en la base de datos
-                    inventario_existente = InversionPublica.objects.filter(fecha=fecha_obj, municipio=municipio, nombre_obra=nombre_obra)
+                    inventario_existente = InversionPublica.objects.filter(fecha=fecha_obj, destino=destino, nombre_de_la_obra=nombre_de_la_obra)
                     if inventario_existente.exists():
                         # Si ya existe, se omite la fila y se guarda en la lista de registros incorrectos
                         print(f"La fila {row} ya existe en la base de datos")
                         registros_existentes.append(row)
                     else:
                         # Si no existe, se guarda la nueva instancia del modelo en la base de datos y se guarda en la lista de registros correctos
-                        inventario = InversionPublica(fecha=fecha_obj, municipio=municipio, nombre_obra=nombre_obra, monto_inversion_municipal=monto_inversion_municipal_float, monto_inversion_estatal=monto_inversion_estatal_float, monto_inversion_federal=monto_inversion_federal_float)
+                        inventario = InversionPublica(fecha=fecha_obj, destino=destino, nombre_de_la_obra=nombre_de_la_obra, monto_de_inversion_municipal=monto_de_inversion_municipal_float, monto_de_inversion_estatal=monto_de_inversion_estatal_float, monto_de_inversion_federal=monto_de_inversion_federal_float, monto_total=monto_total_float)
                         inventario.save()
                         registros_correctos.append(row)
                 except (ValueError, TypeError) as e:
@@ -258,9 +302,72 @@ class InversionPublicaCargaMasivaView(View):
             print(f"No se encontró el archivo {archivo}")
         except Exception as e:
             print(f"Error al procesar el archivo {archivo}: {e}")
-        return registros_correctos, registros_incorrectos, registros_existentes
+        return registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas
 
+
+class DescargarArchivoInversionPublicaView(View):
+
+    def crear_archivo_excel(self, registros_incorrectos):
+        workbook = openpyxl.Workbook()
+        worksheet = workbook.active
+
+        # Add headers to the worksheet
+        worksheet['A1'] = 'Fecha'
+        worksheet['B1'] = 'Destino'
+        worksheet['C1'] = 'nombre_de_la_obra'
+        worksheet['D1'] = 'monto_de_inversion_municipal'
+        worksheet['E1'] = 'monto_de_inversion_estatal'
+        worksheet['F1'] = 'monto_de_inversion_federal'
+        worksheet['G1'] = 'monto_total'
+        # worksheet['F1'] = 'Error'
+
+        # Add the incorrect rows to the worksheet
+        for i, row in enumerate(registros_incorrectos):
+            fila = i + 2
+            # worksheet.cell(row=fila, column=1, value=row['fila'])
+            worksheet.cell(row=fila, column=1, value=row['fecha'])
+            worksheet.cell(row=fila, column=2, value=row['destino'])
+            worksheet.cell(row=fila, column=3, value=row['nombre_de_la_obra'])
+            worksheet.cell(row=fila, column=4, value=row['monto_de_inversion_municipal'])
+            worksheet.cell(row=fila, column=5, value=row['monto_de_inversion_estatal'])
+            worksheet.cell(row=fila, column=6, value=row['monto_de_inversion_federal'])
+            worksheet.cell(row=fila, column=7, value=row['monto_total'])
+            # worksheet.cell(row=fila, column=7, value=row['error'])
+
+        # Set the column widths to auto-fit
+        for column in worksheet.columns:
+            max_length = 0
+            column_name = column[0].column_letter
+            for cell in column:
+                try:
+                    if len(str(cell.value)) > max_length:
+                        max_length = len(str(cell.value))
+                except:
+                    pass
+            adjusted_width = (max_length + 2)
+            worksheet.column_dimensions[column_name].width = adjusted_width
+
+        # Create the response with the Excel file
+        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response['Content-Disposition'] = 'attachment; filename=registros_incorrectos.xls'
+
+        
+
+        # workbook.save(response)
+        return workbook
     
+    def post(self, request, *args, **kwargs):
+        # Obtener los registros incorrectos del cuerpo de la petición
+        registros_incorrectos = json.loads(request.body)
+
+        # Crear y enviar el archivo de Excel con las filas incorrectas
+        workbook = self.crear_archivo_excel(registros_incorrectos)
+
+        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response['Content-Disposition'] = 'attachment; filename=registros_incorrectos.xlsx'
+        workbook.save(response)
+        return response    
     
+           
     
     
