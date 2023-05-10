@@ -8,7 +8,6 @@ from web.models import *
 from django.shortcuts import render
 from django.http import HttpResponse
 import csv
-import pandas as pd
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.decorators.csrf import csrf_exempt
