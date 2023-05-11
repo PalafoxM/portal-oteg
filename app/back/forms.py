@@ -336,4 +336,63 @@ class CalidadAireForm(forms.ModelForm):
             'destino': forms.TextInput(attrs={'class': 'form-control'}),
             'calidad_del_aire': forms.TextInput(attrs={'class': 'form-control'}),
         },
-        using = 'ecosistema'
+        
+# Catalagos
+class CatalagoCategoriaForm(forms.ModelForm):
+    class Meta:
+        model = CatalagoCategoria
+        fields = ['categoria']
+        labels = {
+            'categoria': 'Categoría'
+        }
+        widgets = {
+            'categoria': forms.TextInput(attrs={'class': 'form-control'})
+        }
+
+class CatalagoDestinoForm(forms.ModelForm):
+    class Meta:
+        model = CatalagoDestino
+        fields = ['destino', 'entidad']
+        labels = {
+            'destino': 'Destino',
+            'entidad': 'Entidad'
+        }
+        widgets = {
+            'destino': forms.TextInput(attrs={'class': 'form-control'}),
+            'entidad': forms.TextInput(attrs={'class': 'form-control'})
+        }
+
+class CatalagoSegmentosForm(forms.ModelForm):
+    class Meta:
+        model = CatalagoSegmentos
+        fields = ['segmento']
+        labels = {
+            'segmento': 'Segmento'
+        }
+        widgets = {
+            'segmento': forms.TextInput(attrs={'class': 'form-control'})
+        }
+
+class CatalagoTipoVisistanteForm(forms.ModelForm):
+    class Meta:
+        model = CatalagoTipoVisistante
+        fields = ['tipo_visitante']
+        labels = {
+            'tipo_visitante': 'Tipo de Visitante'
+        }
+        widgets = {
+            'tipo_visitante': forms.TextInput(attrs={'class': 'form-control'})
+        }
+
+class catalogo_zonaz_arq_museosForm(forms.ModelForm):
+    class Meta:
+        model = catalogo_zonaz_arq_museos
+        fields = ['museo_zona_arqueologica', 'tipo']
+        labels = {
+            'museo_zona_arqueologica': 'Museo/Zona Arqueológica',
+            'tipo': 'Tipo'
+        }
+        widgets = {
+            'museo_zona_arqueologica': forms.TextInput(attrs={'class': 'form-control'}),
+            'tipo': forms.TextInput(attrs={'class': 'form-control'})
+        }

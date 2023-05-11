@@ -204,7 +204,7 @@ class otros_anuales(models.Model):
 class zonas_arqueologicas_museos(models.Model):
     destino = models.CharField(max_length=255)
     tipo = models.CharField(max_length=455, null=True, blank=True)
-    nombre = models.CharField(max_length=455)
+    museo_zona_arqueologica = models.CharField(max_length=455)
     fecha = models.DateField()
     origen_visitante = models.CharField(max_length=455)
     visitantes = models.IntegerField()
