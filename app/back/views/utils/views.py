@@ -18,14 +18,10 @@ from django.views.decorators.http import require_POST
 from django.template.loader import render_to_string
 
 
-def is_ajax(request):
-    return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
+def search_destinos (request):
 
+    query_original = request.GET.get('term', '')
+    queryset = CatalagoDestino.objects.filter(destino__icontains=query_original)
+    destinos = [ destino.destino for destino in queryset ]
 
-def search_destinos(request):
-    
-    query = request.GET.get('term')
-    search_destinos = CatalagoDestino.objects.filter(destino__icontains=query)
-    destinis_list  = [  destino.destino for destino in search_destinos ]
-    return JsonResponse(destinis_list, safe=False)
-
+    return JsonResponse(destinos, safe=False)
