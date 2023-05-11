@@ -45,9 +45,9 @@
 
 <body>
 
- 
+
     <div class="container-fluid p-0">
-        
+
 
         <div class="container-sidebar2">
             <!-- sidebar2 -->
@@ -57,67 +57,74 @@
             <!-- sidebar -->
             {% include 'back/components/sidebar.html' %}
         </div>
-        <div  class="inner-header pl-3">
+        <div class="inner-header pl-3">
             <div class="container-fluid title-container">
                 <i class='bx bx-menu'></i>
-                <label class="title" >{{title}}</label>
+                <label class="title">{{title}}</label>
                 <!-- <h5 class="subtitle mb-0">{{title}}</h5> -->
             </div>
         </div>
-        
-    
-        <div>
-            <div class="container-fluid breadcrumb-container  justify-content-end align-items-center  mb-5" style="padding-right: 30px; padding-left: 63px;">
 
-                <label class="m-0" >Inicio > publicaciones > add</label>
+
+        <div>
+            <div class="container-fluid breadcrumb-container  justify-content-end align-items-center  mb-5"
+                style="padding-right: 30px; padding-left: 63px;">
+
+                <label class="m-0">Inicio > publicaciones > add</label>
             </div>
         </div>
-    
-        <div  class="inner-c pl-3">
+
+        <div class="inner-c pl-3">
             <div class="container-fluid">
                 <div class="row">
                     {% block content %}
 
                     {% endblock %}
                 </div>
-            
+
             </div>
-            
-            
+
+
         </div>
-    
+
         <div class="inner-footer  ">
             <div class="container-fluid-footer ">
-                <label >OTEG ® {{year}} | Todos los derechos reservados
+                <label>OTEG ® {{year}} | Todos los derechos reservados
                 </label>
-                </div>
-                
+            </div>
+
         </div>
     </div>
-      
-                
 
 
+
+
+    <!-- //PReguntarle a DAVID -->
 
     <!-- Bootstrap core JavaScript-->
-    <script src="{% static 'admin/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'admin/vendor/jquery/jquery.min.js' %}"></script> -->
     <script src="{% static 'admin/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 
     <!-- Core plugin JavaScript-->
     <script src="{% static 'admin/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
 
     <!-- Custom scripts for all pages-->
-    <!-- <script src="{% static 'admin/js/sb-admin-2.min.js' %}"></script> -->
+    <!-- 
+        
 
     <!-- Page level plugins -->
+
+    <script src="{% static 'admin/js/sb-admin-2.min.js' %}"></script>
+
+
     <script>
         const arrows = document.querySelectorAll(".arrow");
 
         arrows.forEach((arrow) => {
-        arrow.addEventListener("click", (e) => {
-            const arrowParent = e.target.closest(".arrow").parentElement.parentElement;
-            arrowParent.classList.toggle("showMenu");
-        });
+            arrow.addEventListener("click", (e) => {
+                const arrowParent = e.target.closest(".arrow").parentElement.parentElement;
+                arrowParent.classList.toggle("showMenu");
+            });
         });
 
         const divTitle = document.querySelector(".inner-header");
@@ -134,6 +141,8 @@
 
 
     </script>
+
+
 
     <!-- block de footer js -->
     {% block footerjs %}

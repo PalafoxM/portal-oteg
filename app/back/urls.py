@@ -12,6 +12,8 @@ from back.views.inversion_publica.views import *
 from back.views.inventario_hotelero_ent_nac.views import *
 from back.views.calidad_aire.views import *
 from back.views.fuente_informacion.view import *
+from back.views.fuente_info_sensibilizacion.views import *
+from back.views.utils.views import *
 
 from django.conf import settings
 from django.conf.urls.static import static
@@ -108,9 +110,15 @@ urlpatterns = [
     path('fuentes_info/zonas_arqueologicas/edit/<int:pk>/', FuenteInfoZonasArqueologicasUpdate.as_view(), name='fuente_info_zonas_arqueologicas_update'),
     path('fuentes_info/zonas_arqueologicas/delete/<int:pk>/', FuenteInfoZonasArqueologicasDelete.as_view(), name='fuente_info_zonas_arqueologicas_delete'),
     path('usuarios/list', my_profile, name='profile'),
-
-   
+    # Fuentes de informacion Sensibilizacion
+    path('fuentes_info/sensibilizacion', FuenteInfoSensibilizacion.as_view(), name='fuente_info_sensibilizacion'),
+    path('fuentes_info/sensibilizacion/add', FuenteInfoSensibilizacionCreate.as_view(), name='fuente_info_sensibilizacion_create'),
+    path('fuentes_info/sensibilizacion/edit/<int:pk>/', FuenteInfoSensibilizacionUpdate.as_view(), name='fuente_info_sensibilizacion_update'),
+    path('fuentes_info/sensibilizacion/delete/<int:pk>/', FuenteInfoSensibilizacionDelete.as_view(), name='fuente_info_sensibilizacion_delete'),
     path('descargas/list', descargas_list, name='descargas_list'),
+
+
+    
     # Usuarios
     path('usuarios/list', my_profile, name='profile'),
     #inventario_hotelero_gto
@@ -145,4 +153,11 @@ urlpatterns = [
 
     # fuentes de informacion list
     path('fuente-informacion', FuentesInfoView.as_view(), name='fuente_informacion'),
+
+    # UTIILS 
+    #Typeahead Destinos
+    path('typeahead/destinos', search_destinos, name='search_destinos'),
+
+
+
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

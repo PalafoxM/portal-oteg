@@ -269,7 +269,6 @@ class DataTurForm(forms.ModelForm):
             'fecha': forms.DateInput(format='%d/%m/%Y'),
         }
 
-        
 class GastoDerramaForm (forms.ModelForm):
     class Meta:
         model = GastoDerrama
@@ -301,6 +300,14 @@ class ZonasArqueologicasMuseosForm (forms.ModelForm):
     class Meta:
         model = zonas_arqueologicas_museos
         fields = ('destino', 'museo_zona_arqueologica', 'fecha', 'origen_visitante', 'visitantes', 'tipo')
+
+
+class SensibilizacionForm (forms.ModelForm):
+    class Meta:
+        model = Sesibilizacion
+        fields = '__all__'  
+
+
 class InversionPublicaForm(forms.ModelForm):
     class Meta:
         model = InversionPublica
