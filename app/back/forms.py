@@ -384,15 +384,15 @@ class CatalagoTipoVisistanteForm(forms.ModelForm):
             'tipo_visitante': forms.TextInput(attrs={'class': 'form-control'})
         }
 
-class catalogo_zonaz_arq_museosForm(forms.ModelForm):
+class CatalagoZAMuseosForm(forms.ModelForm):
     class Meta:
-        model = catalogo_zonaz_arq_museos
-        fields = ['museo_zona_arqueologica', 'tipo']
+        model = CatalagoZAMuseos
+        fields = ['nombre', 'tipo']
         labels = {
-            'museo_zona_arqueologica': 'Museo/Zona Arqueológica',
+            'nombre': 'Museo/Zona Arqueológica',
             'tipo': 'Tipo'
         }
         widgets = {
-            'museo_zona_arqueologica': forms.TextInput(attrs={'class': 'form-control'}),
+            'nombre': forms.TextInput(attrs={'class': 'form-control'}),
             'tipo': forms.TextInput(attrs={'class': 'form-control'})
         }
