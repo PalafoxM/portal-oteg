@@ -2,6 +2,7 @@ from django.db import models
 from django.forms import model_to_dict
 from django.contrib.auth.models import User
 from ckeditor.fields import RichTextField
+from django.conf import settings
 
 
 class EcosistemaManager(models.Manager):
@@ -153,18 +154,6 @@ class Alba(models.Model):
 
 # #Fuentes de Informacion
 
-
-class catalogo_categorias(models.Model):
-    # db = 'db2'
-    categoria = models.CharField(max_length=100, null=True, blank=True)
-
-
-
-
-class catalogo_destinos(models.Model):
-    destino = models.CharField(max_length=100, null=True, blank=True)
-
-
 class DataTour (models.Model):
     fecha = models.DateField()
     destino = models.CharField(max_length=455 , null=True, blank=True)
@@ -213,17 +202,17 @@ class otros_anuales(models.Model):
 
 
 class zonas_arqueologicas_museos(models.Model):
-    destino = models.CharField(max_length=455 , null=True, blank=True)
+    destino = models.CharField(max_length=255)
+    tipo = models.CharField(max_length=455, null=True, blank=True)
     museo_zona_arqueologica = models.CharField(max_length=455)
     fecha = models.DateField()
     origen_visitante = models.CharField(max_length=455)
     visitantes = models.IntegerField()
-    tipo = models.CharField(max_length=455, null=True, blank=True)
 
-
-class catalogo_zonaz_arq_museos (models.Model):
-    museo_zona_arqueologica = models.CharField(max_length=455)
-    tipo = models.CharField(max_length=455)
+    class Meta:
+        app_label = 'ecosistema' 
+        db_table = "zonas_arqueologicas_museos"
+        ordering = ['-id']
 
 class InventarioHotelero(models.Model):
     
@@ -232,8 +221,6 @@ class InventarioHotelero(models.Model):
     categoria = models.CharField(max_length=255)
     habitaciones = models.IntegerField()
     establecimientos = models.IntegerField()
-    date_updated = models.DateTimeField(auto_now=True,)
-    date_created = models.DateTimeField(auto_now=True)
 
     
     def toJSON(self):
@@ -241,10 +228,13 @@ class InventarioHotelero(models.Model):
         return item
 
     class Meta:
+        app_label = 'ecosistema' 
         verbose_name = 'inventario_hotelero_gto'
         verbose_name_plural = 'inventario_hotelero_gto'
         db_table = "inventario_hotelero_gto"
         ordering = ['-id']
+    
+    
 
 class InversionPublica(models.Model):
     fecha = models.DateField()
@@ -266,6 +256,7 @@ class InversionPublica(models.Model):
         return item
 
     class Meta:
+        app_label = 'ecosistema' 
         verbose_name_plural = "Inversiones Públicas"
         db_table = "inversion_publica"
         ordering = ['-id']
@@ -285,6 +276,7 @@ class InventarioHoteleroEntNac(models.Model):
         return item
 
     class Meta:
+        app_label = 'ecosistema' 
         verbose_name = 'inventario_hotelero_ent_nac'
         verbose_name_plural = 'inventario_hotelero_ent_nac'
         db_table = 'inventario_hotelero_ent_nac'
@@ -301,6 +293,7 @@ class CalidadAire(models.Model):
         return item
 
     class Meta:
+        app_label = 'ecosistema' 
         verbose_name = 'aire'
         verbose_name_plural = 'aire'
         db_table = 'aire'
@@ -313,10 +306,44 @@ class Sesibilizacion(models.Model):
     accion = models.IntegerField()
 
 
-# catalagos para destino y categoriaclass Categoria(models.Model):
+# catalagos 
 class CatalagoCategoria(models.Model):
     categoria = models.CharField(max_length=255)
+
+    class Meta:
+        app_label = 'ecosistema' 
+        db_table = 'catalogo_categorias'
+        ordering = ['-id']
 
 class CatalagoDestino(models.Model):
     destino = models.CharField(max_length=455 , null=True, blank=True)
     entidad = models.CharField(max_length=455)
+
+    class Meta:
+        app_label = 'ecosistema' 
+        db_table = 'catalogo_destinos'
+        ordering = ['-id']
+
+class CatalagoSegmentos(models.Model):
+    segmento = models.CharField(max_length=455)
+
+    class Meta:
+        app_label = 'ecosistema' 
+        db_table = 'catalogo_segmentos'
+        ordering = ['-id']
+class CatalagoTipoVisistante(models.Model):
+    tipo_visitante = models.CharField(max_length=455)
+
+    class Meta:
+        app_label = 'ecosistema' 
+        db_table = 'catalogo_tipo_visitante'
+        ordering = ['-id']
+
+class catalogo_zonaz_arq_museos (models.Model):
+    museo_zona_arqueologica = models.CharField(max_length=455)
+    tipo = models.CharField(max_length=455)
+
+    class Meta:
+        app_label = 'ecosistema' 
+        db_table = "catalogo_za_museos"
+        ordering = ['-id']
