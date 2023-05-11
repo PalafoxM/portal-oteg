@@ -12,6 +12,9 @@ from back.views.inversion_publica.views import *
 from back.views.inventario_hotelero_ent_nac.views import *
 from back.views.calidad_aire.views import *
 from back.views.fuente_informacion.view import *
+from back.views.catalago_categoria.views import *
+from back.views.catalogo_segmentos.views import *
+from back.views.catalogo_tipo_visitante.views import *
 
 from django.conf import settings
 from django.conf.urls.static import static
@@ -145,4 +148,22 @@ urlpatterns = [
 
     # fuentes de informacion list
     path('fuente-informacion', FuentesInfoView.as_view(), name='fuente_informacion'),
+
+    #catalago_categoria 
+    path('catalago-categoria/list', CatalagoCategoriaListView.as_view(), name='catalago_categoria_list'),
+    path('catalago-categoria/add', CatalagoCategoriaCreateView.as_view(), name='catalago_categoria_create'),
+    path('catalago-categoria/edit/<int:pk>/', CatalagoCategoriaUpdateView.as_view(), name='catalago_categoria_update'),
+    path('catalago-categoria/delete/<int:pk>/', CatalagoCategoriaDeleteView.as_view(), name='catalago_categoria_delete'),
+
+    #catalago_segmento
+    path('catalago-segmento/list', CatalagoSegmentosListView.as_view(), name='catalago_segmento_list'),
+    path('catalago-segmento/add', CatalagoSegmentosCreateView.as_view(), name='catalago_segmento_create'),
+    path('catalago-segmento/edit/<int:pk>/', CatalagoSegmentosUpdateView.as_view(), name='catalago_segmento_update'),
+    path('catalago-segmento/delete/<int:pk>/', CatalagoSegmentosDeleteView.as_view(), name='catalago_segmento_delete'),
+
+    #catalago_tipo_visitante
+    path('catalago-tipo-visitante/list', CatalagoTipoVisistanteListView.as_view(), name='catalago_tipo_visitante_list'),
+    path('catalago-tipo-visitante/add', CatalagoTipoVisistanteCreateView.as_view(), name='catalago_tipo_visitante_create'),
+    path('catalago-tipo-visitante/edit/<int:pk>/', CatalagoTipoVisistanteUpdateView.as_view(), name='catalago_tipo_visitante_update'),
+    path('catalago-tipo-visitante/delete/<int:pk>/', CatalagoTipoVisistanteDeleteView.as_view(), name='catalago_tipo_visitante_delete'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
