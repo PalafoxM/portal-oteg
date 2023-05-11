@@ -156,7 +156,7 @@ class Alba(models.Model):
 
 class DataTour (models.Model):
     fecha = models.DateField()
-    destino = models.CharField(max_length=255)
+    destino = models.CharField(max_length=455 , null=True, blank=True)
     categoria = models.CharField(max_length=255)
     cuartos_registrados = models.IntegerField()
     cuartos_disponibles = models.IntegerField()
@@ -216,7 +216,7 @@ class zonas_arqueologicas_museos(models.Model):
 
 class InventarioHotelero(models.Model):
     
-    destino = models.CharField(max_length=255)
+    destino = models.CharField(max_length=455 , null=True, blank=True)
     fecha = models.DateField()
     categoria = models.CharField(max_length=255)
     habitaciones = models.IntegerField()
@@ -238,7 +238,7 @@ class InventarioHotelero(models.Model):
 
 class InversionPublica(models.Model):
     fecha = models.DateField()
-    destino = models.CharField(max_length=255)
+    destino = models.CharField(max_length=455 , null=True, blank=True)
     monto_total = models.FloatField()
     nombre_de_la_obra = models.CharField(max_length=255)
     monto_de_inversion_municipal = models.FloatField()
@@ -263,7 +263,7 @@ class InversionPublica(models.Model):
 
 class InventarioHoteleroEntNac(models.Model):
     
-    destino = models.CharField(max_length=255)
+    destino = models.CharField(max_length=455 , null=True, blank=True)
     fecha = models.DateField()
     categoria = models.CharField(max_length=255)
     habitaciones = models.IntegerField()
@@ -285,7 +285,7 @@ class InventarioHoteleroEntNac(models.Model):
 
 class CalidadAire(models.Model):
     fecha = models.DateField()
-    destino = models.CharField(max_length=555)
+    destino = models.CharField(max_length=455 , null=True, blank=True)
     calidad_del_aire = models.CharField(max_length=2255)
 
     def toJSON(self):
@@ -299,6 +299,12 @@ class CalidadAire(models.Model):
         db_table = 'aire'
         ordering = ['-id']
 
+class Sesibilizacion(models.Model):
+    fecha = models.DateField()
+    destino = models.CharField(max_length=455 , null=True, blank=True)
+    participantes = models.IntegerField()
+    accion = models.IntegerField()
+
 
 # catalagos 
 class CatalagoCategoria(models.Model):
@@ -310,7 +316,7 @@ class CatalagoCategoria(models.Model):
         ordering = ['-id']
 
 class CatalagoDestino(models.Model):
-    destino = models.CharField(max_length=455)
+    destino = models.CharField(max_length=455 , null=True, blank=True)
     entidad = models.CharField(max_length=455)
 
     class Meta:
