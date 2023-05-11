@@ -339,8 +339,8 @@ class CatalagoTipoVisistante(models.Model):
         db_table = 'catalogo_tipo_visitante'
         ordering = ['-id']
 
-class catalogo_zonaz_arq_museos (models.Model):
-    museo_zona_arqueologica = models.CharField(max_length=455)
+class CatalagoZAMuseos (models.Model):
+    nombre = models.CharField(max_length=455)
     tipo = models.CharField(max_length=455)
 
     class Meta:

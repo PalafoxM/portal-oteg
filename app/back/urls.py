@@ -17,6 +17,8 @@ from back.views.utils.views import *
 from back.views.catalago_categoria.views import *
 from back.views.catalogo_segmentos.views import *
 from back.views.catalogo_tipo_visitante.views import *
+from back.views.catalogo_za_museos.views import *
+from back.views.catalogo_destinos.views import *
 
 from django.conf import settings
 from django.conf.urls.static import static
@@ -180,4 +182,16 @@ urlpatterns = [
     path('catalago-tipo-visitante/add', CatalagoTipoVisistanteCreateView.as_view(), name='catalago_tipo_visitante_create'),
     path('catalago-tipo-visitante/edit/<int:pk>/', CatalagoTipoVisistanteUpdateView.as_view(), name='catalago_tipo_visitante_update'),
     path('catalago-tipo-visitante/delete/<int:pk>/', CatalagoTipoVisistanteDeleteView.as_view(), name='catalago_tipo_visitante_delete'),
+
+    #catalogo_za_museos
+    path('catalago-za-museos/list', CatalagoZAMuseosListView.as_view(), name='catalogo_za_museos_list'),
+    path('catalago-za-museos/add', CatalagoZAMuseosCreateView.as_view(), name='catalogo_za_museos_create'),
+    path('catalago-za-museos/edit/<int:pk>/', CatalagoZAMuseosUpdateView.as_view(), name='catalogo_za_museos_update'),
+    path('catalago-za-museos/delete/<int:pk>/', CatalagoZAMuseosDeleteView.as_view(), name='catalogo_za_museos_delete'),
+
+    #catalogo_destinos
+    path('catalago-destinos/list', CatalagoDestinoListView.as_view(), name='catalogo_destinos_list'),
+    path('catalago-destinos/add', CatalagoDestinoCreateView.as_view(), name='catalogo_destinos_create'),
+    path('catalago-destinos/edit/<int:pk>/', CatalagoDestinoUpdateView.as_view(), name='catalogo_destinos_update'),
+    path('catalago-destinos/delete/<int:pk>/', CatalagoDestinoDeleteView.as_view(), name='catalogo_destinos_delete'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
