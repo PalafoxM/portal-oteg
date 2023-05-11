@@ -106,7 +106,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = DATABASES
-# DATABASE_ROUTERS = ['config.db.EcosistemaRouter']
+DATABASE_ROUTERS = ['config.db.EcosistemaRouter']
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators

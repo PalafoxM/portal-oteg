@@ -41,46 +41,53 @@ DATABASES = {
 
 settings.DATABASES = DATABASES
 # routers.py
+class EcosistemaRouter:
+    """
+    Enrutador para controlar todas las operaciones de base de datos en los modelos de la
+    aplicación 'ecosistema'.
+    """
+    app_label = 'ecosistema'
 
-# class EcosistemaRouter:
-#     """
-#     A router to control all database operations on models in the
-#     ecosistema application.
-#     """
-#     app_label = 'ecosistema'
+    def db_for_read(self, model, **hints):
+        """
+        Intentos de lectura de modelos de la aplicación 'ecosistema' se dirigen a la base de datos 'ecosistema'.
+        """
+        if model._meta.app_label == self.app_label:
+            return self.app_label
+        return None
 
-#     def db_for_read(self, model, **hints):
-#         """
-#         Attempts to read ecosistema models go to ecosistema.
-#         """
-#         if model._meta.app_label == self.app_label:
-#             return self.app_label
-#         return None
+    def db_for_write(self, model, **hints):
+        """
+        Intentos de escritura de modelos de la aplicación 'ecosistema' se dirigen a la base de datos 'ecosistema'.
+        """
+        if model._meta.app_label == self.app_label:
+            return self.app_label
+        return None
 
-#     def db_for_write(self, model, **hints):
-#         """
-#         Attempts to write ecosistema models go to ecosistema.
-#         """
-#         if model._meta.app_label == self.app_label:
-#             return self.app_label
-#         return None
+    def db_for_delete(self, model, **hints):
+        """
+        Intentos de eliminación de modelos de la aplicación 'ecosistema' se dirigen a la base de datos 'ecosistema'.
+        """
+        if model._meta.app_label == self.app_label:
+            return self.app_label
+        return None
 
-#     def allow_relation(self, obj1, obj2, **hints):
-#         """
-#         Allow relations if a model in the ecosistema app is involved.
-#         """
-#         if obj1._meta.app_label == self.app_label or \
-#            obj2._meta.app_label == self.app_label:
-#             return True
-#         return None
+    def allow_relation(self, obj1, obj2, **hints):
+        """
+        Permite relaciones si está involucrado un modelo de la aplicación 'ecosistema'.
+        """
+        if obj1._meta.app_label == self.app_label or obj2._meta.app_label == self.app_label:
+            return True
+        return None
 
-#     def allow_migrate(self, db, app_label, model_name=None, **hints):
-#         """
-#         Make sure the ecosistema app only appears in the 'ecosistema' database.
-#         """
-#         if app_label == self.app_label:
-#             return db == self.app_label
-#         return None
+    def allow_migrate(self, db, app_label, model_name=None, **hints):
+        """
+        Asegura que la aplicación 'ecosistema' aparezca solo en la base de datos 'ecosistema'.
+        """
+        if app_label == self.app_label:
+            return db == self.app_label
+        return None
+
 
 
 
