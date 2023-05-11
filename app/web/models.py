@@ -21,6 +21,7 @@ class PerfilVisistantePDF (models.Model):
     fecha_registro = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     imagen = models.ImageField(upload_to='images/', null=True, blank=True)
     
+    
 class BarometroTuristico (models.Model):
     semestre = models.IntegerField(null=True, blank=False)
     nombrePDF = models.CharField(max_length=100, null=True, blank=True)
@@ -30,10 +31,7 @@ class BarometroTuristico (models.Model):
     fecha_registro = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
 
-class Glosario (models.Model):
-    palabra = models.CharField(max_length=100, null=True, blank=True)
-    definicion = models.CharField(max_length=100, null=True, blank=True)
-    fecha_registro = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+
 
 class DataPoint(models.Model):
     fecha_registro = models.DateTimeField(auto_now_add=True, null=True, blank=True)

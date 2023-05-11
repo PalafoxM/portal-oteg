@@ -10,9 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
-import config.db as db
+# import config.db as db
+from .db import DATABASES
 import os
 from pathlib import Path
+from dotenv import load_dotenv
 
 import sys
 sys.path.insert(0, './app')
@@ -22,7 +24,8 @@ import back
 import web
 # import dash
 
-
+# carga las variables de entorno desde el archivo .env
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -32,12 +35,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-%_jzooz7_zsrmhnd2abdsx$ed60-bd3(ray@w)_wt61jo7d2&='
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -59,7 +62,12 @@ INSTALLED_APPS = [
 
     # librerias
     'widget_tweaks',
+    'ckeditor',
+    'ckeditor_uploader',
+    # 'google_translate',
 ]
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -84,6 +92,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'config.context_processors.global_variables'
 
             ],
         },
@@ -96,8 +105,8 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = db.MYSQL
-
+DATABASES = DATABASES
+# DATABASE_ROUTERS = ['config.db.EcosistemaRouter']
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -134,23 +143,66 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
-MEDIA_ROOT = '/media/'
 MEDIA_ROOT =  os.path.join(BASE_DIR, 'media')
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'project_static'),
+    os.path.join(BASE_DIR, 'static/fonts'),
 ]
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+
+# SASS_PROCESSOR_INCLUDE_DIRS = [
+#     os.path.join(BASE_DIR, 'static/scss'),
+# ]
+# STATICFILES_FINDERS = [
+#     'django.contrib.staticfiles.finders.FileSystemFinder',
+#     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+#     'sass_processor.finders.CssFinder',
+# ]
+
+# SASS_PROCESSOR_ENABLED = True
+# SASS_PROCESSOR_ROOT = 'static/scss/'
+# SASS_PROCESSOR_OUTPUT_DIR = 'static/css/'
+# SASS_PROCESSOR_INCLUDE_DIRS = [
+#     'static/scss/',
+# ]
+
+
+STATIC_ROOT = BASE_DIR / 'static'
+
+CKEDITOR_UPLOAD_PATH = "uploads/"
+
+
+CKEDITOR_CONFIGS = {
+    'awesome_ckeditor': {
+        'toolbar': 'Basic',
+    },
+}
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+            ['Bold', 'Italic', 'Underline'],
+            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+            ['Link', 'Unlink'],
+            ['RemoveFormat', 'Source']
+        ]
+    }
+}
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
 # Email configuration
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'purpura.dev@gmail.com'
-EMAIL_HOST_PASSWORD = 'thlimulqerlcqlwd'
+EMAIL_HOST_USER = os.getenv('MAIL_USERNAME')
+EMAIL_HOST_PASSWORD = os.getenv('MAIL_PASSWORD')
 EMAIL_PORT = 587
-EMAIL_USE_TLS   = True
+EMAIL_USE_TLS = True
+

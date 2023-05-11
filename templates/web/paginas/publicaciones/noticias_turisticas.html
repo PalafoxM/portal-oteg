@@ -7,8 +7,8 @@
 
 <section class=" container mt-4">
     <h2 >Noticias Turísticas</h2>
-    <h3 class="text-muted" >Publicaciones Recientes</h3>
-    {% include 'web/components/slider_pub/slider_pub.html' %}
+    <h4 class="text-muted" >Publicaciones Recientes</h4>
+    {% include 'web/components/slider_noticias/slider_noticias.html' %}
 
 
     <h3 class="text-muted mt-5" >Todas las Noticias</h3>
@@ -16,7 +16,6 @@
         <input type="date" class="form-control me-2" name="year" placeholder="">
         <input type="text" class="form-control me-2" name="q" placeholder="Buscar por Nombre ">
 
-        
         <button type="submit" class="btn btn-outline-success">Search</button>
     </form>
 
@@ -38,12 +37,12 @@
                     var rowHtml = '<div class="row">';
 
                     for (var i = 0; i < data.length; i++) {
+                        var url = '{% url "notica_viewer" pk=1 %}'.replace('1', data[i].id);
                         var itemHtml = '<div class="col-md-2 mb-2 ">' +
-                            '<div style="width:10rem; height:10rem; display: flex; flex-direction: column;  justify-content: center; align-items: center; margin-right:30px;">' +
-                            '<a href="' + data[i].url + '">' +
-                            '<i style="font-size: 4rem; cursor: pointer; color: #ad0b00; align-self:flex-end;"class="fa-solid fa-file-pdf"></i>' +
-                            '</a>' +
-                            '<p style="font-size: 10px; text-align: center;">' + data[i].nombrePDF + '</p>' +
+                            '<div style="width:10rem; height:10rem; display: flex; flex-direction: column;  justify-content: center; align-items: center; margin-right:15rem;">' +
+                            '<a href="' + url + '">' +
+                            '<i style="font-size: 4rem; cursor: pointer;align-self:flex-end;"class="fa-solid fa-file"></i>' +
+                            '</a>' + '<p style="font-size: 10px; text-align: center;">' + data[i].titulo + '</p>' +
                             '<p style="font-size: 8px; text-align: center; margin:0;">' +"Publicado el " + data[i].fecha_registro + '</p>' +
                             '</div>' +
                             '</div>';
@@ -85,12 +84,13 @@
                         var rowHtml = '<div class="row">';
 
                         for (var i = 0; i < data.length; i++) {
+                            var url = '{% url "notica_viewer" pk=1 %}'.replace('1', data[i].id);
                             var itemHtml = '<div class="col-md-3 mb-3">' +
                                 '<div style="width:10rem; height:10rem; display: flex; flex-direction: column;  justify-content: center; align-items: center; margin-right:30px;">' +
-                                '<a href="' + data[i].url + '">' +
-                                '<i style="font-size: 4rem; cursor: pointer; color: #ad0b00; align-self:flex-end;"class="fa-solid fa-file-pdf"></i>' +
+                                    '<a href="' + url + '">' +
+                                '<i style="font-size: 4rem; cursor: pointer;align-self:flex-end;"class="fa-solid fa-file"></i>' +
                                 '</a>' +
-                                '<p style="font-size: 10px; text-align: center;">' + data[i].nombrePDF + '</p>' +
+                                '<p style="font-size: 10px; text-align: center;">' + data[i].titulo + '</p>' +
                                 '<p style="font-size: 8px; text-align: center; margin:0;">' +"Publicado el " + data[i].fecha_registro + '</p>' +
                                 '</div>' +
                                 '</div>';

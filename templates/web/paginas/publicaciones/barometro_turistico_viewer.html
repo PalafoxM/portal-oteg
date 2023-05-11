@@ -1,0 +1,99 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'fontawesome-free/css/all.min.css' %}">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+
+    <title>OTEG</title>
+
+    <!-- custom css -->
+    <link rel="stylesheet" href="{% static 'web/css/baner.css' %}">
+
+
+    <!-- animate css link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+    <!-- google font link -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Coiny&display=swap" rel="stylesheet">
+
+    <!-- font awesome link -->
+
+
+
+</head>
+
+{% include 'web/components/navbar/navbar.html' %}
+
+
+<style>
+    .container2 {
+        position: relative;
+        /* set container position to relative */
+        width: 100%;
+        height: 80%;
+    }
+
+    .corner-div {
+        position: absolute;
+        /* set corner-div position to absolute */
+        top: 1.5;
+        /* position it at the top */
+        right: 70;
+        /* position it at the right */
+        width: 200px;
+        height: 56px;
+        background-color: #0288d1;
+        z-index: 999;
+        /* set a high z-index value to make it appear over other elements */
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10rem;
+
+
+    }
+
+    .corner-div:hover {
+        cursor: pointer;
+        background-color: #026ad1;
+    }
+</style>
+
+<div class="container mt-4" style="padding-top: 5rem;">
+
+    <p>
+        <a href="{%url 'barometro-turistico' %}" class="text-reset" style="padding-left: 12px;">Regresar a la
+            Lista</a>
+    </p>
+
+    <div>
+        <h3 class="text-center">Barómetro Turístico</h3>
+        <p>Es un estudio cualitativo y cuantitativo que examina la opinión y valoración presente, pasada y futura de la
+            actividad turística y económica dentro del estado de Guanajuato, con fundamento en la experiencia de líderes
+            de opinión, para el diseño de estrategias en pro del desarrollo turístico del Estado.</p>
+    </div>
+    <div class="container2">
+        <a href="{% url 'pdfDownload_Bar' pk=pdf.id %}">
+            <div class="corner-div">
+                <h5 style="font-size: small; font-weight: bold; color: #FFFF; margin: 0;">DESCARGAR PDF</h5><i
+                    style="color: #FFFF; padding-left: 10px;" class="fa-solid fa-cloud-arrow-down"></i>
+            </div>
+        </a>
+        <iframe height="80%" width="100%" src="{{pdf.url}}} #zoom=100&view=fitH" frameborder="0"></iframe>
+    </div>
+    
+</div>
+
+
+{% include 'web/components/footer/footer.html' %}

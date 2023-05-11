@@ -1,0 +1,75 @@
+.side {
+    top: 0; z-index: 1001 !important;  
+    position: fixed !important;
+}
+
+.isotipo{
+    width: 30px;
+    height: auto;
+}
+.icons{
+    width: 15px;
+    height: auto;
+}
+.icons-dropped{
+    width: 17px;
+    height: auto;
+}
+.icons-catalogos{
+    width: 13px;
+    height: auto;
+}
+.icons-users{
+    width: 22px;
+    height: auto; 
+}
+.label-icon{
+    margin: 0;
+    position: absolute;
+    top: 13px;
+    right: 18px;
+    text-align: center;
+    background-color: red;
+    padding: 5px;
+    border-radius: 162%;
+    font-size: 10px;
+    color: white;
+    width: 15px;
+    height: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.main-container{
+    height: 100vh;
+    width:58px !important;
+    background-color: #FC8126;
+
+}
+.icon-plus{
+    padding: 10px;
+    border-radius: 5px;
+
+}
+.icon-containers{
+    width: 55px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+/* i{
+    color: rgb(5, 5, 5);
+} */
+
+
+.icon-containers:hover div{
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    background-color:  #DDC137;
+    cursor: pointer;
+}

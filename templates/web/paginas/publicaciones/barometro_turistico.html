@@ -27,8 +27,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Coiny&display=swap" rel="stylesheet">
 </head>
 
-{% include 'web/header.html' %}
-
+{% include 'web/components/navbar/navbar.html' %}
 
 
 <style>
@@ -90,9 +89,8 @@
     <div class="carousel-inner">
 
 
-
-
         <div class="carousel-item active">
+
             <div class="image-container">
                 <img src="https://nuestrasnoticiasbajio.com/wp-content/uploads/2020/01/comonfort-1.jpg" class=""
                     alt="sliderImg">
@@ -107,6 +105,7 @@
                 <a href="{{object.link}}"
                     class="button animate__animated animate__zoomIn mt-3 py-3 px-5 btn font-weight-bold"></a>
             </div>
+            
         </div>
 
         <div class="carousel-item ">
@@ -243,7 +242,7 @@
             {% endfor %}
         </select>
         <select name="bim" class="form-select me-2">
-            <option value="">Todos Bimestres</option>
+            <option value="">Todos los Semestres</option>
             <option value="1">Primer Semestre</option>
             <option value="2">Segundo Semestre</option>
 
@@ -271,9 +270,10 @@
                     var rowHtml = '<div class="row">';
 
                     for (var i = 0; i < data.length; i++) {
+                        var url = '{% url "barometro_viewer" pk=1 %}'.replace('1', data[i].id);
                         var itemHtml = '<div class="col-md-2 mb-2 ">' +
                             '<div style="width:10rem; height:10rem; display: flex; flex-direction: column;  justify-content: center; align-items: center; margin-right:30px;">' +
-                            '<a href="' + data[i].url + '">' +
+                            '<a href="' + url + '">' +
                             '<i style="font-size: 4rem; cursor: pointer; color: #ad0b00; align-self:flex-end;"class="fa-solid fa-file-pdf"></i>' +
                             '</a>' +
                             '<p style="font-size: 10px; text-align: center;">' + data[i].nombrePDF + '</p>' +
@@ -315,9 +315,10 @@
                         var rowHtml = '<div class="row">';
 
                         for (var i = 0; i < data.length; i++) {
+                            var url = '{% url "barometro_viewer" pk=1 %}'.replace('1', data[i].id);
                             var itemHtml = '<div class="col-md-3 mb-3">' +
                                 '<div style="width:10rem; height:10rem; display: flex; flex-direction: column;  justify-content: center; align-items: center; margin-right:30px;">' +
-                                '<a href="' + data[i].url + '">' +
+                                '<a href="' + url + '">'  +
                                 '<i style="font-size: 4rem; cursor: pointer; color: #ad0b00; align-self:flex-end;"class="fa-solid fa-file-pdf"></i>' +
                                 '</a>' +
                                 '<p style="font-size: 10px; text-align: center;">' + data[i].nombrePDF + '</p>' +

@@ -1,18 +1,47 @@
 from django.forms import ModelForm, TextInput, ClearableFileInput, CheckboxInput
 from .models import *
+from web.models import *
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from django.contrib.auth.models import User, Group
+from ckeditor.widgets import CKEditorWidget
 
-class PublicationForm(ModelForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+# class SeccionChoiceField(forms.ModelChoiceField):
+#     def label_from_instance(self, obj):
+#         return obj.seccion
 
+
+# class PublicationForm(forms.ModelForm):
+#     section = SeccionChoiceField(queryset=SeccionesCentroDocumental.objects.all(), empty_label=None)
+#     category = forms.ModelChoiceField(queryset=Categorias.objects.all(), to_field_name='nombre_categoria', empty_label=None)
+
+#     class Meta:
+#         model = Publications
+#         fields = ['section', 'category', 'publication', 'visible', 'recent', 'type', 'num_descargas', 'name', 'url']
+#         labels = {
+#             'section': 'Sección',
+#             'category': 'Categoría',
+#             'publication': 'Publicación',
+#             'visible': 'Visible',
+#             'recent': 'Reciente',
+#             'type': 'Tipo',
+#             'num_descargas': 'Número de descargas',
+#             'name': 'Nombre',
+#             'url': 'URL',
+#         }
+
+class PublicationForm(forms.ModelForm):
     class Meta:
         model = Publications
+        exclude = ('category', 'section', 'num_descargas')
         fields = '__all__'
         widgets = {
+
+            'type': forms.Select(attrs={'class': 'form-control'}),
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'url': forms.TextInput(attrs={'class': 'form-control'}),
+
             'section': TextInput(attrs = { 'placeholder': 'Ingresa una Sección', 'class': 'form-control'}),
             'category': TextInput(attrs = { 'placeholder': 'Ingresa una Categroia', 'class': 'form-control'}),            
             'type': TextInput(attrs = { 'placeholder': 'Ingresa un Tipo', 'class': 'form-control'}),
@@ -20,7 +49,6 @@ class PublicationForm(ModelForm):
             'name': TextInput(attrs = { 'placeholder': 'Ingresa un Nombre ', 'class': 'form-control'}),
             'fiel': ClearableFileInput(attrs = { 'placeholder': 'Ingresa una imagen', 'class': 'form-control-file'}), 
         }
-    
 
 
 class BannerForm(ModelForm):
@@ -31,13 +59,15 @@ class BannerForm(ModelForm):
         model = Banner
         fields = '__all__'
         widgets = {
+            'name': TextInput(attrs={'placeholder': 'Ingresa una Nombre'}),
+            'banner_url': TextInput(attrs={'placeholder': 'Ingresa un Enlace'}),
             'name': TextInput(attrs = { 'placeholder': 'Ingresa una Nombre', 'class': 'form-control'}),
             'banner_url': TextInput(attrs = { 'placeholder': 'Ingresa un Enlace', 'class': 'form-control'}), 
             'publication': CheckboxInput(attrs = { 'placeholder': 'Ingresa una Publicación', 'class': 'form-control'}), 
             'imagen': ClearableFileInput(attrs = { 'placeholder': 'Ingresa una imagen', 'class': 'form-control-file'}), 
         }
-    
-    
+
+
 class PlacesOfInterestForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -46,10 +76,11 @@ class PlacesOfInterestForm(ModelForm):
         model = PlacesOfInterest
         fields = '__all__'
         widgets = {
+            'sitio_web': TextInput(attrs={'placeholder': 'Ingresa un Sitio Web'}),
+            'decription': TextInput(attrs={'placeholder': 'Ingresa un Descripcion'}),
             'sitio_web': TextInput(attrs = { 'placeholder': 'Ingresa un Sitio Web', 'class': 'form-control'}),
             'decription': TextInput(attrs = { 'placeholder': 'Ingresa un Descripcion', 'class': 'form-control'}), 
         }
-    
 
 
 class PasswordChangeFormCustom(PasswordChangeForm):
@@ -83,152 +114,46 @@ class DateInput(forms.DateInput):
     input_type = 'date'
 
 
-# class ProfileForm(forms.ModelForm):
-#     user = forms.CharField(widget=forms.HiddenInput, required=False)
-#     exclude = ['user']
-
-#     class Meta:
-#         model = Profile
-#         fields = '__all__'
-#         widgets = {
-#             'photo': forms.ClearableFileInput(attrs={'multiple': True}),
-#             'fecha_cumple': DateInput(),
-#         }
-
-
-class UserForm(forms.ModelForm):
-
-    password = forms.CharField(widget=forms.HiddenInput, required=False)
-    user_permissions = forms.CharField(
-        widget=forms.HiddenInput, required=False)
-    is_staff = forms.CharField(widget=forms.HiddenInput, required=False)
-    is_active = forms.CharField(widget=forms.HiddenInput, required=False)
-    is_superuser = forms.CharField(widget=forms.HiddenInput, required=False)
-    last_login = forms.CharField(widget=forms.HiddenInput, required=False)
-    date_joined = forms.CharField(widget=forms.HiddenInput, required=False)
-    username = forms.CharField(max_length=100, label='Nombre de Usuario')
-    first_name = forms.CharField(max_length=100, label='Nombre')
-    last_name = forms.CharField(widget=forms.HiddenInput, required=False)
-    groups = forms.ModelMultipleChoiceField(
-        queryset=Group.objects.all(), label='Roles / Permisos')
-    exclude = ['password', 'user_permissions', 'is_staff', 'is_active',
-               'is_superuser', 'last_login', 'date_joined', 'last_name']
-
-    class Meta:
-        model = User
-        fields = ('username', 'first_name', 'last_name', 'email', 'groups')
-        widgets = {
-            'fecha_cumple': DateInput(),
-        }
-
-
-class CustomUserCreationForm(UserCreationForm):
-
-    username = forms.CharField(max_length=100, label='Nombre de Usuario')
-    first_name = forms.CharField(max_length=100, label='Nombre')
-    last_name = forms.CharField(max_length=100, label='Apellido Paterno')
-    apellido_materno = forms.CharField(
-        max_length=100, label='Apellido Materno')
-    fecha_cumple = forms.DateField(
-        required=False, widget=DateInput, label='Fecha de Cumpleaños')
-    direccion = forms.CharField(max_length=100, label='Dirección')
-    tel = forms.CharField(max_length=100, required=False, label='Teléfono')
-    email = forms.EmailField(max_length=100, label='Correo Electrónico')
-    facebook = forms.CharField(max_length=100, required=False)
-    twitter = forms.CharField(max_length=100, required=False)
-    ciudad = forms.CharField(max_length=100, required=False)
-    estado = forms.CharField(max_length=100, required=False)
-    empresa_institucion = forms.CharField(
-        max_length=100, required=False, label='Empresa o Institución')
-    cargo = forms.CharField(max_length=100, required=False)
-    licenciatura = forms.CharField(max_length=100, required=False)
-    universidad_licenciatura = forms.CharField(max_length=100, required=False)
-    maestria = forms.CharField(max_length=100, required=False)
-    universidad_maestria = forms.CharField(max_length=100, required=False)
-    doctorado = forms.CharField(max_length=100, required=False)
-    universidad_doctorado = forms.CharField(max_length=100, required=False)
-    photo = forms.ImageField(widget=forms.ClearableFileInput(
-        attrs={'multiple': True}), label='Fotografía')
-    experiencia = forms.CharField(widget=forms.Textarea, required=False)
-    boletin = forms.BooleanField(
-        required=False, label='Deseo recibir boletín de noticias')
-    group = forms.ModelChoiceField(
-        queryset=Group.objects.all(), label='Rol / Permisos')
-
-    class Meta:
-        model = User
-        widgets = {
-            'fecha_cumple': DateInput(),
-        }
-
-        fields = ('username', 'first_name', 'last_name', 'apellido_materno', 'fecha_cumple', 'direccion', 'tel', 'email', 'facebook', 'twitter', 'ciudad', 'estado', 'empresa_institucion',
-                  'cargo', 'licenciatura', 'universidad_licenciatura', 'maestria', 'universidad_maestria', 'doctorado', 'universidad_doctorado', 'photo', 'experiencia', 'boletin', 'group')
-
-    def save(self, commit=True):
-
-        user = super().save(commit=False)
-
-        user.first_name = self.cleaned_data['first_name']
-        user.last_name = self.cleaned_data['last_name']
-        user.email = self.cleaned_data['email']
-
-        if commit:
-            user.save()
-            self.cleaned_data['group'].user_set.add(user)
-
-        # save fecha_cumple and direccion to Profile
-        profile = Profile.objects.create(user=user,
-                                         apellido_materno=self.cleaned_data['apellido_materno'],
-                                         apellido_paterno=self.cleaned_data['last_name'],
-                                         direccion=self.cleaned_data['direccion'],
-                                         fecha_cumple=self.cleaned_data['fecha_cumple'],
-                                         tel=self.cleaned_data['tel'],
-                                         facebook=self.cleaned_data['facebook'],
-                                         twitter=self.cleaned_data['twitter'],
-                                         ciudad=self.cleaned_data['ciudad'],
-                                         estado=self.cleaned_data['estado'],
-                                         empresa_institucion=self.cleaned_data['empresa_institucion'],
-                                         cargo=self.cleaned_data['cargo'],
-                                         licenciatura=self.cleaned_data['licenciatura'],
-                                         universidad_licenciatura=self.cleaned_data['universidad_licenciatura'],
-                                         maestria=self.cleaned_data['maestria'],
-                                         universidad_maestria=self.cleaned_data['universidad_maestria'],
-                                         doctorado=self.cleaned_data['doctorado'],
-                                         universidad_doctorado=self.cleaned_data['universidad_doctorado'],
-                                         photo=self.cleaned_data['photo'],
-                                         experiencia=self.cleaned_data['experiencia'],
-                                         boletin=self.cleaned_data['boletin'],
-                                         )
-        profile.save()
-
-        return user
-
-
-class ImageUploadForm(forms.Form):
-    image = forms.FileField()
-
-
-class DateInput(forms.DateInput):
-    input_type = 'date'
-
 
 class SeccionCentroDocumentalForm(forms.ModelForm):
     class Meta:
         model = SeccionesCentroDocumental
         fields = ['seccion', 'descripcion', 'observacion']
+        widgets = {
+            'seccion': forms.TextInput(attrs={'class': 'form-control'}),
+            'descripcion': forms.Textarea(attrs={'class': 'form-control'}),
+            'observacion': forms.TextInput(attrs={'class': 'form-control'}),
+        }
 
 
 class CategoriasForm(forms.ModelForm):
-    seccion = forms.IntegerField(widget=forms.HiddenInput, required=False)
-    fecha_creacion = forms.DateField(required=False, widget=DateInput)
 
     class Meta:
         model = Categorias
         fields = ['nombre_categoria', 'fecha_creacion',
                   'publicacion', 'visible', 'seccion']
 
+        widgets = {
+            'nombre_categoria': forms.TextInput(attrs={'class': 'form-control'}),
+            'fecha_creacion': forms.DateInput(attrs={'class': 'form-control'}),
+            'publicacion': forms.CheckboxInput(attrs={'class': 'form-control'}),
+            'visible': forms.CheckboxInput(attrs={'class': 'form-control'}),
+            'seccion': forms.Select(attrs={'class': 'form-control'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        pk = kwargs.pop('pk', None)
+        super().__init__(*args, **kwargs)
+        if pk:
+            seccion = SeccionesCentroDocumental.objects.get(pk=pk)
+            self.fields['seccion'].initial = seccion
+            self.fields['seccion'].widget = forms.HiddenInput()
+
+
 class NoticiaForm(ModelForm):
-    
+
+    descripcion = forms.CharField(widget=CKEditorWidget())
+
     class Meta:
         model = Noticia
         fields = ['titulo', 'descripcion', 'sitio_web',
@@ -236,7 +161,6 @@ class NoticiaForm(ModelForm):
         widgets = {
 
             'titulo': forms.TextInput(attrs={'class': 'form-control'}),
-            'descripcion': forms.Textarea(attrs={'class': 'form-control'}),
             'sitio_web': forms.TextInput(attrs={'class': 'form-control'}),
             'imagen': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
             'fecha_nota': forms.DateInput(attrs={'class': 'form-control'}),
@@ -245,8 +169,20 @@ class NoticiaForm(ModelForm):
             'fecha_recuperacion': forms.DateInput(attrs={'class': 'form-control'}),
 
         }
-        
-        
+
+
+class BarometroForm(forms.ModelForm):
+    class Meta:
+        model = BarometroTuristico
+        fields = ['semestre', 'nombrePDF', 'url', 'yearPDF']
+        widgets = {
+            'semestre': forms.NumberInput(attrs={'class': 'form-control', 'required': True}),
+            'nombrePDF': forms.TextInput(attrs={'class': 'form-control'}),
+            'url': forms.URLInput(attrs={'class': 'form-control'}),
+            'yearPDF': forms.NumberInput(attrs={'class': 'form-control', 'required': True}),
+        }
+
+
 class AlbaForm(forms.ModelForm):
     class Meta:
         model = Alba
@@ -257,11 +193,6 @@ class DateInput(forms.DateInput):
 
 class EventoForm(forms.ModelForm):
     
-
-    # fecha_inicio = forms.DateField(required=False, widget=DateInput(
-    #     attrs={'placeholder': 'Fecha Inicio', 'class': 'form-control'}), label='Fecha Inicio', input_formats=['%Y-%m-%d'])
-    # fecha_fin = forms.DateField(required=False, widget=DateInput(
-    #     attrs={'placeholder': 'Fecha Fin', 'class': 'form-control'}), label='Fecha Fin', input_formats=['%Y-%m-%d'])
     
     TIPOS_EVENTO_CHOICES = [
         ('', 'Seleccionar'),
@@ -288,3 +219,121 @@ class EventoForm(forms.ModelForm):
         }
     
    
+class InventarioHoteleroForm(ModelForm):
+    class Meta:
+        model = InventarioHotelero
+        fields = ['destino', 'fecha', 'categoria', 'habitaciones', 'establecimientos']
+        widgets = {
+            'destino': forms.TextInput(attrs={'class': 'form-control'}),
+            'fecha': forms.DateInput(attrs={'class': 'form-control fecha-input'}),
+            'categoria': forms.TextInput(attrs={'class': 'form-control'}),
+            'habitaciones': forms.NumberInput(attrs={'class': 'form-control'}),
+            'establecimientos': forms.NumberInput(attrs={'class': 'form-control'}),
+        }
+
+class CargaMasivaForm(forms.Form):
+    archivo = forms.FileField(label='Seleccione un archivo', help_text='(xlsx, csv)')
+
+
+class GlosarioForm(forms.ModelForm):
+
+    class Meta:
+        model = Glosario
+        fields = ['palabra', 'definicion']
+        labels = {
+            'palabra': 'Palabra',
+            'definicion': 'Definición',
+        }
+        widgets = {
+            'palabra': forms.TextInput(attrs={'class': 'form-control'}),
+            'definicion': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+
+class DataTurForm(forms.ModelForm):
+
+    class Meta:
+        model = DataTour
+        fields = ['fecha', 'destino', 'categoria', 'cuartos_registrados',
+                  'cuartos_disponibles', 'cuartos_disponibles_prom',
+                  'cuartos_ocupados', 'cuartos_ocupados_residentes',
+                  'cuartos_ocupados_no_residentes', 'llegadas_turistas',
+                  'llegadas_turistas_residentes', 'llegadas_turistas_no_residentes',
+                  'turistas_noche', 'turistas_noche_residentes', 'turistas_noche_no_residentes',
+                  'porcentaje_ocupacion', 'porcentaje_ocupacion_residentes',
+                  'porcentaje_ocupacion_no_residentes', 'estadia_promedio',
+                  'estadia_promedio_residentes', 'estadia_promedio_no_residentes',
+                  'densidad_ocupacion', 'densidad_ocupacion_residentes',
+                  'densidad_ocupacion_no_residentes']
+        widgets = {
+            'fecha': forms.DateInput(format='%d/%m/%Y'),
+        }
+
+        
+class GastoDerramaForm (forms.ModelForm):
+    class Meta:
+        model = GastoDerrama
+        fields = ['anio', 'categoria', 'destino', 'gasto_diario_promedio','participacion','estadia_promedio']
+
+
+class OtrosAnualesForm (forms.ModelForm):
+    class Meta:
+        model = otros_anuales
+        fields = '__all__'
+
+
+class ZonasArqueologicasMuseosForm (forms.ModelForm):
+
+    TIPO_CHOICES = (
+        ('museo', 'Museo'),
+        ('zona_arq', 'Zona Arqueológica'),
+    )
+    tipo = forms.ChoiceField(choices=TIPO_CHOICES, required=False)
+
+    ORIGEN_CHOICES = (
+        ('', '----------------'),
+        ('nacional', 'Nacional'),
+        ('internacional', 'Internacional'),
+    )
+    origen_visitante = forms.ChoiceField(choices=ORIGEN_CHOICES, required=False)
+
+
+    class Meta:
+        model = zonas_arqueologicas_museos
+        fields = ('destino', 'museo_zona_arqueologica', 'fecha', 'origen_visitante', 'visitantes', 'tipo')
+class InversionPublicaForm(forms.ModelForm):
+    class Meta:
+        model = InversionPublica
+        fields = ['fecha', 'destino', 'nombre_de_la_obra', 'monto_de_inversion_municipal', 'monto_de_inversion_estatal', 'monto_de_inversion_federal', 'monto_total']
+        widgets = {
+            'fecha': forms.DateInput(attrs={'class': 'form-control fecha-input'}),
+            'destino': forms.TextInput(attrs={'class': 'form-control'}),
+            'nombre_de_la_obra': forms.TextInput(attrs={'class': 'form-control'}),
+            'monto_de_inversion_municipal': forms.NumberInput(attrs={'class': 'form-control'}),
+            'monto_de_inversion_estatal': forms.NumberInput(attrs={'class': 'form-control'}),
+            'monto_de_inversion_federal': forms.NumberInput(attrs={'class': 'form-control'}),
+            'monto_total': forms.NumberInput(attrs={'class': 'form-control'}),
+        }
+
+class InventarioHoteleroEntNacForm(ModelForm):
+    class Meta:
+        model = InventarioHoteleroEntNac
+        fields = ['destino', 'fecha', 'categoria', 'habitaciones', 'establecimientos']
+        widgets = {
+            'destino': forms.TextInput(attrs={'class': 'form-control'}),
+            'fecha': forms.DateInput(attrs={'class': 'form-control fecha-input'}),
+            'categoria': forms.TextInput(attrs={'class': 'form-control'}),
+            'habitaciones': forms.NumberInput(attrs={'class': 'form-control'}),
+            'establecimientos': forms.NumberInput(attrs={'class': 'form-control'}),
+        }
+
+class CalidadAireForm(forms.ModelForm):
+    class Meta:
+        model = CalidadAire
+        fields = ['fecha', 'destino', 'calidad_del_aire']
+        widgets = {
+            'fecha': forms.DateInput(attrs={'class': 'form-control fecha-input'}),
+            'destino': forms.TextInput(attrs={'class': 'form-control'}),
+            'calidad_del_aire': forms.TextInput(attrs={'class': 'form-control'}),
+        },
+        using = 'ecosistema'

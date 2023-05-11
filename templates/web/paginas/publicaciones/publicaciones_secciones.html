@@ -1,0 +1,67 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'fontawesome-free/css/all.min.css' %}">
+
+
+{% include 'web/components/navbar/navbar.html' %}
+
+
+<div class="container " style="margin-top:5rem;">
+
+    <div>
+        <h3 class="text-center">CENTRO DOCUMENTAL</h3>
+        <p>Este es un espacio colaborativo en permanente construcción y enriquecimiento en el que cualquier persona que
+            así lo desee, puede ingresar sus investigaciones, estudios, ensayos y publicaciones que quiera compartir con
+            los usuarios del portal del observatorio.</p>
+
+    </div>
+
+    <div>
+
+        <div class="row">
+
+            <div class="col text-center">
+                <img src="http://www.observatorioturistico.org/img/iconos/publicaciones_recientes.png">
+                <h5 class="mt-3">{{seccion}}</h5>
+            </div>
+
+
+            <div class="col">
+
+                {% for category, publications in publicaciones_data %}
+                <h2 class="text-center">{{ category.nombre_categoria }}</h2>
+
+                {% for publication in publications %}
+                <div style="display: flex; justify-content: space-between; align-items: center;" class="mb-3">
+                <p style="margin: 0; padding-right: 1rem; align-self:flex-start;" >{{ publication.name }}</p>
+                <div style="background-color: #026ad1; color: #fff; font-weight: bold; border-radius: 5rem;">
+                    <p style="margin: 0; padding-left: 10px; padding-right: 10px;">Num Descargas :
+                        {{publication.num_descargas}} </p>
+                </div>
+
+                <a href="{% url 'publicaciones_pdf_viewer' pk=publication.id %}"><i
+                    style="font-size: 1.5rem; cursor: pointer; color: #ad0b00; align-self:flex-end;"
+                    class="fa-solid fa-file-pdf"></i></a>
+            </div>
+
+                {% empty %}
+                <p>No publications found for this category.</p>
+                {% endfor %}
+
+
+
+                {% empty %}
+                <p>No categories found for this section.</p>
+                {% endfor %}
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+{% include 'web/components/footer/footer.html' %}
