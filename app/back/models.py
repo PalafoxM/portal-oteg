@@ -305,6 +305,35 @@ class Sesibilizacion(models.Model):
     participantes = models.IntegerField()
     accion = models.IntegerField()
 
+class ProyectoInversion(models.Model):
+    destino = models.CharField(max_length=256)
+    id_del_proyecto = models.AutoField(primary_key=True)
+    nombre_del_proyecto = models.CharField(max_length=256)
+    promotor_del_proyecto = models.CharField(max_length=256, blank=True)
+    referencia_de_ubicacion = models.CharField(max_length=256, blank=True)
+    zona_turistica = models.CharField(max_length=256, blank=True)
+    giro = models.CharField(max_length=256, blank=True)
+    habitaciones = models.FloatField(blank=True, null=True)
+    empleos_permanentes = models.FloatField(blank=True, null=True)
+    empleos_temporales = models.FloatField(blank=True, null=True)
+    tipo_de_inversion = models.CharField(max_length=256, blank=True)
+    origen_de_inversion = models.CharField(max_length=256, blank=True)
+    estatus = models.CharField(max_length=256, blank=True)
+    fecha_de_inicio_de_obra = models.DateField(blank=True, null=True)
+    fecha_de_conclusion_de_obra = models.DateField(blank=True, null=True)
+    fecha_de_apertura = models.DateField(blank=True, null=True)
+    monto_comprometido_del_proyecto_mxn = models.FloatField(blank=True, null=True)
+    plazo = models.FloatField(blank=True, null=True)
+    personas_beneficiadas_con_el_proyecto = models.FloatField(blank=True, null=True)
+    datos_de_contacto = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.nombre_del_proyecto
+
+    class Meta:
+        app_label = 'ecosistema'
+        db_table = 'proyectos_inversion'
+        ordering = ['-id_del_proyecto']
 
 # catalagos 
 class CatalagoCategoria(models.Model):

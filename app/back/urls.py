@@ -19,6 +19,7 @@ from back.views.catalogo_segmentos.views import *
 from back.views.catalogo_tipo_visitante.views import *
 from back.views.catalogo_za_museos.views import *
 from back.views.catalogo_destinos.views import *
+from back.views.proyectos_inversion.views import *
 
 from django.conf import settings
 from django.conf.urls.static import static
@@ -194,4 +195,10 @@ urlpatterns = [
     path('catalago-destinos/add', CatalagoDestinoCreateView.as_view(), name='catalogo_destinos_create'),
     path('catalago-destinos/edit/<int:pk>/', CatalagoDestinoUpdateView.as_view(), name='catalogo_destinos_update'),
     path('catalago-destinos/delete/<int:pk>/', CatalagoDestinoDeleteView.as_view(), name='catalogo_destinos_delete'),
+
+    #proyectos_inversion
+    path('proyectos-inversion/list', ProyectoInversionListView.as_view(), name='proyectos_inversion_list'),
+    path('proyectos-inversion/add', ProyectoInversionCreateView.as_view(), name='proyectos_inversion_create'),
+    path('proyectos-inversion/edit/<int:pk>/', ProyectoInversionUpdateView.as_view(), name='proyectos_inversion_update'),
+    path('proyectos-inversion/delete/<int:pk>/', ProyectoInversionDeleteView.as_view(), name='proyectos_inversion_delete'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

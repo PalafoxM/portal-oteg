@@ -343,7 +343,33 @@ class CalidadAireForm(forms.ModelForm):
             'destino': forms.TextInput(attrs={'class': 'form-control'}),
             'calidad_del_aire': forms.TextInput(attrs={'class': 'form-control'}),
         },
-        
+
+class ProyectoInversionForm(forms.ModelForm):
+    class Meta:
+        model = ProyectoInversion
+        fields = '__all__'
+        widgets = {
+            'destino': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Destino'}),
+            'nombre_del_proyecto': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombre del proyecto'}),
+            'promotor_del_proyecto': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Promotor del proyecto'}),
+            'referencia_de_ubicacion': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Referencia de ubicación'}),
+            'zona_turistica': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Zona turística'}),
+            'giro': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Giro'}),
+            'habitaciones': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Habitaciones'}),
+            'empleos_permanentes': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Empleos permanentes'}),
+            'empleos_temporales': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Empleos temporales'}),
+            'tipo_de_inversion': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Tipo de inversión'}),
+            'origen_de_inversion': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Origen de inversión'}),
+            'estatus': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Estatus'}),
+            'fecha_de_inicio_de_obra': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Fecha de inicio de obra'}),
+            'fecha_de_conclusion_de_obra': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Fecha de conclusión de obra'}),
+            'fecha_de_apertura': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Fecha de apertura'}),
+            'monto_comprometido_del_proyecto_mxn': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Monto comprometido del proyecto (MXN)'}),
+            'plazo': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Plazo'}),
+            'personas_beneficiadas_con_el_proyecto': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Personas beneficiadas con el proyecto'}),
+            'datos_de_contacto': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Datos de contacto'})
+        }
+
 # Catalagos
 class CatalagoCategoriaForm(forms.ModelForm):
     class Meta:
