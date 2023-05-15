@@ -1,44 +1,32 @@
-{% extends 'back/list.html' %}
+{% extends 'back/components/list.html' %}
 {% load static %}
 {% block head_list %}
 <!-- <script src="{% static 'admin/banner/list.js' %}"></script> -->
 {% endblock %}
 
 {% block columns %}
-<tr>
-    <th scope="col" style="width: 10%;">id</th>
-    <th scope="col" style="width: 20%;">Titulo</th>
-    <th scope="col" style="width: 20%;">Imagen</th>
-    <th scope="col" style="width: 20%;">Opciones</th>
+<tr class="text-center table-header">
+    <th class="text-left pl-3">N°</th>
+    <th class="text-left hidden-t">Titulo</th>
+    <th class="text-left hidden-t">Imagen</th>
+    <th class="actions">Acciones</th>
 </tr>
 {% endblock %}
 
 {% block rows %}
 {% for e in object_list %}
-<tr>
-    <th>{{e.id}}</th>
-    <th>{{e.titulo}}</th>
-    <th><img src="{{e.imagen.url}}" alt="" width="100px"></th>
-    <th>
-        
+<tr class="text-center table-body mt-2">
+    <th class="text-left pl-3">{{e.id}}</th>
+    <th class="text-left hidden-t">{{e.titulo}}</th>
+    <th class="text-left hidden-t"><img src="{{e.imagen.url}}" alt="" width="100px"></th>
+    <th class="actions-container">
+        <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="location.href='{% url 'dashboard:evento_update' e.id %}'">
+            <i class="far fa-eye"></i>
+        </button>
         <form method="post" action="{% url 'dashboard:evento_delete' e.id %}" >
             {% csrf_token %}
-            <button type="submit" class="btn btn-danger btn-icon-split" onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">
-                <span class="icon text-white-50">
-                    <i class="fas fa-trash"></i>
-                </span>
-                <span class="text">Eliminar</span>
-            </button>
-        </form>
-
-        
-        <form method="post" action="{% url 'dashboard:evento_update' e.id %}" >
-            {% csrf_token %}
-            <button type="submit" class="btn btn-primary btn-icon-split">
-                <span class="icon text-white-50">
-                    <i class="fas fa-pencil-alt"></i>
-                </span>
-                <span class="text">Editar</span>
+            <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">
+                <i class="fas fa-trash"></i>
             </button>
         </form>
 
