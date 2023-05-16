@@ -21,6 +21,7 @@ class EcosistemaManager(models.Manager):
 
 # Create your models here.
 
+
 class Banner(models.Model):
     name = models.CharField(max_length=100, verbose_name="Nombre")
     banner_url = models.CharField(max_length=100, verbose_name="Enlace")
@@ -99,8 +100,6 @@ class Publications(models.Model):
     date_created = models.DateTimeField(auto_now=True)
     num_descargas = models.IntegerField(null=True, blank=True, default=0)
 
-    
-
 
 class Evento (models.Model):
     titulo = models.CharField(max_length=100)
@@ -125,6 +124,7 @@ class Evento (models.Model):
             "fecha_fin": self.fecha_fin,
             "tipo_evento": self.tipo_evento,
         }
+
 
 class Noticia (models.Model):
     titulo = models.CharField(max_length=100)
@@ -163,33 +163,32 @@ class Alba(models.Model):
 
 # #Fuentes de Informacion
 
-class DataTour (models.Model):
-    fecha = models.DateField()
-    destino = models.CharField(max_length=455 , null=True, blank=True)
-    categoria = models.CharField(max_length=255)
-    cuartos_registrados = models.IntegerField()
-    cuartos_disponibles = models.IntegerField()
-    cuartos_disponibles_prom = models.IntegerField()
-    cuartos_ocupados = models.IntegerField()
-    cuartos_ocupados_residentes = models.IntegerField()
-    cuartos_ocupados_no_residentes = models.IntegerField()
-    llegadas_turistas = models.IntegerField()
-    llegadas_turistas_residentes = models.IntegerField()
-    llegadas_turistas_no_residentes = models.IntegerField()
-    turistas_noche = models.IntegerField()
-    turistas_noche_residentes = models.IntegerField()
-    turistas_noche_no_residentes = models.IntegerField()
-    porcentaje_ocupacion = models.FloatField()
-    porcentaje_ocupacion_residentes = models.FloatField()
-    porcentaje_ocupacion_no_residentes = models.FloatField()
-    estadia_promedio = models.FloatField()
-    estadia_promedio_residentes = models.FloatField()
-    estadia_promedio_no_residentes = models.FloatField()
-    densidad_ocupacion = models.FloatField()
-    densidad_ocupacion_residentes = models.FloatField()
-    densidad_ocupacion_no_residentes = models.FloatField()
-    fecha_recuperacion = models.DateTimeField(auto_now=True)
 
+class DataTour (models.Model):
+    destino = models.CharField(max_length=256, null=True)
+    categoria = models.CharField(max_length=256, null=True)
+    fecha = models.DateField(null=True)
+    cuartos_registrados_fin_periodo = models.FloatField(null=True)
+    cuartos_disponibles_promedio = models.FloatField(null=True)
+    cuartos_disponibles = models.FloatField(null=True)
+    cuartos_ocupados = models.FloatField(null=True)
+    cuartos_ocupados_residentes = models.FloatField(null=True)
+    cuartos_ocupados_no_residentes = models.FloatField(null=True)
+    llegadas_de_turistas = models.FloatField(null=True)
+    llegadas_de_turistas_residentes = models.FloatField(null=True)
+    llegadas_de_turistas_no_residentes = models.FloatField(null=True)
+    turistas_noche = models.FloatField(null=True)
+    turistas_noche_residentes = models.FloatField(null=True)
+    turistas_noche_no_residentes = models.FloatField(null=True)
+    porcentaje_de_ocupacion = models.FloatField(null=True)
+    porcentaje_de_ocupacion_residentes = models.FloatField(null=True)
+    porcentaje_de_ocupacion_no_residentes = models.FloatField(null=True)
+    estadia_promedio = models.FloatField(null=True)
+    estadia_promedio_residentes = models.FloatField(null=True)
+    estadia_promedio_no_residentes = models.FloatField(null=True)
+    densidad_de_ocupacion = models.FloatField(null=True)
+    densidad_de_ocupacion_residentes = models.FloatField(null=True)
+    densidad_de_ocupacion_no_residentes = models.FloatField(null=True)
 # Fuentes informacion
 
 
@@ -219,35 +218,34 @@ class zonas_arqueologicas_museos(models.Model):
     visitantes = models.IntegerField()
 
     class Meta:
-        app_label = 'ecosistema' 
+        app_label = 'ecosistema'
         db_table = "zonas_arqueologicas_museos"
         ordering = ['-id']
 
+
 class InventarioHotelero(models.Model):
-    
-    destino = models.CharField(max_length=455 , null=True, blank=True)
+
+    destino = models.CharField(max_length=455, null=True, blank=True)
     fecha = models.DateField()
     categoria = models.CharField(max_length=255)
     habitaciones = models.IntegerField()
     establecimientos = models.IntegerField()
 
-    
     def toJSON(self):
         item = model_to_dict(self)
         return item
 
     class Meta:
-        app_label = 'ecosistema' 
+        app_label = 'ecosistema'
         verbose_name = 'inventario_hotelero_gto'
         verbose_name_plural = 'inventario_hotelero_gto'
         db_table = "inventario_hotelero_gto"
         ordering = ['-id']
-    
-    
+
 
 class InversionPublica(models.Model):
     fecha = models.DateField()
-    destino = models.CharField(max_length=455 , null=True, blank=True)
+    destino = models.CharField(max_length=455, null=True, blank=True)
     monto_total = models.FloatField()
     nombre_de_la_obra = models.CharField(max_length=255)
     monto_de_inversion_municipal = models.FloatField()
@@ -265,27 +263,28 @@ class InversionPublica(models.Model):
         return item
 
     class Meta:
-        app_label = 'ecosistema' 
+        app_label = 'ecosistema'
         verbose_name_plural = "Inversiones Públicas"
         db_table = "inversion_publica"
         ordering = ['-id']
 
+
 class InventarioHoteleroEntNac(models.Model):
-    
-    destino = models.CharField(max_length=455 , null=True, blank=True)
+
+    destino = models.CharField(max_length=455, null=True, blank=True)
     fecha = models.DateField()
     categoria = models.CharField(max_length=255)
     habitaciones = models.IntegerField()
     establecimientos = models.IntegerField()
     date_updated = models.DateTimeField(auto_now=True,)
     date_created = models.DateTimeField(auto_now=True)
-    
+
     def toJSON(self):
         item = model_to_dict(self)
         return item
 
     class Meta:
-        app_label = 'ecosistema' 
+        app_label = 'ecosistema'
         verbose_name = 'inventario_hotelero_ent_nac'
         verbose_name_plural = 'inventario_hotelero_ent_nac'
         db_table = 'inventario_hotelero_ent_nac'
@@ -294,7 +293,7 @@ class InventarioHoteleroEntNac(models.Model):
 
 class CalidadAire(models.Model):
     fecha = models.DateField()
-    destino = models.CharField(max_length=455 , null=True, blank=True)
+    destino = models.CharField(max_length=455, null=True, blank=True)
     calidad_del_aire = models.CharField(max_length=2255)
 
     def toJSON(self):
@@ -302,17 +301,19 @@ class CalidadAire(models.Model):
         return item
 
     class Meta:
-        app_label = 'ecosistema' 
+        app_label = 'ecosistema'
         verbose_name = 'aire'
         verbose_name_plural = 'aire'
         db_table = 'aire'
         ordering = ['-id']
 
+
 class Sesibilizacion(models.Model):
     fecha = models.DateField()
-    destino = models.CharField(max_length=455 , null=True, blank=True)
+    destino = models.CharField(max_length=455, null=True, blank=True)
     participantes = models.IntegerField()
     accion = models.IntegerField()
+
 
 class ProyectoInversion(models.Model):
     destino = models.CharField(max_length=256)
@@ -331,9 +332,11 @@ class ProyectoInversion(models.Model):
     fecha_de_inicio_de_obra = models.DateField(blank=True, null=True)
     fecha_de_conclusion_de_obra = models.DateField(blank=True, null=True)
     fecha_de_apertura = models.DateField(blank=True, null=True)
-    monto_comprometido_del_proyecto_mxn = models.FloatField(blank=True, null=True)
+    monto_comprometido_del_proyecto_mxn = models.FloatField(
+        blank=True, null=True)
     plazo = models.FloatField(blank=True, null=True)
-    personas_beneficiadas_con_el_proyecto = models.FloatField(blank=True, null=True)
+    personas_beneficiadas_con_el_proyecto = models.FloatField(
+        blank=True, null=True)
     datos_de_contacto = models.TextField(blank=True)
 
     def __str__(self):
@@ -344,44 +347,67 @@ class ProyectoInversion(models.Model):
         db_table = 'proyectos_inversion'
         ordering = ['-id_del_proyecto']
 
-# catalagos 
+# catalagos
+
+
 class CatalagoCategoria(models.Model):
     categoria = models.CharField(max_length=255)
 
     class Meta:
-        app_label = 'ecosistema' 
+        app_label = 'ecosistema'
         db_table = 'catalogo_categorias'
         ordering = ['-id']
 
+
 class CatalagoDestino(models.Model):
-    destino = models.CharField(max_length=455 , null=True, blank=True)
+    destino = models.CharField(max_length=455, null=True, blank=True)
     entidad = models.CharField(max_length=455)
 
     class Meta:
-        app_label = 'ecosistema' 
+        app_label = 'ecosistema'
         db_table = 'catalogo_destinos'
         ordering = ['-id']
+
 
 class CatalagoSegmentos(models.Model):
     segmento = models.CharField(max_length=455)
 
     class Meta:
-        app_label = 'ecosistema' 
+        app_label = 'ecosistema'
         db_table = 'catalogo_segmentos'
         ordering = ['-id']
+
+
 class CatalagoTipoVisistante(models.Model):
     tipo_visitante = models.CharField(max_length=455)
 
     class Meta:
-        app_label = 'ecosistema' 
+        app_label = 'ecosistema'
         db_table = 'catalogo_tipo_visitante'
         ordering = ['-id']
+
 
 class CatalagoZAMuseos (models.Model):
     nombre = models.CharField(max_length=455)
     tipo = models.CharField(max_length=455)
 
     class Meta:
-        app_label = 'ecosistema' 
+        app_label = 'ecosistema'
         db_table = "catalogo_za_museos"
         ordering = ['-id']
+
+
+class inversion_privada (models.Model):
+    id_del_proyecto = models.CharField(max_length=455)
+    destino = models.CharField(max_length=455, null=True, blank=True)
+    fecha = models.DateField()
+    monto_ejecutado = models.FloatField()
+    avance_proyecto = models.FloatField()
+    nombre_del_proyecto = models.CharField(max_length=455)
+
+
+class Certificacion(models.Model):
+    fecha = models.DateField()
+    destino = models.CharField(max_length=455, null=True, blank=True)
+    tipo_de_certificacion = models.CharField(max_length=455)
+    empresas_certificadas = models.IntegerField()
