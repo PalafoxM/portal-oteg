@@ -25,7 +25,7 @@ class Banner(models.Model):
     name = models.CharField(max_length=100, verbose_name="Nombre")
     banner_url = models.CharField(max_length=100, verbose_name="Enlace")
     publication = models.BooleanField(default=True)
-    imagen = models.ImageField(null=True, blank=True, upload_to='images/')
+    imagen = models.ImageField(null=True, blank=True, upload_to='banner-images', storage=S3Storage())
     date_created = models.DateTimeField(auto_now=True)
 
     def __str__(self):
@@ -108,8 +108,7 @@ class Evento (models.Model):
     fecha_inicio = models.DateField()
     fecha_fin = models.DateField()
     tipo_evento = models.TextField()
-    tipo_evento1 = models.TextField()
-    imagen = models.ImageField(upload_to='images/')
+    imagen = models.ImageField(upload_to='eventos', storage=S3Storage())
     date_updated = models.DateTimeField(auto_now=True,)
     date_created = models.DateTimeField(auto_now=True)
 
@@ -131,7 +130,7 @@ class Noticia (models.Model):
     titulo = models.CharField(max_length=100)
     descripcion = RichTextField()
     sitio_web = models.URLField()
-    imagen = models.ImageField(null=True, blank=True, upload_to='images/')
+    imagen = models.ImageField(null=True, blank=True, upload_to='noticias', storage=S3Storage())
     fecha_nota = models.DateField()
     autor_foto = models.CharField(max_length=100)
     autor_nota = models.CharField(max_length=100)
