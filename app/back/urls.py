@@ -20,6 +20,8 @@ from back.views.catalogo_tipo_visitante.views import *
 from back.views.catalogo_za_museos.views import *
 from back.views.catalogo_destinos.views import *
 from back.views.proyectos_inversion.views import *
+from back.views.fuente_info_certificacion.views import *
+from back.views.fuente_info_invesion_priv.views import *
 
 from django.conf import settings
 from django.conf.urls.static import static
@@ -122,8 +124,20 @@ urlpatterns = [
     path('fuentes_info/sensibilizacion/edit/<int:pk>/', FuenteInfoSensibilizacionUpdate.as_view(), name='fuente_info_sensibilizacion_update'),
     path('fuentes_info/sensibilizacion/delete/<int:pk>/', FuenteInfoSensibilizacionDelete.as_view(), name='fuente_info_sensibilizacion_delete'),
     path('descargas/list', descargas_list, name='descargas_list'),
+    #Fuentes info Certificacion 
+    path('fuentes_info/certificacion', FuenteInfoCertificacion.as_view(), name='fuente_info_certificacion'),
+    path('fuentes_info/certificacion/add', FuenteInfoCertificacionCreate.as_view(), name='fuente_info_certificacion_create'),
+    path('fuentes_info/certificacion/edit/<int:pk>/', FuenteInfoCertificacionUpdate.as_view(), name='fuente_info_certificacion_update'),
+    path('fuentes_info/certificacion/delete/<int:pk>/', FuenteInfoCertificacionDelete.as_view(), name='fuente_info_certificacion_delete'),
 
+    #Fuentes info Inversion Privada
 
+    path('fuentes_info/inversion_privada', FuenteInfoInversionPriv.as_view(), name='fuente_info_inversion_privada'),
+    path('fuentes_info/inversion_privada/add', FuenteInfoInversionPrivCreate.as_view(), name='fuente_info_inversion_privada_create'),
+    path('fuentes_info/inversion_privada/edit/<int:pk>/', FuenteInfoInversionPrivUpdate.as_view(), name='fuente_info_inversion_privada_update'),
+    path('fuentes_info/inversion_privada/delete/<int:pk>/', FuenteInfoInversionPrivDelete.as_view(), name='fuente_info_inversion_privada_delete'),
+
+    path('fuentes_info/inversion_privada/get_p',get_inversion_privada, name='get_inversion_privada'),
     
     # Usuarios
     path('usuarios/list', my_profile, name='profile'),
@@ -163,6 +177,8 @@ urlpatterns = [
     # UTIILS 
     #Typeahead Destinos
     path('typeahead/destinos', search_destinos, name='search_destinos'),
+    #Typeahead Categorias
+    path('typeahead/categorias', search_categorias, name='search_categorias'),
 
 
 

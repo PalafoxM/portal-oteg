@@ -43,7 +43,7 @@ class FuenteInfoDatatur (ListView):
 class FuenteInfoDataturCreate (CreateView):
     model = DataTour
     form_class = DataTurForm
-    template_name = 'back/components/create_update_fuentes_info.html'
+    template_name = 'back/fuente_info_datatur/create.html'
     success_url = reverse_lazy('dashboard:fuente_info_datatour')
 
     def get_object(self, **kwargs):
@@ -69,24 +69,9 @@ class FuenteInfoDataturCreate (CreateView):
             except DataTour.DoesNotExist:
                 existing_object = None 
 
-            existing_category = catalogo_categorias.objects.filter(categoria=categoria).exists()
-            existing_catalogo = catalogo_destinos.objects.filter(destino=destino).exists()
+            existing_category = CatalagoCategoria.objects.filter(categoria=categoria).exists()
+            existing_catalogo = CatalagoDestino.objects.filter(destino=destino).exists()
 
-            if request.POST.get('catalog') == 'on':
-                if not existing_category:
-                    catalogo_categorias.objects.create(categoria=categoria)
-                if not existing_catalogo:
-                    catalogo_destinos.objects.create(destino=destino)
-
-                self.object = form.save()
-                
-                data = {
-                    'success': True,
-                    'message': 'Data created successfully.',
-                    'url': self.success_url
-                }
-                return JsonResponse(data)
-                
 
 
             # If there is no existing data, save the new data
@@ -148,7 +133,30 @@ class FuenteInfoDataturCreate (CreateView):
             if existing_object  :
                 data = DataTour.objects.filter(fecha=fecha, destino=destino, categoria=categoria)
                 
-                data_list = list(data.values('fecha', 'destino', 'categoria','cuartos_registrados', 'cuartos_disponibles', 'cuartos_disponibles_prom' ,'cuartos_ocupados','cuartos_ocupados_residentes','cuartos_ocupados_no_residentes','llegadas_turistas','llegadas_turistas_residentes','llegadas_turistas_no_residentes','turistas_noche','turistas_noche_residentes', 'turistas_noche_no_residentes','porcentaje_ocupacion','porcentaje_ocupacion_residentes','porcentaje_ocupacion_no_residentes','estadia_promedio','estadia_promedio_residentes','estadia_promedio_no_residentes','densidad_ocupacion','densidad_ocupacion_residentes','densidad_ocupacion_no_residentes','fecha_recuperacion'))                                                 
+                data_list = list(data.values('destino',
+'categoria',
+    'fecha',
+    'cuartos_registrados_fin_periodo',
+    'cuartos_disponibles_promedio',
+    'cuartos_disponibles',
+    'cuartos_ocupados',
+    'cuartos_ocupados_residentes',
+    'cuartos_ocupados_no_residentes',
+    'llegadas_de_turistas',
+    'llegadas_de_turistas_residentes',
+    'llegadas_de_turistas_no_residentes',
+    'turistas_noche',
+    'turistas_noche_residentes',
+    'turistas_noche_no_residentes',
+    'porcentaje_de_ocupacion',
+    'porcentaje_de_ocupacion_residentes',
+    'porcentaje_de_ocupacion_no_residentes',
+    'estadia_promedio',
+    'estadia_promedio_residentes',
+    'estadia_promedio_no_residentes',
+    'densidad_de_ocupacion',
+    'densidad_de_ocupacion_residentes',
+    'densidad_de_ocupacion_no_residentes',))                                                 
                 data_list2 =  list(form.cleaned_data.values())
                 table_html = render_to_string('back/fuente_info_datatur/data_tour_table.html', {'data_list': data_list , 'actual':True , 'data_list2':data_list2})                            
                 

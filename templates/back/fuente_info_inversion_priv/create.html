@@ -1,0 +1,217 @@
+{% extends 'back/index.html' %}
+{% load widget_tweaks %}
+{% load static %}
+{% block content %}
+<div class="card shadow mb-4">
+    <form method="post" enctype="multipart/form-data">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">{{title}}</h6>
+
+        </div>
+        <div class="card-body">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="id_section">ID Proyecto:</label>
+                <select class="form-control" id="id_section" name="section">
+                    <option value="">-- Selecciona ID --</option>
+                    {% for section in sections %}
+                    <option value="{{ section.id_del_proyecto }}">id: {{ section.id_del_proyecto }} -
+                        {{section.nombre_del_proyecto}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            {{ form.as_p }}
+
+        </div>
+        <div class="card-footer">
+
+            <button type="submit" class="btn btn-primary ">
+                <i class="fas fa-save"></i> Guardar
+            </button>
+
+            <div id="baker" class="btn btn-danger ">
+                <i class="fas fa-times"></i> Cancelar
+            </div>
+        </div>
+    </form>
+
+
+</div>
+
+{% endblock %}
+
+
+{% block javascript %}
+
+
+<script type="application/javascript">
+    $(function () {
+        $('form').on('submit', function (e) {
+            e.preventDefault();
+            var parameters = new FormData(this);
+            var selected_section = $('#id_section').val();
+
+
+            parameters.append('section', selected_section);
+
+            if (selected_section == '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: 'Debe seleccionar un ID de Proyecto'
+                });
+                return false;
+            }
+
+            $.ajax({
+                url: window.location.pathname,
+                type: 'POST',
+                data: parameters,
+                processData: false,
+                contentType: false,
+                dataType: 'json'
+            }).done(function (data) {
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Buen trabajo!',
+                        text: 'Operación exitosa.',
+                        timer: 2000,
+                        showConfirmButton: false
+                    }).then(function () {
+                        window.location.href = '{{ list_url }}';
+                    });
+                } else {
+                    var errors = '';
+
+
+                    if (data.missingData) {
+
+
+                        if (data.categoria && data.destino) {
+                            var htmdata = 'Los siguientes campos no se encuentran en el catalogo de datos revisa tu escritura: <br> ' + 'Categoria: ' + data.categoria + '<br>' + 'Destino: ' + data.destino
+                        } else if (data.categoria) {
+                            var htmdata = 'Los siguientes campos no se encuentran en el catalogo de datos revisa tu escritura: <br> ' + 'Categoria: ' + data.categoria
+                        } else if (data.destino) {
+                            var htmdata = 'Los siguientes campos no se encuentran en el catalogo de datos revisa tu escritura: <br> ' + 'Destino: ' + data.destino
+                        }
+
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            html: htmdata,
+
+                        });
+                        return;
+                    } else if (data.format_errors) {
+                        for (var field in data.errors) {
+                            errors += data.errors[field].join('\n');
+                        }
+
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: errors
+                        });
+                        return;
+
+                    }
+
+                    var existing_object = data.existing_object;
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        html: existing_object,
+                        width: '95%',
+                        showDenyButton: true,
+                        showCancelButton: true,
+                        confirmButtonText: 'Reemplazar el dato actual con el nuevo dato',
+                        denyButtonText: `Conservar el dato actual`,
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+
+                            parameters.append('replace_data', 'on');
+
+                            $.ajax({
+                                url: window.location.pathname,
+                                type: 'POST',
+                                data: parameters,
+
+                                processData: false,
+                                contentType: false,
+                                dataType: 'json'
+                            }).done(function (data) {
+                                if (data.success) {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Buen trabajo!',
+                                        text: 'Operación exitosa.',
+                                        timer: 2000,
+                                        showConfirmButton: false
+                                    }).then(function () {
+                                        window.location.href = '{{ list_url }}';
+                                    });
+                                } else {
+                                    var errors = '';
+                                }
+                            }).fail(function (jqXHR, textStatus, errorThrown) {
+                                alert(textStatus + ': ' + errorThrown);
+                            }).always(function (data) {
+
+                            });
+                        } else if (result.isDenied) {
+                            window.location.href = '{{ list_url }}';
+                        }
+                    })
+                }
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                alert(textStatus + ': ' + errorThrown);
+            }).always(function (data) {
+
+            });
+        });
+    });
+
+    $('#baker').on('click', function (e) {
+        e.preventDefault();
+        if (confirm('¿Está seguro de cancelar la operación?...los datos no guardados se perderán')) {
+            window.location.href = '{{ list_url }}';
+        } else {
+            return false;
+        }
+    });
+</script>
+
+
+<script>
+    $(document).ready(function () {
+
+        $('#id_section').change(function () {
+            var sectionId = $(this).val();
+            console.log(sectionId);
+            if (sectionId) {
+                $.ajax({
+                    url: '{% url "dashboard:get_inversion_privada" %}',
+                    data: {
+                        'section_id': Number(sectionId)
+                    },
+                    success: function (data) {
+                        console.log(data);
+
+                        $('#id_destino').val(data.destino);
+                        $('#id_nombre_del_proyecto').val(data.nombre_del_proyecto);
+
+
+
+                    }
+                });
+
+            } else {
+                $('#id_category').empty();
+                $('#id_category').append('<option value="">---------</option>');
+            }
+        });
+    });
+</script>
+{% endblock %}

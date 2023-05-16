@@ -1,0 +1,201 @@
+{% extends 'back/index.html' %}
+{% load widget_tweaks %}
+{% load static %}
+{% block content %}
+
+<head>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
+
+    <script>
+        var $j = jQuery.noConflict();
+    </script>
+
+    <script>
+        $j(function () {
+            $j("#id_destino").autocomplete({
+                source: "{% url 'dashboard:search_destinos' %}"
+            });
+
+            $j("#id_categoria").autocomplete({
+                source: "{% url 'dashboard:search_categorias' %}"
+            });
+        });
+    </script>
+</head>
+
+
+<div class="card shadow mb-4">
+    <form method="post" enctype="multipart/form-data">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">{{title}}</h6>
+            {{edit_msg}}
+        </div>
+
+        <div class="card-body">
+            {% csrf_token %}
+            {{ form.as_p }}
+        </div>
+
+        <div class="card-footer">
+
+            <button type="submit" class="btn btn-primary ">
+                <i class="fas fa-save"></i> Guardar
+            </button>
+
+            <div id="baker" class="btn btn-danger ">
+                <i class="fas fa-times"></i> Cancelar
+            </div>
+        </div>
+    </form>
+
+
+</div>
+
+{% endblock %}
+
+
+{% block javascript %}
+
+<script type="application/javascript">
+    $(function () {
+        $('form').on('submit', function (e) {
+            e.preventDefault();
+            var parameters = new FormData(this);
+            var selected_section = $('#id_section').val();
+
+
+            parameters.append('section', selected_section);
+
+            if (selected_section == '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: 'Debe seleccionar un ID de Proyecto'
+                });
+                return false;
+            }
+
+            $.ajax({
+                url: window.location.pathname,
+                type: 'POST',
+                data: parameters,
+                processData: false,
+                contentType: false,
+                dataType: 'json'
+            }).done(function (data) {
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Buen trabajo!',
+                        text: 'Operación exitosa.',
+                        timer: 2000,
+                        showConfirmButton: false
+                    }).then(function () {
+                        window.location.href = '{{ list_url }}';
+                    });
+                } else {
+                    var errors = '';
+
+
+                    if (data.missingData) {
+
+
+                        if (data.categoria && data.destino) {
+                            var htmdata = 'Los siguientes campos no se encuentran en el catalogo de datos revisa tu escritura: <br> ' + 'Categoria: ' + data.categoria + '<br>' + 'Destino: ' + data.destino
+                        } else if (data.categoria) {
+                            var htmdata = 'Los siguientes campos no se encuentran en el catalogo de datos revisa tu escritura: <br> ' + 'Categoria: ' + data.categoria
+                        } else if (data.destino) {
+                            var htmdata = 'Los siguientes campos no se encuentran en el catalogo de datos revisa tu escritura: <br> ' + 'Destino: ' + data.destino
+                        }
+
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            html: htmdata,
+
+                        });
+                        return;
+                    } else if (data.format_errors) {
+                        for (var field in data.errors) {
+                            errors += data.errors[field].join('\n');
+                        }
+
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: errors
+                        });
+                        return;
+
+                    }
+
+                    var existing_object = data.existing_object;
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        html: existing_object,
+                        width: '95%',
+                        showDenyButton: true,
+                        showCancelButton: true,
+                        confirmButtonText: 'Reemplazar el dato actual con el nuevo dato',
+                        denyButtonText: `Conservar el dato actual`,
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+
+                            parameters.append('replace_data', 'on');
+
+                            $.ajax({
+                                url: window.location.pathname,
+                                type: 'POST',
+                                data: parameters,
+
+                                processData: false,
+                                contentType: false,
+                                dataType: 'json'
+                            }).done(function (data) {
+                                if (data.success) {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Buen trabajo!',
+                                        text: 'Operación exitosa.',
+                                        timer: 2000,
+                                        showConfirmButton: false
+                                    }).then(function () {
+                                        window.location.href = '{{ list_url }}';
+                                    });
+                                } else {
+                                    var errors = '';
+                                }
+                            }).fail(function (jqXHR, textStatus, errorThrown) {
+                                alert(textStatus + ': ' + errorThrown);
+                            }).always(function (data) {
+
+                            });
+                        } else if (result.isDenied) {
+                            window.location.href = '{{ list_url }}';
+                        }
+                    })
+                }
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                alert(textStatus + ': ' + errorThrown);
+            }).always(function (data) {
+
+            });
+        });
+    });
+
+    $('#baker').on('click', function (e) {
+        e.preventDefault();
+        if (confirm('¿Está seguro de cancelar la operación?...los datos no guardados se perderán')) {
+            window.location.href = '{{ list_url }}';
+        } else {
+            return false;
+        }
+    });
+
+</script>
+
+{% endblock %}

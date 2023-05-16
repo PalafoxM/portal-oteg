@@ -113,5 +113,56 @@
     </td>
 </tr>
 
+<tr class="text-center table-body mt-2">
+    <td class="text-left pl-3">Certificación</td>
+    <td class="text-center pl-3">Estatus</td>
+    <!-- <td class="hidden-t" style="width: 146px;">
+        <div class="ml-3 mr-3" [ngClass]="{'flete-true': user.estatus, 'flete-false': !user.estatus}">
+            <span *ngIf="user.estatus">Activo</span>
+            <span *ngIf="!user.estatus">Inactivo</span>
+        </div>
+    </td> -->
+    <td class="actions-container">
+        <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down"
+            onclick="location.href='{% url 'dashboard:fuente_info_certificacion' %}'">
+            <i class="far fa-eye"></i>
+        </button>
+    </td>
+</tr>
+
+<tr class="text-center table-body mt-2">
+    <td class="text-left pl-3">Inversion privada</td>
+    <td class="text-center pl-3">Estatus</td>
+    <!-- <td class="hidden-t" style="width: 146px;">
+        <div class="ml-3 mr-3" [ngClass]="{'flete-true': user.estatus, 'flete-false': !user.estatus}">
+            <span *ngIf="user.estatus">Activo</span>
+            <span *ngIf="!user.estatus">Inactivo</span>
+        </div>
+    </td> -->
+    <td class="actions-container">
+        <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down"
+            onclick="location.href='{% url 'dashboard:fuente_info_inversion_privada' %}'">
+            <i class="far fa-eye"></i>
+        </button>
+    </td>
+</tr>
+
+<tr class="text-center table-body mt-2">
+    <td class="text-left pl-3">Datatur</td>
+    <td class="text-center pl-3">Estatus</td>
+    <!-- <td class="hidden-t" style="width: 146px;">
+        <div class="ml-3 mr-3" [ngClass]="{'flete-true': user.estatus, 'flete-false': !user.estatus}">
+            <span *ngIf="user.estatus">Activo</span>
+            <span *ngIf="!user.estatus">Inactivo</span>
+        </div>
+    </td> -->
+    <td class="actions-container">
+        <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down"
+            onclick="location.href='{% url 'dashboard:fuente_info_datatour' %}'">
+            <i class="far fa-eye"></i>
+        </button>
+    </td>
+</tr>
+
 
 {% endblock %}
