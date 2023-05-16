@@ -251,23 +251,9 @@ class GlosarioForm(forms.ModelForm):
 
 
 class DataTurForm(forms.ModelForm):
-
     class Meta:
         model = DataTour
-        fields = ['fecha', 'destino', 'categoria', 'cuartos_registrados',
-                  'cuartos_disponibles', 'cuartos_disponibles_prom',
-                  'cuartos_ocupados', 'cuartos_ocupados_residentes',
-                  'cuartos_ocupados_no_residentes', 'llegadas_turistas',
-                  'llegadas_turistas_residentes', 'llegadas_turistas_no_residentes',
-                  'turistas_noche', 'turistas_noche_residentes', 'turistas_noche_no_residentes',
-                  'porcentaje_ocupacion', 'porcentaje_ocupacion_residentes',
-                  'porcentaje_ocupacion_no_residentes', 'estadia_promedio',
-                  'estadia_promedio_residentes', 'estadia_promedio_no_residentes',
-                  'densidad_ocupacion', 'densidad_ocupacion_residentes',
-                  'densidad_ocupacion_no_residentes']
-        widgets = {
-            'fecha': forms.DateInput(format='%d/%m/%Y'),
-        }
+        fields = '__all__'
 
 class GastoDerramaForm (forms.ModelForm):
     class Meta:
@@ -306,6 +292,12 @@ class SensibilizacionForm (forms.ModelForm):
     class Meta:
         model = Sesibilizacion
         fields = '__all__'  
+
+
+class CertificacionForm (forms.ModelForm):
+    class Meta:
+        model = Certificacion
+        fields = '__all__'
 
 
 class InversionPublicaForm(forms.ModelForm):
@@ -429,3 +421,13 @@ class CatalagoZAMuseosForm(forms.ModelForm):
             'nombre': forms.TextInput(attrs={'class': 'form-control'}),
             'tipo': forms.TextInput(attrs={'class': 'form-control'})
         }
+
+class InversionPrivadaForm (forms.ModelForm):
+    class Meta:
+        model = inversion_privada
+        fields = ['destino','nombre_del_proyecto','fecha','monto_ejecutado','avance_proyecto']
+
+class InversionPrivadaEditForm(forms.ModelForm):
+    class Meta:
+        model = inversion_privada
+        fields = ['id_del_proyecto','nombre_del_proyecto','destino','fecha','monto_ejecutado','avance_proyecto']

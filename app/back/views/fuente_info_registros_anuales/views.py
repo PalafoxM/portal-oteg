@@ -18,19 +18,18 @@ from django.views.decorators.http import require_POST
 from django.template.loader import render_to_string
 
 
-def search_destinos (request):
+def is_ajax(request):
+    return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
-    query_original = request.GET.get('term', '')
-    queryset = CatalagoDestino.objects.filter(destino__icontains=query_original)
-    destinos = [ destino.destino for destino in queryset ]
+class FuenteInfoRegistrosAnuales (ListView):
+    model = RegistrosAnuales
+    template_name  =  'back/fuente_info_registros_anuales/viewer.html'
 
-    return JsonResponse(destinos, safe=False)
-
-
-def search_categorias (request):
-
-    query_original = request.GET.get('term', '')
-    queryset = CatalagoCategoria.objects.filter(categoria__icontains=query_original)
-    categorias = [ categoria.categoria for categoria in queryset ]
-
-    return JsonResponse(categorias, safe=False)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Listado de Fuentes de Informacion de Registros Anuales'
+        context['create_url'] = reverse_lazy('dashboard:fuente_info_registros_anuales_create')
+        context['entity'] = 'RegistrosAnuales'
+        context['is_fuente'] = True
+        
+        return context              

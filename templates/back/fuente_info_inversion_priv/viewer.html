@@ -16,15 +16,13 @@
 
 {% block columns %}
 <tr class="text-center table-header">
-
     <th class="text-left pl-3">N°</th>
-    <th class="width: 300px;">Destino</th>
-    <th class="width: 300px;">Fecha</th>
-    <th style="width: 300px;">Categoría</th>
-    <th style="width: 300px;">cuartos_registrados_fin_periodo</th>
-    <th style="width: 300px;">cuartos_disponibles_promedio</th>
+    <th class="text-center hidden-t">id_del_proyecto</th>
+    <th class="text-left hidden-t">Destino</th>
+    <th style="width: 300px;">fecha</th>
+    <th style="width: 300px;">monto_ejecutado</th>
+    <th style="width: 300px;">avance_proyecto</th>
     <th class="actions">Acciones</th>
-
 </tr>
 {% endblock %}
 
@@ -32,16 +30,16 @@
 {% for e in object_list %}
 <tr class="text-center table-body mt-2">
     <th class="text-left pl-3">{{e.id}}</th>
-    <th class="text-center hidden-t">{{e.destino}}</th>
+    <th class="text-center hidden-t">{{e.id_del_proyecto}}</th>
+    <th class="text-left hidden-t">{{e.destino}}</th>
     <th class="text-left hidden-t">{{e.fecha}}</th>
-    <th class="text-center hidden-t">{{e.categoria}}</th>
-    <th class="text-center hidden-t">{{e.cuartos_registrados_fin_periodo}}</th>
-    <th class="text-center hidden-t">{{e.cuartos_disponibles_promedio}}</th>
+    <th class="text-center hidden-t">{{e.monto_ejecutado}}</th>
+    <th class="text-center hidden-t">{{e.avance_proyecto}}</th>
     <th class="actions-container">
-        <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="location.href='{% url 'dashboard:fuente_info_datatour_update' e.id %}'">
+        <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="location.href='{% url 'dashboard:fuente_info_inversion_privada_update' e.id %}'">
             <i class="far fa-eye"></i>
         </button>
-        <form method="post" action="{% url 'dashboard:fuente_info_datatour_delete' e.id %}" >
+        <form method="post" action="{% url 'dashboard:fuente_info_inversion_privada_delete' e.id %}" >
             {% csrf_token %}
             <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">
                 <i class="fas fa-trash"></i>
@@ -49,6 +47,5 @@
         </form>
     </th>
 </tr>
-
 {% endfor %}
 {% endblock %}
