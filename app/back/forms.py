@@ -135,7 +135,7 @@ class CategoriasForm(forms.ModelForm):
 
         widgets = {
             'nombre_categoria': forms.TextInput(attrs={'class': 'form-control'}),
-            'fecha_creacion': forms.DateInput(attrs={'class': 'form-control'}),
+            'fecha_creacion': forms.DateInput(attrs={'class': 'form-control fecha-input'}),
             'publicacion': forms.CheckboxInput(attrs={'class': 'form-control'}),
             'visible': forms.CheckboxInput(attrs={'class': 'form-control'}),
             'seccion': forms.Select(attrs={'class': 'form-control'}),
@@ -163,10 +163,10 @@ class NoticiaForm(ModelForm):
             'titulo': forms.TextInput(attrs={'class': 'form-control'}),
             'sitio_web': forms.TextInput(attrs={'class': 'form-control'}),
             'imagen': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
-            'fecha_nota': forms.DateInput(attrs={'class': 'form-control'}),
+            'fecha_nota': forms.DateInput(attrs={'class': 'form-control fecha-input'}),
             'autor_foto': forms.TextInput(attrs={'class': 'form-control'}),
             'autor_nota': forms.TextInput(attrs={'class': 'form-control'}),
-            'fecha_recuperacion': forms.DateInput(attrs={'class': 'form-control'}),
+            'fecha_recuperacion': forms.DateInput(attrs={'class': 'form-control fecha-input'}),
 
         }
 

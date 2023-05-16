@@ -1,46 +1,34 @@
-{% extends 'back/list.html' %}
+{% extends 'back/components/list.html' %}
 {% load static %}
 {% block head_list %}
 {% endblock %}
 
 {% block columns %}
-    <tr>
-        <th scope="col" style="width: 10%;">ID</th>
-        <th scope="col" style="width: 10%;">Username</th>
-        <th scope="col" style="width: 10%;">Nombre</th>
-        <th scope="col" style="width: 20%;">Email</th>
-        <th scope="col" style="width: 20%;">Actions</th>
+    <tr class="text-center table-header">
+        <th class="text-left pl-3">N°</th>
+        <th class="text-left pl-3">Username</th>
+        <th class="text-left pl-3">Nombre</th>
+        <th class="text-left pl-3">Email</th>
+        <th class="actions">Acciones</th>
     </tr>
 {% endblock %}
 
 {% block rows %}
     {% for user in object_list %}
-        <tr>
-            <td>{{ user.id }}</td>
-            <td>{{ user.username }}</td>
-            <td>{{ user.first_name }} {{ user.last_name }}</td>
-            <td>{{ user.email }}</td>
-            <td>
-                <a href="{% url 'usuarios-perfil-update' user.id  %}" class="btn btn-primary btn-icon-split">
-                    <span class="icon text-white-50">
-                        <i class="fas fa-edit"></i>
-                    </span>
-                    <span class="text">Editar</span>
-                </a>
-                <!-- <form action="{% url 'edit_user' user.id %}" method="get">
-                    <input type="submit" value="Edit">
-                </form> -->
-                <!-- <form action="{% url 'delete_user' user.id %}" method="post">
-                    {% csrf_token %}
-                    <input type="submit" value="Delete">
-                </form> -->
+    <tr class="text-center table-body mt-2">
+        <th class="text-left pl-3">{{ user.id }}</td>
+            <td class="text-left pl-3">{{ user.username }}</td>
+            <td class="text-left pl-3">{{ user.first_name }} {{ user.last_name }}</td>
+            <td class="text-left pl-3">{{ user.email }}</td>
+            <th class="actions-container">
+                <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="location.href='{% url 'usuarios-perfil-update' user.id  %}'">
+                    <i class="far fa-eye"></i>
+                </button>
                 <form method="post" action="{% url 'delete_user' user.id %}" >
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-danger btn-icon-split" onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">
-                        <span class="icon text-white-50">
-                            <i class="fas fa-trash"></i>
-                        </span>
-                        <span class="text">Eliminar</span>
+                    
+                    <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">
+                        <i class="fas fa-trash"></i>
                     </button>
                 </form>
 

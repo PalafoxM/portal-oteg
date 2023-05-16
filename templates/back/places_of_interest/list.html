@@ -1,4 +1,4 @@
-{% extends 'back/list.html' %}
+{% extends 'back/components/list.html' %}
 
 {% load static %}
 
@@ -7,32 +7,26 @@
 {% endblock %}
 
 {% block columns %}
-    <tr>
-        <th scope="col" style="width: 10%;">id</th>
-        <th scope="col" style="width: 20%;">Sitio Web</th>
-        <th scope="col" style="width: 20%;">Opciones</th>
+<tr class="text-center table-header">
+    <th class="text-left pl-3">N°</th>
+        <th class="text-left hidden-t">Sitio Web</th>
+        <th class="actions">Acciones</th>
     </tr>
 {% endblock %}
 
 {% block rows %}
-    {% for place in object_list %}
+    {% for e in object_list %}
         <tr>
-            <th>{{ place.id }}</th>
-            <th>{{place.sitio_web}}</th>
-            <th>
-                <a href="{% url 'dashboard:place_update' place.id %}" class="btn btn-primary btn-icon-split">
-                    <span class="icon text-white-50">
-                        <i class="fas fa-edit"></i>
-                    </span>
-                    <span class="text">Editar</span>
-                </a>
-                <form method="post" action="{% url 'dashboard:place_delete' place.id %}" >
+            <th class="text-left pl-3">{{ e.id }}</th>
+            <th class="text-left hidden-t">{{e.sitio_web}}</th>
+            <th class="actions-container">
+                <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="location.href='{% url 'dashboard:place_update' e.id %}'">
+                    <i class="far fa-eye"></i>
+                </button>
+                <form method="post" action="{% url 'dashboard:place_delete' e.id %}" >
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-danger btn-icon-split" onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">
-                        <span class="icon text-white-50">
-                            <i class="fas fa-trash"></i>
-                        </span>
-                        <span class="text">Eliminar</span>
+                    <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">
+                        <i class="fas fa-trash"></i>
                     </button>
                 </form>
             </th>

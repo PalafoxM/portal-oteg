@@ -6,6 +6,12 @@ from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from django.contrib.auth.models import User, Group
 from django.db import models
 from django.forms import formset_factory
+from django.core.validators import URLValidator
+from django.core.exceptions import ValidationError
+from django.contrib.auth.models import Group
+from django.core.validators import RegexValidator
+from django.core.files.base import ContentFile
+
 
 
 class PasswordChangeFormCustom(PasswordChangeForm):
@@ -107,12 +113,13 @@ class UserForm(ModelForm):
 class ProfileForm(ModelForm):
 
     class Meta:
+    
         model = Profile
         fields = ('apellido_paterno', 'apellido_materno', 'fecha_cumple', 'direccion', 'tel', 'facebook', 'twitter', 'ciudad', 'estado', 'empresa_institucion', 'cargo', 'licenciatura', 'universidad_licenciatura', 'maestria', 'universidad_maestria', 'doctorado', 'universidad_doctorado', 'photo', 'experiencia', 'boletin')
         widgets = {
             'apellido_paterno': forms.TextInput(attrs={'placeholder': 'Apellido paterno', 'class': 'form-control'}),
             'apellido_materno': forms.TextInput(attrs={'placeholder': 'Apellido materno', 'class': 'form-control'}),
-            'fecha_cumple': forms.DateInput(attrs={'placeholder': 'Fecha de cumpleaños', 'class': 'form-control'}),
+            'fecha_cumple': forms.DateInput(attrs={'placeholder': 'Fecha de cumpleaños ', 'class': 'form-control fecha-input'}),
             'direccion': forms.TextInput(attrs={'placeholder': 'Dirección', 'class': 'form-control'}),
             'tel': forms.TextInput(attrs={'placeholder': 'Teléfono', 'class': 'form-control'}),
             'facebook': forms.TextInput(attrs={'placeholder': 'Facebook', 'class': 'form-control'}),
@@ -120,7 +127,7 @@ class ProfileForm(ModelForm):
             'ciudad': forms.TextInput(attrs={'placeholder': 'Ciudad', 'class': 'form-control'}),
             'estado': forms.TextInput(attrs={'placeholder': 'Estado', 'class': 'form-control'}),
             'empresa_institucion': forms.TextInput(attrs={'placeholder': 'Empresa o institución', 'class': 'form-control'}),
-            'cargo': forms.TextInput(attrs={'placeholder': 'Cargo'}),
+            'cargo': forms.TextInput(attrs={'placeholder': 'Cargo', 'class': 'form-control'}),
             'licenciatura': forms.TextInput(attrs={'placeholder': 'Licenciatura', 'class': 'form-control'}),
             'universidad_licenciatura': forms.TextInput(attrs={'placeholder': 'Universidad de licenciatura', 'class': 'form-control'}),
             'maestria': forms.TextInput(attrs={'placeholder': 'Maestría', 'class': 'form-control'}),
@@ -128,8 +135,11 @@ class ProfileForm(ModelForm):
             'doctorado': forms.TextInput(attrs={'placeholder': 'Doctorado', 'class': 'form-control'}),
             'universidad_doctorado': forms.TextInput(attrs={'placeholder': 'Universidad de doctorado', 'class': 'form-control'}),
             'experiencia': forms.Textarea(attrs={'placeholder': 'Experiencia', 'class': 'form-control'}),
-            'image': forms.ClearableFileInput(attrs={'placeholder': 'Imagen de perfil', 'class': 'form-control'})
+            'photo': forms.ClearableFileInput(attrs={'placeholder': 'Imagen de perfil', 'class': 'form-control'})
+            
         }
+    
+    
 
         
 
@@ -273,7 +283,8 @@ class CustomUserUpdateForm(UserChangeForm):
     direccion = forms.CharField(max_length=100, label='Dirección', widget=forms.TextInput(
         attrs={'placeholder': 'Dirección', 'class': 'form-control'}))
     tel = forms.CharField(max_length=100, required=False, label='Teléfono',
-                          widget=forms.TextInput(attrs={'placeholder': 'Teléfono', 'class': 'form-control'}))
+                          widget=forms.TextInput(attrs={'placeholder': 'Teléfono', 'class': 'form-control'}),
+                          validators=[RegexValidator(r'^\d{10}$', 'Ingresa un número de teléfono válido.')])
     email = forms.EmailField(max_length=100, label='Correo Electrónico', widget=forms.EmailInput(
         attrs={'placeholder': 'Correo electrónico', 'class': 'form-control'}))
     facebook = forms.CharField(max_length=100, required=False, widget=forms.TextInput(
@@ -286,7 +297,7 @@ class CustomUserUpdateForm(UserChangeForm):
         attrs={'placeholder': 'Estado', 'class': 'form-control'}))
     empresa_institucion = forms.CharField(max_length=100, required=False, label='Empresa o Institución', widget=forms.TextInput(
         attrs={'placeholder': 'Empresa o institución', 'class': 'form-control'}))
-    cargo = forms.CharField(max_length=100, required=False,
+    cargo = forms.CharField(max_length=100, required=False, label='Cargo',
                             widget=forms.TextInput(attrs={'placeholder': 'Cargo', 'class': 'form-control'}))
     licenciatura = forms.CharField(max_length=100, required=False, widget=forms.TextInput(
         attrs={'placeholder': 'Licenciatura', 'class': 'form-control'}))
@@ -301,13 +312,40 @@ class CustomUserUpdateForm(UserChangeForm):
     universidad_doctorado = forms.CharField(max_length=100, required=False, widget=forms.TextInput(
         attrs={'placeholder': 'Universidad del doctorado', 'class': 'form-control'}))
     photo = forms.ImageField(widget=forms.ClearableFileInput(
-        attrs={'multiple': True}), label='Fotografía', required=False)
+        attrs={'multiple': True, 'class': 'form-control'}), label='Fotografía', required=False)
     experiencia = forms.CharField(widget=forms.Textarea(
         attrs={'placeholder': 'Experiencia'}), required=False)
     boletin = forms.BooleanField(
         required=False, label='Deseo recibir boletín de noticias')
     group = forms.ModelChoiceField(
-        queryset=Group.objects.all(), label='Rol / Permisos')
+        queryset=Group.objects.all(), label='Rol / Permisos',
+        widget=forms.Select(attrs={'class': 'form-control'}))
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance.pk:  # Verifica si el objeto tiene una clave primaria (es una instancia existente)
+            self.fields['group'].initial = self.instance.groups.first()
+            self.fields['group'].widget.attrs['class'] = 'form-control'  # Aplica la clase form-control de Bootstrap al campo)
+    
+    def clean_facebook(self):
+        facebook = self.cleaned_data.get('facebook')
+        if facebook:
+            url_validator = URLValidator()
+            try:
+                url_validator(facebook)
+            except ValidationError:
+                raise forms.ValidationError('Ingresa una URL válida para Facebook.')
+        return facebook
+
+    def clean_twitter(self):
+        twitter = self.cleaned_data.get('twitter')
+        if twitter:
+            url_validator = URLValidator()
+            try:
+                url_validator(twitter)
+            except ValidationError:
+                raise forms.ValidationError('Ingresa una URL válida para Twitter.')
+        return twitter
 
     class Meta:
         model = User
@@ -339,9 +377,12 @@ class CustomUserUpdateForm(UserChangeForm):
         user.last_name = self.cleaned_data['last_name']
         user.email = self.cleaned_data['email']
 
-        if commit:
-            user.save()
-            self.cleaned_data['group'].user_set.add(user)
+        if 'photo' in self.changed_data:
+            photo = self.cleaned_data['photo']
+            if photo:
+                user.profile.photo = photo  # Asignar directamente el archivo al campo 'photo' del perfil
+
+        
 
         # update fecha_cumple and direccion in Profile
         try:
@@ -366,9 +407,13 @@ class CustomUserUpdateForm(UserChangeForm):
         profile.universidad_maestria = self.cleaned_data['universidad_maestria']
         profile.doctorado = self.cleaned_data['doctorado']
         profile.universidad_doctorado = self.cleaned_data['universidad_doctorado']
-        profile.photo = self.cleaned_data['photo']
+        # profile.photo = self.cleaned_data['photo']
         profile.experiencia = self.cleaned_data['experiencia']
         profile.boletin = self.cleaned_data['boletin']
         profile.save()
+
+        if commit:
+            user.save()
+            self.cleaned_data['group'].user_set.add(user)
 
         return user
