@@ -258,7 +258,7 @@ class DataTurForm(forms.ModelForm):
 class GastoDerramaForm (forms.ModelForm):
     class Meta:
         model = GastoDerrama
-        fields = ['anio', 'categoria', 'destino', 'gasto_diario_promedio','participacion','estadia_promedio']
+        fields = '__all__'
 
 
 class OtrosAnualesForm (forms.ModelForm):
@@ -285,7 +285,7 @@ class ZonasArqueologicasMuseosForm (forms.ModelForm):
 
     class Meta:
         model = zonas_arqueologicas_museos
-        fields = ('destino', 'museo_zona_arqueologica', 'fecha', 'origen_visitante', 'visitantes', 'tipo')
+        fields = ('destino', 'nombre', 'fecha', 'origen_visitante', 'visitantes', 'tipo')
 
 
 class SensibilizacionForm (forms.ModelForm):

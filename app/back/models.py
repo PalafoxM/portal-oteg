@@ -189,30 +189,45 @@ class DataTour (models.Model):
     densidad_de_ocupacion = models.FloatField(null=True)
     densidad_de_ocupacion_residentes = models.FloatField(null=True)
     densidad_de_ocupacion_no_residentes = models.FloatField(null=True)
+
+    class Meta:
+        app_label = 'ecosistema'
+        db_table = "datatur"
+        ordering = ['-id']
 # Fuentes informacion
 
 
 class GastoDerrama(models.Model):
-    anio = models.IntegerField()
-    categoria = models.CharField(max_length=255)
-    destino = models.CharField(max_length=255)
-    gasto_diario_promedio = models.FloatField()
-    participacion = models.FloatField()
+    gasto_diario_prom = models.FloatField()
+    ano = models.IntegerField()
+    tipo_visitante = models.CharField(max_length=256)
+    destino = models.CharField(max_length=256)
+    participacion_en_hospedaje = models.FloatField()
     estadia_promedio = models.FloatField()
+
+    class Meta:
+        app_label = 'ecosistema'
+        db_table = "gasto_derrama"
+        ordering = ['-id']
 
 
 # Fuentes informacion
 class otros_anuales(models.Model):
-    anio = models.IntegerField()
-    pib_total_sector_72 = models.FloatField()
-    pib_total_de_actividades_terciarias = models.FloatField()
-    basura_generada_por_persona_diaria = models.FloatField()
+    ano = models.IntegerField()
+    PIB_sector_72 = models.FloatField()
+    PIB_actividades_terciarias = models.FloatField()
+    basura_generada_persona_diaria_Kg = models.FloatField()
+
+    class Meta:
+        app_label = 'ecosistema'
+        db_table = "otros_anuales"
+        ordering = ['-id']
 
 
 class zonas_arqueologicas_museos(models.Model):
     destino = models.CharField(max_length=255)
     tipo = models.CharField(max_length=455, null=True, blank=True)
-    museo_zona_arqueologica = models.CharField(max_length=455)
+    nombre = models.CharField(max_length=455)
     fecha = models.DateField()
     origen_visitante = models.CharField(max_length=455)
     visitantes = models.IntegerField()
@@ -385,6 +400,14 @@ class CatalagoTipoVisistante(models.Model):
         app_label = 'ecosistema'
         db_table = 'catalogo_tipo_visitante'
         ordering = ['-id']
+    
+    @classmethod
+    def homologar_tipo_visitante(cls, tipo_visitante):
+        try:
+            catalogo = CatalagoTipoVisistante.objects.get(tipo_visitante=tipo_visitante)
+            return catalogo.tipo_visitante
+        except CatalagoTipoVisistante.DoesNotExist:
+            return tipo_visitante
 
 
 class CatalagoZAMuseos (models.Model):
