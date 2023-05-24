@@ -26,18 +26,7 @@
             <div class="big-card">
 
                 <div class="table-responsive">
-                    <table class="table t" id="dataTable">
-                        <thead>
-                            {% block columns %}
 
-                            {% endblock %}
-                        </thead>
-                        <tbody>
-                            {% block rows %}
-
-                            {% endblock %}
-                        </tbody>
-                    </table>
                     <div class="mt-5 d-flex justify-content-start">
 
                         {% if is_category %}
@@ -82,6 +71,20 @@
                         </div>
                         {% endif %}
                     </div>
+
+
+                    <table class="table t" id="dataTable">
+                        <thead>
+                            {% block columns %}
+
+                            {% endblock %}
+                        </thead>
+                        <tbody>
+                            {% block rows %}
+
+                            {% endblock %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

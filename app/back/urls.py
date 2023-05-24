@@ -22,6 +22,10 @@ from back.views.catalogo_destinos.views import *
 from back.views.proyectos_inversion.views import *
 from back.views.fuente_info_certificacion.views import *
 from back.views.fuente_info_invesion_priv.views import *
+from back.views.fuente_info_empleo.views import *
+from back.views.fuente_info_modelo_gd.views import *
+from back.views.modulo_config.views import *
+
 
 from django.conf import settings
 from django.conf.urls.static import static
@@ -143,11 +147,25 @@ urlpatterns = [
     path('fuentes_info/inversion_privada/add', FuenteInfoInversionPrivCreate.as_view(), name='fuente_info_inversion_privada_create'),
     path('fuentes_info/inversion_privada/edit/<int:pk>/', FuenteInfoInversionPrivUpdate.as_view(), name='fuente_info_inversion_privada_update'),
     path('fuentes_info/inversion_privada/delete/<int:pk>/', FuenteInfoInversionPrivDelete.as_view(), name='fuente_info_inversion_privada_delete'),
-
     path('fuentes_info/inversion_privada/get_p',get_inversion_privada, name='get_inversion_privada'),
+
+    # Fuentes info Modelo GD
+    path('fuentes_info/modelo_gd', FuenteInfoModeloGD.as_view(), name='fuente_info_modelo_gd'),
+    path('fuentes_info/modelo_gd/add', FuenteInfoModeloGDCreate.as_view(), name='fuente_info_modelo_gd_create'),
+    path('fuentes_info/modelo_gd/edit/<int:pk>/', FuenteInfoModeloGDUpdate.as_view(), name='fuente_info_modelo_gd_update'),
+    path('fuentes_info/modelo_gd/delete/<int:pk>/', FuenteInfoModeloGDDelete.as_view(), name='fuente_info_modelo_gd_delete'),
+
+
+    #fuentes info empleo
+    path('fuentes_info/empleo', FuenteInfoEmpleo.as_view(), name='fuente_info_empleo'),
+    path('fuentes_info/empleo/add', FuenteInfoEmpleoCreate.as_view(), name='fuente_info_empleo_create'),
+    path('fuentes_info/empleo/edit/<int:pk>/', FuenteInfoEmpleoUpdate.as_view(), name='fuente_info_empleo_update'),
+    path('fuentes_info/empleo/delete/<int:pk>/', FuenteInfoEmpleoDelete.as_view(), name='fuente_info_empleo_delete'),
+
     
     # Usuarios
     path('usuarios/list', my_profile, name='profile'),
+   
     #inventario_hotelero_gto
     path('inventario-hotelero-gto/list', InventarioHoteleroListView.as_view(), name='inventario_hotelero_list'),
     path('inventario-hotelero-gto/add', InventarioHoteleroCreateView.as_view(), name='inventario_hotelero_create'),
@@ -155,6 +173,7 @@ urlpatterns = [
     path('inventario-hotelero-gto/delete/<int:pk>/', InventarioHoteleroDeleteView.as_view(), name='inventario_hotelero_delete'),
     path('inventario-hotelero-gto/carga-masiva', CargaMasivaView.as_view(), name='inventario_hotelero_carga_masiva'),
     path('inventario-hotelero-gto/descargar-archivo', DescargarArchivoGTOView.as_view(), name='descargar_archivo_gto'),
+    
     #inversion_publica
     path('inversion-publica/list', InversionPublicaListView.as_view(), name='inversion_publica_list'),
     path('inversion-publica/add', InversionPublicaCreateView.as_view(), name='inversion_publica_create'),
@@ -162,6 +181,7 @@ urlpatterns = [
     path('inversion-publica/delete/<int:pk>/', InversionPublicaDeleteView.as_view(), name='inversion_publica_delete'),
     path('inversion-publica/carga-masiva', InversionPublicaCargaMasivaView.as_view(), name='inversion_publica_carga_masiva'),
     path('inventario-hotelero-ent-nac/descargar-archivo', DescargarArchivoInversionPublicaView.as_view(), name='descargar_archivo_inversion_publica'),
+   
     #inventario_hotelero_ent_nac
     path('inventario-hotelero-ent-nac/list', InventarioHoteleroEntNacListView.as_view(), name='inventario_hotelero_ent_nac_list'),
     path('inventario-hotelero-ent-nac/add', InventarioHoteleroEntNacCreateView.as_view(), name='inventario_hotelero_ent_nac_create'),
@@ -178,15 +198,18 @@ urlpatterns = [
     path('calidad-aire/carga-masiva', CalidadAireCargaMasivaView.as_view(), name='calidad_aire_carga_masiva'),
     path('calidad-aire/descargar-archivo', DescargarArchivoAireView.as_view(), name='descargar_archivo_aire'),
 
+
     # fuentes de informacion list
     path('fuente-informacion', FuentesInfoView.as_view(), name='fuente_informacion'),
-
-    # UTIILS 
+    # Configuration list 
+    path ('configuracion', ConfigurationView.as_view(), name='configuracion'),
+        # Utils
     #Typeahead Destinos
     path('typeahead/destinos', search_destinos, name='search_destinos'),
     #Typeahead Categorias
     path('typeahead/categorias', search_categorias, name='search_categorias'),
-
+    #Typeahead Nombre ZA
+    path('typeahead/nombre-za', search_nombre_za, name='search_nombre_za'),
 
 
     #catalago_categoria 
@@ -224,4 +247,5 @@ urlpatterns = [
     path('proyectos-inversion/add', ProyectoInversionCreateView.as_view(), name='proyectos_inversion_create'),
     path('proyectos-inversion/edit/<int:pk>/', ProyectoInversionUpdateView.as_view(), name='proyectos_inversion_update'),
     path('proyectos-inversion/delete/<int:pk>/', ProyectoInversionDeleteView.as_view(), name='proyectos_inversion_delete'),
+    
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -19,13 +19,6 @@
                 source: "{% url 'dashboard:search_destinos' %}"
             });
         });
-
-
-        $j(function () {
-            $j("#id_nombre").autocomplete({
-                source: "{% url 'dashboard:search_nombre_za' %}"
-            });
-        });
     </script>
 </head>
 
@@ -63,6 +56,8 @@
 
 
 {% block javascript %}
+
+
 <script type="application/javascript">
     $(function () {
         $('form').on('submit', function (e) {
@@ -106,10 +101,11 @@
 
                     if (data.missingData) {
 
-                        if (data.museo_Z_A && data.destino) {
-                            var htmdata = 'Los siguientes campos no se encuentran en el catalogo de datos revisa tu escritura: <br> ' + 'museo_Z_A - Nombre: ' + data.museo_Z_A + '<br>' + 'Destino: ' + data.destino
-                        } else if (data.museo_Z_A) {
-                            var htmdata = 'Los siguientes campos no se encuentran en el catalogo de datos revisa tu escritura: <br> ' + 'museo_Z_A - Nombre: ' + data.museo_Z_A
+
+                        if (data.categoria && data.destino) {
+                            var htmdata = 'Los siguientes campos no se encuentran en el catalogo de datos revisa tu escritura: <br> ' + 'Categoria: ' + data.categoria + '<br>' + 'Destino: ' + data.destino
+                        } else if (data.categoria) {
+                            var htmdata = 'Los siguientes campos no se encuentran en el catalogo de datos revisa tu escritura: <br> ' + 'Categoria: ' + data.categoria
                         } else if (data.destino) {
                             var htmdata = 'Los siguientes campos no se encuentran en el catalogo de datos revisa tu escritura: <br> ' + 'Destino: ' + data.destino
                         }

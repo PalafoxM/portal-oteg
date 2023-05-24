@@ -16,13 +16,15 @@
 
 {% block columns %}
 <tr class="text-center table-header">
-
     <th class="text-left pl-3">N°</th>
-    <th class="width: 300px;">Destino</th>
-    <th class="width: 300px;">Nombre</th>
-    <th style="width: 300px;">Fecha</th>
-    <th style="width: 300px;">Origen</th>
-    <th style="width: 300px;">Visitantes</th>
+    <th class="text-center hidden-t">Año</th>
+    <th class="text-left hidden-t">Destino</th>
+    <th class="text-left hidden-t">Gasto diario promedio</th>
+    <th style="width: 300px;">Tipo visitante</th>   
+    <th style="width: 300px;">Participacion</th>
+    <th style="width: 300px;">Estadia Promedio</th>
+
+
     <th class="actions">Acciones</th>
 </tr>
 {% endblock %}
@@ -31,16 +33,17 @@
 {% for e in object_list %}
 <tr class="text-center table-body mt-2">
     <th class="text-left pl-3">{{e.id}}</th>
-    <th class="text-center hidden-t">{{e.destino}}</th>
-    <th class="text-center hidden-t">{{e.nombre}}</th>
-    <th class="text-center hidden-t">{{e.fecha}}</th>
-    <th class="text-center hidden-t">{{e.origen_visitante}}</th>
-    <th class="text-center hidden-t">{{e.visitantes}}</th>
+    <th class="text-center hidden-t">{{e.anio}}</th>
+    <th class="text-left hidden-t">{{e.destino}}</th>
+    <th class="text-center hidden-t">{{e.gasto_diario_promedio}}</th>
+    <th class="text-center hidden-t">{{e.tipo_de_visitante}}</th>
+    <th class="text-center hidden-t">{{e.participacion}}</th>
+    <th class="text-center hidden-t">{{e.estadia_promedio}}</th>
     <th class="actions-container">
-        <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="location.href='{% url 'dashboard:fuente_info_zonas_arqueologicas_update' e.id %}'">
+        <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="location.href='{% url 'dashboard:fuente_info_modelo_gd_update' e.id %}'">
             <i class="far fa-eye"></i>
         </button>
-        <form method="post" action="{% url 'dashboard:fuente_info_zonas_arqueologicas_delete' e.id %}" >
+        <form method="post" action="{% url 'dashboard:fuente_info_modelo_gd_delete' e.id %}" >
             {% csrf_token %}
             <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">
                 <i class="fas fa-trash"></i>
@@ -48,6 +51,5 @@
         </form>
     </th>
 </tr>
-
 {% endfor %}
 {% endblock %}

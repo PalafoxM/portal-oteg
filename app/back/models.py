@@ -20,8 +20,6 @@ class EcosistemaManager(models.Manager):
         return super().get_queryset().using('ecosistema')
 
 # Create your models here.
-
-
 class Banner(models.Model):
     name = models.CharField(max_length=100, verbose_name="Nombre")
     banner_url = models.CharField(max_length=100, verbose_name="Enlace")
@@ -233,8 +231,9 @@ class zonas_arqueologicas_museos(models.Model):
     visitantes = models.IntegerField()
 
     class Meta:
+
         app_label = 'ecosistema'
-        db_table = "zonas_arqueologicas_museos"
+        db_table = "otros_anuales"
         ordering = ['-id']
 
 
@@ -393,6 +392,20 @@ class CatalagoSegmentos(models.Model):
         ordering = ['-id']
 
 
+class zonas_arqueologicas_museos(models.Model):
+    destino = models.CharField(max_length=455, null=True, blank=True)
+    tipo = models.CharField(max_length=455)
+    nombre = models.CharField(max_length=455)
+    fecha = models.DateField()
+    origen_visitante = models.CharField(max_length=455)
+    visitantes = models.IntegerField()
+
+    class Meta:
+        app_label = 'ecosistema'
+        db_table = "zonas_arqueologicas_museos"
+        ordering = ['-id']
+
+
 class CatalagoTipoVisistante(models.Model):
     tipo_visitante = models.CharField(max_length=455)
 
@@ -434,3 +447,22 @@ class Certificacion(models.Model):
     destino = models.CharField(max_length=455, null=True, blank=True)
     tipo_de_certificacion = models.CharField(max_length=455)
     empresas_certificadas = models.IntegerField()
+
+class empleo (models.Model):
+    fecha_inicio = models.DateField()
+    fecha_fin = models.DateField()
+    hombres_empleados_gto = models.IntegerField(null=True, default=None)
+    mujeres_empleadas_gto = models.IntegerField(null=True, default=None)
+    hombres_empleados_sec_72_gto = models.IntegerField(null=True, default=None)
+    mujeres_empleadas_sec_72_gto = models.IntegerField(null=True, default=None)
+    hombres_empleados_sec_72_nac = models.IntegerField(null=True, default=None)
+    mujeres_empleadas_sec_72_nac = models.IntegerField(null=True, default=None)
+
+class ModeloGD (models.Model):
+    anio = models.IntegerField()
+    destino = models.CharField(max_length=455, null=True, blank=True)
+    tipo_de_visitante = models.CharField(max_length=455 , null=True, blank=True)
+    gasto_diario_promedio = models.FloatField()
+    participacion = models.FloatField()
+    estadia_promedio = models.FloatField()
+

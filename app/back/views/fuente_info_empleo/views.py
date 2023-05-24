@@ -1,5 +1,5 @@
-from typing import Any, Dict
 from django.shortcuts import render
+from typing import Any, Dict
 from django.http import HttpRequest, JsonResponse, HttpResponseRedirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
@@ -15,32 +15,33 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.views.decorators.http import require_GET
 from django.views.decorators.http import require_POST
+from django.shortcuts import get_object_or_404
+#serializers
+# render to string
 from django.template.loader import render_to_string
 
 
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
-
-class FuenteInfoInversionPriv (ListView):
-    model = inversion_privada
-    template_name = 'back/fuente_info_inversion_priv/viewer.html'
+class FuenteInfoEmpleo (ListView):
+    model = empleo
+    template_name = 'back/fuente_info_empleo/viewer.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Listado de Fuentes de Informacion de Inversion Privada'
-        context['create_url'] = reverse_lazy('dashboard:fuente_info_inversion_privada_create')
-        context['entity'] = 'Inversion Privada'
+        context['title'] = 'Listado de Fuentes de Informacion de Empleo'
+        context['create_url'] = reverse_lazy('dashboard:fuente_info_empleo_create')
+        context['entity'] = 'Empleo'
         context['is_fuente'] = True
 
         return context
 
-
-class FuenteInfoInversionPrivCreate (CreateView):
-    model = inversion_privada
-    form_class = InversionPrivadaForm
-    template_name = 'back/fuente_info_inversion_priv/create.html'
-    success_url = reverse_lazy('dashboard:fuente_info_inversion_privada')
+class FuenteInfoEmpleoCreate (CreateView):
+    model = empleo
+    form_class = EmpleoForm
+    template_name = 'back/fuente_info_empleo/create.html'
+    success_url = reverse_lazy('dashboard:fuente_info_empleo')
 
     def get_object(self, **kwargs):
         queryset = self.get_queryset()
@@ -48,39 +49,20 @@ class FuenteInfoInversionPrivCreate (CreateView):
             return queryset.get(**kwargs)
         except queryset.model.DoesNotExist:
             return None
-
+    
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
 
-        replace_data = request.POST.get('replace_data')
         if form.is_valid():
             # Check if there is already a record with the same fecha, destino and categoria
-            section_id = request.POST.get('section')
-            fecha = form.cleaned_data['fecha']
-            destino = form.cleaned_data['destino']
-
+   
+            fecha_inicio = form.cleaned_data['fecha_inicio']
+            fecha_fin = form.cleaned_data['fecha_fin']
             try:
-                existing_object = self.get_object(
-                    fecha=fecha, destino=destino, id_del_proyecto=section_id)
+                existing_object = self.get_object( fecha_inicio=fecha_inicio, fecha_fin=fecha_fin)
 
             except inversion_privada.DoesNotExist:
                 existing_object = None
-
-            existing_catalogo = CatalagoDestino.objects.filter(
-                destino__iexact=destino).exists()
-            # ALTER TABLE mytable MODIFY mycolumn VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
-            # If there is no existing data, save the new data
-            if not existing_catalogo:
-
-                if not existing_catalogo:
-                    data = {
-                        'success': False,
-                        'missingData': True,
-                        'destino': destino,
-                        'message': 'No existe el destino en el catalogo',
-                    }
-                    return JsonResponse(data)
 
             # If there is existing data and replace_data is True, delete the existing data
             if existing_object and request.POST.get('replace_data') == 'on':
@@ -104,15 +86,12 @@ class FuenteInfoInversionPrivCreate (CreateView):
             # If there is existing data and replace_data is False, return an error
 
             if existing_object:
-                data = inversion_privada.objects.filter(
-                    fecha=fecha, destino=destino, id_del_proyecto=section_id)
+                data = empleo.objects.filter(fecha_inicio=fecha_inicio, fecha_fin=fecha_fin)
 
-                data_list = list(data.values('id_del_proyecto', 'fecha', 'destino',
-                                 'monto_ejecutado', 'avance_proyecto', 'nombre_del_proyecto'))
+                data_list = list(data.values('fecha_inicio', 'fecha_fin', 'hombres_empleados_gto', 'mujeres_empleadas_gto', 'hombres_empleados_sec_72_gto','mujeres_empleadas_sec_72_gto','hombres_empleados_sec_72_nac','mujeres_empleadas_sec_72_nac'))
                 data_list2 = list(form.cleaned_data.values())
-                data_list2.insert(0, section_id)
-                table_html = render_to_string('back/fuente_info_inversion_priv/table.html', {
-                                              'data_list': data_list, 'actual': True, 'data_list2': data_list2})
+
+                table_html = render_to_string('back/fuente_info_empleo/table.html', {'data_list': data_list, 'actual': True, 'data_list2': data_list2})
 
                 datajsn = {
                     'success': False,
@@ -124,10 +103,7 @@ class FuenteInfoInversionPrivCreate (CreateView):
                 return JsonResponse(datajsn)
             else:
 
-                inversion_privada_safe = form.save(commit=False)
-                inversion_privada_safe.id_del_proyecto = section_id
-                inversion_privada_safe.save()
-
+                self.object = form.save()
                 data = {
                     'success': True,
                     'message': 'Data created successfully.',
@@ -164,23 +140,16 @@ class FuenteInfoInversionPrivCreate (CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Crear una fuente'
-        context['entity'] = 'Glosario'
-        context['form'].fields['destino'].widget = forms.TextInput(
-            attrs={'readonly': 'readonly'})
-        context['form'].fields['nombre_del_proyecto'].widget = forms.TextInput(
-            attrs={'readonly': 'readonly'})
-        context['list_url'] = reverse_lazy(
-            'dashboard:fuente_info_inversion_privada')
-        context['sections'] = ProyectoInversion.objects.all()
+        context['entity'] = 'Empleo'
+        context['list_url'] = reverse_lazy('dashboard:fuente_info_empleo')
         context['action'] = 'add'
         return context
 
-
-class FuenteInfoInversionPrivUpdate (UpdateView):
-    model = inversion_privada
-    form_class = InversionPrivadaEditForm
-    template_name = 'back/fuente_info_inversion_priv/view_editor.html'
-    success_url = reverse_lazy('dashboard:fuente_info_inversion_privada')
+class FuenteInfoEmpleoUpdate (UpdateView):
+    model = empleo
+    form_class = EmpleoForm
+    template_name = 'back/fuente_info_empleo/view_editor.html'
+    success_url = reverse_lazy('dashboard:fuente_info_empleo')
 
     def form_invalid(self, form):
         response = super().form_invalid(form)
@@ -208,46 +177,19 @@ class FuenteInfoInversionPrivUpdate (UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['list_url'] = reverse_lazy(
-            'dashboard:fuente_info_inversion_privada')
-        # Set the widget for the 'destino' field to read-only text input
-        context['form'].fields['destino'].widget = forms.TextInput(
-            attrs={'readonly': 'readonly'})
-        context['form'].fields['fecha'].widget = forms.TextInput(
-            attrs={'readonly': 'readonly'})
-        context['form'].fields['id_del_proyecto'].widget = forms.TextInput(
-            attrs={'readonly': 'readonly'})
-        context['form'].fields['nombre_del_proyecto'].widget = forms.TextInput(
-            attrs={'readonly': 'readonly'})
+        context['list_url'] = reverse_lazy('dashboard:fuente_info_empleo')
+            # Set the widget for the 'destino' field to read-only text input
+        context['form'].fields['fecha_inicio'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
+        context['form'].fields['fecha_fin'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
         context['title'] = 'Editar fuente'
-
-        context['edit_msg'] = 'Los Campos ID, Destino , Fecha no pueden ser editados'
+        context['edit_msg'] = 'Los campos fecha inicio y fecha fin no son editables'
 
         return context
 
-
-class FuenteInfoInversionPrivDelete (DeleteView):
-    model = inversion_privada
-
-    success_url = reverse_lazy('dashboard:fuente_info_inversion_privada')
+class FuenteInfoEmpleoDelete (DeleteView):
+    model = empleo
+    success_url = reverse_lazy('dashboard:fuente_info_empleo')
 
     def post(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
         return super().post(request, *args, **kwargs)
 
-
-def get_inversion_privada(request):
-    if request.method == 'GET':
-        id = request.GET.get('section_id')
-        inversion_privada = ProyectoInversion.objects.filter(
-            id_del_proyecto=id)
-        data = list(inversion_privada.values())
-
-    if data:
-
-        return JsonResponse(data[0], safe=False)
-    else:
-        data = {
-            'success': False,
-            'message': 'No existe el destino en el catalogo',
-        }
-        return JsonResponse(data)

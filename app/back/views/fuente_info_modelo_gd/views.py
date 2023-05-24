@@ -22,25 +22,24 @@ def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 
-class FuenteInfoInversionPriv (ListView):
-    model = inversion_privada
-    template_name = 'back/fuente_info_inversion_priv/viewer.html'
+class FuenteInfoModeloGD (ListView):
+    model = ModeloGD
+    template_name = 'back/fuente_info_Modelo_GD/viewer.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Listado de Fuentes de Informacion de Inversion Privada'
-        context['create_url'] = reverse_lazy('dashboard:fuente_info_inversion_privada_create')
-        context['entity'] = 'Inversion Privada'
+        context['title'] = 'Listado de Fuentes de Informacion de Modelo GD'
+        context['create_url'] = reverse_lazy('dashboard:fuente_info_modelo_gd_create')
+        context['entity'] = 'ModeloGD'
         context['is_fuente'] = True
-
+        
         return context
-
-
-class FuenteInfoInversionPrivCreate (CreateView):
-    model = inversion_privada
-    form_class = InversionPrivadaForm
-    template_name = 'back/fuente_info_inversion_priv/create.html'
-    success_url = reverse_lazy('dashboard:fuente_info_inversion_privada')
+    
+class FuenteInfoModeloGDCreate (CreateView):
+    model = ModeloGD
+    form_class = ModeloGDForm
+    template_name = 'back/fuente_info_Modelo_GD/create.html'
+    success_url = reverse_lazy('dashboard:fuente_info_modelo_gd')
 
     def get_object(self, **kwargs):
         queryset = self.get_queryset()
@@ -51,23 +50,21 @@ class FuenteInfoInversionPrivCreate (CreateView):
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
-
-        replace_data = request.POST.get('replace_data')
+    
         if form.is_valid():
             # Check if there is already a record with the same fecha, destino and categoria
-            section_id = request.POST.get('section')
-            fecha = form.cleaned_data['fecha']
+
+            anio = form.cleaned_data['anio']
             destino = form.cleaned_data['destino']
 
-            try:
-                existing_object = self.get_object(
-                    fecha=fecha, destino=destino, id_del_proyecto=section_id)
 
-            except inversion_privada.DoesNotExist:
+            try:
+                existing_object = self.get_object(anio=anio, destino=destino)
+
+            except ModeloGD.DoesNotExist:
                 existing_object = None
 
-            existing_catalogo = CatalagoDestino.objects.filter(
-                destino__iexact=destino).exists()
+            existing_catalogo = CatalagoDestino.objects.filter(destino__iexact=destino).exists()
             # ALTER TABLE mytable MODIFY mycolumn VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
             # If there is no existing data, save the new data
@@ -92,27 +89,25 @@ class FuenteInfoInversionPrivCreate (CreateView):
                     if field == 'replace_data':
                         continue
                     setattr(existing_object, field, form.cleaned_data[field])
+
                 existing_object.save()
 
                 data = {
                     'success': True,
                     'message': 'Data created successfully.',
                     'url': self.success_url,
+
                 }
                 return JsonResponse(data)
 
             # If there is existing data and replace_data is False, return an error
 
             if existing_object:
-                data = inversion_privada.objects.filter(
-                    fecha=fecha, destino=destino, id_del_proyecto=section_id)
+                data = ModeloGD.objects.filter(anio=anio, destino=destino)
 
-                data_list = list(data.values('id_del_proyecto', 'fecha', 'destino',
-                                 'monto_ejecutado', 'avance_proyecto', 'nombre_del_proyecto'))
+                data_list = list(data.values('anio','destino','gasto_diario_promedio','participacion','estadia_promedio'))
                 data_list2 = list(form.cleaned_data.values())
-                data_list2.insert(0, section_id)
-                table_html = render_to_string('back/fuente_info_inversion_priv/table.html', {
-                                              'data_list': data_list, 'actual': True, 'data_list2': data_list2})
+                table_html = render_to_string('back/fuente_info_Modelo_GD/table.html',{'data_list': data_list, 'actual': True, 'data_list2': data_list2})
 
                 datajsn = {
                     'success': False,
@@ -123,11 +118,7 @@ class FuenteInfoInversionPrivCreate (CreateView):
 
                 return JsonResponse(datajsn)
             else:
-
-                inversion_privada_safe = form.save(commit=False)
-                inversion_privada_safe.id_del_proyecto = section_id
-                inversion_privada_safe.save()
-
+                self.object = form.save()
                 data = {
                     'success': True,
                     'message': 'Data created successfully.',
@@ -164,23 +155,16 @@ class FuenteInfoInversionPrivCreate (CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Crear una fuente'
-        context['entity'] = 'Glosario'
-        context['form'].fields['destino'].widget = forms.TextInput(
-            attrs={'readonly': 'readonly'})
-        context['form'].fields['nombre_del_proyecto'].widget = forms.TextInput(
-            attrs={'readonly': 'readonly'})
-        context['list_url'] = reverse_lazy(
-            'dashboard:fuente_info_inversion_privada')
-        context['sections'] = ProyectoInversion.objects.all()
+        context['entity'] = 'ModeloGD'
+        context['list_url'] = reverse_lazy('dashboard:fuente_info_modelo_gd')
         context['action'] = 'add'
         return context
-
-
-class FuenteInfoInversionPrivUpdate (UpdateView):
-    model = inversion_privada
-    form_class = InversionPrivadaEditForm
-    template_name = 'back/fuente_info_inversion_priv/view_editor.html'
-    success_url = reverse_lazy('dashboard:fuente_info_inversion_privada')
+    
+class FuenteInfoModeloGDUpdate (UpdateView):
+    model = ModeloGD
+    form_class = ModeloGDForm
+    template_name = 'back/fuente_info_Modelo_GD/create.html'
+    success_url = reverse_lazy('dashboard:fuente_info_modelo_gd')
 
     def form_invalid(self, form):
         response = super().form_invalid(form)
@@ -208,46 +192,21 @@ class FuenteInfoInversionPrivUpdate (UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['list_url'] = reverse_lazy(
-            'dashboard:fuente_info_inversion_privada')
-        # Set the widget for the 'destino' field to read-only text input
-        context['form'].fields['destino'].widget = forms.TextInput(
-            attrs={'readonly': 'readonly'})
-        context['form'].fields['fecha'].widget = forms.TextInput(
-            attrs={'readonly': 'readonly'})
-        context['form'].fields['id_del_proyecto'].widget = forms.TextInput(
-            attrs={'readonly': 'readonly'})
-        context['form'].fields['nombre_del_proyecto'].widget = forms.TextInput(
-            attrs={'readonly': 'readonly'})
+        context['list_url'] = reverse_lazy('dashboard:fuente_info_modelo_gd')
+            # Set the widget for the 'destino' field to read-only text input
+        context['form'].fields['destino'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
+
+        context['form'].fields['anio'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
         context['title'] = 'Editar fuente'
 
-        context['edit_msg'] = 'Los Campos ID, Destino , Fecha no pueden ser editados'
+        context['edit_msg'] = 'Los Campos Destino y Año no pueden ser editados' 
 
         return context
-
-
-class FuenteInfoInversionPrivDelete (DeleteView):
-    model = inversion_privada
-
-    success_url = reverse_lazy('dashboard:fuente_info_inversion_privada')
-
+    
+class FuenteInfoModeloGDDelete (DeleteView):
+    model = ModeloGD
+    success_url = reverse_lazy('dashboard:fuente_info_modelo_gd')
+        
     def post(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
         return super().post(request, *args, **kwargs)
 
-
-def get_inversion_privada(request):
-    if request.method == 'GET':
-        id = request.GET.get('section_id')
-        inversion_privada = ProyectoInversion.objects.filter(
-            id_del_proyecto=id)
-        data = list(inversion_privada.values())
-
-    if data:
-
-        return JsonResponse(data[0], safe=False)
-    else:
-        data = {
-            'success': False,
-            'message': 'No existe el destino en el catalogo',
-        }
-        return JsonResponse(data)

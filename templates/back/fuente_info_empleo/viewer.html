@@ -18,11 +18,11 @@
 <tr class="text-center table-header">
 
     <th class="text-left pl-3">N°</th>
-    <th class="width: 300px;">Destino</th>
-    <th class="width: 300px;">Nombre</th>
-    <th style="width: 300px;">Fecha</th>
-    <th style="width: 300px;">Origen</th>
-    <th style="width: 300px;">Visitantes</th>
+    <th class="width: 300px;">fecha_inicio</th>
+    <th class="width: 300px;">hombres_empleados_sec_72_gto</th>
+    <th style="width: 300px;">mujeres_empleadas_sec_72_gto</th>
+    <th style="width: 300px;">hombres_empleados_sec_72_nac</th>
+    <th style="width: 300px;">mujeres_empleadas_sec_72_nac</th>
     <th class="actions">Acciones</th>
 </tr>
 {% endblock %}
@@ -31,16 +31,16 @@
 {% for e in object_list %}
 <tr class="text-center table-body mt-2">
     <th class="text-left pl-3">{{e.id}}</th>
-    <th class="text-center hidden-t">{{e.destino}}</th>
-    <th class="text-center hidden-t">{{e.nombre}}</th>
-    <th class="text-center hidden-t">{{e.fecha}}</th>
-    <th class="text-center hidden-t">{{e.origen_visitante}}</th>
-    <th class="text-center hidden-t">{{e.visitantes}}</th>
+    <th class="text-center hidden-t">{{e.fecha_inicio}}</th>
+    <th class="text-center hidden-t">{{e.hombres_empleados_sec_72_gto}}</th>
+    <th class="text-center hidden-t">{{e.mujeres_empleadas_sec_72_gto}}</th>
+    <th class="text-center hidden-t">{{e.hombres_empleados_sec_72_nac}}</th>
+    <th class="text-center hidden-t">{{e.mujeres_empleadas_sec_72_nac}}</th>
     <th class="actions-container">
-        <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="location.href='{% url 'dashboard:fuente_info_zonas_arqueologicas_update' e.id %}'">
+        <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="location.href='{% url 'dashboard:fuente_info_empleo_update' e.id %}'">
             <i class="far fa-eye"></i>
         </button>
-        <form method="post" action="{% url 'dashboard:fuente_info_zonas_arqueologicas_delete' e.id %}" >
+        <form method="post" action="{% url 'dashboard:fuente_info_empleo_delete' e.id %}" >
             {% csrf_token %}
             <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">
                 <i class="fas fa-trash"></i>

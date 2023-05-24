@@ -33,9 +33,9 @@ class FuenteInfoOtrosAnuales (ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Listado de Fuentes de Informacion de Otros Anuales'
+        context['title'] = 'Listado de Fuentes de Informacion Otros'
         context['create_url'] = reverse_lazy('dashboard:fuente_info_otros_anuales_create')
-        context['entity'] = 'Categorias'
+        context['entity'] = 'Otros Anuales'
         context['is_fuente'] = True
         context['carga_masiva_url'] = reverse_lazy('dashboard:fuente_otros_anuales_carga_masiva')
         return context
@@ -45,7 +45,7 @@ class FuenteInfoOtrosAnualesCreate (CreateView):
     model = otros_anuales
     form_class = OtrosAnualesForm
     success_url = reverse_lazy('dashboard:fuente_info_otros_anuales')
-    template_name = 'back/components/create_update_fuentes_info.html'
+    template_name = 'back/fuente_info_otros_anuales/create.html'
 
     def get_object(self, **kwargs):
         queryset = self.get_queryset()
@@ -60,12 +60,12 @@ class FuenteInfoOtrosAnualesCreate (CreateView):
         if form.is_valid():
             # Check if there is already a record with the same fecha, destino and categoria
        
-            anio = form.cleaned_data['anio']
+            anio = form.cleaned_data['ano']
 
             try:
-                existing_object = self.get_object(anio=anio)
+                existing_object = self.get_object(ano=anio)
              
-            except DataTour.DoesNotExist:
+            except otros_anuales.DoesNotExist:
                 existing_object = None
     
 
@@ -92,9 +92,8 @@ class FuenteInfoOtrosAnualesCreate (CreateView):
             # If there is existing data and replace_data is False, return an error
 
             if existing_object  :
-                data = otros_anuales.objects.filter(anio=anio)
-                
-                data_list = list(data.values('anio','pib_total_sector_72','pib_total_de_actividades_terciarias','basura_generada_por_persona_diaria'))                                      
+                data = otros_anuales.objects.filter(ano=anio)
+                data_list = list(data.values('ano','PIB_sector_72','PIB_actividades_terciarias','basura_generada_persona_diaria_Kg'))                                      
                 data_list2 =  list(form.cleaned_data.values())
                 table_html = render_to_string('back/fuente_info_otros_anuales/table.html', {'data_list': data_list , 'actual':True , 'data_list2':data_list2})                            
                 
@@ -154,7 +153,7 @@ class FuenteInfoOtrosAnualesUpdate (UpdateView):
     model = otros_anuales
     form_class = OtrosAnualesForm
     success_url = reverse_lazy('dashboard:fuente_info_otros_anuales')
-    template_name = 'back/components/create_update_fuentes_info.html'
+    template_name = 'back/fuente_info_otros_anuales/view_editor.html'
 
     
     def form_invalid(self, form):
@@ -185,7 +184,7 @@ class FuenteInfoOtrosAnualesUpdate (UpdateView):
         context = super().get_context_data(**kwargs)
         context['list_url'] = reverse_lazy('dashboard:fuente_info_otros_anuales')
         # Set the widget for the 'destino' field to read-only text input
-        context['form'].fields['anio'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
+        context['form'].fields['ano'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
       
         context['title'] = 'Editar fuente'
         context['edit_msg'] = 'El campo Año no pueden ser editado'    
