@@ -5,6 +5,7 @@ from ckeditor.fields import RichTextField
 from django.conf import settings
 from storages.backends.s3boto3 import S3Boto3Storage
 import os
+from django.core.validators import FileExtensionValidator
 
 
 class S3Storage(S3Boto3Storage):
@@ -94,7 +95,7 @@ class Publications(models.Model):
     type = models.CharField(max_length=10, choices=TYPE_CHOICES)
     num_descargas = models.IntegerField(null=True, blank=True, default=0)
     name = models.CharField(max_length=100, verbose_name="Nombre")
-    url = models.URLField(max_length=100, null=True, blank=True)
+    url = models.FileField(null=True, blank=True, upload_to='publicacion', storage=S3Storage(), validators=[FileExtensionValidator(['pdf'])])#pdf
     date_created = models.DateTimeField(auto_now=True)
     num_descargas = models.IntegerField(null=True, blank=True, default=0)
 
