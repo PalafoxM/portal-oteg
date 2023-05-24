@@ -1,0 +1,95 @@
+{% extends 'back/index.html' %}
+
+{% block content %}
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script>
+  function getCookie(name) {
+  var cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    var cookies = document.cookie.split(';');
+    for (var i = 0; i < cookies.length; i++) {
+      var cookie = cookies[i].trim();
+      if (cookie.substring(0, name.length + 1) === (name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
+
+  var datos = {{ descargar_url|safe }};
+  console.log(datos|| 0)
+  function descargarArchivo() {
+    const csrftoken = getCookie('csrftoken');
+    let registros = {{ descargar_url|safe }};
+    console.log("registro: r",registros)
+
+    axios.post('{% url 'dashboard:fuente_info_datatour_descargar_archivo' %}', JSON.stringify(registros), {
+      headers: {
+        'X-CSRFToken': csrftoken,
+        'Content-Type': 'application/json',
+      },
+      responseType: 'blob',
+    }).then((response) => {
+      // Crear un enlace de descarga con la respuesta del servidor
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'datatur_registros_incorrectos.xlsx');
+      document.body.appendChild(link);
+      link.click();
+    }).catch((error) => {
+      console.log('Error:', error);
+    });
+  }
+
+
+</script>
+<h1>{{title}}</h1>
+<div class="col-12">
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="btn btn-primary" type="submit">Cargar archivo</button>
+    <a href="{% url 'dashboard:fuente_info_datatour' %}" class="btn btn-outline-danger">Cancelar</a>
+</form>
+</div>
+
+
+{% if errores %}
+<div class="col">
+
+  <div class="alert alert-danger mt-3">
+      <ul>
+          {% for error in errores %}
+          <li>{{ error }}</li>
+          {% endfor %}
+      </ul>
+  </div>
+</div>
+{% endif %}
+{% if registros_incorrectos %}
+<div class="col">
+
+  <div class="alert alert-danger mt-3">
+    <h4>Existen {{registros_incorrectos|length}} filas con errores de un total de {{num_filas_procesadas}} filas</h4>
+
+    <button id="descargar-btn" onclick="descargarArchivo()" class="btn btn-danger">Descargar archivo de errores</button>
+  </div>
+</div>
+{% endif %}
+
+    {% if registros_correctos %}
+      <div class="alert alert-success mt-3">
+        <h4>Se han guardado {{registros_correctos|length}} filas de un total de {{num_filas_procesadas}} filas</h4>
+      </div>
+    {% endif %}
+{% if registros_existentes %}
+<div class="alert alert-warning mt-3">
+  <h4>Ya existen {{registros_existentes|length}} registros de un total de {{num_filas_procesadas}} filas en la base de datos y no se han guardado</h4>
+    
+</div>
+{% endif %}
+{% endblock %}

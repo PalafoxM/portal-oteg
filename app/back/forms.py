@@ -32,15 +32,22 @@ from ckeditor.widgets import CKEditorWidget
 #         }
 
 class PublicationForm(forms.ModelForm):
+    TYPE_CHOICES = (
+        ('1', 'PDF'),
+        ('2', 'MP3'),
+        ('3', 'XLS'),
+    )
+     
+    type = forms.ChoiceField(choices=TYPE_CHOICES, widget=forms.Select(attrs={'class': 'form-control'}))
     class Meta:
         model = Publications
         exclude = ('category', 'section', 'num_descargas')
         fields = '__all__'
         widgets = {
 
-            'type': forms.Select(attrs={'class': 'form-control'}),
+            'type': forms.TextInput(attrs={'class': 'form-control'}),
             'name': forms.TextInput(attrs={'class': 'form-control'}),
-            'url': forms.TextInput(attrs={'class': 'form-control'}),
+            'url': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
 
             'section': TextInput(attrs = { 'placeholder': 'Ingresa una Sección', 'class': 'form-control'}),
             'category': TextInput(attrs = { 'placeholder': 'Ingresa una Categroia', 'class': 'form-control'}),            
@@ -48,6 +55,11 @@ class PublicationForm(forms.ModelForm):
             'download': TextInput(attrs = { 'placeholder': 'Descarga', 'class': 'form-control'}),
             'name': TextInput(attrs = { 'placeholder': 'Ingresa un Nombre ', 'class': 'form-control'}),
             'fiel': ClearableFileInput(attrs = { 'placeholder': 'Ingresa una imagen', 'class': 'form-control-file'}), 
+        }
+        labels = {
+            'type': 'Tipo de Documento',
+            'url': 'Archivo',
+            'category': 'Categoria',
         }
 
 
@@ -178,8 +190,11 @@ class BarometroForm(forms.ModelForm):
         widgets = {
             'semestre': forms.NumberInput(attrs={'class': 'form-control', 'required': True}),
             'nombrePDF': forms.TextInput(attrs={'class': 'form-control'}),
-            'url': forms.URLInput(attrs={'class': 'form-control'}),
+            'url': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
             'yearPDF': forms.NumberInput(attrs={'class': 'form-control', 'required': True}),
+        }
+        labels = {
+            'url': 'Archivo',
         }
 
 
@@ -258,7 +273,7 @@ class DataTurForm(forms.ModelForm):
 class GastoDerramaForm (forms.ModelForm):
     class Meta:
         model = GastoDerrama
-        fields = ['anio', 'categoria', 'destino', 'gasto_diario_promedio','participacion','estadia_promedio']
+        fields = '__all__'
 
 
 class OtrosAnualesForm (forms.ModelForm):

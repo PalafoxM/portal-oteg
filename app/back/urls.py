@@ -103,24 +103,31 @@ urlpatterns = [
     path('fuentes_info/datatur/add', FuenteInfoDataturCreate.as_view(), name='fuente_info_datatour_create'),
     path('fuentes_info/datatur/edit/<int:pk>/', FuenteInfoDataturUpdate.as_view(), name='fuente_info_datatour_update'),
     path('fuentes_info/datatur/delete/<int:pk>/', FuenteInfoDataturDelete.as_view(), name='fuente_info_datatour_delete'),
-    path('upload_file', upload_file, name='upload_file2'),
+    path('fuentes_info/datatur/carga-masiva', DataturCargaMasivaView.as_view(), name='fuente_info_datatour_carga_masiva'),
+    path('fuentes_info/datatur/descargar-archivo', DescargarArchivoDataturView.as_view(), name='fuente_info_datatour_descargar_archivo'),
     #Fuentes de informacion Gasto Derrama
     path('fuentes_info/gasto_derrama', FuenteInfoGastoDerrama.as_view(), name='fuente_info_gasto_derrama'),
     path('fuentes_info/gasto_derrama/add', FuenteInfoGastoDerramaCreate.as_view(), name='fuente_info_gasto_derrama_create'),
     path('fuentes_info/gasto_derrama/edit/<int:pk>/', FuenteInfoGastoDerramaUpdate.as_view(), name='fuente_info_gasto_derrama_update'),
     path('fuentes_info/gasto_derrama/delete/<int:pk>/', FuenteInfoGastoDerramaDelete.as_view(), name='fuente_info_gasto_derrama_delete'),
+    path('fuentes_info/gasto-derrama/carga-masiva', GastoDerramaCargaMasivaView.as_view(), name='fuente_gasto_derrama_carga_masiva'),
+    path('fuentes_info/gasto-derrama/descargar-archivo', GastoDerramaDescargarArchivoView.as_view(), name='fuente_gasto_derrama_descargar_archivo'),
 
     #Fuentes de informacion Otros Anuales
     path('fuentes_info/otros_anuales', FuenteInfoOtrosAnuales.as_view(), name='fuente_info_otros_anuales'),
     path('fuentes_info/otros_anuales/add', FuenteInfoOtrosAnualesCreate.as_view(), name='fuente_info_otros_anuales_create'),
     path('fuentes_info/otros_anuales/edit/<int:pk>/', FuenteInfoOtrosAnualesUpdate.as_view(), name='fuente_info_otros_anuales_update'),
     path('fuentes_info/otros_anuales/delete/<int:pk>/', FuenteInfoOtrosAnualesDelete.as_view(), name='fuente_info_otros_anuales_delete'),
+    path('fuentes_info/otros-anuales/carga-masiva', OtrosAnualesCargaMasivaView.as_view(), name='fuente_otros_anuales_carga_masiva'),
+    path('fuentes_info/otros-anuales/descargar-archivo', OtrosAnualeDescargarArchivoView.as_view(), name='fuente_otros_anuales_descargar_archivo'),
     
     #Fuentes de informacion Zonas Arqueologicas
     path('fuentes_info/zonas_arqueologicas', FuenteInfoZonasArqueologicas.as_view(), name='fuente_info_zonas_arqueologicas'),
     path('fuentes_info/zonas_arqueologicas/add', FuenteInfoZonasArqueologicasCreate.as_view(), name='fuente_info_zonas_arqueologicas_create'),
     path('fuentes_info/zonas_arqueologicas/edit/<int:pk>/', FuenteInfoZonasArqueologicasUpdate.as_view(), name='fuente_info_zonas_arqueologicas_update'),
     path('fuentes_info/zonas_arqueologicas/delete/<int:pk>/', FuenteInfoZonasArqueologicasDelete.as_view(), name='fuente_info_zonas_arqueologicas_delete'),
+    path('fuentes_info/zonas-arqueologicas/carga-masiva', ZonasArqueoCargaMasivaView.as_view(), name='fuente_zonas_arqueologicas_carga_masiva'),
+    path('fuentes_info/zonas-arqueologicas/descargar-archivo', ZonasArqueoDescargarArchivoView.as_view(), name='fuente_zonas_arqueologicas_descargar_archivo'),
     path('usuarios/list', my_profile, name='profile'),
     # Fuentes de informacion Sensibilizacion
     path('fuentes_info/sensibilizacion', FuenteInfoSensibilizacion.as_view(), name='fuente_info_sensibilizacion'),
