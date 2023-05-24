@@ -13,19 +13,25 @@
         <thead>
             <tr>
                 <th style="width: 300px;">Año</th>
-                <th style="width: 300px;">pib_total_sector_72</th>
-                <th style="width: 300px;">pib_total_de_actividades_terciarias</th>
-                <th style="width: 300px;">basura_generada_por_persona_diaria</th>
-       
-            </tr>
+                <th style="width: 300px;">Destino</th>
+                <th style="width: 300px;">tipo_de_visitante</th>
+                <th style="width: 300px;">gasto_diario_promedio </th>
+            <th style="width: 300px;">participacion</th>
+            <th style="width: 300px;">estadia_promedio</th>
+
+
+
+                </tr>
         </thead>
         <tbody>
             {% for data in data_list %}
             <tr>
-                <td>{{ data.ano }}</td>
-                <td>{{ data.PIB_sector_72 }}</td>
-                <td>{{ data.PIB_actividades_terciarias }}</td>
-                <td>{{ data.basura_generada_persona_diaria_Kg }}</td>
+                <td>{{ data.anio }}</td>
+                <td>{{ data.destino }}</td>
+                <td>{{ data.tipo_de_visitante }}</td>
+                <td>{{ data.gasto_diario_promedio }}</td>
+                <td>{{ data.participacion }}</td>
+                <td>{{ data.estadia_promedio }}</td>
 
             </tr>
             {% endfor %}
@@ -38,9 +44,12 @@
         <thead>
             <tr>
                 <th style="width: 300px;">Año</th>
-                <th style="width: 300px;">pib_total_sector_72</th>
-                <th style="width: 300px;">pib_total_de_actividades_terciarias</th>
-                <th style="width: 300px;">basura_generada_por_persona_diaria</th>
+                <th style="width: 300px;">Destino</th>
+                <th style="width: 300px;">tipo_de_visitante</th>
+                <th style="width: 300px;">gasto_diario_promedio </th>
+            <th style="width: 300px;">participacion</th>
+            <th style="width: 300px;">estadia_promedio</th>
+
             </tr>
         </thead>
         <tbody>

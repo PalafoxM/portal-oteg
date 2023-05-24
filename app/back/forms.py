@@ -271,21 +271,30 @@ class ZonasArqueologicasMuseosForm (forms.ModelForm):
 
     TIPO_CHOICES = (
         ('museo', 'Museo'),
-        ('zona_arq', 'Zona Arqueológica'),
+        ('zona arqueologica', 'Zona Arqueológica'),
     )
     tipo = forms.ChoiceField(choices=TIPO_CHOICES, required=False)
 
     ORIGEN_CHOICES = (
-        ('', '----------------'),
         ('nacional', 'Nacional'),
-        ('internacional', 'Internacional'),
+        ('extranjero', 'Extranjero'),
     )
     origen_visitante = forms.ChoiceField(choices=ORIGEN_CHOICES, required=False)
 
+    class Meta:
+        model = zonas_arqueologicas_museos
+        fields = ['destino', 'tipo', 'nombre', 'fecha', 'visitantes']
+
+class ZonasArqueologicasMuseosForm_edit (forms.ModelForm):
+    TIPO_CHOICES = (
+        ('museo', 'Museo'),
+        ('zona arqueologica', 'Zona Arqueológica'),
+    )
+    tipo = forms.ChoiceField(choices=TIPO_CHOICES, required=False)
 
     class Meta:
         model = zonas_arqueologicas_museos
-        fields = ('destino', 'museo_zona_arqueologica', 'fecha', 'origen_visitante', 'visitantes', 'tipo')
+        fields = '__all__'
 
 
 class SensibilizacionForm (forms.ModelForm):
@@ -431,3 +440,16 @@ class InversionPrivadaEditForm(forms.ModelForm):
     class Meta:
         model = inversion_privada
         fields = ['id_del_proyecto','nombre_del_proyecto','destino','fecha','monto_ejecutado','avance_proyecto']
+
+class EmpleoForm (forms.ModelForm):
+    class Meta:
+        model = empleo
+        fields ='__all__'
+
+class ModeloGDForm (forms.ModelForm):
+    class Meta:
+        model = ModeloGD
+        fields = '__all__'
+        labels = {
+            'anio': 'Año',
+        }

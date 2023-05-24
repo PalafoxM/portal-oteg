@@ -14,12 +14,12 @@
         <thead>
             <tr>
                 <th style="width: 300px;">Destino</th>
+                <th style="width: 300px;">Tipo</th>
                 <th style="width: 300px;">Museo Zona Arqueológica</th>
                 <th style="width: 300px;">Fecha</th>
+                <th style="width: 300px;">No. Visitantes</th>
                 <th style="width: 300px;">Origen Visitante</th>
-                
-                <th style="width: 300px;">Visitantes</th>
-                <th style="width: 300px;">tipo</th>
+            
        
             </tr>
         </thead>
@@ -28,11 +28,13 @@
             <tr>
                 
                 <td>{{ data.destino }}</td>
-                <td>{{ data.museo_zona_arqueologica }}</td>
-                <td>{{ data.fecha }}</td>
-                <td>{{ data.origen_visitante }}</td>
-                <td>{{ data.visitantes }}</td>
                 <td>{{ data.tipo }}</td>
+                <td>{{ data.nombre }}</td>
+                <td>{{ data.fecha }}</td>
+                <td>{{ data.visitantes }}</td>
+                <td>{{ data.origen_visitante }}</td>
+           
+      
 
             </tr>
             {% endfor %}
@@ -46,11 +48,13 @@
             <tr>
                 
                 <th style="width: 300px;">Destino</th>
+                <th style="width: 300px;">Tipo</th>
                 <th style="width: 300px;">Museo Zona Arqueológica</th>
                 <th style="width: 300px;">Fecha</th>
+                <th style="width: 300px;">No. Visitantes</th>
                 <th style="width: 300px;">Origen Visitante</th>
-                <th style="width: 300px;">Visitantes</th>
-                <th style="width: 300px;">tipo</th>
+            
+                
             </tr>
         </thead>
         <tbody>

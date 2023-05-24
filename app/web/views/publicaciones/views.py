@@ -161,7 +161,14 @@ class BarometroTuristicoView(TemplateView):
         pdf =  most_recent_register = BarometroTuristico.objects.latest('fecha_registro')
         distinct_years = BarometroTuristico.objects.values('yearPDF').distinct().order_by('yearPDF')
         years_list = [item['yearPDF'] for item in distinct_years]
-        encuesta  = Encuesta.objects.latest('fecha_registro')
+        
+        try:
+            encuesta = Encuesta.objects.latest('fecha_registro')
+        except Encuesta.DoesNotExist:
+
+            encuesta = None
+            print("No hay registros disponibles.")
+
         context['encuesta'] = encuesta
         context['years'] = years_list
         context['pdf'] = pdf

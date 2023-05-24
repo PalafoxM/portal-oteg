@@ -12,7 +12,7 @@ class InicioView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Inicio'
         context['banners'] = Banner.objects.filter(publication=True) #order By date
-        context['noticias'] = Noticia.objects.order_by(F('fecha_recuperacion').desc(nulls_last=True))[:5] # order by date
+        context['publicaciones'] = Noticia.objects.order_by(F('fecha_nota').desc(nulls_last=True))[:10] # order by date
         context['data'] = int(85)
         context['data2'] = int(18.66)
         return context

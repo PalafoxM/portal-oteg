@@ -1,5 +1,6 @@
+from typing import Any, Dict
 from django.shortcuts import render
-from django.http import JsonResponse, HttpResponseRedirect
+from django.http import HttpRequest, JsonResponse, HttpResponseRedirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from back.models import *
@@ -14,33 +15,31 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.views.decorators.http import require_GET
 from django.views.decorators.http import require_POST
-
 from django.template.loader import render_to_string
-
 
 
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 
-class FuenteInfoOtrosAnuales (ListView):
-    model = otros_anuales
-    template_name = 'back/fuente_info_otros_anuales/viewer.html'
+class FuenteInfoModeloGD (ListView):
+    model = ModeloGD
+    template_name = 'back/fuente_info_Modelo_GD/viewer.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Listado de Fuentes de Informacion Otros'
-        context['create_url'] = reverse_lazy('dashboard:fuente_info_otros_anuales_create')
-        context['entity'] = 'Otros Anuales'
+        context['title'] = 'Listado de Fuentes de Informacion de Modelo GD'
+        context['create_url'] = reverse_lazy('dashboard:fuente_info_modelo_gd_create')
+        context['entity'] = 'ModeloGD'
         context['is_fuente'] = True
+        
         return context
-
-
-class FuenteInfoOtrosAnualesCreate (CreateView):
-    model = otros_anuales
-    form_class = OtrosAnualesForm
-    success_url = reverse_lazy('dashboard:fuente_info_otros_anuales')
-    template_name = 'back/fuente_info_otros_anuales/create.html'
+    
+class FuenteInfoModeloGDCreate (CreateView):
+    model = ModeloGD
+    form_class = ModeloGDForm
+    template_name = 'back/fuente_info_Modelo_GD/create.html'
+    success_url = reverse_lazy('dashboard:fuente_info_modelo_gd')
 
     def get_object(self, **kwargs):
         queryset = self.get_queryset()
@@ -51,52 +50,70 @@ class FuenteInfoOtrosAnualesCreate (CreateView):
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
-        replace_data = request.POST.get('replace_data')
+    
         if form.is_valid():
             # Check if there is already a record with the same fecha, destino and categoria
-       
-            anio = form.cleaned_data['ano']
+
+            anio = form.cleaned_data['anio']
+            destino = form.cleaned_data['destino']
+
 
             try:
-                existing_object = self.get_object(ano=anio)
-             
-            except otros_anuales.DoesNotExist:
+                existing_object = self.get_object(anio=anio, destino=destino)
+
+            except ModeloGD.DoesNotExist:
                 existing_object = None
-    
+
+            existing_catalogo = CatalagoDestino.objects.filter(destino__iexact=destino).exists()
+            # ALTER TABLE mytable MODIFY mycolumn VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+            # If there is no existing data, save the new data
+            if not existing_catalogo:
+
+                if not existing_catalogo:
+                    data = {
+                        'success': False,
+                        'missingData': True,
+                        'destino': destino,
+                        'message': 'No existe el destino en el catalogo',
+                    }
+                    return JsonResponse(data)
 
             # If there is existing data and replace_data is True, delete the existing data
             if existing_object and request.POST.get('replace_data') == 'on':
-                #existing_object.delete()
+                # existing_object.delete()
                 # Save the new data
-                #self.object = form.save()
+                # self.object = form.save()
 
                 for field in form.cleaned_data:
                     if field == 'replace_data':
                         continue
                     setattr(existing_object, field, form.cleaned_data[field])
+
                 existing_object.save()
 
                 data = {
                     'success': True,
                     'message': 'Data created successfully.',
                     'url': self.success_url,
-                    
+
                 }
                 return JsonResponse(data)
-            
+
             # If there is existing data and replace_data is False, return an error
 
-            if existing_object  :
-                data = otros_anuales.objects.filter(ano=anio)
-                data_list = list(data.values('ano','PIB_sector_72','PIB_actividades_terciarias','basura_generada_persona_diaria_Kg'))                                      
-                data_list2 =  list(form.cleaned_data.values())
-                table_html = render_to_string('back/fuente_info_otros_anuales/table.html', {'data_list': data_list , 'actual':True , 'data_list2':data_list2})                            
-                
+            if existing_object:
+                data = ModeloGD.objects.filter(anio=anio, destino=destino)
+
+                data_list = list(data.values('anio','destino','gasto_diario_promedio','participacion','estadia_promedio'))
+                data_list2 = list(form.cleaned_data.values())
+                table_html = render_to_string('back/fuente_info_Modelo_GD/table.html',{'data_list': data_list, 'actual': True, 'data_list2': data_list2})
+
                 datajsn = {
-                        'success': False,
-                        'message': 'Hubo un error al crear registro.',
-                        'errors': 'Ya existe un registro con la misma fecha, destino y categoria.',
-                        'existing_object': table_html
+                    'success': False,
+                    'message': 'Hubo un error al crear registro.',
+                    'errors': 'Ya existe un registro con la misma fecha, destino , origen y museo o zona arqueologica',
+                    'existing_object': table_html
                 }
 
                 return JsonResponse(datajsn)
@@ -113,7 +130,7 @@ class FuenteInfoOtrosAnualesCreate (CreateView):
                 'success': False,
                 'message': 'Error creating data.',
                 'errors': form.errors,
-                'format_errors':True
+                'format_errors': True
             }
             return JsonResponse(data)
 
@@ -134,28 +151,26 @@ class FuenteInfoOtrosAnualesCreate (CreateView):
             'url': self.success_url
         }
         return JsonResponse(data)
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Crear una fuente'
-        context['entity'] = 'Glosario'
-        context['list_url'] = reverse_lazy('dashboard:fuente_info_otros_anuales')
+        context['entity'] = 'ModeloGD'
+        context['list_url'] = reverse_lazy('dashboard:fuente_info_modelo_gd')
         context['action'] = 'add'
         return context
     
+class FuenteInfoModeloGDUpdate (UpdateView):
+    model = ModeloGD
+    form_class = ModeloGDForm
+    template_name = 'back/fuente_info_Modelo_GD/create.html'
+    success_url = reverse_lazy('dashboard:fuente_info_modelo_gd')
 
-class FuenteInfoOtrosAnualesUpdate (UpdateView):
-    model = otros_anuales
-    form_class = OtrosAnualesForm
-    success_url = reverse_lazy('dashboard:fuente_info_otros_anuales')
-    template_name = 'back/fuente_info_otros_anuales/view_editor.html'
-
-    
     def form_invalid(self, form):
         response = super().form_invalid(form)
         data = {
             'success': False,
-            'message': 'Hubo un error al crear el evento.',
+            'message': 'Hubo un error al subir los datos.',
             'errors': form.errors
         }
         if is_ajax(self.request):
@@ -167,7 +182,7 @@ class FuenteInfoOtrosAnualesUpdate (UpdateView):
         response = super().form_valid(form)
         data = {
             'success': True,
-            'message': 'Evento creado exitosamente.',
+            'message': 'Fuente creada exitosamente.',
             'url': self.success_url
         }
         if is_ajax(self.request):
@@ -177,22 +192,21 @@ class FuenteInfoOtrosAnualesUpdate (UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['list_url'] = reverse_lazy('dashboard:fuente_info_otros_anuales')
-        # Set the widget for the 'destino' field to read-only text input
-        context['form'].fields['ano'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
-      
+        context['list_url'] = reverse_lazy('dashboard:fuente_info_modelo_gd')
+            # Set the widget for the 'destino' field to read-only text input
+        context['form'].fields['destino'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
+
+        context['form'].fields['anio'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
         context['title'] = 'Editar fuente'
-        context['edit_msg'] = 'El campo Año no pueden ser editado'    
+
+        context['edit_msg'] = 'Los Campos Destino y Año no pueden ser editados' 
 
         return context
+    
+class FuenteInfoModeloGDDelete (DeleteView):
+    model = ModeloGD
+    success_url = reverse_lazy('dashboard:fuente_info_modelo_gd')
+        
+    def post(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
+        return super().post(request, *args, **kwargs)
 
-
-class FuenteInfoOtrosAnualesDelete (DeleteView):
-    model = otros_anuales
-    success_url = reverse_lazy('dashboard:fuente_info_otros_anuales')
-
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        success_url = self.get_success_url()
-        self.object.delete()
-        return HttpResponseRedirect(success_url)
