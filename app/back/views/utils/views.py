@@ -34,3 +34,12 @@ def search_categorias (request):
     categorias = [ categoria.categoria for categoria in queryset ]
 
     return JsonResponse(categorias, safe=False)
+
+
+def search_nombre_za (request):
+
+    query_original = request.GET.get('term', '')
+    queryset = CatalagoZAMuseos.objects.filter(nombre__icontains=query_original)
+    nombres = [ nombre.nombre for nombre in queryset ]
+
+    return JsonResponse(nombres, safe=False)

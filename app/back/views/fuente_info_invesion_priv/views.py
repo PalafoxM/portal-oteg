@@ -29,10 +29,10 @@ class FuenteInfoInversionPriv (ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Listado de Fuentes de Informacion de Inversion Privada'
-        context['create_url'] = reverse_lazy(
-            'dashboard:fuente_info_inversion_privada_create')
+        context['create_url'] = reverse_lazy('dashboard:fuente_info_inversion_privada_create')
         context['entity'] = 'Inversion Privada'
         context['is_fuente'] = True
+
         return context
 
 

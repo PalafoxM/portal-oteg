@@ -2,34 +2,6 @@
 {% load widget_tweaks %}
 {% load static %}
 {% block content %}
-
-<head>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-
-
-    <script>
-        var $j = jQuery.noConflict();
-    </script>
-
-    <script>
-        $j(function () {
-            $j("#id_destino").autocomplete({
-                source: "{% url 'dashboard:search_destinos' %}"
-            });
-        });
-
-
-        $j(function () {
-            $j("#id_nombre").autocomplete({
-                source: "{% url 'dashboard:search_nombre_za' %}"
-            });
-        });
-    </script>
-</head>
-
-
 <div class="card shadow mb-4">
     <form method="post" enctype="multipart/form-data">
         <div class="card-header py-3">
@@ -39,10 +11,20 @@
 
         <div class="card-body">
             {% csrf_token %}
+            {% if form.errors %}
+            <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h5><i class="icon fas fa-ban"></i> Ha ocurrido un error al querer guardar el registro</h5>
+                <ul>
+                    {% for field in form %}
+                    {% for error in field.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
             {{ form.as_p }}
-
-
-
         </div>
         <div class="card-footer">
 
@@ -68,20 +50,6 @@
         $('form').on('submit', function (e) {
             e.preventDefault();
             var parameters = new FormData(this);
-            var selected_section = $('#id_section').val();
-
-
-            parameters.append('section', selected_section);
-
-            if (selected_section == '') {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error!',
-                    text: 'Debe seleccionar un ID de Proyecto'
-                });
-                return false;
-            }
-
             $.ajax({
                 url: window.location.pathname,
                 type: 'POST',
@@ -106,10 +74,11 @@
 
                     if (data.missingData) {
 
-                        if (data.museo_Z_A && data.destino) {
-                            var htmdata = 'Los siguientes campos no se encuentran en el catalogo de datos revisa tu escritura: <br> ' + 'museo_Z_A - Nombre: ' + data.museo_Z_A + '<br>' + 'Destino: ' + data.destino
-                        } else if (data.museo_Z_A) {
-                            var htmdata = 'Los siguientes campos no se encuentran en el catalogo de datos revisa tu escritura: <br> ' + 'museo_Z_A - Nombre: ' + data.museo_Z_A
+
+                        if (data.categoria && data.destino) {
+                            var htmdata = 'Los siguientes campos no se encuentran en el catalogo de datos revisa tu escritura: <br> ' + 'Categoria: ' + data.categoria + '<br>' + 'Destino: ' + data.destino
+                        } else if (data.categoria) {
+                            var htmdata = 'Los siguientes campos no se encuentran en el catalogo de datos revisa tu escritura: <br> ' + 'Categoria: ' + data.categoria
                         } else if (data.destino) {
                             var htmdata = 'Los siguientes campos no se encuentran en el catalogo de datos revisa tu escritura: <br> ' + 'Destino: ' + data.destino
                         }
@@ -118,8 +87,41 @@
                             icon: 'error',
                             title: 'Error!',
                             html: htmdata,
+                            width: '95%',
+                            showCancelButton: true,
+                            confirmButtonText: 'Agregar los Nuevos Campos a los Catalogos',
+                        }).then((result) => {
+                            if (result.isConfirmed) {
 
-                        });
+                                parameters.append('catalog', 'on');
+
+                                $.ajax({
+                                    url: window.location.pathname,
+                                    type: 'POST',
+                                    data: parameters,
+                                    processData: false,
+                                    contentType: false,
+                                    dataType: 'json'
+                                })
+
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Buen trabajo!',
+                                    text: 'Operación exitosa.',
+                                    timer: 2000,
+                                    showConfirmButton: false
+                                }).then(function () {
+                                    window.location.href = '{{ list_url }}';
+                                });
+
+                                v
+
+
+                            } else if (result.isDenied) {
+                                window.location.href = '{{ list_url }}';
+                            }
+                        })
+
                         return;
                     } else if (data.format_errors) {
                         for (var field in data.errors) {
@@ -135,7 +137,10 @@
 
                     }
 
+
                     var existing_object = data.existing_object;
+
+
                     Swal.fire({
                         icon: 'error',
                         title: 'Error!',
@@ -158,25 +163,8 @@
                                 processData: false,
                                 contentType: false,
                                 dataType: 'json'
-                            }).done(function (data) {
-                                if (data.success) {
-                                    Swal.fire({
-                                        icon: 'success',
-                                        title: 'Buen trabajo!',
-                                        text: 'Operación exitosa.',
-                                        timer: 2000,
-                                        showConfirmButton: false
-                                    }).then(function () {
-                                        window.location.href = '{{ list_url }}';
-                                    });
-                                } else {
-                                    var errors = '';
-                                }
-                            }).fail(function (jqXHR, textStatus, errorThrown) {
-                                alert(textStatus + ': ' + errorThrown);
-                            }).always(function (data) {
-
-                            });
+                            })
+                            window.location.href = '{{ list_url }}'
                         } else if (result.isDenied) {
                             window.location.href = '{{ list_url }}';
                         }
@@ -198,6 +186,5 @@
             return false;
         }
     });
-
 </script>
 {% endblock %}

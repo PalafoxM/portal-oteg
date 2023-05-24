@@ -1,4 +1,3 @@
-
 {% load static %}
 <div class="sidebar ">
     <div class="logo-details">
@@ -34,6 +33,7 @@
                 <li><a class="link_name" href="#">Posts</a></li>
                 <li><a href="{%url 'dashboard:centrodocumental'  %}">CEDOC</a></li>
                 <li><a href="{%url 'dashboard:publicacion_list'  %}">Publicaciones</a></li>
+                <li><a href="{%url 'dashboard:barometro_list'  %}">Barometro</a></li>
                 <li><a href="{%url 'dashboard:descargas_list'  %}">Descargar</a></li>
             </ul>
         </li>
@@ -56,13 +56,13 @@
         <li>
             <a href="{%url 'usuarios-list'  %}">
                 <img src="{% static 'images/icons/icon-users.png' %}" class="icons-list">
-              <!-- <i class='bx bx-line-chart'></i> -->
-              <span class="link_name">Colaboradores</span>
+                <!-- <i class='bx bx-line-chart'></i> -->
+                <span class="link_name">Colaboradores</span>
             </a>
             <ul class="sub-menu blank">
-              <li><a class="link_name" href="{%url 'usuarios-list'  %}">Colaboradores</a></li>
+                <li><a class="link_name" href="{%url 'usuarios-list'  %}">Colaboradores</a></li>
             </ul>
-          </li>
+        </li>
         <li>
             <div class="icon-link">
                 <a href="#">
@@ -76,6 +76,23 @@
                 <li><a class="link_name" href="#">Posts</a></li>
                 <li><a href="{%url 'dashboard:glosario_list'  %}">Glosario</a></li>
                 <li><a href="{%url 'dashboard:place_list'  %}">Sitios de interés</a></li>
+            </ul>
+        </li>
+
+
+        <li>
+            <div class="icon-link">
+                <a href="#">
+                    <img src="{% static 'images/icons/icon-users.png' %}" class="icons-list">
+                    <!-- <i class='bx bx-book-alt'></i> -->
+                    <span class="link_name">Config</span>
+                </a>
+                <i class='bx bxs-chevron-down arrow'></i>
+            </div>
+            <ul class="sub-menu">
+                <li><a class="link_name" href="#">Posts</a></li>
+                <li><a href="{%url 'dashboard:configuracion'  %}">Configuraciones</a></li>
+
             </ul>
         </li>
     </ul>

@@ -38,7 +38,7 @@ class FuenteInfoZonasArqueologicas (ListView):
 class FuenteInfoZonasArqueologicasCreate (CreateView):
     model = zonas_arqueologicas_museos
     form_class = ZonasArqueologicasMuseosForm
-    template_name = 'back/fuente_info_zonas_arq/create_update_fuentes_info.html'
+    template_name = 'back/fuente_info_zonas_arq/create.html'    
     success_url = reverse_lazy('dashboard:fuente_info_zonas_arqueologicas')
 
     def get_object(self, **kwargs):
@@ -50,49 +50,52 @@ class FuenteInfoZonasArqueologicasCreate (CreateView):
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
-        replace_data = request.POST.get('replace_data')
         if form.is_valid():
             # Check if there is already a record with the same fecha, destino and categoria
 
             fecha = form.cleaned_data['fecha']
             destino = form.cleaned_data['destino']
             origen = form.cleaned_data['origen_visitante']
-            museo_zona_arqueologica_form = form.cleaned_data['museo_zona_arqueologica']
+            nombre = form.cleaned_data['nombre']
 
             try:
-                existing_object = self.get_object(fecha=fecha, destino=destino, origen_visitante=origen, museo_zona_arqueologica=museo_zona_arqueologica_form)
+                existing_object = self.get_object(fecha=fecha, destino=destino, origen_visitante=origen, nombre=nombre)
 
             except DataTour.DoesNotExist:
                 existing_object = None
 
-            existing_catalogo = catalogo_destinos.objects.filter(
-                destino=destino).exists()
-            museo_zona_arqueologica = catalogo_zonaz_arq_museos.objects.filter(museo_zona_arqueologica=museo_zona_arqueologica_form).exists()
+            catalogo_destino = CatalagoDestino.objects.filter(destino=destino).exists()
+            catalogo_museo_zona_arqueologica = CatalagoZAMuseos.objects.filter(nombre=nombre).exists()
+            print("destino",catalogo_destino)
+            print("ZA",catalogo_museo_zona_arqueologica)
+
 
             # If there is no existing data, save the new data
-            if not museo_zona_arqueologica or not existing_catalogo:
+            if not catalogo_museo_zona_arqueologica or not destino:
+          
+                if not catalogo_museo_zona_arqueologica and not catalogo_destino:
 
-                if not museo_zona_arqueologica and not existing_catalogo:
+                    print("no existe nada")
 
                     data = {
                         'success': False,
                         'missingData': True,
-                        'museo_Z_A': museo_zona_arqueologica_form,
+                        'museo_Z_A': nombre,
                         'destino': destino,
                         'message': 'No existe la categoria o el destino en el catalogo',
                     }
                     return JsonResponse(data)
 
-                if not museo_zona_arqueologica:
+                if not catalogo_museo_zona_arqueologica:
                     data = {
                         'success': False,
                         'missingData': True,
-                        'museo_Z_A': museo_zona_arqueologica_form,
+                        'museo_Z_A': nombre,
                         'message': 'No existe la Zona Arqueologica o Museo en el catalogo',
                     }
                     return JsonResponse(data)
 
-                if not existing_catalogo:
+                if not catalogo_destino:
                     data = {
                         'success': False,
                         'missingData': True,
@@ -124,14 +127,11 @@ class FuenteInfoZonasArqueologicasCreate (CreateView):
             # If there is existing data and replace_data is False, return an error
 
             if existing_object:
-                data = zonas_arqueologicas_museos.objects.filter(
-                    fecha=fecha, destino=destino, origen_visitante=origen, museo_zona_arqueologica=museo_zona_arqueologica_form)
+                data = zonas_arqueologicas_museos.objects.filter(fecha=fecha, destino=destino, origen_visitante=origen, nombre=nombre)
 
-                data_list = list(data.values(
-                    'fecha', 'destino', 'museo_zona_arqueologica', 'origen_visitante', 'visitantes', 'tipo'))
+                data_list = list(data.values('destino','tipo','nombre', 'fecha', 'origen_visitante', 'visitantes'))   
                 data_list2 = list(form.cleaned_data.values())
-                table_html = render_to_string('back/fuente_info_zonas_arq/table.html', {
-                                              'data_list': data_list, 'actual': True, 'data_list2': data_list2})
+                table_html = render_to_string('back/fuente_info_zonas_arq/table.html', {'data_list': data_list, 'actual': True, 'data_list2': data_list2})
 
                 datajsn = {
                     'success': False,
@@ -186,8 +186,8 @@ class FuenteInfoZonasArqueologicasCreate (CreateView):
 
 class FuenteInfoZonasArqueologicasUpdate (UpdateView):
     model = zonas_arqueologicas_museos
-    form_class = ZonasArqueologicasMuseosForm
-    template_name = 'back/fuente_info_zonas_arq/create_update_fuentes_info.html'
+    form_class = ZonasArqueologicasMuseosForm_edit
+    template_name = 'back/fuente_info_zonas_arq/view_editor.html'
     success_url = reverse_lazy('dashboard:fuente_info_zonas_arqueologicas')
 
     def form_invalid(self, form):
@@ -220,11 +220,12 @@ class FuenteInfoZonasArqueologicasUpdate (UpdateView):
             # Set the widget for the 'destino' field to read-only text input
         context['form'].fields['destino'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
         # Set the widget for the 'fecha' field to read-only text input
-        context['form'].fields['museo_zona_arqueologica'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
+        context['form'].fields['nombre'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
         # Set the widget for the 'categoria' field to read-only text input
         context['form'].fields['fecha'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
         # Set the widget for the 'categoria' field to read-only text input
         context['form'].fields['origen_visitante'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
+
         context['title'] = 'Editar fuente'
         context['edit_msg'] = 'Los Campos Destino, Fecha, Museo o Zona Arqueologica y Origen Visitante no pueden ser editados' 
 
