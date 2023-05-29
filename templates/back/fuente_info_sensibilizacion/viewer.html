@@ -19,8 +19,8 @@
     <th class="text-left pl-3">N°</th>
     <th class="text-center hidden-t">Destino</th>
     <th class="text-left hidden-t">Fecha</th>
-    <th style="width: 300px;">Participantes</th>
-    <th style="width: 300px;">Accion</th>
+    <th class="text-left hidden-t">Participantes</th>
+    <th class="text-left hidden-t">Accion</th>
     <th class="actions">Acciones</th>
 </tr>
 {% endblock %}
@@ -31,8 +31,8 @@
     <th class="text-left pl-3">{{e.id}}</th>
     <th class="text-center hidden-t">{{e.destino}}</th>
     <th class="text-left hidden-t">{{e.fecha}}</th>
-    <th class="text-center hidden-t">{{e.participantes}}</th>
-    <th class="text-center hidden-t">{{e.accion}}</th>
+    <th class="text-left hidden-t">{{e.participantes}}</th>
+    <th class="text-left hidden-t">{{e.accion}}</th>
     <th class="actions-container">
         <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="location.href='{% url 'dashboard:fuente_info_sensibilizacion_update' e.id %}'">
             <i class="far fa-eye"></i>
