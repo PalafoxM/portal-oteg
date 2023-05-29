@@ -341,9 +341,9 @@ class InversionPublicaForm(forms.ModelForm):
 class InventarioHoteleroEntNacForm(ModelForm):
     class Meta:
         model = InventarioHoteleroEntNac
-        fields = ['destino', 'fecha', 'categoria', 'habitaciones', 'establecimientos']
+        fields = ['entidad', 'fecha', 'categoria', 'habitaciones', 'establecimientos']
         widgets = {
-            'destino': forms.TextInput(attrs={'class': 'form-control'}),
+            'entidad': forms.TextInput(attrs={'class': 'form-control'}),
             'fecha': forms.DateInput(attrs={'class': 'form-control fecha-input'}),
             'categoria': forms.TextInput(attrs={'class': 'form-control'}),
             'habitaciones': forms.NumberInput(attrs={'class': 'form-control'}),
