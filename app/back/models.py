@@ -510,3 +510,15 @@ class ParticipacionSegmentos(models.Model):
         app_label = 'ecosistema'
         db_table = "participacion_segmentos"
         ordering = ['-id']
+
+class Aeropuerto(models.Model):
+    pasajeros_aeropuerto_gto = models.FloatField()
+    pasajeros_nacionales = models.FloatField()
+    pasajeros_internacionales = models.FloatField()
+    fecha = models.DateField()
+    vuelos = models.CharField(max_length=100)
+
+    class Meta:
+        app_label = 'ecosistema'
+        db_table = "pasajeros_aeropuerto"
+        ordering = ['-id']
