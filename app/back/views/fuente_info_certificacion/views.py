@@ -291,7 +291,7 @@ class CertificacionCargaMasivaView(View):
                 # tipo = homologar_columna_destino(tipo)
                 # nombre = homologar_columna_destino(nombre)
                 datos = {
-                    "fecha": fecha_obj,
+                    "fecha": fecha_str,
                     "destino": destino,
                     "tipo_de_certificacion": tipo_de_certificacion,
                     "empresas_certificadas": empresas_certificadas,
@@ -349,9 +349,7 @@ class CertificacionCargaMasivaView(View):
                 fecha_str = str(fecha)
                 fecha_str = fecha_str.split()[0] if fecha_str else ''  # Eliminar la parte de la hora si existe la fecha
                 fecha_obj = datetime.datetime.strptime(fecha_str, '%Y-%m-%d').date()
-                # Serializar la fecha en formato JSON
-                json_fecha = json.dumps(fecha_obj.strftime('%Y-%m-%d'))
-                json_fecha = str(json_fecha).strip('"')
+                
 
                 tipo_de_certificacion = row['tipo_de_certificacion']
                 empresas_certificadas = row['empresas_certificadas']
@@ -364,7 +362,7 @@ class CertificacionCargaMasivaView(View):
                 # tipo = homologar_columna_destino(tipo)
                 # nombre = homologar_columna_destino(nombre)
                 datos = {
-                    "fecha": json_fecha,
+                    "fecha": fecha_str,
                     "destino": destino,
                     "tipo_de_certificacion": tipo_de_certificacion,
                     "empresas_certificadas": empresas_certificadas,

@@ -416,7 +416,7 @@ class InversionPrivCargaMasivaView(View):
 
 
                 datos = {
-                    "fecha_inicio": fecha_obj,
+                    "fecha_inicio": fecha_str,
                     "monto_ejecutado": monto_ejecutado,
                     "avance_proyecto": avance_proyecto,
                     "observaciones": observaciones,

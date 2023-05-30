@@ -366,8 +366,6 @@ class ProyectoInversion(models.Model):
         ordering = ['-id_del_proyecto']
 
 # catalagos
-
-
 class CatalagoCategoria(models.Model):
     categoria = models.CharField(max_length=255, unique=True)
 
@@ -486,3 +484,18 @@ class ModeloGD (models.Model):
     participacion = models.FloatField()
     estadia_promedio = models.FloatField()
 
+class Discapacidad(models.Model):
+    destino = models.CharField(max_length=256)
+    fecha = models.DateField()
+    giro_comercial = models.CharField(max_length=256)
+    empleos_fijos_h = models.BigIntegerField()
+    empleos_fijos_m = models.BigIntegerField()
+    empleos_temporales_h = models.BigIntegerField()
+    empleos_temporales_m = models.BigIntegerField()
+    empleados_discapacidad_h = models.BigIntegerField()
+    empleados_discapacidad_m = models.BigIntegerField()
+
+    class Meta:
+        app_label = 'ecosistema'
+        db_table = "empleo_discapacidad"
+        ordering = ['-id']
