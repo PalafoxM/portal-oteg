@@ -495,3 +495,20 @@ class DiscapacidadForm(forms.ModelForm):
             'empleados_discapacidad_h': 'Empleados Discapacidad Hombres',
             'empleados_discapacidad_m': 'Empleados Discapacidad Mujeres',
         }
+
+class ParticipacionSegmentosForm(forms.ModelForm):
+    class Meta:
+        model = ParticipacionSegmentos
+        fields = ('ano', 'destino', 'segmento', 'participacion')
+        labels = {
+            'ano': 'Año',
+            'destino': 'Destino',
+            'segmento': 'Segmento',
+            'participacion': 'Participación'
+        }
+        widgets = {
+            'ano': forms.NumberInput(attrs={'class': 'form-control'}),
+            'destino': forms.TextInput(attrs={'class': 'form-control'}),
+            'segmento': forms.TextInput(attrs={'class': 'form-control'}),
+            'participacion': forms.NumberInput(attrs={'class': 'form-control'})
+        }

@@ -499,3 +499,14 @@ class Discapacidad(models.Model):
         app_label = 'ecosistema'
         db_table = "empleo_discapacidad"
         ordering = ['-id']
+
+class ParticipacionSegmentos(models.Model):
+    ano = models.IntegerField()
+    destino = models.CharField(max_length=256)
+    segmento = models.CharField(max_length=256)
+    participacion = models.FloatField()
+
+    class Meta:
+        app_label = 'ecosistema'
+        db_table = "participacion_segmentos"
+        ordering = ['-id']

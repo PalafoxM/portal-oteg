@@ -1,12 +1,13 @@
-
+from typing import Any, Dict
 from django.shortcuts import render
-from django.http import JsonResponse, HttpResponseRedirect
-from django.urls import reverse_lazy
+from django.http import HttpRequest, JsonResponse, HttpResponseRedirect
+from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from back.models import *
 from back.forms import *
 from web.models import *
-
+from django.http import HttpResponse
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.template.loader import render_to_string
 # para archivo excel
 from django.views import View
@@ -14,7 +15,7 @@ from django.contrib import messages
 from openpyxl import load_workbook
 import csv
 import os
-import datetime
+from datetime import datetime
 from django.urls import reverse
 import openpyxl
 from django.http import HttpResponse
@@ -22,30 +23,29 @@ import json
 from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino
 
 
-
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 
-class FuenteInfoOtrosAnuales (ListView):
-    model = otros_anuales
-    template_name = 'back/fuente_info_otros_anuales/viewer.html'
+class FuenteInfoParticipacionSegmentos (ListView):
+    model = ParticipacionSegmentos
+    template_name = 'back/fuente_info_segmentos/list.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Listado de Fuentes de Informacion Otros'
-        context['create_url'] = reverse_lazy('dashboard:fuente_info_otros_anuales_create')
-        context['entity'] = 'Otros Anuales'
+        context['title'] = 'Listado de Fuentes de Informacion de % Segmentos'
+        context['create_url'] = reverse_lazy('dashboard:fuente_info_certificacion_create')
+        context['entity'] = '% Segmentos'
         context['is_fuente'] = True
-        context['carga_masiva_url'] = reverse_lazy('dashboard:fuente_otros_anuales_carga_masiva')
-        return context
+        context['carga_masiva_url'] = reverse_lazy('dashboard:fuente_info_segmentos_carga_masiva')
+        
+        return context  
 
-
-class FuenteInfoOtrosAnualesCreate (CreateView):
-    model = otros_anuales
-    form_class = OtrosAnualesForm
-    success_url = reverse_lazy('dashboard:fuente_info_otros_anuales')
-    template_name = 'back/fuente_info_otros_anuales/create.html'
+class FuenteInfoParticipacionSegmentosCreate (CreateView):
+    model = ParticipacionSegmentos
+    form_class = ParticipacionSegmentosForm
+    template_name = 'back/fuente_info_certificacion/create.html'
+    success_url = reverse_lazy('dashboard:fuente_info_certificacion')
 
     def get_object(self, **kwargs):
         queryset = self.get_queryset()
@@ -59,49 +59,66 @@ class FuenteInfoOtrosAnualesCreate (CreateView):
         replace_data = request.POST.get('replace_data')
         if form.is_valid():
             # Check if there is already a record with the same fecha, destino and categoria
-       
-            anio = form.cleaned_data['ano']
+
+            fecha = form.cleaned_data['fecha']
+            destino = form.cleaned_data['destino']
 
             try:
-                existing_object = self.get_object(ano=anio)
-             
-            except otros_anuales.DoesNotExist:
+                existing_object = self.get_object(fecha=fecha, destino=destino)
+
+            except Certificacion.DoesNotExist:
                 existing_object = None
-    
+
+            existing_catalogo = CatalagoDestino.objects.filter(destino__iexact=destino).exists()
+            # ALTER TABLE mytable MODIFY mycolumn VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+            # If there is no existing data, save the new data
+            if not existing_catalogo:
+
+                if not existing_catalogo:
+                    data = {
+                        'success': False,
+                        'missingData': True,
+                        'destino': destino,
+                        'message': 'No existe el destino en el catalogo',
+                    }
+                    return JsonResponse(data)
 
             # If there is existing data and replace_data is True, delete the existing data
             if existing_object and request.POST.get('replace_data') == 'on':
-                #existing_object.delete()
+                # existing_object.delete()
                 # Save the new data
-                #self.object = form.save()
+                # self.object = form.save()
 
                 for field in form.cleaned_data:
                     if field == 'replace_data':
                         continue
                     setattr(existing_object, field, form.cleaned_data[field])
+
                 existing_object.save()
 
                 data = {
                     'success': True,
                     'message': 'Data created successfully.',
                     'url': self.success_url,
-                    
+
                 }
                 return JsonResponse(data)
-            
+
             # If there is existing data and replace_data is False, return an error
 
-            if existing_object  :
-                data = otros_anuales.objects.filter(ano=anio)
-                data_list = list(data.values('ano','PIB_sector_72','PIB_actividades_terciarias','basura_generada_persona_diaria_Kg'))                                      
-                data_list2 =  list(form.cleaned_data.values())
-                table_html = render_to_string('back/fuente_info_otros_anuales/table.html', {'data_list': data_list , 'actual':True , 'data_list2':data_list2})                            
-                
+            if existing_object:
+                data = Certificacion.objects.filter(fecha=fecha, destino=destino)
+
+                data_list = list(data.values('fecha', 'destino', 'tipo_de_certificacion', 'empresas_certificadas'))
+                data_list2 = list(form.cleaned_data.values())
+                table_html = render_to_string('back/fuente_info_certificacion/table.html',{'data_list': data_list, 'actual': True, 'data_list2': data_list2})
+
                 datajsn = {
-                        'success': False,
-                        'message': 'Hubo un error al crear registro.',
-                        'errors': 'Ya existe un registro con la misma fecha, destino y categoria.',
-                        'existing_object': table_html
+                    'success': False,
+                    'message': 'Hubo un error al crear registro.',
+                    'errors': 'Ya existe un registro con la misma fecha, destino , origen y museo o zona arqueologica',
+                    'existing_object': table_html
                 }
 
                 return JsonResponse(datajsn)
@@ -118,7 +135,7 @@ class FuenteInfoOtrosAnualesCreate (CreateView):
                 'success': False,
                 'message': 'Error creating data.',
                 'errors': form.errors,
-                'format_errors':True
+                'format_errors': True
             }
             return JsonResponse(data)
 
@@ -139,28 +156,27 @@ class FuenteInfoOtrosAnualesCreate (CreateView):
             'url': self.success_url
         }
         return JsonResponse(data)
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Crear una fuente'
         context['entity'] = 'Glosario'
-        context['list_url'] = reverse_lazy('dashboard:fuente_info_otros_anuales')
+        context['list_url'] = reverse_lazy('dashboard:fuente_info_certificacion')
         context['action'] = 'add'
         return context
-    
 
-class FuenteInfoOtrosAnualesUpdate (UpdateView):
-    model = otros_anuales
-    form_class = OtrosAnualesForm
-    success_url = reverse_lazy('dashboard:fuente_info_otros_anuales')
-    template_name = 'back/fuente_info_otros_anuales/view_editor.html'
 
-    
+class FuenteInfoParticipacionSegmentosUpdate (UpdateView):
+    model = ParticipacionSegmentos
+    form_class = ParticipacionSegmentosForm
+    template_name = 'back/fuente_info_segmentos/view_editor.html'
+    success_url = reverse_lazy('dashboard:fuente_info_segmentos')
+
     def form_invalid(self, form):
         response = super().form_invalid(form)
         data = {
             'success': False,
-            'message': 'Hubo un error al crear el evento.',
+            'message': 'Hubo un error al subir los datos.',
             'errors': form.errors
         }
         if is_ajax(self.request):
@@ -172,7 +188,7 @@ class FuenteInfoOtrosAnualesUpdate (UpdateView):
         response = super().form_valid(form)
         data = {
             'success': True,
-            'message': 'Evento creado exitosamente.',
+            'message': 'Fuente creada exitosamente.',
             'url': self.success_url
         }
         if is_ajax(self.request):
@@ -182,34 +198,33 @@ class FuenteInfoOtrosAnualesUpdate (UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['list_url'] = reverse_lazy('dashboard:fuente_info_otros_anuales')
-        # Set the widget for the 'destino' field to read-only text input
-        context['form'].fields['ano'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
-      
+        context['list_url'] = reverse_lazy('dashboard:fuente_info_segmentos')
+            # Set the widget for the 'destino' field to read-only text input
+        context['form'].fields['destino'].widget = forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly'})
+
+        context['form'].fields['ano'].widget = forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly'})
         context['title'] = 'Editar fuente'
-        context['edit_msg'] = 'El campo Año no pueden ser editado'    
+
+        context['edit_msg'] = 'Los Campos Destino y Año no pueden ser editados' 
 
         return context
+    
 
+class FuenteInfoParticipacionSegmentosDelete (DeleteView):
+    model = ParticipacionSegmentos
+    success_url = reverse_lazy('dashboard:fuente_info_segmentos')
+    
+    def post(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
+        return super().post(request, *args, **kwargs)
 
-class FuenteInfoOtrosAnualesDelete (DeleteView):
-    model = otros_anuales
-    success_url = reverse_lazy('dashboard:fuente_info_otros_anuales')
-
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        success_url = self.get_success_url()
-        self.object.delete()
-        return HttpResponseRedirect(success_url)
-
-class OtrosAnualesCargaMasivaView(View):
+class ParticipacionSegmentosCargaMasivaView(View):
     form_class = CargaMasivaForm
-    template_name = 'back/fuente_info_otros_anuales/carga_masiva.html'
-    success_url = reverse_lazy('dashboard:fuente_info_otros_anuales')
+    template_name = 'back/fuente_info_segmentos/carga_masiva.html'
+    success_url = reverse_lazy('dashboard:fuente_info_segmentos')
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
-        return render(request, self.template_name, {'form': form, 'title': 'Carga Masiva Otros Anuales'})
+        return render(request, self.template_name, {'form': form, 'title': 'Carga Masiva de % Segmentos'})
 
 
     def post(self, request, *args, **kwargs):
@@ -236,7 +251,7 @@ class OtrosAnualesCargaMasivaView(View):
             
             return render(request, self.template_name, {
                 'form': form,
-                'title': 'Carga Masiva Otros Anuales',
+                'title': 'Carga Masiva de % Segmentos',
                 'registros_correctos': registros_correctos,
                 'registros_incorrectos': registros_incorrectos,
                 'registros_existentes': registros_existentes,
@@ -245,7 +260,7 @@ class OtrosAnualesCargaMasivaView(View):
             })
             
         else:
-            return HttpResponseRedirect(reverse('dashboard:fuente_info_otros_anuales'))
+            return HttpResponseRedirect(reverse('dashboard:fuente_info_segmentos'))
         
         
 
@@ -259,50 +274,56 @@ class OtrosAnualesCargaMasivaView(View):
             for i, row in enumerate(filas):
                 if i == 0:
                     continue # Ignorar la primera fila si es el encabezado
-
                 num_filas_procesadas += 1
+
+                ano = row[1].value
+                segmento = row[2].value
+                participacion = row[3].value
+
                 # Limpieza de datos
-                ano = clean_str_col(row[0].value)
-                PIB_sector_72 = clean_str_col(row[1].value)
-                PIB_actividades_terciarias = clean_str_col(row[2].value)
-                basura_generada_persona_diaria_Kg = clean_str_col(row[3].value)
+                destino = clean_str_col(row[0].value)
+
+                # Homologación de datos
+                destino = homologar_columna_destino(destino)
+
                 datos = {
-                    'ano':ano,
-                    'PIB_sector_72':PIB_sector_72,
-                    'PIB_actividades_terciarias':PIB_actividades_terciarias,
-                    'basura_generada_persona_diaria_Kg':basura_generada_persona_diaria_Kg,
+                    "anio": ano,
+                    "destino": destino,
+                    "segmento": segmento,
+                    "participacion": participacion,
                 }
 
                 try:
                     # Validar los datos
-                    ano_int = int(ano)
-                    PIB_sector_72_float = float(PIB_sector_72)
-                    PIB_actividades_terciarias_float = float(PIB_actividades_terciarias)
-                    basura_generada_persona_diaria_Kg_float = float(basura_generada_persona_diaria_Kg)
+                    participacions_int = int(participacion)
+
+                    if destino not in CatalagoDestino.objects.values_list('destino', flat=True):
+                        print(f"El destino {destino} no está en la tabla CatalagoDestino")
+                        registros_incorrectos.append(datos)
+                        continue
 
                     # Buscar si la fila ya existe en la base de datos
-                    inventario_existente = otros_anuales.objects.filter(
-                        ano=ano_int, 
-                        PIB_sector_72=PIB_sector_72_float, 
-                        PIB_actividades_terciarias=PIB_actividades_terciarias_float, 
-                        basura_generada_persona_diaria_Kg=basura_generada_persona_diaria_Kg_float
+                    existente = ParticipacionSegmentos.objects.filter(
+                        destino = destino, 
+                        ano = ano, 
+                        segmento = segmento
                     )
-                    if inventario_existente.exists():
+                    if existente.exists():
                         # Si ya existe, se omite la fila y se guarda en la lista de registros incorrectos
                         print(f"La fila {row} ya existe en la base de datos")
                         registros_existentes.append(datos)
                     else:
                         # Si no existe, se guarda la nueva instancia del modelo en la base de datos y se guarda en la lista de registros correctos
-                        otrosAnuales = otros_anuales(
-                            ano=ano_int, 
-                            PIB_sector_72=PIB_sector_72_float, 
-                            PIB_actividades_terciarias=PIB_actividades_terciarias_float, 
-                            basura_generada_persona_diaria_Kg=basura_generada_persona_diaria_Kg_float
+                        db = ParticipacionSegmentos(
+                            ano = ano,
+                            destino = destino,
+                            segmento = segmento,
+                            participacion = participacions_int,
                         )
-                        otrosAnuales.save()
+                        db.save()
                         registros_correctos.append(datos)
                 except (ValueError, TypeError) as e:
-                    # Si los datos no son válidos, se guarda el número de fila en la lista de registros incorrectos
+                    print(f"Error al procesar la fila {datos}: {e}")
                     registros_incorrectos.append(datos)
                     
         except FileNotFoundError:
@@ -320,69 +341,81 @@ class OtrosAnualesCargaMasivaView(View):
             for row in datos:
                 num_filas_procesadas += 1
 
-                # Accede a los valores de cada fila utilizando los nombres de las columnas del archivo CSV
+                ano = row['ano']              
+                segmento = row['segmento']
+                participacion = row['participacion']
+
                 # Limpieza de datos
-                ano = clean_str_col(row['ano'])
-                PIB_sector_72 = clean_str_col(row['PIB_sector_72'])
-                PIB_actividades_terciarias = clean_str_col(row['PIB_actividades_terciarias'])
-                basura_generada_persona_diaria_Kg = clean_str_col(row['basura_generada_persona_diaria_Kg'])
+                destino = clean_str_col(row['destino'])
+
+                # Homologación de datos
+                destino = homologar_columna_destino(destino)
+
+                datos = {
+                    "anio": ano,
+                    "destino": destino,
+                    "segmento": segmento,
+                    "participacion": participacion,
+                }
 
                 try:
                     # Validar los datos
-                    ano_int = int(ano)
-                    PIB_sector_72_float = float(PIB_sector_72)
-                    PIB_actividades_terciarias_float = float(PIB_actividades_terciarias)
-                    basura_generada_persona_diaria_Kg_float = float(basura_generada_persona_diaria_Kg)
+                    participacions_int = int(participacion)
+
+                    if destino not in CatalagoDestino.objects.values_list('destino', flat=True):
+                        print(f"El destino {destino} no está en la tabla CatalagoDestino")
+                        registros_incorrectos.append(datos)
+                        continue
 
                     # Buscar si la fila ya existe en la base de datos
-                    inventario_existente = otros_anuales.objects.filter(
-                        ano=ano_int, 
-                        PIB_sector_72=PIB_sector_72_float, 
-                        PIB_actividades_terciarias=PIB_actividades_terciarias_float, 
-                        basura_generada_persona_diaria_Kg=basura_generada_persona_diaria_Kg_float
+                    existente = ParticipacionSegmentos.objects.filter(
+                        destino = destino, 
+                        ano = ano, 
+                        segmento = segmento
                     )
-                    if inventario_existente.exists():
+                    if existente.exists():
                         # Si ya existe, se omite la fila y se guarda en la lista de registros incorrectos
                         print(f"La fila {row} ya existe en la base de datos")
-                        registros_existentes.append(row)
+                        registros_existentes.append(datos)
                     else:
                         # Si no existe, se guarda la nueva instancia del modelo en la base de datos y se guarda en la lista de registros correctos
-                        otrosAnuales = otros_anuales(
-                            ano=ano_int, 
-                            PIB_sector_72=PIB_sector_72_float, 
-                            PIB_actividades_terciarias=PIB_actividades_terciarias_float, 
-                            basura_generada_persona_diaria_Kg=basura_generada_persona_diaria_Kg_float
+                        db = ParticipacionSegmentos(
+                            ano = ano,
+                            destino = destino,
+                            segmento = segmento,
+                            participacion = participacions_int,
                         )
-                        otrosAnuales.save()
-                        registros_correctos.append(row)
+                        db.save()
+                        registros_correctos.append(datos)
                 except (ValueError, TypeError) as e:
-                    print(f"Error al procesar la fila {row}: {e}")
-                    registros_incorrectos.append(row)
+                    print(f"Error al procesar la fila {datos}: {e}")
+                    registros_incorrectos.append(datos)
         except FileNotFoundError:
             print(f"No se encontró el archivo {archivo}")
         except Exception as e:
             print(f"Error al procesar el archivo {archivo}: {e}")
         return registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas
 
-class OtrosAnualeDescargarArchivoView(View):
+
+class ParticipacionSegmentosDescargarArchivoView(View):
 
     def crear_archivo_excel(self, registros_incorrectos):
         workbook = openpyxl.Workbook()
         worksheet = workbook.active
 
         # Escribir encabezados de columna
-        worksheet['A1'] = 'año'
-        worksheet['B1'] = 'PIB_sector_72'
-        worksheet['C1'] = 'PIB_actividades_terciarias'
-        worksheet['D1'] = 'basura_generada_persona_diaria_Kg'
+        worksheet['A1'] = 'destino'
+        worksheet['B1'] = 'anio'
+        worksheet['C1'] = 'segmento'
+        worksheet['D1'] = 'participacion'
 
         # Add the incorrect rows to the worksheet
         for i, row in enumerate(registros_incorrectos):
             fila = i + 2
-            worksheet.cell(row=fila, column=1, value=row['ano'])
-            worksheet.cell(row=fila, column=2, value=row['PIB_sector_72'])
-            worksheet.cell(row=fila, column=3, value=row['PIB_actividades_terciarias'])
-            worksheet.cell(row=fila, column=4, value=row['basura_generada_persona_diaria_Kg'])
+            worksheet.cell(row=fila, column=1, value=row['destino'])
+            worksheet.cell(row=fila, column=2, value=row['anio'])
+            worksheet.cell(row=fila, column=3, value=row['segmento'])
+            worksheet.cell(row=fila, column=4, value=row['participacion'])
 
 
 
@@ -418,4 +451,4 @@ class OtrosAnualeDescargarArchivoView(View):
         response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
         response['Content-Disposition'] = 'attachment; filename=gasto_derrama_registros_incorrectos.xlsx'
         workbook.save(response)
-        return response   
+        return response       

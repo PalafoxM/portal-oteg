@@ -261,7 +261,7 @@ class CertificacionCargaMasivaView(View):
             })
             
         else:
-            return HttpResponseRedirect(reverse('dashboard:inversion_publica_list'))
+            return HttpResponseRedirect(reverse('dashboard:fuente_info_certificacion'))
         
         
 
