@@ -21,9 +21,6 @@ from config.diccionarios import clean_str_col, homologar_columna_categoria, homo
 
 
 
-
-
-
 # Create your views here.
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
@@ -206,16 +203,16 @@ class InventarioHoteleroEntNacCargaMasivaView(View):
                 num_filas_procesadas += 1
 
                 # Limpieza de datos
-                destino = clean_str_col(row[0].value)
+                entidad = clean_str_col(row[0].value)
                 categoria = clean_str_col(row[2].value)
 
                 # Homologación de datos
-                destino = homologar_columna_destino(destino)
+                entidad = homologar_columna_destino(entidad)
                 categoria = homologar_columna_categoria(categoria)
 
                 # Validar si el destino y categoria son válidos
-                if destino not in CatalagoDestino.objects.values_list('destino', flat=True):
-                    print(f"El destino {destino} no está en la tabla CatalagoDestino")
+                if not CatalagoDestino.objects.filter(entidad=entidad).exists():
+                    print(f"El destino {entidad} no está en la tabla CatalagoDestino")
                     registros_incorrectos.append(row)
                     continue
                 if categoria not in CatalagoCategoria.objects.values_list('categoria', flat=True):
@@ -236,19 +233,19 @@ class InventarioHoteleroEntNacCargaMasivaView(View):
                     establecimientos_int = int(establecimientos)
 
                     # Buscar si la fila ya existe en la base de datos
-                    inventario_existente = InventarioHoteleroEntNac.objects.filter(destino=destino, fecha=fecha_obj, categoria=categoria)
+                    inventario_existente = InventarioHoteleroEntNac.objects.filter(entidad=entidad, fecha=fecha_obj, categoria=categoria)
                     if inventario_existente.exists():
                         # Si ya existe, se omite la fila y se guarda en la lista de registros incorrectos
                         print(f"La fila {row} ya existe en la base de datos")
-                        registros_existentes.append({'fila': i, 'destino': destino, 'fecha': fecha_obj, 'categoria': categoria, 'habitaciones': habitaciones_int, 'establecimientos': establecimientos_int})
+                        registros_existentes.append({'fila': i, 'entidad': entidad, 'fecha': fecha_obj, 'categoria': categoria, 'habitaciones': habitaciones_int, 'establecimientos': establecimientos_int})
                     else:
                         # Si no existe, se guarda la nueva instancia del modelo en la base de datos y se guarda en la lista de registros correctos
-                        inventario = InventarioHoteleroEntNac(destino=destino, fecha=fecha_obj, categoria=categoria, habitaciones=habitaciones_int, establecimientos=establecimientos_int)
+                        inventario = InventarioHoteleroEntNac(entidad=entidad, fecha=fecha_obj, categoria=categoria, habitaciones=habitaciones_int, establecimientos=establecimientos_int)
                         inventario.save()
-                        registros_correctos.append({'destino': destino, 'fecha': fecha_str, 'categoria': categoria, 'habitaciones': habitaciones_int, 'establecimientos': establecimientos_int})
+                        registros_correctos.append({'entidad': entidad, 'fecha': fecha_str, 'categoria': categoria, 'habitaciones': habitaciones_int, 'establecimientos': establecimientos_int})
                 except (ValueError, TypeError) as e:
                     # Si los datos no son válidos, se guarda el número de fila en la lista de registros incorrectos
-                    registros_incorrectos.append({'destino': destino, 'fecha': fecha_str, 'categoria': categoria, 'habitaciones': habitaciones, 'establecimientos': establecimientos, 'error': str(e)})
+                    registros_incorrectos.append({'entidad': entidad, 'fecha': fecha_str, 'categoria': categoria, 'habitaciones': habitaciones, 'establecimientos': establecimientos, 'error': str(e)})
                     
         except FileNotFoundError:
                 print(f"El archivo {archivo} no se pudo abrir")
@@ -266,7 +263,7 @@ class InventarioHoteleroEntNacCargaMasivaView(View):
                 num_filas_procesadas += 1
 
                 # Limpieza de datos
-                destino = clean_str_col(row['destino'])
+                entidad = clean_str_col(row['entidad'])
                 categoria = clean_str_col(row['categoria'])
 
                 # Homologación de datos
@@ -274,8 +271,8 @@ class InventarioHoteleroEntNacCargaMasivaView(View):
                 categoria = homologar_columna_categoria(categoria)
 
                 # Validar si el destino y categoria son válidos
-                if destino not in CatalagoDestino.objects.values_list('destino', flat=True):
-                    print(f"El destino {destino} no está en la tabla CatalagoDestino")
+                if not CatalagoDestino.objects.filter(entidad=entidad).exists():
+                    print(f"La entidad {entidad} no está en la tabla CatalagoDestino")
                     registros_incorrectos.append(row)
                     continue
                 if categoria not in CatalagoCategoria.objects.values_list('categoria', flat=True):
@@ -296,14 +293,14 @@ class InventarioHoteleroEntNacCargaMasivaView(View):
                     establecimientos_int = int(establecimientos)
 
                     # Buscar si la fila ya existe en la base de datos
-                    inventario_existente = InventarioHoteleroEntNac.objects.filter(destino=destino, fecha=fecha_obj, categoria=categoria)
+                    inventario_existente = InventarioHoteleroEntNac.objects.filter(entidad=entidad, fecha=fecha_obj, categoria=categoria)
                     if inventario_existente.exists():
                         # Si ya existe, se omite la fila y se guarda en la lista de registros incorrectos
                         print(f"La fila {row} ya existe en la base de datos")
                         registros_existentes.append(row)
                     else:
                         # Si no existe, se guarda la nueva instancia del modelo en la base de datos y se guarda en la lista de registros correctos
-                        inventario = InventarioHoteleroEntNac(destino=destino, fecha=fecha_obj, categoria=categoria, habitaciones=habitaciones_int, establecimientos=establecimientos_int)
+                        inventario = InventarioHoteleroEntNac(entidad=entidad, fecha=fecha_obj, categoria=categoria, habitaciones=habitaciones_int, establecimientos=establecimientos_int)
                         inventario.save()
                         registros_correctos.append(row)
                 except (ValueError, TypeError) as e:
@@ -327,7 +324,7 @@ class DescargarArchivoView(View):
         worksheet = workbook.active
 
         # Add headers to the worksheet
-        worksheet['A1'] = 'Destino'
+        worksheet['A1'] = 'entidad'
         worksheet['B1'] = 'Fecha'
         worksheet['C1'] = 'Categoría'
         worksheet['D1'] = 'Habitaciones'
@@ -338,7 +335,7 @@ class DescargarArchivoView(View):
         for i, row in enumerate(registros_incorrectos):
             fila = i + 2
             # worksheet.cell(row=fila, column=1, value=row['fila'])
-            worksheet.cell(row=fila, column=1, value=row['destino'])
+            worksheet.cell(row=fila, column=1, value=row['entidad'])
             worksheet.cell(row=fila, column=2, value=row['fecha'])
             worksheet.cell(row=fila, column=3, value=row['categoria'])
             worksheet.cell(row=fila, column=4, value=row['habitaciones'])

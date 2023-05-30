@@ -286,13 +286,11 @@ class InversionPublica(models.Model):
 
 class InventarioHoteleroEntNac(models.Model):
 
-    destino = models.CharField(max_length=455, null=True, blank=True)
+    entidad = models.CharField(max_length=455, null=True, blank=True)
     fecha = models.DateField()
     categoria = models.CharField(max_length=255)
-    habitaciones = models.IntegerField()
     establecimientos = models.IntegerField()
-    date_updated = models.DateTimeField(auto_now=True,)
-    date_created = models.DateTimeField(auto_now=True)
+    habitaciones = models.IntegerField()
 
     def toJSON(self):
         item = model_to_dict(self)
@@ -327,7 +325,12 @@ class Sesibilizacion(models.Model):
     fecha = models.DateField()
     destino = models.CharField(max_length=455, null=True, blank=True)
     participantes = models.IntegerField()
-    accion = models.IntegerField()
+    accion_de_sensibilizacion = models.CharField(max_length=455, null=True, blank=True)
+    subcategoria = models.CharField(max_length=455, null=True, blank=True)
+
+    class Meta:
+        app_label = 'ecosistema'
+        db_table = 'sensivilizacion'
 
 
 class ProyectoInversion(models.Model):
@@ -366,7 +369,7 @@ class ProyectoInversion(models.Model):
 
 
 class CatalagoCategoria(models.Model):
-    categoria = models.CharField(max_length=255)
+    categoria = models.CharField(max_length=255, unique=True)
 
     class Meta:
         app_label = 'ecosistema'
@@ -385,7 +388,7 @@ class CatalagoDestino(models.Model):
 
 
 class CatalagoSegmentos(models.Model):
-    segmento = models.CharField(max_length=455)
+    segmento = models.CharField(max_length=455, unique=True)
 
     class Meta:
         app_label = 'ecosistema'
@@ -408,7 +411,7 @@ class zonas_arqueologicas_museos(models.Model):
 
 
 class CatalagoTipoVisistante(models.Model):
-    tipo_visitante = models.CharField(max_length=455)
+    tipo_visitante = models.CharField(max_length=455, unique=True)
 
     class Meta:
         app_label = 'ecosistema'
@@ -435,12 +438,18 @@ class CatalagoZAMuseos (models.Model):
 
 
 class inversion_privada (models.Model):
-    id_del_proyecto = models.CharField(max_length=455)
-    destino = models.CharField(max_length=455, null=True, blank=True)
     fecha = models.DateField()
     monto_ejecutado = models.FloatField()
     avance_proyecto = models.FloatField()
+    observaciones = models.CharField(max_length=455)
     nombre_del_proyecto = models.CharField(max_length=455)
+    id_del_proyecto = models.CharField(max_length=455)
+    destino = models.CharField(max_length=455, null=True, blank=True)
+
+    class Meta:
+        app_label = 'ecosistema'
+        db_table = "inversion_privada"
+        ordering = ['-id']
 
 
 class Certificacion(models.Model):
@@ -448,6 +457,11 @@ class Certificacion(models.Model):
     destino = models.CharField(max_length=455, null=True, blank=True)
     tipo_de_certificacion = models.CharField(max_length=455)
     empresas_certificadas = models.IntegerField()
+
+    class Meta:
+        app_label = 'ecosistema'
+        db_table = "certificacion"
+        ordering = ['-id']
 
 class empleo (models.Model):
     fecha_inicio = models.DateField()
@@ -458,6 +472,11 @@ class empleo (models.Model):
     mujeres_empleadas_sec_72_gto = models.IntegerField(null=True, default=None)
     hombres_empleados_sec_72_nac = models.IntegerField(null=True, default=None)
     mujeres_empleadas_sec_72_nac = models.IntegerField(null=True, default=None)
+
+    class Meta:
+        app_label = 'ecosistema'
+        db_table = "empleo"
+        ordering = ['-id']
 
 class ModeloGD (models.Model):
     anio = models.IntegerField()
