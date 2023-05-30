@@ -251,7 +251,7 @@ class FuenteInfoZonasArqueologicasDelete (DeleteView):
 class ZonasArqueoCargaMasivaView(View):
     form_class = CargaMasivaForm
     template_name = 'back/fuente_info_zonas_arq/carga_masiva.html'
-    success_url = reverse_lazy('dashboard:inversion_publica_list')
+    success_url = reverse_lazy('dashboard:fuente_info_zonas_arqueologicas')
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -291,7 +291,7 @@ class ZonasArqueoCargaMasivaView(View):
             })
             
         else:
-            return HttpResponseRedirect(reverse('dashboard:inversion_publica_list'))
+            return HttpResponseRedirect(reverse('dashboard:fuente_info_zonas_arqueologicas'))
         
         
 

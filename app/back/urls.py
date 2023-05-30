@@ -26,6 +26,7 @@ from back.views.fuente_info_empleo.views import *
 from back.views.fuente_info_modelo_gd.views import *
 from back.views.modulo_config.views import *
 from back.views.fuente_info_discapacidad.views import *
+from back.views.fuente_info_segmentos.views import *
 
 
 from django.conf import settings
@@ -264,5 +265,13 @@ urlpatterns = [
     path('fuentes_info/discapacidad/delete/<int:pk>/', FuenteInfoDiscapacidadDelete.as_view(), name='fuente_info_discapacidad_delete'),
     path('fuentes_info/discapacidad/carga-masiva', DiscapacidadCargaMasivaView.as_view(), name='fuente_info_discapacidad_carga_masiva'),
     path('fuentes_info/discapacidad/descargar-archivo', DiscapacidadDescargarArchivoView.as_view(), name='fuente_info_discapacidad_descargar_archivo'),
+    
+    #fuentes info segmentos
+    path('fuentes_info/segmentos', FuenteInfoParticipacionSegmentos.as_view(), name='fuente_info_segmentos'),
+    path('fuentes_info/segmentos/add', FuenteInfoParticipacionSegmentosCreate.as_view(), name='fuente_info_segmentos_create'),
+    path('fuentes_info/segmentos/edit/<int:pk>/', FuenteInfoParticipacionSegmentosUpdate.as_view(), name='fuente_info_segmentos_update'),
+    path('fuentes_info/segmentos/delete/<int:pk>/', FuenteInfoParticipacionSegmentosDelete.as_view(), name='fuente_info_segmentos_delete'),
+    path('fuentes_info/segmentos/carga-masiva', ParticipacionSegmentosCargaMasivaView.as_view(), name='fuente_info_segmentos_carga_masiva'),
+    path('fuentes_info/segmentos/descargar-archivo', ParticipacionSegmentosDescargarArchivoView.as_view(), name='fuente_info_segmentos_descargar_archivo'),
     
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
