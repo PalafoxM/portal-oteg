@@ -274,8 +274,7 @@ class AeropuertoCargaMasivaView(View):
 
                 fecha_str = row[3].value.date().strftime('%Y-%m-%d') if len(row) > 0 and row[0].value else ''
                 fecha_obj = datetime.strptime(fecha_str, '%Y-%m-%d').date() if fecha_str else ''
-                print(fecha_obj)
-                print(row[3].value)
+                
                 vuelos = row[4].value if len(row) > 5 else 0
                 pasajeros_aeropuerto_gto = row[0].value if len(row) > 0 else 0
                 pasajeros_nacionales =row[1].value if len(row) > 1 else 0
