@@ -512,3 +512,22 @@ class ParticipacionSegmentosForm(forms.ModelForm):
             'segmento': forms.TextInput(attrs={'class': 'form-control'}),
             'participacion': forms.NumberInput(attrs={'class': 'form-control'})
         }
+
+class AeropuertoForm(forms.ModelForm):
+    class Meta:
+        model = Aeropuerto
+        fields = '__all__'
+        labels = {
+            'pasajeros_aeropuerto_gto': 'Pasajeros en el aeropuerto de Guanajuato',
+            'pasajeros_nacionales': 'Pasajeros nacionales',
+            'pasajeros_internacionales': 'Pasajeros internacionales',
+            'fecha': 'Fecha',
+            'vuelos': 'Vuelos'
+        }
+        widgets = {
+            'pasajeros_aeropuerto_gto': forms.NumberInput(attrs={'class': 'form-control'}),
+            'pasajeros_nacionales': forms.NumberInput(attrs={'class': 'form-control'}),
+            'pasajeros_internacionales': forms.NumberInput(attrs={'class': 'form-control'}),
+            'fecha': forms.DateInput(attrs={'class': 'form-control'}),
+            'vuelos': forms.TextInput(attrs={'class': 'form-control'}),
+        }

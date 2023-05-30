@@ -27,6 +27,7 @@ from back.views.fuente_info_modelo_gd.views import *
 from back.views.modulo_config.views import *
 from back.views.fuente_info_discapacidad.views import *
 from back.views.fuente_info_segmentos.views import *
+from back.views.fuente_info_aeropuertos.views import *
 
 
 from django.conf import settings
@@ -259,19 +260,27 @@ urlpatterns = [
     path('proyectos-inversion/delete/<int:pk>/', ProyectoInversionDeleteView.as_view(), name='proyectos_inversion_delete'),
 
     #fuentes info discapacidad
-    path('fuentes_info/discapacidad', FuenteInfoDiscapacidad.as_view(), name='fuente_info_discapacidad'),
-    path('fuentes_info/discapacidad/add', FuenteInfoDiscapacidadCreate.as_view(), name='fuente_info_discapacidad_create'),
-    path('fuentes_info/discapacidad/edit/<int:pk>/', FuenteInfoDiscapacidadUpdate.as_view(), name='fuente_info_discapacidad_update'),
-    path('fuentes_info/discapacidad/delete/<int:pk>/', FuenteInfoDiscapacidadDelete.as_view(), name='fuente_info_discapacidad_delete'),
-    path('fuentes_info/discapacidad/carga-masiva', DiscapacidadCargaMasivaView.as_view(), name='fuente_info_discapacidad_carga_masiva'),
-    path('fuentes_info/discapacidad/descargar-archivo', DiscapacidadDescargarArchivoView.as_view(), name='fuente_info_discapacidad_descargar_archivo'),
+    path('fuentes-info/discapacidad', FuenteInfoDiscapacidad.as_view(), name='fuente_info_discapacidad'),
+    path('fuentes-info/discapacidad/add', FuenteInfoDiscapacidadCreate.as_view(), name='fuente_info_discapacidad_create'),
+    path('fuentes-info/discapacidad/edit/<int:pk>/', FuenteInfoDiscapacidadUpdate.as_view(), name='fuente_info_discapacidad_update'),
+    path('fuentes-info/discapacidad/delete/<int:pk>/', FuenteInfoDiscapacidadDelete.as_view(), name='fuente_info_discapacidad_delete'),
+    path('fuentes-info/discapacidad/carga-masiva', DiscapacidadCargaMasivaView.as_view(), name='fuente_info_discapacidad_carga_masiva'),
+    path('fuentes-info/discapacidad/descargar-archivo', DiscapacidadDescargarArchivoView.as_view(), name='fuente_info_discapacidad_descargar_archivo'),
     
     #fuentes info segmentos
-    path('fuentes_info/segmentos', FuenteInfoParticipacionSegmentos.as_view(), name='fuente_info_segmentos'),
-    path('fuentes_info/segmentos/add', FuenteInfoParticipacionSegmentosCreate.as_view(), name='fuente_info_segmentos_create'),
-    path('fuentes_info/segmentos/edit/<int:pk>/', FuenteInfoParticipacionSegmentosUpdate.as_view(), name='fuente_info_segmentos_update'),
-    path('fuentes_info/segmentos/delete/<int:pk>/', FuenteInfoParticipacionSegmentosDelete.as_view(), name='fuente_info_segmentos_delete'),
-    path('fuentes_info/segmentos/carga-masiva', ParticipacionSegmentosCargaMasivaView.as_view(), name='fuente_info_segmentos_carga_masiva'),
-    path('fuentes_info/segmentos/descargar-archivo', ParticipacionSegmentosDescargarArchivoView.as_view(), name='fuente_info_segmentos_descargar_archivo'),
+    path('fuentes-info/segmentos', FuenteInfoParticipacionSegmentos.as_view(), name='fuente_info_segmentos'),
+    path('fuentes-info/segmentos/add', FuenteInfoParticipacionSegmentosCreate.as_view(), name='fuente_info_segmentos_create'),
+    path('fuentes-info/segmentos/edit/<int:pk>/', FuenteInfoParticipacionSegmentosUpdate.as_view(), name='fuente_info_segmentos_update'),
+    path('fuentes-info/segmentos/delete/<int:pk>/', FuenteInfoParticipacionSegmentosDelete.as_view(), name='fuente_info_segmentos_delete'),
+    path('fuentes-info/segmentos/carga-masiva', ParticipacionSegmentosCargaMasivaView.as_view(), name='fuente_info_segmentos_carga_masiva'),
+    path('fuentes-info/segmentos/descargar-archivo', ParticipacionSegmentosDescargarArchivoView.as_view(), name='fuente_info_segmentos_descargar_archivo'),
+    
+    #fuentes info aeropuertos
+    path('fuentes-info/aeropuertos', FuenteInfoAeropuerto.as_view(), name='fuente_info_aeropuertos'),
+    path('fuentes-info/aeropuertos/add', FuenteInfoAeropuertoCreate.as_view(), name='fuente_info_aeropuertos_create'),
+    path('fuentes-info/aeropuertos/edit/<int:pk>/', FuenteInfoAeropuertoUpdate.as_view(), name='fuente_info_aeropuertos_update'),
+    path('fuentes-info/aeropuertos/delete/<int:pk>/', FuenteInfoAeropuertoDelete.as_view(), name='fuente_info_aeropuertos_delete'),
+    path('fuentes-info/aeropuertos/carga-masiva', AeropuertoCargaMasivaView.as_view(), name='fuente_info_aeropuertos_carga_masiva'),
+    path('fuentes-info/aeropuertos/descargar-archivo', AeropuertoDescargarArchivoView.as_view(), name='fuente_info_aeropuertos_descargar_archivo'),
     
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
