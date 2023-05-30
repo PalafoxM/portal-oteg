@@ -36,25 +36,25 @@ from config.diccionarios import clean_str_col, homologar_columna_categoria, homo
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
-class FuenteInfoEmpleo (ListView):
-    model = empleo
-    template_name = 'back/fuente_info_empleo/viewer.html'
+class FuenteInfoDiscapacidad (ListView):
+    model = Discapacidad
+    template_name = 'back/fuente_info_discapacidad/list.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Listado de Fuentes de Informacion de Empleo'
-        context['create_url'] = reverse_lazy('dashboard:fuente_info_empleo_create')
+        context['title'] = 'Listado de Fuentes de Informacion de Empleo Discapacidad'
+        context['create_url'] = reverse_lazy('dashboard:fuente_info_discapacidad_create')
         context['entity'] = 'Empleo'
         context['is_fuente'] = True
-        context['carga_masiva_url'] = reverse_lazy('dashboard:fuente_info_empleo_carga_masiva')
+        context['carga_masiva_url'] = reverse_lazy('dashboard:fuente_info_discapacidad_carga_masiva')
 
         return context
 
-class FuenteInfoEmpleoCreate (CreateView):
-    model = empleo
-    form_class = EmpleoForm
-    template_name = 'back/fuente_info_empleo/create.html'
-    success_url = reverse_lazy('dashboard:fuente_info_empleo')
+class FuenteInfoDiscapacidadCreate (CreateView):
+    model = Discapacidad
+    form_class = DiscapacidadForm
+    template_name = 'back/components/create_update.html'
+    success_url = reverse_lazy('dashboard:fuente_info_discapacidad')
 
     def get_object(self, **kwargs):
         queryset = self.get_queryset()
@@ -104,7 +104,7 @@ class FuenteInfoEmpleoCreate (CreateView):
                 data_list = list(data.values('fecha_inicio', 'fecha_fin', 'hombres_empleados_gto', 'mujeres_empleadas_gto', 'hombres_empleados_sec_72_gto','mujeres_empleadas_sec_72_gto','hombres_empleados_sec_72_nac','mujeres_empleadas_sec_72_nac'))
                 data_list2 = list(form.cleaned_data.values())
 
-                table_html = render_to_string('back/fuente_info_empleo/table.html', {'data_list': data_list, 'actual': True, 'data_list2': data_list2})
+                table_html = render_to_string('back/fuente_info_discapacidad/table.html', {'data_list': data_list, 'actual': True, 'data_list2': data_list2})
 
                 datajsn = {
                     'success': False,
@@ -154,15 +154,15 @@ class FuenteInfoEmpleoCreate (CreateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Crear una fuente'
         context['entity'] = 'Empleo'
-        context['list_url'] = reverse_lazy('dashboard:fuente_info_empleo')
+        context['list_url'] = reverse_lazy('dashboard:fuente_info_discapacidad')
         context['action'] = 'add'
         return context
 
-class FuenteInfoEmpleoUpdate (UpdateView):
-    model = empleo
-    form_class = EmpleoForm
-    template_name = 'back/fuente_info_empleo/view_editor.html'
-    success_url = reverse_lazy('dashboard:fuente_info_empleo')
+class FuenteInfoDiscapacidadUpdate (UpdateView):
+    model = Discapacidad
+    form_class = DiscapacidadForm
+    template_name = 'back/fuente_info_discapacidad/view_editor.html'
+    success_url = reverse_lazy('dashboard:fuente_info_discapacidad')
 
     def form_invalid(self, form):
         response = super().form_invalid(form)
@@ -190,30 +190,28 @@ class FuenteInfoEmpleoUpdate (UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['list_url'] = reverse_lazy('dashboard:fuente_info_empleo')
+        context['list_url'] = reverse_lazy('dashboard:fuente_info_discapacidad')
             # Set the widget for the 'destino' field to read-only text input
-        context['form'].fields['fecha_inicio'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
-        context['form'].fields['fecha_fin'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
         context['title'] = 'Editar fuente'
         context['edit_msg'] = 'Los campos fecha inicio y fecha fin no son editables'
 
         return context
 
-class FuenteInfoEmpleoDelete (DeleteView):
-    model = empleo
-    success_url = reverse_lazy('dashboard:fuente_info_empleo')
+class FuenteInfoDiscapacidadDelete (DeleteView):
+    model = Discapacidad
+    success_url = reverse_lazy('dashboard:fuente_info_discapacidad')
 
     def post(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
         return super().post(request, *args, **kwargs)
 
-class EmpleoCargaMasivaView(View):
+class DiscapacidadCargaMasivaView(View):
     form_class = CargaMasivaForm
-    template_name = 'back/fuente_info_empleo/carga_masiva.html'
-    success_url = reverse_lazy('dashboard:fuente_info_empleo')
+    template_name = 'back/fuente_info_discapacidad/carga_masiva.html'
+    success_url = reverse_lazy('dashboard:fuente_info_discapacidad')
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
-        return render(request, self.template_name, {'form': form, 'title': 'Carga Masiva de Empleo'})
+        return render(request, self.template_name, {'form': form, 'title': 'Carga Masiva de Empleo Discapacidad'})
 
 
     def post(self, request, *args, **kwargs):
@@ -240,7 +238,7 @@ class EmpleoCargaMasivaView(View):
             
             return render(request, self.template_name, {
                 'form': form,
-                'title': 'Carga Masiva de Empleo',
+                'title': 'Carga Masiva de Empleo Discapacidad',
                 'registros_correctos': registros_correctos,
                 'registros_incorrectos': registros_incorrectos,
                 'registros_existentes': registros_existentes,
@@ -265,52 +263,64 @@ class EmpleoCargaMasivaView(View):
                     continue # Ignorar la primera fila si es el encabezado
                 num_filas_procesadas += 1
                 # Limpieza de datos
-                fecha_inicio_str = row[0].value.date().strftime('%Y-%m-%d') if len(row) > 0 and row[0].value else ''
-                fecha_inicio_obj = datetime.strptime(fecha_inicio_str, '%Y-%m-%d').date() if fecha_inicio_str else ''
-                fecha_fin_str = row[0].value.date().strftime('%Y-%m-%d') if len(row) > 0 and row[0].value else ''
-                fecha_fin_obj = datetime.strptime(fecha_fin_str, '%Y-%m-%d').date() if fecha_fin_str else ''
+                fecha_str = row[1].value.date().strftime('%d-%m-%Y') if len(row) > 0 and row[0].value else ''
+                fecha_obj = datetime.strptime(fecha_str, '%d-%m-%Y').date() if fecha_str else ''
+
+                giro_comercial           = row[2].value if len(row) > 2 and row[2].value else 0
+                empleos_fijos_h          = row[3].value if len(row) > 3 and row[3].value else 0
+                empleos_fijos_m          = row[4].value if len(row) > 4 and row[4].value else 0
+                empleos_temporales_h     = row[5].value if len(row) > 5 and row[5].value else 0
+                empleos_temporales_m     = row[6].value if len(row) > 6 and row[6].value else 0
+                empleados_discapacidad_h = row[7].value if len(row) > 7 and row[7].value else 0
+                empleados_discapacidad_m = row[8].value if len(row) > 8 and row[8].value else 0
+
+                # Limpieza de datos
+                destino = clean_str_col(row[0].value)
+
+                # Homologación de datos
+                destino = homologar_columna_destino(destino)          
                 
-
-                hombres_empleados_gto = row[2].value if len(row) > 2 else 0
-                mujeres_empleadas_gto = row[3].value if len(row) > 3 else 0
-                hombres_empleados_sec_72_gto = row[4].value if len(row) > 4 else 0
-                mujeres_empleadas_sec_72_gto = row[5].value if len(row) > 5 else 0
-                hombres_empleados_sec_72_nac = row[6].value if len(row) > 6 else 0
-                mujeres_empleadas_sec_72_nac = row[7].value if len(row) > 7 else 0
-
-
                 datos = {
-                    "fecha_inicio": fecha_inicio_str,
-                    "fecha_fin": fecha_fin_str,
-                    "hombres_empleados_gto": hombres_empleados_gto,
-                    "mujeres_empleadas_gto": mujeres_empleadas_gto,
-                    "hombres_empleados_sec_72_gto": hombres_empleados_sec_72_gto,
-                    "mujeres_empleadas_sec_72_gto": mujeres_empleadas_sec_72_gto,
-                    "hombres_empleados_sec_72_nac": hombres_empleados_sec_72_nac,
-                    "mujeres_empleadas_sec_72_nac": mujeres_empleadas_sec_72_nac,
+                    "destino": destino,
+                    "fecha": fecha_str,
+                    "giro_comercial": giro_comercial,
+                    "empleos_fijos_h": empleos_fijos_h,
+                    "empleos_fijos_m": empleos_fijos_m,
+                    "empleos_temporales_h": empleos_temporales_h,
+                    "empleos_temporales_m": empleos_temporales_m,
+                    "empleados_discapacidad_h": empleados_discapacidad_h,
+                    "empleados_discapacidad_m": empleados_discapacidad_m,
                 }
 
                 try:
+                    # Validar si el destino y categoria son válidos
+                    if destino not in CatalagoDestino.objects.values_list('destino', flat=True):
+                        print(f"El destino {destino} no está en la tabla CatalagoDestino")
+                        registros_incorrectos.append(datos)
+                        continue
 
                     # Buscar si la fila ya existe en la base de datos
-                    existente = empleo.objects.filter(
-                        fecha_inicio = fecha_inicio_obj, 
-                        fecha_fin = fecha_fin_obj)
+                    existente = Discapacidad.objects.filter(
+                        fecha = fecha_obj, 
+                        destino = destino,
+                        giro_comercial = giro_comercial
+                        )
                     if existente.exists():
                         # Si ya existe, se omite la fila y se guarda en la lista de registros incorrectos
                         print(f"La fila {datos} ya existe en la base de datos")
                         registros_existentes.append(datos)
                     else:
                         # Si no existe, se guarda la nueva instancia del modelo en la base de datos y se guarda en la lista de registros correctos
-                        db = empleo(
-                            fecha_inicio = fecha_inicio_obj,
-                            fecha_fin = fecha_fin_obj,
-                            hombres_empleados_gto = hombres_empleados_gto,
-                            mujeres_empleadas_gto = mujeres_empleadas_gto,
-                            hombres_empleados_sec_72_gto = hombres_empleados_sec_72_gto,
-                            mujeres_empleadas_sec_72_gto = mujeres_empleadas_sec_72_gto,
-                            hombres_empleados_sec_72_nac = hombres_empleados_sec_72_nac,
-                            mujeres_empleadas_sec_72_nac = mujeres_empleadas_sec_72_nac,
+                        db = Discapacidad(
+                            fecha = fecha_obj,
+                            destino = destino,
+                            giro_comercial = giro_comercial,
+                            empleos_fijos_h = empleos_fijos_h,
+                            empleos_fijos_m = empleos_fijos_m,
+                            empleos_temporales_h = empleos_temporales_h,
+                            empleos_temporales_m = empleos_temporales_m,
+                            empleados_discapacidad_h = empleados_discapacidad_h,
+                            empleados_discapacidad_m = empleados_discapacidad_m,
                         )
                         db.save()
                         registros_correctos.append(datos)
@@ -333,55 +343,66 @@ class EmpleoCargaMasivaView(View):
             for row in datos:
                 num_filas_procesadas += 1
 
-                fecha_inicio = row['fecha_inicio']
-                fecha_inicio_str = str(fecha_inicio)
-                fecha_inicio_str = fecha_inicio_str.split()[0] if fecha_inicio_str else ''  # Eliminar la parte de la hora si existe la fecha_inicio
-                fecha_inicio_obj = datetime.datetime.strptime(fecha_inicio_str, '%Y-%m-%d').date()
-                fecha_fin = row['fecha_fin']
-                fecha_fin_str = str(fecha_fin)
-                fecha_fin_str = fecha_fin_str.split()[0] if fecha_fin_str else ''  # Eliminar la parte de la hora si existe la fecha_fin
-                fecha_fin_obj = datetime.datetime.strptime(fecha_fin_str, '%Y-%m-%d').date()
+                fecha = row['fecha']
+                fecha_str = str(fecha)
+                fecha_str = fecha_str.split()[0] if fecha_str else ''  # Eliminar la parte de la hora si existe la fecha
+                fecha_obj = datetime.datetime.strptime(fecha_str, '%Y-%m-%d').date()
 
-                hombres_empleados_gto = row['hombres_empleados_gto']
-                mujeres_empleadas_gto = row['mujeres_empleadas_gto']
-                hombres_empleados_sec_72_gto = row['hombres_empleados_sec_72_gto']
-                mujeres_empleadas_sec_72_gto = row['mujeres_empleadas_sec_72_gto']
-                hombres_empleados_sec_72_nac = row['hombres_empleados_sec_72_nac']
-                mujeres_empleadas_sec_72_nac = row['mujeres_empleadas_sec_72_nac']
+                giro_comercial = row['giro_comercial']
+                empleos_fijos_h = row['empleos_fijos_h']
+                empleos_fijos_m = row['empleos_fijos_m']
+                empleos_temporales_h = row['empleos_temporales_h']
+                empleos_temporales_m = row['empleos_temporales_m']
+                empleados_discapacidad_h = row['empleados_discapacidad_h']
+                empleados_discapacidad_m = row['empleados_discapacidad_m']
 
+                # Limpieza de datos
+                destino = clean_str_col(row['destino'])
 
+                # Homologación de datos
+                destino = homologar_columna_destino(destino)          
+                
                 datos = {
-                    "fecha_inicio": fecha_inicio_str,
-                    "fecha_fin": fecha_fin_str,
-                    "hombres_empleados_gto": hombres_empleados_gto,
-                    "mujeres_empleadas_gto": mujeres_empleadas_gto,
-                    "hombres_empleados_sec_72_gto": hombres_empleados_sec_72_gto,
-                    "mujeres_empleadas_sec_72_gto": mujeres_empleadas_sec_72_gto,
-                    "hombres_empleados_sec_72_nac": hombres_empleados_sec_72_nac,
-                    "mujeres_empleadas_sec_72_nac": mujeres_empleadas_sec_72_nac,
+                    "destino": destino,
+                    "fecha": fecha_str,
+                    "giro_comercial": giro_comercial,
+                    "empleos_fijos_h": empleos_fijos_h,
+                    "empleos_fijos_m": empleos_fijos_m,
+                    "empleos_temporales_h": empleos_temporales_h,
+                    "empleos_temporales_m": empleos_temporales_m,
+                    "empleados_discapacidad_h": empleados_discapacidad_h,
+                    "empleados_discapacidad_m": empleados_discapacidad_m,
                 }
 
                 try:
+                    # Validar si el destino y categoria son válidos
+                    if destino not in CatalagoDestino.objects.values_list('destino', flat=True):
+                        print(f"El destino {destino} no está en la tabla CatalagoDestino")
+                        registros_incorrectos.append(datos)
+                        continue
 
                     # Buscar si la fila ya existe en la base de datos
-                    existente = zonas_arqueologicas_museos.objects.filter(
-                        fecha_inicio = fecha_inicio_obj, 
-                        fecha_fin = fecha_fin_obj)
+                    existente = Discapacidad.objects.filter(
+                        fecha = fecha_obj, 
+                        destino = destino,
+                        giro_comercial = giro_comercial
+                        )
                     if existente.exists():
                         # Si ya existe, se omite la fila y se guarda en la lista de registros incorrectos
                         print(f"La fila {datos} ya existe en la base de datos")
                         registros_existentes.append(datos)
                     else:
                         # Si no existe, se guarda la nueva instancia del modelo en la base de datos y se guarda en la lista de registros correctos
-                        db = zonas_arqueologicas_museos(
-                            fecha_inicio = fecha_inicio_obj,
-                            fecha_fin = fecha_fin_obj,
-                            hombres_empleados_gto = hombres_empleados_gto,
-                            mujeres_empleadas_gto = mujeres_empleadas_gto,
-                            hombres_empleados_sec_72_gto = hombres_empleados_sec_72_gto,
-                            mujeres_empleadas_sec_72_gto = mujeres_empleadas_sec_72_gto,
-                            hombres_empleados_sec_72_nac = hombres_empleados_sec_72_nac,
-                            mujeres_empleadas_sec_72_nac = mujeres_empleadas_sec_72_nac,
+                        db = Discapacidad(
+                            fecha = fecha_obj,
+                            destino = destino,
+                            giro_comercial = giro_comercial,
+                            empleos_fijos_h = empleos_fijos_h,
+                            empleos_fijos_m = empleos_fijos_m,
+                            empleos_temporales_h = empleos_temporales_h,
+                            empleos_temporales_m = empleos_temporales_m,
+                            empleados_discapacidad_h = empleados_discapacidad_h,
+                            empleados_discapacidad_m = empleados_discapacidad_m,
                         )
                         db.save()
                         registros_correctos.append(datos)
@@ -394,33 +415,35 @@ class EmpleoCargaMasivaView(View):
             print(f"Error al procesar el archivo {archivo}: {e}")
         return registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas
 
-class EmpleoDescargarArchivoView(View):
+class DiscapacidadDescargarArchivoView(View):
 
     def crear_archivo_excel(self, registros_incorrectos):
         workbook = openpyxl.Workbook()
         worksheet = workbook.active
 
         # Escribir encabezados de columna
-        worksheet['A1'] = "fecha_inicio"
-        worksheet['B1'] = "fecha_fin"
-        worksheet['C1'] = "hombres_empleados_gto"
-        worksheet['D1'] = "mujeres_empleadas_gto"
-        worksheet['E1'] = "hombres_empleados_sec_72_gto"
-        worksheet['F1'] = "mujeres_empleadas_sec_72_gto"
-        worksheet['G1'] = "hombres_empleados_sec_72_nac"
-        worksheet['H1'] = "mujeres_empleadas_sec_72_nac"
+        worksheet['A1'] = "destino"
+        worksheet['B1'] = "fecha"
+        worksheet['C1'] = "giro_comercial"
+        worksheet['D1'] = "empleos_fijos_h"
+        worksheet['E1'] = "empleos_fijos_m"
+        worksheet['F1'] = "empleos_temporales_h"
+        worksheet['G1'] = "empleos_temporales_m"
+        worksheet['H1'] = "empleados_discapacidad_h"
+        worksheet['I1'] = "empleados_discapacidad_m"
 
         # Add the incorrect rows to the worksheet
         for i, row in enumerate(registros_incorrectos):
             fila = i + 2
-            worksheet.cell(row=fila, column=1, value=row['fecha_inicio'])
-            worksheet.cell(row=fila, column=2, value=row['fecha_fin'])
-            worksheet.cell(row=fila, column=3, value=row['hombres_empleados_gto'])
-            worksheet.cell(row=fila, column=4, value=row['mujeres_empleadas_gto'])
-            worksheet.cell(row=fila, column=5, value=row['hombres_empleados_sec_72_gto'])
-            worksheet.cell(row=fila, column=6, value=row['mujeres_empleadas_sec_72_gto'])
-            worksheet.cell(row=fila, column=7, value=row['hombres_empleados_sec_72_nac'])
-            worksheet.cell(row=fila, column=8, value=row['mujeres_empleadas_sec_72_nac'])
+            worksheet.cell(row=fila, column=1, value=row['destino'])
+            worksheet.cell(row=fila, column=2, value=row['fecha'])
+            worksheet.cell(row=fila, column=3, value=row['giro_comercial'])
+            worksheet.cell(row=fila, column=4, value=row['empleos_fijos_h'])
+            worksheet.cell(row=fila, column=5, value=row['empleos_fijos_m'])
+            worksheet.cell(row=fila, column=6, value=row['empleos_temporales_h'])
+            worksheet.cell(row=fila, column=7, value=row['empleos_temporales_m'])
+            worksheet.cell(row=fila, column=8, value=row['empleados_discapacidad_h'])
+            worksheet.cell(row=fila, column=9, value=row['empleados_discapacidad_m'])
 
 
 

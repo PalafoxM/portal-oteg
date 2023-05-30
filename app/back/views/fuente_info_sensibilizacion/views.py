@@ -364,7 +364,7 @@ class SesibilizacionCargaMasivaView(View):
 
                 datos = {
                     "destino": destino,
-                    "fecha": json_fecha,
+                    "fecha": fecha_str,
                     "participantes": participantes,
                     "accion_de_sensibilizacion": accion_de_sensibilizacion,
                     "subcategoria": subcategoria
@@ -376,7 +376,7 @@ class SesibilizacionCargaMasivaView(View):
 
                     if destino not in CatalagoDestino.objects.values_list('destino', flat=True):
                         print(f"El destino {destino} no está en la tabla CatalagoDestino")
-                        registros_incorrectos.append(row)
+                        registros_incorrectos.append(datos)
                         continue
 
                     # Buscar si la fila ya existe en la base de datos
@@ -388,7 +388,7 @@ class SesibilizacionCargaMasivaView(View):
                     if existente.exists():
                         # Si ya existe, se omite la fila y se guarda en la lista de registros incorrectos
                         print(f"La fila {row} ya existe en la base de datos")
-                        registros_existentes.append(row)
+                        registros_existentes.append(datos)
                     else:
                         # Si no existe, se guarda la nueva instancia del modelo en la base de datos y se guarda en la lista de registros correctos
                         db = zonas_arqueologicas_museos(
@@ -399,10 +399,10 @@ class SesibilizacionCargaMasivaView(View):
                             subcategoria = subcategoria
                         )
                         db.save()
-                        registros_correctos.append(row)
+                        registros_correctos.append(datos)
                 except (ValueError, TypeError) as e:
                     print(f"Error al procesar la fila {row}: {e}")
-                    registros_incorrectos.append(row)
+                    registros_incorrectos.append(datos)
         except FileNotFoundError:
             print(f"No se encontró el archivo {archivo}")
         except Exception as e:

@@ -490,11 +490,11 @@ class DataturCargaMasivaView(View):
                 # Validar si el destino y categoria son válidos
                 if destino not in CatalagoDestino.objects.values_list('destino', flat=True):
                     print(f"El destino {destino} no está en la tabla CatalagoDestino")
-                    registros_incorrectos.append(row)
+                    registros_incorrectos.append(datos)
                     continue
                 if categoria not in CatalagoCategoria.objects.values_list('categoria', flat=True):
                     print(f"La categoría {categoria} no está en la tabla CatalagoCategoria")
-                    registros_incorrectos.append(row)
+                    registros_incorrectos.append(datos)
                     continue
 
 
@@ -535,7 +535,7 @@ class DataturCargaMasivaView(View):
                     if inventario_existente.exists():
                         # Si ya existe, se omite la fila y se guarda en la lista de registros incorrectos
                         print(f"La fila {row} ya existe en la base de datos")
-                        registros_existentes.append(row)
+                        registros_existentes.append(datos)
                     else:
                         # Si no existe, se guarda la nueva instancia del modelo en la base de datos y se guarda en la lista de registros correctos
                         inventario = InventarioHotelero(
@@ -565,10 +565,10 @@ class DataturCargaMasivaView(View):
                             densidad_de_ocupacion_no_residentes = densidad_de_ocupacion_no_residentes
                         )
                         inventario.save()
-                        registros_correctos.append(row)
+                        registros_correctos.append(datos)
                 except (ValueError, TypeError) as e:
                     print(f"Error al procesar la fila {row}: {e}")
-                    registros_incorrectos.append(row)
+                    registros_incorrectos.append(datos)
         except FileNotFoundError:
             print(f"No se encontró el archivo {archivo}")
         except Exception as e:

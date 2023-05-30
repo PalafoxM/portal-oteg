@@ -204,7 +204,7 @@ class CalidadAireCargaMasivaView(View):
                 # Validar si el destino si es válido
                 if destino not in CatalagoDestino.objects.values_list('destino', flat=True):
                     print(f"El destino {destino} no está en la tabla CatalagoDestino")
-                    registros_incorrectos.append(row)
+                    registros_incorrectos.append(datos)
                     continue
                 fecha = row[0].value.date()
                 calidad_del_aire = row[2].value
@@ -253,7 +253,7 @@ class CalidadAireCargaMasivaView(View):
                 # Validar si el destino si es válido
                 if destino not in CatalagoDestino.objects.values_list('destino', flat=True):
                     print(f"El destino {destino} no está en la tabla CatalagoDestino")
-                    registros_incorrectos.append(row)
+                    registros_incorrectos.append(datos)
                     continue
                 fecha = row['fecha']
                 calidad_del_aire = row['calidad_del_aire']
@@ -268,15 +268,15 @@ class CalidadAireCargaMasivaView(View):
                     if inventario_existente.exists():
                         # Si ya existe, se omite la fila y se guarda en la lista de registros incorrectos
                         print(f"La fila {row} ya existe en la base de datos")
-                        registros_existentes.append(row)
+                        registros_existentes.append(datos)
                     else:
                         # Si no existe, se guarda la nueva instancia del modelo en la base de datos y se guarda en la lista de registros correctos
                         inventario = CalidadAire(fecha=fecha_obj, destino=destino, calidad_del_aire=calidad_del_aire)
                         inventario.save()
-                        registros_correctos.append(row)
+                        registros_correctos.append(datos)
                 except (ValueError, TypeError) as e:
                     print(f"Error al procesar la fila {row}: {e}")
-                    registros_incorrectos.append(row)
+                    registros_incorrectos.append(datos)
         except FileNotFoundError:
             print(f"No se encontró el archivo {archivo}")
         except Exception as e:

@@ -468,3 +468,30 @@ class ModeloGDForm (forms.ModelForm):
         labels = {
             'anio': 'Año',
         }
+
+class DiscapacidadForm(forms.ModelForm):
+    class Meta:
+        model = Discapacidad
+        fields = '__all__'
+        widgets = {
+            'destino': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Destino'}),
+            'fecha': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Fecha'}),
+            'giro_comercial': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Giro Comercial'}),
+            'empleos_fijos_h': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Empleos Fijos Hombres'}),
+            'empleos_fijos_m': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Empleos Fijos Mujeres'}),
+            'empleos_temporales_h': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Empleos Temporales Hombres'}),
+            'empleos_temporales_m': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Empleos Temporales Mujeres'}),
+            'empleados_discapacidad_h': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Empleados Discapacidad Hombres'}),
+            'empleados_discapacidad_m': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Empleados Discapacidad Mujeres'}),
+        }
+        labels = {
+            'destino': 'Destino',
+            'fecha': 'Fecha',
+            'giro_comercial': 'Giro Comercial',
+            'empleos_fijos_h': 'Empleos Fijos Hombres',
+            'empleos_fijos_m': 'Empleos Fijos Mujeres',
+            'empleos_temporales_h': 'Empleos Temporales Hombres',
+            'empleos_temporales_m': 'Empleos Temporales Mujeres',
+            'empleados_discapacidad_h': 'Empleados Discapacidad Hombres',
+            'empleados_discapacidad_m': 'Empleados Discapacidad Mujeres',
+        }
