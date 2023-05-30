@@ -19,6 +19,18 @@ from django.shortcuts import get_object_or_404
 #serializers
 # render to string
 from django.template.loader import render_to_string
+# para archivo excel
+from django.views import View
+from django.contrib import messages
+from openpyxl import load_workbook
+import csv
+import os
+from datetime import datetime
+from django.urls import reverse
+import openpyxl
+from django.http import HttpResponse
+import json
+from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino
 
 
 def is_ajax(request):
@@ -34,6 +46,7 @@ class FuenteInfoEmpleo (ListView):
         context['create_url'] = reverse_lazy('dashboard:fuente_info_empleo_create')
         context['entity'] = 'Empleo'
         context['is_fuente'] = True
+        context['carga_masiva_url'] = reverse_lazy('dashboard:fuente_info_empleo_carga_masiva')
 
         return context
 
@@ -193,3 +206,254 @@ class FuenteInfoEmpleoDelete (DeleteView):
     def post(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
         return super().post(request, *args, **kwargs)
 
+class EmpleoCargaMasivaView(View):
+    form_class = CargaMasivaForm
+    template_name = 'back/fuente_info_empleo/carga_masiva.html'
+    success_url = reverse_lazy('dashboard:fuente_info_empleo')
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class()
+        return render(request, self.template_name, {'form': form, 'title': 'Carga Masiva de Empleo'})
+
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST, request.FILES)
+        registros_correctos, registros_incorrectos, registros_existentes = [], [], []
+        num_filas_procesadas = 0
+        archivo = request.FILES.get('archivo', None)
+        if archivo:
+            extension = os.path.splitext(archivo.name)[1]
+            if extension == '.xlsx':
+                registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas = self.procesar_archivo_xlsx(archivo)
+            elif extension == '.csv':
+                registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas = self.procesar_archivo_csv(archivo)
+            else:
+                messages.error(request, 'El archivo debe ser un archivo .xlsx o .csv')
+                registros_incorrectos.append("El archivo debe ser un archivo .xlsx o .csv")
+        else:
+            messages.error(request, 'Debe seleccionar un archivo')
+            registros_incorrectos.append("Debe seleccionar un archivo")
+
+        if len(registros_incorrectos) > 0 or len(registros_existentes) > 0:
+            messages.error(request, 'Hay errores de registros')
+            datos_json = json.dumps(registros_incorrectos)
+            
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Carga Masiva de Empleo',
+                'registros_correctos': registros_correctos,
+                'registros_incorrectos': registros_incorrectos,
+                'registros_existentes': registros_existentes,
+                'descargar_url': datos_json,
+                'num_filas_procesadas': num_filas_procesadas,
+            })
+            
+        else:
+            return HttpResponseRedirect(reverse('dashboard:inversion_publica_list'))
+        
+        
+
+    def procesar_archivo_xlsx(self, archivo):
+        registros_correctos, registros_incorrectos, registros_existentes = [], [], []
+        num_filas_procesadas = 0
+        try:
+            workbook = load_workbook(filename=archivo, read_only=True)
+            worksheet = workbook.active
+            filas = list(worksheet.rows)
+            for i, row in enumerate(filas):
+                if i == 0:
+                    continue # Ignorar la primera fila si es el encabezado
+                num_filas_procesadas += 1
+                # Limpieza de datos
+                fecha_inicio_str = row[0].value.date().strftime('%Y-%m-%d') if len(row) > 0 and row[0].value else ''
+                fecha_inicio_obj = datetime.strptime(fecha_inicio_str, '%Y-%m-%d').date() if fecha_inicio_str else ''
+                fecha_fin_str = row[0].value.date().strftime('%Y-%m-%d') if len(row) > 0 and row[0].value else ''
+                fecha_fin_obj = datetime.strptime(fecha_fin_str, '%Y-%m-%d').date() if fecha_fin_str else ''
+                
+
+                hombres_empleados_gto = row[2].value if len(row) > 2 else 0
+                mujeres_empleadas_gto = row[3].value if len(row) > 3 else 0
+                hombres_empleados_sec_72_gto = row[4].value if len(row) > 4 else 0
+                mujeres_empleadas_sec_72_gto = row[5].value if len(row) > 5 else 0
+                hombres_empleados_sec_72_nac = row[6].value if len(row) > 6 else 0
+                mujeres_empleadas_sec_72_nac = row[7].value if len(row) > 7 else 0
+
+
+                datos = {
+                    "fecha_inicio": fecha_inicio_obj,
+                    "fecha_fin": fecha_fin_obj,
+                    "hombres_empleados_gto": hombres_empleados_gto,
+                    "mujeres_empleadas_gto": mujeres_empleadas_gto,
+                    "hombres_empleados_sec_72_gto": hombres_empleados_sec_72_gto,
+                    "mujeres_empleadas_sec_72_gto": mujeres_empleadas_sec_72_gto,
+                    "hombres_empleados_sec_72_nac": hombres_empleados_sec_72_nac,
+                    "mujeres_empleadas_sec_72_nac": mujeres_empleadas_sec_72_nac,
+                }
+
+                try:
+
+                    # Buscar si la fila ya existe en la base de datos
+                    existente = empleo.objects.filter(
+                        fecha_inicio = fecha_inicio_obj, 
+                        fecha_fin = fecha_fin_obj)
+                    if existente.exists():
+                        # Si ya existe, se omite la fila y se guarda en la lista de registros incorrectos
+                        print(f"La fila {datos} ya existe en la base de datos")
+                        registros_existentes.append(datos)
+                    else:
+                        # Si no existe, se guarda la nueva instancia del modelo en la base de datos y se guarda en la lista de registros correctos
+                        db = empleo(
+                            fecha_inicio = fecha_inicio_obj,
+                            fecha_fin = fecha_fin_obj,
+                            hombres_empleados_gto = hombres_empleados_gto,
+                            mujeres_empleadas_gto = mujeres_empleadas_gto,
+                            hombres_empleados_sec_72_gto = hombres_empleados_sec_72_gto,
+                            mujeres_empleadas_sec_72_gto = mujeres_empleadas_sec_72_gto,
+                            hombres_empleados_sec_72_nac = hombres_empleados_sec_72_nac,
+                            mujeres_empleadas_sec_72_nac = mujeres_empleadas_sec_72_nac,
+                        )
+                        db.save()
+                        registros_correctos.append(datos)
+                except (ValueError, TypeError) as e:
+                    print(f"Error al procesar la fila {datos}: {e}")
+                    registros_incorrectos.append(datos)
+                    
+        except FileNotFoundError:
+                print(f"El archivo {archivo} no se pudo abrir")
+                
+        return registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas
+    
+    def procesar_archivo_csv(self, archivo):
+        archivo = self.request.FILES['archivo']
+        registros_correctos, registros_incorrectos, registros_existentes = [], [], []
+        num_filas_procesadas = 0
+        try:
+            datos = csv.DictReader(archivo.read().decode('latin-1').splitlines())
+            # print(datos)
+            for row in datos:
+                num_filas_procesadas += 1
+
+                fecha_inicio = row['fecha_inicio']
+                fecha_inicio_str = str(fecha_inicio)
+                fecha_inicio_str = fecha_inicio_str.split()[0] if fecha_inicio_str else ''  # Eliminar la parte de la hora si existe la fecha_inicio
+                fecha_inicio_obj = datetime.datetime.strptime(fecha_inicio_str, '%Y-%m-%d').date()
+                fecha_fin = row['fecha_fin']
+                fecha_fin_str = str(fecha_fin)
+                fecha_fin_str = fecha_fin_str.split()[0] if fecha_fin_str else ''  # Eliminar la parte de la hora si existe la fecha_fin
+                fecha_fin_obj = datetime.datetime.strptime(fecha_fin_str, '%Y-%m-%d').date()
+
+                hombres_empleados_gto = row['hombres_empleados_gto']
+                mujeres_empleadas_gto = row['mujeres_empleadas_gto']
+                hombres_empleados_sec_72_gto = row['hombres_empleados_sec_72_gto']
+                mujeres_empleadas_sec_72_gto = row['mujeres_empleadas_sec_72_gto']
+                hombres_empleados_sec_72_nac = row['hombres_empleados_sec_72_nac']
+                mujeres_empleadas_sec_72_nac = row['mujeres_empleadas_sec_72_nac']
+
+
+                datos = {
+                    "fecha_inicio": fecha_inicio_obj,
+                    "fecha_fin": fecha_fin_obj,
+                    "hombres_empleados_gto": hombres_empleados_gto,
+                    "mujeres_empleadas_gto": mujeres_empleadas_gto,
+                    "hombres_empleados_sec_72_gto": hombres_empleados_sec_72_gto,
+                    "mujeres_empleadas_sec_72_gto": mujeres_empleadas_sec_72_gto,
+                    "hombres_empleados_sec_72_nac": hombres_empleados_sec_72_nac,
+                    "mujeres_empleadas_sec_72_nac": mujeres_empleadas_sec_72_nac,
+                }
+
+                try:
+
+                    # Buscar si la fila ya existe en la base de datos
+                    existente = zonas_arqueologicas_museos.objects.filter(
+                        fecha_inicio = fecha_inicio_obj, 
+                        fecha_fin = fecha_fin_obj)
+                    if existente.exists():
+                        # Si ya existe, se omite la fila y se guarda en la lista de registros incorrectos
+                        print(f"La fila {datos} ya existe en la base de datos")
+                        registros_existentes.append(datos)
+                    else:
+                        # Si no existe, se guarda la nueva instancia del modelo en la base de datos y se guarda en la lista de registros correctos
+                        db = zonas_arqueologicas_museos(
+                            fecha_inicio = fecha_inicio_obj,
+                            fecha_fin = fecha_fin_obj,
+                            hombres_empleados_gto = hombres_empleados_gto,
+                            mujeres_empleadas_gto = mujeres_empleadas_gto,
+                            hombres_empleados_sec_72_gto = hombres_empleados_sec_72_gto,
+                            mujeres_empleadas_sec_72_gto = mujeres_empleadas_sec_72_gto,
+                            hombres_empleados_sec_72_nac = hombres_empleados_sec_72_nac,
+                            mujeres_empleadas_sec_72_nac = mujeres_empleadas_sec_72_nac,
+                        )
+                        db.save()
+                        registros_correctos.append(datos)
+                except (ValueError, TypeError) as e:
+                    print(f"Error al procesar la fila {datos}: {e}")
+                    registros_incorrectos.append(datos)
+        except FileNotFoundError:
+            print(f"No se encontró el archivo {archivo}")
+        except Exception as e:
+            print(f"Error al procesar el archivo {archivo}: {e}")
+        return registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas
+
+class EmpleoDescargarArchivoView(View):
+
+    def crear_archivo_excel(self, registros_incorrectos):
+        workbook = openpyxl.Workbook()
+        worksheet = workbook.active
+
+        # Escribir encabezados de columna
+        worksheet['A1'] = "fecha_inicio"
+        worksheet['B1'] = "fecha_fin"
+        worksheet['C1'] = "hombres_empleados_gto"
+        worksheet['D1'] = "mujeres_empleadas_gto"
+        worksheet['E1'] = "hombres_empleados_sec_72_gto"
+        worksheet['F1'] = "mujeres_empleadas_sec_72_gto"
+        worksheet['G1'] = "hombres_empleados_sec_72_nac"
+        worksheet['H1'] = "mujeres_empleadas_sec_72_nac"
+
+        # Add the incorrect rows to the worksheet
+        for i, row in enumerate(registros_incorrectos):
+            fila = i + 2
+            worksheet.cell(row=fila, column=1, value=row['fecha_inicio'])
+            worksheet.cell(row=fila, column=2, value=row['fecha_fin'])
+            worksheet.cell(row=fila, column=3, value=row['hombres_empleados_gto'])
+            worksheet.cell(row=fila, column=4, value=row['mujeres_empleadas_gto'])
+            worksheet.cell(row=fila, column=5, value=row['hombres_empleados_sec_72_gto'])
+            worksheet.cell(row=fila, column=6, value=row['mujeres_empleadas_sec_72_gto'])
+            worksheet.cell(row=fila, column=7, value=row['hombres_empleados_sec_72_nac'])
+            worksheet.cell(row=fila, column=8, value=row['mujeres_empleadas_sec_72_nac'])
+
+
+
+        # Set the column widths to auto-fit
+        for column in worksheet.columns:
+            max_length = 0
+            column_name = column[0].column_letter
+            for cell in column:
+                try:
+                    if len(str(cell.value)) > max_length:
+                        max_length = len(str(cell.value))
+                except:
+                    pass
+            adjusted_width = (max_length + 2)
+            worksheet.column_dimensions[column_name].width = adjusted_width
+
+        # Create the response with the Excel file
+        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response['Content-Disposition'] = 'attachment; filename=sensibilizacion_registros_incorrectos.xls'
+
+        
+
+        # workbook.save(response)
+        return workbook
+    
+    def post(self, request, *args, **kwargs):
+        # Obtener los registros incorrectos del cuerpo de la petición
+        registros_incorrectos = json.loads(request.body)
+
+        # Crear y enviar el archivo de Excel con las filas incorrectas
+        workbook = self.crear_archivo_excel(registros_incorrectos)
+
+        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response['Content-Disposition'] = 'attachment; filename=sensibilizacion_registros_incorrectos.xlsx'
+        workbook.save(response)
+        return response   

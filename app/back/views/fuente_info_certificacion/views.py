@@ -278,9 +278,7 @@ class CertificacionCargaMasivaView(View):
                 num_filas_procesadas += 1
                 # Limpieza de datos
                 fecha_str = row[0].value.date().strftime('%Y-%m-%d') if len(row) > 0 and row[0].value else ''
-                fecha_obj = datetime.strptime(fecha_str, '%Y-%m-%d').date() if fecha_str else None
-                json_fecha = json.dumps(fecha_obj.strftime('%Y-%m-%d')) if fecha_obj else ''
-                json_fecha = json_fecha.strip('"') if json_fecha else ''
+                fecha_obj = datetime.strptime(fecha_str, '%Y-%m-%d').date() if fecha_str else ''
 
                 tipo_de_certificacion = row[2].value if len(row) > 4 else ''
                 empresas_certificadas = row[3].value if len(row) > 5 else 0
@@ -293,7 +291,7 @@ class CertificacionCargaMasivaView(View):
                 # tipo = homologar_columna_destino(tipo)
                 # nombre = homologar_columna_destino(nombre)
                 datos = {
-                    "fecha": json_fecha,
+                    "fecha": fecha_obj,
                     "destino": destino,
                     "tipo_de_certificacion": tipo_de_certificacion,
                     "empresas_certificadas": empresas_certificadas,

@@ -152,6 +152,8 @@ urlpatterns = [
     path('fuentes_info/inversion_privada/edit/<int:pk>/', FuenteInfoInversionPrivUpdate.as_view(), name='fuente_info_inversion_privada_update'),
     path('fuentes_info/inversion_privada/delete/<int:pk>/', FuenteInfoInversionPrivDelete.as_view(), name='fuente_info_inversion_privada_delete'),
     path('fuentes_info/inversion_privada/get_p',get_inversion_privada, name='get_inversion_privada'),
+    path('fuentes_info/inversion-privada/carga-masiva', InversionPrivCargaMasivaView.as_view(), name='fuente_info_inversion_privada_carga_masiva'),
+    path('fuentes_info/inversion-privada/descargar-archivo', InversionPrivDescargarArchivoView.as_view(), name='fuente_info_inversion_privada_descargar_archivo'),
 
     # Fuentes info Modelo GD
     path('fuentes_info/modelo_gd', FuenteInfoModeloGD.as_view(), name='fuente_info_modelo_gd'),
@@ -165,6 +167,8 @@ urlpatterns = [
     path('fuentes_info/empleo/add', FuenteInfoEmpleoCreate.as_view(), name='fuente_info_empleo_create'),
     path('fuentes_info/empleo/edit/<int:pk>/', FuenteInfoEmpleoUpdate.as_view(), name='fuente_info_empleo_update'),
     path('fuentes_info/empleo/delete/<int:pk>/', FuenteInfoEmpleoDelete.as_view(), name='fuente_info_empleo_delete'),
+    path('fuentes_info/empleo/carga-masiva', EmpleoCargaMasivaView.as_view(), name='fuente_info_empleo_carga_masiva'),
+    path('fuentes_info/empleo/descargar-archivo', EmpleoDescargarArchivoView.as_view(), name='fuente_info_empleo_descargar_archivo'),
 
     
     # Usuarios

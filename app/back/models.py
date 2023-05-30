@@ -438,12 +438,13 @@ class CatalagoZAMuseos (models.Model):
 
 
 class inversion_privada (models.Model):
-    id_del_proyecto = models.CharField(max_length=455)
-    destino = models.CharField(max_length=455, null=True, blank=True)
     fecha = models.DateField()
     monto_ejecutado = models.FloatField()
     avance_proyecto = models.FloatField()
+    observaciones = models.CharField(max_length=455)
     nombre_del_proyecto = models.CharField(max_length=455)
+    id_del_proyecto = models.CharField(max_length=455)
+    destino = models.CharField(max_length=455, null=True, blank=True)
 
     class Meta:
         app_label = 'ecosistema'
@@ -471,6 +472,11 @@ class empleo (models.Model):
     mujeres_empleadas_sec_72_gto = models.IntegerField(null=True, default=None)
     hombres_empleados_sec_72_nac = models.IntegerField(null=True, default=None)
     mujeres_empleadas_sec_72_nac = models.IntegerField(null=True, default=None)
+
+    class Meta:
+        app_label = 'ecosistema'
+        db_table = "empleo"
+        ordering = ['-id']
 
 class ModeloGD (models.Model):
     anio = models.IntegerField()
