@@ -34,7 +34,7 @@ class FuenteInfoParticipacionSegmentos (ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Listado de Fuentes de Informacion de % Segmentos'
-        context['create_url'] = reverse_lazy('dashboard:fuente_info_certificacion_create')
+        context['create_url'] = reverse_lazy('dashboard:fuente_info_segmentos_create')
         context['entity'] = '% Segmentos'
         context['is_fuente'] = True
         context['carga_masiva_url'] = reverse_lazy('dashboard:fuente_info_segmentos_carga_masiva')
@@ -44,8 +44,8 @@ class FuenteInfoParticipacionSegmentos (ListView):
 class FuenteInfoParticipacionSegmentosCreate (CreateView):
     model = ParticipacionSegmentos
     form_class = ParticipacionSegmentosForm
-    template_name = 'back/fuente_info_certificacion/create.html'
-    success_url = reverse_lazy('dashboard:fuente_info_certificacion')
+    template_name = 'back/fuente_info_segmentos/create.html'
+    success_url = reverse_lazy('dashboard:fuente_info_segmentos')
 
     def get_object(self, **kwargs):
         queryset = self.get_queryset()
@@ -60,13 +60,13 @@ class FuenteInfoParticipacionSegmentosCreate (CreateView):
         if form.is_valid():
             # Check if there is already a record with the same fecha, destino and categoria
 
-            fecha = form.cleaned_data['fecha']
+            ano = form.cleaned_data['ano']
             destino = form.cleaned_data['destino']
 
             try:
-                existing_object = self.get_object(fecha=fecha, destino=destino)
+                existing_object = self.get_object(ano=ano, destino=destino)
 
-            except Certificacion.DoesNotExist:
+            except ParticipacionSegmentos.DoesNotExist:
                 existing_object = None
 
             existing_catalogo = CatalagoDestino.objects.filter(destino__iexact=destino).exists()
@@ -108,11 +108,11 @@ class FuenteInfoParticipacionSegmentosCreate (CreateView):
             # If there is existing data and replace_data is False, return an error
 
             if existing_object:
-                data = Certificacion.objects.filter(fecha=fecha, destino=destino)
+                data =   ParticipacionSegmentos.objects.filter(ano=ano, destino=destino)
 
-                data_list = list(data.values('fecha', 'destino', 'tipo_de_certificacion', 'empresas_certificadas'))
+                data_list = list(data.values('ano', 'destino', 'segmento', 'participacion'))
                 data_list2 = list(form.cleaned_data.values())
-                table_html = render_to_string('back/fuente_info_certificacion/table.html',{'data_list': data_list, 'actual': True, 'data_list2': data_list2})
+                table_html = render_to_string('back/fuente_info_segmentos/table.html',{'data_list': data_list, 'actual': True, 'data_list2': data_list2})
 
                 datajsn = {
                     'success': False,
@@ -161,7 +161,7 @@ class FuenteInfoParticipacionSegmentosCreate (CreateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Crear una fuente'
         context['entity'] = 'Glosario'
-        context['list_url'] = reverse_lazy('dashboard:fuente_info_certificacion')
+        context['list_url'] = reverse_lazy('dashboard:fuente_info_segmentos')
         context['action'] = 'add'
         return context
 
