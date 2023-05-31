@@ -453,3 +453,13 @@ class ModeloGDForm (forms.ModelForm):
         labels = {
             'anio': 'Año',
         }
+
+class CatalogoDestinoForm (forms.ModelForm):
+    class Meta:
+        model = CatalagoDestino
+        fields = '__all__'
+
+class AirbnbForm (forms.ModelForm):
+    class Meta:
+        model = Airbnb
+        fields = '__all__'

@@ -1,0 +1,46 @@
+{% extends 'back/components/list.html' %}
+{% load static %}
+
+{% block head_list %}
+<!-- <script src="{% static 'admin/banner/list.js' %}"></script> -->
+{% endblock %}
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</head>
+
+{% block columns %}
+<tr class="text-center table-header">
+
+    <th class="text-left pl-3">N°</th>
+    <th class="width: 300px;">Destino</th>
+
+    <th style="width: 300px;">Entidad</th>
+    <th class="actions">Acciones</th>
+</tr>
+{% endblock %}
+
+{% block rows %}
+{% for e in object_list %}
+<tr class="text-center table-body mt-2">
+    <th class="text-left pl-3">{{e.id}}</th>
+    <th class="text-center hidden-t">{{e.destino}}</th>
+    <th class="text-center hidden-t">{{e.entidad}}</th>
+    <th class="actions-container">
+
+        <form method="post" action="{% url 'dashboard:configuracion_destinos_delete' e.id %}" >
+            {% csrf_token %}
+            <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">
+                <i class="fas fa-trash"></i>
+            </button>
+        </form>
+    </th>
+</tr>
+
+{% endfor %}
+{% endblock %}

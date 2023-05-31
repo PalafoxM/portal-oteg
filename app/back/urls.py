@@ -25,6 +25,9 @@ from back.views.fuente_info_invesion_priv.views import *
 from back.views.fuente_info_empleo.views import *
 from back.views.fuente_info_modelo_gd.views import *
 from back.views.modulo_config.views import *
+from back.views.modulo_config_destinos.views import *
+from back.views.fuente_info_airbnb.views import *
+
 
 
 from django.conf import settings
@@ -155,6 +158,13 @@ urlpatterns = [
     path('fuentes_info/empleo/edit/<int:pk>/', FuenteInfoEmpleoUpdate.as_view(), name='fuente_info_empleo_update'),
     path('fuentes_info/empleo/delete/<int:pk>/', FuenteInfoEmpleoDelete.as_view(), name='fuente_info_empleo_delete'),
 
+    #fuente info airbnb
+    path('fuentes_info/airbnb', FuenteInfoAirbnb.as_view(), name='fuente_info_airbnb'),
+    path('fuentes_info/airbnb/add', FuenteInfoAirbnbCreate.as_view(), name='fuente_info_airbnb_create'),
+    path('fuentes_info/airbnb/edit/<int:pk>/', FuenteInfoAirbnbUpdate.as_view(), name='fuente_info_airbnb_update'),
+    path('fuentes_info/airbnb/delete/<int:pk>/', FuenteInfoAirbnbDelete.as_view(), name='fuente_info_airbnb_delete'),
+
+
     
     # Usuarios
     path('usuarios/list', my_profile, name='profile'),
@@ -240,5 +250,12 @@ urlpatterns = [
     path('proyectos-inversion/add', ProyectoInversionCreateView.as_view(), name='proyectos_inversion_create'),
     path('proyectos-inversion/edit/<int:pk>/', ProyectoInversionUpdateView.as_view(), name='proyectos_inversion_update'),
     path('proyectos-inversion/delete/<int:pk>/', ProyectoInversionDeleteView.as_view(), name='proyectos_inversion_delete'),
+
+    #modlulos configuracion
+    #modlulo Configuracion DEstinos 
+    path('configuracion-destinos/list', ModiuloConfigDestinos.as_view(), name='configuracion_destinos_list'),
+    path('configuracion-destinos/add', ModiuloConfigDestinosCreateView.as_view(), name='configuracion_destinos_create'),
+    path('configuracion-destinos/edit/<int:pk>/', ModiuloConfigDestinosUpdateView.as_view(), name='configuracion_destinos_update'),
+    path('configuracion-destinos/delete/<int:pk>/', ModiuloConfigDestinosDeleteView.as_view(), name='configuracion_destinos_delete'),
     
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
