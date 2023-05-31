@@ -398,6 +398,19 @@ class CatalagoCategoriaForm(forms.ModelForm):
             'categoria': forms.TextInput(attrs={'class': 'form-control'})
         }
 
+class CatalagoDestinoAeropuertoForm(forms.ModelForm):
+    class Meta:
+        model = CatalagoDestinoAeropuerto
+        fields = ['destino_aeropuerto', 'destino_aeropuerto_id']
+        labels = {
+            'destino_aeropuerto': 'Destino Aeropuerto',
+            'destino_aeropuerto_id': 'ID Destino Aeropuerto'
+        }
+        widgets = {
+            'destino_aeropuerto': forms.TextInput(attrs={'class': 'form-control'}),
+            'destino_aeropuerto_id': forms.TextInput(attrs={'class': 'form-control'})
+        }
+
 class CatalagoDestinoForm(forms.ModelForm):
     class Meta:
         model = CatalagoDestino
@@ -530,4 +543,23 @@ class AeropuertoForm(forms.ModelForm):
             'pasajeros_internacionales': forms.NumberInput(attrs={'class': 'form-control'}),
             'fecha': forms.DateInput(attrs={'class': 'form-control'}),
             'vuelos': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+class AerolineaForm(forms.ModelForm):
+    class Meta:
+        model = Aerolinea
+        fields = '__all__'
+        labels = {
+            'fecha': 'Fecha',
+            'destino_aeropuerto': 'Destino del aeropuerto',
+            'destino_aeropuerto_id': 'ID del destino del aeropuerto',
+            'tipo_aerolinea': 'Tipo de aerolínea',
+            'codigo_aerolinea': 'Código de aerolínea',
+        }
+        widgets = {
+            'fecha': forms.DateInput(attrs={'class': 'form-control'}),
+            'destino_aeropuerto': forms.TextInput(attrs={'class': 'form-control'}),
+            'destino_aeropuerto_id': forms.TextInput(attrs={'class': 'form-control'}),
+            'tipo_aerolinea': forms.TextInput(attrs={'class': 'form-control'}),
+            'codigo_aerolinea': forms.TextInput(attrs={'class': 'form-control'}),
         }

@@ -19,6 +19,7 @@ from back.views.catalogo_segmentos.views import *
 from back.views.catalogo_tipo_visitante.views import *
 from back.views.catalogo_za_museos.views import *
 from back.views.catalogo_destinos.views import *
+from back.views.catalogo_destinos_aeropuerto.views import *
 from back.views.proyectos_inversion.views import *
 from back.views.fuente_info_certificacion.views import *
 from back.views.fuente_info_invesion_priv.views import *
@@ -28,6 +29,7 @@ from back.views.modulo_config.views import *
 from back.views.fuente_info_discapacidad.views import *
 from back.views.fuente_info_segmentos.views import *
 from back.views.fuente_info_aeropuertos.views import *
+from back.views.fuente_info_aerolinea.views import *
 
 
 from django.conf import settings
@@ -253,6 +255,12 @@ urlpatterns = [
     path('catalago-destinos/edit/<int:pk>/', CatalagoDestinoUpdateView.as_view(), name='catalogo_destinos_update'),
     path('catalago-destinos/delete/<int:pk>/', CatalagoDestinoDeleteView.as_view(), name='catalogo_destinos_delete'),
 
+    #catalogo_destinos_aeropuerto
+    path('catalago-destinos-aeropuerto/list', CatalagoDestinoAeropuertoListView.as_view(), name='catalogo_destinos_aeropuerto_list'),
+    path('catalago-destinos-aeropuerto/add', CatalagoDestinoAeropuertoCreateView.as_view(), name='catalogo_destinos_aeropuerto_create'),
+    path('catalago-destinos-aeropuerto/edit/<int:pk>/', CatalagoDestinoAeropuertoUpdateView.as_view(), name='catalogo_aeropuerto_destinos_update'),
+    path('catalago-destinos-aeropuerto/delete/<int:pk>/', CatalagoDestinoAeropuertoDeleteView.as_view(), name='catalogo_destinos_aeropuerto_delete'),
+
     #proyectos_inversion
     path('proyectos-inversion/list', ProyectoInversionListView.as_view(), name='proyectos_inversion_list'),
     path('proyectos-inversion/add', ProyectoInversionCreateView.as_view(), name='proyectos_inversion_create'),
@@ -282,5 +290,13 @@ urlpatterns = [
     path('fuentes-info/aeropuertos/delete/<int:pk>/', FuenteInfoAeropuertoDelete.as_view(), name='fuente_info_aeropuertos_delete'),
     path('fuentes-info/aeropuertos/carga-masiva', AeropuertoCargaMasivaView.as_view(), name='fuente_info_aeropuertos_carga_masiva'),
     path('fuentes-info/aeropuertos/descargar-archivo', AeropuertoDescargarArchivoView.as_view(), name='fuente_info_aeropuertos_descargar_archivo'),
+    
+    #fuentes info aerolineas
+    path('fuentes-info/aerolineas', FuenteInfoAerolinea.as_view(), name='fuente_info_aerolineas'),
+    path('fuentes-info/aerolineas/add', FuenteInfoAerolineaCreate.as_view(), name='fuente_info_aerolineas_create'),
+    path('fuentes-info/aerolineas/edit/<int:pk>/', FuenteInfoAerolineaUpdate.as_view(), name='fuente_info_aerolineas_update'),
+    path('fuentes-info/aerolineas/delete/<int:pk>/', FuenteInfoAerolineaDelete.as_view(), name='fuente_info_aerolineas_delete'),
+    path('fuentes-info/aerolineas/carga-masiva', AerolineaCargaMasivaView.as_view(), name='fuente_info_aerolineas_carga_masiva'),
+    path('fuentes-info/aerolineas/descargar-archivo', AerolineaDescargarArchivoView.as_view(), name='fuente_info_aerolineas_descargar_archivo'),
     
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
