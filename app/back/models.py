@@ -5,6 +5,7 @@ from ckeditor.fields import RichTextField
 from django.conf import settings
 from storages.backends.s3boto3 import S3Boto3Storage
 import os
+from django.core.validators import FileExtensionValidator
 
 
 class S3Storage(S3Boto3Storage):
@@ -94,7 +95,7 @@ class Publications(models.Model):
     type = models.CharField(max_length=10, choices=TYPE_CHOICES)
     num_descargas = models.IntegerField(null=True, blank=True, default=0)
     name = models.CharField(max_length=100, verbose_name="Nombre")
-    url = models.URLField(max_length=100, null=True, blank=True)
+    url = models.FileField(null=True, blank=True, upload_to='publicacion', storage=S3Storage(), validators=[FileExtensionValidator(['pdf'])])#pdf
     date_created = models.DateTimeField(auto_now=True)
     num_descargas = models.IntegerField(null=True, blank=True, default=0)
 
@@ -187,16 +188,27 @@ class DataTour (models.Model):
     densidad_de_ocupacion = models.FloatField(null=True)
     densidad_de_ocupacion_residentes = models.FloatField(null=True)
     densidad_de_ocupacion_no_residentes = models.FloatField(null=True)
+
+    class Meta:
+        app_label = 'ecosistema'
+        db_table = "datatur"
+        ordering = ['-id']
 # Fuentes informacion
 
 
 class GastoDerrama(models.Model):
-    anio = models.IntegerField()
-    categoria = models.CharField(max_length=255)
-    destino = models.CharField(max_length=255)
-    gasto_diario_promedio = models.FloatField()
-    participacion = models.FloatField()
+    gasto_diario_prom = models.FloatField()
+    ano = models.IntegerField()
+    tipo_visitante = models.CharField(max_length=256)
+    destino = models.CharField(max_length=256)
+    participacion_en_hospedaje = models.FloatField()
     estadia_promedio = models.FloatField()
+
+    class Meta:
+        app_label = 'ecosistema'
+        db_table = "gasto_derrama"
+        ordering = ['-id']
+
 
 # Fuentes informacion
 class otros_anuales(models.Model):
@@ -204,6 +216,20 @@ class otros_anuales(models.Model):
     PIB_sector_72 = models.FloatField()
     PIB_actividades_terciarias = models.FloatField()
     basura_generada_persona_diaria_Kg = models.FloatField()
+
+    class Meta:
+        app_label = 'ecosistema'
+        db_table = "otros_anuales"
+        ordering = ['-id']
+
+
+class zonas_arqueologicas_museos(models.Model):
+    destino = models.CharField(max_length=255)
+    tipo = models.CharField(max_length=455, null=True, blank=True)
+    nombre = models.CharField(max_length=455)
+    fecha = models.DateField()
+    origen_visitante = models.CharField(max_length=455)
+    visitantes = models.IntegerField()
 
     class Meta:
 
@@ -260,13 +286,11 @@ class InversionPublica(models.Model):
 
 class InventarioHoteleroEntNac(models.Model):
 
-    destino = models.CharField(max_length=455, null=True, blank=True)
+    entidad = models.CharField(max_length=455, null=True, blank=True)
     fecha = models.DateField()
     categoria = models.CharField(max_length=255)
-    habitaciones = models.IntegerField()
     establecimientos = models.IntegerField()
-    date_updated = models.DateTimeField(auto_now=True,)
-    date_created = models.DateTimeField(auto_now=True)
+    habitaciones = models.IntegerField()
 
     def toJSON(self):
         item = model_to_dict(self)
@@ -301,7 +325,12 @@ class Sesibilizacion(models.Model):
     fecha = models.DateField()
     destino = models.CharField(max_length=455, null=True, blank=True)
     participantes = models.IntegerField()
-    accion = models.IntegerField()
+    accion_de_sensibilizacion = models.CharField(max_length=455, null=True, blank=True)
+    subcategoria = models.CharField(max_length=455, null=True, blank=True)
+
+    class Meta:
+        app_label = 'ecosistema'
+        db_table = 'sensivilizacion'
 
 
 class ProyectoInversion(models.Model):
@@ -337,10 +366,8 @@ class ProyectoInversion(models.Model):
         ordering = ['-id_del_proyecto']
 
 # catalagos
-
-
 class CatalagoCategoria(models.Model):
-    categoria = models.CharField(max_length=255)
+    categoria = models.CharField(max_length=255, unique=True)
 
     class Meta:
         app_label = 'ecosistema'
@@ -357,9 +384,18 @@ class CatalagoDestino(models.Model):
         db_table = 'catalogo_destinos'
         ordering = ['-id']
 
+class CatalagoDestinoAeropuerto(models.Model):
+    destino_aeropuerto = models.CharField(max_length=455, null=True, blank=True)
+    destino_aeropuerto_id = models.CharField(max_length=455)
+
+    class Meta:
+        app_label = 'ecosistema'
+        db_table = 'catalogo_destino_aeropuerto'
+        ordering = ['-id']
+
 
 class CatalagoSegmentos(models.Model):
-    segmento = models.CharField(max_length=455)
+    segmento = models.CharField(max_length=455, unique=True)
 
     class Meta:
         app_label = 'ecosistema'
@@ -382,12 +418,20 @@ class zonas_arqueologicas_museos(models.Model):
 
 
 class CatalagoTipoVisistante(models.Model):
-    tipo_visitante = models.CharField(max_length=455)
+    tipo_visitante = models.CharField(max_length=455, unique=True)
 
     class Meta:
         app_label = 'ecosistema'
         db_table = 'catalogo_tipo_visitante'
         ordering = ['-id']
+    
+    @classmethod
+    def homologar_tipo_visitante(cls, tipo_visitante):
+        try:
+            catalogo = CatalagoTipoVisistante.objects.get(tipo_visitante=tipo_visitante)
+            return catalogo.tipo_visitante
+        except CatalagoTipoVisistante.DoesNotExist:
+            return tipo_visitante
 
 
 class CatalagoZAMuseos (models.Model):
@@ -414,12 +458,18 @@ class Airbnb (models.Model):
         ordering = ['-id']
 
 class inversion_privada (models.Model):
-    id_del_proyecto = models.CharField(max_length=455)
-    destino = models.CharField(max_length=455, null=True, blank=True)
     fecha = models.DateField()
     monto_ejecutado = models.FloatField()
     avance_proyecto = models.FloatField()
+    observaciones = models.CharField(max_length=455)
     nombre_del_proyecto = models.CharField(max_length=455)
+    id_del_proyecto = models.CharField(max_length=455)
+    destino = models.CharField(max_length=455, null=True, blank=True)
+
+    class Meta:
+        app_label = 'ecosistema'
+        db_table = "inversion_privada"
+        ordering = ['-id']
 
 
 class Certificacion(models.Model):
@@ -427,6 +477,11 @@ class Certificacion(models.Model):
     destino = models.CharField(max_length=455, null=True, blank=True)
     tipo_de_certificacion = models.CharField(max_length=455)
     empresas_certificadas = models.IntegerField()
+
+    class Meta:
+        app_label = 'ecosistema'
+        db_table = "certificacion"
+        ordering = ['-id']
 
 class empleo (models.Model):
     fecha_inicio = models.DateField()
@@ -438,6 +493,11 @@ class empleo (models.Model):
     hombres_empleados_sec_72_nac = models.IntegerField(null=True, default=None)
     mujeres_empleadas_sec_72_nac = models.IntegerField(null=True, default=None)
 
+    class Meta:
+        app_label = 'ecosistema'
+        db_table = "empleo"
+        ordering = ['-id']
+
 class ModeloGD (models.Model):
     anio = models.IntegerField()
     destino = models.CharField(max_length=455, null=True, blank=True)
@@ -448,3 +508,53 @@ class ModeloGD (models.Model):
 
 
 
+class Discapacidad(models.Model):
+    destino = models.CharField(max_length=256)
+    fecha = models.DateField()
+    giro_comercial = models.CharField(max_length=256)
+    empleos_fijos_h = models.BigIntegerField()
+    empleos_fijos_m = models.BigIntegerField()
+    empleos_temporales_h = models.BigIntegerField()
+    empleos_temporales_m = models.BigIntegerField()
+    empleados_discapacidad_h = models.BigIntegerField()
+    empleados_discapacidad_m = models.BigIntegerField()
+
+    class Meta:
+        app_label = 'ecosistema'
+        db_table = "empleo_discapacidad"
+        ordering = ['-id']
+
+class ParticipacionSegmentos(models.Model):
+    ano = models.IntegerField()
+    destino = models.CharField(max_length=256)
+    segmento = models.CharField(max_length=256)
+    participacion = models.FloatField()
+
+    class Meta:
+        app_label = 'ecosistema'
+        db_table = "participacion_segmentos"
+        ordering = ['-id']
+
+class Aeropuerto(models.Model):
+    pasajeros_aeropuerto_gto = models.FloatField()
+    pasajeros_nacionales = models.FloatField()
+    pasajeros_internacionales = models.FloatField()
+    fecha = models.DateField()
+    vuelos = models.CharField(max_length=100)
+
+    class Meta:
+        app_label = 'ecosistema'
+        db_table = "pasajeros_aeropuerto"
+        ordering = ['-id']
+
+class Aerolinea(models.Model):
+    fecha = models.DateField()
+    destino_aeropuerto = models.CharField(max_length=256)
+    destino_aeropuerto_id = models.CharField(max_length=256)
+    tipo_aerolinea = models.CharField(max_length=256)
+    codigo_aerolinea = models.CharField(max_length=256)
+
+    class Meta:
+        app_label = 'ecosistema'
+        db_table = "aerolineas_destino"
+        ordering = ['-id']

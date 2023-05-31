@@ -1,0 +1,42 @@
+{% extends 'back/components/list.html' %}
+{% load static %}
+{% block head_list %}
+<!-- <script src="{% static 'admin/banner/list.js' %}"></script> -->
+{% endblock %}
+
+{% block columns %}
+<tr class="text-center table-header">
+    <th class="text-left pl-3">N°</th>
+    <th class="text-center hidden-t">Fecha</th>
+    <th class="text-center hidden-t">vuelos</th>
+    <th class="text-center hidden-t">Pasajeros en el aeropuerto de Guanajuato</th>
+    <th class="text-left hidden-t">Pasajeros nacionales</th>
+    <th class="text-left hidden-t">Pasajeros internacionales</th>
+    <th class="actions">Acciones</th>
+</tr>
+{% endblock %}
+
+{% block rows %}
+{% for e in object_list %}
+<tr class="text-center table-body mt-2">
+    <th class="text-left pl-3">{{e.id}}</th>
+    <th class="text-center hidden-t">{{e.fecha}}</th>
+    <th class="text-center hidden-t">{{e.vuelos}}</th>
+    <th class="text-center hidden-t">{{e.pasajeros_aeropuerto_gto}}</th>
+    <th class="text-left hidden-t">{{e.pasajeros_nacionales}}</th>
+    <th class="text-left hidden-t">{{e.pasajeros_internacionales}}</th>
+    <th class="actions-container">
+        <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="location.href='{% url 'dashboard:fuente_info_aeropuertos_update' e.id %}'">
+            <i class="far fa-eye"></i>
+        </button>
+        <form method="post" action="{% url 'dashboard:fuente_info_aeropuertos_delete' e.id %}" >
+            {% csrf_token %}
+            <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">
+                <i class="fas fa-trash"></i>
+            </button>
+        </form>
+
+    </th>
+</tr>
+{% endfor %}
+{% endblock %}

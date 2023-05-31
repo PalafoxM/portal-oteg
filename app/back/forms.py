@@ -32,15 +32,22 @@ from ckeditor.widgets import CKEditorWidget
 #         }
 
 class PublicationForm(forms.ModelForm):
+    TYPE_CHOICES = (
+        ('1', 'PDF'),
+        ('2', 'MP3'),
+        ('3', 'XLS'),
+    )
+     
+    type = forms.ChoiceField(choices=TYPE_CHOICES, widget=forms.Select(attrs={'class': 'form-control'}))
     class Meta:
         model = Publications
         exclude = ('category', 'section', 'num_descargas')
         fields = '__all__'
         widgets = {
 
-            'type': forms.Select(attrs={'class': 'form-control'}),
+            'type': forms.TextInput(attrs={'class': 'form-control'}),
             'name': forms.TextInput(attrs={'class': 'form-control'}),
-            'url': forms.TextInput(attrs={'class': 'form-control'}),
+            'url': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
 
             'section': TextInput(attrs = { 'placeholder': 'Ingresa una Sección', 'class': 'form-control'}),
             'category': TextInput(attrs = { 'placeholder': 'Ingresa una Categroia', 'class': 'form-control'}),            
@@ -48,6 +55,11 @@ class PublicationForm(forms.ModelForm):
             'download': TextInput(attrs = { 'placeholder': 'Descarga', 'class': 'form-control'}),
             'name': TextInput(attrs = { 'placeholder': 'Ingresa un Nombre ', 'class': 'form-control'}),
             'fiel': ClearableFileInput(attrs = { 'placeholder': 'Ingresa una imagen', 'class': 'form-control-file'}), 
+        }
+        labels = {
+            'type': 'Tipo de Documento',
+            'url': 'Archivo',
+            'category': 'Categoria',
         }
 
 
@@ -178,8 +190,11 @@ class BarometroForm(forms.ModelForm):
         widgets = {
             'semestre': forms.NumberInput(attrs={'class': 'form-control', 'required': True}),
             'nombrePDF': forms.TextInput(attrs={'class': 'form-control'}),
-            'url': forms.URLInput(attrs={'class': 'form-control'}),
+            'url': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
             'yearPDF': forms.NumberInput(attrs={'class': 'form-control', 'required': True}),
+        }
+        labels = {
+            'url': 'Archivo',
         }
 
 
@@ -258,7 +273,7 @@ class DataTurForm(forms.ModelForm):
 class GastoDerramaForm (forms.ModelForm):
     class Meta:
         model = GastoDerrama
-        fields = ['anio', 'categoria', 'destino', 'gasto_diario_promedio','participacion','estadia_promedio']
+        fields = '__all__'
 
 
 class OtrosAnualesForm (forms.ModelForm):
@@ -326,9 +341,9 @@ class InversionPublicaForm(forms.ModelForm):
 class InventarioHoteleroEntNacForm(ModelForm):
     class Meta:
         model = InventarioHoteleroEntNac
-        fields = ['destino', 'fecha', 'categoria', 'habitaciones', 'establecimientos']
+        fields = ['entidad', 'fecha', 'categoria', 'habitaciones', 'establecimientos']
         widgets = {
-            'destino': forms.TextInput(attrs={'class': 'form-control'}),
+            'entidad': forms.TextInput(attrs={'class': 'form-control'}),
             'fecha': forms.DateInput(attrs={'class': 'form-control fecha-input'}),
             'categoria': forms.TextInput(attrs={'class': 'form-control'}),
             'habitaciones': forms.NumberInput(attrs={'class': 'form-control'}),
@@ -381,6 +396,19 @@ class CatalagoCategoriaForm(forms.ModelForm):
         }
         widgets = {
             'categoria': forms.TextInput(attrs={'class': 'form-control'})
+        }
+
+class CatalagoDestinoAeropuertoForm(forms.ModelForm):
+    class Meta:
+        model = CatalagoDestinoAeropuerto
+        fields = ['destino_aeropuerto', 'destino_aeropuerto_id']
+        labels = {
+            'destino_aeropuerto': 'Destino Aeropuerto',
+            'destino_aeropuerto_id': 'ID Destino Aeropuerto'
+        }
+        widgets = {
+            'destino_aeropuerto': forms.TextInput(attrs={'class': 'form-control'}),
+            'destino_aeropuerto_id': forms.TextInput(attrs={'class': 'form-control'})
         }
 
 class CatalagoDestinoForm(forms.ModelForm):
@@ -463,3 +491,84 @@ class AirbnbForm (forms.ModelForm):
     class Meta:
         model = Airbnb
         fields = '__all__'
+class DiscapacidadForm(forms.ModelForm):
+    class Meta:
+        model = Discapacidad
+        fields = '__all__'
+        widgets = {
+            'destino': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Destino'}),
+            'fecha': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Fecha'}),
+            'giro_comercial': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Giro Comercial'}),
+            'empleos_fijos_h': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Empleos Fijos Hombres'}),
+            'empleos_fijos_m': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Empleos Fijos Mujeres'}),
+            'empleos_temporales_h': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Empleos Temporales Hombres'}),
+            'empleos_temporales_m': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Empleos Temporales Mujeres'}),
+            'empleados_discapacidad_h': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Empleados Discapacidad Hombres'}),
+            'empleados_discapacidad_m': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Empleados Discapacidad Mujeres'}),
+        }
+        labels = {
+            'destino': 'Destino',
+            'fecha': 'Fecha',
+            'giro_comercial': 'Giro Comercial',
+            'empleos_fijos_h': 'Empleos Fijos Hombres',
+            'empleos_fijos_m': 'Empleos Fijos Mujeres',
+            'empleos_temporales_h': 'Empleos Temporales Hombres',
+            'empleos_temporales_m': 'Empleos Temporales Mujeres',
+            'empleados_discapacidad_h': 'Empleados Discapacidad Hombres',
+            'empleados_discapacidad_m': 'Empleados Discapacidad Mujeres',
+        }
+
+class ParticipacionSegmentosForm(forms.ModelForm):
+    class Meta:
+        model = ParticipacionSegmentos
+        fields = ('ano', 'destino', 'segmento', 'participacion')
+        labels = {
+            'ano': 'Año',
+            'destino': 'Destino',
+            'segmento': 'Segmento',
+            'participacion': 'Participación'
+        }
+        widgets = {
+            'ano': forms.NumberInput(attrs={'class': 'form-control'}),
+            'destino': forms.TextInput(attrs={'class': 'form-control'}),
+            'segmento': forms.TextInput(attrs={'class': 'form-control'}),
+            'participacion': forms.NumberInput(attrs={'class': 'form-control'})
+        }
+
+class AeropuertoForm(forms.ModelForm):
+    class Meta:
+        model = Aeropuerto
+        fields = '__all__'
+        labels = {
+            'pasajeros_aeropuerto_gto': 'Pasajeros en el aeropuerto de Guanajuato',
+            'pasajeros_nacionales': 'Pasajeros nacionales',
+            'pasajeros_internacionales': 'Pasajeros internacionales',
+            'fecha': 'Fecha',
+            'vuelos': 'Vuelos'
+        }
+        widgets = {
+            'pasajeros_aeropuerto_gto': forms.NumberInput(attrs={'class': 'form-control'}),
+            'pasajeros_nacionales': forms.NumberInput(attrs={'class': 'form-control'}),
+            'pasajeros_internacionales': forms.NumberInput(attrs={'class': 'form-control'}),
+            'fecha': forms.DateInput(attrs={'class': 'form-control'}),
+            'vuelos': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+class AerolineaForm(forms.ModelForm):
+    class Meta:
+        model = Aerolinea
+        fields = '__all__'
+        labels = {
+            'fecha': 'Fecha',
+            'destino_aeropuerto': 'Destino del aeropuerto',
+            'destino_aeropuerto_id': 'ID del destino del aeropuerto',
+            'tipo_aerolinea': 'Tipo de aerolínea',
+            'codigo_aerolinea': 'Código de aerolínea',
+        }
+        widgets = {
+            'fecha': forms.DateInput(attrs={'class': 'form-control'}),
+            'destino_aeropuerto': forms.TextInput(attrs={'class': 'form-control'}),
+            'destino_aeropuerto_id': forms.TextInput(attrs={'class': 'form-control'}),
+            'tipo_aerolinea': forms.TextInput(attrs={'class': 'form-control'}),
+            'codigo_aerolinea': forms.TextInput(attrs={'class': 'form-control'}),
+        }

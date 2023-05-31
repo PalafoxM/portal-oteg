@@ -19,10 +19,13 @@
 {% block columns %}
 <tr>
     <th scope="col" style="width: 10%;">id</th>
+    <th scope="col" style="width: 10%;">Gasto Diario Promedio</th>
     <th scope="col" style="width: 20%;">Año</th>
-    <th scope="col" style="width: 20%;">categoria</th>
-    <th scope="col" style="width: 20%;">Categoria</th>
+    <th scope="col" style="width: 20%;">Tipo de Visitante</th>
+    <th scope="col" style="width: 20%;">Participación en Hospedaje</th>
     <th scope="col" style="width: 30%;">Dsestino</th>
+    <th scope="col" style="width: 30%;">Estadía Promedio</th>
+    <th scope="col" style="width: 30%;">acciones</th>
 </tr>
 {% endblock %}
 
@@ -31,9 +34,12 @@
 {% for e in object_list %}
 <tr>
     <th>{{e.id}}</th>
-    <th>{{e.anio}}</th>
-    <th>{{e.categoria}}</th>
+    <th>{{e.gasto_diario_prom}}</th>
+    <th>{{e.ano}}</th>
+    <th>{{e.tipo_visitante}}</th>
+    <th>{{e.participacion_en_hospedaje}}</th>
     <th>{{e.destino}}</th>
+    <th>{{e.estadia_promedio}}</th>
 
     <th>
 

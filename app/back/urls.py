@@ -19,6 +19,7 @@ from back.views.catalogo_segmentos.views import *
 from back.views.catalogo_tipo_visitante.views import *
 from back.views.catalogo_za_museos.views import *
 from back.views.catalogo_destinos.views import *
+from back.views.catalogo_destinos_aeropuerto.views import *
 from back.views.proyectos_inversion.views import *
 from back.views.fuente_info_certificacion.views import *
 from back.views.fuente_info_invesion_priv.views import *
@@ -28,6 +29,10 @@ from back.views.modulo_config.views import *
 from back.views.modulo_config_destinos.views import *
 from back.views.fuente_info_airbnb.views import *
 
+from back.views.fuente_info_discapacidad.views import *
+from back.views.fuente_info_segmentos.views import *
+from back.views.fuente_info_aeropuertos.views import *
+from back.views.fuente_info_aerolinea.views import *
 
 
 from django.conf import settings
@@ -106,36 +111,47 @@ urlpatterns = [
     path('fuentes_info/datatur/add', FuenteInfoDataturCreate.as_view(), name='fuente_info_datatour_create'),
     path('fuentes_info/datatur/edit/<int:pk>/', FuenteInfoDataturUpdate.as_view(), name='fuente_info_datatour_update'),
     path('fuentes_info/datatur/delete/<int:pk>/', FuenteInfoDataturDelete.as_view(), name='fuente_info_datatour_delete'),
-    path('upload_file', upload_file, name='upload_file2'),
+    path('fuentes_info/datatur/carga-masiva', DataturCargaMasivaView.as_view(), name='fuente_info_datatour_carga_masiva'),
+    path('fuentes_info/datatur/descargar-archivo', DescargarArchivoDataturView.as_view(), name='fuente_info_datatour_descargar_archivo'),
     #Fuentes de informacion Gasto Derrama
     path('fuentes_info/gasto_derrama', FuenteInfoGastoDerrama.as_view(), name='fuente_info_gasto_derrama'),
     path('fuentes_info/gasto_derrama/add', FuenteInfoGastoDerramaCreate.as_view(), name='fuente_info_gasto_derrama_create'),
     path('fuentes_info/gasto_derrama/edit/<int:pk>/', FuenteInfoGastoDerramaUpdate.as_view(), name='fuente_info_gasto_derrama_update'),
     path('fuentes_info/gasto_derrama/delete/<int:pk>/', FuenteInfoGastoDerramaDelete.as_view(), name='fuente_info_gasto_derrama_delete'),
+    path('fuentes_info/gasto-derrama/carga-masiva', GastoDerramaCargaMasivaView.as_view(), name='fuente_gasto_derrama_carga_masiva'),
+    path('fuentes_info/gasto-derrama/descargar-archivo', GastoDerramaDescargarArchivoView.as_view(), name='fuente_gasto_derrama_descargar_archivo'),
 
     #Fuentes de informacion Otros Anuales
     path('fuentes_info/otros_anuales', FuenteInfoOtrosAnuales.as_view(), name='fuente_info_otros_anuales'),
     path('fuentes_info/otros_anuales/add', FuenteInfoOtrosAnualesCreate.as_view(), name='fuente_info_otros_anuales_create'),
     path('fuentes_info/otros_anuales/edit/<int:pk>/', FuenteInfoOtrosAnualesUpdate.as_view(), name='fuente_info_otros_anuales_update'),
     path('fuentes_info/otros_anuales/delete/<int:pk>/', FuenteInfoOtrosAnualesDelete.as_view(), name='fuente_info_otros_anuales_delete'),
+    path('fuentes_info/otros-anuales/carga-masiva', OtrosAnualesCargaMasivaView.as_view(), name='fuente_otros_anuales_carga_masiva'),
+    path('fuentes_info/otros-anuales/descargar-archivo', OtrosAnualeDescargarArchivoView.as_view(), name='fuente_otros_anuales_descargar_archivo'),
     
     #Fuentes de informacion Zonas Arqueologicas
     path('fuentes_info/zonas_arqueologicas', FuenteInfoZonasArqueologicas.as_view(), name='fuente_info_zonas_arqueologicas'),
     path('fuentes_info/zonas_arqueologicas/add', FuenteInfoZonasArqueologicasCreate.as_view(), name='fuente_info_zonas_arqueologicas_create'),
     path('fuentes_info/zonas_arqueologicas/edit/<int:pk>/', FuenteInfoZonasArqueologicasUpdate.as_view(), name='fuente_info_zonas_arqueologicas_update'),
     path('fuentes_info/zonas_arqueologicas/delete/<int:pk>/', FuenteInfoZonasArqueologicasDelete.as_view(), name='fuente_info_zonas_arqueologicas_delete'),
+    path('fuentes_info/zonas-arqueologicas/carga-masiva', ZonasArqueoCargaMasivaView.as_view(), name='fuente_zonas_arqueologicas_carga_masiva'),
+    path('fuentes_info/zonas-arqueologicas/descargar-archivo', ZonasArqueoDescargarArchivoView.as_view(), name='fuente_zonas_arqueologicas_descargar_archivo'),
     path('usuarios/list', my_profile, name='profile'),
     # Fuentes de informacion Sensibilizacion
     path('fuentes_info/sensibilizacion', FuenteInfoSensibilizacion.as_view(), name='fuente_info_sensibilizacion'),
     path('fuentes_info/sensibilizacion/add', FuenteInfoSensibilizacionCreate.as_view(), name='fuente_info_sensibilizacion_create'),
     path('fuentes_info/sensibilizacion/edit/<int:pk>/', FuenteInfoSensibilizacionUpdate.as_view(), name='fuente_info_sensibilizacion_update'),
     path('fuentes_info/sensibilizacion/delete/<int:pk>/', FuenteInfoSensibilizacionDelete.as_view(), name='fuente_info_sensibilizacion_delete'),
+    path('fuentes_info/sensibilizacion/carga-masiva', SesibilizacionCargaMasivaView.as_view(), name='fuente_info_sensibilizacion_carga_masiva'),
+    path('fuentes_info/sensibilizacion/descargar-archivo', SesibilizacionDescargarArchivoView.as_view(), name='fuente_info_sensibilizacion_descargar_archivo'),
     path('descargas/list', descargas_list, name='descargas_list'),
     #Fuentes info Certificacion 
     path('fuentes_info/certificacion', FuenteInfoCertificacion.as_view(), name='fuente_info_certificacion'),
     path('fuentes_info/certificacion/add', FuenteInfoCertificacionCreate.as_view(), name='fuente_info_certificacion_create'),
     path('fuentes_info/certificacion/edit/<int:pk>/', FuenteInfoCertificacionUpdate.as_view(), name='fuente_info_certificacion_update'),
     path('fuentes_info/certificacion/delete/<int:pk>/', FuenteInfoCertificacionDelete.as_view(), name='fuente_info_certificacion_delete'),
+    path('fuentes_info/certificacion/carga-masiva', CertificacionCargaMasivaView.as_view(), name='fuente_info_certificacion_carga_masiva'),
+    path('fuentes_info/certificacion/descargar-archivo', CertificacionDescargarArchivoView.as_view(), name='fuente_info_certificacion_descargar_archivo'),
 
     #Fuentes info Inversion Privada
 
@@ -144,6 +160,8 @@ urlpatterns = [
     path('fuentes_info/inversion_privada/edit/<int:pk>/', FuenteInfoInversionPrivUpdate.as_view(), name='fuente_info_inversion_privada_update'),
     path('fuentes_info/inversion_privada/delete/<int:pk>/', FuenteInfoInversionPrivDelete.as_view(), name='fuente_info_inversion_privada_delete'),
     path('fuentes_info/inversion_privada/get_p',get_inversion_privada, name='get_inversion_privada'),
+    path('fuentes_info/inversion-privada/carga-masiva', InversionPrivCargaMasivaView.as_view(), name='fuente_info_inversion_privada_carga_masiva'),
+    path('fuentes_info/inversion-privada/descargar-archivo', InversionPrivDescargarArchivoView.as_view(), name='fuente_info_inversion_privada_descargar_archivo'),
 
     # Fuentes info Modelo GD
     path('fuentes_info/modelo_gd', FuenteInfoModeloGD.as_view(), name='fuente_info_modelo_gd'),
@@ -157,6 +175,8 @@ urlpatterns = [
     path('fuentes_info/empleo/add', FuenteInfoEmpleoCreate.as_view(), name='fuente_info_empleo_create'),
     path('fuentes_info/empleo/edit/<int:pk>/', FuenteInfoEmpleoUpdate.as_view(), name='fuente_info_empleo_update'),
     path('fuentes_info/empleo/delete/<int:pk>/', FuenteInfoEmpleoDelete.as_view(), name='fuente_info_empleo_delete'),
+    path('fuentes_info/empleo/carga-masiva', EmpleoCargaMasivaView.as_view(), name='fuente_info_empleo_carga_masiva'),
+    path('fuentes_info/empleo/descargar-archivo', EmpleoDescargarArchivoView.as_view(), name='fuente_info_empleo_descargar_archivo'),
 
     #fuente info airbnb
     path('fuentes_info/airbnb', FuenteInfoAirbnb.as_view(), name='fuente_info_airbnb'),
@@ -245,6 +265,12 @@ urlpatterns = [
     path('catalago-destinos/edit/<int:pk>/', CatalagoDestinoUpdateView.as_view(), name='catalogo_destinos_update'),
     path('catalago-destinos/delete/<int:pk>/', CatalagoDestinoDeleteView.as_view(), name='catalogo_destinos_delete'),
 
+    #catalogo_destinos_aeropuerto
+    path('catalago-destinos-aeropuerto/list', CatalagoDestinoAeropuertoListView.as_view(), name='catalogo_destinos_aeropuerto_list'),
+    path('catalago-destinos-aeropuerto/add', CatalagoDestinoAeropuertoCreateView.as_view(), name='catalogo_destinos_aeropuerto_create'),
+    path('catalago-destinos-aeropuerto/edit/<int:pk>/', CatalagoDestinoAeropuertoUpdateView.as_view(), name='catalogo_aeropuerto_destinos_update'),
+    path('catalago-destinos-aeropuerto/delete/<int:pk>/', CatalagoDestinoAeropuertoDeleteView.as_view(), name='catalogo_destinos_aeropuerto_delete'),
+
     #proyectos_inversion
     path('proyectos-inversion/list', ProyectoInversionListView.as_view(), name='proyectos_inversion_list'),
     path('proyectos-inversion/add', ProyectoInversionCreateView.as_view(), name='proyectos_inversion_create'),
@@ -257,5 +283,36 @@ urlpatterns = [
     path('configuracion-destinos/add', ModiuloConfigDestinosCreateView.as_view(), name='configuracion_destinos_create'),
     path('configuracion-destinos/edit/<int:pk>/', ModiuloConfigDestinosUpdateView.as_view(), name='configuracion_destinos_update'),
     path('configuracion-destinos/delete/<int:pk>/', ModiuloConfigDestinosDeleteView.as_view(), name='configuracion_destinos_delete'),
+    #fuentes info discapacidad
+    path('fuentes-info/discapacidad', FuenteInfoDiscapacidad.as_view(), name='fuente_info_discapacidad'),
+    path('fuentes-info/discapacidad/add', FuenteInfoDiscapacidadCreate.as_view(), name='fuente_info_discapacidad_create'),
+    path('fuentes-info/discapacidad/edit/<int:pk>/', FuenteInfoDiscapacidadUpdate.as_view(), name='fuente_info_discapacidad_update'),
+    path('fuentes-info/discapacidad/delete/<int:pk>/', FuenteInfoDiscapacidadDelete.as_view(), name='fuente_info_discapacidad_delete'),
+    path('fuentes-info/discapacidad/carga-masiva', DiscapacidadCargaMasivaView.as_view(), name='fuente_info_discapacidad_carga_masiva'),
+    path('fuentes-info/discapacidad/descargar-archivo', DiscapacidadDescargarArchivoView.as_view(), name='fuente_info_discapacidad_descargar_archivo'),
+    
+    #fuentes info segmentos
+    path('fuentes-info/segmentos', FuenteInfoParticipacionSegmentos.as_view(), name='fuente_info_segmentos'),
+    path('fuentes-info/segmentos/add', FuenteInfoParticipacionSegmentosCreate.as_view(), name='fuente_info_segmentos_create'),
+    path('fuentes-info/segmentos/edit/<int:pk>/', FuenteInfoParticipacionSegmentosUpdate.as_view(), name='fuente_info_segmentos_update'),
+    path('fuentes-info/segmentos/delete/<int:pk>/', FuenteInfoParticipacionSegmentosDelete.as_view(), name='fuente_info_segmentos_delete'),
+    path('fuentes-info/segmentos/carga-masiva', ParticipacionSegmentosCargaMasivaView.as_view(), name='fuente_info_segmentos_carga_masiva'),
+    path('fuentes-info/segmentos/descargar-archivo', ParticipacionSegmentosDescargarArchivoView.as_view(), name='fuente_info_segmentos_descargar_archivo'),
+    
+    #fuentes info aeropuertos
+    path('fuentes-info/aeropuertos', FuenteInfoAeropuerto.as_view(), name='fuente_info_aeropuertos'),
+    path('fuentes-info/aeropuertos/add', FuenteInfoAeropuertoCreate.as_view(), name='fuente_info_aeropuertos_create'),
+    path('fuentes-info/aeropuertos/edit/<int:pk>/', FuenteInfoAeropuertoUpdate.as_view(), name='fuente_info_aeropuertos_update'),
+    path('fuentes-info/aeropuertos/delete/<int:pk>/', FuenteInfoAeropuertoDelete.as_view(), name='fuente_info_aeropuertos_delete'),
+    path('fuentes-info/aeropuertos/carga-masiva', AeropuertoCargaMasivaView.as_view(), name='fuente_info_aeropuertos_carga_masiva'),
+    path('fuentes-info/aeropuertos/descargar-archivo', AeropuertoDescargarArchivoView.as_view(), name='fuente_info_aeropuertos_descargar_archivo'),
+    
+    #fuentes info aerolineas
+    path('fuentes-info/aerolineas', FuenteInfoAerolinea.as_view(), name='fuente_info_aerolineas'),
+    path('fuentes-info/aerolineas/add', FuenteInfoAerolineaCreate.as_view(), name='fuente_info_aerolineas_create'),
+    path('fuentes-info/aerolineas/edit/<int:pk>/', FuenteInfoAerolineaUpdate.as_view(), name='fuente_info_aerolineas_update'),
+    path('fuentes-info/aerolineas/delete/<int:pk>/', FuenteInfoAerolineaDelete.as_view(), name='fuente_info_aerolineas_delete'),
+    path('fuentes-info/aerolineas/carga-masiva', AerolineaCargaMasivaView.as_view(), name='fuente_info_aerolineas_carga_masiva'),
+    path('fuentes-info/aerolineas/descargar-archivo', AerolineaDescargarArchivoView.as_view(), name='fuente_info_aerolineas_descargar_archivo'),
     
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
