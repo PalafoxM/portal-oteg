@@ -384,6 +384,15 @@ class CatalagoDestino(models.Model):
         db_table = 'catalogo_destinos'
         ordering = ['-id']
 
+class CatalagoDestinoAeropuerto(models.Model):
+    destino_aeropuerto = models.CharField(max_length=455, null=True, blank=True)
+    destino_aeropuerto_id = models.CharField(max_length=455)
+
+    class Meta:
+        app_label = 'ecosistema'
+        db_table = 'catalogo_destino_aeropuerto'
+        ordering = ['-id']
+
 
 class CatalagoSegmentos(models.Model):
     segmento = models.CharField(max_length=455, unique=True)
@@ -521,4 +530,16 @@ class Aeropuerto(models.Model):
     class Meta:
         app_label = 'ecosistema'
         db_table = "pasajeros_aeropuerto"
+        ordering = ['-id']
+
+class Aerolinea(models.Model):
+    fecha = models.DateField()
+    destino_aeropuerto = models.CharField(max_length=256)
+    destino_aeropuerto_id = models.CharField(max_length=256)
+    tipo_aerolinea = models.CharField(max_length=256)
+    codigo_aerolinea = models.CharField(max_length=256)
+
+    class Meta:
+        app_label = 'ecosistema'
+        db_table = "aerolineas_destino"
         ordering = ['-id']
