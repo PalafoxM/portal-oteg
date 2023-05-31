@@ -444,6 +444,19 @@ class CatalagoZAMuseos (models.Model):
         ordering = ['-id']
 
 
+class Airbnb (models.Model):
+    fecha_inicio = models.DateField()
+    fecha_fin = models.DateField()
+    destino = models.CharField(max_length=455, null=True, blank=True)
+    propiedad_renta = models.FloatField()
+    porcentaje_ocupacion  = models.FloatField()
+    tarifa_promedio = models.FloatField()
+
+    class Meta:
+        app_label = 'ecosistema'
+        db_table = "airbnb"
+        ordering = ['-id']
+
 class inversion_privada (models.Model):
     fecha = models.DateField()
     monto_ejecutado = models.FloatField()
@@ -492,6 +505,8 @@ class ModeloGD (models.Model):
     gasto_diario_promedio = models.FloatField()
     participacion = models.FloatField()
     estadia_promedio = models.FloatField()
+
+
 
 class Discapacidad(models.Model):
     destino = models.CharField(max_length=256)

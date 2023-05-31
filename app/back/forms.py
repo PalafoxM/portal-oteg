@@ -482,6 +482,15 @@ class ModeloGDForm (forms.ModelForm):
             'anio': 'Año',
         }
 
+class CatalogoDestinoForm (forms.ModelForm):
+    class Meta:
+        model = CatalagoDestino
+        fields = '__all__'
+
+class AirbnbForm (forms.ModelForm):
+    class Meta:
+        model = Airbnb
+        fields = '__all__'
 class DiscapacidadForm(forms.ModelForm):
     class Meta:
         model = Discapacidad
