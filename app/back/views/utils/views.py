@@ -43,3 +43,11 @@ def search_nombre_za (request):
     nombres = [ nombre.nombre for nombre in queryset ]
 
     return JsonResponse(nombres, safe=False)
+
+def search_entidades(request):
+    
+        query_original = request.GET.get('term', '')
+        queryset = CatalogoEntidad.objects.filter(entidad__icontains=query_original)
+        entidades = [ entidad.entidad for entidad in queryset ]
+    
+        return JsonResponse(entidades, safe=False)

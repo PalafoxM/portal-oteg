@@ -572,3 +572,16 @@ class AerolineaForm(forms.ModelForm):
             'tipo_aerolinea': forms.TextInput(attrs={'class': 'form-control'}),
             'codigo_aerolinea': forms.TextInput(attrs={'class': 'form-control'}),
         }
+
+class ParticipacionOrigenForm (forms.ModelForm):
+     class Meta:
+        model = ParticipacionOrigen
+        fields = '__all__'
+        labels = {
+            'anio': 'Año',
+        }
+
+class FuenteInfoEntornoNForm (forms.ModelForm):
+    class Meta:
+        model  = FuenteInfoEntornoN
+        fields = '__all__'
