@@ -20,6 +20,8 @@ from django.urls import reverse
 import openpyxl
 from django.http import HttpResponse
 import json
+from datetime import datetime
+
 from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino
 
 

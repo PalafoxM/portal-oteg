@@ -34,6 +34,7 @@ from back.views.fuente_info_segmentos.views import *
 from back.views.fuente_info_aeropuertos.views import *
 from back.views.fuente_info_aerolinea.views import *
 from back.views.fuente_info_inventario_turistico.views import *
+from back.views.fuente_info_directorio_hotelero.views import *
 
 
 from django.conf import settings
@@ -323,5 +324,13 @@ urlpatterns = [
     path('fuentes-info/inventario-turistico/delete/<int:pk>/', FuenteInfoInventarioTuristicoDelete.as_view(), name='fuente_info_inventario_turistico_delete'),
     path('fuentes-info/inventario-turistico/carga-masiva', InventarioTuristicoCargaMasivaView.as_view(), name='fuente_info_inventario_turistico_carga_masiva'),
     path('fuentes-info/inventario-turistico/descargar-archivo', InventarioTuristicoDescargarArchivoView.as_view(), name='fuente_info_inventario_turistico_descargar_archivo'),
+    
+    #fuentes info directorio_hotelero
+    path('fuentes-info/directorio-hotelero', FuenteInfoDirectorioHotelero.as_view(), name='fuente_info_directorio_hotelero'),
+    path('fuentes-info/directorio-hotelero/add', FuenteInfoDirectorioHoteleroCreate.as_view(), name='fuente_info_directorio_hotelero_create'),
+    path('fuentes-info/directorio-hotelero/edit/<int:pk>/', FuenteInfoDirectorioHoteleroUpdate.as_view(), name='fuente_info_directorio_hotelero_update'),
+    path('fuentes-info/directorio-hotelero/delete/<int:pk>/', FuenteInfoDirectorioHoteleroDelete.as_view(), name='fuente_info_directorio_hotelero_delete'),
+    path('fuentes-info/directorio-hotelero/carga-masiva', DirectorioHoteleroCargaMasivaView.as_view(), name='fuente_info_directorio_hotelero_carga_masiva'),
+    path('fuentes-info/directorio-hotelero/descargar-archivo', DirectorioHoteleroDescargarArchivoView.as_view(), name='fuente_info_directorio_hotelero_descargar_archivo'),
     
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
