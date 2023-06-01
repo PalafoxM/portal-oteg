@@ -586,3 +586,73 @@ class InventarioTuristico(models.Model):
         app_label = 'ecosistema'
         db_table = "inventario_turistico"
         ordering = ['-id']
+
+class DirectorioHotelero(models.Model):
+    id_establecimiento = models.IntegerField()
+    nombre_de_la_unidad_economica = models.CharField(max_length=256)
+    razon_social = models.CharField(max_length=256)
+    codigo_de_la_clase_de_actividad_scian = models.IntegerField()
+    nombre_de_clase_de_la_actividad = models.CharField(max_length=256)
+    descripcion_estrato_personal_ocupado = models.CharField(max_length=256)
+    tipo_de_vialidad = models.CharField(max_length=256)
+    nombre_de_la_vialidad = models.CharField(max_length=256)
+    tipo_de_entre_vialidad_1 = models.CharField(max_length=256)
+    nombre_de_entre_vialidad_1 = models.CharField(max_length=256)
+    tipo_de_entre_vialidad_2 = models.CharField(max_length=256)
+    nombre_de_entre_vialidad_2 = models.CharField(max_length=256)
+    tipo_de_entre_vialidad_3 = models.CharField(max_length=256)
+    nombre_de_entre_vialidad_3 = models.CharField(max_length=256)
+    numero_exterior_o_kilometro = models.CharField(max_length=256)
+    letra_exterior = models.CharField(max_length=256)
+    edificio = models.CharField(max_length=256)
+    edificio_piso = models.DecimalField(max_digits=10, decimal_places=2)
+    numero_interior = models.DecimalField(max_digits=10, decimal_places=2)
+    letra_interior = models.CharField(max_length=256)
+    tipo_de_asentamiento_humano = models.CharField(max_length=256)
+    nombre_de_asentamiento_humano = models.CharField(max_length=256)
+    tipo_centro_comercial = models.CharField(max_length=256)
+    c_industrial_comercial_o_mercado = models.CharField(max_length=256)
+    numero_de_local = models.DecimalField(max_digits=10, decimal_places=2)
+    codigo_postal = models.CharField(max_length=256)
+    clave_entidad = models.IntegerField()
+    entidad_federativa = models.CharField(max_length=256)
+    clave_municipio = models.DecimalField(max_digits=10, decimal_places=2)
+    municipio = models.CharField(max_length=256)
+    clave_localidad = models.DecimalField(max_digits=10, decimal_places=2)
+    localidad = models.CharField(max_length=256)
+    area_geoestadistica_basica = models.CharField(max_length=256)
+    manzana = models.DecimalField(max_digits=10, decimal_places=2)
+    numero_de_telefono = models.CharField(max_length=256)
+    correo_electronico = models.CharField(max_length=256)
+    sitio_en_internet = models.CharField(max_length=256)
+    tipo_de_establecimiento = models.CharField(max_length=256)
+    latitud = models.DecimalField(max_digits=10, decimal_places=7)
+    longitud = models.DecimalField(max_digits=10, decimal_places=7)
+    fecha_de_incorporacion_al_denue = models.DateField()
+    categoria_turistica = models.CharField(max_length=256)
+    no_cuartos = models.IntegerField()
+    unidades = models.DecimalField(max_digits=10, decimal_places=2)
+    espacios_cajones = models.DecimalField(max_digits=10, decimal_places=2)
+    no_camas = models.DecimalField(max_digits=10, decimal_places=2)
+    cadena = models.DecimalField(max_digits=10, decimal_places=2)
+    operadora = models.DecimalField(max_digits=10, decimal_places=2)
+    responsable = models.CharField(max_length=256)
+    cargo = models.CharField(max_length=256)
+    imss = models.DecimalField(max_digits=10, decimal_places=2)
+    inicio_de_operaciones_este_ano = models.CharField(max_length=256)
+    fecha_de_inicio_de_operaciones = models.DateField()
+    centro_turistico = models.CharField(max_length=256)
+    zona = models.CharField(max_length=256)
+    datatur = models.CharField(max_length=256)
+    hotel_boutique = models.DecimalField(max_digits=10, decimal_places=2)
+    nombre_de_la_cadena = models.CharField(max_length=256)
+    hoteles_tesoros = models.CharField(max_length=256)
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+
+    class Meta:
+        app_label = 'ecosistema'
+        db_table = "directorio_hotelero"
+        ordering = ['-id']
