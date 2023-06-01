@@ -578,6 +578,10 @@ class InventarioTuristico(models.Model):
     destino = models.CharField(max_length=256)
     inventario = models.IntegerField()
 
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+
     class Meta:
         app_label = 'ecosistema'
         db_table = "inventario_turistico"
