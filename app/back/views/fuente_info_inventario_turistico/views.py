@@ -29,9 +29,9 @@ def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 
-class FuenteInfoSensivilizacion (ListView):
-    model = Sensivilizacion
-    template_name  =  'back/fuente_info_sensibilizacion/viewer.html'
+class FuenteInfoInventarioTuristico (ListView):
+    model = InventarioTuristico
+    template_name = 'back/fuente_info_inventario_turistico/list.html'
 
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs) :
@@ -43,7 +43,7 @@ class FuenteInfoSensivilizacion (ListView):
             action = request.POST['action']
             if action == 'search':
                 data = []
-                for i in Sensivilizacion.objects.all():
+                for i in InventarioTuristico.objects.all():
                     data.append(i.toJSON())
             else:
                 data.append({'error': 'Ha ocurrido un error'})
@@ -53,18 +53,19 @@ class FuenteInfoSensivilizacion (ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Listado de Fuentes de Informacion de Sensibilizacion'
-        context['create_url'] = reverse_lazy('dashboard:fuente_info_sensibilizacion_create')
-        context['entity'] = 'Sesibilizacion'
+        context['title'] = 'Listado de Fuentes de Informacion de InventarioTuristico'
+        context['create_url'] = reverse_lazy('dashboard:fuente_info_certificacion_create')
+        context['entity'] = 'InventarioTuristico'
         context['is_fuente'] = True
-        context['carga_masiva_url'] = reverse_lazy('dashboard:fuente_info_sensibilizacion_carga_masiva')
+        context['carga_masiva_url'] = reverse_lazy('dashboard:fuente_info_inventario_turistico_carga_masiva')
+        
         return context  
-    
-class FuenteInfoSensivilizacionCreate (CreateView):
-    model = Sensivilizacion
-    form_class = SensivilizacionForm
-    template_name = 'back/fuente_info_sensibilizacion/create.html'
-    success_url = reverse_lazy('dashboard:fuente_info_sensibilizacion')
+
+class FuenteInfoInventarioTuristicoCreate (CreateView):
+    model = InventarioTuristico
+    form_class = InventarioTuristicoForm
+    template_name = 'back/fuente_info_certificacion/create.html'
+    success_url = reverse_lazy('dashboard:fuente_info_certificacion')
 
     def get_object(self, **kwargs):
         queryset = self.get_queryset()
@@ -85,14 +86,14 @@ class FuenteInfoSensivilizacionCreate (CreateView):
             try:
                 existing_object = self.get_object(fecha=fecha, destino=destino)
 
-            except Sensivilizacion.DoesNotExist:
+            except Certificacion.DoesNotExist:
                 existing_object = None
 
             existing_catalogo = CatalagoDestino.objects.filter(destino__iexact=destino).exists()
-            #ALTER TABLE mytable MODIFY mycolumn VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+            # ALTER TABLE mytable MODIFY mycolumn VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
             # If there is no existing data, save the new data
-            if not  existing_catalogo:
+            if not existing_catalogo:
 
                 if not existing_catalogo:
                     data = {
@@ -113,6 +114,7 @@ class FuenteInfoSensivilizacionCreate (CreateView):
                     if field == 'replace_data':
                         continue
                     setattr(existing_object, field, form.cleaned_data[field])
+
                 existing_object.save()
 
                 data = {
@@ -126,13 +128,11 @@ class FuenteInfoSensivilizacionCreate (CreateView):
             # If there is existing data and replace_data is False, return an error
 
             if existing_object:
-                data = Sensivilizacion.objects.filter(fecha=fecha, destino=destino)
+                data = Certificacion.objects.filter(fecha=fecha, destino=destino)
 
-                data_list = list(data.values(
-                    'fecha', 'destino', 'participantes', 'accion'))
+                data_list = list(data.values('fecha', 'destino', 'tipo_de_certificacion', 'empresas_certificadas'))
                 data_list2 = list(form.cleaned_data.values())
-                table_html = render_to_string('back/fuente_info_sensibilizacion/table.html', {
-                                              'data_list': data_list, 'actual': True, 'data_list2': data_list2})
+                table_html = render_to_string('back/fuente_info_certificacion/table.html',{'data_list': data_list, 'actual': True, 'data_list2': data_list2})
 
                 datajsn = {
                     'success': False,
@@ -181,15 +181,16 @@ class FuenteInfoSensivilizacionCreate (CreateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Crear una fuente'
         context['entity'] = 'Glosario'
-        context['list_url'] = reverse_lazy('dashboard:fuente_info_sensibilizacion')
+        context['list_url'] = reverse_lazy('dashboard:fuente_info_certificacion')
         context['action'] = 'add'
         return context
 
-class FuenteInfoSensivilizacionUpdate (UpdateView):
-    model = Sensivilizacion
-    form_class = SensivilizacionForm
-    template_name = 'back/fuente_info_sensibilizacion/view_editor.html'
-    success_url = reverse_lazy('dashboard:fuente_info_sensibilizacion')
+
+class FuenteInfoInventarioTuristicoUpdate (UpdateView):
+    model = InventarioTuristico
+    form_class = InventarioTuristicoForm
+    template_name = 'back/fuente_info_inventario_turistico/view_editor.html'
+    success_url = reverse_lazy('dashboard:fuente_info_inventario_turistico')
 
     def form_invalid(self, form):
         response = super().form_invalid(form)
@@ -217,32 +218,33 @@ class FuenteInfoSensivilizacionUpdate (UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['list_url'] = reverse_lazy('dashboard:fuente_info_sensibilizacion')
+        context['list_url'] = reverse_lazy('dashboard:fuente_info_inventario_turistico')
             # Set the widget for the 'destino' field to read-only text input
-        context['form'].fields['destino'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
+        context['form'].fields['ano'].widget = forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly'})
+        context['form'].fields['giro'].widget = forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly'})
+        context['form'].fields['destino'].widget = forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly'})
 
-        context['form'].fields['fecha'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
         context['title'] = 'Editar fuente'
-
-        context['edit_msg'] = 'Los Campos Destino y Fecha no pueden ser editados' 
+        context['edit_msg'] = 'Los Campos Destino y Año no pueden ser editados' 
 
         return context
-   
-class FuenteInfoSensivilizacionDelete (DeleteView):
-    model = Sensivilizacion
-    success_url = reverse_lazy('dashboard:fuente_info_sensibilizacion') 
+    
 
+class FuenteInfoInventarioTuristicoDelete (DeleteView):
+    model = InventarioTuristico
+    success_url = reverse_lazy('dashboard:fuente_info_inventario_turistico')
+    
     def post(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
         return super().post(request, *args, **kwargs)
 
-class SensivilizacionCargaMasivaView(View):
+class InventarioTuristicoCargaMasivaView(View):
     form_class = CargaMasivaForm
-    template_name = 'back/fuente_info_sensibilizacion/carga_masiva.html'
-    success_url = reverse_lazy('dashboard:fuente_info_sensibilizacion')
+    template_name = 'back/fuente_info_inventario_turistico/carga_masiva.html'
+    success_url = reverse_lazy('dashboard:fuente_info_inventario_turistico')
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
-        return render(request, self.template_name, {'form': form, 'title': 'Carga Masiva de Sesibilizacion'})
+        return render(request, self.template_name, {'form': form, 'title': 'Carga Masiva de InventarioTuristico'})
 
 
     def post(self, request, *args, **kwargs):
@@ -269,7 +271,7 @@ class SensivilizacionCargaMasivaView(View):
             
             return render(request, self.template_name, {
                 'form': form,
-                'title': 'Carga Masiva de Sesibilizacion',
+                'title': 'Carga Masiva de InventarioTuristico',
                 'registros_correctos': registros_correctos,
                 'registros_incorrectos': registros_incorrectos,
                 'registros_existentes': registros_existentes,
@@ -278,10 +280,8 @@ class SensivilizacionCargaMasivaView(View):
             })
             
         else:
-            return HttpResponseRedirect(reverse('dashboard:fuente_info_sensibilizacion'))
+            return HttpResponseRedirect(reverse('dashboard:fuente_info_inventario_turistico'))
         
-        
-
     def procesar_archivo_xlsx(self, archivo):
         registros_correctos, registros_incorrectos, registros_existentes = [], [], []
         num_filas_procesadas = 0
@@ -293,60 +293,51 @@ class SensivilizacionCargaMasivaView(View):
                 if i == 0:
                     continue # Ignorar la primera fila si es el encabezado
                 num_filas_procesadas += 1
-                # Limpieza de datos
-                fecha_str = row[0].value if len(row) > 0 and isinstance(row[0].value, str) else ''
-                
 
-                participantes = row[3].value
-                accion_de_sensibilizacion = row[2].value
-                subcategoria = row[4].value
-
+                ano = row[0].value
+                giro = row[1].value
+                inventario = row[3].value
                 # Limpieza de datos
-                destino = clean_str_col(row[1].value)
+                destino = clean_str_col(row[2].value)
 
                 # Homologación de datos
                 destino = homologar_columna_destino(destino)
 
                 datos = {
+                    "ano": ano,
+                    "giro": giro,
                     "destino": destino,
-                    "fecha": fecha_str,
-                    "participantes": participantes,
-                    "accion_de_sensibilizacion": accion_de_sensibilizacion,
-                    "subcategoria": subcategoria
+                    "inventario": inventario,
                 }
 
                 try:
-                    # Validar los datos
-                    participantes_int = int(participantes)
-
                     if destino not in CatalagoDestino.objects.values_list('destino', flat=True):
-                        print(f"El destino {destino} no está en la tabla CatalagoDestino")
+                        print(f"El destino {destino} no está en la tabla CatalagoDestinoAeropuerto")
                         registros_incorrectos.append(datos)
                         continue
 
                     # Buscar si la fila ya existe en la base de datos
-                    existente = Sensivilizacion.objects.filter(
-                        destino = destino, 
-                        participantes = participantes_int,
-                        fecha = fecha_str, 
-                        accion_de_sensibilizacion = accion_de_sensibilizacion)
+                    existente = InventarioTuristico.objects.filter(
+                        ano = ano, 
+                        destino = destino,
+                        giro = giro 
+                    )
                     if existente.exists():
                         # Si ya existe, se omite la fila y se guarda en la lista de registros incorrectos
-                        print(f"La fila {datos} ya existe en la base de datos")
+                        print(f"La fila {row} ya existe en la base de datos")
                         registros_existentes.append(datos)
                     else:
                         # Si no existe, se guarda la nueva instancia del modelo en la base de datos y se guarda en la lista de registros correctos
-                        db = Sensivilizacion(
-                            destino = destino, 
-                            participantes = participantes_int,
-                            fecha = fecha_str, 
-                            accion_de_sensibilizacion = accion_de_sensibilizacion,
-                            subcategoria = subcategoria
+                        db = InventarioTuristico(
+                            ano = ano,
+                            giro = giro,
+                            destino = destino,
+                            inventario = inventario,
                         )
                         db.save()
                         registros_correctos.append(datos)
                 except (ValueError, TypeError) as e:
-                    # Si los datos no son válidos, se guarda el número de fila en la lista de registros incorrectos
+                    print(f"Error al procesar la fila {datos}: {e}")
                     registros_incorrectos.append(datos)
                     
         except FileNotFoundError:
@@ -364,18 +355,11 @@ class SensivilizacionCargaMasivaView(View):
             for row in datos:
                 num_filas_procesadas += 1
 
-                fecha = row['fecha']
-                fecha_str = str(fecha)
-                fecha_str = fecha_str.split()[0] if fecha_str else ''  # Eliminar la parte de la hora si existe la fecha
-                fecha_obj = datetime.datetime.strptime(fecha_str, '%Y-%m-%d').date()
-                # Serializar la fecha en formato JSON
-                json_fecha = json.dumps(fecha_obj.strftime('%Y-%m-%d'))
-                json_fecha = str(json_fecha).strip('"')
+                
 
-                participantes = row['participantes']
-                accion_de_sensibilizacion = row['accion_de_sensibilizacion']
-                subcategoria = row['subcategoria']
-
+                ano = row['ano']
+                giro = row['giro']
+                inventario = row['inventario']
                 # Limpieza de datos
                 destino = clean_str_col(row['destino'])
 
@@ -383,45 +367,40 @@ class SensivilizacionCargaMasivaView(View):
                 destino = homologar_columna_destino(destino)
 
                 datos = {
+                    "ano": ano,
+                    "giro": giro,
                     "destino": destino,
-                    "fecha": fecha_str,
-                    "participantes": participantes,
-                    "accion_de_sensibilizacion": accion_de_sensibilizacion,
-                    "subcategoria": subcategoria
+                    "inventario": inventario,
                 }
 
                 try:
-                    # Validar los datos
-                    participantes_int = int(participantes)
-
                     if destino not in CatalagoDestino.objects.values_list('destino', flat=True):
-                        print(f"El destino {destino} no está en la tabla CatalagoDestino")
+                        print(f"El destino {destino} no está en la tabla CatalagoDestinoAeropuerto")
                         registros_incorrectos.append(datos)
                         continue
 
                     # Buscar si la fila ya existe en la base de datos
-                    existente = Sensivilizacion.objects.filter(
-                        destino = destino, 
-                        participantes = participantes_int,
-                        fecha = fecha_obj, 
-                        accion_de_sensibilizacion = accion_de_sensibilizacion)
+                    existente = InventarioTuristico.objects.filter(
+                        ano = ano, 
+                        destino = destino,
+                        giro = giro 
+                    )
                     if existente.exists():
                         # Si ya existe, se omite la fila y se guarda en la lista de registros incorrectos
                         print(f"La fila {row} ya existe en la base de datos")
                         registros_existentes.append(datos)
                     else:
                         # Si no existe, se guarda la nueva instancia del modelo en la base de datos y se guarda en la lista de registros correctos
-                        db = Sensivilizacion(
-                            destino = destino, 
-                            participantes = participantes_int,
-                            fecha = fecha_obj, 
-                            accion_de_sensibilizacion = accion_de_sensibilizacion,
-                            subcategoria = subcategoria
+                        db = InventarioTuristico(
+                            ano = ano,
+                            giro = giro,
+                            destino = destino,
+                            inventario = inventario,
                         )
                         db.save()
                         registros_correctos.append(datos)
                 except (ValueError, TypeError) as e:
-                    print(f"Error al procesar la fila {row}: {e}")
+                    print(f"Error al procesar la fila {datos}: {e}")
                     registros_incorrectos.append(datos)
         except FileNotFoundError:
             print(f"No se encontró el archivo {archivo}")
@@ -429,27 +408,26 @@ class SensivilizacionCargaMasivaView(View):
             print(f"Error al procesar el archivo {archivo}: {e}")
         return registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas
 
-class SensivilizacionDescargarArchivoView(View):
+
+class InventarioTuristicoDescargarArchivoView(View):
 
     def crear_archivo_excel(self, registros_incorrectos):
         workbook = openpyxl.Workbook()
         worksheet = workbook.active
 
         # Escribir encabezados de columna
-        worksheet['A1'] = 'fecha'
-        worksheet['B1'] = 'destino'
-        worksheet['C1'] = 'accion_de_sensibilizacion'
-        worksheet['D1'] = 'participantes'
-        worksheet['E1'] = 'subcategoria'
+        worksheet['A1'] = 'año'
+        worksheet['B1'] = 'giro'
+        worksheet['C1'] = 'destino'
+        worksheet['D1'] = 'inventario'
 
         # Add the incorrect rows to the worksheet
         for i, row in enumerate(registros_incorrectos):
             fila = i + 2
-            worksheet.cell(row=fila, column=1, value=row['fecha'])
-            worksheet.cell(row=fila, column=2, value=row['destino'])
-            worksheet.cell(row=fila, column=3, value=row['accion_de_sensibilizacion'])
-            worksheet.cell(row=fila, column=4, value=row['participantes'])
-            worksheet.cell(row=fila, column=5, value=row['subcategoria'])
+            worksheet.cell(row=fila, column=1, value=row['ano'])
+            worksheet.cell(row=fila, column=2, value=row['giro'])
+            worksheet.cell(row=fila, column=3, value=row['destino'])
+            worksheet.cell(row=fila, column=4, value=row['inventario'])
 
 
 
@@ -468,7 +446,7 @@ class SensivilizacionDescargarArchivoView(View):
 
         # Create the response with the Excel file
         response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-        response['Content-Disposition'] = 'attachment; filename=sensibilizacion_registros_incorrectos.xls'
+        response['Content-Disposition'] = 'attachment; filename=gasto_derrama_registros_incorrectos.xls'
 
         
 
@@ -483,6 +461,6 @@ class SensivilizacionDescargarArchivoView(View):
         workbook = self.crear_archivo_excel(registros_incorrectos)
 
         response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-        response['Content-Disposition'] = 'attachment; filename=sensibilizacion_registros_incorrectos.xlsx'
+        response['Content-Disposition'] = 'attachment; filename=gasto_derrama_registros_incorrectos.xlsx'
         workbook.save(response)
-        return response   
+        return response       

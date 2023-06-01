@@ -35,6 +35,7 @@ from back.views.fuente_info_aerolinea.views import *
 from back.views.fuente_info_origen.views import *
 from back.views.fuente_info_perfil_visitante_eventos.views import *
 from back.views.fuente_info_entorno_nacional.views import *
+from back.views.fuente_info_inventario_turistico.views import *
 
 
 from django.conf import settings
@@ -140,12 +141,12 @@ urlpatterns = [
     path('fuentes_info/zonas-arqueologicas/descargar-archivo', ZonasArqueoDescargarArchivoView.as_view(), name='fuente_zonas_arqueologicas_descargar_archivo'),
     path('usuarios/list', my_profile, name='profile'),
     # Fuentes de informacion Sensibilizacion
-    path('fuentes_info/sensibilizacion', FuenteInfoSensibilizacion.as_view(), name='fuente_info_sensibilizacion'),
-    path('fuentes_info/sensibilizacion/add', FuenteInfoSensibilizacionCreate.as_view(), name='fuente_info_sensibilizacion_create'),
-    path('fuentes_info/sensibilizacion/edit/<int:pk>/', FuenteInfoSensibilizacionUpdate.as_view(), name='fuente_info_sensibilizacion_update'),
-    path('fuentes_info/sensibilizacion/delete/<int:pk>/', FuenteInfoSensibilizacionDelete.as_view(), name='fuente_info_sensibilizacion_delete'),
-    path('fuentes_info/sensibilizacion/carga-masiva', SesibilizacionCargaMasivaView.as_view(), name='fuente_info_sensibilizacion_carga_masiva'),
-    path('fuentes_info/sensibilizacion/descargar-archivo', SesibilizacionDescargarArchivoView.as_view(), name='fuente_info_sensibilizacion_descargar_archivo'),
+    path('fuentes_info/sensibilizacion', FuenteInfoSensivilizacion.as_view(), name='fuente_info_sensibilizacion'),
+    path('fuentes_info/sensibilizacion/add', FuenteInfoSensivilizacionCreate.as_view(), name='fuente_info_sensibilizacion_create'),
+    path('fuentes_info/sensibilizacion/edit/<int:pk>/', FuenteInfoSensivilizacionUpdate.as_view(), name='fuente_info_sensibilizacion_update'),
+    path('fuentes_info/sensibilizacion/delete/<int:pk>/', FuenteInfoSensivilizacionDelete.as_view(), name='fuente_info_sensibilizacion_delete'),
+    path('fuentes_info/sensibilizacion/carga-masiva', SensivilizacionCargaMasivaView.as_view(), name='fuente_info_sensibilizacion_carga_masiva'),
+    path('fuentes_info/sensibilizacion/descargar-archivo', SensivilizacionDescargarArchivoView.as_view(), name='fuente_info_sensibilizacion_descargar_archivo'),
     path('descargas/list', descargas_list, name='descargas_list'),
     #Fuentes info Certificacion 
     path('fuentes_info/certificacion', FuenteInfoCertificacion.as_view(), name='fuente_info_certificacion'),
@@ -335,5 +336,13 @@ urlpatterns = [
     path('fuentes-info/aerolineas/delete/<int:pk>/', FuenteInfoAerolineaDelete.as_view(), name='fuente_info_aerolineas_delete'),
     path('fuentes-info/aerolineas/carga-masiva', AerolineaCargaMasivaView.as_view(), name='fuente_info_aerolineas_carga_masiva'),
     path('fuentes-info/aerolineas/descargar-archivo', AerolineaDescargarArchivoView.as_view(), name='fuente_info_aerolineas_descargar_archivo'),
+    
+    #fuentes info inventario_turistico
+    path('fuentes-info/inventario-turistico', FuenteInfoInventarioTuristico.as_view(), name='fuente_info_inventario_turistico'),
+    path('fuentes-info/inventario-turistico/add', FuenteInfoInventarioTuristicoCreate.as_view(), name='fuente_info_inventario_turistico_create'),
+    path('fuentes-info/inventario-turistico/edit/<int:pk>/', FuenteInfoInventarioTuristicoUpdate.as_view(), name='fuente_info_inventario_turistico_update'),
+    path('fuentes-info/inventario-turistico/delete/<int:pk>/', FuenteInfoInventarioTuristicoDelete.as_view(), name='fuente_info_inventario_turistico_delete'),
+    path('fuentes-info/inventario-turistico/carga-masiva', InventarioTuristicoCargaMasivaView.as_view(), name='fuente_info_inventario_turistico_carga_masiva'),
+    path('fuentes-info/inventario-turistico/descargar-archivo', InventarioTuristicoDescargarArchivoView.as_view(), name='fuente_info_inventario_turistico_descargar_archivo'),
     
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

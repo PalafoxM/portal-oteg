@@ -312,9 +312,9 @@ class ZonasArqueologicasMuseosForm_edit (forms.ModelForm):
         fields = '__all__'
 
 
-class SensibilizacionForm (forms.ModelForm):
+class SensivilizacionForm (forms.ModelForm):
     class Meta:
-        model = Sesibilizacion
+        model = Sensivilizacion
         fields = '__all__'  
 
 
@@ -585,3 +585,20 @@ class FuenteInfoEntornoNForm (forms.ModelForm):
     class Meta:
         model  = FuenteInfoEntornoN
         fields = '__all__'
+        
+class InventarioTuristicoForm(forms.ModelForm):
+    class Meta:
+        model = InventarioTuristico
+        fields = '__all__'
+        labels = {
+            'ano': 'Año',
+            'giro': 'Giro',
+            'destino': 'Destino',
+            'inventario': 'Inventario',
+        }
+        widgets = {
+            'ano': forms.NumberInput(attrs={'class': 'form-control'}),
+            'giro': forms.TextInput(attrs={'class': 'form-control'}),
+            'destino': forms.TextInput(attrs={'class': 'form-control'}),
+            'inventario': forms.NumberInput(attrs={'class': 'form-control'}),
+        }

@@ -189,6 +189,11 @@ class DataTour (models.Model):
     densidad_de_ocupacion_residentes = models.FloatField(null=True)
     densidad_de_ocupacion_no_residentes = models.FloatField(null=True)
 
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+
+
     class Meta:
         app_label = 'ecosistema'
         db_table = "datatur"
@@ -321,12 +326,16 @@ class CalidadAire(models.Model):
         ordering = ['-id']
 
 
-class Sesibilizacion(models.Model):
+class Sensivilizacion(models.Model):
     fecha = models.DateField()
     destino = models.CharField(max_length=455, null=True, blank=True)
     participantes = models.IntegerField()
     accion_de_sensibilizacion = models.CharField(max_length=455, null=True, blank=True)
-    subcategoria = models.CharField(max_length=455, null=True, blank=True)
+    # subcategoria = models.CharField(max_length=455, null=True, blank=True)
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
 
     class Meta:
         app_label = 'ecosistema'
@@ -359,6 +368,10 @@ class ProyectoInversion(models.Model):
 
     def __str__(self):
         return self.nombre_del_proyecto
+    
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
 
     class Meta:
         app_label = 'ecosistema'
@@ -650,4 +663,19 @@ class Aerolinea(models.Model):
     class Meta:
         app_label = 'ecosistema'
         db_table = "aerolineas_destino"
+        ordering = ['-id']
+
+class InventarioTuristico(models.Model):
+    ano = models.IntegerField()
+    giro = models.CharField(max_length=256)
+    destino = models.CharField(max_length=256)
+    inventario = models.IntegerField()
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+
+    class Meta:
+        app_label = 'ecosistema'
+        db_table = "inventario_turistico"
         ordering = ['-id']

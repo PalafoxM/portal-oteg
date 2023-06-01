@@ -1,3 +1,5 @@
+from typing import Any
+from django import http
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponseRedirect
 from django.urls import reverse_lazy, reverse
@@ -18,7 +20,7 @@ from django.shortcuts import get_object_or_404
 #serializers
 # render to string
 from django.template.loader import render_to_string
-
+from django.utils.decorators import method_decorator
 # para archivo excel
 from django.views import View
 from django.contrib import messages
@@ -43,12 +45,32 @@ class FuenteInfoDatatur (ListView):
     model = DataTour
     template_name = 'back/fuente_info_datatur/viewer.html'
 
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs) :
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'search':
+                data = []
+                for i in DataTour.objects.all():
+                    data.append(i.toJSON())
+            else:
+                data['error'] = 'Ha ocurrido un error'
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data, safe=False)
+
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Listado de Fuentes de Informacion de DataTour'
         context['create_url'] = reverse_lazy(
             'dashboard:fuente_info_datatour_create')
         context['entity'] = 'Categorias'
+        context['list'] = 'dashboard:fuente_info_datatour'
         context['is_fuente'] = True
         context['carga_masiva_url'] = reverse_lazy('dashboard:fuente_info_datatour_carga_masiva')
         return context
