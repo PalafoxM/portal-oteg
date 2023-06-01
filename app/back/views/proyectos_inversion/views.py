@@ -4,6 +4,8 @@ from django.urls import reverse_lazy
 from back.models import  *
 from back.forms import *
 from django.http import JsonResponse, HttpResponseRedirect
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 
 
 
@@ -16,7 +18,23 @@ class ProyectoInversionListView(ListView):
     model = ProyectoInversion
     template_name = 'back/proyectos_inversion/list.html'
 
-    
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs) :
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'search':
+                data = []
+                for i in ProyectoInversion.objects.all():
+                    data.append(i.toJSON())
+            else:
+                data.append({'error': 'Ha ocurrido un error'})
+        except Exception as e:
+            data.append({'error': str(e)})
+        return JsonResponse(data, safe=False)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
