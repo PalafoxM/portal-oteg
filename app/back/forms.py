@@ -573,7 +573,7 @@ class AerolineaForm(forms.ModelForm):
             'codigo_aerolinea': forms.TextInput(attrs={'class': 'form-control'}),
         }
 
-class DatosForm(forms.ModelForm):
+class InventarioTuristicoForm(forms.ModelForm):
     class Meta:
         model = InventarioTuristico
         fields = '__all__'

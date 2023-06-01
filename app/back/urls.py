@@ -33,6 +33,7 @@ from back.views.fuente_info_discapacidad.views import *
 from back.views.fuente_info_segmentos.views import *
 from back.views.fuente_info_aeropuertos.views import *
 from back.views.fuente_info_aerolinea.views import *
+from back.views.fuente_info_inventario_turistico.views import *
 
 
 from django.conf import settings
@@ -314,5 +315,13 @@ urlpatterns = [
     path('fuentes-info/aerolineas/delete/<int:pk>/', FuenteInfoAerolineaDelete.as_view(), name='fuente_info_aerolineas_delete'),
     path('fuentes-info/aerolineas/carga-masiva', AerolineaCargaMasivaView.as_view(), name='fuente_info_aerolineas_carga_masiva'),
     path('fuentes-info/aerolineas/descargar-archivo', AerolineaDescargarArchivoView.as_view(), name='fuente_info_aerolineas_descargar_archivo'),
+    
+    #fuentes info inventario_turistico
+    path('fuentes-info/inventario-turistico', FuenteInfoInventarioTuristico.as_view(), name='fuente_info_inventario_turistico'),
+    path('fuentes-info/inventario-turistico/add', FuenteInfoInventarioTuristicoCreate.as_view(), name='fuente_info_inventario_turistico_create'),
+    path('fuentes-info/inventario-turistico/edit/<int:pk>/', FuenteInfoInventarioTuristicoUpdate.as_view(), name='fuente_info_inventario_turistico_update'),
+    path('fuentes-info/inventario-turistico/delete/<int:pk>/', FuenteInfoInventarioTuristicoDelete.as_view(), name='fuente_info_inventario_turistico_delete'),
+    path('fuentes-info/inventario-turistico/carga-masiva', InventarioTuristicoCargaMasivaView.as_view(), name='fuente_info_inventario_turistico_carga_masiva'),
+    path('fuentes-info/inventario-turistico/descargar-archivo', InventarioTuristicoDescargarArchivoView.as_view(), name='fuente_info_inventario_turistico_descargar_archivo'),
     
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
