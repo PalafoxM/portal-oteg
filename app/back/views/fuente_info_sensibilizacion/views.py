@@ -9,6 +9,8 @@ from web.models import *
 from django.http import HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.template.loader import render_to_string
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 # para archivo excel
 from django.views import View
 from django.contrib import messages
@@ -27,9 +29,27 @@ def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 
-class FuenteInfoSensibilizacion (ListView):
-    model = Sesibilizacion
+class FuenteInfoSensivilizacion (ListView):
+    model = Sensivilizacion
     template_name  =  'back/fuente_info_sensibilizacion/viewer.html'
+
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs) :
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'search':
+                data = []
+                for i in Sensivilizacion.objects.all():
+                    data.append(i.toJSON())
+            else:
+                data.append({'error': 'Ha ocurrido un error'})
+        except Exception as e:
+            data.append({'error': str(e)})
+        return JsonResponse(data, safe=False)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -40,9 +60,9 @@ class FuenteInfoSensibilizacion (ListView):
         context['carga_masiva_url'] = reverse_lazy('dashboard:fuente_info_sensibilizacion_carga_masiva')
         return context  
     
-class FuenteInfoSensibilizacionCreate (CreateView):
-    model = Sesibilizacion
-    form_class = SensibilizacionForm
+class FuenteInfoSensivilizacionCreate (CreateView):
+    model = Sensivilizacion
+    form_class = SensivilizacionForm
     template_name = 'back/fuente_info_sensibilizacion/create.html'
     success_url = reverse_lazy('dashboard:fuente_info_sensibilizacion')
 
@@ -65,7 +85,7 @@ class FuenteInfoSensibilizacionCreate (CreateView):
             try:
                 existing_object = self.get_object(fecha=fecha, destino=destino)
 
-            except Sesibilizacion.DoesNotExist:
+            except Sensivilizacion.DoesNotExist:
                 existing_object = None
 
             existing_catalogo = CatalagoDestino.objects.filter(destino__iexact=destino).exists()
@@ -106,7 +126,7 @@ class FuenteInfoSensibilizacionCreate (CreateView):
             # If there is existing data and replace_data is False, return an error
 
             if existing_object:
-                data = Sesibilizacion.objects.filter(fecha=fecha, destino=destino)
+                data = Sensivilizacion.objects.filter(fecha=fecha, destino=destino)
 
                 data_list = list(data.values(
                     'fecha', 'destino', 'participantes', 'accion'))
@@ -165,9 +185,9 @@ class FuenteInfoSensibilizacionCreate (CreateView):
         context['action'] = 'add'
         return context
 
-class FuenteInfoSensibilizacionUpdate (UpdateView):
-    model = Sesibilizacion
-    form_class = SensibilizacionForm
+class FuenteInfoSensivilizacionUpdate (UpdateView):
+    model = Sensivilizacion
+    form_class = SensivilizacionForm
     template_name = 'back/fuente_info_sensibilizacion/view_editor.html'
     success_url = reverse_lazy('dashboard:fuente_info_sensibilizacion')
 
@@ -208,14 +228,14 @@ class FuenteInfoSensibilizacionUpdate (UpdateView):
 
         return context
    
-class FuenteInfoSensibilizacionDelete (DeleteView):
-    model = Sesibilizacion
+class FuenteInfoSensivilizacionDelete (DeleteView):
+    model = Sensivilizacion
     success_url = reverse_lazy('dashboard:fuente_info_sensibilizacion') 
 
     def post(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
         return super().post(request, *args, **kwargs)
 
-class SesibilizacionCargaMasivaView(View):
+class SensivilizacionCargaMasivaView(View):
     form_class = CargaMasivaForm
     template_name = 'back/fuente_info_sensibilizacion/carga_masiva.html'
     success_url = reverse_lazy('dashboard:fuente_info_sensibilizacion')
@@ -305,7 +325,7 @@ class SesibilizacionCargaMasivaView(View):
                         continue
 
                     # Buscar si la fila ya existe en la base de datos
-                    existente = Sesibilizacion.objects.filter(
+                    existente = Sensivilizacion.objects.filter(
                         destino = destino, 
                         participantes = participantes_int,
                         fecha = fecha_str, 
@@ -316,7 +336,7 @@ class SesibilizacionCargaMasivaView(View):
                         registros_existentes.append(datos)
                     else:
                         # Si no existe, se guarda la nueva instancia del modelo en la base de datos y se guarda en la lista de registros correctos
-                        db = Sesibilizacion(
+                        db = Sensivilizacion(
                             destino = destino, 
                             participantes = participantes_int,
                             fecha = fecha_str, 
@@ -380,7 +400,7 @@ class SesibilizacionCargaMasivaView(View):
                         continue
 
                     # Buscar si la fila ya existe en la base de datos
-                    existente = zonas_arqueologicas_museos.objects.filter(
+                    existente = Sensivilizacion.objects.filter(
                         destino = destino, 
                         participantes = participantes_int,
                         fecha = fecha_obj, 
@@ -391,7 +411,7 @@ class SesibilizacionCargaMasivaView(View):
                         registros_existentes.append(datos)
                     else:
                         # Si no existe, se guarda la nueva instancia del modelo en la base de datos y se guarda en la lista de registros correctos
-                        db = zonas_arqueologicas_museos(
+                        db = Sensivilizacion(
                             destino = destino, 
                             participantes = participantes_int,
                             fecha = fecha_obj, 
@@ -409,7 +429,7 @@ class SesibilizacionCargaMasivaView(View):
             print(f"Error al procesar el archivo {archivo}: {e}")
         return registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas
 
-class SesibilizacionDescargarArchivoView(View):
+class SensivilizacionDescargarArchivoView(View):
 
     def crear_archivo_excel(self, registros_incorrectos):
         workbook = openpyxl.Workbook()
