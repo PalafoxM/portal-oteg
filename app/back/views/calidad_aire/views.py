@@ -223,7 +223,7 @@ class CalidadAireCargaMasivaView(View):
                 # Validar si el destino si es válido
                 if destino not in CatalagoDestino.objects.values_list('destino', flat=True):
                     print(f"El destino {destino} no está en la tabla CatalagoDestino")
-                    registros_incorrectos.append(datos)
+                    registros_incorrectos.append({'fecha': fecha_obj, 'destino': destino, 'calidad_del_aire': calidad_del_aire})
                     continue
                 fecha = row[0].value.date()
                 calidad_del_aire = row[2].value
