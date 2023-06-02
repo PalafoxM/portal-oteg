@@ -229,13 +229,17 @@ urlpatterns = [
     path('fuente-informacion', FuentesInfoView.as_view(), name='fuente_informacion'),
     # Configuration list 
     path ('configuracion', ConfigurationView.as_view(), name='configuracion'),
-        # Utils
+
+
+    # utils
     #Typeahead Destinos
     path('typeahead/destinos', search_destinos, name='search_destinos'),
     #Typeahead Categorias
     path('typeahead/categorias', search_categorias, name='search_categorias'),
     #Typeahead Nombre ZA
     path('typeahead/nombre-za', search_nombre_za, name='search_nombre_za'),
+    #Typeahead  entidades
+    path('typeahead/entidades', search_entidades, name='search_entidades'),
 
 
     #catalago_categoria 
@@ -309,15 +313,15 @@ urlpatterns = [
     
     #fuetes info perfil visitante eventos
     path('fuentes-info/perfil-visitante-eventos', FuenteInfoPerfilVisitanteEventos.as_view(), name='fuente_info_perfil_visitante_eventos'),
-    #path('fuentes-info/perfil-visitante-eventos/add', FuenteInfoPerfilVisitanteEventosCreate.as_view(), name='fuente_info_perfil_visitante_eventos_create'),
-    #path('fuentes-info/perfil-visitante-eventos/edit/<int:pk>/', FuenteInfoPerfilVisitanteEventosUpdate.as_view(), name='fuente_info_perfil_visitante_eventos_update'),
-    #path('fuentes-info/perfil-visitante-eventos/delete/<int:pk>/', FuenteInfoPerfilVisitanteEventosDelete.as_view(), name='fuente_info_perfil_visitante_eventos_delete'),
+    path('fuentes-info/perfil-visitante-eventos/add', FuenteInfoPerfilVisitanteEventosCreate.as_view(), name='fuente_info_perfil_visitante_eventos_create'),
+    path('fuentes-info/perfil-visitante-eventos/edit/<int:pk>/', FuenteInfoPerfilVisitanteEventosUpdate.as_view(), name='fuente_info_perfil_visitante_eventos_update'),
+    path('fuentes-info/perfil-visitante-eventos/delete/<int:pk>/', FuenteInfoPerfilVisitanteEventosDelete.as_view(), name='fuente_info_perfil_visitante_eventos_delete'),
 
     #fuetes info entorno nacional
     path('fuentes-info/entorno-nacional', FuenteInfoEntornoNacional.as_view(), name='fuente_info_entorno_nacional'),
-    #path('fuentes-info/entorno-nacional/add', FuenteInfoEntornoNacionalCreate.as_view(), name='fuente_info_entorno_nacional_create'),
-    #path('fuentes-info/entorno-nacional/edit/<int:pk>/', FuenteInfoEntornoNacionalUpdate.as_view(), name='fuente_info_entorno_nacional_update'),
-    #path('fuentes-info/entorno-nacional/delete/<int:pk>/', FuenteInfoEntornoNacionalDelete.as_view(), name='fuente_info_entorno_nacional_delete'),
+    path('fuentes-info/entorno-nacional/add', FuenteInfoEntornoNacionalCreate.as_view(), name='fuente_info_entorno_nacional_create'),
+    path('fuentes-info/entorno-nacional/edit/<int:pk>/', FuenteInfoEntornoNacionalUpdate.as_view(), name='fuente_info_entorno_nacional_update'),
+    path('fuentes-info/entorno-nacional/delete/<int:pk>/', FuenteInfoEntornoNacionalDelete.as_view(), name='fuente_info_entorno_nacional_delete'),
 
 
 

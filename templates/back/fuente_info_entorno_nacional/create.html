@@ -15,8 +15,8 @@
 
     <script>
         $j(function () {
-            $j("#id_destino").autocomplete({
-                source: "{% url 'dashboard:search_destinos' %}"
+            $j("#id_entidad").autocomplete({
+                source: "{% url 'dashboard:search_entidades' %}"
             });
         });
     </script>
@@ -107,7 +107,7 @@
                         } else if (data.categoria) {
                             var htmdata = 'Los siguientes campos no se encuentran en el catalogo de datos revisa tu escritura: <br> ' + 'Categoria: ' + data.categoria
                         } else if (data.destino) {
-                            var htmdata = 'Los siguientes campos no se encuentran en el catalogo de datos revisa tu escritura: <br> ' + 'Destino: ' + data.destino
+                            var htmdata = 'Los siguientes campos no se encuentran en el catalogo de datos revisa tu escritura: <br> ' + 'Entidad: ' + data.destino
                         }
 
                         Swal.fire({

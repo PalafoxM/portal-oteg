@@ -585,6 +585,17 @@ class FuenteInfoEntornoNForm (forms.ModelForm):
     class Meta:
         model  = FuenteInfoEntornoN
         fields = '__all__'
+    
+class FuenteInfoPerfilVisitanteEventoForm (forms.ModelForm):
+    class Meta:
+        model = FuenteInfoPerfilVisitanteEvento
+        fields = '__all__'
+
+        labels = {
+            'ano': 'Año',
+            'codigo_encuesta_ano': 'Código de encuesta año',
+        }
+
         
 class InventarioTuristicoForm(forms.ModelForm):
     class Meta:

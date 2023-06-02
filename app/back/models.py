@@ -416,18 +416,6 @@ class CatalagoSegmentos(models.Model):
         ordering = ['-id']
 
 
-class zonas_arqueologicas_museos(models.Model):
-    destino = models.CharField(max_length=455, null=True, blank=True)
-    tipo = models.CharField(max_length=455)
-    nombre = models.CharField(max_length=455)
-    fecha = models.DateField()
-    origen_visitante = models.CharField(max_length=455)
-    visitantes = models.IntegerField()
-
-    class Meta:
-        app_label = 'ecosistema'
-        db_table = "zonas_arqueologicas_museos"
-        ordering = ['-id']
 
 
 class CatalagoTipoVisistante(models.Model):
@@ -594,6 +582,10 @@ class FuenteInfoPerfilVisitanteEvento(models.Model):
     sexo = models.CharField(max_length=256)
     codigo_encuesta_ano = models.CharField(max_length=256)
 
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+
     class Meta:
         app_label = 'ecosistema'
         db_table = "perfil_visitante_eventos"
@@ -609,8 +601,6 @@ class FuenteInfoEntornoN(models.Model):
     cuartos_ocupados_nacionales = models.FloatField()
     cuartos_ocupados_extranjeros = models.FloatField()
     cuartos_ocupados_sin_clasificar = models.FloatField()
-
-
     llegada_de_turistas = models.IntegerField()
     llegada_de_turistas_nacionales = models.FloatField()
     llegada_de_turistas_extranjeros = models.FloatField()
@@ -621,7 +611,6 @@ class FuenteInfoEntornoN(models.Model):
     porcentaje_de_ocupacion_nacionales = models.FloatField()
     porcentaje_de_ocupacion_extranjeros = models.FloatField()
     porcentaje_de_ocupacion_sin_clasificar = models.FloatField()
-    
     densidad = models.FloatField()
     densidad_nacionales = models.FloatField()
     densidad_extranjeros = models.FloatField()
@@ -629,13 +618,14 @@ class FuenteInfoEntornoN(models.Model):
     estadia_promedio_nacionales = models.FloatField()
     estadia_promedio_extranjeros = models.FloatField()
     
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+    
     class Meta:
         app_label = 'ecosistema'
         db_table = "entorno_nacional"
         ordering = ['-id']
-
-
-
 
 
 
