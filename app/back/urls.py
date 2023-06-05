@@ -28,13 +28,16 @@ from back.views.fuente_info_modelo_gd.views import *
 from back.views.modulo_config.views import *
 from back.views.modulo_config_destinos.views import *
 from back.views.fuente_info_airbnb.views import *
-
 from back.views.fuente_info_discapacidad.views import *
 from back.views.fuente_info_segmentos.views import *
 from back.views.fuente_info_aeropuertos.views import *
 from back.views.fuente_info_aerolinea.views import *
+from back.views.fuente_info_origen.views import *
+from back.views.fuente_info_perfil_visitante_eventos.views import *
+from back.views.fuente_info_entorno_nacional.views import *
 from back.views.fuente_info_inventario_turistico.views import *
 from back.views.fuente_info_directorio_hotelero.views import *
+from back.views.fuente_info_perfil_visitante_destinos.views import *
 
 
 from django.conf import settings
@@ -228,13 +231,17 @@ urlpatterns = [
     path('fuente-informacion', FuentesInfoView.as_view(), name='fuente_informacion'),
     # Configuration list 
     path ('configuracion', ConfigurationView.as_view(), name='configuracion'),
-        # Utils
+
+
+    # utils
     #Typeahead Destinos
     path('typeahead/destinos', search_destinos, name='search_destinos'),
     #Typeahead Categorias
     path('typeahead/categorias', search_categorias, name='search_categorias'),
     #Typeahead Nombre ZA
     path('typeahead/nombre-za', search_nombre_za, name='search_nombre_za'),
+    #Typeahead  entidades
+    path('typeahead/entidades', search_entidades, name='search_entidades'),
 
 
     #catalago_categoria 
@@ -293,14 +300,41 @@ urlpatterns = [
     path('fuentes-info/discapacidad/carga-masiva', DiscapacidadCargaMasivaView.as_view(), name='fuente_info_discapacidad_carga_masiva'),
     path('fuentes-info/discapacidad/descargar-archivo', DiscapacidadDescargarArchivoView.as_view(), name='fuente_info_discapacidad_descargar_archivo'),
     
-    #fuentes info segmentos
+    #fuentes info %segmentos
     path('fuentes-info/segmentos', FuenteInfoParticipacionSegmentos.as_view(), name='fuente_info_segmentos'),
     path('fuentes-info/segmentos/add', FuenteInfoParticipacionSegmentosCreate.as_view(), name='fuente_info_segmentos_create'),
     path('fuentes-info/segmentos/edit/<int:pk>/', FuenteInfoParticipacionSegmentosUpdate.as_view(), name='fuente_info_segmentos_update'),
     path('fuentes-info/segmentos/delete/<int:pk>/', FuenteInfoParticipacionSegmentosDelete.as_view(), name='fuente_info_segmentos_delete'),
     path('fuentes-info/segmentos/carga-masiva', ParticipacionSegmentosCargaMasivaView.as_view(), name='fuente_info_segmentos_carga_masiva'),
     path('fuentes-info/segmentos/descargar-archivo', ParticipacionSegmentosDescargarArchivoView.as_view(), name='fuente_info_segmentos_descargar_archivo'),
+    #fuentes inft %Origen
+    path('fuentes-info/origen', FuenteInfoParticipacionOrigen.as_view(), name='fuente_info_origen'),
+    path('fuentes-info/origen/add', FuenteInfoParticipacionOrigenCreate.as_view(), name='fuente_info_origen_create'),
+    path('fuentes-info/origen/edit/<int:pk>/', FuenteInfoParticipacionOrigenUpdate.as_view(), name='fuente_info_origen_update'),
+    path('fuentes-info/origen/delete/<int:pk>/', FuenteInfoParticipacionOrigenDelete.as_view(), name='fuente_info_origen_delete'),
     
+    #fuetes info perfil visitante eventos
+    path('fuentes-info/perfil-visitante-eventos', FuenteInfoPerfilVisitanteEventos.as_view(), name='fuente_info_perfil_visitante_eventos'),
+    path('fuentes-info/perfil-visitante-eventos/add', FuenteInfoPerfilVisitanteEventosCreate.as_view(), name='fuente_info_perfil_visitante_eventos_create'),
+    path('fuentes-info/perfil-visitante-eventos/edit/<int:pk>/', FuenteInfoPerfilVisitanteEventosUpdate.as_view(), name='fuente_info_perfil_visitante_eventos_update'),
+    path('fuentes-info/perfil-visitante-eventos/delete/<int:pk>/', FuenteInfoPerfilVisitanteEventosDelete.as_view(), name='fuente_info_perfil_visitante_eventos_delete'),
+
+    #fuetes info perfil visitante DEstinos
+    path('fuentes-info/perfil-visitante-destinos', FuenteInfoPerfilVisitanteDestinos.as_view(), name='fuente_info_perfil_visitante_destinos'),
+    path('fuentes-info/perfil-visitante-destinos/add', FuenteInfoPerfilVisitanteDestinosCreate.as_view(), name='fuente_info_perfil_visitante_destinos_create'),
+    path('fuentes-info/perfil-visitante-destinos/edit/<int:pk>/', FuenteInfoPerfilVisitanteDestinosUpdate.as_view(), name='fuente_info_perfil_visitante_destinos_update'),
+    path('fuentes-info/perfil-visitante-destinos/delete/<int:pk>/', FuenteInfoPerfilVisitanteDestinosDelete.as_view(), name='fuente_info_perfil_visitante_destinos_delete'),
+
+
+
+    #fuetes info entorno nacional
+    path('fuentes-info/entorno-nacional', FuenteInfoEntornoNacional.as_view(), name='fuente_info_entorno_nacional'),
+    path('fuentes-info/entorno-nacional/add', FuenteInfoEntornoNacionalCreate.as_view(), name='fuente_info_entorno_nacional_create'),
+    path('fuentes-info/entorno-nacional/edit/<int:pk>/', FuenteInfoEntornoNacionalUpdate.as_view(), name='fuente_info_entorno_nacional_update'),
+    path('fuentes-info/entorno-nacional/delete/<int:pk>/', FuenteInfoEntornoNacionalDelete.as_view(), name='fuente_info_entorno_nacional_delete'),
+
+
+
     #fuentes info aeropuertos
     path('fuentes-info/aeropuertos', FuenteInfoAeropuerto.as_view(), name='fuente_info_aeropuertos'),
     path('fuentes-info/aeropuertos/add', FuenteInfoAeropuertoCreate.as_view(), name='fuente_info_aeropuertos_create'),

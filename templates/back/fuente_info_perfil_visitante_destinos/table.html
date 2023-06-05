@@ -1,0 +1,236 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'librerias/datatables-1.10.25/css/dataTables.bootstrap4.min.css' %}" />
+<link rel="stylesheet"
+    href="{% static 'librerias/datatables-1.10.25/plugins/responsive-2.2.9/css/responsive.bootstrap4.min.css' %}" />
+
+<p>El dato que intenta ingresar ya existe en la base de datos. ¿Desea reemplazar el dato actual con el nuevo dato?</p>
+
+
+<div style="overflow-x: auto;">
+    <h4>Dato Histórico</h4>
+    <table class="table table-bordered" id="dataTable" style="table-layout: fixed;">
+        <thead>
+            <tr>
+                <th style="width: 300px;">año</th>
+                <th style="width: 300px;">destino</th>
+                <th style="width: 300px;">fecha</th>
+                <th style="width: 300px;">folio</th>
+
+                <th style="width: 300px;">acompanantes</th>
+                <th style="width: 300px;">acompanantes_maxmin</th>
+                <th style="width: 300px;">codigo_encuesta_ano</th>
+                <th style="width: 300px;">edad</th>
+                <th style="width: 300px;">estado</th>
+                <th style="width: 300px;">estadia_dias</th>
+                <th style="width: 300px;">estadia_hrs</th>
+                <th style="width: 300px;">herramienta</th>
+                <th style="width: 300px;">identifico_practicas_sust</th>
+                <th style="width: 300px;">impacto_noticias</th>
+                <th style="width: 300px;">medio_transporte_edo</th>
+                <th style="width: 300px;">motivo_visita</th>
+                <th style="width: 300px;">motivo_visita_otro</th>
+                <th style="width: 300px;">municipio</th>
+                <th style="width: 300px;">nps_atractivos</th>
+                <th style="width: 300px;">nps_ayb</th>
+                <th style="width: 300px;">nps_destino</th>
+                <th style="width: 300px;">nps_destino_categoria</th>
+                <th style="width: 300px;">nps_hotel</th>
+                <th style="width: 300px;">nps_tours</th>
+                <th style="width: 300px;">nse</th>
+                <th style="width: 300px;">origen</th>
+                <th style="width: 300px;">pais</th>
+                <th style="width: 300px;">proposito_visita_destino_estado</th>
+                <th style="width: 300px;">recomendacion_destino</th>
+                <th style="width: 300px;">residencia</th>
+                <th style="width: 300px;">retorno_destino</th>
+                <th style="width: 300px;">sat_accesibilidad</th>
+                <th style="width: 300px;">sat_aeropuerto</th>
+                <th style="width: 300px;">sat_atractivos</th>
+                <th style="width: 300px;">sat_carretera</th>
+                <th style="width: 300px;">sat_ayb</th>
+                <th style="width: 300px;">sat_central</th>
+                <th style="width: 300px;">sat_estacionamiento</th>
+                <th style="width: 300px;">sat_eventos</th>
+                <th style="width: 300px;">sat_experiencia</th>
+                <th style="width: 300px;">sat_hospitalidad</th>
+                <th style="width: 300px;">sat_hospedaje</th>
+                <th style="width: 300px;">sat_infotur</th>
+                <th style="width: 300px;">sat_limpieza</th>
+                <th style="width: 300px;">sat_precios</th>
+                <th style="width: 300px;">sat_protocolos</th>
+                <th style="width: 300px;">sat_seguridad</th>
+                <th style="width: 300px;">sat_senaletica</th>
+                <th style="width: 300px;">sat_tours</th>
+                <th style="width: 300px;">sat_transporte</th>
+                <th style="width: 300px;">sexo</th>
+                <th style="width: 300px;">segmento</th>
+                <th style="width: 300px;">temporada</th>
+                <th style="width: 300px;">tipo_asistente</th>
+                <th style="width: 300px;">tipo_hospedaje</th>
+                <th style="width: 300px;">tipo_visitante</th>
+                <th style="width: 300px;">tiene_fam</th>
+                <th style="width: 300px;">vio_escucho_noticias</th>
+                <th style="width: 300px;">visita_fam</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for data in data_list %}
+            <tr>
+                <td>{{ data.ano }}</td>
+
+                <td>{{ data.destino }}</td>
+                <td>{{ data.fecha }}</td>
+                <td>{{ data.folio }}</td>
+                <td>{{ data.acompanantes }}</td>
+                <td>{{ data.acompanantes_maxmin }}</td>
+                <td>{{ data.codigo_encuesta_ano }}</td>
+                <td>{{ data.edad }}</td>
+                <td>{{ data.estado }}</td>
+                <td>{{ data.estadia_dias }}</td>
+                <td>{{ data.estadia_hrs }}</td>
+                <td>{{ data.herramienta }}</td>
+                <td>{{ data.identifico_practicas_sust }}</td>
+                <td>{{data.impacto_noticias}}</td>
+                <td>{{ data.medio_transporte_edo }}</td>
+                <td>{{ data.motivo_visita }}</td>
+                <td>{{ data.motivo_visita_otro }}</td>
+                <td>{{ data.municipio }}</td>
+                <td>{{ data.nps_atractivos }}</td>
+                <td>{{ data.nps_ayb }}</td>
+                <td>{{ data.nps_destino }}</td>
+                <td>{{ data.nps_destino_categoria }}</td>
+                <td>{{ data.nps_hotel }}</td>
+                <td>{{ data.nps_tours }}</td>
+                <td>{{ data.nse }}</td>
+                <td>{{ data.origen }}</td>
+                <td>{{ data.pais }}</td>
+                <td>{{ data.proposito_visita_destino_estado }}</td>
+                <td>{{ data.recomendacion_destino }}</td>
+                <td>{{ data.residencia }}</td>
+                <td>{{ data.retorno_destino }}</td>
+                <td>{{ data.sat_accesibilidad }}</td>
+                <td>{{ data.sat_aeropuerto }}</td>
+                <td>{{ data.sat_atractivos }}</td>
+                <td>{{ data.sat_carretera }}</td>
+                <td>{{ data.sat_ayb }}</td>
+                <td>{{ data.sat_central }}</td>
+                <td>{{ data.sat_estacionamiento }}</td>
+                <td>{{ data.sat_eventos }}</td>
+                <td>{{ data.sat_experiencia }}</td>
+                <td>{{ data.sat_hospitalidad }}</td>
+                <td>{{ data.sat_hospedaje }}</td>
+                <td>{{ data.sat_infotur }}</td>
+                <td>{{ data.sat_limpieza }}</td>
+                <td>{{ data.sat_precios }}</td>
+                <td>{{ data.sat_protocolos }}</td>
+                <td>{{ data.sat_seguridad }}</td>
+                <td>{{ data.sat_senaletica }}</td>
+                <td>{{ data.sat_tours }}</td>
+                <td>{{ data.sat_transporte }}</td>
+                <td>{{ data.sexo }}</td>
+                <td>{{ data.segmento }}</td>
+                <td>{{ data.temporada }}</td>
+                <td>{{ data.tipo_asistente }}</td>
+                <td>{{ data.tipo_hospedaje }}</td>
+                <td>{{ data.tipo_visitante }}</td>
+                <td>{{ data.tiene_fam }}</td>
+                <td>{{ data.vio_escucho_noticias }}</td>
+                <td>{{ data.visita_fam }}</td>
+
+
+
+
+
+
+
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h4>Dato que se intento subir</h4>
+
+    <table class="table table-bordered" id="dataTable" style="table-layout: fixed;">
+        <thead>
+            <tr>
+                <th style="width: 300px;">año</th>
+                <th style="width: 300px;">destino</th>
+                <th style="width: 300px;">fecha</th>
+                <th style="width: 300px;">folio</th>
+
+                <th style="width: 300px;">acompanantes</th>
+                <th style="width: 300px;">acompanantes_maxmin</th>
+                <th style="width: 300px;">codigo_encuesta_ano</th>
+                <th style="width: 300px;">edad</th>
+                <th style="width: 300px;">estado</th>
+                <th style="width: 300px;">estadia_dias</th>
+                <th style="width: 300px;">estadia_hrs</th>
+                <th style="width: 300px;">herramienta</th>
+                <th style="width: 300px;">identifico_practicas_sust</th>
+                <th style="width: 300px;">impacto_noticias</th>
+                <th style="width: 300px;">medio_transporte_edo</th>
+                <th style="width: 300px;">motivo_visita</th>
+                <th style="width: 300px;">motivo_visita_otro</th>
+                <th style="width: 300px;">municipio</th>
+                <th style="width: 300px;">nps_atractivos</th>
+                <th style="width: 300px;">nps_ayb</th>
+                <th style="width: 300px;">nps_destino</th>
+                <th style="width: 300px;">nps_destino_categoria</th>
+                <th style="width: 300px;">nps_hotel</th>
+                <th style="width: 300px;">nps_tours</th>
+                <th style="width: 300px;">nse</th>
+                <th style="width: 300px;">origen</th>
+                <th style="width: 300px;">pais</th>
+                <th style="width: 300px;">proposito_visita_destino_estado</th>
+                <th style="width: 300px;">recomendacion_destino</th>
+                <th style="width: 300px;">residencia</th>
+                <th style="width: 300px;">retorno_destino</th>
+                <th style="width: 300px;">sat_accesibilidad</th>
+                <th style="width: 300px;">sat_aeropuerto</th>
+                <th style="width: 300px;">sat_atractivos</th>
+                <th style="width: 300px;">sat_carretera</th>
+                <th style="width: 300px;">sat_ayb</th>
+                <th style="width: 300px;">sat_central</th>
+                <th style="width: 300px;">sat_estacionamiento</th>
+                <th style="width: 300px;">sat_eventos</th>
+                <th style="width: 300px;">sat_experiencia</th>
+                <th style="width: 300px;">sat_hospitalidad</th>
+                <th style="width: 300px;">sat_hospedaje</th>
+                <th style="width: 300px;">sat_infotur</th>
+                <th style="width: 300px;">sat_limpieza</th>
+                <th style="width: 300px;">sat_precios</th>
+                <th style="width: 300px;">sat_protocolos</th>
+                <th style="width: 300px;">sat_seguridad</th>
+                <th style="width: 300px;">sat_senaletica</th>
+                <th style="width: 300px;">sat_tours</th>
+                <th style="width: 300px;">sat_transporte</th>
+                <th style="width: 300px;">sexo</th>
+                <th style="width: 300px;">segmento</th>
+                <th style="width: 300px;">temporada</th>
+                <th style="width: 300px;">tipo_asistente</th>
+                <th style="width: 300px;">tipo_hospedaje</th>
+                <th style="width: 300px;">tipo_visitante</th>
+                <th style="width: 300px;">tiene_fam</th>
+                <th style="width: 300px;">vio_escucho_noticias</th>
+                <th style="width: 300px;">visita_fam</th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                {% for data in data_list2 %}
+                <td>{{ data }}</td>
+                <!-- ... -->
+                {% endfor %}
+
+            </tr>
+        </tbody>
+    </table>
+
+
+
+</div>

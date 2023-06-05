@@ -573,6 +573,40 @@ class AerolineaForm(forms.ModelForm):
             'codigo_aerolinea': forms.TextInput(attrs={'class': 'form-control'}),
         }
 
+class ParticipacionOrigenForm (forms.ModelForm):
+     class Meta:
+        model = ParticipacionOrigen
+        fields = '__all__'
+        labels = {
+            'anio': 'Año',
+        }
+
+class FuenteInfoEntornoNForm (forms.ModelForm):
+    class Meta:
+        model  = FuenteInfoEntornoN
+        fields = '__all__'
+    
+class FuenteInfoPerfilVisitanteEventoForm (forms.ModelForm):
+    class Meta:
+        model = FuenteInfoPerfilVisitanteEvento
+        fields = '__all__'
+
+        labels = {
+            'ano': 'Año',
+            'codigo_encuesta_ano': 'Código de encuesta año',
+        }
+
+class FuenteInfoPerfilVisitanteDestinoForm (forms.ModelForm):
+
+    class Meta:
+        model = FuenteInfoPerfilVisitanteDestino
+        fields = '__all__'
+
+        labels = {
+            'ano': 'Año',
+            'codigo_encuesta_ano': 'Código de encuesta año',
+        }
+        
 class InventarioTuristicoForm(forms.ModelForm):
     class Meta:
         model = InventarioTuristico
