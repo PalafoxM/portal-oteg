@@ -591,6 +591,82 @@ class FuenteInfoPerfilVisitanteEvento(models.Model):
         db_table = "perfil_visitante_eventos"
         ordering = ['-id']
 
+class FuenteInfoPerfilVisitanteDestino(models.Model):
+    ano = models.IntegerField()
+    destino = models.CharField(max_length=255)
+    fecha = models.DateField()
+    folio = models.IntegerField()
+    acompanantes = models.FloatField()
+    acompanantes_maxmin = models.FloatField()
+    codigo_encuesta_ano = models.CharField(max_length=255)
+    edad = models.FloatField()
+    estado = models.CharField(max_length=255)
+    estadia_dias = models.FloatField()
+    estadia_hrs = models.FloatField()
+    herramienta = models.CharField(max_length=255)
+    identifico_practicas_sust = models.CharField(max_length=255)
+    impacto_noticias = models.CharField(max_length=255)
+    medio_transporte_edo = models.CharField(max_length=255)
+    motivo_visita = models.CharField(max_length=255)
+    motivo_visita_otro = models.CharField(max_length=255)
+    municipio = models.CharField(max_length=255)
+    nps_atractivos = models.FloatField()
+    nps_ayb = models.FloatField()
+    nps_destino = models.FloatField()
+    nps_destino_categoria = models.CharField(max_length=255)
+    nps_hotel = models.FloatField()
+    nps_tours = models.FloatField()
+    nse = models.CharField(max_length=255)
+    origen = models.CharField(max_length=255)
+    pais = models.CharField(max_length=255)
+    proposito_visita_destino_estado = models.CharField(max_length=255)
+    recomendacion_destino = models.IntegerField()
+    residencia = models.CharField(max_length=255)
+    retorno_destino = models.IntegerField()
+    sat_accesibilidad = models.IntegerField()
+    sat_aeropuerto = models.IntegerField()
+    sat_atractivos = models.IntegerField()
+    sat_carretera = models.IntegerField()
+    sat_ayb = models.IntegerField()
+    sat_central = models.IntegerField()
+
+    sat_estacionamiento = models.IntegerField()
+    sat_eventos = models.IntegerField()
+    sat_experiencia = models.IntegerField()
+    sat_hospitalidad = models.IntegerField()
+    sat_hospedaje = models.IntegerField()
+
+    sat_infotur = models.IntegerField()
+    sat_limpieza = models.IntegerField()
+    sat_precios = models.IntegerField()
+
+    sat_protocolos = models.IntegerField()
+    sat_seguridad = models.IntegerField()
+    sat_senaletica = models.IntegerField()
+    sat_tours = models.IntegerField()
+    sat_transporte = models.IntegerField()
+    sexo = models.CharField(max_length=255)
+    segmento = models.CharField(max_length=255)
+    temporada = models.CharField(max_length=255)
+
+    tipo_asistente = models.CharField(max_length=255)
+    tipo_hospedaje = models.CharField(max_length=255)
+    tipo_visitante = models.CharField(max_length=255)
+    tiene_fam = models.CharField(max_length=255)
+    vio_escucho_noticias = models.CharField(max_length=255)
+    visita_fam = models.CharField(max_length=255)
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+
+
+    class Meta:
+        app_label = 'ecosistema'
+        db_table = "perfil_visitante_destinos"
+        ordering = ['-id']
+
+
 
 class FuenteInfoEntornoN(models.Model):
     entidad = models.CharField(max_length=100)

@@ -596,6 +596,16 @@ class FuenteInfoPerfilVisitanteEventoForm (forms.ModelForm):
             'codigo_encuesta_ano': 'Código de encuesta año',
         }
 
+class FuenteInfoPerfilVisitanteDestinoForm (forms.ModelForm):
+
+    class Meta:
+        model = FuenteInfoPerfilVisitanteDestino
+        fields = '__all__'
+
+        labels = {
+            'ano': 'Año',
+            'codigo_encuesta_ano': 'Código de encuesta año',
+        }
         
 class InventarioTuristicoForm(forms.ModelForm):
     class Meta:

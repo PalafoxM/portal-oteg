@@ -37,6 +37,7 @@ from back.views.fuente_info_perfil_visitante_eventos.views import *
 from back.views.fuente_info_entorno_nacional.views import *
 from back.views.fuente_info_inventario_turistico.views import *
 from back.views.fuente_info_directorio_hotelero.views import *
+from back.views.fuente_info_perfil_visitante_destinos.views import *
 
 
 from django.conf import settings
@@ -317,6 +318,14 @@ urlpatterns = [
     path('fuentes-info/perfil-visitante-eventos/add', FuenteInfoPerfilVisitanteEventosCreate.as_view(), name='fuente_info_perfil_visitante_eventos_create'),
     path('fuentes-info/perfil-visitante-eventos/edit/<int:pk>/', FuenteInfoPerfilVisitanteEventosUpdate.as_view(), name='fuente_info_perfil_visitante_eventos_update'),
     path('fuentes-info/perfil-visitante-eventos/delete/<int:pk>/', FuenteInfoPerfilVisitanteEventosDelete.as_view(), name='fuente_info_perfil_visitante_eventos_delete'),
+
+    #fuetes info perfil visitante DEstinos
+    path('fuentes-info/perfil-visitante-destinos', FuenteInfoPerfilVisitanteDestinos.as_view(), name='fuente_info_perfil_visitante_destinos'),
+    path('fuentes-info/perfil-visitante-destinos/add', FuenteInfoPerfilVisitanteDestinosCreate.as_view(), name='fuente_info_perfil_visitante_destinos_create'),
+    path('fuentes-info/perfil-visitante-destinos/edit/<int:pk>/', FuenteInfoPerfilVisitanteDestinosUpdate.as_view(), name='fuente_info_perfil_visitante_destinos_update'),
+    path('fuentes-info/perfil-visitante-destinos/delete/<int:pk>/', FuenteInfoPerfilVisitanteDestinosDelete.as_view(), name='fuente_info_perfil_visitante_destinos_delete'),
+
+
 
     #fuetes info entorno nacional
     path('fuentes-info/entorno-nacional', FuenteInfoEntornoNacional.as_view(), name='fuente_info_entorno_nacional'),
