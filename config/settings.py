@@ -41,6 +41,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG')
 
 ALLOWED_HOSTS = ['*']
+CSRF_TRUSTED_ORIGINS = ['https://42195556-review-develop-3zknud.visitaguanajuato.com.mx']
 
 
 # Application definition
