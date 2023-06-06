@@ -368,7 +368,7 @@ class PerfilVisitanteDestinosCargaMasivaView(View):
                     continue # Ignorar la primera fila si es el encabezado
                 num_filas_procesadas += 1
                 
-                fecha_str = row[2].value.date().strftime('%Y-%m-%d') if len(row) > 2 and row[2].value else ''
+                fecha_str = row[3].value.date().strftime('%Y-%m-%d') if len(row) > 2 and row[2].value else ''
                 fecha_obj = datetime.strptime(fecha_str, '%Y-%m-%d').date() if fecha_str else ''
 
                 # Limpieza de datos
