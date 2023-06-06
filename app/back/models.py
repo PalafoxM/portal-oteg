@@ -504,7 +504,7 @@ class empleo (models.Model):
     mujeres_empleadas_sec_72_nac = models.IntegerField(null=True, default=None)
 
     class Meta:
-        app_label = 'ecosistema'
+        # app_label = 'ecosistema'
         db_table = "empleo"
         ordering = ['-id']
 
