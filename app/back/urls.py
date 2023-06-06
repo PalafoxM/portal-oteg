@@ -318,12 +318,16 @@ urlpatterns = [
     path('fuentes-info/perfil-visitante-eventos/add', FuenteInfoPerfilVisitanteEventosCreate.as_view(), name='fuente_info_perfil_visitante_eventos_create'),
     path('fuentes-info/perfil-visitante-eventos/edit/<int:pk>/', FuenteInfoPerfilVisitanteEventosUpdate.as_view(), name='fuente_info_perfil_visitante_eventos_update'),
     path('fuentes-info/perfil-visitante-eventos/delete/<int:pk>/', FuenteInfoPerfilVisitanteEventosDelete.as_view(), name='fuente_info_perfil_visitante_eventos_delete'),
+    path('fuentes-info/perfil-visitante-eventos/carga-masiva', PerfilVisitanteEventosCargaMasivaView.as_view(), name='fuente_info_perfil_visitante_eventos_carga_masiva'),
+    path('fuentes-info/perfil-visitante-eventos/descargar-archivo', PerfilVisitanteEventosDescargarArchivoView.as_view(), name='fuente_info_perfil_visitante_eventos_descargar_archivo'),
 
     #fuetes info perfil visitante DEstinos
     path('fuentes-info/perfil-visitante-destinos', FuenteInfoPerfilVisitanteDestinos.as_view(), name='fuente_info_perfil_visitante_destinos'),
     path('fuentes-info/perfil-visitante-destinos/add', FuenteInfoPerfilVisitanteDestinosCreate.as_view(), name='fuente_info_perfil_visitante_destinos_create'),
     path('fuentes-info/perfil-visitante-destinos/edit/<int:pk>/', FuenteInfoPerfilVisitanteDestinosUpdate.as_view(), name='fuente_info_perfil_visitante_destinos_update'),
     path('fuentes-info/perfil-visitante-destinos/delete/<int:pk>/', FuenteInfoPerfilVisitanteDestinosDelete.as_view(), name='fuente_info_perfil_visitante_destinos_delete'),
+    path('fuentes-info/perfil-visitante-destinos/carga-masiva', PerfilVisitanteDestinosCargaMasivaView.as_view(), name='fuente_info_perfil_visitante_destinos_carga_masiva'),
+    path('fuentes-info/perfil-visitante-destinos/descargar-archivo', PerfilVisitanteDestinosDescargarArchivoView.as_view(), name='fuente_info_perfil_visitante_destinos_descargar_archivo'),
 
 
 
