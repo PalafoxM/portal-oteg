@@ -35,7 +35,7 @@ class FuenteInfoDirectorioHotelero (ListView):
     template_name = 'back/fuente_info_directorio_hotelero/list.html'
 
     @method_decorator(csrf_exempt)
-    def dispatch(self, request, *args, **kwargs) :
+    def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
@@ -54,19 +54,22 @@ class FuenteInfoDirectorioHotelero (ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Listado de Fuentes de Informacion de DirectorioHotelero'
-        context['create_url'] = reverse_lazy('dashboard:fuente_info_certificacion_create')
-        context['entity'] = 'DirectorioHotelero'
+        context['title'] = 'Listado  de Directorio Hotelero'
+        context['create_url'] = reverse_lazy(
+            'dashboard:fuente_info_directorio_hotelero_create')
+        context['entity'] = 'Fuentes de Informacion de DirectorioHotelero'
         context['is_fuente'] = True
-        context['carga_masiva_url'] = reverse_lazy('dashboard:fuente_info_directorio_hotelero_carga_masiva')
-        
-        return context  
+        context['carga_masiva_url'] = reverse_lazy(
+            'dashboard:fuente_info_directorio_hotelero_carga_masiva')
+
+        return context
+
 
 class FuenteInfoDirectorioHoteleroCreate (CreateView):
     model = DirectorioHotelero
     form_class = DirectorioHoteleroForm
-    template_name = 'back/fuente_info_certificacion/create.html'
-    success_url = reverse_lazy('dashboard:fuente_info_certificacion')
+    template_name = 'back/fuente_info_directorio_hotelero/create.html'
+    success_url = reverse_lazy('dashboard:fuente_info_directorio_hotelero')
 
     def get_object(self, **kwargs):
         queryset = self.get_queryset()
@@ -81,29 +84,15 @@ class FuenteInfoDirectorioHoteleroCreate (CreateView):
         if form.is_valid():
             # Check if there is already a record with the same fecha, destino and categoria
 
-            fecha = form.cleaned_data['fecha']
-            destino = form.cleaned_data['destino']
+            nombre_de_la_unidad_economica = form.cleaned_data['nombre_de_la_unidad_economica']
+            id_establecimiento = form.cleaned_data['id_establecimiento']
 
             try:
-                existing_object = self.get_object(fecha=fecha, destino=destino)
+                existing_object = self.get_object(
+                    nombre_de_la_unidad_economica=nombre_de_la_unidad_economica, id_establecimiento=id_establecimiento)
 
-            except Certificacion.DoesNotExist:
+            except DirectorioHotelero.DoesNotExist:
                 existing_object = None
-
-            existing_catalogo = CatalagoDestino.objects.filter(destino__iexact=destino).exists()
-            # ALTER TABLE mytable MODIFY mycolumn VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
-            # If there is no existing data, save the new data
-            if not existing_catalogo:
-
-                if not existing_catalogo:
-                    data = {
-                        'success': False,
-                        'missingData': True,
-                        'destino': destino,
-                        'message': 'No existe el destino en el catalogo',
-                    }
-                    return JsonResponse(data)
 
             # If there is existing data and replace_data is True, delete the existing data
             if existing_object and request.POST.get('replace_data') == 'on':
@@ -129,11 +118,141 @@ class FuenteInfoDirectorioHoteleroCreate (CreateView):
             # If there is existing data and replace_data is False, return an error
 
             if existing_object:
-                data = Certificacion.objects.filter(fecha=fecha, destino=destino)
+                data = DirectorioHotelero.objects.filter(
+                    nombre_de_la_unidad_economica=nombre_de_la_unidad_economica, id_establecimiento=id_establecimiento)
 
-                data_list = list(data.values('fecha', 'destino', 'tipo_de_certificacion', 'empresas_certificadas'))
+                data_list = list(data.values(
+                    'id_establecimiento',
+                    'nombre_de_la_unidad_economica',
+                    'razon_social',
+                    'codigo_de_la_clase_de_actividad_scian',
+                    'nombre_de_clase_de_la_actividad',
+                    'descripcion_estrato_personal_ocupado',
+                    'tipo_de_vialidad',
+                    'nombre_de_la_vialidad',
+                    'tipo_de_entre_vialidad_1',
+                    'nombre_de_entre_vialidad_1',
+                    'tipo_de_entre_vialidad_2',
+                    'nombre_de_entre_vialidad_2',
+                    'tipo_de_entre_vialidad_3',
+                    'nombre_de_entre_vialidad_3',
+                    'numero_exterior_o_kilometro',
+                    'letra_exterior',
+                    'edificio',
+                    'edificio_piso',
+                    'numero_interior',
+                    'letra_interior',
+                    'tipo_de_asentamiento_humano',
+                    'nombre_de_asentamiento_humano',
+                    'tipo_centro_comercial',
+                    'c_industrial_comercial_o_mercado',
+                    'numero_de_local',
+                    'codigo_postal',
+                    'clave_entidad',
+                    'entidad_federativa',
+                    'clave_municipio',
+                    'municipio',
+                    'clave_localidad',
+                    'localidad',
+                    'area_geoestadistica_basica',
+                    'manzana',
+                    'numero_de_telefono',
+                    'correo_electronico',
+                    'sitio_en_internet',
+                    'tipo_de_establecimiento',
+                    'latitud',
+                    'longitud',
+                    'fecha_de_incorporacion_al_denue',
+                    'categoria_turistica',
+                    'no_cuartos',
+                    'unidades',
+                    'espacios_cajones',
+                    'no_camas',
+                    'cadena',
+                    'operadora',
+                    'responsable',
+                    'cargo',
+                    'imss',
+                    'inicio_de_operaciones_este_ano',
+                    'fecha_de_inicio_de_operaciones',
+                    'centro_turistico',
+                    'zona',
+                    'datatur',
+                    'hotel_boutique',
+                    'nombre_de_la_cadena',
+                    'hoteles_tesoros',
+
+                ))
+
+                fields_list = [
+                    'id_establecimiento',
+                    'nombre_de_la_unidad_economica',
+                    'razon_social',
+                    'codigo_de_la_clase_de_actividad_scian',
+                    'nombre_de_clase_de_la_actividad',
+                    'descripcion_estrato_personal_ocupado',
+                    'tipo_de_vialidad',
+                    'nombre_de_la_vialidad',
+                    'tipo_de_entre_vialidad_1',
+                    'nombre_de_entre_vialidad_1',
+                    'tipo_de_entre_vialidad_2',
+                    'nombre_de_entre_vialidad_2',
+                    'tipo_de_entre_vialidad_3',
+                    'nombre_de_entre_vialidad_3',
+                    'numero_exterior_o_kilometro',
+                    'letra_exterior',
+                    'edificio',
+                    'edificio_piso',
+                    'numero_interior',
+                    'letra_interior',
+                    'tipo_de_asentamiento_humano',
+                    'nombre_de_asentamiento_humano',
+                    'tipo_centro_comercial',
+                    'c_industrial_comercial_o_mercado',
+                    'numero_de_local',
+                    'codigo_postal',
+                    'clave_entidad',
+                    'entidad_federativa',
+                    'clave_municipio',
+                    'municipio',
+                    'clave_localidad',
+                    'localidad',
+                    'area_geoestadistica_basica',
+                    'manzana',
+                    'numero_de_telefono',
+                    'correo_electronico',
+                    'sitio_en_internet',
+                    'tipo_de_establecimiento',
+                    'latitud',
+                    'longitud',
+                    'fecha_de_incorporacion_al_denue',
+                    'categoria_turistica',
+                    'no_cuartos',
+                    'unidades',
+                    'espacios_cajones',
+                    'no_camas',
+                    'cadena',
+                    'operadora',
+                    'responsable',
+                    'cargo',
+                    'imss',
+                    'inicio_de_operaciones_este_ano',
+                    'fecha_de_inicio_de_operaciones',
+                    'centro_turistico',
+                    'zona',
+                    'datatur',
+                    'hotel_boutique',
+                    'nombre_de_la_cadena',
+                    'hoteles_tesoros',
+                ]
+
+                table_headers = ''.join(
+                    f'<th style="width: 300px;">{field}</th>' for field in fields_list)
+
                 data_list2 = list(form.cleaned_data.values())
-                table_html = render_to_string('back/fuente_info_certificacion/table.html',{'data_list': data_list, 'actual': True, 'data_list2': data_list2})
+
+                table_html = render_to_string('back/fuente_info_directorio_hotelero/table.html', {
+                                              'data_list': data_list, 'actual': True, 'data_list2': data_list2, "table_headers": table_headers})
 
                 datajsn = {
                     'success': False,
@@ -182,7 +301,8 @@ class FuenteInfoDirectorioHoteleroCreate (CreateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Crear una fuente'
         context['entity'] = 'Glosario'
-        context['list_url'] = reverse_lazy('dashboard:fuente_info_certificacion')
+        context['list_url'] = reverse_lazy(
+            'dashboard:fuente_info_directorio_hotelero')
         context['action'] = 'add'
         return context
 
@@ -219,24 +339,26 @@ class FuenteInfoDirectorioHoteleroUpdate (UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['list_url'] = reverse_lazy('dashboard:fuente_info_directorio_hotelero')
-            # Set the widget for the 'destino' field to read-only text input
+        context['list_url'] = reverse_lazy(
+            'dashboard:fuente_info_directorio_hotelero')
+        # Set the widget for the 'destino' field to read-only text input
         # context['form'].fields['ano'].widget = forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly'})
         # context['form'].fields['giro'].widget = forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly'})
         # context['form'].fields['destino'].widget = forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly'})
 
         context['title'] = 'Editar fuente'
-        context['edit_msg'] = 'Los Campos Destino y Año no pueden ser editados' 
+        context['edit_msg'] = 'Los Campos Destino y Año no pueden ser editados'
 
         return context
-    
+
 
 class FuenteInfoDirectorioHoteleroDelete (DeleteView):
     model = DirectorioHotelero
     success_url = reverse_lazy('dashboard:fuente_info_directorio_hotelero')
-    
+
     def post(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
         return super().post(request, *args, **kwargs)
+
 
 class DirectorioHoteleroCargaMasivaView(View):
     form_class = CargaMasivaForm
@@ -246,10 +368,12 @@ class DirectorioHoteleroCargaMasivaView(View):
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         return render(request, self.template_name, {'form': form, 'title': 'Carga Masiva de DirectorioHotelero'})
+
     def convert_to_serializable(self, obj):
         if isinstance(obj, (datetime, date)):
             return obj.isoformat()
-        raise TypeError(f'Object of type {obj.__class__.__name__} is not JSON serializable')
+        raise TypeError(
+            f'Object of type {obj.__class__.__name__} is not JSON serializable')
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST, request.FILES)
@@ -259,20 +383,25 @@ class DirectorioHoteleroCargaMasivaView(View):
         if archivo:
             extension = os.path.splitext(archivo.name)[1]
             if extension == '.xlsx':
-                registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas = self.procesar_archivo_xlsx(archivo)
+                registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas = self.procesar_archivo_xlsx(
+                    archivo)
             elif extension == '.csv':
-                registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas = self.procesar_archivo_csv(archivo)
+                registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas = self.procesar_archivo_csv(
+                    archivo)
             else:
-                messages.error(request, 'El archivo debe ser un archivo .xlsx o .csv')
-                registros_incorrectos.append("El archivo debe ser un archivo .xlsx o .csv")
+                messages.error(
+                    request, 'El archivo debe ser un archivo .xlsx o .csv')
+                registros_incorrectos.append(
+                    "El archivo debe ser un archivo .xlsx o .csv")
         else:
             messages.error(request, 'Debe seleccionar un archivo')
             registros_incorrectos.append("Debe seleccionar un archivo")
 
         if len(registros_incorrectos) > 0 or len(registros_existentes) > 0:
             messages.error(request, 'Hay errores de registros')
-            datos_json = json.dumps(registros_incorrectos, default=self.convert_to_serializable)
-            
+            datos_json = json.dumps(
+                registros_incorrectos, default=self.convert_to_serializable)
+
             return render(request, self.template_name, {
                 'form': form,
                 'title': 'Carga Masiva de DirectorioHotelero',
@@ -282,10 +411,10 @@ class DirectorioHoteleroCargaMasivaView(View):
                 'descargar_url': datos_json,
                 'num_filas_procesadas': num_filas_procesadas,
             })
-            
+
         else:
             return HttpResponseRedirect(reverse('dashboard:fuente_info_directorio_hotelero'))
-        
+
     def procesar_archivo_xlsx(self, archivo):
         registros_correctos, registros_incorrectos, registros_existentes = [], [], []
         num_filas_procesadas = 0
@@ -295,7 +424,7 @@ class DirectorioHoteleroCargaMasivaView(View):
             filas = list(worksheet.rows)
             for i, row in enumerate(filas):
                 if i == 0:
-                    continue # Ignorar la primera fila si es el encabezado
+                    continue  # Ignorar la primera fila si es el encabezado
                 num_filas_procesadas += 1
 
                 id_establecimiento = row[0].value
@@ -360,16 +489,20 @@ class DirectorioHoteleroCargaMasivaView(View):
 
                 # Verificar si fecha_de_incorporacion_al_denue es una instancia de datetime
                 if isinstance(fecha_de_incorporacion_al_denue, datetime):
-                    fecha_de_incorporacion_al_denue_str = fecha_de_incorporacion_al_denue.strftime('%Y-%m-%d')
-                    fecha_de_incorporacion_al_denue_obj = datetime.strptime(fecha_de_incorporacion_al_denue_str, '%Y-%m-%d').date()
+                    fecha_de_incorporacion_al_denue_str = fecha_de_incorporacion_al_denue.strftime(
+                        '%Y-%m-%d')
+                    fecha_de_incorporacion_al_denue_obj = datetime.strptime(
+                        fecha_de_incorporacion_al_denue_str, '%Y-%m-%d').date()
                 else:
                     fecha_de_incorporacion_al_denue_str = ''
                     fecha_de_incorporacion_al_denue_obj = None
 
                 # Verificar si fecha_de_inicio_de_operaciones es una instancia de datetime
                 if isinstance(fecha_de_inicio_de_operaciones, datetime):
-                    fecha_de_inicio_de_operaciones_str = fecha_de_inicio_de_operaciones.strftime('%Y-%m-%d')
-                    fecha_de_inicio_de_operaciones_obj = datetime.strptime(fecha_de_inicio_de_operaciones_str, '%Y-%m-%d').date()
+                    fecha_de_inicio_de_operaciones_str = fecha_de_inicio_de_operaciones.strftime(
+                        '%Y-%m-%d')
+                    fecha_de_inicio_de_operaciones_obj = datetime.strptime(
+                        fecha_de_inicio_de_operaciones_str, '%Y-%m-%d').date()
                 else:
                     fecha_de_inicio_de_operaciones_str = ''
                     fecha_de_inicio_de_operaciones_obj = None
@@ -441,11 +574,10 @@ class DirectorioHoteleroCargaMasivaView(View):
                     #     print(f"El destino {destino} no está en la tabla CatalagoDestinoAeropuerto")
                     #     registros_incorrectos.append(datos)
                     #     continue
-                    
 
                     # Buscar si la fila ya existe en la base de datos
                     existente = DirectorioHotelero.objects.filter(
-                        nombre_de_la_unidad_economica = nombre_de_la_unidad_economica
+                        nombre_de_la_unidad_economica=nombre_de_la_unidad_economica
                     )
                     if existente.exists():
                         # Si ya existe, se omite la fila y se guarda en la lista de registros incorrectos
@@ -455,88 +587,87 @@ class DirectorioHoteleroCargaMasivaView(View):
                     else:
                         # Si no existe, se guarda la nueva instancia del modelo en la base de datos y se guarda en la lista de registros correctos
                         db = DirectorioHotelero(
-                                id_establecimiento=id_establecimiento,
-                                nombre_de_la_unidad_economica=nombre_de_la_unidad_economica,
-                                razon_social=razon_social,
-                                codigo_de_la_clase_de_actividad_scian=codigo_de_la_clase_de_actividad_scian,
-                                nombre_de_clase_de_la_actividad=nombre_de_clase_de_la_actividad,
-                                descripcion_estrato_personal_ocupado=descripcion_estrato_personal_ocupado,
-                                tipo_de_vialidad=tipo_de_vialidad,
-                                nombre_de_la_vialidad=nombre_de_la_vialidad,
-                                tipo_de_entre_vialidad_1=tipo_de_entre_vialidad_1,
-                                nombre_de_entre_vialidad_1=nombre_de_entre_vialidad_1,
-                                tipo_de_entre_vialidad_2=tipo_de_entre_vialidad_2,
-                                nombre_de_entre_vialidad_2=nombre_de_entre_vialidad_2,
-                                tipo_de_entre_vialidad_3=tipo_de_entre_vialidad_3,
-                                nombre_de_entre_vialidad_3=nombre_de_entre_vialidad_3,
-                                numero_exterior_o_kilometro=numero_exterior_o_kilometro,
-                                letra_exterior=letra_exterior,
-                                edificio=edificio,
-                                edificio_piso=edificio_piso,
-                                numero_interior=numero_interior,
-                                letra_interior=letra_interior,
-                                tipo_de_asentamiento_humano=tipo_de_asentamiento_humano,
-                                nombre_de_asentamiento_humano=nombre_de_asentamiento_humano,
-                                tipo_centro_comercial=tipo_centro_comercial,
-                                c_industrial_comercial_o_mercado=c_industrial_comercial_o_mercado,
-                                numero_de_local=numero_de_local,
-                                codigo_postal=codigo_postal,
-                                clave_entidad=clave_entidad,
-                                entidad_federativa=entidad_federativa,
-                                clave_municipio=clave_municipio,
-                                municipio=municipio,
-                                clave_localidad=clave_localidad,
-                                localidad=localidad,
-                                area_geoestadistica_basica=area_geoestadistica_basica,
-                                manzana=manzana,
-                                numero_de_telefono=numero_de_telefono,
-                                correo_electronico=correo_electronico,
-                                sitio_en_internet=sitio_en_internet,
-                                tipo_de_establecimiento=tipo_de_establecimiento,
-                                latitud=latitud,
-                                longitud=longitud,
-                                fecha_de_incorporacion_al_denue=fecha_de_incorporacion_al_denue,
-                                categoria_turistica=categoria_turistica,
-                                no_cuartos=no_cuartos,
-                                unidades=unidades,
-                                espacios_cajones=espacios_cajones,
-                                no_camas=no_camas,
-                                cadena=cadena,
-                                operadora=operadora,
-                                responsable=responsable,
-                                cargo=cargo,
-                                imss=imss,
-                                inicio_de_operaciones_este_ano=inicio_de_operaciones_este_ano,
-                                fecha_de_inicio_de_operaciones=fecha_de_inicio_de_operaciones,
-                                centro_turistico=centro_turistico,
-                                zona=zona,
-                                datatur=datatur,
-                                hotel_boutique=hotel_boutique,
-                                nombre_de_la_cadena=nombre_de_la_cadena,
-                                hoteles_tesoros=hoteles_tesoros
+                            id_establecimiento=id_establecimiento,
+                            nombre_de_la_unidad_economica=nombre_de_la_unidad_economica,
+                            razon_social=razon_social,
+                            codigo_de_la_clase_de_actividad_scian=codigo_de_la_clase_de_actividad_scian,
+                            nombre_de_clase_de_la_actividad=nombre_de_clase_de_la_actividad,
+                            descripcion_estrato_personal_ocupado=descripcion_estrato_personal_ocupado,
+                            tipo_de_vialidad=tipo_de_vialidad,
+                            nombre_de_la_vialidad=nombre_de_la_vialidad,
+                            tipo_de_entre_vialidad_1=tipo_de_entre_vialidad_1,
+                            nombre_de_entre_vialidad_1=nombre_de_entre_vialidad_1,
+                            tipo_de_entre_vialidad_2=tipo_de_entre_vialidad_2,
+                            nombre_de_entre_vialidad_2=nombre_de_entre_vialidad_2,
+                            tipo_de_entre_vialidad_3=tipo_de_entre_vialidad_3,
+                            nombre_de_entre_vialidad_3=nombre_de_entre_vialidad_3,
+                            numero_exterior_o_kilometro=numero_exterior_o_kilometro,
+                            letra_exterior=letra_exterior,
+                            edificio=edificio,
+                            edificio_piso=edificio_piso,
+                            numero_interior=numero_interior,
+                            letra_interior=letra_interior,
+                            tipo_de_asentamiento_humano=tipo_de_asentamiento_humano,
+                            nombre_de_asentamiento_humano=nombre_de_asentamiento_humano,
+                            tipo_centro_comercial=tipo_centro_comercial,
+                            c_industrial_comercial_o_mercado=c_industrial_comercial_o_mercado,
+                            numero_de_local=numero_de_local,
+                            codigo_postal=codigo_postal,
+                            clave_entidad=clave_entidad,
+                            entidad_federativa=entidad_federativa,
+                            clave_municipio=clave_municipio,
+                            municipio=municipio,
+                            clave_localidad=clave_localidad,
+                            localidad=localidad,
+                            area_geoestadistica_basica=area_geoestadistica_basica,
+                            manzana=manzana,
+                            numero_de_telefono=numero_de_telefono,
+                            correo_electronico=correo_electronico,
+                            sitio_en_internet=sitio_en_internet,
+                            tipo_de_establecimiento=tipo_de_establecimiento,
+                            latitud=latitud,
+                            longitud=longitud,
+                            fecha_de_incorporacion_al_denue=fecha_de_incorporacion_al_denue,
+                            categoria_turistica=categoria_turistica,
+                            no_cuartos=no_cuartos,
+                            unidades=unidades,
+                            espacios_cajones=espacios_cajones,
+                            no_camas=no_camas,
+                            cadena=cadena,
+                            operadora=operadora,
+                            responsable=responsable,
+                            cargo=cargo,
+                            imss=imss,
+                            inicio_de_operaciones_este_ano=inicio_de_operaciones_este_ano,
+                            fecha_de_inicio_de_operaciones=fecha_de_inicio_de_operaciones,
+                            centro_turistico=centro_turistico,
+                            zona=zona,
+                            datatur=datatur,
+                            hotel_boutique=hotel_boutique,
+                            nombre_de_la_cadena=nombre_de_la_cadena,
+                            hoteles_tesoros=hoteles_tesoros
                         )
                         db.save()
                         registros_correctos.append(datos)
                 except (ValueError, TypeError) as e:
                     print(f"Error al procesar la fila {datos}: {e}")
                     registros_incorrectos.append(datos)
-                    
+
         except FileNotFoundError:
-                print(f"El archivo {archivo} no se pudo abrir")
-                
+            print(f"El archivo {archivo} no se pudo abrir")
+
         return registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas
-    
+
     def procesar_archivo_csv(self, archivo):
         archivo = self.request.FILES['archivo']
         registros_correctos, registros_incorrectos, registros_existentes = [], [], []
         num_filas_procesadas = 0
         try:
-            datos = csv.DictReader(archivo.read().decode('latin-1').splitlines())
+            datos = csv.DictReader(
+                archivo.read().decode('latin-1').splitlines())
             # print(datos)
             for row in datos:
                 num_filas_procesadas += 1
-
-                
 
                 id_establecimiento = row['id_establecimiento']
                 nombre_de_la_unidad_economica = row['nombre_de_la_unidad_economica']
@@ -668,7 +799,7 @@ class DirectorioHoteleroCargaMasivaView(View):
 
                     # Buscar si la fila ya existe en la base de datos
                     existente = DirectorioHotelero.objects.filter(
-                        nombre_de_la_unidad_economica = nombre_de_la_unidad_economica
+                        nombre_de_la_unidad_economica=nombre_de_la_unidad_economica
                     )
                     if existente.exists():
                         # Si ya existe, se omite la fila y se guarda en la lista de registros incorrectos
@@ -677,65 +808,65 @@ class DirectorioHoteleroCargaMasivaView(View):
                     else:
                         # Si no existe, se guarda la nueva instancia del modelo en la base de datos y se guarda en la lista de registros correctos
                         db = DirectorioHotelero(
-                                id_establecimiento=id_establecimiento,
-                                nombre_de_la_unidad_economica=nombre_de_la_unidad_economica,
-                                razon_social=razon_social,
-                                codigo_de_la_clase_de_actividad_scian=codigo_de_la_clase_de_actividad_scian,
-                                nombre_de_clase_de_la_actividad=nombre_de_clase_de_la_actividad,
-                                descripcion_estrato_personal_ocupado=descripcion_estrato_personal_ocupado,
-                                tipo_de_vialidad=tipo_de_vialidad,
-                                nombre_de_la_vialidad=nombre_de_la_vialidad,
-                                tipo_de_entre_vialidad_1=tipo_de_entre_vialidad_1,
-                                nombre_de_entre_vialidad_1=nombre_de_entre_vialidad_1,
-                                tipo_de_entre_vialidad_2=tipo_de_entre_vialidad_2,
-                                nombre_de_entre_vialidad_2=nombre_de_entre_vialidad_2,
-                                tipo_de_entre_vialidad_3=tipo_de_entre_vialidad_3,
-                                nombre_de_entre_vialidad_3=nombre_de_entre_vialidad_3,
-                                numero_exterior_o_kilometro=numero_exterior_o_kilometro,
-                                letra_exterior=letra_exterior,
-                                edificio=edificio,
-                                edificio_piso=edificio_piso,
-                                numero_interior=numero_interior,
-                                letra_interior=letra_interior,
-                                tipo_de_asentamiento_humano=tipo_de_asentamiento_humano,
-                                nombre_de_asentamiento_humano=nombre_de_asentamiento_humano,
-                                tipo_centro_comercial=tipo_centro_comercial,
-                                c_industrial_comercial_o_mercado=c_industrial_comercial_o_mercado,
-                                numero_de_local=numero_de_local,
-                                codigo_postal=codigo_postal,
-                                clave_entidad=clave_entidad,
-                                entidad_federativa=entidad_federativa,
-                                clave_municipio=clave_municipio,
-                                municipio=municipio,
-                                clave_localidad=clave_localidad,
-                                localidad=localidad,
-                                area_geoestadistica_basica=area_geoestadistica_basica,
-                                manzana=manzana,
-                                numero_de_telefono=numero_de_telefono,
-                                correo_electronico=correo_electronico,
-                                sitio_en_internet=sitio_en_internet,
-                                tipo_de_establecimiento=tipo_de_establecimiento,
-                                latitud=latitud,
-                                longitud=longitud,
-                                fecha_de_incorporacion_al_denue=fecha_de_incorporacion_al_denue,
-                                categoria_turistica=categoria_turistica,
-                                no_cuartos=no_cuartos,
-                                unidades=unidades,
-                                espacios_cajones=espacios_cajones,
-                                no_camas=no_camas,
-                                cadena=cadena,
-                                operadora=operadora,
-                                responsable=responsable,
-                                cargo=cargo,
-                                imss=imss,
-                                inicio_de_operaciones_este_ano=inicio_de_operaciones_este_ano,
-                                fecha_de_inicio_de_operaciones=fecha_de_inicio_de_operaciones,
-                                centro_turistico=centro_turistico,
-                                zona=zona,
-                                datatur=datatur,
-                                hotel_boutique=hotel_boutique,
-                                nombre_de_la_cadena=nombre_de_la_cadena,
-                                hoteles_tesoros=hoteles_tesoros
+                            id_establecimiento=id_establecimiento,
+                            nombre_de_la_unidad_economica=nombre_de_la_unidad_economica,
+                            razon_social=razon_social,
+                            codigo_de_la_clase_de_actividad_scian=codigo_de_la_clase_de_actividad_scian,
+                            nombre_de_clase_de_la_actividad=nombre_de_clase_de_la_actividad,
+                            descripcion_estrato_personal_ocupado=descripcion_estrato_personal_ocupado,
+                            tipo_de_vialidad=tipo_de_vialidad,
+                            nombre_de_la_vialidad=nombre_de_la_vialidad,
+                            tipo_de_entre_vialidad_1=tipo_de_entre_vialidad_1,
+                            nombre_de_entre_vialidad_1=nombre_de_entre_vialidad_1,
+                            tipo_de_entre_vialidad_2=tipo_de_entre_vialidad_2,
+                            nombre_de_entre_vialidad_2=nombre_de_entre_vialidad_2,
+                            tipo_de_entre_vialidad_3=tipo_de_entre_vialidad_3,
+                            nombre_de_entre_vialidad_3=nombre_de_entre_vialidad_3,
+                            numero_exterior_o_kilometro=numero_exterior_o_kilometro,
+                            letra_exterior=letra_exterior,
+                            edificio=edificio,
+                            edificio_piso=edificio_piso,
+                            numero_interior=numero_interior,
+                            letra_interior=letra_interior,
+                            tipo_de_asentamiento_humano=tipo_de_asentamiento_humano,
+                            nombre_de_asentamiento_humano=nombre_de_asentamiento_humano,
+                            tipo_centro_comercial=tipo_centro_comercial,
+                            c_industrial_comercial_o_mercado=c_industrial_comercial_o_mercado,
+                            numero_de_local=numero_de_local,
+                            codigo_postal=codigo_postal,
+                            clave_entidad=clave_entidad,
+                            entidad_federativa=entidad_federativa,
+                            clave_municipio=clave_municipio,
+                            municipio=municipio,
+                            clave_localidad=clave_localidad,
+                            localidad=localidad,
+                            area_geoestadistica_basica=area_geoestadistica_basica,
+                            manzana=manzana,
+                            numero_de_telefono=numero_de_telefono,
+                            correo_electronico=correo_electronico,
+                            sitio_en_internet=sitio_en_internet,
+                            tipo_de_establecimiento=tipo_de_establecimiento,
+                            latitud=latitud,
+                            longitud=longitud,
+                            fecha_de_incorporacion_al_denue=fecha_de_incorporacion_al_denue,
+                            categoria_turistica=categoria_turistica,
+                            no_cuartos=no_cuartos,
+                            unidades=unidades,
+                            espacios_cajones=espacios_cajones,
+                            no_camas=no_camas,
+                            cadena=cadena,
+                            operadora=operadora,
+                            responsable=responsable,
+                            cargo=cargo,
+                            imss=imss,
+                            inicio_de_operaciones_este_ano=inicio_de_operaciones_este_ano,
+                            fecha_de_inicio_de_operaciones=fecha_de_inicio_de_operaciones,
+                            centro_turistico=centro_turistico,
+                            zona=zona,
+                            datatur=datatur,
+                            hotel_boutique=hotel_boutique,
+                            nombre_de_la_cadena=nombre_de_la_cadena,
+                            hoteles_tesoros=hoteles_tesoros
                         )
                         db.save()
                         registros_correctos.append(datos)
@@ -756,7 +887,8 @@ class DirectorioHoteleroDescargarArchivoView(View):
         worksheet = workbook.active
 
         # Obtener los nombres de los campos del modelo DirectorioHotelero
-        campos = [field.name for field in DirectorioHotelero._meta.get_fields() if field.name != 'id']
+        campos = [field.name for field in DirectorioHotelero._meta.get_fields()
+                  if field.name != 'id']
 
         # Escribir los encabezados de las columnas
         for i, campo in enumerate(campos):
@@ -776,8 +908,6 @@ class DirectorioHoteleroDescargarArchivoView(View):
                     worksheet.cell(row=fila, column=columna, value=valor)
             fila += 1
 
-
-
         # Set the column widths to auto-fit
         for column in worksheet.columns:
             max_length = 0
@@ -792,14 +922,13 @@ class DirectorioHoteleroDescargarArchivoView(View):
             worksheet.column_dimensions[column_name].width = adjusted_width
 
         # Create the response with the Excel file
-        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response = HttpResponse(
+            content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
         response['Content-Disposition'] = 'attachment; filename=gasto_derrama_registros_incorrectos.xls'
-
-        
 
         # workbook.save(response)
         return workbook
-    
+
     def post(self, request, *args, **kwargs):
         # Obtener los registros incorrectos del cuerpo de la petición
         registros_incorrectos = json.loads(request.body)
@@ -807,7 +936,8 @@ class DirectorioHoteleroDescargarArchivoView(View):
         # Crear y enviar el archivo de Excel con las filas incorrectas
         workbook = self.crear_archivo_excel(registros_incorrectos)
 
-        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response = HttpResponse(
+            content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
         response['Content-Disposition'] = 'attachment; filename=gasto_derrama_registros_incorrectos.xlsx'
         workbook.save(response)
-        return response       
+        return response

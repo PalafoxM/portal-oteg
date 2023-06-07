@@ -30,6 +30,8 @@ class ProyectoInversionListView(ListView):
                 data = []
                 for i in ProyectoInversion.objects.all():
                     data.append(i.toJSON())
+
+            
             else:
                 data.append({'error': 'Ha ocurrido un error'})
         except Exception as e:
@@ -46,7 +48,7 @@ class ProyectoInversionListView(ListView):
 class  ProyectoInversionCreateView(CreateView):
     model = ProyectoInversion
     form_class = ProyectoInversionForm
-    template_name = 'back/components/create_update.html'
+    template_name = 'back/proyectos_inversion/create.html'
     success_url = reverse_lazy('dashboard:proyectos_inversion_list')
 
     def post(self, request, *args, **kwargs):

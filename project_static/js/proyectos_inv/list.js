@@ -17,7 +17,7 @@ function getCookie(name) {
 
 var datatur = {
     list: function () {
-        console.log("Ejecutando datatur.list()", window.location.pathname); // Mensaje de depuració
+        console.log("Ejecutando proyectos_inv", window.location.pathname); // Mensaje de depuració
         $('#dataTable').DataTable({
             responsive: true,
             autoWidth: false,
@@ -42,19 +42,18 @@ var datatur = {
                 {"data": "estatus", className: "text-left hidden-t"},
                 {"data": "monto_comprometido_del_proyecto_mxn", className: "text-left hidden-t"},
                 {"data": "id_del_proyecto", className: "actions-container"},
-            ],
-            columnDefs: [
+            ],columnDefs: [
                 {
                     targets: [-1],
                     class: 'actions-container',
                     orderable: false,
                     render: function (data, type, row) {
-                        var buttons = '<button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="location.href=\'edit/' + row.id + '/\'">';
+                        var buttons = '<button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="location.href=\'edit/' + row.id_del_proyecto + '/\'">';
                         buttons += '<i class="fas fa-edit"></i>';
                         buttons += '</button> ';
-                        buttons += '<form method="post" action="delete/' + row.id + '/">';
+                        buttons += '<form method="post" action="delete/' + row.id_del_proyecto + '/">';
                         buttons += '<input type="hidden" name="csrfmiddlewaretoken" value="' + csrftoken + '">';
-                        buttons += '<button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="return confirm(\'¿Está seguro de que desea eliminar la informacion?\');">';
+                        buttons += '<button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="return confirm(\'¿Está seguro de que desea eliminar la informacion? PVD\');">';
                         buttons += '<i class="fas fa-trash"></i>';
                         buttons += '</button>';
                         buttons += '</form>';

@@ -291,8 +291,9 @@ class InversionPublica(models.Model):
 
 class InventarioHoteleroEntNac(models.Model):
 
-    entidad = models.CharField(max_length=455, null=True, blank=True)
+    
     fecha = models.DateField()
+    entidad = models.CharField(max_length=455, null=True, blank=True)
     categoria = models.CharField(max_length=255)
     establecimientos = models.IntegerField()
     habitaciones = models.IntegerField()
