@@ -44,7 +44,7 @@ class FuenteInfoEmpleo (ListView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Listado de Fuentes de Informacion de Empleo'
         context['create_url'] = reverse_lazy('dashboard:fuente_info_empleo_create')
-        context['entity'] = 'Empleo'
+        context['entity'] = 'Empleo' 
         context['is_fuente'] = True
         context['carga_masiva_url'] = reverse_lazy('dashboard:fuente_info_empleo_carga_masiva')
 
