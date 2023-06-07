@@ -41,6 +41,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG')
 
 ALLOWED_HOSTS = ['*']
+CSRF_TRUSTED_ORIGINS = ['https://42195556-review-develop-3zknud.visitaguanajuato.com.mx']
 
 
 # Application definition
@@ -92,7 +93,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'config.context_processors.global_variables'
+                'config.context_processors.global_variables',
+                'django.template.context_processors.csrf'
 
             ],
         },
@@ -183,6 +185,7 @@ CKEDITOR_CONFIGS = {
 CKEDITOR_CONFIGS = {
     'default': {
         'toolbar': 'Custom',
+
         'toolbar_Custom': [
             ['Bold', 'Italic', 'Underline'],
             ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],

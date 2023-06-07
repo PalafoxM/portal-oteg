@@ -21,13 +21,11 @@ import openpyxl
 from django.http import HttpResponse
 import json
 from datetime import datetime
-
 from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino
 
 
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
-
 
 class FuenteInfoAerolinea (ListView):
     model = Aerolinea
@@ -36,18 +34,20 @@ class FuenteInfoAerolinea (ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Listado de Fuentes de Informacion de Aerolinea'
-        context['create_url'] = reverse_lazy('dashboard:fuente_info_aeropuertos_create')
+        context['create_url'] = reverse_lazy('dashboard:fuente_info_aerolineas_create')
         context['entity'] = 'Aerolinea'
         context['is_fuente'] = True
         context['carga_masiva_url'] = reverse_lazy('dashboard:fuente_info_aerolineas_carga_masiva')
         
         return context  
+    
+
 
 class FuenteInfoAerolineaCreate (CreateView):
     model = Aerolinea
     form_class = AerolineaForm
-    template_name = 'back/fuente_info_certificacion/create.html'
-    success_url = reverse_lazy('dashboard:fuente_info_certificacion')
+    template_name = 'back/fuente_info_aerolinea/create.html'
+    success_url = reverse_lazy('dashboard:fuente_info_aerolineas')
 
     def get_object(self, **kwargs):
         queryset = self.get_queryset()
@@ -63,16 +63,19 @@ class FuenteInfoAerolineaCreate (CreateView):
             # Check if there is already a record with the same fecha, destino and categoria
 
             fecha = form.cleaned_data['fecha']
-            destino = form.cleaned_data['destino']
+            destino_aeropuerto = form.cleaned_data['destino_aeropuerto']
+            destino_aeropuerto_id = form.cleaned_data['destino_aeropuerto_id']
+
 
             try:
-                existing_object = self.get_object(fecha=fecha, destino=destino)
+                existing_object = self.get_object(fecha=fecha, destino_aeropuerto=destino_aeropuerto , destino_aeropuerto_id=destino_aeropuerto_id)
 
-            except Certificacion.DoesNotExist:
+            except Aerolinea.DoesNotExist:
                 existing_object = None
 
-            existing_catalogo = CatalagoDestino.objects.filter(destino__iexact=destino).exists()
-            # ALTER TABLE mytable MODIFY mycolumn VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+            existing_catalogo = CatalagoDestinoAeropuerto.objects.filter(destino_aeropuerto__iexact=destino_aeropuerto, destino_aeropuerto_id__iexact=destino_aeropuerto_id)
+
+                        # ALTER TABLE mytable MODIFY mycolumn VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
             # If there is no existing data, save the new data
             if not existing_catalogo:
@@ -81,8 +84,8 @@ class FuenteInfoAerolineaCreate (CreateView):
                     data = {
                         'success': False,
                         'missingData': True,
-                        'destino': destino,
-                        'message': 'No existe el destino en el catalogo',
+                        'destino': destino_aeropuerto,
+                        'message': 'No existe el destino o el ID en el catalogo de destinos de aeropuerto , por favor agreguelo primero.',
                     }
                     return JsonResponse(data)
 
@@ -110,11 +113,11 @@ class FuenteInfoAerolineaCreate (CreateView):
             # If there is existing data and replace_data is False, return an error
 
             if existing_object:
-                data = Certificacion.objects.filter(fecha=fecha, destino=destino)
+                data = Aerolinea.objects.filter(fecha=fecha, destino_aeropuerto=destino_aeropuerto , destino_aeropuerto_id=destino_aeropuerto_id)
 
-                data_list = list(data.values('fecha', 'destino', 'tipo_de_certificacion', 'empresas_certificadas'))
+                data_list = list(data.values('fecha', 'destino_aeropuerto', 'destino_aeropuerto_id', 'tipo_aerolinea' ,'codigo_aerolinea'))
                 data_list2 = list(form.cleaned_data.values())
-                table_html = render_to_string('back/fuente_info_certificacion/table.html',{'data_list': data_list, 'actual': True, 'data_list2': data_list2})
+                table_html = render_to_string('back/fuente_info_aerolinea/table.html',{'data_list': data_list, 'actual': True, 'data_list2': data_list2})
 
                 datajsn = {
                     'success': False,
@@ -163,16 +166,17 @@ class FuenteInfoAerolineaCreate (CreateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Crear una fuente'
         context['entity'] = 'Glosario'
-        context['list_url'] = reverse_lazy('dashboard:fuente_info_certificacion')
+        context['list_url'] = reverse_lazy('dashboard:fuente_info_aerolineas')
         context['action'] = 'add'
         return context
 
 
 class FuenteInfoAerolineaUpdate (UpdateView):
+
     model = Aerolinea
     form_class = AerolineaForm
-    template_name = 'back/fuente_info_aerolinea/view_editor.html'
-    success_url = reverse_lazy('dashboard:fuente_info_aerolinea')
+    template_name = 'back/fuente_info_aerolinea/create.html'
+    success_url = reverse_lazy('dashboard:fuente_info_aerolineas')
 
     def form_invalid(self, form):
         response = super().form_invalid(form)
@@ -200,10 +204,11 @@ class FuenteInfoAerolineaUpdate (UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['list_url'] = reverse_lazy('dashboard:fuente_info_aerolinea')
+        context['list_url'] = reverse_lazy('dashboard:fuente_info_aerolineas')
             # Set the widget for the 'destino' field to read-only text input
         context['form'].fields['fecha'].widget = forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly'})
-
+        context['form'].fields['destino_aeropuerto'].widget = forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly'})
+        context['form'].fields['destino_aeropuerto_id'].widget = forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly'})
         context['title'] = 'Editar fuente'
         context['edit_msg'] = 'Los Campos Destino y Año no pueden ser editados' 
 
@@ -212,7 +217,7 @@ class FuenteInfoAerolineaUpdate (UpdateView):
 
 class FuenteInfoAerolineaDelete (DeleteView):
     model = Aerolinea
-    success_url = reverse_lazy('dashboard:fuente_info_aerolinea')
+    success_url = reverse_lazy('dashboard:fuente_info_aerolineas')
     
     def post(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
         return super().post(request, *args, **kwargs)

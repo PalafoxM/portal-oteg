@@ -34,18 +34,17 @@ class FuenteInfoAeropuerto (ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Listado de Fuentes de Informacion de Aeropuerto'
-        context['create_url'] = reverse_lazy('dashboard:fuente_info_certificacion_create')
+        context['create_url'] = reverse_lazy('dashboard:fuente_info_aeropuertos_create')
         context['entity'] = 'Aeropuerto'
         context['is_fuente'] = True
         context['carga_masiva_url'] = reverse_lazy('dashboard:fuente_info_aeropuertos_carga_masiva')
-        
         return context  
 
 class FuenteInfoAeropuertoCreate (CreateView):
     model = Aeropuerto
     form_class = AeropuertoForm
-    template_name = 'back/fuente_info_certificacion/create.html'
-    success_url = reverse_lazy('dashboard:fuente_info_certificacion')
+    template_name = 'back/fuente_info_inventario_turistico/create.html'
+    success_url = reverse_lazy('dashboard:fuente_info_aeropuertos')
 
     def get_object(self, **kwargs):
         queryset = self.get_queryset()
@@ -61,28 +60,14 @@ class FuenteInfoAeropuertoCreate (CreateView):
             # Check if there is already a record with the same fecha, destino and categoria
 
             fecha = form.cleaned_data['fecha']
-            destino = form.cleaned_data['destino']
+
+            
 
             try:
-                existing_object = self.get_object(fecha=fecha, destino=destino)
+                existing_object = self.get_object(fecha=fecha)
 
-            except Certificacion.DoesNotExist:
+            except Aeropuerto.DoesNotExist:
                 existing_object = None
-
-            existing_catalogo = CatalagoDestino.objects.filter(destino__iexact=destino).exists()
-            # ALTER TABLE mytable MODIFY mycolumn VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
-            # If there is no existing data, save the new data
-            if not existing_catalogo:
-
-                if not existing_catalogo:
-                    data = {
-                        'success': False,
-                        'missingData': True,
-                        'destino': destino,
-                        'message': 'No existe el destino en el catalogo',
-                    }
-                    return JsonResponse(data)
 
             # If there is existing data and replace_data is True, delete the existing data
             if existing_object and request.POST.get('replace_data') == 'on':
@@ -108,11 +93,10 @@ class FuenteInfoAeropuertoCreate (CreateView):
             # If there is existing data and replace_data is False, return an error
 
             if existing_object:
-                data = Certificacion.objects.filter(fecha=fecha, destino=destino)
-
-                data_list = list(data.values('fecha', 'destino', 'tipo_de_certificacion', 'empresas_certificadas'))
+                data = Aeropuerto.objects.filter(fecha=fecha)
+                data_list = list(data.values('fecha', 'pasajeros_aeropuerto_gto', 'pasajeros_nacionales', 'pasajeros_internacionales', 'vuelos'))
                 data_list2 = list(form.cleaned_data.values())
-                table_html = render_to_string('back/fuente_info_certificacion/table.html',{'data_list': data_list, 'actual': True, 'data_list2': data_list2})
+                table_html = render_to_string('back/fuente_info_aeropuertos/table.html',{'data_list': data_list, 'actual': True, 'data_list2': data_list2})
 
                 datajsn = {
                     'success': False,
@@ -159,9 +143,9 @@ class FuenteInfoAeropuertoCreate (CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Crear una fuente'
-        context['entity'] = 'Glosario'
-        context['list_url'] = reverse_lazy('dashboard:fuente_info_certificacion')
+        context['title'] = 'Crear una fuente Aeropuerto'
+        context['entity'] = 'Aeropuerto'
+        context['list_url'] = reverse_lazy('dashboard:fuente_info_aeropuertos')
         context['action'] = 'add'
         return context
 

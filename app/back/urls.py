@@ -243,6 +243,11 @@ urlpatterns = [
     #Typeahead  entidades
     path('typeahead/entidades', search_entidades, name='search_entidades'),
 
+    #Typeahead Destinos Aeropuerto
+    path('typeahead/destinos-aeropuerto', search_destino_aeropuerto, name='search_destino_aeropuerto'),
+
+    #Typeahead ID Destinos Aeropuerto
+    path('typeahead/id-destinos-aeropuerto', search_id_destino_aeropuerto, name='search_id_destino_aeropuerto'),
 
     #catalago_categoria 
     path('catalago-categoria/list', CatalagoCategoriaListView.as_view(), name='catalago_categoria_list'),

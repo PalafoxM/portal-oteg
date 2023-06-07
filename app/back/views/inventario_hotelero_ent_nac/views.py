@@ -15,6 +15,7 @@ import datetime
 from django.urls import reverse
 import openpyxl
 from django.http import HttpResponse
+from django.template.loader import render_to_string
 
 import json
 from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino
@@ -56,36 +57,134 @@ class InventarioHoteleroEntNacListView(ListView):
         context['is_fuente'] = True
         return context
 
+
 class  InventarioHoteleroEntNacCreateView(CreateView):
     model = InventarioHoteleroEntNac
     form_class = InventarioHoteleroEntNacForm
-    template_name = 'back/components/create_update.html'
+    template_name = 'back/inventario_hotelero_ent_nac/create.html'
     success_url = reverse_lazy('dashboard:inventario_hotelero_ent_nac_list')
 
+    def get_object(self, **kwargs):
+        queryset = self.get_queryset()
+        try:
+            return queryset.get(**kwargs)
+        except queryset.model.DoesNotExist:
+            return None
+
     def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST, request.FILES)
+        form = self.form_class(request.POST)
+        replace_data = request.POST.get('replace_data')
         if form.is_valid():
-            self.object = form.save()
-            data = {
-                'success': True,
-                'message': 'Registro creado exitosamente.',
-                'url': self.success_url
-            }
-            return JsonResponse(data)
+            # Check if there is already a record with the same fecha, destino and categoria
+
+            fecha = form.cleaned_data['fecha']
+            entidad = form.cleaned_data['entidad']
+            categoria = form.cleaned_data['categoria']
+
+            try:
+                existing_object = self.get_object(fecha=fecha, entidad=entidad, categoria=categoria)
+
+            except InventarioHoteleroEntNac.DoesNotExist:
+                existing_object = None
+
+            existing_catalogo = CatalogoEntidad.objects.filter(entidad=entidad)
+            exiting_catalogo_categoria = CatalagoCategoria.objects.filter(categoria=categoria)
+            # ALTER TABLE mytable MODIFY mycolumn VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+            # If there is no existing data, save the new data
+            if not existing_catalogo or not exiting_catalogo_categoria:
+
+                if not existing_catalogo and not exiting_catalogo_categoria:
+                    data = {
+                        'success': False,
+                        'missingData': True,
+                        'destino': entidad,
+                        'categoria': categoria,
+                        'message': 'No existe la entidad y la categoria en el catálogo de entidades y categorias',
+                    }
+                    return JsonResponse(data)
+
+                if not exiting_catalogo_categoria:
+                    data = {
+                        'success': False,
+                        'missingData': True,
+                        'categoria': categoria,
+                        'message': 'No existe la categoria en el catálogo de categorias',
+                    }
+                    return JsonResponse(data)
+                
+
+                if not existing_catalogo:
+                    data = {
+                        'success': False,
+                        'missingData': True,
+                        'destino': entidad,
+                        'message': 'No existe la entidad en el catálogo de destinos',
+                    }
+                    return JsonResponse(data)
+
+            # If there is existing data and replace_data is True, delete the existing data
+            if existing_object and request.POST.get('replace_data') == 'on':
+                # existing_object.delete()
+                # Save the new data
+                # self.object = form.save()
+
+                for field in form.cleaned_data:
+                    if field == 'replace_data':
+                        continue
+                    setattr(existing_object, field, form.cleaned_data[field])
+
+                existing_object.save()
+
+                data = {
+                    'success': True,
+                    'message': 'Data created successfully.',
+                    'url': self.success_url,
+
+                }
+                return JsonResponse(data)
+
+            # If there is existing data and replace_data is False, return an error
+
+            if existing_object:
+                data =  InventarioHoteleroEntNac.objects.filter(fecha=fecha, entidad=entidad, categoria=categoria)
+
+                data_list = list(data.values('fecha', 'entidad', 'categoria', 'establecimientos', 'habitaciones'))
+
+                data_list2 = list(form.cleaned_data.values())
+
+                table_html = render_to_string('back/inventario_hotelero_ent_nac/table.html',{'data_list': data_list, 'actual': True, 'data_list2': data_list2})
+
+                datajsn = {
+                    'success': False,
+                    'message': 'Hubo un error al crear registro.',
+                    'errors': 'Ya existe un registro con la misma fecha, destino y categoria',
+                    'existing_object': table_html
+                }
+
+                return JsonResponse(datajsn)
+            else:
+                self.object = form.save()
+                data = {
+                    'success': True,
+                    'message': 'Data created successfully.',
+                    'url': self.success_url
+                }
+                return JsonResponse(data)
         else:
             data = {
                 'success': False,
-                'message': 'Ha ocurrido un error al crear un registro.',
-                'errors': form.errors
+                'message': 'Error creating data.',
+                'errors': form.errors,
+                'format_errors': True
             }
             return JsonResponse(data)
-        
 
     def form_invalid(self, form):
         response = super().form_invalid(form)
         data = {
             'success': False,
-            'message': 'Ha ocurrido un error al crear un registro.',
+            'message': 'Hubo un error al crear registro.',
             'errors': form.errors
         }
         return JsonResponse(data)
@@ -101,11 +200,13 @@ class  InventarioHoteleroEntNacCreateView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Crear Registro'
+        context['title'] = 'Crear Inventario Hotelero'
         context['entity'] = 'Inventario Hotelero'
         context['list_url'] = reverse_lazy('dashboard:inventario_hotelero_ent_nac_list')
         context['action'] = 'add'
         return context
+    
+
 
 class InventarioHoteleroEntNacUpdateView( UpdateView):
     model = InventarioHoteleroEntNac
@@ -142,7 +243,11 @@ class InventarioHoteleroEntNacUpdateView( UpdateView):
         context['title'] = 'Editar Inventario Hotelero'
         context['entity'] = 'Inventario Hotelero'
         context['list_url'] = reverse_lazy('dashboard:inventario_hotelero_ent_nac_list')
-        context['form'] = self.form_class(instance=self.object)
+        context['form'].fields['entidad'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
+        context['form'].fields['categoria'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
+        context['form'].fields['fecha'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
+        context['edit_msg'] = 'Los Campos que no se pueden editar están sombreados'
+
         return context
 
 class InventarioHoteleroEntNacDeleteView(DeleteView):

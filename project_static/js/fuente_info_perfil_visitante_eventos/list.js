@@ -49,7 +49,7 @@ var datatur = {
                     class: 'actions-container',
                     orderable: false,
                     render: function (data, type, row) {
-                        var buttons = '<button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="location.href=\'perfil-visitante-eventos/edit/' + row.id + '/\'">';
+                        var buttonsentail = '<button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="location.href=\'perfil-visitante-eventos/edit/' + row.id + '/\'">';
                         buttons += '<i class="fas fa-edit"></i>';
                         buttons += '</button> ';
                         buttons += '<form method="post" action="perfil-visitante-eventos/delete/' + row.id + '/">';
