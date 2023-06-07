@@ -26,10 +26,10 @@
     <th class="text-left hidden-t">{{e.tipo_aerolinea}}</th>
     <th class="text-left hidden-t">{{e.codigo_aerolinea}}</th>
     <th class="actions-container">
-        <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="location.href='{% url 'dashboard:fuente_info_aeropuertos_update' e.id %}'">
+        <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="location.href='{% url 'dashboard:fuente_info_aerolineas_update' e.id %}'">
             <i class="far fa-eye"></i>
         </button>
-        <form method="post" action="{% url 'dashboard:fuente_info_aeropuertos_delete' e.id %}" >
+        <form method="post" action="{% url 'dashboard:fuente_info_aerolineas_delete' e.id %}" >
             {% csrf_token %}
             <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">
                 <i class="fas fa-trash"></i>

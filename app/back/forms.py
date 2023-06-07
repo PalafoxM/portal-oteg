@@ -555,24 +555,26 @@ class AeropuertoForm(forms.ModelForm):
         }
 
 class AerolineaForm(forms.ModelForm):
+    
+    TIPOS_EVENTO_CHOICES = [
+        ('Internacional', 'Internacional'),
+        ('Nacional', 'Nacional'),
+    ]
+     
+    tipo_aerolinea = forms.ChoiceField(choices=TIPOS_EVENTO_CHOICES, widget=forms.Select(attrs={'class': 'form-control'}))
+
     class Meta:
         model = Aerolinea
         fields = '__all__'
-        labels = {
-            'fecha': 'Fecha',
-            'destino_aeropuerto': 'Destino del aeropuerto',
-            'destino_aeropuerto_id': 'ID del destino del aeropuerto',
-            'tipo_aerolinea': 'Tipo de aerolínea',
-            'codigo_aerolinea': 'Código de aerolínea',
-        }
+
         widgets = {
-            'fecha': forms.DateInput(attrs={'class': 'form-control'}),
+            'fecha': forms.TextInput(attrs={'class': 'form-control'}),
             'destino_aeropuerto': forms.TextInput(attrs={'class': 'form-control'}),
-            'destino_aeropuerto_id': forms.TextInput(attrs={'class': 'form-control'}),
+            'destino_aeropuerto_id' : forms.TextInput(attrs={'class': 'form-control'}),
             'tipo_aerolinea': forms.TextInput(attrs={'class': 'form-control'}),
             'codigo_aerolinea': forms.TextInput(attrs={'class': 'form-control'}),
         }
-
+    
 class ParticipacionOrigenForm (forms.ModelForm):
      class Meta:
         model = ParticipacionOrigen
