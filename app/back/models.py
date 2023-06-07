@@ -291,8 +291,9 @@ class InversionPublica(models.Model):
 
 class InventarioHoteleroEntNac(models.Model):
 
-    entidad = models.CharField(max_length=455, null=True, blank=True)
+    
     fecha = models.DateField()
+    entidad = models.CharField(max_length=455, null=True, blank=True)
     categoria = models.CharField(max_length=255)
     establecimientos = models.IntegerField()
     habitaciones = models.IntegerField()
@@ -708,11 +709,12 @@ class FuenteInfoEntornoN(models.Model):
 
 
 class Aeropuerto(models.Model):
+    fecha = models.DateField()
     pasajeros_aeropuerto_gto = models.FloatField()
     pasajeros_nacionales = models.FloatField()
     pasajeros_internacionales = models.FloatField()
-    fecha = models.DateField()
-    vuelos = models.CharField(max_length=100)
+
+    vuelos = models.FloatField()
 
     class Meta:
         app_label = 'ecosistema'
