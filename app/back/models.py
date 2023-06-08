@@ -407,7 +407,6 @@ class CatalagoDestinoAeropuerto(models.Model):
         db_table = 'catalogo_destino_aeropuerto'
         ordering = ['-id']
 
-
 class CatalagoSegmentos(models.Model):
     segmento = models.CharField(max_length=455, unique=True)
 
@@ -415,8 +414,6 @@ class CatalagoSegmentos(models.Model):
         app_label = 'ecosistema'
         db_table = 'catalogo_segmentos'
         ordering = ['-id']
-
-
 
 
 class CatalagoTipoVisistante(models.Model):
@@ -452,7 +449,6 @@ class CatalogoEntidad(models.Model):
         app_label = 'ecosistema'
         db_table = 'catalogo_entidades'
         ordering = ['-id']
-
 
 
 class Airbnb (models.Model):
@@ -816,4 +812,439 @@ class DirectorioHotelero(models.Model):
     class Meta:
         app_label = 'ecosistema'
         db_table = "directorio_hotelero"
+        ordering = ['-id']
+
+#Direcctorio Turistico
+class DirectorioAgenciasDeViajes(models.Model):
+    giro = models.CharField(max_length=256)
+    clave_del_giro = models.IntegerField()
+    entidad = models.CharField(max_length=256)
+    clave_entidad = models.IntegerField()
+    destino = models.CharField(max_length=256)
+    clave_municipio = models.IntegerField()
+    nombre_comercial = models.CharField(max_length=256)
+    razon_social = models.CharField(max_length=256)
+    rfc = models.CharField(max_length=256)
+    calle = models.CharField(max_length=256)
+    numero = models.CharField(max_length=256)
+    colonia = models.CharField(max_length=256)
+    codigo_postal = models.IntegerField()
+    lada = models.IntegerField()
+    telefono_1 = models.CharField(max_length=256)
+    telefono_2 = models.CharField(max_length=256)
+    celular = models.CharField(max_length=256)
+    correo_electronico = models.CharField(max_length=256)
+    sitio_web = models.CharField(max_length=256)
+    ret = models.CharField(max_length=256)
+    rnt = models.CharField(max_length=256)
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+
+    class Meta:
+        app_label = 'ecosistema'
+        db_table = "directorio_agencias_de_viajes"
+        ordering = ['-id']
+
+class DirectorioAlimentosYBebidas(models.Model):
+    giro = models.CharField(max_length=256)
+    clave_del_giro = models.IntegerField()
+    entidad = models.CharField(max_length=256)
+    clave_entidad = models.IntegerField()
+    destino = models.CharField(max_length=256)
+    clave_municipio = models.IntegerField()
+    nombre_comercial = models.CharField(max_length=256)
+    razon_social = models.CharField(max_length=256)
+    rfc = models.CharField(max_length=256)
+    calle = models.CharField(max_length=256)
+    numero = models.CharField(max_length=256)
+    colonia = models.CharField(max_length=256)
+    codigo_postal = models.IntegerField()
+    lada = models.IntegerField()
+    telefono_1 = models.CharField(max_length=256)
+    telefono_2 = models.CharField(max_length=256)
+    celular = models.CharField(max_length=256)
+    correo_electronico = models.CharField(max_length=256)
+    sitio_web = models.CharField(max_length=256)
+    ret = models.CharField(max_length=256)
+    rnt = models.CharField(max_length=256)
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+
+    class Meta:
+        app_label = 'ecosistema'
+        db_table = "directorio_alimentos_y_bebidas"
+        ordering = ['-id']
+
+class DirectorioArrendadoras(models.Model):
+    giro = models.CharField(max_length=256)
+    clave_del_giro = models.IntegerField()
+    entidad = models.CharField(max_length=256)
+    clave_entidad = models.IntegerField()
+    destino = models.CharField(max_length=256)
+    clave_municipio = models.IntegerField()
+    nombre_comercial = models.CharField(max_length=256)
+    razon_social = models.CharField(max_length=256)
+    rfc = models.CharField(max_length=256)
+    calle = models.CharField(max_length=256)
+    numero = models.CharField(max_length=256)
+    colonia = models.CharField(max_length=256)
+    codigo_postal = models.IntegerField()
+    lada = models.IntegerField()
+    telefono_1 = models.CharField(max_length=256)
+    telefono_2 = models.CharField(max_length=256)
+    celular = models.CharField(max_length=256)
+    correo_electronico = models.CharField(max_length=256)
+    sitio_web = models.CharField(max_length=256)
+    ret = models.CharField(max_length=256)
+    rnt = models.CharField(max_length=256)
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+
+    class Meta:
+        app_label = 'ecosistema'
+        db_table = "directorio_arrendadoras"
+        ordering = ['-id']
+
+class DirectorioActivosRecreacionYDeporte(models.Model):
+    giro = models.CharField(max_length=256)
+    clave_del_giro = models.IntegerField()
+    entidad = models.CharField(max_length=256)
+    clave_entidad = models.IntegerField()
+    destino = models.CharField(max_length=256)
+    clave_municipio = models.IntegerField()
+    nombre_comercial = models.CharField(max_length=256)
+    razon_social = models.CharField(max_length=256)
+    rfc = models.CharField(max_length=256)
+    calle = models.CharField(max_length=256)
+    numero = models.CharField(max_length=256)
+    colonia = models.CharField(max_length=256)
+    codigo_postal = models.IntegerField()
+    lada = models.IntegerField()
+    telefono_1 = models.CharField(max_length=256)
+    telefono_2 = models.CharField(max_length=256)
+    celular = models.CharField(max_length=256)
+    correo_electronico = models.CharField(max_length=256)
+    sitio_web = models.CharField(max_length=256)
+    ret = models.CharField(max_length=256)
+    rnt = models.CharField(max_length=256)
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+
+    class Meta:
+        app_label = 'ecosistema'
+        db_table = "directorio_atractivos_recreacion_y_deporte"
+        ordering = ['-id']
+
+class DirectorioAuxilioTuristico(models.Model):
+    giro = models.CharField(max_length=256)
+    clave_del_giro = models.IntegerField()
+    entidad = models.CharField(max_length=256)
+    clave_entidad = models.IntegerField()
+    destino = models.CharField(max_length=256)
+    clave_municipio = models.IntegerField()
+    nombre_comercial = models.CharField(max_length=256)
+    razon_social = models.CharField(max_length=256)
+    rfc = models.CharField(max_length=256)
+    calle = models.CharField(max_length=256)
+    numero = models.CharField(max_length=256)
+    colonia = models.CharField(max_length=256)
+    codigo_postal = models.IntegerField()
+    lada = models.IntegerField()
+    telefono_1 = models.CharField(max_length=256)
+    telefono_2 = models.CharField(max_length=256)
+    celular = models.CharField(max_length=256)
+    correo_electronico = models.CharField(max_length=256)
+    sitio_web = models.CharField(max_length=256)
+    ret = models.CharField(max_length=256)
+    rnt = models.CharField(max_length=256)
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+
+    class Meta:
+        app_label = 'ecosistema'
+        db_table = "directorio_auxilio_turistico"
+        ordering = ['-id']
+
+class DirectorioBalneariosParquesAcuaticos(models.Model):
+    giro = models.CharField(max_length=256)
+    clave_del_giro = models.IntegerField()
+    entidad = models.CharField(max_length=256)
+    clave_entidad = models.IntegerField()
+    destino = models.CharField(max_length=256)
+    clave_municipio = models.IntegerField()
+    nombre_comercial = models.CharField(max_length=256)
+    razon_social = models.CharField(max_length=256)
+    rfc = models.CharField(max_length=256)
+    calle = models.CharField(max_length=256)
+    numero = models.CharField(max_length=256)
+    colonia = models.CharField(max_length=256)
+    codigo_postal = models.IntegerField()
+    lada = models.IntegerField()
+    telefono_1 = models.CharField(max_length=256)
+    telefono_2 = models.CharField(max_length=256)
+    celular = models.CharField(max_length=256)
+    correo_electronico = models.CharField(max_length=256)
+    sitio_web = models.CharField(max_length=256)
+    ret = models.CharField(max_length=256)
+    rnt = models.CharField(max_length=256)
+    numero_albercas = models.IntegerField()
+    numero_toboganes = models.IntegerField()
+    aguas_termales = models.CharField(max_length=256)
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+
+    class Meta:
+        app_label = 'ecosistema'
+        db_table = "directorio_balnearios_parques_acuaticos"
+        ordering = ['-id']
+
+class DirectorioCampoDeGolf(models.Model):
+    giro = models.CharField(max_length=256)
+    clave_del_giro = models.IntegerField()
+    entidad = models.CharField(max_length=256)
+    clave_entidad = models.IntegerField()
+    destino = models.CharField(max_length=256)
+    clave_municipio = models.IntegerField()
+    nombre_comercial = models.CharField(max_length=256)
+    razon_social = models.CharField(max_length=256)
+    rfc = models.CharField(max_length=256)
+    calle = models.CharField(max_length=256)
+    numero = models.CharField(max_length=256)
+    colonia = models.CharField(max_length=256)
+    codigo_postal = models.IntegerField()
+    lada = models.IntegerField()
+    telefono_1 = models.CharField(max_length=256)
+    telefono_2 = models.CharField(max_length=256)
+    celular = models.CharField(max_length=256)
+    correo_electronico = models.CharField(max_length=256)
+    sitio_web = models.CharField(max_length=256)
+    ret = models.CharField(max_length=256)
+    rnt = models.CharField(max_length=256)
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+
+    class Meta:
+        app_label = 'ecosistema'
+        db_table = "directorio_campo_de_golf"
+        ordering = ['-id']
+
+class DirectorioCapacitacionTuristica(models.Model):
+    giro = models.CharField(max_length=256)
+    clave_del_giro = models.IntegerField()
+    entidad = models.CharField(max_length=256)
+    clave_entidad = models.IntegerField()
+    destino = models.CharField(max_length=256)
+    clave_municipio = models.IntegerField()
+    nombre_comercial = models.CharField(max_length=256)
+    razon_social = models.CharField(max_length=256)
+    rfc = models.CharField(max_length=256)
+    calle = models.CharField(max_length=256)
+    numero = models.CharField(max_length=256)
+    colonia = models.CharField(max_length=256)
+    codigo_postal = models.IntegerField()
+    lada = models.IntegerField()
+    telefono_1 = models.CharField(max_length=256)
+    telefono_2 = models.CharField(max_length=256)
+    celular = models.CharField(max_length=256)
+    correo_electronico = models.CharField(max_length=256)
+    sitio_web = models.CharField(max_length=256)
+    ret = models.CharField(max_length=256)
+    tipo = models.CharField(max_length=256)
+    lic_gastronomia = models.CharField(max_length=256)
+    lic_turismo = models.CharField(max_length=256)
+    posgrado_en_turismo = models.CharField(max_length=256)
+    certificacion_como_guia_de_turista = models.CharField(max_length=256)
+    otros_estudios_en_turismo = models.CharField(max_length=256)
+    rnt = models.CharField(max_length=256)
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+
+    class Meta:
+        app_label = 'ecosistema'
+        db_table = "directorio_capacitacion_turistica"
+        ordering = ['-id']
+
+class DirectorioGuiasDeTuristas(models.Model):
+    giro = models.CharField(max_length=256)
+    clave_del_giro = models.IntegerField()
+    entidad = models.CharField(max_length=256)
+    clave_entidad = models.IntegerField()
+    destino = models.CharField(max_length=256)
+    clave_municipio = models.IntegerField()
+    nombre_comercial = models.CharField(max_length=256)
+    razon_social = models.CharField(max_length=256)
+    rfc = models.CharField(max_length=256)
+    calle = models.CharField(max_length=256)
+    numero = models.CharField(max_length=256)
+    colonia = models.CharField(max_length=256)
+    codigo_postal = models.IntegerField()
+    lada = models.IntegerField()
+    telefono_1 = models.CharField(max_length=256)
+    telefono_2 = models.CharField(max_length=256)
+    celular = models.CharField(max_length=256)
+    correo_electronico = models.CharField(max_length=256)
+    sitio_web = models.CharField(max_length=256)
+    ret = models.CharField(max_length=256)
+    rnt = models.CharField(max_length=256)
+    tipo = models.CharField(max_length=256)
+    no_acreditacion = models.CharField(max_length=256)
+    vigencia_acreditacion = models.FloatField()
+    especialidad = models.CharField(max_length=256)
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+
+    class Meta:
+        app_label = 'ecosistema'
+        db_table = "directorio_guias_de_turistas"
+        ordering = ['-id']
+        
+class DirectorioOperadores(models.Model):
+    giro = models.CharField(max_length=256)
+    clave_del_giro = models.IntegerField()
+    entidad = models.CharField(max_length=256)
+    clave_entidad = models.IntegerField()
+    destino = models.CharField(max_length=256)
+    clave_municipio = models.IntegerField()
+    nombre_comercial = models.CharField(max_length=256)
+    razon_social = models.CharField(max_length=256)
+    rfc = models.CharField(max_length=256)
+    calle = models.CharField(max_length=256)
+    numero = models.CharField(max_length=256)
+    colonia = models.CharField(max_length=256)
+    codigo_postal = models.IntegerField()
+    lada = models.IntegerField()
+    telefono_1 = models.CharField(max_length=256)
+    telefono_2 = models.CharField(max_length=256)
+    celular = models.CharField(max_length=256)
+    correo_electronico = models.CharField(max_length=256)
+    sitio_web = models.CharField(max_length=256)
+    ret = models.CharField(max_length=256)
+    rnt = models.CharField(max_length=256)
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+
+    class Meta:
+        app_label = 'ecosistema'
+        db_table = "directorio_operadores"
+        ordering = ['-id']
+        
+class DirectorioProductosTuristicos(models.Model):
+    giro = models.CharField(max_length=256)
+    clave_del_giro = models.IntegerField()
+    entidad = models.CharField(max_length=256)
+    clave_entidad = models.IntegerField()
+    destino = models.CharField(max_length=256)
+    nombre_comercial = models.CharField(max_length=256)
+    razon_social = models.CharField(max_length=256)
+    rfc = models.CharField(max_length=256)
+    calle = models.CharField(max_length=256)
+    numero = models.CharField(max_length=256)
+    colonia = models.CharField(max_length=256)
+    codigo_postal = models.IntegerField()
+    lada = models.IntegerField()
+    telefono_1 = models.CharField(max_length=256)
+    telefono_2 = models.CharField(max_length=256)
+    celular = models.CharField(max_length=256)
+    correo_electronico = models.CharField(max_length=256)
+    sitio_web = models.CharField(max_length=256)
+    ret = models.CharField(max_length=256)
+    rnt = models.CharField(max_length=256)
+    segmento = models.CharField(max_length=256)
+    clave_municipio = models.IntegerField()
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+
+    class Meta:
+        app_label = 'ecosistema'
+        db_table = "directorio_productos_turisticos"
+        ordering = ['-id']
+        
+class DirectorioRecintosAuditoriosYSalones(models.Model):
+    giro = models.CharField(max_length=256)
+    clave_del_giro = models.IntegerField()
+    entidad = models.CharField(max_length=256)
+    clave_entidad = models.IntegerField()
+    destino = models.CharField(max_length=256)
+    clave_municipio = models.IntegerField()
+    nombre_comercial = models.CharField(max_length=256)
+    razon_social = models.CharField(max_length=256)
+    rfc = models.CharField(max_length=256)
+    calle = models.CharField(max_length=256)
+    numero = models.CharField(max_length=256)
+    colonia = models.CharField(max_length=256)
+    codigo_postal = models.IntegerField()
+    lada = models.IntegerField()
+    telefono_1 = models.CharField(max_length=256)
+    telefono_2 = models.CharField(max_length=256)
+    celular = models.CharField(max_length=256)
+    correo_electronico = models.CharField(max_length=256)
+    sitio_web = models.CharField(max_length=256)
+    ret = models.CharField(max_length=256)
+    rnt = models.CharField(max_length=256)
+    modalidad = models.CharField(max_length=256)
+    depende_de_hotel_o_restaurante = models.CharField(max_length=256)
+    no_de_salones = models.CharField(max_length=256)
+    capacidad_maxima = models.CharField(max_length=256)
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+
+    class Meta:
+        app_label = 'ecosistema'
+        db_table = "directorio_recintos_auditorios_y_salones"
+        ordering = ['-id']
+
+class DirectorioSpa(models.Model):
+    giro = models.CharField(max_length=256)
+    clave_del_giro = models.IntegerField()
+    entidad = models.CharField(max_length=256)
+    clave_entidad = models.IntegerField()
+    destino = models.CharField(max_length=256)
+    clave_municipio = models.IntegerField()
+    nombre_comercial = models.CharField(max_length=256)
+    razon_social = models.CharField(max_length=256)
+    rfc = models.CharField(max_length=256)
+    calle = models.CharField(max_length=256)
+    numero = models.CharField(max_length=256)
+    colonia = models.CharField(max_length=256)
+    codigo_postal = models.IntegerField()
+    lada = models.IntegerField()
+    telefono_1 = models.CharField(max_length=256)
+    telefono_2 = models.CharField(max_length=256)
+    celular = models.CharField(max_length=256)
+    correo_electronico = models.CharField(max_length=256)
+    sitio_web = models.CharField(max_length=256)
+    ret = models.CharField(max_length=256)
+    rnt = models.CharField(max_length=256)
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+
+    class Meta:
+        app_label = 'ecosistema'
+        db_table = "directorio_spa"
         ordering = ['-id']
