@@ -8,7 +8,7 @@
   position: fixed;
   top:0px;
   width: 250px !important;
-  background-color: white;
+  background-color: #FBFCFC;
   -webkit-box-shadow: 6px 0px 12px -7px rgba(0, 0, 0, 0.23);
   -moz-box-shadow: 6px 0px 12px -7px rgba(0, 0, 0, 0.23);
   box-shadow: 6px 0px 12px -7px rgba(0, 0, 0, 0.23);
@@ -18,11 +18,15 @@
 .sidebar.close {
   width: 78px;
 }
+
 .sidebar .logo-details {
-  height: 60px;
+  height: 150px;
   width: 100%;
   display: flex;
   align-items: center;
+  justify-content: center;
+
+  margin-top: 20px;
 }
 .sidebar .logo-details i {
   font-size: 30px;

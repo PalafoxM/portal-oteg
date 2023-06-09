@@ -32,7 +32,7 @@ def logInUser(req):
             # else:
 
             login(req, user)
-            return redirect('dashboard:publicacion_list')
+            return redirect('dashboard:fuente_informacion')
         else:
             messages.success(req, 'Usuario o Contraseña Incorrectos')
             return redirect('login_user')

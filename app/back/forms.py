@@ -626,6 +626,14 @@ class InventarioTuristicoForm(forms.ModelForm):
             'inventario': forms.NumberInput(attrs={'class': 'form-control'}),
         }
 
+
+class PasajerosEntNacForm(forms.ModelForm):
+
+    class Meta :
+        model = Pasajeros_Ent_Nac
+        fields = '__all__'
+
+
 class DirectorioHoteleroForm(forms.ModelForm):
     class Meta:
         model = DirectorioHotelero
@@ -752,3 +760,4 @@ class DirectorioHoteleroForm(forms.ModelForm):
             'nombre_de_la_cadena': forms.TextInput(attrs={'class': 'form-control'}),
             'hoteles_tesoros': forms.TextInput(attrs={'class': 'form-control'}),
         }
+

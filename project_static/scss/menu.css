@@ -1,45 +1,52 @@
-.container-sidebar{
-    width: auto;
-    position: relative;
-    display: inline-block;
-    margin-left: 60px;
-  }
-  .container-sidebar2{
-    width: auto;
-    height: auto;
-    left: 0px;
-    position: absolute
-  }
 
-  .title-container {
-    height: 65px;
-    display: flex;
-    align-items: center;
-    padding-bottom: 20px;
+
+
+
+
+.container-sidebar {
+  width: auto;
+  position: relative;
+  display: inline-block;
+  margin-left: 60px;
+}
+
+.container-sidebar2 {
+  width: auto;
+  height: auto;
+  left: 0px;
+  position: absolute
+}
+
+.title-container {
+  height: 65px;
+  display: flex;
+  align-items: center;
+  padding-bottom: 20px;
 }
 
 .title {
-    color: #4A4A4A;
-    font-weight: 700;
-    font-size: 20px;
-    text-transform: uppercase;
+  color: #4A4A4A;
+  font-weight: 700;
+  font-size: 20px;
+  text-transform: uppercase;
+  font-family: avenir-medium, sans-serif;
 }
 
 .title2 {
-    color: #4A4A4A;
-    font-family: 'Avenir-aeh';
-    font-weight: 700;
-    font-size: 18px;
-    text-transform: uppercase;
-    line-height: 1.5;
+  color: #4A4A4A;
+  font-family: 'Avenir-aeh';
+  font-weight: 700;
+  font-size: 18px;
+  text-transform: uppercase;
+  line-height: 1.5;
 }
 
-.container-fluid-footer{
-  margin-top: 20px!important;
+.container-fluid-footer {
+  margin-top: 20px !important;
   padding: 10px;
   background-color: #ECF0F1;
   width: 100%;
-  height: 100px;
+  height: 80px;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -47,108 +54,126 @@
   top: auto;
   font-family: 'Avenir-Medium';
   font-size: 16px;
-  
+
 
 }
 
 @media screen and (max-width: 768px) {
-  .container-footer{
-      padding-left:80px;
-      text-align: center;
+  .container-footer {
+    padding-left: 80px;
+    text-align: center;
   }
 }
 
 
 /* principal */
-.content-inner{
+.content-inner {
   width: 100%;
   margin-left: 5%;
-  
+
   background-color: #FAFBFE;
   position: relative;
 }
-.inner-header{
-  width: auto; 
-  height: auto; 
 
-  margin-left: 350px;  
-  top: 0px!important;
+.inner-header {
+  width: auto;
+  height: auto;
+
+  margin-left: 350px;
+  top: 0px !important;
   padding-right: 2rem;
   background-color: #FAFBFE;
 }
-.inner-c{
-  width: auto; 
-  height: auto; 
+
+.inner-c {
+  width: auto;
+  height: auto;
   min-height: 84vh;
-  margin-left: 350px;  
-  top: 0px!important;
+  margin-left: 350px;
+  top: 0px !important;
   padding-right: 2rem;
   background-color: #FAFBFE;
 }
-.inner-footer{
-width: 100%; 
 
-margin-top: 20px!important;
+.inner-footer {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+
 }
 
 
-.dropped{
+.dropped {
   transition: 1s;
-  margin-left: 70px; 
+  margin-left: 70px;
 }
-.dropped-footer{
+
+.dropped-footer {
   transition: 1s;
 }
-.container-sidebar{
+
+.container-sidebar {
   width: auto;
   position: relative;
   display: inline-block;
   margin-left: 60px;
 }
-.container-sidebar2{
+
+.container-sidebar2 {
   width: auto;
   height: auto;
   left: 0px;
   position: absolute
 }
+
 @media screen and (max-width: 768px) {
   .inner-c {
     margin-left: 65px;
-    min-height: 97vh; 
-    height: auto;
+    min-height: 97vh;
+    height: 100vh;
     padding-right: 1rem;
   }
-  .inner-header{
+
+  .inner-header {
     margin-left: 65px;
-    height: auto;
+
+
+    height: 100vh;
+
     padding-right: 1rem;
   }
-  
+
 
 }
+
 /* breadcrumb */
-.breadcrumb-container{
+.breadcrumb-container {
   display: flex;
   background-color: #ECF0F1;
+  font-family: avenir-medium;
   width: 100%;
   height: 25px;
   font-size: 12px;
-  padding-right: 80px;
+
 }
 
 
 
-:host ::ng-deep #bread .p-breadcrumb{
-  color: #4A4A4A!important;
- 
-} 
-:host ::ng-deep #bread .p-breadcrumb li{
-margin-left: 5px;
-} 
-:host ::ng-deep #bread .p-breadcrumb a{
-color: #4A4A4A!important;
-} 
-:host ::ng-deep #bread .p-breadcrumb a:hover{
-color: #0A3D5F!important;
-} 
+:host ::ng-deep #bread .p-breadcrumb {
+  color: #4A4A4A !important;
+
+}
+
+:host ::ng-deep #bread .p-breadcrumb li {
+  margin-left: 5px;
+}
+
+:host ::ng-deep #bread .p-breadcrumb a {
+  color: #4A4A4A !important;
+}
+
+:host ::ng-deep #bread .p-breadcrumb a:hover {
+  color: #0A3D5F !important;
+}
+
 /* fin breadcrumb */

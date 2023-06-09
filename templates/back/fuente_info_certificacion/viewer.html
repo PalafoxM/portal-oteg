@@ -7,6 +7,7 @@
 
 <head>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
@@ -17,11 +18,11 @@
 {% block columns %}
 <tr class="text-center table-header">
     <th class="text-left pl-3">N°</th>
-    <th class="text-center hidden-t">Destino</th>
-    <th class="text-left hidden-t">Fecha</th>
+    <th class="text-center ">Destino</th>
+    <th class="text-left ">Fecha</th>
     <th style="width: 300px;">tipo_de_certificacion</th>
-    <th style="width: 300px;">empresas_certificadas</th>
-    <th class="actions">Acciones</th>
+    <th style="width: 50px;">empresas_certificadas</th>
+    <th class="text-center pl-3" style="min-width: 100px;">Acciones</th>
 </tr>
 {% endblock %}
 
@@ -29,20 +30,47 @@
 {% for e in object_list %}
 <tr class="text-center table-body mt-2">
     <th class="text-left pl-3">{{e.id}}</th>
-    <th class="text-center hidden-t">{{e.destino}}</th>
-    <th class="text-left hidden-t">{{e.fecha}}</th>
-    <th class="text-center hidden-t">{{e.tipo_de_certificacion}}</th>
-    <th class="text-center hidden-t">{{e.empresas_certificadas}}</th>
+    <th class="text-center ">{{e.destino}}</th>
+    <th class="text-left ">{{e.fecha}}</th>
+    <th class="text-center ">{{e.tipo_de_certificacion}}</th>
+    <th class="text-center "">{{e.empresas_certificadas}}</th>
     <th class="actions-container">
-        <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="location.href='{% url 'dashboard:fuente_info_certificacion_update' e.id %}'">
-            <i class="far fa-eye"></i>
-        </button>
-        <form method="post" action="{% url 'dashboard:fuente_info_certificacion_delete' e.id %}" >
-            {% csrf_token %}
-            <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">
-                <i class="fas fa-trash"></i>
-            </button>
-        </form>
+
+        <div style="display: flex; flex-direction: row; justify-content: center; align-items: 
+            space-around
+
+        
+        ; width: 100%;
+
+        height: 100%;
+        
+        gap: 10px;
+        
+        "
+    
+        
+        >
+
+            <div>
+                <button class="actions-btn" tooltip="Consultar" flow="down"
+                    onclick="location.href='{% url 'dashboard:fuente_info_certificacion_update' e.id %}'">
+                    <i class="far fa-eye"></i>
+                </button>
+            </div>
+
+            <div>
+                <form method="post" action="{% url 'dashboard:fuente_info_certificacion_delete' e.id %}">
+                    {% csrf_token %}
+                    <button class="actions-btn" tooltip="Consultar" flow="down"
+                        onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </form>
+            </div>
+
+
+        </div>
+
     </th>
 </tr>
 {% endfor %}

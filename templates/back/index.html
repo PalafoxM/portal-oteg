@@ -44,10 +44,27 @@
 
 </head>
 
-<body>
+<style>
+    @font-face {
+        font-family: 'avenir';
+        src: url('{% static "fonts/Avenir-Light.woff" %}');
+    }
+
+    @font-face {
+        font-family: 'avenir-medium';
+        src: url('{% static "fonts/Avenir-Medium.woff" %}');
+    }
+</style>
+
+<body style="background-color: #FAFBFE; 
+
+    ">
 
 
-    <div class="container-fluid p-0">
+    <div class="container-fluid p-0" style="
+    background-color: #FAFBFE;
+    margin-bottom: 100px;
+    ">
 
 
         <div class="container-sidebar2">
@@ -60,7 +77,6 @@
         </div>
         <div class="inner-header pl-3">
             <div class="container-fluid title-container">
-                <i class='bx bx-menu'></i>
                 <label class="title ml-3">{{title}}</label>
                 <!-- <h5 class="subtitle mb-0">{{title}}</h5> -->
             </div>
@@ -70,37 +86,41 @@
         <div>
             <div class="container-fluid breadcrumb-container  justify-content-end align-items-center  mb-5"
                 style="padding-right: 30px; padding-left: 63px;">
+                <label style="
+                        margin-right: 45px;
+                        margin-bottom: 0px;
+                        padding: 0px;
+                        font-family: avenir-medium , sans-serif;
 
-                <label class="m-0">Inicio > publicaciones > add</label>
+                    ">Inicio > publicaciones > add</label>
             </div>
         </div>
 
-        <div class="inner-c pl-3">
-            <div class="container-fluid">
-                <div class="row">
-                    {% block content %}
+        <div class="inner-c   mb-50 ">
 
-                    {% endblock %}
-                </div>
+            <div class="row">
+                {% block content %}
 
+                {% endblock %}
             </div>
-
-
         </div>
 
-        <div class="inner-footer  ">
-            <div class="container-fluid-footer ">
-                <label>OTEG ® {{year}} | Todos los derechos reservados
-                </label>
-            </div>
 
-        </div>
     </div>
 
+    <div class="inner-footer ">
+        <div class="container-fluid-footer ">
+            <label style="
+                        margin-right: 45px;
+                        margin-bottom: 0px;
+                        padding: 0px;
 
+                    ">OTEG ® {{year}} | Todos los derechos reservados
+            </label>
+        </div>
 
+    </div>
 
-    <!-- //PReguntarle a DAVID -->
 
     <!-- Bootstrap core JavaScript-->
     <script src="{% static 'admin/vendor/jquery/jquery.min.js' %}"></script> -->
@@ -110,8 +130,8 @@
     <script src="{% static 'admin/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
 
     <!-- Custom scripts for all pages-->
-     
-        
+
+
 
     <!-- Page level plugins -->
 

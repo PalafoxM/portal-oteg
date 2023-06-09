@@ -76,3 +76,33 @@ def search_id_destino_aeropuerto (request):
 
     # Return the data as a JSON response
     return JsonResponse({'other_data_value': other_data_value})
+
+
+def search_aeropuerto (request):
+
+    query_original = request.GET.get('term', '')
+    queryset = CatalogoAeropuertos.objects.filter(aereopuerto__icontains=query_original)
+    
+    destinos = [ destino.aereopuerto for destino in queryset ]
+
+    return JsonResponse(destinos, safe=False)
+
+
+def search_entidad_aeropuerto (request):
+
+    id_entidad = request.GET.get('id_destino_aeropuerto')
+    print(id_entidad)
+    # Retrieve data from the model based on the value
+    other_data = CatalogoAeropuertos.objects.filter(aereopuerto=id_entidad).first()
+
+    # Format the data as needed (e.g., extract a specific field)
+    if other_data:
+        other_data_value = other_data.entidad
+    else:
+
+        other_data_value = ''
+
+    # Return the data as a JSON response
+    return JsonResponse({'other_data_value': other_data_value})
+
+
