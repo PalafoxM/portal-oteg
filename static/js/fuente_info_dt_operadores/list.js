@@ -35,17 +35,17 @@ var datatur = {
                 }
             },
             columns: [
-                {"data": "id", className: "text-left pl-3"},
-                {"data": "giro", className: "text-center hidden-t"},
-                {"data": "clave_del_giro", className: "text-center hidden-t"},
-                {"data": "nombre_comercial", className: "text-center hidden-t"},
-                {"data": "rfc", className: "text-center hidden-t"},
-                {"data": "id", className: "actions-container"},
+                {"data": "id", className: "text-left"},
+                {"data": "giro", className: "text-left tb-text "},
+                {"data": "clave_del_giro", className: "text-left tb-text "},
+                {"data": "nombre_comercial", className: "text-left tb-text "},
+                {"data": "rfc", className: "text-left tb-text "},
+                {"data": "id", className: "text-left  actions-column tb-text"},
             ],
             columnDefs: [
                 {
                     targets: [-1],
-                    class: 'actions-container',
+                    class: 'actions-column',
                     orderable: false,
                     render: function (data, type, row) {
                         var buttons = '<button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="location.href=\'dt-operadores/edit/' + row.id + '/\'">';
