@@ -31,24 +31,20 @@ table {
     border-style: solid;
     border-radius: 5px;
     background: #FFFFFF;
-    margin-top: 10px;
+    height: fit-content !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    
 }
 
-.actions-container {
-    background: #ECF0F1 !important;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 
-}
 
 .actions-btn {
     border: none;
-    height: 29px;
-    width: 29px;
     color: #979797;
     background: #ECF0F1;
+    width: 20px;
+    height: 20px;
     padding: 0px !important;
     margin: 0px !important;
 
@@ -87,4 +83,55 @@ table {
 
 .hr-filter {
     border-color: #5999E4;
+}
+
+td {
+    position: relative; /* Enable positioning for child elements */
+  }
+  
+  td .fill-height {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: lightgreen;
+    z-index: -1; /* Place it behind the content */
+  }
+
+
+
+  .icon-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ECF0F1;
+  }
+  
+  .icon-container i {
+    margin: 0 5px; /* Adjust the margin as needed */
+    color: #6c6e7e;
+  }
+
+    .icon-container i:hover {
+        color: #5999E4;
+        cursor: pointer;
+    }
+
+.tb-text {
+    font-family: avenir-medium;
+    font-size: 14px;
+    font-weight: 500;
+    color: #4A4A4A;
+}
+
+div.dataTables_wrapper div.dataTables_length select {
+    width: auto;
+    display: inline-block;
 }

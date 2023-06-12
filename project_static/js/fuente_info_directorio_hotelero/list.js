@@ -35,12 +35,12 @@ var datatur = {
                 }
             },
             columns: [
-                {"data": "id", className: "text-left pl-3"},
-                {"data": "id_establecimiento", className: "text-center hidden-t"},
-                {"data": "nombre_de_la_unidad_economica", className: "text-center hidden-t"},
-                {"data": "codigo_de_la_clase_de_actividad_scian", className: "text-center hidden-t"},
-                {"data": "nombre_de_clase_de_la_actividad", className: "text-center hidden-t"},
-                {"data": "id", className: "actions-container"},
+                {"data": "id", className: "text-left"},
+                {"data": "id_establecimiento", className: "text-left"},
+                {"data": "nombre_de_la_unidad_economica", className: "text-left "},
+                {"data": "codigo_de_la_clase_de_actividad_scian", className: "text-cente"},
+                {"data": "nombre_de_clase_de_la_actividad", className: "text-left "},
+                {"data": "id", className: "text-center" },
             ],
             columnDefs: [
                 {
@@ -48,16 +48,16 @@ var datatur = {
                     class: 'actions-container',
                     orderable: false,
                     render: function (data, type, row) {
-                        var buttons = '<button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="location.href=\'directorio-hotelero/edit/' + row.id + '/\'">';
-                        buttons += '<i class="fas fa-edit"></i>';
-                        buttons += '</button> ';
-                        buttons += '<form method="post" action="directorio-hotelero/delete/' + row.id + '/">';
-                        buttons += '<input type="hidden" name="csrfmiddlewaretoken" value="' + csrftoken + '">';
-                        buttons += '<button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="return confirm(\'¿Está seguro de que desea eliminar la informacion?\');">';
-                        buttons += '<i class="fas fa-trash"></i>';
-                        buttons += '</button>';
-                        buttons += '</form>';
-                        return buttons;
+                        var html = '<td class="text-center" style="position: relative; background-color: aqua; text-align: center; height: 100%;">';
+                        html += '<div class="icon-container">';
+                        html += '<i class="far fa-eye" onclick="location.href=\'{% url \'dashboard:inventario_hotelero_ent_nac_list\' %}\'"></i>';
+                        html += '<i class="far fa-eye" onclick="location.href=\'{% url \'dashboard:inventario_hotelero_ent_nac_list\' %}\'"></i>';
+                        html += '</div>';
+                        html += '</td>';
+                        
+                        // Append your existing buttons or elements here
+                        
+                        return html;
                     }
                 },
             ],
@@ -67,7 +67,7 @@ var datatur = {
         });
         // Agregar clase a los elementos <tr>
         $('#dataTable').on('draw.dt', function () {
-            $('#dataTable tbody tr').addClass('text-center table-body mt-2');
+            $('#dataTable tbody tr').addClass('text-left table-body mt-2');
         });
     }
 };

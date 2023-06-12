@@ -239,7 +239,7 @@ class zonas_arqueologicas_museos(models.Model):
     class Meta:
 
         app_label = 'ecosistema'
-        db_table = "otros_anuales"
+        db_table = "zonas_arqueologicas_museos"
         ordering = ['-id']
 
 

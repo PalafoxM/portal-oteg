@@ -33,6 +33,7 @@
     <link href="{% static 'scss/table.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'scss/tablas.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'scss/card.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'scss/custom-inputs.css' %}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.0.7/css/boxicons.min.css">
 
     <!-- block de header D -->
@@ -75,10 +76,45 @@
             <!-- sidebar -->
             {% include 'back/components/sidebar.html' %}
         </div>
-        <div class="inner-header pl-3">
-            <div class="container-fluid title-container">
-                <label class="title ml-3">{{title}}</label>
+        <div class="inner-header ">
+            <div style="
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0px 63px;
+                margin-bottom: 15px;
+        
+            ">
+                <label class="title" style="margin: 0; padding: 0;" >{{title}}</label>
                 <!-- <h5 class="subtitle mb-0">{{title}}</h5> -->
+
+
+                {% if create_url %}
+                <a href="{{ create_url }}"
+
+                style="
+                    color: #FAFBFE;
+                    background-color: #0082F4;
+                    border-radius: 5px;
+                    padding: 5px 15px;
+                    font-family: avenir-medium , sans-serif;
+                    cursor: pointer;
+                    text-decoration: none;
+                
+                "
+                    
+                
+                >
+                    <span class="text"  style="
+                        font-family: avenir-medium , sans-serif;
+                        font-size: 14px;
+                    
+                    ">AGREGAR REGISTRO</span>
+                </a>
+                {% endif %}
+
+
             </div>
         </div>
 

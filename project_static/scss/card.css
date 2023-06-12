@@ -87,9 +87,3 @@
     background: #B50D0D; border-top-left-radius: 15px; border-bottom-left-radius: 15px;
 }
 
-
-
-
-.dataTables_wrapper .dataTables_length select {
-    width: 50px !important;
-}

@@ -78,10 +78,9 @@
 .inner-header {
   width: auto;
   height: auto;
-
-  margin-left: 350px;
+  margin-left: 300px;
   top: 0px !important;
-  padding-right: 2rem;
+
   background-color: #FAFBFE;
 }
 

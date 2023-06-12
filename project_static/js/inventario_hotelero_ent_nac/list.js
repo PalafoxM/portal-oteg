@@ -19,7 +19,6 @@ var datatur = {
     list: function () {
         console.log("Ejecutando datatur.list()", window.location.pathname); // Mensaje de depuració
         $('#dataTable').DataTable({
-            responsive: true,
             autoWidth: false,
             destroy: true,
             deferRender: true,
@@ -35,41 +34,41 @@ var datatur = {
                 }
             },
             columns: [
-                {"data": "id", className: "text-left pl-3"},
-                {"data": "entidad", className: "text-center hidden-t"},
-                {"data": "fecha", className: "text-left hidden-t"},
-                {"data": "categoria", className: "text-center hidden-t"},
-                {"data": "habitaciones", className: "text-left hidden-t"},
-                {"data": "establecimientos", className: "text-left hidden-t"},
-                {"data": "id", className: "actions-container"},
+                { "data": "id", className: "text-left tb-text " },
+                { "data": "entidad", className: "text-left tb-text" },
+                { "data": "fecha", className: "text-left tb-text" },
+                { "data": "categoria", className: "text-left tb-text " },
+                { "data": "habitaciones", className: "text-left tb-text" },
+                { "data": "establecimientos", className: "text-left tb-text" },
+                { "data": "id", className: "text-left  actions-column tb-text" },
             ],
             columnDefs: [
                 {
                     targets: [-1],
-                    class: 'actions-container',
+                    class: 'actions-column',
                     orderable: false,
                     render: function (data, type, row) {
-                        var buttons = '<button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="location.href=\'edit/' + row.id + '/\'">';
-                        buttons += '<i class="fas fa-edit"></i>';
-                        buttons += '</button> ';
-                        buttons += '<form method="post" action="delete/' + row.id + '/">';
-                        buttons += '<input type="hidden" name="csrfmiddlewaretoken" value="' + csrftoken + '">';
-                        buttons += '<button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="return confirm(\'¿Está seguro de que desea eliminar la informacion?\');">';
-                        buttons += '<i class="fas fa-trash"></i>';
-                        buttons += '</button>';
-                        buttons += '</form>';
-                        return buttons;
+                        var html = '<td class="text-center" style="position: relative; background-color: aqua; text-align: center; height: 100%;">';
+                        html += '<div class="icon-container">';
+                        html += '<i class="fas fa-edit" onclick="location.href=\'edit/' + row.id + '/\'"></i>';
+                        html += '<form method="post" action="delete/' + row.id + '/">';
+                        html += '<input type="hidden" name="csrfmiddlewaretoken" value="' + csrftoken + '">';
+                        html += '<button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="return confirm(\'¿Está seguro de que desea eliminar la informacion?\');">';
+                        html += '<i class="fas fa-trash"></i>';
+                        html += '</button>';
+                        html += '</form>';
+                        html += '</div>';
+                        html += '</td>';
+                        // Append your existing buttons or elements here
+                        return html;
                     }
                 },
             ],
             initComplete: function (settings, json) {
-                
+
             }
         });
-        // Agregar clase a los elementos <tr>
-        $('#dataTable').on('draw.dt', function () {
-            $('#dataTable tbody tr').addClass('text-center table-body mt-2');
-        });
+
     }
 };
 
