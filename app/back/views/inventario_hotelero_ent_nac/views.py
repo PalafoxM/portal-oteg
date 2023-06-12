@@ -211,7 +211,7 @@ class  InventarioHoteleroEntNacCreateView(CreateView):
 class InventarioHoteleroEntNacUpdateView( UpdateView):
     model = InventarioHoteleroEntNac
     form_class = InventarioHoteleroEntNacForm
-    template_name = 'back/components/create_update.html'
+    template_name = 'back/inventario_hotelero_ent_nac/view_editor.html'
     success_url = reverse_lazy('dashboard:inventario_hotelero_ent_nac_list')
 
     def form_invalid(self, form):
@@ -243,9 +243,12 @@ class InventarioHoteleroEntNacUpdateView( UpdateView):
         context['title'] = 'Editar Inventario Hotelero'
         context['entity'] = 'Inventario Hotelero'
         context['list_url'] = reverse_lazy('dashboard:inventario_hotelero_ent_nac_list')
-        context['form'].fields['entidad'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
-        context['form'].fields['categoria'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
-        context['form'].fields['fecha'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
+        entidad_widget = context['form'].fields['entidad'].widget
+        entidad_widget.attrs.update({'readonly': 'readonly'})
+        categoria_widget = context['form'].fields['categoria'].widget
+        categoria_widget.attrs.update({'readonly': 'readonly'})
+        fecha_widget = context['form'].fields['fecha'].widget
+        fecha_widget.attrs.update({'readonly': 'readonly'})
         context['edit_msg'] = 'Los Campos que no se pueden editar están sombreados'
 
         return context

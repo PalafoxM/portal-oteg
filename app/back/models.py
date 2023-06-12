@@ -239,7 +239,7 @@ class zonas_arqueologicas_museos(models.Model):
     class Meta:
 
         app_label = 'ecosistema'
-        db_table = "otros_anuales"
+        db_table = "zonas_arqueologicas_museos"
         ordering = ['-id']
 
 
@@ -448,6 +448,16 @@ class CatalogoEntidad(models.Model):
     class Meta:
         app_label = 'ecosistema'
         db_table = 'catalogo_entidades'
+        ordering = ['-id']
+
+        
+class CatalogoAeropuertos(models.Model):
+    aereopuerto = models.CharField(max_length=455, unique=True)
+    entidad = models.CharField(max_length=455)
+
+    class Meta:
+        app_label = 'ecosistema'
+        db_table = 'catalogo_aeropuertos'
         ordering = ['-id']
 
 
@@ -1247,4 +1257,20 @@ class DirectorioSpa(models.Model):
     class Meta:
         app_label = 'ecosistema'
         db_table = "directorio_spa"
+
+class Pasajeros_Ent_Nac (models.Model):
+    aereopuerto = models.CharField(max_length=256)
+    entidad = models.CharField(max_length=256)
+    ano = models.IntegerField()
+    nacionales = models.IntegerField()
+    regulares = models.IntegerField()
+    nacionales_regulares = models.IntegerField()
+    internacionales_regulares = models.IntegerField()
+    charters = models.IntegerField()
+    charters_nacionales = models.IntegerField()
+    charters_internacionales = models.IntegerField()
+
+    class Meta:
+        app_label = 'ecosistema'
+        db_table = "pasajeros_ent_nac"
         ordering = ['-id']

@@ -339,16 +339,30 @@ class InversionPublicaForm(forms.ModelForm):
         }
 
 class InventarioHoteleroEntNacForm(ModelForm):
+
     class Meta:
         model = InventarioHoteleroEntNac
         fields = ['entidad', 'fecha', 'categoria', 'habitaciones', 'establecimientos']
-        widgets = {
-            'entidad': forms.TextInput(attrs={'class': 'form-control'}),
-            'fecha': forms.DateInput(attrs={'class': 'form-control fecha-input'}),
-            'categoria': forms.TextInput(attrs={'class': 'form-control'}),
-            'habitaciones': forms.NumberInput(attrs={'class': 'form-control'}),
-            'establecimientos': forms.NumberInput(attrs={'class': 'form-control'}),
-        }
+    
+    def __init__ (self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['entidad'].widget.attrs['class'] = 'custom-input'
+        self.fields['entidad'].widget.attrs['icon_class'] = 'fas fa-search'
+
+        self.fields['fecha'].widget.attrs['class'] = 'custom-input'
+        self.fields['fecha'].widget.attrs['icon_class'] = 'fas fa-calendar'
+
+        self.fields['categoria'].widget.attrs['class'] = 'custom-input'
+        self.fields['categoria'].widget.attrs['icon_class'] = 'fas fa-search'
+
+        self.fields['habitaciones'].widget.attrs['class'] = 'custom-input'
+        self.fields['habitaciones'].widget.attrs['icon_class'] = 'fas fa-table'
+
+        self.fields['establecimientos'].widget.attrs['class'] = 'custom-input'
+        self.fields['establecimientos'].widget.attrs['icon_class'] = 'fas fa-table'
+
+
 
 class CalidadAireForm(forms.ModelForm):
     class Meta:
@@ -625,6 +639,14 @@ class InventarioTuristicoForm(forms.ModelForm):
             'destino': forms.TextInput(attrs={'class': 'form-control'}),
             'inventario': forms.NumberInput(attrs={'class': 'form-control'}),
         }
+
+
+class PasajerosEntNacForm(forms.ModelForm):
+
+    class Meta :
+        model = Pasajeros_Ent_Nac
+        fields = '__all__'
+
 
 class DirectorioHoteleroForm(forms.ModelForm):
     class Meta:

@@ -17,7 +17,7 @@ function getCookie(name) {
 
 var datatur = {
     list: function () {
-        console.log("Ejecutando datatur.list()", window.location.pathname); // Mensaje de depuració
+        console.log("Ejecutando perfil Visitante E.list()", window.location.pathname); // Mensaje de depuració
         $('#dataTable').DataTable({
             responsive: true,
             autoWidth: false,
@@ -35,29 +35,28 @@ var datatur = {
                 }
             },
             columns: [
-                {"data": "id", className: "text-left"},
-                {"data": "id_establecimiento", className: "text-left"},
-                {"data": "nombre_de_la_unidad_economica", className: "text-left "},
-                {"data": "codigo_de_la_clase_de_actividad_scian", className: "text-cente"},
-                {"data": "nombre_de_clase_de_la_actividad", className: "text-left "},
-                {"data": "id", className: "text-center" },
-            ],
-            columnDefs: [
+                {"data": "id", className: "text-left pl-3"},
+                {"data": "ano", className: "text-center hidden-t"},
+                {"data": "fecha", className: "text-center hidden-t"},
+                {"data": "tipo_asistente", className: "text-center hidden-t"},
+                {"data": "destino", className: "text-center hidden-t"},
+                {"data": "id", className: "actions-container"},
+            ],columnDefs: [
                 {
                     targets: [-1],
                     class: 'actions-container',
                     orderable: false,
                     render: function (data, type, row) {
-                        var html = '<td class="text-center" style="position: relative; background-color: aqua; text-align: center; height: 100%;">';
-                        html += '<div class="icon-container">';
-                        html += '<i class="far fa-eye" onclick="location.href=\'{% url \'dashboard:inventario_hotelero_ent_nac_list\' %}\'"></i>';
-                        html += '<i class="far fa-eye" onclick="location.href=\'{% url \'dashboard:inventario_hotelero_ent_nac_list\' %}\'"></i>';
-                        html += '</div>';
-                        html += '</td>';
-                        
-                        // Append your existing buttons or elements here
-                        
-                        return html;
+                        var buttons = '<button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="location.href=\'perfil-visitante-destinos/edit/' + row.id + '/\'">';
+                        buttons += '<i class="fas fa-edit"></i>';
+                        buttons += '</button> ';
+                        buttons += '<form method="post" action="perfil-visitante-destinos/delete/' + row.id + '/">';
+                        buttons += '<input type="hidden" name="csrfmiddlewaretoken" value="' + csrftoken + '">';
+                        buttons += '<button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="return confirm(\'¿Está seguro de que desea eliminar la informacion? PVD\');">';
+                        buttons += '<i class="fas fa-trash"></i>';
+                        buttons += '</button>';
+                        buttons += '</form>';
+                        return buttons;
                     }
                 },
             ],
@@ -67,7 +66,7 @@ var datatur = {
         });
         // Agregar clase a los elementos <tr>
         $('#dataTable').on('draw.dt', function () {
-            $('#dataTable tbody tr').addClass('text-left table-body mt-2');
+            $('#dataTable tbody tr').addClass('text-center table-body mt-2');
         });
     }
 };

@@ -1,6 +1,8 @@
 .side {
     top: 0; z-index: 1001 !important;  
     position: fixed !important;
+    margin: 0px !important;
+    padding: 0px !important;
 }
 
 .isotipo{
@@ -70,6 +72,6 @@
     align-items: center;
     justify-content: center;
     border-radius: 5px;
-    background-color:  #DDC137;
+    background-color:  #0082F4;
     cursor: pointer;
 }
