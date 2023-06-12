@@ -29,6 +29,8 @@
     --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   }
 
+
+  
   
   .table-primary,
   .table-primary > th,
@@ -314,4 +316,11 @@
   
   .table-responsive > .table-bordered {
     border: 0;
+  }
+
+  .actions-column {
+    position: relative;
+    background-color: aqua;
+    text-align: center;
+    height: 100%;
   }

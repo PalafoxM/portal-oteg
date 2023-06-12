@@ -4,453 +4,1175 @@
 {% block head %}
 
 <link rel="stylesheet" href="{% static 'librerias/datatables-1.10.25/css/dataTables.bootstrap4.min.css' %}" />
-<link rel="stylesheet"
-    href="{% static 'librerias/datatables-1.10.25/plugins/responsive-2.2.9/css/responsive.bootstrap4.min.css' %}" />
+<link rel="stylesheet"href="{% static 'librerias/datatables-1.10.25/plugins/responsive-2.2.9/css/responsive.bootstrap4.min.css' %}" />
 
 <!-- head_list -->
 {% block head_list %}
 
 {% endblock %}
+
+
 {% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-xl-12 col-lg-12 col-md-12 col-12 ">
-        <div class="row p-3 pl-1 container-cards">
-            <div class="col-lg-4 col-md-12 mb-3">
-                <div class="small-cards card-white">
-                    <div class="row ml-0 mr-0" style="height: 100%; width: 100%;">
-                        <div class="col-lg-1 col-md-1 pl-0 pr-0 d-none d-sm-none d-md-block card-blue"></div>
-                        <div class="col-lg-6 col-md-6 col-sm-12 text-center justify-content-center align-self-center">
-                            <span class="card-text-black">
-                                Total de<br>FUENTES
-                            </span>
-                            <h3 class="card-text-black-num">4</h3>
-                        </div>
-                        <div
-                            class="col-lg-4 col-md-5 col-sm-5 d-none d-sm-none d-md-block text-center content-icon-card justify-content-center align-self-center">
-                            <img src="{% static 'images/fuentes_informacion/database-azul.png' %}" alt=""
-                                class="icon-card">
-                        </div>
-                    </div>
+
+<style>
+    div.dataTables_wrapper div.dataTables_length select {
+    width: 3.5rem !important;
+    display: inline-block;
+}
+</style>
+<div class="row p-3 pl-3  container-cards justify-content-center" style="
+    padding-left: 3% !important;
+    ">
+    <div class="col-lg-4 col-md-12 mb-3 text-center ">
+        <!-- Card content here -->
+
+        <div class="small-cards card-white">
+            <div class="row ml-0 mr-0" style="height: 100%; width: 100%;">
+                <div class="col-lg-1 col-md-1 pl-0 pr-0 d-none d-sm-none d-md-block card-blue"></div>
+                <div class="col-lg-6 col-md-6 col-sm-12 text-center justify-content-center align-self-center">
+                    <span class="card-text-black">
+                        Total de<br>Fuentes
+                    </span>
+                    <h3 class="card-text-black-num">25</h3>
+                </div>
+                <div
+                    class="col-lg-4 col-md-5 col-sm-5 d-none d-sm-none d-md-block text-center content-icon-card justify-content-center align-self-center">
+                    <img src="{% static 'images/fuentes_informacion/database-azul.png' %}" alt="" class="icon-card">
                 </div>
             </div>
-            <div class="col-lg-4 col-md-12 mb-3">
-                <div class="small-cards card-white">
-                    <div class="row ml-0 mr-0" style="height: 100%; width: 100%;">
-                        <div class="col-lg-1 col-md-1 pl-0 pr-0 d-none d-sm-none d-md-block card-red"></div>
-                        <div class="col-lg-6 col-md-6 col-sm-12 text-center justify-content-center align-self-center">
-                            <span class="card-text-black">
-                                Total de<br>FUENTES por actualizar
-                            </span>
-                            <h3 class="card-text-black-num">4</h3>
-                        </div>
-                        <div
-                            class="col-lg-4 col-md-5 col-sm-5 d-none d-sm-none d-md-block text-center content-icon-card justify-content-center align-self-center">
-                            <img src="{% static 'images/fuentes_informacion/info-verde.png' %}" alt=""
-                                class="icon-card-i">
-                        </div>
-                    </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-12 mb-3">
+        <!-- Card content here -->
+
+        <div class="small-cards card-white">
+            <div class="row ml-0 mr-0" style="height: 100%; width: 100%;">
+                <div class="col-lg-1 col-md-1 pl-0 pr-0 d-none d-sm-none d-md-block card-red"></div>
+                <div class="col-lg-6 col-md-6 col-sm-12 text-center justify-content-center align-self-center">
+                    <span class="card-text-black">
+                        Total de<br>Fuentes por actualizar
+                    </span>
+                    <h3 class="card-text-black-num">0</h3>
+                </div>
+                <div
+                    class="col-lg-4 col-md-5 col-sm-5 d-none d-sm-none d-md-block text-center content-icon-card justify-content-center align-self-center">
+                    <img src="{% static 'images/fuentes_informacion/info-verde.png' %}" alt="" class="icon-card-i">
                 </div>
             </div>
-            <div class="col-lg-4 col-md-12">
-                <div class="small-cards card-white">
-                    <div class="row ml-0 mr-0" style="height: 100%; width: 100%;">
-                        <div class="col-lg-1 col-md-1 pl-0 pr-0 d-none d-sm-none d-md-block card-green"></div>
-                        <div class="col-lg-6 col-md-6 col-sm-12 text-center justify-content-center align-self-center">
-                            <span class="card-text-black">
-                                Total de<br>FUENTES actualizadas
-                            </span>
-                            <h3 class="card-text-black-num">4</h3>
-                        </div>
-                        <div
-                            class="col-lg-4 col-md-5 col-sm-5 d-none d-sm-none d-md-block text-center content-icon-card justify-content-center align-self-center">
-                            <img src="{% static 'images/fuentes_informacion/database-verde.png' %}" alt=""
-                                class="icon-card">
-                        </div>
-                    </div>
+        </div>
+
+    </div>
+    <div class="col-lg-4 col-md-12">
+        <!-- Card content here -->
+        <div class="small-cards card-white">
+            <div class="row ml-0 mr-0" style="height: 100%; width: 100%;">
+                <div class="col-lg-1 col-md-1 pl-0 pr-0 d-none d-sm-none d-md-block card-green"></div>
+                <div class="col-lg-6 col-md-6 col-sm-12 text-center justify-content-center align-self-center">
+                    <span class="card-text-black">
+                        Total de<br>Fuentes actualizadas
+                    </span>
+                    <h3 class="card-text-black-num">25</h3>
+                </div>
+                <div
+                    class="col-lg-4 col-md-5 col-sm-5 d-none d-sm-none d-md-block text-center content-icon-card justify-content-center align-self-center">
+                    <img src="{% static 'images/fuentes_informacion/database-verde.png' %}" alt="" class="icon-card">
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 <!-- DataTales Example -->
 <div class="col-12 p-0">
     <div class="row p-3">
         <div class="col-12">
             <div class="big-card">
-
-
                 <div class="table-responsive">
                     <table class="table t" id="dataTable">
                         <thead>
                             <tr class="text-center table-header">
-                                <th class="text-left pl-3">Clave</th>
-                                <th class="text-left pl-3">Fuente de información</th>
-                                <th class="text-left pl-3">Total de registros</th>
-                                <th class="text-left pl-3">Última actualización</th>
-                                <th class="text-left pl-3">Periodo de actualización</th>
-                                <th class="text-left pl-3">Estatus</th>
-                                <th class="actions">Acciones</th>
+                                <th class="text-left ">Clave</th>
+                                <th class="text-left ">Fuente de información</th>
+                                <th class="text-left ">Total de registros</th>
+                                <th class="text-left ">Última actualización</th>
+                                <th class="text-left ">Periodo de actualización</th>
+                                <th class="text-left ">Estatus</th>
+                                <th class="text-center ">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
                             <!-- <tr class="tr-space"></tr> -->
-                            <tr class="text-center table-body mt-2">
-                                <td class="text-left pl-3">Sin clave</td>
-                                <td class="text-left pl-3">Hoteles nacionales</td>
-                                <td class="text-left pl-3">200</td>
-                                <td class="text-left pl-3">dd/mm/aaaa hh:mm</td>
-                                <td class="text-left pl-3">Mensual</td>
-                                <td class="text-center pl-3">Estatus</td>
-                                <td class="actions-container">
-                                    <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down"
-                                        onclick="location.href='{% url 'dashboard:inventario_hotelero_ent_nac_list' %}'">
-                                        <i class="far fa-eye"></i>
-                                    </button>
+                            <tr class="table-body">
+                                <td class="text-left tb-text "> Sin Clave</td>
+                                <td class="text-left tb-text ">Hoteles nacionales</td>
+                                <td class="text-left tb-text ">200</td>
+                                <td class="text-left tb-text ">dd/mm/aaaa hh:mm</td>
+                                <td class="text-left tb-text ">Mensual</td>
+                                <td class="text-left tb-text ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                    </div>
+
+
+
+                                </td>
+
+                                <td class="text-center" style="
+                                                position: relative;
+                                                background-color: #ECF0F1;
+                                                text-align: center;
+                                                height: 100%;">
+
+                                    <div style="
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:inventario_hotelero_ent_nac_list' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
                                 </td>
                             </tr>
                             <tr class="text-center table-body mt-2">
-                                <td class="text-left pl-3">Sin clave</td>
-                                <td class="text-left pl-3">Hoteles GTO</td>
-                                <td class="text-left pl-3">200</td>
-                                <td class="text-left pl-3">dd/mm/aaaa hh:mm</td>
-                                <td class="text-left pl-3">Mensual</td>
-                                <td class="text-center pl-3">Estatus</td>
-                                <td class="actions-container">
-                                    <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down"
-                                        onclick="location.href='{% url 'dashboard:inventario_hotelero_list' %}'">
-                                        <i class="far fa-eye"></i>
-                                    </button>
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Hoteles GTO</td>
+                                <td class="text-left tb-text">200</td>
+                                <td class="text-left tb-text">dd/mm/aaaa hh:mm</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                    </div>
+
+
+
+                                </td>
+                    
+                                <td class="text-center" style="
+                                position: relative;
+                                background-color: aqua;
+                                text-align: center;
+                                height: 100%;
+                              ">
+
+                                    <div class="icon-container">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:inventario_hotelero_ent_nac_list' %}'"></i>
+                                    </div>
+
                                 </td>
                             </tr>
                             <tr class="text-center table-body mt-2">
-                                <td class="text-left pl-3">Sin clave</td>
-                                <td class="text-left pl-3">Inversión publica</td>
-                                <td class="text-left pl-3">200</td>
-                                <td class="text-left pl-3">dd/mm/aaaa hh:mm</td>
-                                <td class="text-left pl-3">Mensual</td>
-                                <td class="text-center pl-3">Estatus</td>
-                                <td class="actions-container">
-                                    <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down"
-                                        onclick="location.href='{% url 'dashboard:inversion_publica_list' %}'">
-                                        <i class="far fa-eye"></i>
-                                    </button>
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Inversión publica</td>
+                                <td class="text-left tb-text">200</td>
+                                <td class="text-left tb-text">dd/mm/aaaa hh:mm</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center tb-text">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                    </div>
+
+
+
                                 </td>
+
+
+
+                                <td class="text-center" style="
+                                                position: relative;
+                                                background-color: #ECF0F1;
+                                                text-align: center;
+                                                height: 100%;">
+
+                                    <div style="
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:inversion_publica_list' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
+                                </td>
+
                             </tr>
                             <tr class="text-center table-body mt-2">
-                                <td class="text-left pl-3">Sin clave</td>
-                                <td class="text-left pl-3">Aire</td>
-                                <td class="text-left pl-3">200</td>
-                                <td class="text-left pl-3">dd/mm/aaaa hh:mm</td>
-                                <td class="text-left pl-3">Mensual</td>
-                                <td class="text-center pl-3">Estatus</td>
-                                <td class="actions-container">
-                                    <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down"
-                                        onclick="location.href='{% url 'dashboard:calidad_aire_list' %}'">
-                                        <i class="far fa-eye"></i>
-                                    </button>
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Aire</td>
+                                <td class="text-left tb-text">200</td>
+                                <td class="text-left tb-text">dd/mm/aaaa hh:mm</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                    </div>
+
+
+
+                                </td>
+                                <td class="text-center" style="
+                                position: relative;
+                                background-color: #ECF0F1;
+                                text-align: center;
+                                height: 100%;">
+
+                                    <div style="
+                                position: absolute;
+                                top: 50%;
+                                left: 50%;
+                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:calidad_aire_list' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
                                 </td>
                             </tr>
 
                             <tr class="text-center table-body mt-2">
-                                <td class="text-left pl-3">Sin clave</td>
-                                <td class="text-left pl-3">Sensibilización</td>
-                                <td class="text-left pl-3">200</td>
-                                <td class="text-left pl-3">dd/mm/aaaa hh:mm</td>
-                                <td class="text-left pl-3">Mensual</td>
-                                <td class="text-center pl-3">Estatus</td>
-                                <td class="actions-container">
-                                    <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down"
-                                        onclick="location.href='{% url 'dashboard:fuente_info_sensibilizacion' %}'">
-                                        <i class="far fa-eye"></i>
-                                    </button>
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Sensibilización</td>
+                                <td class="text-left tb-text">200</td>
+                                <td class="text-left tb-text">dd/mm/aaaa hh:mm</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                    </div>
+
+
+
+                                </td>
+
+                                <td class="text-center" style="
+                                                position: relative;
+                                                background-color: #ECF0F1;
+                                                text-align: center;
+                                                height: 100%;">
+
+                                    <div style="
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_sensibilizacion' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
                                 </td>
                             </tr>
                             <tr class="text-center table-body mt-2">
-                                <td class="text-left pl-3">Sin clave</td>
-                                <td class="text-left pl-3">Proyectos privados</td>
-                                <td class="text-left pl-3">200</td>
-                                <td class="text-left pl-3">dd/mm/aaaa hh:mm</td>
-                                <td class="text-left pl-3">Mensual</td>
-                                <td class="text-center pl-3">Estatus</td>
-                                <td class="actions-container">
-                                    <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down"
-                                        onclick="location.href='{% url 'dashboard:proyectos_inversion_list' %}'">
-                                        <i class="far fa-eye"></i>
-                                    </button>
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Proyectos privados</td>
+                                <td class="text-left tb-text">200</td>
+                                <td class="text-left tb-text">dd/mm/aaaa hh:mm</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                    </div>
+
+
+
+
+                                </td>
+
+
+
+
+
+
+                                <td class="text-center" style="
+                                                position: relative;
+                                                background-color: #ECF0F1;
+                                                text-align: center;
+                                                height: 100%;">
+
+                                    <div style="
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:proyectos_inversion_list' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
                                 </td>
                             </tr>
                             <tr class="text-center table-body mt-2">
-                                <td class="text-left pl-3">Sin clave</td>
-                                <td class="text-left pl-3">Certificación</td>
-                                <td class="text-left pl-3">200</td>
-                                <td class="text-left pl-3">dd/mm/aaaa hh:mm</td>
-                                <td class="text-left pl-3">Mensual</td>
-                                <td class="text-center pl-3">Estatus</td>
-                                <td class="actions-container">
-                                    <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down"
-                                        onclick="location.href='{% url 'dashboard:fuente_info_certificacion' %}'">
-                                        <i class="far fa-eye"></i>
-                                    </button>
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Certificación</td>
+                                <td class="text-left tb-text">200</td>
+                                <td class="text-left tb-text">dd/mm/aaaa hh:mm</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                    </div>
+
+
+
+                                </td>
+
+
+
+                                <td class="text-center" style="
+                                                position: relative;
+                                                background-color: #ECF0F1;
+                                                text-align: center;
+                                                height: 100%;">
+
+                                    <div style="
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_certificacion' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
                                 </td>
                             </tr>
 
                             <tr class="text-center table-body mt-2">
-                                <td class="text-left pl-3">Sin clave</td>
-                                <td class="text-left pl-3">Inversion privada</td>
-                                <td class="text-left pl-3">200</td>
-                                <td class="text-left pl-3">dd/mm/aaaa hh:mm</td>
-                                <td class="text-left pl-3">Mensual</td>
-                                <td class="text-center pl-3">Estatus</td>
-                                <td class="actions-container">
-                                    <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down"
-                                        onclick="location.href='{% url 'dashboard:fuente_info_inversion_privada' %}'">
-                                        <i class="far fa-eye"></i>
-                                    </button>
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Inversion privada</td>
+                                <td class="text-left tb-text">200</td>
+                                <td class="text-left tb-text">dd/mm/aaaa hh:mm</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                    </div>
+
+
+
+                                </td>
+
+
+
+                                <td class="text-center" style="
+                                                position: relative;
+                                                background-color: #ECF0F1;
+                                                text-align: center;
+                                                height: 100%;">
+
+                                    <div style="
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_inversion_privada' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
                                 </td>
                             </tr>
 
                             <tr class="text-center table-body mt-2">
-                                <td class="text-left pl-3">Sin clave</td>
-                                <td class="text-left pl-3">Datatur</td>
-                                <td class="text-left pl-3">200</td>
-                                <td class="text-left pl-3">dd/mm/aaaa hh:mm</td>
-                                <td class="text-left pl-3">Mensual</td>
-                                <td class="text-center pl-3">Estatus</td>
-                                <td class="actions-container">
-                                    <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down"
-                                        onclick="location.href='{% url 'dashboard:fuente_info_datatour' %}'">
-                                        <i class="far fa-eye"></i>
-                                    </button>
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Datatur</td>
+                                <td class="text-left tb-text">200</td>
+                                <td class="text-left tb-text">dd/mm/aaaa hh:mm</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                    </div>
+
+
+
+                                </td>
+
+
+
+
+                                <td class="text-center" style="
+                                                position: relative;
+                                                background-color: #ECF0F1;
+                                                text-align: center;
+                                                height: 100%;">
+
+                                    <div style="
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_datatour' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
                                 </td>
                             </tr>
 
 
                             <tr class="text-center table-body mt-2">
-                                <td class="text-left pl-3">Sin clave</td>
-                                <td class="text-left pl-3">Empleo</td>
-                                <td class="text-left pl-3">200</td>
-                                <td class="text-left pl-3">dd/mm/aaaa hh:mm</td>
-                                <td class="text-left pl-3">Mensual</td>
-                                <td class="text-center pl-3">Estatus</td>
-                                <td class="actions-container">
-                                    <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down"
-                                        onclick="location.href='{% url 'dashboard:fuente_info_empleo' %}'">
-                                        <i class="far fa-eye"></i>
-                                    </button>
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Empleo</td>
+                                <td class="text-left tb-text">200</td>
+                                <td class="text-left tb-text">dd/mm/aaaa hh:mm</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                    </div>
+
+
+
+                                </td>
+
+                                
+
+                       
+                                <td class="text-center" style="
+                                                position: relative;
+                                                background-color: #ECF0F1;
+                                                text-align: center;
+                                                height: 100%;">
+
+                                    <div style="
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_empleo' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
                                 </td>
                             </tr>
 
                             <tr class="text-center table-body mt-2">
-                                <td class="text-left pl-3">Sin clave</td>
-                                <td class="text-left pl-3">Zonas ARQ</td>
-                                <td class="text-left pl-3">200</td>
-                                <td class="text-left pl-3">dd/mm/aaaa hh:mm</td>
-                                <td class="text-left pl-3">Mensual</td>
-                                <td class="text-center pl-3">Estatus</td>
-                                <td class="actions-container">
-                                    <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down"
-                                        onclick="location.href='{% url 'dashboard:fuente_info_zonas_arqueologicas' %}'">
-                                        <i class="far fa-eye"></i>
-                                    </button>
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Zonas ARQ</td>
+                                <td class="text-left tb-text">200</td>
+                                <td class="text-left tb-text">dd/mm/aaaa hh:mm</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                    </div>
+
+
+
+                                </td>
+                                
+                                
+                                <td class="text-center" style="
+                                                position: relative;
+                                                background-color: #ECF0F1;
+                                                text-align: center;
+                                                height: 100%;">
+
+                                    <div style="
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_zonas_arqueologicas' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
+                                </td>
+                         
+                            </tr>
+
+                            <tr class="text-center table-body mt-2">
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Modelo GD</td>
+                                <td class="text-left tb-text">200</td>
+                                <td class="text-left tb-text">dd/mm/aaaa hh:mm</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                    </div>
+
+
+
+                                </td>
+                                
+                  
+                                <td class="text-center" style="
+                                                position: relative;
+                                                background-color: #ECF0F1;
+                                                text-align: center;
+                                                height: 100%;">
+
+                                    <div style="
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_modelo_gd' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
+                                </td>
+                            </tr>
+
+
+
+                            <tr class="text-center table-body mt-2">
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Discapacidad</td>
+                                <td class="text-left tb-text">200</td>
+                                <td class="text-left tb-text">dd/mm/aaaa hh:mm</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                    </div>
+
+
+
+                                </td>
+            
+
+                        
+                                <td class="text-center" style="
+                                                position: relative;
+                                                background-color: #ECF0F1;
+                                                text-align: center;
+                                                height: 100%;">
+
+                                    <div style="
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_discapacidad' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                            <tr class="text-center table-body mt-2">
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Otros</td>
+                                <td class="text-left tb-text">200</td>
+                                <td class="text-left tb-text">dd/mm/aaaa hh:mm</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                    </div>
+
+
+
+                                </td>
+
+                                
+                                
+                                <td class="text-center" style="
+                                                position: relative;
+                                                background-color: #ECF0F1;
+                                                text-align: center;
+                                                height: 100%;">
+
+                                    <div style="
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_otros_anuales' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
+                                </td>
+                   
+                            </tr>
+                            <tr class="text-center table-body mt-2">
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Airbnb</td>
+
+                                <td class="text-left tb-text">200</td>
+                                <td class="text-left tb-text">dd/mm/aaaa hh:mm</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                    </div>
+
+
+
+                                </td>
+                                
+                        
+                                <td class="text-center" style="
+                                                position: relative;
+                                                background-color: #ECF0F1;
+                                                text-align: center;
+                                                height: 100%;">
+
+                                    <div style="
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_airbnb' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
+                                </td>
+                            </tr>
+                            <tr class="text-center table-body mt-2">
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">% Segmentos</td>
+                                <td class="text-left tb-text">200</td>
+                                <td class="text-left tb-text">dd/mm/aaaa hh:mm</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                    </div>
+
+
+
+                                </td>
+
+                                
+                                
+                      
+                                <td class="text-center" style="
+                                                position: relative;
+                                                background-color: #ECF0F1;
+                                                text-align: center;
+                                                height: 100%;">
+
+                                    <div style="
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_segmentos' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
                                 </td>
                             </tr>
 
                             <tr class="text-center table-body mt-2">
-                                <td class="text-left pl-3">Sin clave</td>
-                                <td class="text-left pl-3">Modelo GD</td>
-                                <td class="text-left pl-3">200</td>
-                                <td class="text-left pl-3">dd/mm/aaaa hh:mm</td>
-                                <td class="text-left pl-3">Mensual</td>
-                                <td class="text-center pl-3">Estatus</td>
-                                <td class="actions-container">
-                                    <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down"
-                                        onclick="location.href='{% url 'dashboard:fuente_info_modelo_gd' %}'">
-                                        <i class="far fa-eye"></i>
-                                    </button>
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">% Origen</td>
+                                <td class="text-left tb-text">200</td>
+                                <td class="text-left tb-text">dd/mm/aaaa hh:mm</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                    </div>
+
+
+
+                                </td>
+                                
+                               
+                                <td class="text-center" style="
+                                                position: relative;
+                                                background-color: #ECF0F1;
+                                                text-align: center;
+                                                height: 100%;">
+
+                                    <div style="
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_origen' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
+                                </td>
+                            </tr>
+                            <tr class="text-center table-body mt-2">
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Aeropuertos</td>
+                                <td class="text-left tb-text">200</td>
+                                <td class="text-left tb-text">dd/mm/aaaa hh:mm</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                    </div>
+
+
+
+                                </td>
+
+                                
+                              
+                                <td class="text-center" style="
+                                                position: relative;
+                                                background-color: #ECF0F1;
+                                                text-align: center;
+                                                height: 100%;">
+
+                                    <div style="
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_aeropuertos' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
                                 </td>
                             </tr>
 
 
-                            
                             <tr class="text-center table-body mt-2">
-                                <td class="text-left pl-3">Sin clave</td>
-                                <td class="text-left pl-3">Discapacidad</td>
-                                <td class="text-left pl-3">200</td>
-                                <td class="text-left pl-3">dd/mm/aaaa hh:mm</td>
-                                <td class="text-left pl-3">Mensual</td>
-                                <td class="text-center pl-3">Estatus</td>
-                                <td class="actions-container">
-                                    <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down"
-                                        onclick="location.href='{% url 'dashboard:fuente_info_discapacidad' %}'">
-                                        <i class="far fa-eye"></i>
-                                    </button>
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Aerolíneas</td>
+                                <td class="text-left tb-text">200</td>
+                                <td class="text-left tb-text">dd/mm/aaaa hh:mm</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                    </div>
+
+
+
+                                </td>
+                                
+                     
+                                <td class="text-center" style="
+                                                position: relative;
+                                                background-color: #ECF0F1;
+                                                text-align: center;
+                                                height: 100%;">
+
+                                    <div style="
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_aerolineas' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
                                 </td>
                             </tr>
                             <tr class="text-center table-body mt-2">
-                                <td class="text-left pl-3">Sin clave</td>
-                                <td class="text-left pl-3">Otros</td>
-                                <td class="text-left pl-3">200</td>
-                                <td class="text-left pl-3">dd/mm/aaaa hh:mm</td>
-                                <td class="text-left pl-3">Mensual</td>
-                                <td class="text-center pl-3">Estatus</td>
-                                <td class="actions-container">
-                                    <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down"
-                                        onclick="location.href='{% url 'dashboard:fuente_info_otros_anuales' %}'">
-                                        <i class="far fa-eye"></i>
-                                    </button>
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Inventario turistico</td>
+                                <td class="text-left tb-text">200</td>
+                                <td class="text-left tb-text">dd/mm/aaaa hh:mm</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                    </div>
+
+
+
+                                </td>
+
+                                
+                     
+                                <td class="text-center" style="
+                                                position: relative;
+                                                background-color: #ECF0F1;
+                                                text-align: center;
+                                                height: 100%;">
+
+                                    <div style="
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_inventario_turistico' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
                                 </td>
                             </tr>
                             <tr class="text-center table-body mt-2">
-                                <td class="text-left pl-3">Sin clave</td>
-                                <td class="text-left pl-3">Airbnb</td>
-                            
-                                <td class="text-left pl-3">200</td>
-                                <td class="text-left pl-3">dd/mm/aaaa hh:mm</td>
-                                <td class="text-left pl-3">Mensual</td>
-                                <td class="text-center pl-3">Estatus</td>
-                                <td class="actions-container">
-                                    <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down"
-                                        onclick="location.href='{% url 'dashboard:fuente_info_airbnb' %}'">
-                                    
-                                        <i class="far fa-eye"></i>
-                                    </button>
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Nacional</td>
+                                <td class="text-left tb-text">200</td>
+                                <td class="text-left tb-text">dd/mm/aaaa hh:mm</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                    </div>
+
+
+
                                 </td>
-                            </tr>
-                            <tr class="text-center table-body mt-2">
-                                <td class="text-left pl-3">Sin clave</td>
-                                <td class="text-left pl-3">% Segmentos</td>
-                                <td class="text-left pl-3">200</td>
-                                <td class="text-left pl-3">dd/mm/aaaa hh:mm</td>
-                                <td class="text-left pl-3">Mensual</td>
-                                <td class="text-center pl-3">Estatus</td>
-                                <td class="actions-container">
-                                    <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down"
-                                        onclick="location.href='{% url 'dashboard:fuente_info_segmentos' %}'">
-                                        <i class="far fa-eye"></i>
-                                    </button>
+
+                                
+
+                                
+                                <td class="text-center" style="
+                                                position: relative;
+                                                background-color: #ECF0F1;
+                                                text-align: center;
+                                                height: 100%;">
+
+                                    <div style="
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_entorno_nacional' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
                                 </td>
+                        
                             </tr>
 
                             <tr class="text-center table-body mt-2">
-                                <td class="text-left pl-3">Sin clave</td>
-                                <td class="text-left pl-3">% Origen</td>
-                                <td class="text-left pl-3">200</td>
-                                <td class="text-left pl-3">dd/mm/aaaa hh:mm</td>
-                                <td class="text-left pl-3">Mensual</td>
-                                <td class="text-center pl-3">Estatus</td>
-                                <td class="actions-container">
-                                    <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down"
-                                        onclick="location.href='{% url 'dashboard:fuente_info_origen' %}'">
-                                        <i class="far fa-eye"></i>
-                                    </button>
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">PV Eventos</td>
+                                <td class="text-left tb-text">200</td>
+                                <td class="text-left tb-text">dd/mm/aaaa hh:mm</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                    </div>
+
+
+
                                 </td>
+
+                                
+
+                                
+                                <td class="text-center" style="
+                                                position: relative;
+                                                background-color: #ECF0F1;
+                                                text-align: center;
+                                                height: 100%;">
+
+                                    <div style="
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_perfil_visitante_eventos' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
+                                </td>
+                      
                             </tr>
+
+
                             <tr class="text-center table-body mt-2">
-                                <td class="text-left pl-3">Sin clave</td>
-                                <td class="text-left pl-3">Aeropuertos</td>
-                                <td class="text-left pl-3">200</td>
-                                <td class="text-left pl-3">dd/mm/aaaa hh:mm</td>
-                                <td class="text-left pl-3">Mensual</td>
-                                <td class="text-center pl-3">Estatus</td>
-                                <td class="actions-container">
-                                    <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down"
-                                        onclick="location.href='{% url 'dashboard:fuente_info_aeropuertos' %}'">
-                                        <i class="far fa-eye"></i>
-                                    </button>
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">PV Destinos</td>
+                                <td class="text-left tb-text">200</td>
+                                <td class="text-left tb-text">dd/mm/aaaa hh:mm</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                    </div>
+
+
+
+                                </td>
+
+                                
+                         
+                                <td class="text-center" style="
+                                                position: relative;
+                                                background-color: #ECF0F1;
+                                                text-align: center;
+                                                height: 100%;">
+
+                                    <div style="
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_perfil_visitante_destinos' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
                                 </td>
                             </tr>
 
-                            
+
+
+
                             <tr class="text-center table-body mt-2">
-                                <td class="text-left pl-3">Sin clave</td>
-                                <td class="text-left pl-3">Aerolíneas</td>
-                                <td class="text-left pl-3">200</td>
-                                <td class="text-left pl-3">dd/mm/aaaa hh:mm</td>
-                                <td class="text-left pl-3">Mensual</td>
-                                <td class="text-center pl-3">Estatus</td>
-                                <td class="actions-container">
-                                    <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down"
-                                        onclick="location.href='{% url 'dashboard:fuente_info_aerolineas' %}'">
-                                        <i class="far fa-eye"></i>
-                                    </button>
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Directorio Hotelero</td>
+                                <td class="text-left tb-text">200</td>
+                                <td class="text-left tb-text">dd/mm/aaaa hh:mm</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                    </div>
+
+
+
                                 </td>
-                            </tr>
-                            <tr class="text-center table-body mt-2">
-                                <td class="text-left pl-3">Sin clave</td>
-                                <td class="text-left pl-3">Inventario turistico</td>
-                                <td class="text-left pl-3">200</td>
-                                <td class="text-left pl-3">dd/mm/aaaa hh:mm</td>
-                                <td class="text-left pl-3">Mensual</td>
-                                <td class="text-center pl-3">Estatus</td>
-                                <td class="actions-container">
-                                    <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down"
-                                        onclick="location.href='{% url 'dashboard:fuente_info_inventario_turistico' %}'">
-                                        <i class="far fa-eye"></i>
-                                    </button>
+        
+                                <td class="text-center" style="
+                                                position: relative;
+                                                background-color: #ECF0F1;
+                                                text-align: center;
+                                                height: 100%;">
+
+                                    <div style="
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:inventario_hotelero_ent_nac_list' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
                                 </td>
-                            </tr>
-                            <tr class="text-center table-body mt-2">
-                                <td class="text-left pl-3">Sin clave</td>
-                                <td class="text-left pl-3">Nacional</td>
-                                <td class="text-left pl-3">200</td>
-                                <td class="text-left pl-3">dd/mm/aaaa hh:mm</td>
-                                <td class="text-left pl-3">Mensual</td>
-                                <td class="text-center pl-3">Estatus</td>
-                                <td class="actions-container">
-                                    <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down"
-                                        onclick="location.href='{% url 'dashboard:fuente_info_entorno_nacional' %}'">
-                                        <i class="far fa-eye"></i>
-                                    </button>
-                                </td>
+
                             </tr>
 
                             <tr class="text-center table-body mt-2">
-                                <td class="text-left pl-3">Sin clave</td>
-                                <td class="text-left pl-3">PV Eventos</td>
-                                <td class="text-left pl-3">200</td>
-                                <td class="text-left pl-3">dd/mm/aaaa hh:mm</td>
-                                <td class="text-left pl-3">Mensual</td>
-                                <td class="text-center pl-3">Estatus</td>
-                                <td class="actions-container">
-                                    <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down"
-                                        onclick="location.href='{% url 'dashboard:fuente_info_perfil_visitante_eventos' %}'">
-                                        <i class="far fa-eye"></i>
-                                    </button>
-                                </td>
-                            </tr>
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Pasajeros Nacionales</td>
+                                <td class="text-left tb-text">200</td>
+                                <td class="text-left tb-text">dd/mm/aaaa hh:mm</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
 
-                            
-                            <tr class="text-center table-body mt-2">
-                                <td class="text-left pl-3">Sin clave</td>
-                                <td class="text-left pl-3">PV Destinos</td>
-                                <td class="text-left pl-3">200</td>
-                                <td class="text-left pl-3">dd/mm/aaaa hh:mm</td>
-                                <td class="text-left pl-3">Mensual</td>
-                                <td class="text-center pl-3">Estatus</td>
-                                <td class="actions-container">
-                                    <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down"
-                                        onclick="location.href='{% url 'dashboard:fuente_info_perfil_visitante_destinos' %}'">
-                                        <i class="far fa-eye"></i>
-                                    </button>
-                                </td>
-                            </tr>
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                    </div>
 
-                                                        
-                            <tr class="text-center table-body mt-2">
-                                <td class="text-left pl-3">Sin clave</td>
-                                <td class="text-left pl-3">Directorio Hotelero</td>
-                                <td class="text-left pl-3">200</td>
-                                <td class="text-left pl-3">dd/mm/aaaa hh:mm</td>
-                                <td class="text-left pl-3">Mensual</td>
-                                <td class="text-center pl-3">Estatus</td>
-                                <td class="actions-container">
-                                    <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down"
-                                        onclick="location.href='{% url 'dashboard:fuente_info_directorio_hotelero' %}'">
-                                        <i class="far fa-eye"></i>
-                                    </button>
+
+
                                 </td>
+
+                                
+
+                                
+                                <td class="text-center" style="
+                                                position: relative;
+                                                background-color: #ECF0F1;
+                                                text-align: center;
+                                                height: 100%;">
+
+                                    <div style="
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_pasajeros_ent_nac' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
+                                </td>
+                  
                             </tr>
                         </tbody>
                     </table>
@@ -462,9 +1184,42 @@
     </div>
 
 </div>
+
+<script>
+
+
+    // Get the table element
+    var table = document.getElementById("dataTable");
+
+    // Get all the <td> elements in the table
+    var tds = table.getElementsByTagName("td");
+
+    // Find the tallest height among all the <td> elements
+    var maxHeight = 0;
+    for (var i = 0; i < tds.length; i++) {
+        var tdHeight = tds[i].offsetHeight;
+        if (tdHeight > maxHeight) {
+            maxHeight = tdHeight;
+        }
+    }
+
+    // Set the height of the .fill-height element in each <td>
+    for (var i = 0; i < tds.length; i++) {
+        var fillHeight = document.createElement("div");
+        fillHeight.classList.add("fill-height");
+        fillHeight.style.height = maxHeight + "px";
+        tds[i].appendChild(fillHeight);
+    }
+
+</script>
+
+
 {% endblock %}
 
 {% block footerjs %}
+
+
+
 
 <script src="{% static 'librerias/datatables-1.10.25/js/jquery.dataTables.js' %}"></script>
 <script src="{% static 'librerias/datatables-1.10.25/js/dataTables.bootstrap4.min.js' %}"></script>

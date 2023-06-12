@@ -38,6 +38,7 @@ from back.views.fuente_info_entorno_nacional.views import *
 from back.views.fuente_info_inventario_turistico.views import *
 from back.views.fuente_info_directorio_hotelero.views import *
 from back.views.fuente_info_perfil_visitante_destinos.views import *
+from back.views.fuente_info_pasajeros_ent_nac.views import *
 
 
 from django.conf import settings
@@ -231,8 +232,6 @@ urlpatterns = [
     path('fuente-informacion', FuentesInfoView.as_view(), name='fuente_informacion'),
     # Configuration list 
     path ('configuracion', ConfigurationView.as_view(), name='configuracion'),
-
-
     # utils
     #Typeahead Destinos
     path('typeahead/destinos', search_destinos, name='search_destinos'),
@@ -248,6 +247,14 @@ urlpatterns = [
 
     #Typeahead ID Destinos Aeropuerto
     path('typeahead/id-destinos-aeropuerto', search_id_destino_aeropuerto, name='search_id_destino_aeropuerto'),
+
+    #Typeahead ID  Aeropuertoa
+    path('typeahead/aeropuerto', search_aeropuerto, name='search_aeropuerto'),
+
+    #Typeahead entidad aeropuerto
+
+    path('typeahead/entidad-aeropuerto', search_entidad_aeropuerto, name='search_entidad_aeropuerto'),
+
 
     #catalago_categoria 
     path('catalago-categoria/list', CatalagoCategoriaListView.as_view(), name='catalago_categoria_list'),
@@ -292,6 +299,7 @@ urlpatterns = [
     path('proyectos-inversion/delete/<int:pk>/', ProyectoInversionDeleteView.as_view(), name='proyectos_inversion_delete'),
 
     #modlulos configuracion
+    
     #modlulo Configuracion DEstinos 
     path('configuracion-destinos/list', ModiuloConfigDestinos.as_view(), name='configuracion_destinos_list'),
     path('configuracion-destinos/add', ModiuloConfigDestinosCreateView.as_view(), name='configuracion_destinos_create'),
@@ -330,14 +338,18 @@ urlpatterns = [
     path('fuentes-info/perfil-visitante-destinos/edit/<int:pk>/', FuenteInfoPerfilVisitanteDestinosUpdate.as_view(), name='fuente_info_perfil_visitante_destinos_update'),
     path('fuentes-info/perfil-visitante-destinos/delete/<int:pk>/', FuenteInfoPerfilVisitanteDestinosDelete.as_view(), name='fuente_info_perfil_visitante_destinos_delete'),
 
-
-
     #fuetes info entorno nacional
     path('fuentes-info/entorno-nacional', FuenteInfoEntornoNacional.as_view(), name='fuente_info_entorno_nacional'),
     path('fuentes-info/entorno-nacional/add', FuenteInfoEntornoNacionalCreate.as_view(), name='fuente_info_entorno_nacional_create'),
     path('fuentes-info/entorno-nacional/edit/<int:pk>/', FuenteInfoEntornoNacionalUpdate.as_view(), name='fuente_info_entorno_nacional_update'),
     path('fuentes-info/entorno-nacional/delete/<int:pk>/', FuenteInfoEntornoNacionalDelete.as_view(), name='fuente_info_entorno_nacional_delete'),
 
+    #fuentes info pasajeros_ent_nac
+    path('fuentes-info/pasajeros-ent-nac', FuenteInfoPasajerosEntNacView.as_view(), name='fuente_info_pasajeros_ent_nac'),
+    path('fuentes-info/pasajeros-ent-nac/add', FuenteInfoPasajerosEntNacCreate.as_view(), name='fuente_info_pasajeros_ent_nac_create'),
+    path('fuentes-info/pasajeros-ent-nac/edit/<int:pk>/', FuenteInfoPasajerosEntNacUpdate.as_view(), name='fuente_info_pasajeros_ent_nac_update'),
+    path('fuentes-info/pasajeros-ent-nac/delete/<int:pk>/', FuenteInfoPasajerosEntNacDelete.as_view(), name='fuente_info_pasajeros_ent_nac_delete'),
+    #path('fuentes-info/pasajeros-ent-nac/carga-masiva', PasajerosEntNacCargaMasivaView.as_view(), name='fuente_info_pasajeros_ent_nac_carga_masiva'),
 
 
     #fuentes info aeropuertos

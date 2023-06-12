@@ -2,34 +2,65 @@ table {
     width: 100%;
 }
 
-.table-header {
-    background: #ECF0F1; height: 40px; color: #4A4A4A; font-size: 14px; font-family: 'Avenir-Medium';
+.table>:not(:last-child)>:last-child>* {
+    border-bottom-color: #ECF0F1;
+    font-family: avenir;
+    font-size: 14px;
+    color: #4A4A4A;
+
 }
 
-.actions {
-    width: 15%;
+.table th,
+.table td {
+    padding: 0.75rem;
+    vertical-align: top;
+    border-top: none;
 }
+
+.table-header {
+    background: #ECF0F1;
+    height: 40px;
+    color: #4A4A4A;
+    font-size: 14px;
+}
+
 
 .table-body {
-    border: solid 1px lightgray; color: #4A4A4A; height: 80px; font-size: 14px; font-family: 'Avenir-Medium';
+    border: 1px;
+    border-color: #ECF0F1;
+    border-style: solid;
+    border-radius: 5px;
+    background: #FFFFFF;
+    height: fit-content !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    
 }
 
-.actions-container {
-    background: #ECF0F1 !important; width: 20%;
-}
+
 
 .actions-btn {
-    border: none; height: 29px; width: 29px; color: #979797; background: #ECF0F1;
+    border: none;
+    color: #979797;
+    background: #ECF0F1;
+    width: 20px;
+    height: 20px;
+    padding: 0px !important;
+    margin: 0px !important;
+
 }
 
 .img-table {
-    width: 55px; height: 55px; border-radius: 100%;
+    width: 55px;
+    height: 55px;
+    border-radius: 100%;
     object-fit: cover;
     object-position: center top;
 }
 
 .hr-container {
-    padding-left: 0px; padding-right: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
 }
 
 .pagination-container {
@@ -37,7 +68,13 @@ table {
 }
 
 .providers-count {
-    position: absolute; top: 0; right: 0; color: #4A4A4A; font-family: Avenir-Medium; font-size: 14px; font-weight: 600;
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: #4A4A4A;
+    font-family: Avenir-Medium;
+    font-size: 14px;
+    font-weight: 600;
 }
 
 .tr-space {
@@ -45,5 +82,56 @@ table {
 }
 
 .hr-filter {
-    border-color:#5999E4;
+    border-color: #5999E4;
+}
+
+td {
+    position: relative; /* Enable positioning for child elements */
+  }
+  
+  td .fill-height {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: lightgreen;
+    z-index: -1; /* Place it behind the content */
+  }
+
+
+
+  .icon-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ECF0F1;
+  }
+  
+  .icon-container i {
+    margin: 0 5px; /* Adjust the margin as needed */
+    color: #6c6e7e;
+  }
+
+    .icon-container i:hover {
+        color: #5999E4;
+        cursor: pointer;
+    }
+
+.tb-text {
+    font-family: avenir-medium;
+    font-size: 14px;
+    font-weight: 500;
+    color: #4A4A4A;
+}
+
+div.dataTables_wrapper div.dataTables_length select {
+    width: auto;
+    display: inline-block;
 }

@@ -55,12 +55,13 @@ class FuenteInfoDirectorioHotelero (ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Listado  de Directorio Hotelero'
-        context['create_url'] = reverse_lazy(
-            'dashboard:fuente_info_directorio_hotelero_create')
+        context['create_url'] = reverse_lazy('dashboard:fuente_info_directorio_hotelero_create')
         context['entity'] = 'Fuentes de Informacion de DirectorioHotelero'
         context['is_fuente'] = True
-        context['carga_masiva_url'] = reverse_lazy(
-            'dashboard:fuente_info_directorio_hotelero_carga_masiva')
+        #urls
+        context['delete_url'] = reverse_lazy('dashboard:fuente_info_directorio_hotelero')
+        context['update_url'] =  reverse('dashboard:fuente_info_certificacion_delete')  # assuming 'e' is available in your context
+        context['carga_masiva_url'] = reverse_lazy('dashboard:fuente_info_directorio_hotelero_carga_masiva')
 
         return context
 
