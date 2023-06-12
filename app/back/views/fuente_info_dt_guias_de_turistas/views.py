@@ -688,12 +688,13 @@ class DirectorioGuiasDeTuristasDescargarArchivoView(View):
         workbook = openpyxl.Workbook()
         worksheet = workbook.active
 
-        # Obtener los nombres de los campos del modelo DirectorioGuiasDeTuristas
-        campos = [field.name for field in DirectorioGuiasDeTuristas._meta.get_fields()
-                  if field.name != 'id']
+        # Obtener los nombres y verbose_name de los campos del modelo DirectorioGuiasDeTuristas
+        fields = DirectorioGuiasDeTuristas._meta.get_fields()
+        column_labels = [field.verbose_name for field in fields if field.name != 'id']
+        column_names = [field.name for field in fields if field.name != 'id']
 
         # Escribir los encabezados de las columnas
-        for i, campo in enumerate(campos):
+        for i, campo in enumerate(column_labels):
             columna = i + 1
             worksheet.cell(row=1, column=columna, value=campo)
 
@@ -703,7 +704,7 @@ class DirectorioGuiasDeTuristasDescargarArchivoView(View):
         # Escribir los valores en las celdas correspondientes
         fila = 2
         for registro in datos:
-            for i, campo in enumerate(campos):
+            for i, campo in enumerate(column_names):
                 if campo != 'id':  # Omitir la clave 'id'
                     columna = i + 1
                     valor = registro[campo]
