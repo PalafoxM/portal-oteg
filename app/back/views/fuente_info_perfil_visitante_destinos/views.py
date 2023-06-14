@@ -372,132 +372,132 @@ class PerfilVisitanteDestinosCargaMasivaView(View):
                 fecha_obj = datetime.strptime(fecha_str, '%Y-%m-%d').date() if fecha_str else ''
 
                 # Limpieza de datos
-                destino = clean_str_col(row[1].value)
+                destino = clean_str_col(row[5].value)
 
                 # Homologación de datos
                 destino = homologar_columna_destino(destino)
                 
-                ano = row[0].value
-                folio = row[3].value
-                acompanantes = row[4].value
-                acompanantes_maxmin = row[5].value
-                codigo_encuesta_ano = row[6].value
-                edad = row[7].value
-                estado = row[8].value
-                estadia_dias = row[9].value
-                estadia_hrs = row[10].value
-                herramienta = row[11].value
-                identifico_practicas_sust = row[12].value
-                impacto_noticias = row[13].value
-                medio_transporte_edo = row[14].value
-                motivo_visita = row[15].value
-                motivo_visita_otro = row[16].value
-                municipio = row[17].value
-                nps_atractivos = row[18].value
-                nps_ayb = row[19].value
-                nps_destino = row[20].value
-                nps_destino_categoria = row[21].value
-                nps_hotel = row[22].value
-                nps_tours = row[23].value
-                nse = row[24].value
-                origen = row[25].value
-                pais = row[26].value
-                proposito_visita_destino_estado = row[27].value
-                recomendacion_destino = row[28].value
-                residencia = row[29].value
-                retorno_destino = row[30].value
-                sat_accesibilidad = row[31].value
-                sat_aeropuerto = row[32].value
-                sat_atractivos = row[33].value
-                sat_carretera = row[34].value
-                sat_ayb = row[35].value
-                sat_central = row[2].value
-                sat_estacionamiento = row[36].value
-                sat_eventos = row[37].value
-                sat_experiencia = row[38].value
-                sat_hospitalidad = row[39].value
-                sat_hospedaje = row[40].value
-                sat_infotur = row[41].value
-                sat_limpieza = row[42].value
-                sat_precios = row[43].value
-                sat_protocolos = row[44].value
-                sat_seguridad = row[45].value
-                sat_senaletica = row[46].value
-                sat_tours = row[47].value
-                sat_transporte = row[48].value
-                sexo = row[49].value
-                segmento = row[50].value
-                temporada = row[51].value
-                tipo_asistente = row[52].value
-                tipo_hospedaje = row[53].value
-                tipo_visitante = row[54].value
-                tiene_fam = row[55].value
-                vio_escucho_noticias = row[56].value
-                visita_fam = row[57].value
+                ano=row[0].value
+                folio=row[1].value
+                herramienta=row[2].value
+                temporada=row[4].value
+                residencia=row[6].value
+                tipo_asistente=row[7].value
+                municipio=row[8].value
+                estado=row[9].value
+                pais=row[10].value
+                origen=row[11].value
+                motivo_visita=row[12].value
+                motivo_visita_otro=row[13].value
+                segmento=row[14].value
+                tipo_hospedaje=row[15].value
+                tipo_visitante=row[16].value
+                estadia_dias=row[17].value
+                estadia_hrs=row[18].value
+                acompanantes=row[19].value
+                acompanantes_maxmin=row[20].value
+                medio_transporte_edo=row[21].value
+                tiene_fam=row[22].value
+                visita_fam=row[23].value
+                sat_hospedaje=row[24].value
+                sat_ayb=row[25].value
+                sat_atractivos=row[26].value
+                sat_tours=row[27].value
+                sat_central=row[28].value
+                sat_aeropuerto=row[29].value
+                sat_carretera=row[30].value
+                sat_infotur=row[31].value
+                sat_estacionamiento=row[32].value
+                sat_hospitalidad=row[33].value
+                sat_seguridad=row[34].value
+                sat_experiencia=row[35].value
+                sat_accesibilidad=row[36].value
+                sat_senaletica=row[37].value
+                sat_transporte=row[38].value
+                sat_limpieza=row[39].value
+                sat_eventos=row[40].value
+                sat_protocolos=row[41].value
+                sat_precios=row[42].value
+                recomendacion_destino=row[43].value
+                retorno_destino=row[44].value
+                nps_destino=row[45].value
+                nps_destino_categoria=row[46].value
+                nps_hotel=row[47].value
+                nps_ayb=row[48].value
+                nps_atractivos=row[49].value
+                nps_tours=row[50].value
+                vio_escucho_noticias=row[51].value
+                impacto_noticias=row[52].value
+                identifico_practicas_sust=row[53].value
+                edad=row[54].value
+                nse=row[55].value
+                sexo=row[56].value
+                proposito_visita_destino_estado=row[57].value
+                codigo_encuesta_ano=row[58].value
 
 
 
                 datos = {
                     'ano': ano,
-                    'destino': destino,
-                    'fecha': fecha_str,
                     'folio': folio,
-                    'acompanantes': acompanantes,
-                    'acompanantes_maxmin': acompanantes_maxmin,
-                    'codigo_encuesta_ano': codigo_encuesta_ano,
-                    'edad': edad,
-                    'estado': estado,
-                    'estadia_dias': estadia_dias,
-                    'estadia_hrs': estadia_hrs,
                     'herramienta': herramienta,
-                    'identifico_practicas_sust': identifico_practicas_sust,
-                    'impacto_noticias': impacto_noticias,
-                    'medio_transporte_edo': medio_transporte_edo,
+                    'fecha': fecha_str,
+                    'temporada': temporada,
+                    'destino': destino,
+                    'residencia': residencia,
+                    'tipo_asistente': tipo_asistente,
+                    'municipio': municipio,
+                    'estado': estado,
+                    'pais': pais,
+                    'origen': origen,
                     'motivo_visita': motivo_visita,
                     'motivo_visita_otro': motivo_visita_otro,
-                    'municipio': municipio,
-                    'nps_atractivos': nps_atractivos,
-                    'nps_ayb': nps_ayb,
+                    'segmento': segmento,
+                    'tipo_hospedaje': tipo_hospedaje,
+                    'tipo_visitante': tipo_visitante,
+                    'estadia_dias': estadia_dias,
+                    'estadia_hrs': estadia_hrs,
+                    'acompanantes': acompanantes,
+                    'acompanantes_maxmin': acompanantes_maxmin,
+                    'medio_transporte_edo': medio_transporte_edo,
+                    'tiene_fam': tiene_fam,
+                    'visita_fam': visita_fam,
+                    'sat_hospedaje': sat_hospedaje,
+                    'sat_ayb': sat_ayb,
+                    'sat_atractivos': sat_atractivos,
+                    'sat_tours': sat_tours,
+                    'sat_central': sat_central,
+                    'sat_aeropuerto': sat_aeropuerto,
+                    'sat_carretera': sat_carretera,
+                    'sat_infotur': sat_infotur,
+                    'sat_estacionamiento': sat_estacionamiento,
+                    'sat_hospitalidad': sat_hospitalidad,
+                    'sat_seguridad': sat_seguridad,
+                    'sat_experiencia': sat_experiencia,
+                    'sat_accesibilidad': sat_accesibilidad,
+                    'sat_senaletica': sat_senaletica,
+                    'sat_transporte': sat_transporte,
+                    'sat_limpieza': sat_limpieza,
+                    'sat_eventos': sat_eventos,
+                    'sat_protocolos': sat_protocolos,
+                    'sat_precios': sat_precios,
+                    'recomendacion_destino': recomendacion_destino,
+                    'retorno_destino': retorno_destino,
                     'nps_destino': nps_destino,
                     'nps_destino_categoria': nps_destino_categoria,
                     'nps_hotel': nps_hotel,
+                    'nps_ayb': nps_ayb,
+                    'nps_atractivos': nps_atractivos,
                     'nps_tours': nps_tours,
+                    'vio_escucho_noticias': vio_escucho_noticias,
+                    'impacto_noticias': impacto_noticias,
+                    'identifico_practicas_sust': identifico_practicas_sust,
+                    'edad': edad,
                     'nse': nse,
-                    'origen': origen,
-                    'pais': pais,
+                    'sexo': sexo,
                     'proposito_visita_destino_estado': proposito_visita_destino_estado,
-                    'recomendacion_destino': recomendacion_destino,
-                    'residencia': residencia,
-                    'retorno_destino': retorno_destino,
-                    'sat_accesibilidad': sat_accesibilidad,
-                    'sat_aeropuerto': sat_aeropuerto,
-                    'sat_atractivos': sat_atractivos,
-                    'sat_carretera': sat_carretera,
-                    'sat_ayb': sat_ayb,
-                    'sat_central': sat_central,
-                    'sat_estacionamiento': sat_estacionamiento,
-                        'sat_eventos': sat_eventos,
-                        'sat_experiencia': sat_experiencia,
-                        'sat_hospitalidad': sat_hospitalidad,
-                        'sat_hospedaje': sat_hospedaje,
-                        'sat_infotur': sat_infotur,
-                        'sat_limpieza': sat_limpieza,
-                        'sat_precios': sat_precios,
-                        'sat_protocolos': sat_protocolos,
-                        'sat_seguridad': sat_seguridad,
-                        'sat_senaletica': sat_senaletica,
-                        'sat_tours': sat_tours,
-                        'sat_transporte': sat_transporte,
-                        'sexo': sexo,
-                        'segmento': segmento,
-                        'temporada': temporada,
-                        'tipo_asistente': tipo_asistente,
-                        'tipo_hospedaje': tipo_hospedaje,
-                        'tipo_visitante': tipo_visitante,
-                        'tiene_fam': tiene_fam,
-                        'vio_escucho_noticias': vio_escucho_noticias,
-                        'visita_fam': visita_fam
-                    }
+                    'codigo_encuesta_ano': codigo_encuesta_ano
+                }
 
 
                 try:
@@ -520,64 +520,64 @@ class PerfilVisitanteDestinosCargaMasivaView(View):
                         # Si no existe, se guarda la nueva instancia del modelo en la base de datos y se guarda en la lista de registros correctos
                         db = FuenteInfoPerfilVisitanteDestino(
                             ano=ano,
-                            destino=destino,
-                            fecha=fecha_obj,
                             folio=folio,
-                            acompanantes=acompanantes,
-                            acompanantes_maxmin=acompanantes_maxmin,
-                            codigo_encuesta_ano=codigo_encuesta_ano,
-                            edad=edad,
-                            estado=estado,
-                            estadia_dias=estadia_dias,
-                            estadia_hrs=estadia_hrs,
                             herramienta=herramienta,
-                            identifico_practicas_sust=identifico_practicas_sust,
-                            impacto_noticias=impacto_noticias,
-                            medio_transporte_edo=medio_transporte_edo,
+                            fecha=fecha,
+                            temporada=temporada,
+                            destino=destino,
+                            residencia=residencia,
+                            tipo_asistente=tipo_asistente,
+                            municipio=municipio,
+                            estado=estado,
+                            pais=pais,
+                            origen=origen,
                             motivo_visita=motivo_visita,
                             motivo_visita_otro=motivo_visita_otro,
-                            municipio=municipio,
-                            nps_atractivos=nps_atractivos,
-                            nps_ayb=nps_ayb,
+                            segmento=segmento,
+                            tipo_hospedaje=tipo_hospedaje,
+                            tipo_visitante=tipo_visitante,
+                            estadia_dias=estadia_dias,
+                            estadia_hrs=estadia_hrs,
+                            acompanantes=acompanantes,
+                            acompanantes_maxmin=acompanantes_maxmin,
+                            medio_transporte_edo=medio_transporte_edo,
+                            tiene_fam=tiene_fam,
+                            visita_fam=visita_fam,
+                            sat_hospedaje=sat_hospedaje,
+                            sat_ayb=sat_ayb,
+                            sat_atractivos=sat_atractivos,
+                            sat_tours=sat_tours,
+                            sat_central=sat_central,
+                            sat_aeropuerto=sat_aeropuerto,
+                            sat_carretera=sat_carretera,
+                            sat_infotur=sat_infotur,
+                            sat_estacionamiento=sat_estacionamiento,
+                            sat_hospitalidad=sat_hospitalidad,
+                            sat_seguridad=sat_seguridad,
+                            sat_experiencia=sat_experiencia,
+                            sat_accesibilidad=sat_accesibilidad,
+                            sat_senaletica=sat_senaletica,
+                            sat_transporte=sat_transporte,
+                            sat_limpieza=sat_limpieza,
+                            sat_eventos=sat_eventos,
+                            sat_protocolos=sat_protocolos,
+                            sat_precios=sat_precios,
+                            recomendacion_destino=recomendacion_destino,
+                            retorno_destino=retorno_destino,
                             nps_destino=nps_destino,
                             nps_destino_categoria=nps_destino_categoria,
                             nps_hotel=nps_hotel,
+                            nps_ayb=nps_ayb,
+                            nps_atractivos=nps_atractivos,
                             nps_tours=nps_tours,
-                            nse=nse,
-                            origen=origen,
-                            pais=pais,
-                            proposito_visita_destino_estado=proposito_visita_destino_estado,
-                            recomendacion_destino=recomendacion_destino,
-                            residencia=residencia,
-                            retorno_destino=retorno_destino,
-                            sat_accesibilidad=sat_accesibilidad,
-                            sat_aeropuerto=sat_aeropuerto,
-                            sat_atractivos=sat_atractivos,
-                            sat_carretera=sat_carretera,
-                            sat_ayb=sat_ayb,
-                            sat_central=sat_central,
-                            sat_estacionamiento=sat_estacionamiento,
-                            sat_eventos=sat_eventos,
-                            sat_experiencia=sat_experiencia,
-                            sat_hospitalidad=sat_hospitalidad,
-                            sat_hospedaje=sat_hospedaje,
-                            sat_infotur=sat_infotur,
-                            sat_limpieza=sat_limpieza,
-                            sat_precios=sat_precios,
-                            sat_protocolos=sat_protocolos,
-                            sat_seguridad=sat_seguridad,
-                            sat_senaletica=sat_senaletica,
-                            sat_tours=sat_tours,
-                            sat_transporte=sat_transporte,
-                            sexo=sexo,
-                            segmento=segmento,
-                            temporada=temporada,
-                            tipo_asistente=tipo_asistente,
-                            tipo_hospedaje=tipo_hospedaje,
-                            tipo_visitante=tipo_visitante,
-                            tiene_fam=tiene_fam,
                             vio_escucho_noticias=vio_escucho_noticias,
-                            visita_fam=visita_fam,
+                            impacto_noticias=impacto_noticias,
+                            identifico_practicas_sust=identifico_practicas_sust,
+                            edad=edad,
+                            nse=nse,
+                            sexo=sexo,
+                            proposito_visita_destino_estado=proposito_visita_destino_estado,
+                            codigo_encuesta_ano=codigo_encuesta_ano,
                         )
                         db.save()
                         registros_correctos.append(datos)
@@ -611,129 +611,127 @@ class PerfilVisitanteDestinosCargaMasivaView(View):
                 # Homologación de datos
                 destino = homologar_columna_destino(destino)
 
-                ano = row['ano']
-                # destino = row['destino']
-                # fecha = row['fecha']
-                folio = row['folio']
-                acompanantes = row['acompanantes']
-                acompanantes_maxmin = row['acompanantes_maxmin']
-                codigo_encuesta_ano = row['codigo_encuesta_ano']
-                edad = row['edad']
-                estado = row['estado']
-                estadia_dias = row['estadia_dias']
-                estadia_hrs = row['estadia_hrs']
-                herramienta = row['herramienta']
-                identifico_practicas_sust = row['identifico_practicas_sust']
-                impacto_noticias = row['impacto_noticias']
-                medio_transporte_edo = row['medio_transporte_edo']
-                motivo_visita = row['motivo_visita']
-                motivo_visita_otro = row['motivo_visita_otro']
-                municipio = row['municipio']
-                nps_atractivos = row['nps_atractivos']
-                nps_ayb = row['nps_ayb']
-                nps_destino = row['nps_destino']
-                nps_destino_categoria = row['nps_destino_categoria']
-                nps_hotel = row['nps_hotel']
-                nps_tours = row['nps_tours']
-                nse = row['nse']
-                origen = row['origen']
-                pais = row['pais']
-                proposito_visita_destino_estado = row['proposito_visita_destino_estado']
-                recomendacion_destino = row['recomendacion_destino']
-                residencia = row['residencia']
-                retorno_destino = row['retorno_destino']
-                sat_accesibilidad = row['sat_accesibilidad']
-                sat_aeropuerto = row['sat_aeropuerto']
-                sat_atractivos = row['sat_atractivos']
-                sat_carretera = row['sat_carretera']
-                sat_ayb = row['sat_ayb']
-                sat_central = row['sat_central']
-                sat_estacionamiento = row['sat_estacionamiento']
-                sat_eventos = row['sat_eventos']
-                sat_experiencia = row['sat_experiencia']
-                sat_hospitalidad = row['sat_hospitalidad']
-                sat_hospedaje = row['sat_hospedaje']
-                sat_infotur = row['sat_infotur']
-                sat_limpieza = row['sat_limpieza']
-                sat_precios = row['sat_precios']
-                sat_protocolos = row['sat_protocolos']
-                sat_seguridad = row['sat_seguridad']
-                sat_senaletica = row['sat_senaletica']
-                sat_tours = row['sat_tours']
-                sat_transporte = row['sat_transporte']
-                sexo = row['sexo']
-                segmento = row['segmento']
-                temporada = row['temporada']
-                tipo_asistente = row['tipo_asistente']
-                tipo_hospedaje = row['tipo_hospedaje']
-                tipo_visitante = row['tipo_visitante']
-                tiene_fam = row['tiene_fam']
-                vio_escucho_noticias = row['vio_escucho_noticias']
-                visita_fam = row['visita_fam']
+                ano=row['ano'],
+                folio=row['folio'],
+                herramienta=row['herramienta'],
+                temporada=row['temporada'],
+                residencia=row['residencia'],
+                tipo_asistente=row['tipo_asistente'],
+                municipio=row['municipio'],
+                estado=row['estado'],
+                pais=row['pais'],
+                origen=row['origen'],
+                motivo_visita=row['motivo_visita'],
+                motivo_visita_otro=row['motivo_visita_otro'],
+                segmento=row['segmento'],
+                tipo_hospedaje=row['tipo_hospedaje'],
+                tipo_visitante=row['tipo_visitante'],
+                estadia_dias=row['estadia_dias'],
+                estadia_hrs=row['estadia_hrs'],
+                acompanantes=row['acompanantes'],
+                acompanantes_maxmin=row['acompanantes_maxmin'],
+                medio_transporte_edo=row['medio_transporte_edo'],
+                tiene_fam=row['tiene_fam'],
+                visita_fam=row['visita_fam'],
+                sat_hospedaje=row['sat_hospedaje'],
+                sat_ayb=row['sat_ayb'],
+                sat_atractivos=row['sat_atractivos'],
+                sat_tours=row['sat_tours'],
+                sat_central=row['sat_central'],
+                sat_aeropuerto=row['sat_aeropuerto'],
+                sat_carretera=row['sat_carretera'],
+                sat_infotur=row['sat_infotur'],
+                sat_estacionamiento=row['sat_estacionamiento'],
+                sat_hospitalidad=row['sat_hospitalidad'],
+                sat_seguridad=row['sat_seguridad'],
+                sat_experiencia=row['sat_experiencia'],
+                sat_accesibilidad=row['sat_accesibilidad'],
+                sat_senaletica=row['sat_senaletica'],
+                sat_transporte=row['sat_transporte'],
+                sat_limpieza=row['sat_limpieza'],
+                sat_eventos=row['sat_eventos'],
+                sat_protocolos=row['sat_protocolos'],
+                sat_precios=row['sat_precios'],
+                recomendacion_destino=row['recomendacion_destino'],
+                retorno_destino=row['retorno_destino'],
+                nps_destino=row['nps_destino'],
+                nps_destino_categoria=row['nps_destino_categoria'],
+                nps_hotel=row['nps_hotel'],
+                nps_ayb=row['nps_ayb'],
+                nps_atractivos=row['nps_atractivos'],
+                nps_tours=row['nps_tours'],
+                vio_escucho_noticias=row['vio_escucho_noticias'],
+                impacto_noticias=row['impacto_noticias'],
+                identifico_practicas_sust=row['identifico_practicas_sust'],
+                edad=row['edad'],
+                nse=row['nse'],
+                sexo=row['sexo'],
+                proposito_visita_destino_estado=row['proposito_visita_destino_estado'],
+                codigo_encuesta_ano=row['codigo_encuesta_ano'],
 
 
 
                 datos = {
                     'ano': ano,
-                    'destino': destino,
-                    'fecha': fecha,
                     'folio': folio,
-                    'acompanantes': acompanantes,
-                    'acompanantes_maxmin': acompanantes_maxmin,
-                    'codigo_encuesta_ano': codigo_encuesta_ano,
-                    'edad': edad,
-                    'estado': estado,
-                    'estadia_dias': estadia_dias,
-                    'estadia_hrs': estadia_hrs,
                     'herramienta': herramienta,
-                    'identifico_practicas_sust': identifico_practicas_sust,
-                    'impacto_noticias': impacto_noticias,
-                    'medio_transporte_edo': medio_transporte_edo,
+                    'fecha': fecha,
+                    'temporada': temporada,
+                    'destino': destino,
+                    'residencia': residencia,
+                    'tipo_asistente': tipo_asistente,
+                    'municipio': municipio,
+                    'estado': estado,
+                    'pais': pais,
+                    'origen': origen,
                     'motivo_visita': motivo_visita,
                     'motivo_visita_otro': motivo_visita_otro,
-                    'municipio': municipio,
-                    'nps_atractivos': nps_atractivos,
-                    'nps_ayb': nps_ayb,
+                    'segmento': segmento,
+                    'tipo_hospedaje': tipo_hospedaje,
+                    'tipo_visitante': tipo_visitante,
+                    'estadia_dias': estadia_dias,
+                    'estadia_hrs': estadia_hrs,
+                    'acompanantes': acompanantes,
+                    'acompanantes_maxmin': acompanantes_maxmin,
+                    'medio_transporte_edo': medio_transporte_edo,
+                    'tiene_fam': tiene_fam,
+                    'visita_fam': visita_fam,
+                    'sat_hospedaje': sat_hospedaje,
+                    'sat_ayb': sat_ayb,
+                    'sat_atractivos': sat_atractivos,
+                    'sat_tours': sat_tours,
+                    'sat_central': sat_central,
+                    'sat_aeropuerto': sat_aeropuerto,
+                    'sat_carretera': sat_carretera,
+                    'sat_infotur': sat_infotur,
+                    'sat_estacionamiento': sat_estacionamiento,
+                    'sat_hospitalidad': sat_hospitalidad,
+                    'sat_seguridad': sat_seguridad,
+                    'sat_experiencia': sat_experiencia,
+                    'sat_accesibilidad': sat_accesibilidad,
+                    'sat_senaletica': sat_senaletica,
+                    'sat_transporte': sat_transporte,
+                    'sat_limpieza': sat_limpieza,
+                    'sat_eventos': sat_eventos,
+                    'sat_protocolos': sat_protocolos,
+                    'sat_precios': sat_precios,
+                    'recomendacion_destino': recomendacion_destino,
+                    'retorno_destino': retorno_destino,
                     'nps_destino': nps_destino,
                     'nps_destino_categoria': nps_destino_categoria,
                     'nps_hotel': nps_hotel,
+                    'nps_ayb': nps_ayb,
+                    'nps_atractivos': nps_atractivos,
                     'nps_tours': nps_tours,
+                    'vio_escucho_noticias': vio_escucho_noticias,
+                    'impacto_noticias': impacto_noticias,
+                    'identifico_practicas_sust': identifico_practicas_sust,
+                    'edad': edad,
                     'nse': nse,
-                    'origen': origen,
-                    'pais': pais,
+                    'sexo': sexo,
                     'proposito_visita_destino_estado': proposito_visita_destino_estado,
-                    'recomendacion_destino': recomendacion_destino,
-                    'residencia': residencia,
-                    'retorno_destino': retorno_destino,
-                    'sat_accesibilidad': sat_accesibilidad,
-                    'sat_aeropuerto': sat_aeropuerto,
-                    'sat_atractivos': sat_atractivos,
-                    'sat_carretera': sat_carretera,
-                    'sat_ayb': sat_ayb,
-                    'sat_central': sat_central,
-                    'sat_estacionamiento': sat_estacionamiento,
-                        'sat_eventos': sat_eventos,
-                        'sat_experiencia': sat_experiencia,
-                        'sat_hospitalidad': sat_hospitalidad,
-                        'sat_hospedaje': sat_hospedaje,
-                        'sat_infotur': sat_infotur,
-                        'sat_limpieza': sat_limpieza,
-                        'sat_precios': sat_precios,
-                        'sat_protocolos': sat_protocolos,
-                        'sat_seguridad': sat_seguridad,
-                        'sat_senaletica': sat_senaletica,
-                        'sat_tours': sat_tours,
-                        'sat_transporte': sat_transporte,
-                        'sexo': sexo,
-                        'segmento': segmento,
-                        'temporada': temporada,
-                        'tipo_asistente': tipo_asistente,
-                        'tipo_hospedaje': tipo_hospedaje,
-                        'tipo_visitante': tipo_visitante,
-                        'tiene_fam': tiene_fam,
-                        'vio_escucho_noticias': vio_escucho_noticias,
-                        'visita_fam': visita_fam
-                    }
+                    'codigo_encuesta_ano': codigo_encuesta_ano
+                }
 
 
                 try:
@@ -756,64 +754,64 @@ class PerfilVisitanteDestinosCargaMasivaView(View):
                         # Si no existe, se guarda la nueva instancia del modelo en la base de datos y se guarda en la lista de registros correctos
                         db = FuenteInfoPerfilVisitanteDestino(
                             ano=ano,
-                            destino=destino,
-                            fecha=fecha,
                             folio=folio,
-                            acompanantes=acompanantes,
-                            acompanantes_maxmin=acompanantes_maxmin,
-                            codigo_encuesta_ano=codigo_encuesta_ano,
-                            edad=edad,
-                            estado=estado,
-                            estadia_dias=estadia_dias,
-                            estadia_hrs=estadia_hrs,
                             herramienta=herramienta,
-                            identifico_practicas_sust=identifico_practicas_sust,
-                            impacto_noticias=impacto_noticias,
-                            medio_transporte_edo=medio_transporte_edo,
+                            fecha=fecha,
+                            temporada=temporada,
+                            destino=destino,
+                            residencia=residencia,
+                            tipo_asistente=tipo_asistente,
+                            municipio=municipio,
+                            estado=estado,
+                            pais=pais,
+                            origen=origen,
                             motivo_visita=motivo_visita,
                             motivo_visita_otro=motivo_visita_otro,
-                            municipio=municipio,
-                            nps_atractivos=nps_atractivos,
-                            nps_ayb=nps_ayb,
+                            segmento=segmento,
+                            tipo_hospedaje=tipo_hospedaje,
+                            tipo_visitante=tipo_visitante,
+                            estadia_dias=estadia_dias,
+                            estadia_hrs=estadia_hrs,
+                            acompanantes=acompanantes,
+                            acompanantes_maxmin=acompanantes_maxmin,
+                            medio_transporte_edo=medio_transporte_edo,
+                            tiene_fam=tiene_fam,
+                            visita_fam=visita_fam,
+                            sat_hospedaje=sat_hospedaje,
+                            sat_ayb=sat_ayb,
+                            sat_atractivos=sat_atractivos,
+                            sat_tours=sat_tours,
+                            sat_central=sat_central,
+                            sat_aeropuerto=sat_aeropuerto,
+                            sat_carretera=sat_carretera,
+                            sat_infotur=sat_infotur,
+                            sat_estacionamiento=sat_estacionamiento,
+                            sat_hospitalidad=sat_hospitalidad,
+                            sat_seguridad=sat_seguridad,
+                            sat_experiencia=sat_experiencia,
+                            sat_accesibilidad=sat_accesibilidad,
+                            sat_senaletica=sat_senaletica,
+                            sat_transporte=sat_transporte,
+                            sat_limpieza=sat_limpieza,
+                            sat_eventos=sat_eventos,
+                            sat_protocolos=sat_protocolos,
+                            sat_precios=sat_precios,
+                            recomendacion_destino=recomendacion_destino,
+                            retorno_destino=retorno_destino,
                             nps_destino=nps_destino,
                             nps_destino_categoria=nps_destino_categoria,
                             nps_hotel=nps_hotel,
+                            nps_ayb=nps_ayb,
+                            nps_atractivos=nps_atractivos,
                             nps_tours=nps_tours,
-                            nse=nse,
-                            origen=origen,
-                            pais=pais,
-                            proposito_visita_destino_estado=proposito_visita_destino_estado,
-                            recomendacion_destino=recomendacion_destino,
-                            residencia=residencia,
-                            retorno_destino=retorno_destino,
-                            sat_accesibilidad=sat_accesibilidad,
-                            sat_aeropuerto=sat_aeropuerto,
-                            sat_atractivos=sat_atractivos,
-                            sat_carretera=sat_carretera,
-                            sat_ayb=sat_ayb,
-                            sat_central=sat_central,
-                            sat_estacionamiento=sat_estacionamiento,
-                            sat_eventos=sat_eventos,
-                            sat_experiencia=sat_experiencia,
-                            sat_hospitalidad=sat_hospitalidad,
-                            sat_hospedaje=sat_hospedaje,
-                            sat_infotur=sat_infotur,
-                            sat_limpieza=sat_limpieza,
-                            sat_precios=sat_precios,
-                            sat_protocolos=sat_protocolos,
-                            sat_seguridad=sat_seguridad,
-                            sat_senaletica=sat_senaletica,
-                            sat_tours=sat_tours,
-                            sat_transporte=sat_transporte,
-                            sexo=sexo,
-                            segmento=segmento,
-                            temporada=temporada,
-                            tipo_asistente=tipo_asistente,
-                            tipo_hospedaje=tipo_hospedaje,
-                            tipo_visitante=tipo_visitante,
-                            tiene_fam=tiene_fam,
                             vio_escucho_noticias=vio_escucho_noticias,
-                            visita_fam=visita_fam,
+                            impacto_noticias=impacto_noticias,
+                            identifico_practicas_sust=identifico_practicas_sust,
+                            edad=edad,
+                            nse=nse,
+                            sexo=sexo,
+                            proposito_visita_destino_estado=proposito_visita_destino_estado,
+                            codigo_encuesta_ano=codigo_encuesta_ano,
                         )
                         db.save()
                         registros_correctos.append(datos)
@@ -833,21 +831,23 @@ class PerfilVisitanteDestinosDescargarArchivoView(View):
         workbook = openpyxl.Workbook()
         worksheet = workbook.active
 
-        # Obtener los nombres de los campos del modelo DirectorioHotelero
-        campos = [field.name for field in DirectorioHotelero._meta.get_fields() if field.name != 'id']
+        # Obtener los nombres y verbose_name de los campos del modelo FuenteInfoPerfilVisitanteDestino
+        fields = FuenteInfoPerfilVisitanteDestino._meta.get_fields()
+        column_labels = [field.verbose_name for field in fields if field.name != 'id']
+        column_names = [field.name for field in fields if field.name != 'id']
 
         # Escribir los encabezados de las columnas
-        for i, campo in enumerate(campos):
+        for i, campo in enumerate(column_labels):
             columna = i + 1
             worksheet.cell(row=1, column=columna, value=campo)
 
-        # Obtener los datos del modelo DirectorioHotelero
+        # Obtener los datos del modelo FuenteInfoPerfilVisitanteDestino
         datos = registros_incorrectos
 
         # Escribir los valores en las celdas correspondientes
         fila = 2
         for registro in datos:
-            for i, campo in enumerate(campos):
+            for i, campo in enumerate(column_names):
                 if campo != 'id':  # Omitir la clave 'id'
                     columna = i + 1
                     valor = registro[campo]
