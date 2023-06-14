@@ -364,6 +364,8 @@ urlpatterns = [
     path('fuentes-info/entorno-nacional/add', FuenteInfoEntornoNacionalCreate.as_view(), name='fuente_info_entorno_nacional_create'),
     path('fuentes-info/entorno-nacional/edit/<int:pk>/', FuenteInfoEntornoNacionalUpdate.as_view(), name='fuente_info_entorno_nacional_update'),
     path('fuentes-info/entorno-nacional/delete/<int:pk>/', FuenteInfoEntornoNacionalDelete.as_view(), name='fuente_info_entorno_nacional_delete'),
+    path('fuentes-info/entorno-nacional/carga-masiva', EntornoNacionalCargaMasivaView.as_view(), name='fuente_info_entorno_nacional_carga_masiva'),
+    path('fuentes-info/entorno-nacional/descargar-archivo', EntornoNacionalDescargarArchivoView.as_view(), name='fuente_info_entorno_nacional_descargar_archivo'),
 
     #fuentes info pasajeros_ent_nac
     path('fuentes-info/pasajeros-ent-nac', FuenteInfoPasajerosEntNacView.as_view(), name='fuente_info_pasajeros_ent_nac'),
