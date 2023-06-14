@@ -26,7 +26,7 @@
     let registros = {{ descargar_url|safe }};
     console.log("registro: r",registros)
 
-    axios.post('{% url 'dashboard:fuente_info_pasajeros_ent_nac_descargar_archivo' %}', JSON.stringify(registros), {
+    axios.post('{% url 'dashboard:fuente_info_entorno_nacional_descargar_archivo' %}', JSON.stringify(registros), {
       headers: {
         'X-CSRFToken': csrftoken,
         'Content-Type': 'application/json',
@@ -37,7 +37,7 @@
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement('a');
       link.href = url;
-      link.setAttribute('download', 'pasajeros_ent_nac_registros_incorrectos.xlsx');
+      link.setAttribute('download', 'entorno_nacional_registros_incorrectos.xlsx');
       document.body.appendChild(link);
       link.click();
     }).catch((error) => {
@@ -53,7 +53,7 @@
     {% csrf_token %}
     {{ form.as_p }}
     <button class="btn btn-primary" type="submit">Cargar archivo</button>
-    <a href="{% url 'dashboard:fuente_info_pasajeros_ent_nac' %}" class="btn btn-outline-danger">Cancelar</a>
+    <a href="{% url 'dashboard:fuente_info_entorno_nacional' %}" class="btn btn-outline-danger">Cancelar</a>
 </form>
 </div>
 

@@ -202,6 +202,8 @@ urlpatterns = [
     path('fuentes_info/airbnb/add', FuenteInfoAirbnbCreate.as_view(), name='fuente_info_airbnb_create'),
     path('fuentes_info/airbnb/edit/<int:pk>/', FuenteInfoAirbnbUpdate.as_view(), name='fuente_info_airbnb_update'),
     path('fuentes_info/airbnb/delete/<int:pk>/', FuenteInfoAirbnbDelete.as_view(), name='fuente_info_airbnb_delete'),
+    path('fuentes_info/airbnb/carga-masiva', AirbnbCargaMasivaView.as_view(), name='fuente_info_airbnb_carga_masiva'),
+    path('fuentes_info/airbnb/descargar-archivo', AirbnbDescargarArchivoView.as_view(), name='fuente_info_airbnb_descargar_archivo'),
 
 
     
@@ -338,6 +340,8 @@ urlpatterns = [
     path('fuentes-info/origen/add', FuenteInfoParticipacionOrigenCreate.as_view(), name='fuente_info_origen_create'),
     path('fuentes-info/origen/edit/<int:pk>/', FuenteInfoParticipacionOrigenUpdate.as_view(), name='fuente_info_origen_update'),
     path('fuentes-info/origen/delete/<int:pk>/', FuenteInfoParticipacionOrigenDelete.as_view(), name='fuente_info_origen_delete'),
+    path('fuentes-info/origen/carga-masiva', OrigenCargaMasivaView.as_view(), name='fuente_info_origen_carga_masiva'),
+    path('fuentes-info/origen/descargar-archivo', OrigenDescargarArchivoView.as_view(), name='fuente_info_origen_descargar_archivo'),
     
     #fuetes info perfil visitante eventos
     path('fuentes-info/perfil-visitante-eventos', FuenteInfoPerfilVisitanteEventos.as_view(), name='fuente_info_perfil_visitante_eventos'),
@@ -360,14 +364,16 @@ urlpatterns = [
     path('fuentes-info/entorno-nacional/add', FuenteInfoEntornoNacionalCreate.as_view(), name='fuente_info_entorno_nacional_create'),
     path('fuentes-info/entorno-nacional/edit/<int:pk>/', FuenteInfoEntornoNacionalUpdate.as_view(), name='fuente_info_entorno_nacional_update'),
     path('fuentes-info/entorno-nacional/delete/<int:pk>/', FuenteInfoEntornoNacionalDelete.as_view(), name='fuente_info_entorno_nacional_delete'),
+    path('fuentes-info/entorno-nacional/carga-masiva', EntornoNacionalCargaMasivaView.as_view(), name='fuente_info_entorno_nacional_carga_masiva'),
+    path('fuentes-info/entorno-nacional/descargar-archivo', EntornoNacionalDescargarArchivoView.as_view(), name='fuente_info_entorno_nacional_descargar_archivo'),
 
     #fuentes info pasajeros_ent_nac
     path('fuentes-info/pasajeros-ent-nac', FuenteInfoPasajerosEntNacView.as_view(), name='fuente_info_pasajeros_ent_nac'),
     path('fuentes-info/pasajeros-ent-nac/add', FuenteInfoPasajerosEntNacCreate.as_view(), name='fuente_info_pasajeros_ent_nac_create'),
     path('fuentes-info/pasajeros-ent-nac/edit/<int:pk>/', FuenteInfoPasajerosEntNacUpdate.as_view(), name='fuente_info_pasajeros_ent_nac_update'),
     path('fuentes-info/pasajeros-ent-nac/delete/<int:pk>/', FuenteInfoPasajerosEntNacDelete.as_view(), name='fuente_info_pasajeros_ent_nac_delete'),
-    #path('fuentes-info/pasajeros-ent-nac/carga-masiva', PasajerosEntNacCargaMasivaView.as_view(), name='fuente_info_pasajeros_ent_nac_carga_masiva'),
-
+    path('fuentes-info/pasajeros-ent-nac/carga-masiva', PasajerosEntNacCargaMasivaView.as_view(), name='fuente_info_pasajeros_ent_nac_carga_masiva'),
+    path('fuentes-info/pasajeros-ent-nac/descargar-archivo', PasajerosEntNacDescargarArchivoView.as_view(), name='fuente_info_pasajeros_ent_nac_descargar_archivo'),
 
     #fuentes info aeropuertos
     path('fuentes-info/aeropuertos', FuenteInfoAeropuerto.as_view(), name='fuente_info_aeropuertos'),
