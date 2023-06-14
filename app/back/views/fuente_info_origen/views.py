@@ -36,6 +36,7 @@ class FuenteInfoParticipacionOrigen(ListView):
         context['create_url'] = reverse_lazy('dashboard:fuente_info_origen_create')       
         context['entity'] = 'Fuentes de Informacion % Origen'
         context['is_fuente']    = True
+        context['carga_masiva_url'] = reverse_lazy('dashboard:fuente_info_origen_carga_masiva')
         return context
 
 class FuenteInfoParticipacionOrigenCreate(CreateView):    
@@ -215,3 +216,254 @@ class FuenteInfoParticipacionOrigenDelete (DeleteView):
     def post(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
         return super().post(request, *args, **kwargs)
 
+class OrigenCargaMasivaView(View):
+    form_class = CargaMasivaForm
+    template_name = 'back/fuente_info_origen/carga_masiva.html'
+    success_url = reverse_lazy('dashboard:fuente_info_origen')
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class()
+        return render(request, self.template_name, {'form': form, 'title': 'Carga Masiva de Origen'})
+
+    def convert_to_serializable(self, obj):
+        if isinstance(obj, (datetime, date)):
+            return obj.isoformat()
+        raise TypeError(
+            f'Object of type {obj.__class__.__name__} is not JSON serializable')
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST, request.FILES)
+        registros_correctos, registros_incorrectos, registros_existentes = [], [], []
+        num_filas_procesadas = 0
+        archivo = request.FILES.get('archivo', None)
+        if archivo:
+            extension = os.path.splitext(archivo.name)[1]
+            if extension == '.xlsx':
+                registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas = self.procesar_archivo_xlsx(
+                    archivo)
+            elif extension == '.csv':
+                registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas = self.procesar_archivo_csv(
+                    archivo)
+            else:
+                messages.error(
+                    request, 'El archivo debe ser un archivo .xlsx o .csv')
+                registros_incorrectos.append(
+                    "El archivo debe ser un archivo .xlsx o .csv")
+        else:
+            messages.error(request, 'Debe seleccionar un archivo')
+            registros_incorrectos.append("Debe seleccionar un archivo")
+
+        if len(registros_incorrectos) > 0 or len(registros_existentes) > 0:
+            messages.error(request, 'Hay errores de registros')
+            datos_json = json.dumps(
+                registros_incorrectos, default=self.convert_to_serializable)
+
+            return render(request, self.template_name, {
+                'form': form,
+                'title': 'Carga Masiva de Origen',
+                'registros_correctos': registros_correctos,
+                'registros_incorrectos': registros_incorrectos,
+                'registros_existentes': registros_existentes,
+                'descargar_url': datos_json,
+                'num_filas_procesadas': num_filas_procesadas,
+            })
+
+        else:
+            return HttpResponseRedirect(reverse('dashboard:fuente_info_origen'))
+
+    def procesar_archivo_xlsx(self, archivo):
+        registros_correctos, registros_incorrectos, registros_existentes = [], [], []
+        num_filas_procesadas = 0
+        try:
+            workbook = load_workbook(filename=archivo, read_only=True)
+            worksheet = workbook.active
+            filas = list(worksheet.rows)
+            for i, row in enumerate(filas):
+                if i == 0:
+                    continue  # Ignorar la primera fila si es el encabezado
+                num_filas_procesadas += 1
+
+                # Limpieza de datos
+                destino = clean_str_col(row[1].value)
+
+                # Homologación de datos
+                destino = homologar_columna_destino(destino)
+
+                ano = row[0].value
+                
+                part_visitantes_int = row[2].value
+                part_visitantes_nac = row[3].value
+                part_visitantes_est = row[4].value
+
+                datos = {
+                    'ano':ano ,  
+                    'destino':destino , 
+                    'part_visitantes_int':part_visitantes_int,
+                    'part_visitantes_nac':part_visitantes_nac,
+                    'part_visitantes_est':part_visitantes_est, 
+                }
+
+                try:
+                    if destino not in CatalagoDestino.objects.values_list('destino', flat=True):
+                        print(f"El destino {destino} no está en la tabla CatalagoDestinoAeropuerto")
+                        registros_incorrectos.append(datos)
+                        continue
+
+                    # Buscar si la fila ya existe en la base de datos
+                    existente = ParticipacionOrigen.objects.filter(
+                        ano = ano,
+                        destino = destino,
+                    )
+                    if existente.exists():
+                        # Si ya existe, se omite la fila y se guarda en la lista de registros incorrectos
+                        print(f"La fila {row} ya existe en la base de datos")
+                        registros_existentes.append(datos)
+                    else:
+                        # Si no existe, se guarda la nueva instancia del modelo en la base de datos y se guarda en la lista de registros correctos
+                        db = ParticipacionOrigen(
+                            ano = ano,
+                            destino = destino,
+                            part_visitantes_int = part_visitantes_int,
+                            part_visitantes_nac = part_visitantes_nac,
+                            part_visitantes_est = part_visitantes_est,
+                        )
+                        db.save()
+                        registros_correctos.append(datos)
+                except (ValueError, TypeError) as e:
+                    print(f"Error al procesar la fila {datos}: {e}")
+                    registros_incorrectos.append(datos)
+
+        except FileNotFoundError:
+            print(f"El archivo {archivo} no se pudo abrir")
+
+        return registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas
+
+    def procesar_archivo_csv(self, archivo):
+        archivo = self.request.FILES['archivo']
+        registros_correctos, registros_incorrectos, registros_existentes = [], [], []
+        num_filas_procesadas = 0
+        try:
+            datos = csv.DictReader(
+                archivo.read().decode('latin-1').splitlines())
+            # print(datos)
+            for row in datos:
+                num_filas_procesadas += 1
+
+                # Limpieza de datos
+                destino = clean_str_col(row['destino'])
+
+                # Homologación de datos
+                destino = homologar_columna_destino(destino)
+
+                ano = row['ano']
+                
+                part_visitantes_int = row['part_visitantes_int']
+                part_visitantes_nac = row['part_visitantes_nac']
+                part_visitantes_est = row['part_visitantes_est']
+
+                datos = {
+                    'ano':ano ,  
+                    'destino':destino , 
+                    'part_visitantes_int':part_visitantes_int,
+                    'part_visitantes_nac':part_visitantes_nac,
+                    'part_visitantes_est':part_visitantes_est, 
+                }
+
+                try:
+                    if destino not in CatalagoDestino.objects.values_list('destino', flat=True):
+                        print(f"El destino {destino} no está en la tabla CatalagoDestinoAeropuerto")
+                        registros_incorrectos.append(datos)
+                        continue
+
+                    # Buscar si la fila ya existe en la base de datos
+                    existente = ParticipacionOrigen.objects.filter(
+                        ano = ano,
+                        destino = destino,
+                    )
+                    if existente.exists():
+                        # Si ya existe, se omite la fila y se guarda en la lista de registros incorrectos
+                        print(f"La fila {row} ya existe en la base de datos")
+                        registros_existentes.append(datos)
+                    else:
+                        # Si no existe, se guarda la nueva instancia del modelo en la base de datos y se guarda en la lista de registros correctos
+                        db = ParticipacionOrigen(
+                            ano = ano,
+                            destino = destino,
+                            part_visitantes_int = part_visitantes_int,
+                            part_visitantes_nac = part_visitantes_nac,
+                            part_visitantes_est = part_visitantes_est,
+                        )
+                        db.save()
+                        registros_correctos.append(datos)
+                except (ValueError, TypeError) as e:
+                    print(f"Error al procesar la fila {datos}: {e}")
+                    registros_incorrectos.append(datos)
+        except FileNotFoundError:
+            print(f"No se encontró el archivo {archivo}")
+        except Exception as e:
+            print(f"Error al procesar el archivo {archivo}: {e}")
+        return registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas
+
+
+class OrigenDescargarArchivoView(View):
+
+    def crear_archivo_excel(self, registros_incorrectos):
+        workbook = openpyxl.Workbook()
+        worksheet = workbook.active
+
+        # Obtener los nombres y verbose_name de los campos del modelo ParticipacionOrigen
+        fields = ParticipacionOrigen._meta.get_fields()
+        column_labels = [field.verbose_name for field in fields if field.name != 'id']
+        column_names = [field.name for field in fields if field.name != 'id']
+
+        # Escribir los encabezados de las columnas
+        for i, campo in enumerate(column_labels):
+            columna = i + 1
+            worksheet.cell(row=1, column=columna, value=campo)
+
+        # Obtener los datos del modelo ParticipacionOrigen
+        datos = registros_incorrectos
+
+        # Escribir los valores en las celdas correspondientes
+        fila = 2
+        for registro in datos:
+            for i, campo in enumerate(column_names):
+                if campo != 'id':  # Omitir la clave 'id'
+                    columna = i + 1
+                    valor = registro[campo]
+                    worksheet.cell(row=fila, column=columna, value=valor)
+            fila += 1
+
+        # Set the column widths to auto-fit
+        for column in worksheet.columns:
+            max_length = 0
+            column_name = column[0].column_letter
+            for cell in column:
+                try:
+                    if len(str(cell.value)) > max_length:
+                        max_length = len(str(cell.value))
+                except:
+                    pass
+            adjusted_width = (max_length + 2)
+            worksheet.column_dimensions[column_name].width = adjusted_width
+
+        # Create the response with the Excel file
+        response = HttpResponse(
+            content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response['Content-Disposition'] = 'attachment; filename=gasto_derrama_registros_incorrectos.xls'
+
+        # workbook.save(response)
+        return workbook
+
+    def post(self, request, *args, **kwargs):
+        # Obtener los registros incorrectos del cuerpo de la petición
+        registros_incorrectos = json.loads(request.body)
+
+        # Crear y enviar el archivo de Excel con las filas incorrectas
+        workbook = self.crear_archivo_excel(registros_incorrectos)
+
+        response = HttpResponse(
+            content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response['Content-Disposition'] = 'attachment; filename=gasto_derrama_registros_incorrectos.xlsx'
+        workbook.save(response)
+        return response

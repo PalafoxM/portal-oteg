@@ -553,11 +553,11 @@ class ParticipacionSegmentos(models.Model):
         ordering = ['-id']
 
 class ParticipacionOrigen(models.Model):
-    ano = models.IntegerField()
-    destino = models.CharField(max_length=256)
-    part_visitantes_int = models.FloatField()
-    part_visitantes_nac = models.FloatField()
-    part_visitantes_est = models.FloatField()
+    ano = models.IntegerField(verbose_name='Año')
+    destino = models.CharField(max_length=256, verbose_name='Destino')
+    part_visitantes_int = models.FloatField(verbose_name='Participación de Visitantes Internacionales')
+    part_visitantes_nac = models.FloatField(verbose_name='Participación de Visitantes Nacionales')
+    part_visitantes_est = models.FloatField(verbose_name='Participación de Visitantes Estatales')
 
     class Meta:
         app_label = 'ecosistema'

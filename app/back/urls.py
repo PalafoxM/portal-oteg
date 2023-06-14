@@ -340,6 +340,8 @@ urlpatterns = [
     path('fuentes-info/origen/add', FuenteInfoParticipacionOrigenCreate.as_view(), name='fuente_info_origen_create'),
     path('fuentes-info/origen/edit/<int:pk>/', FuenteInfoParticipacionOrigenUpdate.as_view(), name='fuente_info_origen_update'),
     path('fuentes-info/origen/delete/<int:pk>/', FuenteInfoParticipacionOrigenDelete.as_view(), name='fuente_info_origen_delete'),
+    path('fuentes-info/origen/carga-masiva', OrigenCargaMasivaView.as_view(), name='fuente_info_origen_carga_masiva'),
+    path('fuentes-info/origen/descargar-archivo', OrigenDescargarArchivoView.as_view(), name='fuente_info_origen_descargar_archivo'),
     
     #fuetes info perfil visitante eventos
     path('fuentes-info/perfil-visitante-eventos', FuenteInfoPerfilVisitanteEventos.as_view(), name='fuente_info_perfil_visitante_eventos'),
