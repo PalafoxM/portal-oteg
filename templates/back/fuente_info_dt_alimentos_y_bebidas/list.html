@@ -1,0 +1,29 @@
+{% extends 'back/components/list.html' %}
+{% load static %}
+{% block head_list %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+<script src="{% static 'js/fuente_info_dt_alimentos_y_bebidas/list.js' %}"></script>
+{% endblock %}
+
+{% block columns %}
+<tr class="text-center table-header">
+    <th class="text-left pl-3">N°</th>
+    <th class="text-left">Giro</th>
+    <th class="text-left">Clave del Giro</th>
+    <th class="text-left">Nombre Comercial</th>
+    <th class="text-left">RFC</th>
+    <th class="text-center" style="
+    position: relative;
+    background-color: #ECF0F1;
+    text-align: center;
+    height: 100%;
+  ">Acciones</th>
+</tr>
+{% endblock %}
+
+

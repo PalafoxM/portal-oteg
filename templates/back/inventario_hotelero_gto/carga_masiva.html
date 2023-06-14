@@ -64,7 +64,7 @@
   <div class="alert alert-danger mt-3">
       <ul>
           {% for error in errores %}
-          <li>{{ error }}</li>
+          <li><h4>{{ error.message }}</h4></li>
           {% endfor %}
       </ul>
   </div>

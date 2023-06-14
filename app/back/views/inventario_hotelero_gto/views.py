@@ -169,6 +169,7 @@ class CargaMasivaView(View):
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST, request.FILES)
         registros_correctos, registros_incorrectos, registros_existentes = [], [], []
+        errores = []
         num_filas_procesadas = 0
         archivo = request.FILES.get('archivo', None)
         if archivo:
@@ -179,12 +180,12 @@ class CargaMasivaView(View):
                 registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas = self.procesar_archivo_csv(archivo)
             else:
                 messages.error(request, 'El archivo debe ser un archivo .xlsx o .csv')
-                registros_incorrectos.append("El archivo debe ser un archivo .xlsx o .csv")
+                errores.append({'message': "El archivo debe ser un archivo .xlsx o .csv"})
         else:
             messages.error(request, 'Debe seleccionar un archivo')
-            registros_incorrectos.append("Debe seleccionar un archivo")
+            errores.append({'message': "Debe seleccionar un archivo"})
 
-        if len(registros_incorrectos) > 0 or len(registros_existentes) > 0:
+        if len(registros_incorrectos) > 0 or len(registros_existentes) > 0 or len(errores) > 0:
             messages.error(request, 'Hay errores de registros')
 
             datos_json = json.dumps(registros_incorrectos)
@@ -197,6 +198,7 @@ class CargaMasivaView(View):
                 'registros_existentes': registros_existentes,
                 'descargar_url': datos_json,
                 'num_filas_procesadas': num_filas_procesadas,
+                'errores': errores,
             })
             
         else:
@@ -224,15 +226,6 @@ class CargaMasivaView(View):
                 destino = homologar_columna_destino(destino)
                 categoria = homologar_columna_categoria(categoria)
 
-                # Validar si el destino y categoria son válidos
-                if destino not in CatalagoDestino.objects.values_list('destino', flat=True):
-                    print(f"El destino {destino} no está en la tabla CatalagoDestino")
-                    registros_incorrectos.append(row)
-                    continue
-                if categoria not in CatalagoCategoria.objects.values_list('categoria', flat=True):
-                    print(f"La categoría {categoria} no está en la tabla CatalagoCategoria")
-                    registros_incorrectos.append(row)
-                    continue
 
 
                 fecha = row[1].value.date()
@@ -242,6 +235,15 @@ class CargaMasivaView(View):
                 try:
                     # Validar los datos
                     fecha_str = str(fecha)
+                    # Validar si el destino y categoria son válidos
+                    if destino not in CatalagoDestino.objects.values_list('destino', flat=True):
+                        print(f"El destino {destino} no está en la tabla CatalagoDestino")
+                        registros_incorrectos.append({'destino': destino, 'fecha': fecha_str, 'categoria': categoria, 'habitaciones': habitaciones, 'establecimientos': establecimientos})
+                        continue
+                    if categoria not in CatalagoCategoria.objects.values_list('categoria', flat=True):
+                        print(f"La categoría {categoria} no está en la tabla CatalagoCategoria")
+                        registros_incorrectos.append({'destino': destino, 'fecha': fecha_str, 'categoria': categoria, 'habitaciones': habitaciones, 'establecimientos': establecimientos})
+                        continue
                     fecha_obj = datetime.datetime.strptime(fecha_str, '%Y-%m-%d').date()
                     habitaciones_int = int(habitaciones)
                     establecimientos_int = int(establecimientos)
@@ -251,15 +253,15 @@ class CargaMasivaView(View):
                     if inventario_existente.exists():
                         # Si ya existe, se omite la fila y se guarda en la lista de registros incorrectos
                         print(f"La fila {row} ya existe en la base de datos")
-                        registros_existentes.append({'fila': i, 'destino': destino, 'fecha': fecha_obj, 'categoria': categoria, 'habitaciones': habitaciones_int, 'establecimientos': establecimientos_int})
+                        registros_existentes.append({'destino': destino, 'fecha': fecha_obj, 'categoria': categoria, 'habitaciones': habitaciones_int, 'establecimientos': establecimientos_int})
                     else:
                         # Si no existe, se guarda la nueva instancia del modelo en la base de datos y se guarda en la lista de registros correctos
                         inventario = InventarioHotelero(destino=destino, fecha=fecha_obj, categoria=categoria, habitaciones=habitaciones_int, establecimientos=establecimientos_int)
                         inventario.save()
-                        registros_correctos.append({'fila': i, 'destino': destino, 'fecha': fecha_obj, 'categoria': categoria, 'habitaciones': habitaciones_int, 'establecimientos': establecimientos_int})
+                        registros_correctos.append({'destino': destino, 'fecha': fecha_obj, 'categoria': categoria, 'habitaciones': habitaciones_int, 'establecimientos': establecimientos_int})
                 except (ValueError, TypeError) as e:
                     # Si los datos no son válidos, se guarda el número de fila en la lista de registros incorrectos
-                    registros_incorrectos.append({'fila': i, 'destino': destino, 'fecha': fecha, 'categoria': categoria, 'habitaciones': habitaciones, 'establecimientos': establecimientos, 'error': str(e)})
+                    registros_incorrectos.append({'destino': destino, 'fecha': fecha, 'categoria': categoria, 'habitaciones': habitaciones, 'establecimientos': establecimientos})
                     
         except FileNotFoundError:
                 print(f"El archivo {archivo} no se pudo abrir")

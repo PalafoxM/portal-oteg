@@ -38,6 +38,19 @@ from back.views.fuente_info_entorno_nacional.views import *
 from back.views.fuente_info_inventario_turistico.views import *
 from back.views.fuente_info_directorio_hotelero.views import *
 from back.views.fuente_info_perfil_visitante_destinos.views import *
+from back.views.fuente_info_dt_agencias_de_viajes.views import *
+from back.views.fuente_info_dt_alimentos_y_bebidas.views import *
+from back.views.fuente_info_dt_arrendadoras.views import *
+from back.views.fuente_info_dt_atractivos_recreacion_y_deporte.views import *
+from back.views.fuente_info_dt_auxilio_turistico.views import *
+from back.views.fuente_info_dt_balnearios_parques_acuaticos.views import *
+from back.views.fuente_info_dt_campo_de_golf.views import *
+from back.views.fuente_info_dt_capacitacion_turistica.views import *
+from back.views.fuente_info_dt_guias_de_turistas.views import *
+from back.views.fuente_info_dt_operadores.views import *
+from back.views.fuente_info_dt_productos_turisticos.views import *
+from back.views.fuente_info_dt_recintos_auditorios_y_salones.views import *
+from back.views.fuente_info_dt_spa.views import *
 from back.views.fuente_info_pasajeros_ent_nac.views import *
 
 
@@ -331,12 +344,16 @@ urlpatterns = [
     path('fuentes-info/perfil-visitante-eventos/add', FuenteInfoPerfilVisitanteEventosCreate.as_view(), name='fuente_info_perfil_visitante_eventos_create'),
     path('fuentes-info/perfil-visitante-eventos/edit/<int:pk>/', FuenteInfoPerfilVisitanteEventosUpdate.as_view(), name='fuente_info_perfil_visitante_eventos_update'),
     path('fuentes-info/perfil-visitante-eventos/delete/<int:pk>/', FuenteInfoPerfilVisitanteEventosDelete.as_view(), name='fuente_info_perfil_visitante_eventos_delete'),
+    path('fuentes-info/perfil-visitante-eventos/carga-masiva', PerfilVisitanteEventosCargaMasivaView.as_view(), name='fuente_info_perfil_visitante_eventos_carga_masiva'),
+    path('fuentes-info/perfil-visitante-eventos/descargar-archivo', PerfilVisitanteEventosDescargarArchivoView.as_view(), name='fuente_info_perfil_visitante_eventos_descargar_archivo'),
 
     #fuetes info perfil visitante DEstinos
     path('fuentes-info/perfil-visitante-destinos', FuenteInfoPerfilVisitanteDestinos.as_view(), name='fuente_info_perfil_visitante_destinos'),
     path('fuentes-info/perfil-visitante-destinos/add', FuenteInfoPerfilVisitanteDestinosCreate.as_view(), name='fuente_info_perfil_visitante_destinos_create'),
     path('fuentes-info/perfil-visitante-destinos/edit/<int:pk>/', FuenteInfoPerfilVisitanteDestinosUpdate.as_view(), name='fuente_info_perfil_visitante_destinos_update'),
     path('fuentes-info/perfil-visitante-destinos/delete/<int:pk>/', FuenteInfoPerfilVisitanteDestinosDelete.as_view(), name='fuente_info_perfil_visitante_destinos_delete'),
+    path('fuentes-info/perfil-visitante-destinos/carga-masiva', PerfilVisitanteDestinosCargaMasivaView.as_view(), name='fuente_info_perfil_visitante_destinos_carga_masiva'),
+    path('fuentes-info/perfil-visitante-destinos/descargar-archivo', PerfilVisitanteDestinosDescargarArchivoView.as_view(), name='fuente_info_perfil_visitante_destinos_descargar_archivo'),
 
     #fuetes info entorno nacional
     path('fuentes-info/entorno-nacional', FuenteInfoEntornoNacional.as_view(), name='fuente_info_entorno_nacional'),
@@ -383,5 +400,109 @@ urlpatterns = [
     path('fuentes-info/directorio-hotelero/delete/<int:pk>/', FuenteInfoDirectorioHoteleroDelete.as_view(), name='fuente_info_directorio_hotelero_delete'),
     path('fuentes-info/directorio-hotelero/carga-masiva', DirectorioHoteleroCargaMasivaView.as_view(), name='fuente_info_directorio_hotelero_carga_masiva'),
     path('fuentes-info/directorio-hotelero/descargar-archivo', DirectorioHoteleroDescargarArchivoView.as_view(), name='fuente_info_directorio_hotelero_descargar_archivo'),
+    
+    #fuentes info dt_agencias_de_viajes
+    path('fuentes-info/dt-agencias-viajes', FuenteInfoDirectorioAgenciasDeViajes.as_view(), name='fuente_info_dt_agencias_de_viajes'),
+    path('fuentes-info/dt-agencias-viajes/add', FuenteInfoDirectorioAgenciasDeViajesCreate.as_view(), name='fuente_info_dt_agencias_de_viajes_create'),
+    path('fuentes-info/dt-agencias-viajes/edit/<int:pk>/', FuenteInfoDirectorioAgenciasDeViajesUpdate.as_view(), name='fuente_info_dt_agencias_de_viajes_update'),
+    path('fuentes-info/dt-agencias-viajes/delete/<int:pk>/', FuenteInfoDirectorioAgenciasDeViajesDelete.as_view(), name='fuente_info_dt_agencias_de_viajes_delete'),
+    path('fuentes-info/dt-agencias-viajes/carga-masiva', DirectorioAgenciasDeViajesCargaMasivaView.as_view(), name='fuente_info_dt_agencias_de_viajes_carga_masiva'),
+    path('fuentes-info/dt-agencias-viajes/descargar-archivo', DirectorioAgenciasDeViajesDescargarArchivoView.as_view(), name='fuente_info_dt_agencias_de_viajes_descargar_archivo'),
+    
+    #fuentes info dt_alimentos_y_bebidas
+    path('fuentes-info/dt-alimentos-bebidas', FuenteInfoDirectorioAlimentosYBebidas.as_view(), name='fuente_info_dt_alimentos_y_bebidas'),
+    path('fuentes-info/dt-alimentos-bebidas/add', FuenteInfoDirectorioAlimentosYBebidasCreate.as_view(), name='fuente_info_dt_alimentos_y_bebidas_create'),
+    path('fuentes-info/dt-alimentos-bebidas/edit/<int:pk>/', FuenteInfoDirectorioAlimentosYBebidasUpdate.as_view(), name='fuente_info_dt_alimentos_y_bebidas_update'),
+    path('fuentes-info/dt-alimentos-bebidas/delete/<int:pk>/', FuenteInfoDirectorioAlimentosYBebidasDelete.as_view(), name='fuente_info_dt_alimentos_y_bebidas_delete'),
+    path('fuentes-info/dt-alimentos-bebidas/carga-masiva', DirectorioAlimentosYBebidasCargaMasivaView.as_view(), name='fuente_info_dt_alimentos_y_bebidas_carga_masiva'),
+    path('fuentes-info/dt-alimentos-bebidas/descargar-archivo', DirectorioAlimentosYBebidasDescargarArchivoView.as_view(), name='fuente_info_dt_alimentos_y_bebidas_descargar_archivo'),
+    
+    #fuentes info dt_arrendadoras
+    path('fuentes-info/dt-arrendadoras', FuenteInfoDirectorioArrendadoras.as_view(), name='fuente_info_dt_arrendadoras'),
+    path('fuentes-info/dt-arrendadoras/add', FuenteInfoDirectorioArrendadorasCreate.as_view(), name='fuente_info_dt_arrendadoras_create'),
+    path('fuentes-info/dt-arrendadoras/edit/<int:pk>/', FuenteInfoDirectorioArrendadorasUpdate.as_view(), name='fuente_info_dt_arrendadoras_update'),
+    path('fuentes-info/dt-arrendadoras/delete/<int:pk>/', FuenteInfoDirectorioArrendadorasDelete.as_view(), name='fuente_info_dt_arrendadoras_delete'),
+    path('fuentes-info/dt-arrendadoras/carga-masiva', DirectorioArrendadorasCargaMasivaView.as_view(), name='fuente_info_dt_arrendadoras_carga_masiva'),
+    path('fuentes-info/dt-arrendadoras/descargar-archivo', DirectorioArrendadorasDescargarArchivoView.as_view(), name='fuente_info_dt_arrendadoras_descargar_archivo'),
+    
+    #fuentes info dt_atractivos_recreacion_y_deporte
+    path('fuentes-info/dt-atractivos-recreacion-deporte', FuenteInfoDirectorioActivosRecreacionYDeporte.as_view(), name='fuente_info_dt_atractivos_recreacion_y_deporte'),
+    path('fuentes-info/dt-atractivos-recreacion-deporte/add', FuenteInfoDirectorioActivosRecreacionYDeporteCreate.as_view(), name='fuente_info_dt_atractivos_recreacion_y_deporte_create'),
+    path('fuentes-info/dt-atractivos-recreacion-deporte/edit/<int:pk>/', FuenteInfoDirectorioActivosRecreacionYDeporteUpdate.as_view(), name='fuente_info_dt_atractivos_recreacion_y_deporte_update'),
+    path('fuentes-info/dt-atractivos-recreacion-deporte/delete/<int:pk>/', FuenteInfoDirectorioActivosRecreacionYDeporteDelete.as_view(), name='fuente_info_dt_atractivos_recreacion_y_deporte_delete'),
+    path('fuentes-info/dt-atractivos-recreacion-deporte/carga-masiva', DirectorioActivosRecreacionYDeporteCargaMasivaView.as_view(), name='fuente_info_dt_atractivos_recreacion_y_deporte_carga_masiva'),
+    path('fuentes-info/dt-atractivos-recreacion-deporte/descargar-archivo', DirectorioActivosRecreacionYDeporteDescargarArchivoView.as_view(), name='fuente_info_dt_atractivos_recreacion_y_deporte_descargar_archivo'),
+    
+    #fuentes info dt_auxilio_turistico
+    path('fuentes-info/dt-auxilio-turistico', FuenteInfoDirectorioAuxilioTuristico.as_view(), name='fuente_info_dt_auxilio_turistico'),
+    path('fuentes-info/dt-auxilio-turistico/add', FuenteInfoDirectorioAuxilioTuristicoCreate.as_view(), name='fuente_info_dt_auxilio_turistico_create'),
+    path('fuentes-info/dt-auxilio-turistico/edit/<int:pk>/', FuenteInfoDirectorioAuxilioTuristicoUpdate.as_view(), name='fuente_info_dt_auxilio_turistico_update'),
+    path('fuentes-info/dt-auxilio-turistico/delete/<int:pk>/', FuenteInfoDirectorioAuxilioTuristicoDelete.as_view(), name='fuente_info_dt_auxilio_turistico_delete'),
+    path('fuentes-info/dt-auxilio-turistico/carga-masiva', DirectorioAuxilioTuristicoCargaMasivaView.as_view(), name='fuente_info_dt_auxilio_turistico_carga_masiva'),
+    path('fuentes-info/dt-auxilio-turistico/descargar-archivo', DirectorioAuxilioTuristicoDescargarArchivoView.as_view(), name='fuente_info_dt_auxilio_turistico_descargar_archivo'),
+    
+    #fuentes info dt_balnearios_parques_acuaticos
+    path('fuentes-info/dt-balnearios-parques-acuaticos', FuenteInfoDirectorioBalneariosParquesAcuaticos.as_view(), name='fuente_info_dt_balnearios_parques_acuaticos'),
+    path('fuentes-info/dt-balnearios-parques-acuaticos/add', FuenteInfoDirectorioBalneariosParquesAcuaticosCreate.as_view(), name='fuente_info_dt_balnearios_parques_acuaticos_create'),
+    path('fuentes-info/dt-balnearios-parques-acuaticos/edit/<int:pk>/', FuenteInfoDirectorioBalneariosParquesAcuaticosUpdate.as_view(), name='fuente_info_dt_balnearios_parques_acuaticos_update'),
+    path('fuentes-info/dt-balnearios-parques-acuaticos/delete/<int:pk>/', FuenteInfoDirectorioBalneariosParquesAcuaticosDelete.as_view(), name='fuente_info_dt_balnearios_parques_acuaticos_delete'),
+    path('fuentes-info/dt-balnearios-parques-acuaticos/carga-masiva', DirectorioBalneariosParquesAcuaticosCargaMasivaView.as_view(), name='fuente_info_dt_balnearios_parques_acuaticos_carga_masiva'),
+    path('fuentes-info/dt-balnearios-parques-acuaticos/descargar-archivo', DirectorioBalneariosParquesAcuaticosDescargarArchivoView.as_view(), name='fuente_info_dt_balnearios_parques_acuaticos_descargar_archivo'),
+    
+    #fuentes info dt_campo_de_golf
+    path('fuentes-info/dt-campo-golf', FuenteInfoDirectorioCampoDeGolf.as_view(), name='fuente_info_dt_campo_de_golf'),
+    path('fuentes-info/dt-campo-golf/add', FuenteInfoDirectorioCampoDeGolfCreate.as_view(), name='fuente_info_dt_campo_de_golf_create'),
+    path('fuentes-info/dt-campo-golf/edit/<int:pk>/', FuenteInfoDirectorioCampoDeGolfUpdate.as_view(), name='fuente_info_dt_campo_de_golf_update'),
+    path('fuentes-info/dt-campo-golf/delete/<int:pk>/', FuenteInfoDirectorioCampoDeGolfDelete.as_view(), name='fuente_info_dt_campo_de_golf_delete'),
+    path('fuentes-info/dt-campo-golf/carga-masiva', DirectorioCampoDeGolfCargaMasivaView.as_view(), name='fuente_info_dt_campo_de_golf_carga_masiva'),
+    path('fuentes-info/dt-campo-golf/descargar-archivo', DirectorioCampoDeGolfDescargarArchivoView.as_view(), name='fuente_info_dt_campo_de_golf_descargar_archivo'),
+    
+    #fuentes info dt_capacitacion_turistica
+    path('fuentes-info/dt-capacitacion-turistica', FuenteInfoDirectorioCapacitacionTuristica.as_view(), name='fuente_info_dt_capacitacion_turistica'),
+    path('fuentes-info/dt-capacitacion-turistica/add', FuenteInfoDirectorioCapacitacionTuristicaCreate.as_view(), name='fuente_info_dt_capacitacion_turistica_create'),
+    path('fuentes-info/dt-capacitacion-turistica/edit/<int:pk>/', FuenteInfoDirectorioCapacitacionTuristicaUpdate.as_view(), name='fuente_info_dt_capacitacion_turistica_update'),
+    path('fuentes-info/dt-capacitacion-turistica/delete/<int:pk>/', FuenteInfoDirectorioCapacitacionTuristicaDelete.as_view(), name='fuente_info_dt_capacitacion_turistica_delete'),
+    path('fuentes-info/dt-capacitacion-turistica/carga-masiva', DirectorioCapacitacionTuristicaCargaMasivaView.as_view(), name='fuente_info_dt_capacitacion_turistica_carga_masiva'),
+    path('fuentes-info/dt-capacitacion-turistica/descargar-archivo', DirectorioCapacitacionTuristicaDescargarArchivoView.as_view(), name='fuente_info_dt_capacitacion_turistica_descargar_archivo'),
+    
+    #fuentes info dt_guias_de_turistas
+    path('fuentes-info/dt-guias-turistas', FuenteInfoDirectorioGuiasDeTuristas.as_view(), name='fuente_info_dt_guias_de_turistas'),
+    path('fuentes-info/dt-guias-turistas/add', FuenteInfoDirectorioGuiasDeTuristasCreate.as_view(), name='fuente_info_dt_guias_de_turistas_create'),
+    path('fuentes-info/dt-guias-turistas/edit/<int:pk>/', FuenteInfoDirectorioGuiasDeTuristasUpdate.as_view(), name='fuente_info_dt_guias_de_turistas_update'),
+    path('fuentes-info/dt-guias-turistas/delete/<int:pk>/', FuenteInfoDirectorioGuiasDeTuristasDelete.as_view(), name='fuente_info_dt_guias_de_turistas_delete'),
+    path('fuentes-info/dt-guias-turistas/carga-masiva', DirectorioGuiasDeTuristasCargaMasivaView.as_view(), name='fuente_info_dt_guias_de_turistas_carga_masiva'),
+    path('fuentes-info/dt-guias-turistas/descargar-archivo', DirectorioGuiasDeTuristasDescargarArchivoView.as_view(), name='fuente_info_dt_guias_de_turistas_descargar_archivo'),
+    
+    #fuentes info dt_operadores
+    path('fuentes-info/dt-operadores', FuenteInfoDirectorioOperadores.as_view(), name='fuente_info_dt_operadores'),
+    path('fuentes-info/dt-operadores/add', FuenteInfoDirectorioOperadoresCreate.as_view(), name='fuente_info_dt_operadores_create'),
+    path('fuentes-info/dt-operadores/edit/<int:pk>/', FuenteInfoDirectorioOperadoresUpdate.as_view(), name='fuente_info_dt_operadores_update'),
+    path('fuentes-info/dt-operadores/delete/<int:pk>/', FuenteInfoDirectorioOperadoresDelete.as_view(), name='fuente_info_dt_operadores_delete'),
+    path('fuentes-info/dt-operadores/carga-masiva', DirectorioOperadoresCargaMasivaView.as_view(), name='fuente_info_dt_operadores_carga_masiva'),
+    path('fuentes-info/dt-operadores/descargar-archivo', DirectorioOperadoresDescargarArchivoView.as_view(), name='fuente_info_dt_operadores_descargar_archivo'),
+    
+    #fuentes info dt_productos_turisticos
+    path('fuentes-info/dt-productos-turisticos', FuenteInfoDirectorioProductosTuristicos.as_view(), name='fuente_info_dt_productos_turisticos'),
+    path('fuentes-info/dt-productos-turisticos/add', FuenteInfoDirectorioProductosTuristicosCreate.as_view(), name='fuente_info_dt_productos_turisticos_create'),
+    path('fuentes-info/dt-productos-turisticos/edit/<int:pk>/', FuenteInfoDirectorioProductosTuristicosUpdate.as_view(), name='fuente_info_dt_productos_turisticos_update'),
+    path('fuentes-info/dt-productos-turisticos/delete/<int:pk>/', FuenteInfoDirectorioProductosTuristicosDelete.as_view(), name='fuente_info_dt_productos_turisticos_delete'),
+    path('fuentes-info/dt-productos-turisticos/carga-masiva', DirectorioProductosTuristicosCargaMasivaView.as_view(), name='fuente_info_dt_productos_turisticos_carga_masiva'),
+    path('fuentes-info/dt-productos-turisticos/descargar-archivo', DirectorioProductosTuristicosDescargarArchivoView.as_view(), name='fuente_info_dt_productos_turisticos_descargar_archivo'),
+    
+    #fuentes info dt_recintos_auditorios_y_salones
+    path('fuentes-info/dt-recintos-auditorios-salones', FuenteInfoDirectorioRecintosAuditoriosYSalones.as_view(), name='fuente_info_dt_recintos_auditorios_y_salones'),
+    path('fuentes-info/dt-recintos-auditorios-salones/add', FuenteInfoDirectorioRecintosAuditoriosYSalonesCreate.as_view(), name='fuente_info_dt_recintos_auditorios_y_salones_create'),
+    path('fuentes-info/dt-recintos-auditorios-salones/edit/<int:pk>/', FuenteInfoDirectorioRecintosAuditoriosYSalonesUpdate.as_view(), name='fuente_info_dt_recintos_auditorios_y_salones_update'),
+    path('fuentes-info/dt-recintos-auditorios-salones/delete/<int:pk>/', FuenteInfoDirectorioRecintosAuditoriosYSalonesDelete.as_view(), name='fuente_info_dt_recintos_auditorios_y_salones_delete'),
+    path('fuentes-info/dt-recintos-auditorios-salones/carga-masiva', DirectorioRecintosAuditoriosYSalonesCargaMasivaView.as_view(), name='fuente_info_dt_recintos_auditorios_y_salones_carga_masiva'),
+    path('fuentes-info/dt-recintos-auditorios-salones/descargar-archivo', DirectorioRecintosAuditoriosYSalonesDescargarArchivoView.as_view(), name='fuente_info_dt_recintos_auditorios_y_salones_descargar_archivo'),
+    
+    #fuentes info dt_spa
+    path('fuentes-info/dt-spa', FuenteInfoDirectorioSpa.as_view(), name='fuente_info_dt_spa'),
+    path('fuentes-info/dt-spa/add', FuenteInfoDirectorioSpaCreate.as_view(), name='fuente_info_dt_spa_create'),
+    path('fuentes-info/dt-spa/edit/<int:pk>/', FuenteInfoDirectorioSpaUpdate.as_view(), name='fuente_info_dt_spa_update'),
+    path('fuentes-info/dt-spa/delete/<int:pk>/', FuenteInfoDirectorioSpaDelete.as_view(), name='fuente_info_dt_spa_delete'),
+    path('fuentes-info/dt-spa/carga-masiva', DirectorioSpaCargaMasivaView.as_view(), name='fuente_info_dt_spa_carga_masiva'),
+    path('fuentes-info/dt-spa/descargar-archivo', DirectorioSpaDescargarArchivoView.as_view(), name='fuente_info_dt_spa_descargar_archivo'),
     
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

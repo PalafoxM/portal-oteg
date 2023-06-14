@@ -1,0 +1,116 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'librerias/datatables-1.10.25/css/dataTables.bootstrap4.min.css' %}" />
+<link rel="stylesheet"
+    href="{% static 'librerias/datatables-1.10.25/plugins/responsive-2.2.9/css/responsive.bootstrap4.min.css' %}" />
+
+<p>El dato que intenta ingresar ya existe en la base de datos. ¿Desea reemplazar el dato actual con el nuevo dato?</p>
+
+
+<div style="overflow-x: auto;">
+    <h4>Dato Histórico</h4>
+    <table class="table table-bordered" id="dataTable" style="table-layout: fixed;">
+        <thead>
+            <tr>
+                {% autoescape off %}
+                {{ table_headers }}
+                {% endautoescape %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for data in data_list %}
+            <tr>
+                <td>{{ data.id_establecimiento  }}</td>
+                <td>{{ data.nombre_de_la_unidad_economica }}</td>
+                <td>{{ data.razon_social }}</td>
+                <td>{{ data.codigo_de_la_clase_de_actividad_scian }}</td>
+                <td>{{ data.nombre_de_clase_de_la_actividad }}</td>
+                <td>{{ data.descripcion_estrato_personal_ocupado }}</td>
+                <td>{{ data.tipo_de_vialidad }}</td>
+                <td>{{ data.nombre_de_la_vialidad }}</td>
+                <td>{{ data.tipo_de_entre_vialidad_1 }}</td>
+                <td>{{ data.nombre_de_entre_vialidad_1 }}</td>
+                <td>{{ data.tipo_de_entre_vialidad_2 }}</td>
+                <td>{{ data.nombre_de_entre_vialidad_2 }}</td>
+                <td>{{ data.tipo_de_entre_vialidad_3 }}</td>
+                <td>{{ data.nombre_de_entre_vialidad_3 }}</td>
+                <td>{{ data.numero_exterior_o_kilometro }}</td>
+                <td>{{ data.letra_exterior }}</td>
+                <td>{{ data.edificio }}</td>
+                <td>{{ data.edificio_piso }}</td>
+                <td>{{ data.numero_interior }}</td>
+                <td>{{ data.letra_interior }}</td>
+                <td>{{ data.tipo_de_asentamiento_humano }}</td>
+                <td>{{ data.nombre_de_asentamiento_humano }}</td>
+                <td>{{ data.tipo_centro_comercial }}</td>
+                <td>{{ data.c_industrial_comercial_o_mercado }}</td>
+                <td>{{ data.numero_de_local }}</td>
+                <td>{{ data.codigo_postal }}</td>
+                <td>{{ data.clave_entidad }}</td>
+                <td>{{ data.entidad_federativa }}</td>
+                <td>{{ data.clave_municipio }}</td>
+                <td>{{ data.municipio }}</td>
+                <td>{{ data.clave_localidad }}</td>
+                <td>{{ data.localidad }}</td>
+                <td>{{ data.area_geoestadistica_basica }}</td>
+                <td>{{ data.manzana }}</td>
+                <td>{{ data.numero_de_telefono }}</td>
+                <td>{{ data.correo_electronico }}</td>
+                <td>{{ data.sitio_en_internet }}</td>
+                <td>{{ data.tipo_de_establecimiento }}</td>
+                <td>{{ data.latitud }}</td>
+                <td>{{ data.longitud }}</td>
+                <td>{{ data.fecha_de_incorporacion_al_denue }}</td>
+                <td>{{ data.categoria_turistica }}</td>
+                <td>{{ data.no_cuartos }}</td>
+                <td>{{ data.unidades }}</td>
+                <td>{{ data.espacios_cajones }}</td>
+                <td>{{ data.no_camas }}</td>
+                <td>{{ data.cadena }}</td>
+                <td>{{ data.operadora }}</td>
+                <td>{{ data.responsable }}</td>
+                <td>{{ data.cargo }}</td>
+                <td>{{ data.imss }}</td>
+                <td>{{ data.inicio_de_operaciones_este_ano }}</td>
+                <td>{{ data.fecha_de_inicio_de_operaciones }}</td>
+                <td>{{ data.centro_turistico }}</td>
+                <td>{{ data.zona }}</td>
+                <td>{{ data.datatur }}</td>
+                <td>{{ data.hotel_boutique }}</td>
+                <td>{{ data.nombre_de_la_cadena }}</td>
+                <td>{{ data.hoteles_tesoros }}</td>
+
+              
+
+
+                
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h4>Dato que se intento subir</h4>
+
+    <table class="table table-bordered" id="dataTable" style="table-layout: fixed;">
+        <thead>
+            <tr>
+                {% autoescape off %}
+                {{ table_headers }}
+                {% endautoescape %}
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                {% for data in data_list2 %}
+                <td>{{ data }}</td>
+                <!-- ... -->
+                {% endfor %}
+
+            </tr>
+        </tbody>
+    </table>
+
+
+
+</div>
