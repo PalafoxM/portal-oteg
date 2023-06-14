@@ -372,8 +372,8 @@ urlpatterns = [
     path('fuentes-info/pasajeros-ent-nac/add', FuenteInfoPasajerosEntNacCreate.as_view(), name='fuente_info_pasajeros_ent_nac_create'),
     path('fuentes-info/pasajeros-ent-nac/edit/<int:pk>/', FuenteInfoPasajerosEntNacUpdate.as_view(), name='fuente_info_pasajeros_ent_nac_update'),
     path('fuentes-info/pasajeros-ent-nac/delete/<int:pk>/', FuenteInfoPasajerosEntNacDelete.as_view(), name='fuente_info_pasajeros_ent_nac_delete'),
-    #path('fuentes-info/pasajeros-ent-nac/carga-masiva', PasajerosEntNacCargaMasivaView.as_view(), name='fuente_info_pasajeros_ent_nac_carga_masiva'),
-
+    path('fuentes-info/pasajeros-ent-nac/carga-masiva', PasajerosEntNacCargaMasivaView.as_view(), name='fuente_info_pasajeros_ent_nac_carga_masiva'),
+    path('fuentes-info/pasajeros-ent-nac/descargar-archivo', PasajerosEntNacDescargarArchivoView.as_view(), name='fuente_info_pasajeros_ent_nac_descargar_archivo'),
 
     #fuentes info aeropuertos
     path('fuentes-info/aeropuertos', FuenteInfoAeropuerto.as_view(), name='fuente_info_aeropuertos'),

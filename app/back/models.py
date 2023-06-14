@@ -1255,16 +1255,17 @@ class DirectorioSpa(models.Model):
         db_table = "directorio_spa"
 
 class Pasajeros_Ent_Nac (models.Model):
-    aereopuerto = models.CharField(max_length=256)
-    entidad = models.CharField(max_length=256)
-    ano = models.IntegerField()
-    nacionales = models.IntegerField()
-    regulares = models.IntegerField()
-    nacionales_regulares = models.IntegerField()
-    internacionales_regulares = models.IntegerField()
-    charters = models.IntegerField()
-    charters_nacionales = models.IntegerField()
-    charters_internacionales = models.IntegerField()
+    aereopuerto = models.CharField(max_length=256, verbose_name='Aeropuerto')
+    entidad = models.CharField(max_length=256, verbose_name='Entidad')
+    ano = models.IntegerField(verbose_name='Año')
+    nacionales = models.IntegerField(verbose_name='Pasajeros Nacionales')
+    internacionales = models.IntegerField(verbose_name='Pasajeros Internacionales')
+    regulares = models.IntegerField(verbose_name='Pasajeros Regulares')
+    nacionales_regulares = models.IntegerField(verbose_name='Pasajeros Nacionales Regulares')
+    internacionales_regulares = models.IntegerField(verbose_name='Pasajeros Internacionales Regulares')
+    charters = models.IntegerField(verbose_name='Pasajeros Charters')
+    charters_nacionales = models.IntegerField(verbose_name='Pasajeros Charters Nacionales')
+    charters_internacionales = models.IntegerField(verbose_name='Pasajeros Charters Internacionales')
 
     class Meta:
         app_label = 'ecosistema'
