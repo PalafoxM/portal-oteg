@@ -202,6 +202,8 @@ urlpatterns = [
     path('fuentes_info/airbnb/add', FuenteInfoAirbnbCreate.as_view(), name='fuente_info_airbnb_create'),
     path('fuentes_info/airbnb/edit/<int:pk>/', FuenteInfoAirbnbUpdate.as_view(), name='fuente_info_airbnb_update'),
     path('fuentes_info/airbnb/delete/<int:pk>/', FuenteInfoAirbnbDelete.as_view(), name='fuente_info_airbnb_delete'),
+    path('fuentes_info/airbnb/carga-masiva', AirbnbCargaMasivaView.as_view(), name='fuente_info_airbnb_carga_masiva'),
+    path('fuentes_info/airbnb/descargar-archivo', AirbnbDescargarArchivoView.as_view(), name='fuente_info_airbnb_descargar_archivo'),
 
 
     

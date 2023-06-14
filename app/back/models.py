@@ -462,12 +462,12 @@ class CatalogoAeropuertos(models.Model):
 
 
 class Airbnb (models.Model):
-    fecha_inicio = models.DateField()
-    fecha_fin = models.DateField()
-    destino = models.CharField(max_length=455, null=True, blank=True)
-    propiedad_renta = models.FloatField()
-    porcentaje_ocupacion  = models.FloatField()
-    tarifa_promedio = models.FloatField()
+    fecha_inicio = models.DateField(verbose_name='Fecha de inicio')
+    fecha_fin = models.DateField(verbose_name='Fecha de fin')
+    destino = models.CharField(max_length=455, null=True, blank=True, verbose_name='Destino')
+    propiedad_renta = models.FloatField(verbose_name='Propiedad de renta')
+    porcentaje_ocupacion = models.FloatField(verbose_name='Porcentaje de ocupación')
+    tarifa_promedio = models.FloatField(verbose_name='Tarifa promedio')
 
     class Meta:
         app_label = 'ecosistema'
