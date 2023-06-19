@@ -75,6 +75,13 @@
                     <p>
                         <a href="#!" class="text-reset"> - Medio ambiente</a>
                     </p>
+
+                    <h6 class="text-uppercase fw-bold mb-4">
+                        Reportes
+                    </h6>
+                    <div id="reports"></div>
+
+
                 </div>
                 <!-- Grid column -->
 
@@ -208,6 +215,30 @@
                     //var itemHtml = '<p><a href ="" class="text-reset">' + data[i].titulo + '</a></p>';
 
                     $('#sections').append(itemHtml);
+                }
+            }
+        });
+    });
+
+
+    $(document).ready(function () {
+        $.ajax({
+            url: '{% url "dashboard:get_reports" %}',
+            data: { q: '' },
+
+            success: function (data) {
+                var html = '';
+                var containerHeight = $('#reports').height();
+                var rowHeight = 0;
+                var rowHtml = '<div class="row">';
+
+                for (var i = 0; i < data.length; i++) {
+                    var url = '{% url "dashboard:report_detail" pk=1 %}'.replace('1', data[i].id);
+
+                    var itemHtml = '<p><a href="' + url + '" class="text-reset">' + data[i].titulo + '</a></p>';
+                    //var itemHtml = '<p><a href ="" class="text-reset">' + data[i].titulo + '</a></p>';
+
+                    $('#reports').append(itemHtml);
                 }
             }
         });

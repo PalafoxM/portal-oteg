@@ -12,78 +12,66 @@
     <table class="table table-bordered" id="dataTable" style="table-layout: fixed;">
         <thead>
             <tr>
-                {% autoescape off %}
-                {{ table_headers }}
-                {% endautoescape %}
+                <th style="width: 300px;">giro</th>
+                <th style="width: 300px;">clave_del_giro</th>
+                <th style="width: 300px;">entidad</th>
+                <th style="width: 300px;">clave_entidad</th>
+                <th style="width: 300px;">destino</th>
+                <th style="width: 300px;">clave_municipio</th>
+                <th style="width: 300px;">nombre_comercial</th>
+                <th style="width: 300px;">razon_social</th>
+                <th style="width: 300px;">rfc</th>
+                <th style="width: 300px;">calle</th>
+                <th style="width: 300px;">numero</th>
+                <th style="width: 300px;">colonia</th>
+                <th style="width: 300px;">codigo_postal</th>
+                <th style="width: 300px;">lada</th>
+                <th style="width: 300px;">telefono_1</th>
+                <th style="width: 300px;">telefono_2</th>
+                <th style="width: 300px;">celular</th>
+                <th style="width: 300px;">correo_electronico</th>
+                <th style="width: 300px;">sitio_web</th>
+                <th style="width: 300px;">ret</th>
+                <th style="width: 300px;">tipo</th>
+                <th style="width: 300px;">lic_gastronomia</th>
+                <th style="width: 300px;">lic_turismo</th>
+                <th style="width: 300px;">posgrado_en_turismo</th>
+                <th style="width: 300px;">certificacion_como_guia_de_turista</th>
+                <th style="width: 300px;">otros_estudios_en_turismo</th>
+                <th style="width: 300px;">rnt</th>
+
             </tr>
         </thead>
         <tbody>
             {% for data in data_list %}
             <tr>
-                <td>{{ data.id_establecimiento  }}</td>
-                <td>{{ data.nombre_de_la_unidad_economica }}</td>
-                <td>{{ data.razon_social }}</td>
-                <td>{{ data.codigo_de_la_clase_de_actividad_scian }}</td>
-                <td>{{ data.nombre_de_clase_de_la_actividad }}</td>
-                <td>{{ data.descripcion_estrato_personal_ocupado }}</td>
-                <td>{{ data.tipo_de_vialidad }}</td>
-                <td>{{ data.nombre_de_la_vialidad }}</td>
-                <td>{{ data.tipo_de_entre_vialidad_1 }}</td>
-                <td>{{ data.nombre_de_entre_vialidad_1 }}</td>
-                <td>{{ data.tipo_de_entre_vialidad_2 }}</td>
-                <td>{{ data.nombre_de_entre_vialidad_2 }}</td>
-                <td>{{ data.tipo_de_entre_vialidad_3 }}</td>
-                <td>{{ data.nombre_de_entre_vialidad_3 }}</td>
-                <td>{{ data.numero_exterior_o_kilometro }}</td>
-                <td>{{ data.letra_exterior }}</td>
-                <td>{{ data.edificio }}</td>
-                <td>{{ data.edificio_piso }}</td>
-                <td>{{ data.numero_interior }}</td>
-                <td>{{ data.letra_interior }}</td>
-                <td>{{ data.tipo_de_asentamiento_humano }}</td>
-                <td>{{ data.nombre_de_asentamiento_humano }}</td>
-                <td>{{ data.tipo_centro_comercial }}</td>
-                <td>{{ data.c_industrial_comercial_o_mercado }}</td>
-                <td>{{ data.numero_de_local }}</td>
-                <td>{{ data.codigo_postal }}</td>
+                <td>{{ data.giro }}</td>
+                <td>{{ data.clave_del_giro }}</td>
+                <td>{{ data.entidad }}</td>
                 <td>{{ data.clave_entidad }}</td>
-                <td>{{ data.entidad_federativa }}</td>
+                <td>{{ data.destino }}</td>
                 <td>{{ data.clave_municipio }}</td>
-                <td>{{ data.municipio }}</td>
-                <td>{{ data.clave_localidad }}</td>
-                <td>{{ data.localidad }}</td>
-                <td>{{ data.area_geoestadistica_basica }}</td>
-                <td>{{ data.manzana }}</td>
-                <td>{{ data.numero_de_telefono }}</td>
+                <td>{{ data.nombre_comercial }}</td>
+                <td>{{ data.razon_social }}</td>
+                <td>{{ data.rfc }}</td>
+                <td>{{ data.calle }}</td>
+                <td>{{ data.numero }}</td>
+                <td>{{ data.colonia }}</td>
+                <td>{{ data.codigo_postal }}</td>
+                <td>{{ data.lada }}</td>
+                <td>{{ data.telefono_1 }}</td>
+                <td>{{ data.telefono_2 }}</td>
+                <td>{{ data.celular }}</td>
                 <td>{{ data.correo_electronico }}</td>
-                <td>{{ data.sitio_en_internet }}</td>
-                <td>{{ data.tipo_de_establecimiento }}</td>
-                <td>{{ data.latitud }}</td>
-                <td>{{ data.longitud }}</td>
-                <td>{{ data.fecha_de_incorporacion_al_denue }}</td>
-                <td>{{ data.categoria_turistica }}</td>
-                <td>{{ data.no_cuartos }}</td>
-                <td>{{ data.unidades }}</td>
-                <td>{{ data.espacios_cajones }}</td>
-                <td>{{ data.no_camas }}</td>
-                <td>{{ data.cadena }}</td>
-                <td>{{ data.operadora }}</td>
-                <td>{{ data.responsable }}</td>
-                <td>{{ data.cargo }}</td>
-                <td>{{ data.imss }}</td>
-                <td>{{ data.inicio_de_operaciones_este_ano }}</td>
-                <td>{{ data.fecha_de_inicio_de_operaciones }}</td>
-                <td>{{ data.centro_turistico }}</td>
-                <td>{{ data.zona }}</td>
-                <td>{{ data.datatur }}</td>
-                <td>{{ data.hotel_boutique }}</td>
-                <td>{{ data.nombre_de_la_cadena }}</td>
-                <td>{{ data.hoteles_tesoros }}</td>
-
-              
-
-
-                
+                <td>{{ data.sitio_web }}</td>
+                <td>{{ data.ret }}</td>
+                <td>{{ data.tipo }}</td>
+                <td>{{ data.lic_gastronomia }}</td>
+                <td>{{ data.lic_turismo }}</td>
+                <td>{{ data.posgrado_en_turismo }}</td>
+                <td>{{ data.certificacion_como_guia_de_turista }}</td>
+                <td>{{ data.otros_estudios_en_turismo }}</td>
+                <td>{{ data.rnt }}</td>
 
             </tr>
             {% endfor %}
@@ -95,12 +83,37 @@
     <table class="table table-bordered" id="dataTable" style="table-layout: fixed;">
         <thead>
             <tr>
-                {% autoescape off %}
-                {{ table_headers }}
-                {% endautoescape %}
+                <th style="width: 300px;">giro</th>
+                <th style="width: 300px;">clave_del_giro</th>
+                <th style="width: 300px;">entidad</th>
+                <th style="width: 300px;">clave_entidad</th>
+                <th style="width: 300px;">destino</th>
+                <th style="width: 300px;">clave_municipio</th>
+                <th style="width: 300px;">nombre_comercial</th>
+                <th style="width: 300px;">razon_social</th>
+                <th style="width: 300px;">rfc</th>
+                <th style="width: 300px;">calle</th>
+                <th style="width: 300px;">numero</th>
+                <th style="width: 300px;">colonia</th>
+                <th style="width: 300px;">codigo_postal</th>
+                <th style="width: 300px;">lada</th>
+                <th style="width: 300px;">telefono_1</th>
+                <th style="width: 300px;">telefono_2</th>
+                <th style="width: 300px;">celular</th>
+                <th style="width: 300px;">correo_electronico</th>
+                <th style="width: 300px;">sitio_web</th>
+                <th style="width: 300px;">ret</th>
+                <th style="width: 300px;">tipo</th>
+                <th style="width: 300px;">lic_gastronomia</th>
+                <th style="width: 300px;">lic_turismo</th>
+                <th style="width: 300px;">posgrado_en_turismo</th>
+                <th style="width: 300px;">certificacion_como_guia_de_turista</th>
+                <th style="width: 300px;">otros_estudios_en_turismo</th>
+                <th style="width: 300px;">rnt</th>
             </tr>
         </thead>
         <tbody>
+
             <tr>
                 {% for data in data_list2 %}
                 <td>{{ data }}</td>
