@@ -48,7 +48,7 @@ var datatur = {
                     class: 'actions-column',
                     orderable: false,
                     render: function (data, type, row) {
-                        var html = '<td class="text-center" style="position: relative; background-color: aqua; text-align: center; height: 100%;">';
+                        var html = '<td class="text-center" style="position: relative; text-align: center; height: 100%;">';
                         html += '<div class="icon-container">';
                         html += '<i class="fas fa-edit" onclick="location.href=\'edit/' + row.id + '/\'"></i>';
                         html += '<form method="post" action="delete/' + row.id + '/">';

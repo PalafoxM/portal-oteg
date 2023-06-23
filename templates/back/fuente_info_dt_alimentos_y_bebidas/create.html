@@ -8,32 +8,50 @@
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
+
 
     <link href="{% static 'scss/custom-inputs.css' %}" rel="stylesheet" type="text/css">
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
     <script>
         var $j = jQuery.noConflict();
     </script>
 
+
+
+
     <script>
         $j(function () {
+            $j("#id_entidad").autocomplete({
+                source: "{% url 'dashboard:search_entidades' %}"
+            });
+
             $j("#id_destino").autocomplete({
                 source: "{% url 'dashboard:search_destinos' %}"
             });
         });
     </script>
+
     <style>
         @font-face {
             font-family: 'avenir';
             src: url('{% static "fonts/Avenir-Light.woff" %}');
         }
     </style>
+
+
+
 </head>
 
 
 
-    <form method="post" enctype="multipart/form-data">
-        <div class=" shadow mb-4" style="
+<form method="post" enctype="multipart/form-data">
+
+    <div class=" shadow mb-4" style="
         border-radius: 5px;
     ">
         <div style="
@@ -123,7 +141,9 @@
                 Guardar </p>
         </button>
     </div>
-    </form>
+
+</form>
+
 
 
 
@@ -135,7 +155,7 @@
 
 <script type="application/javascript">
 
-$(document).ready(function () {
+    $(document).ready(function () {
         $('.card-body .input-with-icon [data-icon-class]').each(function () {
             var iconClass = $(this).data('icon-class');
             var iconElement = $(this).closest('.input-with-icon').find('.icon');
@@ -145,7 +165,18 @@ $(document).ready(function () {
         });
     });
 
-<script type="application/javascript">
+
+
+
+
+
+    flatpickr("#id_fecha", {
+        dateFormat: "Y-m-d",
+        minDate: "today", // Fecha mínima seleccionable (hoy)
+        locale: "es",
+    });
+
+
     $(function () {
         $('form').on('submit', function (e) {
             e.preventDefault();
@@ -189,12 +220,12 @@ $(document).ready(function () {
                     if (data.missingData) {
 
 
-                        if (data.categoria && data.destino) {
-                            var htmdata = 'Los siguientes campos no se encuentran en el catalogo de datos revisa tu escritura: <br> ' + 'Categoria: ' + data.categoria + '<br>' + 'Destino: ' + data.destino
-                        } else if (data.categoria) {
-                            var htmdata = 'Los siguientes campos no se encuentran en el catalogo de datos revisa tu escritura: <br> ' + 'Categoria: ' + data.categoria
+                        if (data.entidad && data.destino) {
+                            var htmdata = 'Los siguientes campos no se encuentran en el catalogo de datos revisa tu escritura: <br> ' + 'Entidad: ' + data.entidad + '<br>' + 'Destino: ' + data.destino
+                        } else if (data.entidad) {
+                            var htmdata = 'Los siguientes campos no se encuentran en el catalogo de datos revisa tu escritura: <br> ' + 'Entidad: ' + data.entidad
                         } else if (data.destino) {
-                            var htmdata = 'Los siguientes campos no se encuentran en el catalogo de datos revisa tu escritura: <br> ' + 'Destino: ' + data.destino
+                            var htmdata = 'Los siguientes campos no se encuentran en el catalogo de datos revisa tu escritura: <br> ' + 'Entidad: ' + data.entidad
                         }
 
                         Swal.fire({

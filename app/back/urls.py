@@ -52,6 +52,7 @@ from back.views.fuente_info_dt_productos_turisticos.views import *
 from back.views.fuente_info_dt_recintos_auditorios_y_salones.views import *
 from back.views.fuente_info_dt_spa.views import *
 from back.views.fuente_info_pasajeros_ent_nac.views import *
+from back.views.modulo_reportes.views import *
 
 
 from django.conf import settings
@@ -510,5 +511,14 @@ urlpatterns = [
     path('fuentes-info/dt-spa/delete/<int:pk>/', FuenteInfoDirectorioSpaDelete.as_view(), name='fuente_info_dt_spa_delete'),
     path('fuentes-info/dt-spa/carga-masiva', DirectorioSpaCargaMasivaView.as_view(), name='fuente_info_dt_spa_carga_masiva'),
     path('fuentes-info/dt-spa/descargar-archivo', DirectorioSpaDescargarArchivoView.as_view(), name='fuente_info_dt_spa_descargar_archivo'),
+
+    #reportes
+
+    path('reportes/', ReporteView.as_view(), name='modulo_reportes'),
+    path('reportes/add', ReporteCreate.as_view(), name='reporte_create'),
+    path('reportes/edit/<int:pk>/', ReporteUpdate.as_view(), name='reporte_update'),
+    path('reportes/delete/<int:pk>/', ReporteDelete.as_view(), name='reporte_delete'),
+    path('reports/<int:pk>/', ReporteDetail.as_view(), name='report_detail'),
+    path('get_reports/', get_reports, name='get_reports'),
     
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

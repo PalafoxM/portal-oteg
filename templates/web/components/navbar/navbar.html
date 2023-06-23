@@ -163,7 +163,7 @@
             <a class="custom-nav-item not-sub" href="{%url 'barometro-turistico' %}" class="text-reset">Barómetro Turístico</a>
             <a class="custom-nav-item not-sub" href="#">Glosario</a>
             {% if user.is_authenticated %}
-            <a class="custom-nav-item not-sub" href="{% url 'dashboard:publicacion_list' %}">Panel Admin</a>
+            <a class="custom-nav-item not-sub" href="{% url 'dashboard:fuente_informacion' %}">Panel Admin</a>
             {% else %}
             <a class="custom-nav-item not-sub" href="{% url 'login_user' %}">Log In</a>
             {% endif %}

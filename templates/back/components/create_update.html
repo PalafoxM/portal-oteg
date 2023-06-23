@@ -11,56 +11,139 @@
 
 {% endblock %}
 {% block content %}
-<div class="card shadow mb-4">
-    <form method="post" enctype="multipart/form-data">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">{{title}}</h6>
 
-        </div>
-        <div class="card-body">
+<form method="post" enctype="multipart/form-data">
+
+    <div class=" shadow mb-4" style="
+        border-radius: 5px;
+    ">
+        <div style="
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    
+        ">
             {% csrf_token %}
-            {% if form.errors %}
-            <div class="alert alert-danger alert-dismissible">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                <h5><i class="icon fas fa-ban"></i> Ha ocurrido un error al querer guardar el registro</h5>
-                <ul>
-                    {% for field in form %}
-                    {% for error in field.errors %}
-                    <li>{{ error }}</li>
-                    {% endfor %}
-                    {% endfor %}
-                </ul>
+
+            <!-- Modify the form rendering loop to add icons to each field -->
+            {% for field in form %}
+
+            <div style="
+                    width: 100%;
+      
+                ">
+                <label style="
+                font-family: avenir;
+                font-weight: bold;
+                font-size: 15px;
+                margin: 0;
+                padding: 0;
+            " for="{{ field.id_for_label }}">{{ field.label }}</label>
+
             </div>
+
+
+            {% if field.name != 'descripcion' %}
+
+
+
+
+            <div class="input-with-icon">
+                {{ field }}
+                {% if field.errors %}
+                <div class="error-message">{{ field.errors }}</div>
+                {% endif %}
+                {% if field.help_text %}
+                <div class="help-text">{{ field.help_text }}</div>
+                {% endif %}
+                <div class="icon"><i style="
+                        margin: 0;
+                        padding: 0;
+                        color: #fff;
+                    " class="{{ field.field.widget.attrs.icon_class }}"></i></div>
+            </div>
+
+            {% else %}
+
+            {{ field }}
+
             {% endif %}
-            {{ form.as_p }}
+
+
+            {% endfor %}
+
         </div>
-        <div class="card-footer">
+    </div>
 
-            <button type="submit" class="btn btn-primary ">
-                <i class="fas fa-save"></i> Guardar
-            </button>
-
-            <div id="baker" class="btn btn-danger ">
-                <i class="fas fa-times"></i> Cancelar
-            </div>
+    <div style="display: flex;
+        justify-content: space-around;
+        align-items: center;
+        margin-bottom: 20px;
+        gap: 20px;
+    ">
+        <div id="baker" style="
+        cursor: pointer; 
+            background-color: #EC9711;
+            width: 370px;
+            height: 47px;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+        ">
+            <p style="color: #fff; 
+                font-family: avenir;
+                font-weight: bold; font-size: 15px; margin: 0; padding: 0; text-align: center;">
+                Cancelar</p>
         </div>
-    </form>
 
+        <button type="submit" style="
+            background-color: #0CAB7B;
+            width: 370px;
+            height: 47px;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: none;
+            border-radius: 5px;
+        ">
+            <p style="cursor: pointer; color: #fff; 
+                font-family: avenir;
+                font-weight: bold; font-size: 15px; margin: 0; padding: 0; text-align: center;">
+                Guardar </p>
+        </button>
+    </div>
 
-</div>
+</form>
+
 
 {% endblock %}
 
 
 {% block javascript %}
 <script type="application/javascript">
- 
+
+    $(document).ready(function () {
+        $('.card-body .input-with-icon [data-icon-class]').each(function () {
+            var iconClass = $(this).data('icon-class');
+            var iconElement = $(this).closest('.input-with-icon').find('.icon');
+            iconElement.html('<i class="' + iconClass + '"></i>');
+
+            console.log('Element found:', $(this));
+        });
+    });
+
+
     flatpickr(".fecha-input", {
         dateFormat: "Y-m-d",
         minDate: "today", // Fecha mínima seleccionable (hoy)
         locale: "es",
     });
-    
+
     $(function () {
         $('form').on('submit', function (e) {
             e.preventDefault();
@@ -111,7 +194,7 @@
         e.preventDefault();
         if (confirm('¿Está seguro de cancelar la operación?...los datos no guardados se perderán')) {
             window.location.href = '{{ list_url }}';
-        }else{
+        } else {
             return false;
         }
     });

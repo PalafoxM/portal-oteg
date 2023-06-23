@@ -5,3 +5,4 @@ from .models import *
 admin.site.register(PerfilVisistantePDF)
 admin.site.register(BarometroTuristico)
 admin.site.register(DataPoint)
+admin.site.register(Encuesta)
