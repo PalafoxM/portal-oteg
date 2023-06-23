@@ -109,11 +109,17 @@
                         </div>
 
                     {% else %}
-                        <div class="form-check form-switch" >
-                            {{ field }}
-                            <label class="form-check-label" for="flexSwitchCheckDefault">{{ field.label }}</label>
+                        <div
+                            style="width: 100%; display: flex; justify-content: start;"
+                        >
+                            <label class="form-check-label" for="flexSwitchCheckDefault" >{{ field.label }}</label>
+                            <div class="form-check form-switch" style="transform: scale(1.4);" >
+                                {{ field }}
+                                
+                            </div>
+    
                         </div>
-
+          
                     
                         {% endif %}
                     {% endif %}

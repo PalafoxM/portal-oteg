@@ -68,6 +68,7 @@ class SeccionesCentroDocumental(models.Model):
     observacion = models.TextField(blank=True, null=True)
 
 
+
 class Categorias(models.Model):
     nombre_categoria = models.CharField(max_length=100, null=True, blank=True)
     fecha_creacion = models.DateField()

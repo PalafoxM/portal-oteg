@@ -10,7 +10,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 
 <style>
@@ -154,13 +156,13 @@
     }
 
     #carousel-example-generic {
-        height: 400px;
+        height: 500px;
         width: 100%;
     }
 
     .carousel .carousel-inner>.item>img {
         width: 100%;
-        height: 400px;
+        height: 500px;
     }
 
     @media only screen and (max-width: 991px) {
@@ -174,11 +176,17 @@
     @media only screen and (max-width: 767px) {
         .navbar-default .navbar-collapse {
             border-color: transparent;
-            background: #fff;
+            background: #333333;
         }
 
         .navbar-default .navbar-nav>li>a {
-            color: #000;
+            color: #fff;
+        }
+
+        .navbar-default .navbar-nav>li>a:hover {
+            color: #fff;
+            cursor: pointer;
+            text-decoration: underline;
         }
 
         .carousel-caption p {
@@ -194,6 +202,43 @@
             font-size: 20px;
             letter-spacing: 0;
         }
+
+        .info-card {
+            background-color: #DEE2E6;
+            border-radius: 20px;
+            width: 250px !important;
+            height: 150px !important;
+            padding: 10px 15px !important;
+            position: absolute;
+            margin: -65px;
+            z-index: 999;
+            box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: scale(1.05);
+            cursor: pointer;
+        }
+
+        .info-card h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 12px !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            margin-bottom: 5px !important;
+            color: #000;
+        }
+
+        .info-card p {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 400;
+            font-size: 10px !important;
+            color: #000;
+            padding: 0 !important;
+        }
+
     }
 
 
@@ -201,7 +246,7 @@
         position: relative;
         overflow: hidden;
         width: 100%;
-        height: 400px;
+        height: 500px;
         /* 16:9 aspect ratio */
     }
 
@@ -210,7 +255,7 @@
         top: 0;
         left: 0;
         width: 100%;
-        height: 400px;
+        height: 500px;
         object-fit: cover;
         object-position: center;
     }
@@ -220,16 +265,13 @@
         top: 0;
         left: 0;
         width: 100%;
-        height: 400px;
+        height: 500px;
         background-image: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, #000000 100%);
         /* Adjust the gradient colors and opacity as needed */
     }
 
-    .nav-text {
-        font-family: 'Montserrat', sans-serif;
-        font-weight: 300;
-        font-size: small;
-    }
+
+
 
     .navbar {
         position: absolute;
@@ -266,6 +308,12 @@
         margin: -65px auto 0 15%;
         z-index: 999;
         box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+    }
+
+    .info-card:hover {
+        transform: scale(1.05);
+        cursor: pointer;
     }
 
     .info-card h2 {
@@ -294,10 +342,221 @@
         justify-content: center;
         align-items: center;
         flex-direction: column;
+        transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+        cursor: pointer;
+    }
+
+
+    .n-card {
+        background-color: #DEE2E6;
+        border-radius: 8px;
+        width: 320px;
+        height: 350px;
+
+        margin-top: 20px;
+        box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        transition: transform 0.3s ease;
+    }
+
+
+    .n-card:hover {
+        transform: scale(1.05);
+        cursor: pointer;
+    }
+
+    .butom-m {
+        transition: transform 0.3s ease;
+    }
+
+    .butom-m:hover {
+        transform: scale(1.05);
+        cursor: pointer;
+    }
+
+    body {
+        background-color: #F2F2F2;
+        overflow-x: hidden;
+    }
+
+    .otwn-logo {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        padding: 15px 5px 0 10px;
+        padding-right: 40px;
+    }
+
+    @media (max-width: 991px) {
+        .navbar-header {
+            float: none;
+        }
+
+        .navbar-left,
+        .navbar-right {
+            float: none !important;
+        }
+
+        .navbar-toggle {
+            display: block;
+        }
+
+        .navbar-collapse {
+            border-top: 1px solid transparent;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .navbar-fixed-top {
+            top: 0;
+            border-width: 0 0 1px;
+        }
+
+        .navbar-collapse.collapse {
+            display: none !important;
+        }
+
+        .navbar-nav {
+            float: none !important;
+            margin-top: 7.5px;
+        }
+
+        .navbar-nav>li {
+            float: none;
+        }
+
+        .navbar-nav>li>a {
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        .collapse.in {
+            display: block !important;
+        }
+
+
+        .navbar-default .navbar-collapse {
+            border-color: transparent;
+            background: #333333;
+            border-radius: 0, 5px, 5px, 0 !important;
+        }
+
+        .navbar-default .navbar-nav>li>a {
+            color: #fff;
+        }
+
+        .navbar-default .navbar-nav>li>a:hover {
+            color: #fff;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .otwn-logo {
+            display: none;
+        }
+
+    }
+
+
+    .navbar-toggle {
+        border-color: #333333 !important;
+
+    }
+
+    .navbar-toggle:focus {
+        background-color: #333333 !important;
+        border-color: #333333 !important;
+
+    }
+
+    .navbar-toggle:hover {
+        background-color: #333333 !important;
+        border-color: #333333 !important;
+    }
+
+    .social-media-stiky {
+        height: 150px;
+        width: 35px;
+        background-image: linear-gradient(140.57deg, #ED4C02 0%, #FB8A55 100%);
+        position: fixed;
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        z-index: 999;
+        border-radius: 10px 0 0 10px;
+        gap: 10px;
+        box-shadow: -12px 15px 18px -3px rgba(0, 0, 0, 0.1);
+
+    }
+
+    .social-media-stiky img {
+        transition: transform 0.3s ease;
+
+    }
+
+    .social-media-stiky img:hover {
+        transform: scale(1.3);
+        cursor: pointer;
+    }
+
+    /* For Webkit browsers (Chrome, Safari, etc.) */
+    ::-webkit-scrollbar {
+        width: 10px;
+        /* Adjust the width as needed */
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        /* Set the background color */
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 10px;
+        /* Set the thumb color */
+    }
+
+    /* For Firefox */
+    /* Note: Firefox currently supports a limited range of customization */
+    /* You can experiment with these properties and values */
+    /* to achieve the desired scroll bar design in Firefox */
+    /* scrollbar-color: #888 #f1f1f1;
+    scrollbar-width: thin; */
+
+    .nav-text {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 300;
+        font-size: small;
+    }
+
+    .nav-text:hover {
+        color: #fff;
+        cursor: pointer;
+        text-decoration: underline;
     }
 </style>
 
 <body>
+
+
+    <div class="social-media-stiky">
+        <a href="https://twitter.com/ObservaTur_GTO" target="_blank"><img src="{% static 'icons/twiter1.svg' %}"
+                target="_blank" alt="" style="height: 20px; margin-bottom: 10px;" /></a>
+        <a href="https://www.facebook.com/observatoriotgto/" target="_blank"><img src="{% static 'icons/fb2.svg' %}"
+                alt="" style="height: 20px; margin-bottom: 10px;" /></a>
+        <a href="{% url 'sitios_interes' %}"><img src="{% static 'icons/globe3.svg' %}" alt=""
+                style="height: 20px; margin-bottom: 10px;" /></a>
+    </div>
 
 
 
@@ -305,7 +564,16 @@
     <div class="myslide carousel slide" id="carousel-example-generic" data-ride="carousel">
 
 
-        <nav class="navbar navbar-default ">
+        <nav class="navbar navbar-default force-hamburger">
+
+            <div class="container otwn-logo">
+                <image style="
+                height: 30px;
+                object-fit: cover;
+                object-position: center;
+                " src="{% static 'icons/unwto.png' %}" />
+
+            </div>
             <div class="container">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
@@ -330,23 +598,16 @@
                         <li><a class="nav-text">Información Turística</a></li>
                         <li><a class="nav-text">Solicitudes</a>
                         <li> <a><input type="text" placeholder="Buscar" class="nav-input"></a></li>
-
                     </ul>
 
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a class="nav-text">INICIO</a></li>
+                        <li><a  href="{% url 'inicio' %}" class="nav-text">INICIO</a></li>
                         <li><a class="nav-text">Indicadores</a></li>
-                        <li><a class="nav-text">Publicaciones</a></li>
+                        <li><a href="{% url 'publicaciones_new' %}"  class="nav-text">Publicaciones</a></li>
                         <li><a class="nav-text">Inventario Turístico</a></li>
                         <li><a class="nav-text">Entorno Nacional</a></li>
                         <li><a class="nav-text">Barómetro Turístico</a></li>
                         <li><a class="nav-text">ENIOT</a></li>
-
-
-
-
-
-
                     </ul>
                 </div><!-- /.navbar-collapse -->
             </div><!-- /.container-fluid -->
@@ -446,13 +707,21 @@
 
             <div class="card">
 
-                <div
-                    style="height: 60px; width: 60px; background-image: linear-gradient(140.57deg, #ED4C02 0%, #FB8A55 100%); border-radius: 50%;">
+                <div style="height: 60px; width: 60px; background-image: linear-gradient(140.57deg, #ED4C02 0%, #FB8A55 100%); border-radius: 50%;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                    
+                    ">
+
+                    <img src="{% static 'icons/icon2.svg' %}" alt="" style="width: 55%; height:55%;">
                 </div>
 
 
-                <h2
-                    style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 14px; color: #333333;">
+                <h2 style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 14px; color: #333333;
+                    
+                    
+                    ">
                     $816 MDP <br>
                     (Millones de Pesos)</h2>
 
@@ -468,8 +737,13 @@
 
             <div class="card">
 
-                <div
-                    style="height: 60px; width: 60px; background-image: linear-gradient(140.57deg, #ED4C02 0%, #FB8A55 100%); border-radius: 50%;">
+                <div style="height: 60px; width: 60px; background-image: linear-gradient(140.57deg, #ED4C02 0%, #FB8A55 100%); border-radius: 50%;
+                    
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    ">
+                    <img src="{% static 'icons/icon3.svg' %}" alt="" style="width: 55%; height:55%;">
                 </div>
 
 
@@ -488,8 +762,13 @@
             </div>
             <div class="card">
 
-                <div
-                    style="height: 60px; width: 60px; background-image: linear-gradient(140.57deg, #ED4C02 0%, #FB8A55 100%); border-radius: 50%;">
+                <div style="height: 60px; width: 60px; background-image: linear-gradient(140.57deg, #ED4C02 0%, #FB8A55 100%); border-radius: 50%;
+                    
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    ">
+                    <img src="{% static 'icons/icon4.svg' %}" alt="" style="width: 55%; height:55%;">
                 </div>
 
 
@@ -510,8 +789,13 @@
 
             <div class="card">
 
-                <div
-                    style="height: 60px; width: 60px; background-image: linear-gradient(140.57deg, #ED4C02 0%, #FB8A55 100%); border-radius: 50%;">
+                <div style="height: 60px; width: 60px; background-image: linear-gradient(140.57deg, #ED4C02 0%, #FB8A55 100%); border-radius: 50%;
+
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    ">
+                    <img src="{% static 'icons/icon5.svg' %}" alt="" style="width: 55%; height:55%;">
                 </div>
 
 
@@ -533,8 +817,13 @@
 
             <div class="card">
 
-                <div
-                    style="height: 60px; width: 60px; background-image: linear-gradient(140.57deg, #ED4C02 0%, #FB8A55 100%); border-radius: 50%;">
+                <div style="height: 60px; width: 60px; background-image: linear-gradient(140.57deg, #ED4C02 0%, #FB8A55 100%); border-radius: 50%;
+
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    ">
+                    <img src="{% static 'icons/icon6.svg' %}" alt="" style="width: 55%; height:55%;">
                 </div>
 
 
@@ -555,11 +844,11 @@
 
         </section>
 
-        
-    {% include 'web/components/map/map.html' %}
+
+        {% include 'web/components/map/map.html' %}
 
 
-    <div style='
+        <div style='
     display: flex;
     justify-content: center;
     align-items: start;
@@ -568,26 +857,207 @@
 
     '>
 
-        <h1
-            style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 40px; color: #333333;">
-            NOTICIAS TURISTICAS</h1>
+            <h1 style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 40px; color: #333333;">
+                NOTICIAS TURÍSTICAS</h1>
+        </div>
+
+
+        <div style="display: flex;
+        justify-content: space-around;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-bottom: 50px;
+        ">
+
+            <div class='n-card'>
+                <div style='        position: relative;
+                overflow: hidden;
+                width: 100%;
+                height: 100%;'>
+                    <img style="
+                        border-radius:8px  8px  0px 0px;
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 50%;
+                        object-fit: cover;
+                        object-position: center;"
+                        src="https://guanajuato.mx/wp-content/uploads/2022/05/San-Miguel-de-Allende-Guanajuato-2.jpg"
+                        alt="">
+                    <div style="
+                        border-radius: 0px 0px 8px  8px  ;
+                        position: absolute;
+                        bottom: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 50%;
+                        object-fit: cover;
+                        object-position: center;
+                        padding-left: 20px;
+                        padding-right: 20px;
+                        ">
+                        <h2>Lorem ipsum</h2>
+                        <p>
+                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Expedita voluptate, quibusdam ad
+                            dignissimos qu
+                        </p>
+                        <a style="
+                                color:#ED4C02 ;
+                            ">
+                            Seguir leyendo...
+
+                        </a>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+            <div class='n-card'>
+                <div style='        position: relative;
+                overflow: hidden;
+                width: 100%;
+                height: 100%;'>
+                    <img style="
+                        border-radius:8px  8px  0px 0px;
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 50%;
+                        object-fit: cover;
+                        object-position: center;"
+                        src="https://guanajuato.mx/wp-content/uploads/2022/05/San-Miguel-de-Allende-Guanajuato-2.jpg"
+                        alt="">
+                    <div style="
+                        border-radius: 0px 0px 8px  8px  ;
+                        position: absolute;
+                        bottom: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 50%;
+                        object-fit: cover;
+                        object-position: center;
+                        padding-left: 20px;
+                        padding-right: 20px;
+                        ">
+                        <h2>Lorem ipsum</h2>
+                        <p>
+                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Expedita voluptate, quibusdam ad
+                            dignissimos qu
+                        </p>
+                        <a style="
+                                color:#ED4C02 ;
+                            ">
+                            Seguir leyendo...
+                        </a>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <div class='n-card'>
+                <div style='        position: relative;
+                overflow: hidden;
+                width: 100%;
+                height: 100%;'>
+                    <img style="
+                        border-radius:8px  8px  0px 0px;
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 50%;
+                        object-fit: cover;
+                        object-position: center;"
+                        src="https://guanajuato.mx/wp-content/uploads/2022/05/San-Miguel-de-Allende-Guanajuato-2.jpg"
+                        alt="">
+                    <div style="
+                        border-radius: 0px 0px 8px  8px  ;
+                        position: absolute;
+                        bottom: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 50%;
+                        object-fit: cover;
+                        object-position: center;
+                        padding-left: 20px;
+                        padding-right: 20px;
+                        ">
+                        <h2>Lorem ipsum</h2>
+                        <p>
+                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Expedita voluptate, quibusdam ad
+                            dignissimos qu
+                        </p>
+                        <a style="
+                                color:#ED4C02 ;
+                            ">
+                            Seguir leyendo...
+
+                        </a>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+        <div style="
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        margin-top: 80px;
+        margin-bottom: 40px;">
+
+            <div class="butom-m" style="
+        background-image: linear-gradient(140.57deg, #ED4C02 0%, #FB8A55 100%);
+        border-radius: 20px;
+        width: 291px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+        padding: 0;
+        cursor: pointer;">
+
+                <h4 style="
+                padding: 0;
+                margin: 0;
+                color: #fff;
+                font-family: 'Montserrat', sans-serif;
+                font-size: 15px;">VER TODAS LAS NOTICIAS</h4>
+
+            </div>
+
+        </div>
+
     </div>
 
 
 
 
 
-    </div>
 
 
-
-
-
-
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src=" https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 </body>
+
+
+{% include 'web/components/footer/footer_new.html' %}
+
+
 
 </html>

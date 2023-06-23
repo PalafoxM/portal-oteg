@@ -38,15 +38,19 @@ class PublicationForm(forms.ModelForm):
         ('3', 'XLS'),
     )
      
-    type = forms.ChoiceField(choices=TYPE_CHOICES, widget=forms.Select(attrs={'class': 'custom-input'}))
+    type = forms.ChoiceField(choices=TYPE_CHOICES, widget=forms.Select(attrs={'class': 'custom-input', 'icon_class': 'fas fa-file'}))
+    name = forms.CharField(widget=forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-user'}))  
+    visible = forms.BooleanField(required=False, widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}))
+    recent = forms.BooleanField(required=False, widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}))
+    publication = forms.BooleanField(required=False, widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}))
     class Meta:
         model = Publications
         exclude = ('category', 'section', 'num_descargas')
         fields = '__all__'
         widgets = {
 
-            'type': forms.TextInput(attrs={'class': 'custom-input'}),
-            'name': forms.TextInput(attrs={'class': 'custom-input'}),
+            'type': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'name': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-name'}),
             'url': forms.ClearableFileInput(attrs={'class': 'custom-input-file'}),
 
             'section': TextInput(attrs = { 'placeholder': 'Ingresa una Sección', 'class': 'custom-input'}),
@@ -132,9 +136,9 @@ class SeccionCentroDocumentalForm(forms.ModelForm):
         model = SeccionesCentroDocumental
         fields = ['seccion', 'descripcion', 'observacion']
         widgets = {
-            'seccion': forms.TextInput(attrs={'class': 'form-control'}),
+            'seccion':forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-search'}),
             'descripcion': forms.Textarea(attrs={'class': 'form-control'}),
-            'observacion': forms.TextInput(attrs={'class': 'form-control'}),
+            'observacion': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-search'}),
         }
 
 
@@ -146,11 +150,10 @@ class CategoriasForm(forms.ModelForm):
                   'publicacion', 'visible', 'seccion']
 
         widgets = {
-            'nombre_categoria': forms.TextInput(attrs={'class': 'form-control'}),
-            'fecha_creacion': forms.DateInput(attrs={'class': 'form-control fecha-input'}),
-            'publicacion': forms.CheckboxInput(attrs={'class': 'form-control'}),
-            'visible': forms.CheckboxInput(attrs={'class': 'form-control'}),
-            'seccion': forms.Select(attrs={'class': 'form-control'}),
+            'nombre_categoria': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-search'}),
+            'fecha_creacion': forms.DateInput(attrs={'class': 'form-control fecha-input' ,'icon_class': 'fas fa-calendar'}),
+            'publicacion': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'visible': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
 
     def __init__(self, *args, **kwargs):
@@ -160,6 +163,8 @@ class CategoriasForm(forms.ModelForm):
             seccion = SeccionesCentroDocumental.objects.get(pk=pk)
             self.fields['seccion'].initial = seccion
             self.fields['seccion'].widget = forms.HiddenInput()
+
+# class CategoriasFormUpdate(forms.ModelForm):
 
 
 class NoticiaForm(ModelForm):
@@ -188,10 +193,10 @@ class BarometroForm(forms.ModelForm):
         model = BarometroTuristico
         fields = ['semestre', 'nombrePDF', 'url', 'yearPDF']
         widgets = {
-            'semestre': forms.NumberInput(attrs={'class': 'form-control', 'required': True}),
-            'nombrePDF': forms.TextInput(attrs={'class': 'form-control'}),
-            'url': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
-            'yearPDF': forms.NumberInput(attrs={'class': 'form-control', 'required': True}),
+            'semestre': forms.NumberInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-search', 'required': True}),
+            'nombrePDF': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-file-pdf'}),
+            'url': forms.ClearableFileInput(attrs={'class': 'form-control-file' ,'icon_class': 'fas fa-file-pdf'}),
+            'yearPDF': forms.NumberInput(attrs={'class': 'custom-input' ,'icon_class': 'fas fa-calendar', 'required': True}),
         }
         labels = {
             'url': 'Archivo',
@@ -260,8 +265,8 @@ class GlosarioForm(forms.ModelForm):
             'definicion': 'Definición',
         }
         widgets = {
-            'palabra': forms.TextInput(attrs={'class': 'form-control'}),
-            'definicion': forms.TextInput(attrs={'class': 'form-control'}),
+            'palabra': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-search'}),
+            'definicion': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-book'}),
         }
 
 
@@ -1480,6 +1485,9 @@ class DirectorioSpaForm(forms.ModelForm):
             'ret': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
             'rnt': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'})
         }
+
+
+
 
 class ReportsForm(forms.ModelForm):
     class Meta:

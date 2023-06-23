@@ -2,14 +2,12 @@
 {% load widget_tweaks %}
 {% load static %}
 {% block content %}
-<div class="card shadow mb-4">
+<!-- <div class="card shadow mb-4">
     <form method="post" enctype="multipart/form-data">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">{{title}}</h6>
         </div>
         <div class="card-body">
-            {{section}}
-            {{category}}
             {% csrf_token %}
 
             <div class="form-group">
@@ -26,6 +24,8 @@
                 <select class="form-control" id="id_category" name="category">
                 </select>
             </div>
+
+
             {{ form.as_p }}
 
         </div>
@@ -41,8 +41,153 @@
         </div>
     </form>
 
+</div> -->
+<form method="post" enctype="multipart/form-data">
 
-</div>
+    <div class=" shadow mb-4" style="
+        border-radius: 5px;">
+
+        <div style="
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;">
+            {% csrf_token %}
+
+            <div style="width:100%; display: flex; justify-content: start; align-items: center; margin-bottom: 10px;">
+                <label style="
+                font-family: avenir;
+                font-weight: bold;
+                font-size: 15px;
+                margin: 0;
+                padding: 0;
+            " for="id_section">Sección</label>
+            </div>
+
+            <div class="form-group" style="
+                width: 100%;
+                display: flex;
+                justify-content: start;
+                align-items: center
+            ">
+                <select class="form-control" id="id_section" name="section">
+                    <option value="">---------</option>
+                    {% for section in sections %}
+                    <option value="{{ section.id }}">{{ section.seccion }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div style="width:100%; display: flex; justify-content: start; align-items: center; margin-bottom: 10px;">
+                <label style="
+                font-family: avenir;
+                font-weight: bold;
+                font-size: 15px;
+                margin: 0;
+                padding: 0;
+            " for="id_section">Categoria</label>
+            </div>
+            <div class="form-group" style=" width: 100%;">
+                <select class="form-control" id="id_category" name="category"></select>
+            </div>
+
+            {% for field in form %}
+
+            <div style="width: 100%;">
+
+                <label style="font-family: avenir;font-weight: bold;font-size: 15px;margin: 0;padding: 0;"
+                    for="{{ field.id_for_label }}">{{ field.label }}
+                </label>
+
+            </div>
+
+            {% if field.name == 'type' or field.name == 'name' %}
+
+            <div class="input-with-icon">
+                {{ field }}
+                {% if field.errors %}
+                <div class="error-message">{{ field.errors }}</div>
+                {% endif %}
+                {% if field.help_text %}
+                <div class="help-text">{{ field.help_text }}</div>
+                {% endif %}
+                <div class="icon"><i style="
+                        margin: 0;
+                        padding: 0;
+                        color: #fff;
+                    " class="{{ field.field.widget.attrs.icon_class }}"></i></div>
+            </div>
+
+            {% else %}
+            {%if field.name == 'url' %}
+
+            {{ field }}
+            {% else %}
+
+            <div style="width: 100%; display: flex; justify-content: start;">
+                <div class="form-check form-switch" style="transform: scale(1.4);">
+                    {{ field }}
+                </div>
+            </div>
+
+            {% endif %}
+
+            {% endif %}
+
+
+            {% endfor %}
+
+
+        </div>
+
+    </div>
+
+    <div style="display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 20px;
+">
+        <div id="baker" style="
+    cursor: pointer; 
+        background-color: #EC9711;
+        width: 370px;
+        height: 47px;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 5px;
+    ">
+            <p style="color: #fff; 
+            font-family: avenir;
+            font-weight: bold; font-size: 15px; margin: 0; padding: 0; text-align: center;">
+                Cancelar</p>
+        </div>
+
+        <button type="submit" style="
+        background-color: #0CAB7B;
+        width: 370px;
+        height: 47px;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: none;
+        border-radius: 5px;
+    ">
+            <p style="cursor: pointer; color: #fff; 
+            font-family: avenir;
+            font-weight: bold; font-size: 15px; margin: 0; padding: 0; text-align: center;">
+                Guardar </p>
+        </button>
+    </div>
+
+</form>
+
+
+
 
 {% endblock %}
 
@@ -58,29 +203,30 @@
 
         // Attach a change event handler to the section select field
         var sectionId = {{ section }};
-        console.log(sectionId);
-        if (sectionId) {
-            $.ajax({
-                url: '{% url "dashboard:get_categories" %}',
-                data: {
-                    'section_id': sectionId
-                },
-                success: function (data) {
-                    console.log(data);
-                    $('#id_category').empty();
-                    $('#id_category').append('<option value="">---------</option>');
 
-                    for (var i = 0; i < data.length; i++) {
-                        $('#id_category').append('<option value="' + data[i].key + '">' + data[i].value + '</option>');
-                    }
-                    $("#id_category").val(category);
+    console.log(sectionId);
+    if (sectionId) {
+        $.ajax({
+            url: '{% url "dashboard:get_categories" %}',
+            data: {
+                'section_id': sectionId
+            },
+            success: function (data) {
+                console.log(data);
+                $('#id_category').empty();
+                $('#id_category').append('<option value="">---------</option>');
+
+                for (var i = 0; i < data.length; i++) {
+                    $('#id_category').append('<option value="' + data[i].key + '">' + data[i].value + '</option>');
                 }
-            });
+                $("#id_category").val(category);
+            }
+        });
 
-        } else {
-            $('#id_category').empty();
-            $('#id_category').append('<option value="">---------</option>');
-        }
+    } else {
+        $('#id_category').empty();
+        $('#id_category').append('<option value="">---------</option>');
+    }
 
     });
 </script>

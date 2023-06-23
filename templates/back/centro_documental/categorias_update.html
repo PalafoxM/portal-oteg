@@ -29,7 +29,9 @@
 
             <!-- Modify the form rendering loop to add icons to each field -->
             {% for field in form %}
+            {% if field.name != 'seccion' %}
 
+            {% if field.name == 'nombre_categoria' or field.name == 'fecha_creacion' %}
             <div style="
                     width: 100%;
       
@@ -43,12 +45,6 @@
             " for="{{ field.id_for_label }}">{{ field.label }}</label>
 
             </div>
-
-
-            {% if field.name != 'descripcion' %}
-
-
-
 
             <div class="input-with-icon">
                 {{ field }}
@@ -64,10 +60,51 @@
                         color: #fff;
                     " class="{{ field.field.widget.attrs.icon_class }}"></i></div>
             </div>
+            {% else %}
+
+            <div style="width: 100%; display: flex; justify-content: flex-start;gap: 1rem;">
+                <label class="form-check-label" for="flexSwitchCheckDefault">{{ field.label }}</label>
+                <div class="form-check form-switch" style="transform: scale(1.4);">
+                    {{ field }}
+                </div>
+
+
+            </div>
+
+
+            {% endif %}
 
             {% else %}
 
-            {{ field }}
+            <div style="
+            width: 100%;
+
+        ">
+                <label style="
+        font-family: avenir;
+        font-weight: bold;
+        font-size: 15px;
+        margin: 0;
+        padding: 0;
+    " for="{{ field.id_for_label }}">{{ field.label }}</label>
+
+            </div>
+
+            <div class="input-with-icon">
+                {{ field }}
+                {% if field.errors %}
+                <div class="error-message">{{ field.errors }}</div>
+                {% endif %}
+                {% if field.help_text %}
+                <div class="help-text">{{ field.help_text }}</div>
+                {% endif %}
+                <div class="icon"><i style="
+                margin: 0;
+                padding: 0;
+                color: #fff;
+            " class="{{ field.field.widget.attrs.icon_class }}"></i></div>
+            </div>
+
 
             {% endif %}
 
