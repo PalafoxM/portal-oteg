@@ -5,52 +5,51 @@
 {% endblock %}
 
 {% block columns %}
-<tr>
+<tr class="text-center table-header">
     <th scope="col" style="width: 10%;">id</th>
     <th scope="col" style="width: 20%;">Seccion </th>
-    <th scope="col" style="width: 20%;">Acciones</th>
+    <th scope="col" style="width: 10%;">Acciones</th>
 
-{% endblock %}
+    {% endblock %}
 
-{% block rows %}
-{% for e in object_list %}
-<tr>
-    <th>{{e.id}}</th>
-    <th>{{e.seccion }}</th>
-    <th>
+    {% block rows %}
+    {% for e in object_list %}
 
-        <form method="get" action="{% url 'dashboard:categorias_list' e.id %}" >
-            {% csrf_token %}
-            <button type="submit" class="btn btn-info btn-icon-split">
-                <span class="icon text-white-50">
+<tr class="table-body">
+    <th class="text-left tb-text">{{e.id}}</th>
+    <th class="text-left tb-text">{{e.seccion }}</th>
+    <th class="text-left actions-column tb-text" style="
+    position: relative;
+    background-color: #ECF0F1;
+    text-align: center;
+    height: 100%;
+    ">
+        <div class="icon-container2">
+            <form method="get" action="{% url 'dashboard:categorias_list' e.id %}">
+                {% csrf_token %}
+                <button type="submit" class="ml-1 mr-1 actions-btn">
                     <i class="fa fa-plus"></i>
-                    
-                </span>
-                <span class="text"> Categorias</span>
-            </button>
-        </form>
+                </button>
+            </form>
 
-        
-        <form method="post" action="{% url 'dashboard:CEDC_delete' e.id %}" >
-            {% csrf_token %}
-            <button type="submit" class="btn btn-danger btn-icon-split" onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">
-                <span class="icon text-white-50">
+            <form method="post" action="{% url 'dashboard:CEDC_delete' e.id %}">
+                {% csrf_token %}
+                <button type="submit" class="ml-1 mr-1 actions-btn"
+                    onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">
+
                     <i class="fas fa-trash"></i>
-                </span>
-                <span class="text">Eliminar</span>
-            </button>
-        </form>
+                </button>
+            </form>
 
-        
-        <form method="get" action="{% url 'dashboard:CEDC_update' e.id %}" >
-            {% csrf_token %}
-            <button type="submit" class="btn btn-primary btn-icon-split">
-                <span class="icon text-white-50">
+
+            <form method="get" action="{% url 'dashboard:CEDC_update' e.id %}">
+                {% csrf_token %}
+                <button type="submit" class="ml-1 mr-1 actions-btn">
+
                     <i class="fas fa-pencil-alt"></i>
-                </span>
-                <span class="text">Editar</span>
-            </button>
-        </form>
+                </button>
+            </form>
+        </div>
 
     </th>
 </tr>

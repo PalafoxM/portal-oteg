@@ -164,13 +164,15 @@ class CategoriasListView(ListView):
         seccion = get_object_or_404(SeccionesCentroDocumental, pk=seccion_id)
         context['seccion'] = seccion
         context['is_category'] = True
+        context['title'] = 'Crear Categorias'
+        context['create_url'] = reverse_lazy('dashboard:add_categoria', kwargs={'pk': seccion_id})                          
         context['pk'] = seccion_id
         return context
 
 class CategoriasCreateView(CreateView):
     model = Categorias
     form_class = CategoriasForm
-    template_name = 'back/components/create_update.html'
+    template_name = 'back/centro_documental/categorias_create.html'
     success_url = reverse_lazy('dashboard:categorias_list')
 
     def get_form_kwargs(self):
@@ -236,7 +238,7 @@ class CategoriasDeleteView(DeleteView):
 class CategoriasUpdateView(UpdateView):
     model = Categorias
     form_class = CategoriasForm
-    template_name = 'back/components/create_update.html'
+    template_name = 'back/centro_documental/categorias_create.html'
     success_url =  reverse_lazy('dashboard:centrodocumental')
 
     def form_invalid(self, form):

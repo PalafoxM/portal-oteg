@@ -31,17 +31,36 @@
     <th class="text-left tb-text">No hay imagen disponible</th>
     {% endif %}
 
-    <th class="text-center" style="position: relative; background-color: #ECF0F1; text-align: center; height: 100%;">
-        <div class="icon-container">
-            <i class="fas fa-edit" onclick="location.href='{% url 'dashboard:noticia_update' e.id %}'"></i>
-            <form method="post" action="{% url 'dashboard:noticia_delete' e.id %}" >
+    <th class="text-left actions-column tb-text" style="
+    position: relative;
+    background-color: #ECF0F1;
+    text-align: center;
+    height: 100%;
+    ">
+        <div class="icon-container2">
+
+            <form method="post" action="{% url 'dashboard:noticia_delete' e.id %}">
                 {% csrf_token %}
-                <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">
+                <button type="submit" class="ml-1 mr-1 actions-btn"
+                    onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">
+
                     <i class="fas fa-trash"></i>
+
+
+                </button>
+            </form>
+
+            <form method="get" action="{% url 'dashboard:noticia_update' e.id %}">
+                {% csrf_token %}
+                <button type="submit" class="ml-1 mr-1 actions-btn">
+
+                    <i class="fas fa-pencil-alt"></i>
+
+
                 </button>
             </form>
         </div>
-        
+
     </th>
 </tr>
 {% endfor %}

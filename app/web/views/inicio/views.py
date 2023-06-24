@@ -6,7 +6,7 @@ from back.models import Banner ,Noticia
 class InicioView(TemplateView):
     model = Banner
     model2 = Noticia
-    template_name = 'web/paginas/inicio/inicio.html'
+    template_name = 'web/paginas/inicio/inicio_new.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

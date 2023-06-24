@@ -25,84 +25,115 @@
 
 {% endblock %}
 {% block content %}
+
 <form method="post" enctype="multipart/form-data">
+
     <div class=" shadow mb-4" style="
-    border-radius: 5px;
-">
-    <div style="
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 20px;
-
+        border-radius: 5px;
     ">
-        {% csrf_token %}
-
-        <!-- Modify the form rendering loop to add icons to each field -->
-        {% for field in form %}
-    <div style="width: 100%;">
-        <label style="
-            font-family: avenir;
-            font-weight: bold;
-            font-size: 15px;
-            margin: 0;
-            padding: 0;
-        " for="{{ field.id_for_label }}">{{ field.label }}</label>
-    </div>
+        <div style="
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
     
-    {% if field.field.widget.input_type == 'checkbox' %}
-        <div class="checkbox-input">
-            <label for="{{ field.id_for_label }}">
-                {{ field }} {{ field.label }}
-            </label>
-            <!-- {{ field }} -->
-            {% if field.errors %}
-                <div class="error-message">{{ field.errors }}</div>
-            {% endif %}
-            {% if field.help_text %}
-                <div class="help-text">{{ field.help_text }}</div>
-            {% endif %}
-        </div>
-    {% else %}
-        {% if field.field.widget.input_type != 'file' %}
+        ">
+            {% csrf_token %}
+
+            <!-- Modify the form rendering loop to add icons to each field -->
+            {% for field in form %}
+
+            <div style="
+                    width: 100%;
+      
+                ">
+                <label style="
+                font-family: avenir;
+                font-weight: bold;
+                font-size: 15px;
+                margin: 0;
+                padding: 0;
+            " for="{{ field.id_for_label }}">{{ field.label }}</label>
+
+            </div>
+
+
+            {% if field.name != 'descripcion' %}
+
+
+
+
             <div class="input-with-icon">
                 {{ field }}
                 {% if field.errors %}
-                    <div class="error-message">{{ field.errors }}</div>
+                <div class="error-message">{{ field.errors }}</div>
                 {% endif %}
                 {% if field.help_text %}
-                    <div class="help-text">{{ field.help_text }}</div>
-                {% endif %}
-                <div class="icon">
-                    <i style="margin: 0; padding: 0; color: #fff;" class="{{ field.field.widget.attrs.icon_class }}"></i>
-                </div>
-            </div>
-        {% else %}
-            {{ field }}
-            {% if field.errors %}
-                <div class="error-message">{{ field.errors }}</div>
-            {% endif %}
-            {% if field.help_text %}
                 <div class="help-text">{{ field.help_text }}</div>
+                {% endif %}
+                <div class="icon"><i style="
+                        margin: 0;
+                        padding: 0;
+                        color: #fff;
+                    " class="{{ field.field.widget.attrs.icon_class }}"></i></div>
+            </div>
+
+            {% else %}
+
+            {{ field }}
+
             {% endif %}
-        {% endif %}
-        
-        {% if field.id_for_label == form.password2.id_for_label %}
-            {% if form.password2.help_text %}
-                <div class="help-text-2">{{ form.password2.help_text }}</div>
-            {% endif %}
-        {% else %}
-            {% if field.help_text %}
-                <div class="help-text-2">{{ field.help_text }}</div>
-            {% endif %}
-        {% endif %}
-    {% endif %}
-{% endfor %}
 
 
+            {% endfor %}
+
+        </div>
     </div>
-</div>
+
+    <div style="display: flex;
+        justify-content: space-around;
+        align-items: center;
+        margin-bottom: 20px;
+        gap: 20px;
+    ">
+        <div id="baker" style="
+        cursor: pointer; 
+            background-color: #EC9711;
+            width: 370px;
+            height: 47px;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+        ">
+            <p style="color: #fff; 
+                font-family: avenir;
+                font-weight: bold; font-size: 15px; margin: 0; padding: 0; text-align: center;">
+                Cancelar</p>
+        </div>
+
+        <button type="submit" style="
+            background-color: #0CAB7B;
+            width: 370px;
+            height: 47px;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: none;
+            border-radius: 5px;
+        ">
+            <p style="cursor: pointer; color: #fff; 
+                font-family: avenir;
+                font-weight: bold; font-size: 15px; margin: 0; padding: 0; text-align: center;">
+                Guardar </p>
+        </button>
+    </div>
+
+</form>
+
 
 <div style="display: flex;
     justify-content: space-around;
@@ -151,13 +182,24 @@
 
 {% block javascript %}
 <script type="application/javascript">
- 
+
+    $(document).ready(function () {
+        $('.card-body .input-with-icon [data-icon-class]').each(function () {
+            var iconClass = $(this).data('icon-class');
+            var iconElement = $(this).closest('.input-with-icon').find('.icon');
+            iconElement.html('<i class="' + iconClass + '"></i>');
+
+            console.log('Element found:', $(this));
+        });
+    });
+
+
     flatpickr(".fecha-input", {
         dateFormat: "Y-m-d",
         //minDate: "today", // Fecha mínima seleccionable (hoy)
         locale: "es",
     });
-    
+
     $(function () {
         $('form').on('submit', function (e) {
             e.preventDefault();
@@ -208,7 +250,7 @@
         e.preventDefault();
         if (confirm('¿Está seguro de cancelar la operación?...los datos no guardados se perderán')) {
             window.location.href = '{{ list_url }}';
-        }else{
+        } else {
             return false;
         }
     });

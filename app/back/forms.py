@@ -40,23 +40,27 @@ class PublicationForm(forms.ModelForm):
         ('3', 'XLS'),
     )
      
-    type = forms.ChoiceField(choices=TYPE_CHOICES, widget=forms.Select(attrs={'class': 'form-control'}))
+    type = forms.ChoiceField(choices=TYPE_CHOICES, widget=forms.Select(attrs={'class': 'custom-input', 'icon_class': 'fas fa-file'}))
+    name = forms.CharField(widget=forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-user'}))  
+    visible = forms.BooleanField(required=False, widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}))
+    recent = forms.BooleanField(required=False, widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}))
+    publication = forms.BooleanField(required=False, widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}))
     class Meta:
         model = Publications
         exclude = ('category', 'section', 'num_descargas')
         fields = '__all__'
         widgets = {
 
-            'type': forms.TextInput(attrs={'class': 'form-control'}),
-            'name': forms.TextInput(attrs={'class': 'form-control'}),
-            'url': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
+            'type': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'name': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-name'}),
+            'url': forms.ClearableFileInput(attrs={'class': 'custom-input-file'}),
 
-            'section': TextInput(attrs = { 'placeholder': 'Ingresa una Sección', 'class': 'form-control'}),
-            'category': TextInput(attrs = { 'placeholder': 'Ingresa una Categroia', 'class': 'form-control'}),            
-            'type': TextInput(attrs = { 'placeholder': 'Ingresa un Tipo', 'class': 'form-control'}),
-            'download': TextInput(attrs = { 'placeholder': 'Descarga', 'class': 'form-control'}),
-            'name': TextInput(attrs = { 'placeholder': 'Ingresa un Nombre ', 'class': 'form-control'}),
-            'fiel': ClearableFileInput(attrs = { 'placeholder': 'Ingresa una imagen', 'class': 'form-control-file'}), 
+            'section': TextInput(attrs = { 'placeholder': 'Ingresa una Sección', 'class': 'custom-input'}),
+            'category': TextInput(attrs = { 'placeholder': 'Ingresa una Categroia', 'class': 'custom-input'}),            
+            'type': TextInput(attrs = { 'placeholder': 'Ingresa un Tipo', 'class': 'custom-input'}),
+            'download': TextInput(attrs = { 'placeholder': 'Descarga', 'class': 'custom-input'}),
+            'name': TextInput(attrs = { 'placeholder': 'Ingresa un Nombre ', 'class': 'custom-input'}),
+            'fiel': ClearableFileInput(attrs = { 'placeholder': 'Ingresa una imagen', 'class': 'custom-input-file'}), 
         }
         labels = {
             'type': 'Tipo de Documento',
@@ -75,9 +79,9 @@ class BannerForm(ModelForm):
         widgets = {
             'name': TextInput(attrs={'placeholder': 'Ingresa una Nombre'}),
             'banner_url': TextInput(attrs={'placeholder': 'Ingresa un Enlace'}),
-            'name': TextInput(attrs = { 'placeholder': 'Ingresa una Nombre', 'class': 'form-control'}),
-            'banner_url': TextInput(attrs = { 'placeholder': 'Ingresa un Enlace', 'class': 'form-control'}), 
-            'publication': CheckboxInput(attrs = { 'placeholder': 'Ingresa una Publicación', 'class': 'form-control'}), 
+            'name': TextInput(attrs = { 'placeholder': 'Ingresa una Nombre', 'class': 'custom-input'}),
+            'banner_url': TextInput(attrs = { 'placeholder': 'Ingresa un Enlace', 'class': 'custom-input'}), 
+            'publication': CheckboxInput(attrs = { 'placeholder': 'Ingresa una Publicación', 'class': 'custom-input'}), 
             'imagen': ClearableFileInput(attrs = { 'placeholder': 'Ingresa una imagen', 'class': 'form-control-file'}), 
         }
 
@@ -132,9 +136,9 @@ class SeccionCentroDocumentalForm(forms.ModelForm):
         model = SeccionesCentroDocumental
         fields = ['seccion', 'descripcion', 'observacion']
         widgets = {
-            'seccion': forms.TextInput(attrs={'class': 'form-control'}),
+            'seccion':forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-search'}),
             'descripcion': forms.Textarea(attrs={'class': 'form-control'}),
-            'observacion': forms.TextInput(attrs={'class': 'form-control'}),
+            'observacion': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-search'}),
         }
 
 
@@ -146,11 +150,10 @@ class CategoriasForm(forms.ModelForm):
                   'publicacion', 'visible', 'seccion']
 
         widgets = {
-            'nombre_categoria': forms.TextInput(attrs={'class': 'form-control'}),
-            'fecha_creacion': forms.DateInput(attrs={'class': 'form-control fecha-input'}),
-            'publicacion': forms.CheckboxInput(attrs={'class': 'form-control'}),
-            'visible': forms.CheckboxInput(attrs={'class': 'form-control'}),
-            'seccion': forms.Select(attrs={'class': 'form-control'}),
+            'nombre_categoria': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-search'}),
+            'fecha_creacion': forms.DateInput(attrs={'class': 'form-control fecha-input' ,'icon_class': 'fas fa-calendar'}),
+            'publicacion': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'visible': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
 
     def __init__(self, *args, **kwargs):
@@ -160,6 +163,8 @@ class CategoriasForm(forms.ModelForm):
             seccion = SeccionesCentroDocumental.objects.get(pk=pk)
             self.fields['seccion'].initial = seccion
             self.fields['seccion'].widget = forms.HiddenInput()
+
+# class CategoriasFormUpdate(forms.ModelForm):
 
 
 class NoticiaForm(ModelForm):
@@ -189,12 +194,10 @@ class BarometroForm(forms.ModelForm):
         model = BarometroTuristico
         fields = '__all__'
         widgets = {
-            'semestre': forms.NumberInput(attrs={'class': 'form-control'}),
-            'nombrePDF': forms.TextInput(attrs={'class': 'form-control'}),
-            # 'url': forms.FileInput(attrs={'class': 'form-control-file'}),
-            'yearPDF': forms.NumberInput(attrs={'class': 'form-control'}),
-            'num_descargas': forms.NumberInput(attrs={'class': 'form-control'}),
-            'fecha_registro': forms.DateTimeInput(attrs={'class': 'form-control'}),
+            'semestre': forms.NumberInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-search', 'required': True}),
+            'nombrePDF': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-file-pdf'}),
+            'url': forms.ClearableFileInput(attrs={'class': 'form-control-file' ,'icon_class': 'fas fa-file-pdf'}),
+            'yearPDF': forms.NumberInput(attrs={'class': 'custom-input' ,'icon_class': 'fas fa-calendar', 'required': True}),
         }
 
     def __init__(self, *args, **kwargs):
@@ -307,8 +310,8 @@ class GlosarioForm(forms.ModelForm):
             'definicion': 'Definición',
         }
         widgets = {
-            'palabra': forms.TextInput(attrs={'class': 'form-control'}),
-            'definicion': forms.TextInput(attrs={'class': 'form-control'}),
+            'palabra': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-search'}),
+            'definicion': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-book'}),
         }
 
 
@@ -375,15 +378,32 @@ class InversionPublicaForm(forms.ModelForm):
     class Meta:
         model = InversionPublica
         fields = ['fecha', 'destino', 'nombre_de_la_obra', 'monto_de_inversion_municipal', 'monto_de_inversion_estatal', 'monto_de_inversion_federal', 'monto_total']
-        widgets = {
-            'fecha': forms.DateInput(attrs={'class': 'form-control fecha-input'}),
-            'destino': forms.TextInput(attrs={'class': 'form-control'}),
-            'nombre_de_la_obra': forms.TextInput(attrs={'class': 'form-control'}),
-            'monto_de_inversion_municipal': forms.NumberInput(attrs={'class': 'form-control'}),
-            'monto_de_inversion_estatal': forms.NumberInput(attrs={'class': 'form-control'}),
-            'monto_de_inversion_federal': forms.NumberInput(attrs={'class': 'form-control'}),
-            'monto_total': forms.NumberInput(attrs={'class': 'form-control'}),
-        }
+    def __init__ (self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['destino'].widget.attrs['class'] = 'custom-input'
+        self.fields['destino'].widget.attrs['icon_class'] = 'fas fa-search'
+
+        self.fields['fecha'].widget.attrs['class'] = 'custom-input'
+        self.fields['fecha'].widget.attrs['icon_class'] = 'fas fa-calendar'
+        
+
+        self.fields['nombre_de_la_obra'].widget.attrs['class'] = 'custom-input'
+        self.fields['nombre_de_la_obra'].widget.attrs['icon_class'] = 'fas fa-search'
+
+        self.fields['monto_de_inversion_municipal'].widget.attrs['class'] = 'custom-input'
+        self.fields['monto_de_inversion_municipal'].widget.attrs['icon_class'] = 'fas fa-dollar-sign'
+
+        self.fields['monto_de_inversion_estatal'].widget.attrs['class'] = 'custom-input'
+        self.fields['monto_de_inversion_estatal'].widget.attrs['icon_class'] = 'fas fa-dollar-sign'
+
+        self.fields['monto_de_inversion_federal'].widget.attrs['class'] = 'custom-input'
+        self.fields['monto_de_inversion_federal'].widget.attrs['icon_class'] = 'fas fa-dollar-sign'
+
+        self.fields['monto_total'].widget.attrs['class'] = 'custom-input'
+        self.fields['monto_total'].widget.attrs['icon_class'] = 'fas fa-dollar-sign'
+
+
 
 class InventarioHoteleroEntNacForm(ModelForm):
 
@@ -853,9 +873,9 @@ class DirectorioAgenciasDeViajesForm(forms.ModelForm):
         widgets = {
             'giro': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
             'clave_del_giro': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
-            'entidad': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'entidad': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-search'}),
             'clave_entidad': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
-            'destino': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'destino': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-search'}),
             'clave_municipio': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
             'nombre_comercial': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
             'razon_social': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
@@ -868,8 +888,8 @@ class DirectorioAgenciasDeViajesForm(forms.ModelForm):
             'telefono_1': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
             'telefono_2': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
             'celular': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
-            'correo_electronico': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
-            'sitio_web': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'correo_electronico': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-envelope'}),
+            'sitio_web': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-globe'}),
             'ret': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
             'rnt': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
         }
@@ -904,9 +924,9 @@ class DirectorioAlimentosYBebidasForm(forms.ModelForm):
         widgets = {
             'giro': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
             'clave_del_giro': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
-            'entidad': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'entidad': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-search'}),
             'clave_entidad': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
-            'destino': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'destino': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-search'}),
             'clave_municipio': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
             'nombre_comercial': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
             'razon_social': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
@@ -919,8 +939,8 @@ class DirectorioAlimentosYBebidasForm(forms.ModelForm):
             'telefono_1': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
             'telefono_2': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
             'celular': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
-            'correo_electronico': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
-            'sitio_web': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'correo_electronico': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-envelope'}),
+            'sitio_web': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-globe'}),
             'ret': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
             'rnt': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
         }
@@ -929,29 +949,6 @@ class DirectorioArrendadorasForm(forms.ModelForm):
     class Meta:
         model = DirectorioArrendadoras
         fields = '__all__'
-        labels = {
-            'giro': 'Giro',
-            'clave_del_giro': 'Clave del Giro',
-            'entidad': 'Entidad',
-            'clave_entidad': 'Clave de Entidad',
-            'destino': 'Destino',
-            'clave_municipio': 'Clave de Municipio',
-            'nombre_comercial': 'Nombre Comercial',
-            'razon_social': 'Razón Social',
-            'rfc': 'RFC',
-            'calle': 'Calle',
-            'numero': 'Número',
-            'colonia': 'Colonia',
-            'codigo_postal': 'Código Postal',
-            'lada': 'Lada',
-            'telefono_1': 'Teléfono 1',
-            'telefono_2': 'Teléfono 2',
-            'celular': 'Celular',
-            'correo_electronico': 'Correo Electrónico',
-            'sitio_web': 'Sitio Web',
-            'ret': 'RET',
-            'rnt': 'RNT'
-        }
         widgets = {
             'giro': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
             'clave_del_giro': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
@@ -970,8 +967,8 @@ class DirectorioArrendadorasForm(forms.ModelForm):
             'telefono_1': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
             'telefono_2': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
             'celular': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
-            'correo_electronico': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
-            'sitio_web': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'correo_electronico': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-envelope'}),
+            'sitio_web': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-globe'}),
             'ret': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
             'rnt': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
         }
@@ -1082,32 +1079,6 @@ class DirectorioBalneariosParquesAcuaticosForm(forms.ModelForm):
     class Meta:
         model = DirectorioBalneariosParquesAcuaticos
         fields = '__all__'
-        labels = {
-            'giro': 'Giro',
-            'clave_del_giro': 'Clave del Giro',
-            'entidad': 'Entidad',
-            'clave_entidad': 'Clave de Entidad',
-            'destino': 'Destino',
-            'clave_municipio': 'Clave de Municipio',
-            'nombre_comercial': 'Nombre Comercial',
-            'razon_social': 'Razón Social',
-            'rfc': 'RFC',
-            'calle': 'Calle',
-            'numero': 'Número',
-            'colonia': 'Colonia',
-            'codigo_postal': 'Código Postal',
-            'lada': 'Lada',
-            'telefono_1': 'Teléfono 1',
-            'telefono_2': 'Teléfono 2',
-            'celular': 'Celular',
-            'correo_electronico': 'Correo Electrónico',
-            'sitio_web': 'Sitio Web',
-            'ret': 'RET',
-            'rnt': 'RNT',
-            'numero_albercas': 'Numero de Albercas',
-            'numero_toboganes': 'Numero de Toboganes',
-            'aguas_termales': 'Aguas Termanles',
-        }
         widgets = {
             'giro': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
             'clave_del_giro': forms.NumberInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
@@ -1126,9 +1097,10 @@ class DirectorioBalneariosParquesAcuaticosForm(forms.ModelForm):
             'telefono_1': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
             'telefono_2': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
             'celular': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'correo_electronico': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'sitio_web': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
+            'correo_electronico': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-envelope'}),
+            'sitio_web': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-globe'}),
             'ret': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
+            'rnt': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
             'numero_albercas': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
             'numero_toboganes': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
             'aguas_termales': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
@@ -1138,29 +1110,7 @@ class DirectorioCampoDeGolfForm(forms.ModelForm):
     class Meta:
         model = DirectorioCampoDeGolf
         fields = '__all__'
-        labels = {
-            'giro': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
-            'clave_del_giro': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
-            'entidad': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
-            'clave_entidad': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
-            'destino': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
-            'clave_municipio': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
-            'nombre_comercial': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
-            'razon_social': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
-            'rfc': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
-            'calle': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
-            'numero': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
-            'colonia': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
-            'codigo_postal': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
-            'lada': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
-            'telefono_1': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
-            'telefono_2': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
-            'celular': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
-            'correo_electronico': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
-            'sitio_web': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
-            'ret': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
-            'rnt': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
-        }
+
         widgets = {
             'giro': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
             'clave_del_giro': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
@@ -1219,33 +1169,33 @@ class DirectorioCapacitacionTuristicaForm(forms.ModelForm):
             'rnt': 'RNT',
         }
         widgets = {
-            'giro': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'clave_del_giro': forms.NumberInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'entidad': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'clave_entidad': forms.NumberInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'destino': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'clave_municipio': forms.NumberInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'nombre_comercial': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'razon_social': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'rfc': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'calle': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'numero': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'colonia': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'codigo_postal': forms.NumberInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'lada': forms.NumberInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'telefono_1': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'telefono_2': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'celular': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'correo_electronico': forms.EmailInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'sitio_web': forms.URLInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'ret': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'tipo': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'lic_gastronomia': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'lic_turismo': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'posgrado_en_turismo': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'certificacion_como_guia_de_turista': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'otros_estudios_en_turismo': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'rnt': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
+            'giro': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'clave_del_giro': forms.NumberInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'entidad': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'clave_entidad': forms.NumberInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'destino': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'clave_municipio': forms.NumberInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'nombre_comercial': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'razon_social': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'rfc': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'calle': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'numero': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'colonia': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'codigo_postal': forms.NumberInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'lada': forms.NumberInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'telefono_1': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'telefono_2': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'celular': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'correo_electronico': forms.EmailInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'sitio_web': forms.URLInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'ret': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'tipo': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'lic_gastronomia': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'lic_turismo': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'posgrado_en_turismo': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'certificacion_como_guia_de_turista': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'otros_estudios_en_turismo': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'rnt': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
         }
 
 class DirectorioGuiasDeTuristasForm(forms.ModelForm):
@@ -1279,33 +1229,61 @@ class DirectorioGuiasDeTuristasForm(forms.ModelForm):
             'vigencia_acreditacion': 'Vigencia de Acreditación',
             'especialidad': 'Especialidad',
         }
-        widgets = {
-            'giro': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'clave_del_giro': forms.NumberInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'entidad': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'clave_entidad': forms.NumberInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'destino': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'clave_municipio': forms.NumberInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'nombre_comercial': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'razon_social': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'rfc': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'calle': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'numero': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'colonia': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'codigo_postal': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'lada': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'telefono_1': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'telefono_2': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'celular': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'correo_electronico': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'sitio_web': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'ret': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'rnt': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'tipo': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'no_acreditacion': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'vigencia_acreditacion': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'especialidad': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-        }
+    def __init__ (self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['giro'].widget.attrs['class'] = 'custom-input'
+        self.fields['giro'].widget.attrs['icon_class'] = 'fas fa-table'
+        self.fields['clave_del_giro'].widget.attrs['class'] = 'custom-input'
+        self.fields['clave_del_giro'].widget.attrs['icon_class'] = 'fas fa-table'
+        self.fields['entidad'].widget.attrs['class'] = 'custom-input'
+        self.fields['entidad'].widget.attrs['icon_class'] = 'fas fa-table'
+        self.fields['clave_entidad'].widget.attrs['class'] = 'custom-input'
+        self.fields['clave_entidad'].widget.attrs['icon_class'] = 'fas fa-table'
+        self.fields['destino'].widget.attrs['class'] = 'custom-input'
+        self.fields['destino'].widget.attrs['icon_class'] = 'fas fa-table'
+        self.fields['clave_municipio'].widget.attrs['class'] = 'custom-input'
+        self.fields['clave_municipio'].widget.attrs['icon_class'] = 'fas fa-table'
+        self.fields['nombre_comercial'].widget.attrs['class'] = 'custom-input'
+        self.fields['nombre_comercial'].widget.attrs['icon_class'] = 'fas fa-table'
+        self.fields['razon_social'].widget.attrs['class'] = 'custom-input'
+        self.fields['razon_social'].widget.attrs['icon_class'] = 'fas fa-table'
+        self.fields['rfc'].widget.attrs['class'] = 'custom-input'
+        self.fields['rfc'].widget.attrs['icon_class'] = 'fas fa-table'
+        self.fields['calle'].widget.attrs['class'] = 'custom-input'
+        self.fields['calle'].widget.attrs['icon_class'] = 'fas fa-table'
+        self.fields['numero'].widget.attrs['class'] = 'custom-input'
+        self.fields['numero'].widget.attrs['icon_class'] = 'fas fa-table'
+        self.fields['colonia'].widget.attrs['class'] = 'custom-input'
+        self.fields['colonia'].widget.attrs['icon_class'] = 'fas fa-table'
+        self.fields['codigo_postal'].widget.attrs['class'] = 'custom-input'
+        self.fields['codigo_postal'].widget.attrs['icon_class'] = 'fas fa-table'
+        self.fields['lada'].widget.attrs['class'] = 'custom-input'
+        self.fields['lada'].widget.attrs['icon_class'] = 'fas fa-table'
+        self.fields['telefono_1'].widget.attrs['class'] = 'custom-input'
+        self.fields['telefono_1'].widget.attrs['icon_class'] = 'fas fa-table'
+        self.fields['telefono_2'].widget.attrs['class'] = 'custom-input'
+        self.fields['telefono_2'].widget.attrs['icon_class'] = 'fas fa-table'
+        self.fields['celular'].widget.attrs['class'] = 'custom-input'
+        self.fields['celular'].widget.attrs['icon_class'] = 'fas fa-table'
+        self.fields['correo_electronico'].widget.attrs['class'] = 'custom-input'
+        self.fields['correo_electronico'].widget.attrs['icon_class'] = 'fas fa-envelope'
+        self.fields['sitio_web'].widget.attrs['class'] = 'custom-input'
+        self.fields['sitio_web'].widget.attrs['icon_class'] = 'fas fa-globe'
+        self.fields['ret'].widget.attrs['class'] = 'custom-input'
+        self.fields['ret'].widget.attrs['icon_class'] = 'fas fa-table'
+        self.fields['rnt'].widget.attrs['class'] = 'custom-input'
+        self.fields['rnt'].widget.attrs['icon_class'] = 'fas fa-table'
+        self.fields['tipo'].widget.attrs['class'] = 'custom-input'
+        self.fields['tipo'].widget.attrs['icon_class'] = 'fas fa-table'
+        self.fields['no_acreditacion'].widget.attrs['class'] = 'custom-input'
+        self.fields['no_acreditacion'].widget.attrs['icon_class'] = 'fas fa-table'
+        self.fields['vigencia_acreditacion'].widget.attrs['class'] = 'custom-input'
+        self.fields['vigencia_acreditacion'].widget.attrs['icon_class'] = 'fas fa-table'
+        self.fields['especialidad'].widget.attrs['class'] = 'custom-input'
+        self.fields['especialidad'].widget.attrs['icon_class'] = 'fas fa-table'
+        
+
 
 
 class DirectorioOperadoresForm(forms.ModelForm):
@@ -1336,27 +1314,27 @@ class DirectorioOperadoresForm(forms.ModelForm):
             'rnt': 'RNT'
         }
         widgets = {
-            'giro': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'clave_del_giro': forms.NumberInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'entidad': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'clave_entidad': forms.NumberInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'destino': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'clave_municipio': forms.NumberInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'nombre_comercial': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'razon_social': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'rfc': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'calle': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'numero': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'colonia': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'codigo_postal': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'lada': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'telefono_1': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'telefono_2': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'celular': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'correo_electronico': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'sitio_web': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'ret': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'rnt': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'})
+            'giro': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'clave_del_giro': forms.NumberInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'entidad': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'clave_entidad': forms.NumberInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'destino': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'clave_municipio': forms.NumberInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'nombre_comercial': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'razon_social': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'rfc': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'calle': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'numero': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'colonia': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'codigo_postal': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'lada': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'telefono_1': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'telefono_2': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'celular': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'correo_electronico': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'sitio_web': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'ret': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'rnt': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'})
         }
 
 class DirectorioProductosTuristicosForm(forms.ModelForm):
@@ -1387,30 +1365,61 @@ class DirectorioProductosTuristicosForm(forms.ModelForm):
             'rnt': 'RNT',
             'segmento': 'Segmento'
         }
-        widgets = {
-            'giro': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'clave_del_giro': forms.NumberInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'entidad': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'clave_entidad': forms.NumberInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'destino': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'nombre_comercial': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'razon_social': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'rfc': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'calle': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'numero': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'colonia': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'codigo_postal': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'lada': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'telefono_1': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'telefono_2': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'celular': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'correo_electronico': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'sitio_web': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'ret': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'rnt': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'segmento': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'clave_municipio': forms.NumberInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-        }
+    def __init__ (self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['giro'].widget.attrs['class'] = 'custom-input'
+        self.fields['giro'].widget.attrs['icon_class'] = 'fas fa-table'
+        self.fields['clave_del_giro'].widget.attrs['class'] = 'custom-input'
+        self.fields['clave_del_giro'].widget.attrs['icon_class'] = 'fas fa-table'
+        self.fields['entidad'].widget.attrs['class'] = 'custom-input'
+        self.fields['entidad'].widget.attrs['icon_class'] = 'fas fa-table'
+        self.fields['clave_entidad'].widget.attrs['class'] = 'custom-input'
+        self.fields['clave_entidad'].widget.attrs['icon_class'] = 'fas fa-table'
+        self.fields['destino'].widget.attrs['class'] = 'custom-input'
+        self.fields['destino'].widget.attrs['icon_class'] = 'fas fa-table'
+        self.fields['clave_municipio'].widget.attrs['class'] = 'custom-input'
+        self.fields['clave_municipio'].widget.attrs['icon_class'] = 'fas fa-table'
+        self.fields['nombre_comercial'].widget.attrs['class'] = 'custom-input'
+        self.fields['nombre_comercial'].widget.attrs['icon_class'] = 'fas fa-table'
+        self.fields['razon_social'].widget.attrs['class'] = 'custom-input'
+        self.fields['razon_social'].widget.attrs['icon_class'] = 'fas fa-table'
+        self.fields['rfc'].widget.attrs['class'] = 'custom-input'
+        self.fields['rfc'].widget.attrs['icon_class'] = 'fas fa-table'
+        self.fields['calle'].widget.attrs['class'] = 'custom-input'
+        self.fields['calle'].widget.attrs['icon_class'] = 'fas fa-table'
+        self.fields['numero'].widget.attrs['class'] = 'custom-input'
+        self.fields['numero'].widget.attrs['icon_class'] = 'fas fa-table'
+        self.fields['colonia'].widget.attrs['class'] = 'custom-input'
+        self.fields['colonia'].widget.attrs['icon_class'] = 'fas fa-table'
+        self.fields['codigo_postal'].widget.attrs['class'] = 'custom-input'
+        self.fields['codigo_postal'].widget.attrs['icon_class'] = 'fas fa-table'
+        self.fields['lada'].widget.attrs['class'] = 'custom-input'
+        self.fields['lada'].widget.attrs['icon_class'] = 'fas fa-table'
+        self.fields['telefono_1'].widget.attrs['class'] = 'custom-input'
+        self.fields['telefono_1'].widget.attrs['icon_class'] = 'fas fa-table'
+        self.fields['telefono_2'].widget.attrs['class'] = 'custom-input'
+        self.fields['telefono_2'].widget.attrs['icon_class'] = 'fas fa-table'
+        self.fields['celular'].widget.attrs['class'] = 'custom-input'
+        self.fields['celular'].widget.attrs['icon_class'] = 'fas fa-table'
+        self.fields['correo_electronico'].widget.attrs['class'] = 'custom-input'
+        self.fields['correo_electronico'].widget.attrs['icon_class'] = 'fas fa-envelope'
+        self.fields['sitio_web'].widget.attrs['class'] = 'custom-input'
+        self.fields['sitio_web'].widget.attrs['icon_class'] = 'fas fa-globe'
+        self.fields['ret'].widget.attrs['class'] = 'custom-input'
+        self.fields['ret'].widget.attrs['icon_class'] = 'fas fa-table'
+        self.fields['rnt'].widget.attrs['class'] = 'custom-input'
+        self.fields['rnt'].widget.attrs['icon_class'] = 'fas fa-table'
+        self.fields['segmento'].widget.attrs['class'] = 'custom-input'
+        self.fields['segmento'].widget.attrs['icon_class'] = 'fas fa-table'
+
+
+
+
+
+
+
+
 
 class DirectorioRecintosAuditoriosYSalonesForm(forms.ModelForm):
     class Meta:
@@ -1444,31 +1453,31 @@ class DirectorioRecintosAuditoriosYSalonesForm(forms.ModelForm):
             'capacidad_maxima':'Capacidad maxima',
         }
         widgets = {
-            'giro': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'clave_del_giro': forms.NumberInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'entidad': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'clave_entidad': forms.NumberInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'destino': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'clave_municipio': forms.NumberInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'nombre_comercial': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'razon_social': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'rfc': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'calle': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'numero': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'colonia': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'codigo_postal': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'lada': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'telefono_1': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'telefono_2': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'celular': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'correo_electronico': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'sitio_web': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'ret': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'rnt': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'modalidad': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'depende_de_hotel_o_restaurante': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'no_de_salones': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'capacidad_maxima': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
+            'giro': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'clave_del_giro': forms.NumberInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'entidad': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'clave_entidad': forms.NumberInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'destino': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'clave_municipio': forms.NumberInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'nombre_comercial': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'razon_social': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'rfc': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'calle': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'numero': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'colonia': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'codigo_postal': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'lada': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'telefono_1': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'telefono_2': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'celular': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'correo_electronico': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-envelope'}),
+            'sitio_web': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-globe'}),
+            'ret': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'rnt': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'modalidad': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'depende_de_hotel_o_restaurante': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'no_de_salones': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'capacidad_maxima': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
         }
 
 class DirectorioSpaForm(forms.ModelForm):
@@ -1499,25 +1508,67 @@ class DirectorioSpaForm(forms.ModelForm):
             'rnt': 'RNT'
         }
         widgets = {
-            'giro': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'clave_del_giro': forms.NumberInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'entidad': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'clave_entidad': forms.NumberInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'destino': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'clave_municipio': forms.NumberInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'nombre_comercial': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'razon_social': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'rfc': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'calle': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'numero': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'colonia': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'codigo_postal': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'lada': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'telefono_1': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'telefono_2': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'celular': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'correo_electronico': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'sitio_web': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'ret': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-            'rnt': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'})
+            'giro': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'clave_del_giro': forms.NumberInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'entidad': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'clave_entidad': forms.NumberInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'destino': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'clave_municipio': forms.NumberInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'nombre_comercial': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'razon_social': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'rfc': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'calle': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'numero': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'colonia': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'codigo_postal': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'lada': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'telefono_1': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'telefono_2': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'celular': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'correo_electronico': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'sitio_web': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'ret': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'rnt': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'})
         }
+
+
+
+
+class ReportsForm(forms.ModelForm):
+    class Meta:
+        model = Report
+        fields = '__all__'
+
+    def __init__ (self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['titulo'].widget.attrs['class'] = 'custom-input'
+        self.fields['titulo'].widget.attrs['icon_class'] = 'fas fa-search'
+
+        self.fields['nomenclatura'].widget.attrs['class'] = 'custom-input'
+        self.fields['nomenclatura'].widget.attrs['icon_class'] = 'fas fa-search'
+        self.fields['dimension'].widget.attrs['class'] = 'custom-input'
+        self.fields['dimension'].widget.attrs['icon_class'] = 'fas fa-search'
+
+        self.fields['iframe'].widget.attrs['class'] = 'custom-input'
+        self.fields['iframe'].widget.attrs['icon_class'] = 'fas fa-search'
+
+        self.fields['ods1'].widget.attrs['class'] = 'form-check-input'
+        self.fields['ods2'].widget.attrs['class'] = 'form-check-input'
+        self.fields['ods3'].widget.attrs['class'] = 'form-check-input'
+        self.fields['ods4'].widget.attrs['class'] = 'form-check-input'
+        self.fields['ods5'].widget.attrs['class'] = 'form-check-input'
+        self.fields['ods6'].widget.attrs['class'] = 'form-check-input'
+        self.fields['ods7'].widget.attrs['class'] = 'form-check-input'
+        self.fields['ods8'].widget.attrs['class'] = 'form-check-input'
+        self.fields['ods9'].widget.attrs['class'] = 'form-check-input'
+        self.fields['ods10'].widget.attrs['class'] = 'form-check-input'
+        self.fields['ods11'].widget.attrs['class'] = 'form-check-input'
+        self.fields['ods12'].widget.attrs['class'] = 'form-check-input'
+        self.fields['ods13'].widget.attrs['class'] = 'form-check-input'
+        self.fields['ods14'].widget.attrs['class'] = 'form-check-input'
+        self.fields['ods15'].widget.attrs['class'] = 'form-check-input'
+        self.fields['ods16'].widget.attrs['class'] = 'form-check-input'
+        self.fields['ods17'].widget.attrs['class'] = 'form-check-input'
+        
+

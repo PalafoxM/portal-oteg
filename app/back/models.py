@@ -68,6 +68,7 @@ class SeccionesCentroDocumental(models.Model):
     observacion = models.TextField(blank=True, null=True)
 
 
+
 class Categorias(models.Model):
     nombre_categoria = models.CharField(max_length=100, null=True, blank=True)
     fecha_creacion = models.DateField()
@@ -276,9 +277,6 @@ class InversionPublica(models.Model):
         return f"{self.destino} - {self.nombre_de_la_obra} ({self.fecha})"
 
     def toJSON(self):
-        """
-        Método para serializar el objeto a formato JSON.
-        """
         item = model_to_dict(self)
         return item
 
@@ -839,8 +837,8 @@ class DirectorioAgenciasDeViajes(models.Model):
     telefono_1 = models.CharField(max_length=256, verbose_name='Teléfono 1')
     telefono_2 = models.CharField(max_length=256, verbose_name='Teléfono 2')
     celular = models.CharField(max_length=256, verbose_name='Celular')
-    correo_electronico = models.CharField(max_length=256, verbose_name='Correo Electrónico')
-    sitio_web = models.CharField(max_length=256, verbose_name='Sitio Web')
+    correo_electronico = models.EmailField(max_length=256, verbose_name='Correo Electrónico')
+    sitio_web = models.URLField(max_length=256, verbose_name='Sitio Web')
     ret = models.CharField(max_length=256, verbose_name='RET')
     rnt = models.CharField(max_length=256, verbose_name='RNT')
 
@@ -871,8 +869,8 @@ class DirectorioAlimentosYBebidas(models.Model):
     telefono_1 = models.CharField(max_length=256, verbose_name='Teléfono 1')
     telefono_2 = models.CharField(max_length=256, verbose_name='Teléfono 2')
     celular = models.CharField(max_length=256, verbose_name='Celular')
-    correo_electronico = models.CharField(max_length=256, verbose_name='Correo Electrónico')
-    sitio_web = models.CharField(max_length=256, verbose_name='Sitio Web')
+    correo_electronico = models.EmailField(max_length=256, verbose_name='Correo Electrónico')
+    sitio_web = models.URLField(max_length=256, verbose_name='Sitio Web')
     ret = models.CharField(max_length=256, verbose_name='RET')
     rnt = models.CharField(max_length=256, verbose_name='RNT')
 
@@ -903,8 +901,8 @@ class DirectorioArrendadoras(models.Model):
     telefono_1 = models.CharField(max_length=256, verbose_name='Teléfono 1')
     telefono_2 = models.CharField(max_length=256, verbose_name='Teléfono 2')
     celular = models.CharField(max_length=256, verbose_name='Celular')
-    correo_electronico = models.CharField(max_length=256, verbose_name='Correo Electrónico')
-    sitio_web = models.CharField(max_length=256, verbose_name='Sitio Web')
+    correo_electronico = models.EmailField(max_length=256, verbose_name='Correo Electrónico')
+    sitio_web = models.URLField(max_length=256, verbose_name='Sitio Web')
     ret = models.CharField(max_length=256, verbose_name='RET')
     rnt = models.CharField(max_length=256, verbose_name='RNT')
 
@@ -935,8 +933,8 @@ class DirectorioActivosRecreacionYDeporte(models.Model):
     telefono_1 = models.CharField(max_length=256, verbose_name='Teléfono 1')
     telefono_2 = models.CharField(max_length=256, verbose_name='Teléfono 2')
     celular = models.CharField(max_length=256, verbose_name='Celular')
-    correo_electronico = models.CharField(max_length=256, verbose_name='Correo Electrónico')
-    sitio_web = models.CharField(max_length=256, verbose_name='Sitio Web')
+    correo_electronico = models.EmailField(max_length=256, verbose_name='Correo Electrónico')
+    sitio_web = models.URLField(max_length=256, verbose_name='Sitio Web')
     ret = models.CharField(max_length=256, verbose_name='RET')
     rnt = models.CharField(max_length=256, verbose_name='RNT')
 
@@ -967,8 +965,8 @@ class DirectorioAuxilioTuristico(models.Model):
     telefono_1 = models.CharField(max_length=256, verbose_name='Teléfono 1')
     telefono_2 = models.CharField(max_length=256, verbose_name='Teléfono 2')
     celular = models.CharField(max_length=256, verbose_name='Celular')
-    correo_electronico = models.CharField(max_length=256, verbose_name='Correo Electrónico')
-    sitio_web = models.CharField(max_length=256, verbose_name='Sitio Web')
+    correo_electronico = models.EmailField(max_length=256, verbose_name='Correo Electrónico')
+    sitio_web = models.URLField(max_length=256, verbose_name='Sitio Web')
     ret = models.CharField(max_length=256, verbose_name='RET')
     rnt = models.CharField(max_length=256, verbose_name='RNT')
 
@@ -999,8 +997,8 @@ class DirectorioBalneariosParquesAcuaticos(models.Model):
     telefono_1 = models.CharField(max_length=256, verbose_name='Teléfono 1')
     telefono_2 = models.CharField(max_length=256, verbose_name='Teléfono 2')
     celular = models.CharField(max_length=256, verbose_name='Celular')
-    correo_electronico = models.CharField(max_length=256, verbose_name='Correo Electrónico')
-    sitio_web = models.CharField(max_length=256, verbose_name='Sitio Web')
+    correo_electronico = models.EmailField(max_length=256, verbose_name='Correo Electrónico')
+    sitio_web = models.URLField(max_length=256, verbose_name='Sitio Web')
     ret = models.CharField(max_length=256, verbose_name='RET')
     rnt = models.CharField(max_length=256, verbose_name='RNT')
     numero_albercas = models.IntegerField(verbose_name='Número de Albercas')
@@ -1034,8 +1032,8 @@ class DirectorioCampoDeGolf(models.Model):
     telefono_1 = models.CharField(max_length=256, verbose_name='Teléfono 1')
     telefono_2 = models.CharField(max_length=256, verbose_name='Teléfono 2')
     celular = models.CharField(max_length=256, verbose_name='Celular')
-    correo_electronico = models.CharField(max_length=256, verbose_name='Correo Electrónico')
-    sitio_web = models.CharField(max_length=256, verbose_name='Sitio Web')
+    correo_electronico = models.EmailField(max_length=256, verbose_name='Correo Electrónico')
+    sitio_web = models.URLField(max_length=256, verbose_name='Sitio Web')
     ret = models.CharField(max_length=256, verbose_name='RET')
     rnt = models.CharField(max_length=256, verbose_name='RNT')
 
@@ -1066,8 +1064,8 @@ class DirectorioCapacitacionTuristica(models.Model):
     telefono_1 = models.CharField(max_length=256, verbose_name='Teléfono 1')
     telefono_2 = models.CharField(max_length=256, verbose_name='Teléfono 2')
     celular = models.CharField(max_length=256, verbose_name='Celular')
-    correo_electronico = models.CharField(max_length=256, verbose_name='Correo Electrónico')
-    sitio_web = models.CharField(max_length=256, verbose_name='Sitio Web')
+    correo_electronico = models.EmailField(max_length=256, verbose_name='Correo Electrónico')
+    sitio_web = models.URLField(max_length=256, verbose_name='Sitio Web')
     ret = models.CharField(max_length=256, verbose_name='RET')
     tipo = models.CharField(max_length=256, verbose_name='Tipo')
     lic_gastronomia = models.CharField(max_length=256, verbose_name='Licencia de Gastronomía')
@@ -1104,8 +1102,8 @@ class DirectorioGuiasDeTuristas(models.Model):
     telefono_1 = models.CharField(max_length=256, verbose_name='Teléfono 1')
     telefono_2 = models.CharField(max_length=256, verbose_name='Teléfono 2')
     celular = models.CharField(max_length=256, verbose_name='Celular')
-    correo_electronico = models.CharField(max_length=256, verbose_name='Correo Electrónico')
-    sitio_web = models.CharField(max_length=256, verbose_name='Sitio Web')
+    correo_electronico = models.EmailField(max_length=256, verbose_name='Correo Electrónico')
+    sitio_web = models.URLField(max_length=256, verbose_name='Sitio Web')
     ret = models.CharField(max_length=256, verbose_name='RET')
     rnt = models.CharField(max_length=256, verbose_name='RNT')
     tipo = models.CharField(max_length=256, verbose_name='Tipo')
@@ -1140,8 +1138,8 @@ class DirectorioOperadores(models.Model):
     telefono_1 = models.CharField(max_length=256, verbose_name='Teléfono 1')
     telefono_2 = models.CharField(max_length=256, verbose_name='Teléfono 2')
     celular = models.CharField(max_length=256, verbose_name='Celular')
-    correo_electronico = models.CharField(max_length=256, verbose_name='Correo Electrónico')
-    sitio_web = models.CharField(max_length=256, verbose_name='Sitio Web')
+    correo_electronico = models.EmailField(max_length=256, verbose_name='Correo Electrónico')
+    sitio_web = models.URLField(max_length=256, verbose_name='Sitio Web')
     ret = models.CharField(max_length=256, verbose_name='RET')
     rnt = models.CharField(max_length=256, verbose_name='RNT')
 
@@ -1164,15 +1162,15 @@ class DirectorioProductosTuristicos(models.Model):
     razon_social = models.CharField(max_length=256, verbose_name='Razón Social')
     rfc = models.CharField(max_length=256, verbose_name='RFC')
     calle = models.CharField(max_length=256, verbose_name='Calle')
-    numero = models.CharField(max_length=256, verbose_name='Número')
+    numero = models.IntegerField(max_length=256, verbose_name='Número')
     colonia = models.CharField(max_length=256, verbose_name='Colonia')
     codigo_postal = models.IntegerField(verbose_name='Código Postal')
     lada = models.IntegerField(verbose_name='Lada')
     telefono_1 = models.CharField(max_length=256, verbose_name='Teléfono 1')
     telefono_2 = models.CharField(max_length=256, verbose_name='Teléfono 2')
     celular = models.CharField(max_length=256, verbose_name='Celular')
-    correo_electronico = models.CharField(max_length=256, verbose_name='Correo Electrónico')
-    sitio_web = models.CharField(max_length=256, verbose_name='Sitio Web')
+    correo_electronico = models.EmailField(max_length=256, verbose_name='Correo Electrónico')
+    sitio_web = models.URLField(max_length=656, verbose_name='Sitio Web')
     ret = models.CharField(max_length=256, verbose_name='RET')
     rnt = models.CharField(max_length=256, verbose_name='RNT')
     segmento = models.CharField(max_length=256, verbose_name='Segmento')
@@ -1205,8 +1203,8 @@ class DirectorioRecintosAuditoriosYSalones(models.Model):
     telefono_1 = models.CharField(max_length=256, verbose_name='Teléfono 1')
     telefono_2 = models.CharField(max_length=256, verbose_name='Teléfono 2')
     celular = models.CharField(max_length=256, verbose_name='Celular')
-    correo_electronico = models.CharField(max_length=256, verbose_name='Correo Electrónico')
-    sitio_web = models.CharField(max_length=256, verbose_name='Sitio Web')
+    correo_electronico = models.EmailField(max_length=256, verbose_name='Correo Electrónico')
+    sitio_web = models.URLField(max_length=656, verbose_name='Sitio Web')
     ret = models.CharField(max_length=256, verbose_name='RET')
     rnt = models.CharField(max_length=256, verbose_name='RNT')
     modalidad = models.CharField(max_length=256, verbose_name='Modalidad')
@@ -1241,8 +1239,8 @@ class DirectorioSpa(models.Model):
     telefono_1 = models.CharField(max_length=256, verbose_name='Teléfono 1')
     telefono_2 = models.CharField(max_length=256, verbose_name='Teléfono 2')
     celular = models.CharField(max_length=256, verbose_name='Celular')
-    correo_electronico = models.CharField(max_length=256, verbose_name='Correo Electrónico')
-    sitio_web = models.CharField(max_length=256, verbose_name='Sitio Web')
+    correo_electronico = models.EmailField(max_length=256, verbose_name='Correo Electrónico')
+    sitio_web = models.URLField(max_length=656, verbose_name='Sitio Web')
     ret = models.CharField(max_length=256, verbose_name='RET')
     rnt = models.CharField(max_length=256, verbose_name='RNT')
 
@@ -1271,3 +1269,31 @@ class Pasajeros_Ent_Nac (models.Model):
         app_label = 'ecosistema'
         db_table = "pasajeros_ent_nac"
         ordering = ['-id']
+
+
+class Report_Section(models.Model):
+    title = models.CharField(max_length=100)
+
+class Report(models.Model):
+    titulo = models.CharField(max_length=100 ,blank=True)
+    nomenclatura = models.CharField(max_length=100 ,blank=True)
+    descripcion = RichTextField()
+    iframe = models.TextField()
+    dimension = models.CharField(max_length=100 ,blank=True)
+    ods1  = models.BooleanField(default=False)
+    ods2  = models.BooleanField(default=False)
+    ods3  = models.BooleanField(default=False)
+    ods4  = models.BooleanField(default=False)
+    ods5  = models.BooleanField(default=False)
+    ods6  = models.BooleanField(default=False)
+    ods7  = models.BooleanField(default=False)
+    ods8  = models.BooleanField(default=False)
+    ods9  = models.BooleanField(default=False)
+    ods10 = models.BooleanField(default=False)
+    ods11 = models.BooleanField(default=False)
+    ods12 = models.BooleanField(default=False)
+    ods13 = models.BooleanField(default=False)
+    ods14 = models.BooleanField(default=False)
+    ods15 = models.BooleanField(default=False)
+    ods16 = models.BooleanField(default=False)
+    ods17 = models.BooleanField(default=False)

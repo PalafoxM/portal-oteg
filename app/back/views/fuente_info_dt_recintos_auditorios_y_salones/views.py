@@ -69,7 +69,8 @@ class FuenteInfoDirectorioRecintosAuditoriosYSalonesCreate (CreateView):
     model = DirectorioRecintosAuditoriosYSalones
     form_class = DirectorioRecintosAuditoriosYSalonesForm
     template_name = 'back/fuente_info_dt_recintos_auditorios_y_salones/create.html'
-    success_url = reverse_lazy('dashboard:fuente_info_dt_recintos_auditorios_y_salones')
+    success_url = reverse_lazy(
+        'dashboard:fuente_info_dt_recintos_auditorios_y_salones')
 
     def get_object(self, **kwargs):
         queryset = self.get_queryset()
@@ -84,15 +85,54 @@ class FuenteInfoDirectorioRecintosAuditoriosYSalonesCreate (CreateView):
         if form.is_valid():
             # Check if there is already a record with the same fecha, destino and categoria
 
-            nombre_de_la_unidad_economica = form.cleaned_data['nombre_de_la_unidad_economica']
-            id_establecimiento = form.cleaned_data['id_establecimiento']
+            destino = form.cleaned_data['destino']
+            entidad = form.cleaned_data['entidad']
+            giro = form.cleaned_data['giro']
+            clave_del_giro = form.cleaned_data['clave_del_giro']
 
             try:
                 existing_object = self.get_object(
-                    nombre_de_la_unidad_economica=nombre_de_la_unidad_economica, id_establecimiento=id_establecimiento)
+                    destino=destino, entidad=entidad, giro=giro, clave_del_giro=clave_del_giro)
 
             except DirectorioRecintosAuditoriosYSalones.DoesNotExist:
                 existing_object = None
+
+            existing_catalogo = CatalagoDestino.objects.filter(
+                destino__iexact=destino).exists()
+            existing_catalogo_entidad = CatalogoEntidad.objects.filter(
+                entidad__iexact=entidad).exists()
+            # ALTER TABLE mytable MODIFY mycolumn VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+            # If there is no existing data, save the new data
+            if not existing_catalogo or not existing_catalogo_entidad:
+
+                if not existing_catalogo_entidad and not existing_catalogo:
+                    data = {
+                        'success': False,
+                        'missingData': True,
+                        'entidad': entidad,
+                        'destino': destino,
+                        'message': 'No existe la entidad y el destino en el catalogo',
+                    }
+                    return JsonResponse(data)
+
+                if not existing_catalogo_entidad:
+                    data = {
+                        'success': False,
+                        'missingData': True,
+                        'entidad': entidad,
+                        'message': 'No existe la entidad en el catalogo',
+                    }
+                    return JsonResponse(data)
+
+                if not existing_catalogo:
+                    data = {
+                        'success': False,
+                        'missingData': True,
+                        'destino': destino,
+                        'message': 'No existe el destino en el catalogo',
+                    }
+                    return JsonResponse(data)
 
             # If there is existing data and replace_data is True, delete the existing data
             if existing_object and request.POST.get('replace_data') == 'on':
@@ -119,140 +159,36 @@ class FuenteInfoDirectorioRecintosAuditoriosYSalonesCreate (CreateView):
 
             if existing_object:
                 data = DirectorioRecintosAuditoriosYSalones.objects.filter(
-                    nombre_de_la_unidad_economica=nombre_de_la_unidad_economica, id_establecimiento=id_establecimiento)
-
-                data_list = list(data.values(
-                    'id_establecimiento',
-                    'nombre_de_la_unidad_economica',
-                    'razon_social',
-                    'codigo_de_la_clase_de_actividad_scian',
-                    'nombre_de_clase_de_la_actividad',
-                    'descripcion_estrato_personal_ocupado',
-                    'tipo_de_vialidad',
-                    'nombre_de_la_vialidad',
-                    'tipo_de_entre_vialidad_1',
-                    'nombre_de_entre_vialidad_1',
-                    'tipo_de_entre_vialidad_2',
-                    'nombre_de_entre_vialidad_2',
-                    'tipo_de_entre_vialidad_3',
-                    'nombre_de_entre_vialidad_3',
-                    'numero_exterior_o_kilometro',
-                    'letra_exterior',
-                    'edificio',
-                    'edificio_piso',
-                    'numero_interior',
-                    'letra_interior',
-                    'tipo_de_asentamiento_humano',
-                    'nombre_de_asentamiento_humano',
-                    'tipo_centro_comercial',
-                    'c_industrial_comercial_o_mercado',
-                    'numero_de_local',
-                    'codigo_postal',
-                    'clave_entidad',
-                    'entidad_federativa',
-                    'clave_municipio',
-                    'municipio',
-                    'clave_localidad',
-                    'localidad',
-                    'area_geoestadistica_basica',
-                    'manzana',
-                    'numero_de_telefono',
-                    'correo_electronico',
-                    'sitio_en_internet',
-                    'tipo_de_establecimiento',
-                    'latitud',
-                    'longitud',
-                    'fecha_de_incorporacion_al_denue',
-                    'categoria_turistica',
-                    'no_cuartos',
-                    'unidades',
-                    'espacios_cajones',
-                    'no_camas',
-                    'cadena',
-                    'operadora',
-                    'responsable',
-                    'cargo',
-                    'imss',
-                    'inicio_de_operaciones_este_ano',
-                    'fecha_de_inicio_de_operaciones',
-                    'centro_turistico',
-                    'zona',
-                    'datatur',
-                    'hotel_boutique',
-                    'nombre_de_la_cadena',
-                    'hoteles_tesoros',
-
-                ))
-
-                fields_list = [
-                    'id_establecimiento',
-                    'nombre_de_la_unidad_economica',
-                    'razon_social',
-                    'codigo_de_la_clase_de_actividad_scian',
-                    'nombre_de_clase_de_la_actividad',
-                    'descripcion_estrato_personal_ocupado',
-                    'tipo_de_vialidad',
-                    'nombre_de_la_vialidad',
-                    'tipo_de_entre_vialidad_1',
-                    'nombre_de_entre_vialidad_1',
-                    'tipo_de_entre_vialidad_2',
-                    'nombre_de_entre_vialidad_2',
-                    'tipo_de_entre_vialidad_3',
-                    'nombre_de_entre_vialidad_3',
-                    'numero_exterior_o_kilometro',
-                    'letra_exterior',
-                    'edificio',
-                    'edificio_piso',
-                    'numero_interior',
-                    'letra_interior',
-                    'tipo_de_asentamiento_humano',
-                    'nombre_de_asentamiento_humano',
-                    'tipo_centro_comercial',
-                    'c_industrial_comercial_o_mercado',
-                    'numero_de_local',
-                    'codigo_postal',
-                    'clave_entidad',
-                    'entidad_federativa',
-                    'clave_municipio',
-                    'municipio',
-                    'clave_localidad',
-                    'localidad',
-                    'area_geoestadistica_basica',
-                    'manzana',
-                    'numero_de_telefono',
-                    'correo_electronico',
-                    'sitio_en_internet',
-                    'tipo_de_establecimiento',
-                    'latitud',
-                    'longitud',
-                    'fecha_de_incorporacion_al_denue',
-                    'categoria_turistica',
-                    'no_cuartos',
-                    'unidades',
-                    'espacios_cajones',
-                    'no_camas',
-                    'cadena',
-                    'operadora',
-                    'responsable',
-                    'cargo',
-                    'imss',
-                    'inicio_de_operaciones_este_ano',
-                    'fecha_de_inicio_de_operaciones',
-                    'centro_turistico',
-                    'zona',
-                    'datatur',
-                    'hotel_boutique',
-                    'nombre_de_la_cadena',
-                    'hoteles_tesoros',
-                ]
-
-                table_headers = ''.join(
-                    f'<th style="width: 300px;">{field}</th>' for field in fields_list)
+                    destino=destino, entidad=entidad, giro=giro, clave_del_giro=clave_del_giro)
+                data_list = list(data.values('giro',
+                                             'clave_del_giro',
+                                             'entidad',
+                                             'clave_entidad',
+                                             'destino',
+                                             'clave_municipio',
+                                             'nombre_comercial',
+                                             'razon_social',
+                                             'rfc',
+                                             'calle',
+                                             'numero',
+                                             'colonia',
+                                             'codigo_postal',
+                                             'lada',
+                                             'telefono_1',
+                                             'telefono_2',
+                                             'celular',
+                                             'correo_electronico',
+                                             'sitio_web',
+                                             'ret',
+                                             'rnt',
+                                             'modalidad', 'depende_de_hotel_o_restaurante',
+                                             'no_de_salones',
+                                             'capacidad_maxima'
+                                             ))
 
                 data_list2 = list(form.cleaned_data.values())
-
                 table_html = render_to_string('back/fuente_info_dt_recintos_auditorios_y_salones/table.html', {
-                                              'data_list': data_list, 'actual': True, 'data_list2': data_list2, "table_headers": table_headers})
+                                              'data_list': data_list, 'actual': True, 'data_list2': data_list2})
 
                 datajsn = {
                     'success': False,
@@ -299,8 +235,8 @@ class FuenteInfoDirectorioRecintosAuditoriosYSalonesCreate (CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Crear una fuente Directorio Recintos Auditorios Y Salones'
-        context['entity'] = 'Directorio Recintos Auditorios Y Salones'
+        context['title'] = 'Crear una fuente'
+        context['entity'] = 'Glosario'
         context['list_url'] = reverse_lazy(
             'dashboard:fuente_info_dt_recintos_auditorios_y_salones')
         context['action'] = 'add'
@@ -311,7 +247,8 @@ class FuenteInfoDirectorioRecintosAuditoriosYSalonesUpdate (UpdateView):
     model = DirectorioRecintosAuditoriosYSalones
     form_class = DirectorioRecintosAuditoriosYSalonesForm
     template_name = 'back/fuente_info_dt_recintos_auditorios_y_salones/view_editor.html'
-    success_url = reverse_lazy('dashboard:fuente_info_dt_recintos_auditorios_y_salones')
+    success_url = reverse_lazy(
+        'dashboard:fuente_info_dt_recintos_auditorios_y_salones')
 
     def form_invalid(self, form):
         response = super().form_invalid(form)
@@ -346,6 +283,15 @@ class FuenteInfoDirectorioRecintosAuditoriosYSalonesUpdate (UpdateView):
         # context['form'].fields['giro'].widget = forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly'})
         # context['form'].fields['destino'].widget = forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly'})
 
+        context['form'].fields['entidad'].widget = forms.TextInput(
+            attrs={'class': 'form-control', 'readonly': 'readonly'})
+        context['form'].fields['giro'].widget = forms.TextInput(
+            attrs={'class': 'form-control', 'readonly': 'readonly'})
+        context['form'].fields['destino'].widget = forms.TextInput(
+            attrs={'class': 'form-control', 'readonly': 'readonly'})
+        context['form'].fields['clave_del_giro'].widget = forms.TextInput(
+            attrs={'class': 'form-control', 'readonly': 'readonly'})
+
         context['title'] = 'Editar fuente'
         context['edit_msg'] = 'Los Campos Destino y Año no pueden ser editados'
 
@@ -354,7 +300,8 @@ class FuenteInfoDirectorioRecintosAuditoriosYSalonesUpdate (UpdateView):
 
 class FuenteInfoDirectorioRecintosAuditoriosYSalonesDelete (DeleteView):
     model = DirectorioRecintosAuditoriosYSalones
-    success_url = reverse_lazy('dashboard:fuente_info_dt_recintos_auditorios_y_salones')
+    success_url = reverse_lazy(
+        'dashboard:fuente_info_dt_recintos_auditorios_y_salones')
 
     def post(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
         return super().post(request, *args, **kwargs)
@@ -363,7 +310,8 @@ class FuenteInfoDirectorioRecintosAuditoriosYSalonesDelete (DeleteView):
 class DirectorioRecintosAuditoriosYSalonesCargaMasivaView(View):
     form_class = CargaMasivaForm
     template_name = 'back/fuente_info_dt_recintos_auditorios_y_salones/carga_masiva.html'
-    success_url = reverse_lazy('dashboard:fuente_info_dt_recintos_auditorios_y_salones')
+    success_url = reverse_lazy(
+        'dashboard:fuente_info_dt_recintos_auditorios_y_salones')
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -436,9 +384,9 @@ class DirectorioRecintosAuditoriosYSalonesCargaMasivaView(View):
 
                 giro = row[0].value
                 clave_del_giro = row[1].value
-                # entidad 
+                # entidad
                 clave_entidad = row[3].value
-                # destino 
+                # destino
                 clave_municipio = row[5].value
                 nombre_comercial = row[6].value
                 razon_social = row[7].value
@@ -482,19 +430,21 @@ class DirectorioRecintosAuditoriosYSalonesCargaMasivaView(View):
                     'sitio_web': sitio_web,
                     'ret': ret,
                     'rnt': rnt,
-                    'modalidad':modalidad,
-                    'depende_de_hotel_o_restaurante':depende_de_hotel_o_restaurante,
-                    'no_de_salones':no_de_salones,
-                    'capacidad_maxima':capacidad_maxima,
+                    'modalidad': modalidad,
+                    'depende_de_hotel_o_restaurante': depende_de_hotel_o_restaurante,
+                    'no_de_salones': no_de_salones,
+                    'capacidad_maxima': capacidad_maxima,
                 }
 
                 try:
                     if destino not in CatalagoDestino.objects.values_list('destino', flat=True):
-                        print(f"El destino {destino} no está en la tabla CatalagoDestinoAeropuerto")
+                        print(
+                            f"El destino {destino} no está en la tabla CatalagoDestinoAeropuerto")
                         registros_incorrectos.append(datos)
                         continue
                     if entidad not in CatalogoEntidad.objects.values_list('entidad', flat=True):
-                        print(f"La entidad {entidad} no está en la tabla CatalagoDestinoAeropuerto")
+                        print(
+                            f"La entidad {entidad} no está en la tabla CatalagoDestinoAeropuerto")
                         registros_incorrectos.append(datos)
                         continue
 
@@ -533,10 +483,10 @@ class DirectorioRecintosAuditoriosYSalonesCargaMasivaView(View):
                             sitio_web=sitio_web,
                             ret=ret,
                             rnt=rnt,
-                            modalidad= modalidad,
-                            depende_de_hotel_o_restaurante= depende_de_hotel_o_restaurante,
-                            no_de_salones= no_de_salones,
-                            capacidad_maxima= capacidad_maxima,
+                            modalidad=modalidad,
+                            depende_de_hotel_o_restaurante=depende_de_hotel_o_restaurante,
+                            no_de_salones=no_de_salones,
+                            capacidad_maxima=capacidad_maxima,
                         )
                         db.save()
                         registros_correctos.append(datos)
@@ -615,19 +565,21 @@ class DirectorioRecintosAuditoriosYSalonesCargaMasivaView(View):
                     'sitio_web': sitio_web,
                     'ret': ret,
                     'rnt': rnt,
-                    'modalidad':modalidad,
-                    'depende_de_hotel_o_restaurante':depende_de_hotel_o_restaurante,
-                    'no_de_salones':no_de_salones,
-                    'capacidad_maxima':capacidad_maxima,
+                    'modalidad': modalidad,
+                    'depende_de_hotel_o_restaurante': depende_de_hotel_o_restaurante,
+                    'no_de_salones': no_de_salones,
+                    'capacidad_maxima': capacidad_maxima,
                 }
 
                 try:
                     if destino not in CatalagoDestino.objects.values_list('destino', flat=True):
-                        print(f"El destino {destino} no está en la tabla CatalagoDestinoAeropuerto")
+                        print(
+                            f"El destino {destino} no está en la tabla CatalagoDestinoAeropuerto")
                         registros_incorrectos.append(datos)
                         continue
                     if entidad not in CatalogoEntidad.objects.values_list('entidad', flat=True):
-                        print(f"La entidad {entidad} no está en la tabla CatalagoDestinoAeropuerto")
+                        print(
+                            f"La entidad {entidad} no está en la tabla CatalagoDestinoAeropuerto")
                         registros_incorrectos.append(datos)
                         continue
 
@@ -666,10 +618,10 @@ class DirectorioRecintosAuditoriosYSalonesCargaMasivaView(View):
                             sitio_web=sitio_web,
                             ret=ret,
                             rnt=rnt,
-                            modalidad= modalidad,
-                            depende_de_hotel_o_restaurante= depende_de_hotel_o_restaurante,
-                            no_de_salones= no_de_salones,
-                            capacidad_maxima= capacidad_maxima,
+                            modalidad=modalidad,
+                            depende_de_hotel_o_restaurante=depende_de_hotel_o_restaurante,
+                            no_de_salones=no_de_salones,
+                            capacidad_maxima=capacidad_maxima,
                         )
                         db.save()
                         registros_correctos.append(datos)
@@ -691,7 +643,8 @@ class DirectorioRecintosAuditoriosYSalonesDescargarArchivoView(View):
 
         # Obtener los nombres y verbose_name de los campos del modelo DirectorioRecintosAuditoriosYSalones
         fields = DirectorioRecintosAuditoriosYSalones._meta.get_fields()
-        column_labels = [field.verbose_name for field in fields if field.name != 'id']
+        column_labels = [
+            field.verbose_name for field in fields if field.name != 'id']
         column_names = [field.name for field in fields if field.name != 'id']
 
         # Escribir los encabezados de las columnas

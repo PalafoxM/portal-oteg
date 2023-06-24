@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block columns %}
-<tr>
+<tr class="text-center table-header">
     <th>ID</th>
     <th>Nombre</th>
     <th>Fecha</th>
@@ -13,42 +13,50 @@
     <th>Categoria</th>
     <th>Acciones</th>
 
-</tr>
-{% endblock %}
+    {% endblock %}
 
-{% block rows %}
-{% for e in object_list %}
-<tr>
-    <th>{{e.id }}</th>
-    <th>{{e.name}}</th>
-    <th>{{e.date_created}}</th>
-    <th>{{e.section.seccion}}</th>
-    <th>{{e.category.nombre_categoria}}</th>
-    
-    <th>
-        
-        <form method="post" action="{% url 'dashboard:publicacion_delete' e.id %}" >
-            {% csrf_token %}
-            <button type="submit" class="btn btn-danger btn-icon-split" onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">
-                <span class="icon text-white-50">
+    {% block rows %}
+    {% for e in object_list %}
+<tr class="table-body">
+    <th class="text-left tb-text">{{e.id }}</th>
+    <th class="text-left tb-text">{{e.name}}</th>
+    <th class="text-left tb-text">{{e.date_created}}</th>
+    <th class="text-left tb-text">{{e.section.seccion}}</th>
+    <th class="text-left tb-text">{{e.category.nombre_categoria}}</th>
+
+    <th class="text-left actions-column tb-text" style="
+    position: relative;
+    background-color: #ECF0F1;
+    text-align: center;
+    height: 100%;
+    ">
+        <div class="icon-container2">
+
+            <form method="get" action="{% url 'dashboard:publicacion_update' e.id %}">
+                {% csrf_token %}
+                <button type="submit" class="ml-1 mr-1 actions-btn">
+                    <i class="fas fa-edit"></i>
+                </button>
+            </form>
+
+            
+            <form method="post" action="{% url 'dashboard:publicacion_delete' e.id %}">
+                {% csrf_token %}
+                <button type="submit" class="ml-1 mr-1 actions-btn"
+                    onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">
+
                     <i class="fas fa-trash"></i>
-                </span>
-                <span class="text">Eliminar</span>
-            </button>
-        </form>
+
+                </button>
+            </form>
 
 
-        <form method="get" action="{% url 'dashboard:publicacion_update' e.id %}" >
-            {% csrf_token %}
-            <button type="submit" class="btn btn-primary btn-icon-split">
-                <span class="icon text-white-50">
-                    <i class="fas fa-pencil-alt"></i>
-                </span>
-                <span class="text">Editar</span>
-            </button>
-        </form>
+
+
+        </div>
 
     </th>
+
 </tr>
 {% endfor %}
 {% endblock %}
