@@ -16,19 +16,22 @@
     {% for banner in object_list %}
     <!-- <tr class="tr-space"></tr> -->
         <tr class="text-center table-body mt-2">
-            <th class="text-left pl-3">{{ banner.id }}</th>
-            <th class="text-left pl-3">{{banner.name}}</th>
-            <th class="actions-container">
-                <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="location.href='{% url 'dashboard:banner_update' banner.id %}'">
-                    <i class="far fa-eye"></i>
-                </button>
-                <form method="post" action="{% url 'dashboard:banner_delete' banner.id %}" >
-                    {% csrf_token %}
-                    
-                    <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </form>
+            <th class="text-left tb-text">{{ banner.id }}</th>
+            <th class="text-left tb-text">{{banner.name}}</th>
+            <th class="text-center" style="position: relative; background-color: #ECF0F1; text-align: center; height: 100%;">
+                <div class="icon-container">
+                    <!-- <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="location.href='{% url 'dashboard:banner_update' banner.id %}'">
+                        <i class="far fa-eye"></i>
+                    </button> -->
+                    <i class="fas fa-edit" onclick="location.href='{% url 'dashboard:banner_update' banner.id %}'"></i>
+                    <form method="post" action="{% url 'dashboard:banner_delete' banner.id %}" >
+                        {% csrf_token %}
+                        
+                        <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </form>
+                </div>
             </th>
         </tr>
     {% endfor %}

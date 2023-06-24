@@ -613,7 +613,7 @@ class BarometroCreateView(CreateView):
     success_url = reverse_lazy('dashboard:barometro_list')
     
     def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST)
+        form = self.form_class(request.POST, request.FILES)  # Incluir request.FILES para manejar los archivos subidos
         if form.is_valid():
             self.object = form.save()
             data = {

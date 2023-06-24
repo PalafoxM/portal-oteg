@@ -11,6 +11,7 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.models import Group
 from django.core.validators import RegexValidator
 from django.core.files.base import ContentFile
+from django.forms import PasswordInput
 
 
 
@@ -117,25 +118,25 @@ class ProfileForm(ModelForm):
         model = Profile
         fields = ('apellido_paterno', 'apellido_materno', 'fecha_cumple', 'direccion', 'tel', 'facebook', 'twitter', 'ciudad', 'estado', 'empresa_institucion', 'cargo', 'licenciatura', 'universidad_licenciatura', 'maestria', 'universidad_maestria', 'doctorado', 'universidad_doctorado', 'photo', 'experiencia', 'boletin')
         widgets = {
-            'apellido_paterno': forms.TextInput(attrs={'placeholder': 'Apellido paterno', 'class': 'form-control'}),
-            'apellido_materno': forms.TextInput(attrs={'placeholder': 'Apellido materno', 'class': 'form-control'}),
-            'fecha_cumple': forms.DateInput(attrs={'placeholder': 'Fecha de cumpleaños ', 'class': 'form-control fecha-input'}),
-            'direccion': forms.TextInput(attrs={'placeholder': 'Dirección', 'class': 'form-control'}),
-            'tel': forms.TextInput(attrs={'placeholder': 'Teléfono', 'class': 'form-control'}),
-            'facebook': forms.TextInput(attrs={'placeholder': 'Facebook', 'class': 'form-control'}),
-            'twitter': forms.TextInput(attrs={'placeholder': 'Twitter', 'class': 'form-control'}),
-            'ciudad': forms.TextInput(attrs={'placeholder': 'Ciudad', 'class': 'form-control'}),
-            'estado': forms.TextInput(attrs={'placeholder': 'Estado', 'class': 'form-control'}),
-            'empresa_institucion': forms.TextInput(attrs={'placeholder': 'Empresa o institución', 'class': 'form-control'}),
-            'cargo': forms.TextInput(attrs={'placeholder': 'Cargo', 'class': 'form-control'}),
-            'licenciatura': forms.TextInput(attrs={'placeholder': 'Licenciatura', 'class': 'form-control'}),
-            'universidad_licenciatura': forms.TextInput(attrs={'placeholder': 'Universidad de licenciatura', 'class': 'form-control'}),
-            'maestria': forms.TextInput(attrs={'placeholder': 'Maestría', 'class': 'form-control'}),
-            'universidad_maestria': forms.TextInput(attrs={'placeholder': 'Universidad de maestría', 'class': 'form-control'}),
-            'doctorado': forms.TextInput(attrs={'placeholder': 'Doctorado', 'class': 'form-control'}),
-            'universidad_doctorado': forms.TextInput(attrs={'placeholder': 'Universidad de doctorado', 'class': 'form-control'}),
-            'experiencia': forms.Textarea(attrs={'placeholder': 'Experiencia', 'class': 'form-control'}),
-            'photo': forms.ClearableFileInput(attrs={'placeholder': 'Imagen de perfil', 'class': 'form-control'})
+            'apellido_paterno': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Apellido paterno', 'class': 'form-control'}),
+            'apellido_materno': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Apellido materno', 'class': 'form-control'}),
+            'fecha_cumple': forms.DateInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Fecha de cumpleaños ', 'class': 'form-control fecha-input'}),
+            'direccion': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Dirección', 'class': 'form-control'}),
+            'tel': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Teléfono', 'class': 'form-control'}),
+            'facebook': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Facebook', 'class': 'form-control'}),
+            'twitter': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Twitter', 'class': 'form-control'}),
+            'ciudad': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Ciudad', 'class': 'form-control'}),
+            'estado': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Estado', 'class': 'form-control'}),
+            'empresa_institucion': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Empresa o institución', 'class': 'form-control'}),
+            'cargo': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Cargo', 'class': 'form-control'}),
+            'licenciatura': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Licenciatura', 'class': 'form-control'}),
+            'universidad_licenciatura': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Universidad de licenciatura', 'class': 'form-control'}),
+            'maestria': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Maestría', 'class': 'form-control'}),
+            'universidad_maestria': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Universidad de maestría', 'class': 'form-control'}),
+            'doctorado': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Doctorado', 'class': 'form-control'}),
+            'universidad_doctorado': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Universidad de doctorado', 'class': 'form-control'}),
+            'experiencia': forms.Textarea(attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Experiencia', 'class': 'form-control'}),
+            'photo': forms.ClearableFileInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Imagen de perfil', 'class': 'form-control'})
             
         }
     
@@ -149,58 +150,62 @@ class CustomUserCreationForm(UserCreationForm):
         super().__init__(*args, **kwargs)
         self.fields['password1'].required = False
         self.fields['password2'].required = False
+        self.fields['password1'].widget = PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Contraseña', 'icon_class': 'fas fa-key'})
+        self.fields['password2'].widget = PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Confirmar contraseña', 'icon_class': 'fas fa-key'})
 
     
     print("CustomUserCreationForm")
 
     username = forms.CharField(max_length=100, label='Nombre de Usuario', widget=forms.TextInput(
-        attrs={'placeholder': 'Nombre de usuario', 'class': 'form-control'}))
+        attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Nombre de usuario', 'class': 'form-control'}))
     first_name = forms.CharField(max_length=100, label='Nombre', widget=forms.TextInput(
-        attrs={'placeholder': 'Nombre', 'class': 'form-control'}))
+        attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Nombre', 'class': 'form-control'}))
     last_name = forms.CharField(max_length=100, label='Apellido Paterno', widget=forms.TextInput(
-        attrs={'placeholder': 'Apellido paterno', 'class': 'form-control'}))
+        attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Apellido paterno', 'class': 'form-control'}))
     apellido_materno = forms.CharField(max_length=100, label='Apellido Materno', widget=forms.TextInput(
-        attrs={'placeholder': 'Apellido materno', 'class': 'form-control'}))
+        attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Apellido materno', 'class': 'form-control'}))
     fecha_cumple = forms.DateField(required=False, widget=DateInput(
-        attrs={'placeholder': 'Fecha de cumpleaños', 'class': 'form-control'}), label='Fecha de Cumpleaños')
+        attrs={'class': 'form-control fecha-input', 'icon_class': 'fas fa-table', 'placeholder': 'Fecha de cumpleaños', 'class': 'form-control'}), label='Fecha de Cumpleaños')
     direccion = forms.CharField(max_length=100, label='Dirección', widget=forms.TextInput(
-        attrs={'placeholder': 'Dirección', 'class': 'form-control'}))
+        attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Dirección', 'class': 'form-control'}))
     tel = forms.CharField(max_length=100, required=False, label='Teléfono',
-                          widget=forms.TextInput(attrs={'placeholder': 'Teléfono', 'class': 'form-control'}))
+                          widget=forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Teléfono', 'class': 'form-control'}))
     email = forms.EmailField(max_length=100, label='Correo Electrónico', widget=forms.EmailInput(
-        attrs={'placeholder': 'Correo electrónico', 'class': 'form-control'}))
+        attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Correo electrónico', 'class': 'form-control'}))
     facebook = forms.CharField(max_length=100, required=False, widget=forms.TextInput(
-        attrs={'placeholder': 'Facebook', 'class': 'form-control'}))
+        attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Facebook', 'class': 'form-control'}))
     twitter = forms.CharField(max_length=100, required=False, widget=forms.TextInput(
-        attrs={'placeholder': 'Twitter', 'class': 'form-control'}))
+        attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Twitter', 'class': 'form-control'}))
     ciudad = forms.CharField(max_length=100, required=False, widget=forms.TextInput(
-        attrs={'placeholder': 'Ciudad', 'class': 'form-control'}))
+        attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Ciudad', 'class': 'form-control'}))
     estado = forms.CharField(max_length=100, required=False, widget=forms.TextInput(
-        attrs={'placeholder': 'Estado', 'class': 'form-control'}))
+        attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Estado', 'class': 'form-control'}))
     empresa_institucion = forms.CharField(max_length=100, required=False, label='Empresa o Institución', widget=forms.TextInput(
-        attrs={'placeholder': 'Empresa o institución', 'class': 'form-control'}))
+        attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Empresa o institución', 'class': 'form-control'}))
     cargo = forms.CharField(max_length=100, required=False,
-                            widget=forms.TextInput(attrs={'placeholder': 'Cargo', 'class': 'form-control'}))
+                            widget=forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Cargo', 'class': 'form-control'}))
     licenciatura = forms.CharField(max_length=100, required=False, widget=forms.TextInput(
-        attrs={'placeholder': 'Licenciatura', 'class': 'form-control'}))
+        attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Licenciatura', 'class': 'form-control'}))
     universidad_licenciatura = forms.CharField(max_length=100, required=False, widget=forms.TextInput(
-        attrs={'placeholder': 'Universidad de la licenciatura', 'class': 'form-control'}))
+        attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Universidad de la licenciatura', 'class': 'form-control'}))
     maestria = forms.CharField(max_length=100, required=False, widget=forms.TextInput(
-        attrs={'placeholder': 'Maestría', 'class': 'form-control'}))
+        attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Maestría', 'class': 'form-control'}))
     universidad_maestria = forms.CharField(max_length=100, required=False, widget=forms.TextInput(
-        attrs={'placeholder': 'Universidad de la maestría', 'class': 'form-control'}))
+        attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Universidad de la maestría', 'class': 'form-control'}))
     doctorado = forms.CharField(max_length=100, required=False, widget=forms.TextInput(
-        attrs={'placeholder': 'Doctorado', 'class': 'form-control'}))
+        attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Doctorado', 'class': 'form-control'}))
     universidad_doctorado = forms.CharField(max_length=100, required=False, widget=forms.TextInput(
-        attrs={'placeholder': 'Universidad del doctorado', 'class': 'form-control'}))
+        attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Universidad del doctorado', 'class': 'form-control'}))
     photo = forms.ImageField(widget=forms.ClearableFileInput(
-        attrs={'multiple': True}), label='Fotografía', required=False)
+        attrs={'class': 'form-control-file','multiple': True}), label='Fotografía', required=False)
     experiencia = forms.CharField(widget=forms.Textarea(
-        attrs={'placeholder': 'Experiencia'}), required=False)
+        attrs={'class': 'form-control', 'placeholder': 'Experiencia'}), required=False)
     boletin = forms.BooleanField(
-        required=False, label='Deseo recibir boletín de noticias')
+        required=False, label='Deseo recibir boletín de noticias',
+        widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}))
     group = forms.ModelChoiceField(
-        queryset=Group.objects.all(), label='Rol / Permisos')
+        queryset=Group.objects.all(), label='Rol / Permisos',
+        widget=forms.Select(attrs={'class': 'form-control'}))
 
     class Meta:
         model = User
@@ -271,52 +276,53 @@ class CustomUserUpdateForm(UserChangeForm):
     
 
     username = forms.CharField(max_length=100, label='Nombre de Usuario', widget=forms.TextInput(
-        attrs={'placeholder': 'Nombre de usuario', 'class': 'form-control'}))
+        attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Nombre de usuario', 'class': 'form-control'}))
     first_name = forms.CharField(max_length=100, label='Nombre', widget=forms.TextInput(
-        attrs={'placeholder': 'Nombre', 'class': 'form-control'}))
+        attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Nombre', 'class': 'form-control'}))
     last_name = forms.CharField(max_length=100, label='Apellido Paterno', widget=forms.TextInput(
-        attrs={'placeholder': 'Apellido paterno', 'class': 'form-control'}))
+        attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Apellido paterno', 'class': 'form-control'}))
     apellido_materno = forms.CharField(max_length=100, label='Apellido Materno', widget=forms.TextInput(
-        attrs={'placeholder': 'Apellido materno', 'class': 'form-control'}))
+        attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Apellido materno', 'class': 'form-control'}))
     fecha_cumple = forms.DateField(required=False, widget=DateInput(
-        attrs={'placeholder': 'Fecha de cumpleaños', 'class': 'form-control'}), label='Fecha de Cumpleaños')
+        attrs={'class': 'form-control fecha-input', 'icon_class': 'fas fa-table', 'placeholder': 'Fecha de cumpleaños', 'class': 'form-control'}), label='Fecha de Cumpleaños')
     direccion = forms.CharField(max_length=100, label='Dirección', widget=forms.TextInput(
-        attrs={'placeholder': 'Dirección', 'class': 'form-control'}))
+        attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Dirección', 'class': 'form-control'}))
     tel = forms.CharField(max_length=100, required=False, label='Teléfono',
-                          widget=forms.TextInput(attrs={'placeholder': 'Teléfono', 'class': 'form-control'}),
+                          widget=forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Teléfono', 'class': 'form-control'}),
                           validators=[RegexValidator(r'^\d{10}$', 'Ingresa un número de teléfono válido.')])
     email = forms.EmailField(max_length=100, label='Correo Electrónico', widget=forms.EmailInput(
-        attrs={'placeholder': 'Correo electrónico', 'class': 'form-control'}))
+        attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Correo electrónico', 'class': 'form-control'}))
     facebook = forms.CharField(max_length=100, required=False, widget=forms.TextInput(
-        attrs={'placeholder': 'Facebook', 'class': 'form-control'}))
+        attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Facebook', 'class': 'form-control'}))
     twitter = forms.CharField(max_length=100, required=False, widget=forms.TextInput(
-        attrs={'placeholder': 'Twitter', 'class': 'form-control'}))
+        attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Twitter', 'class': 'form-control'}))
     ciudad = forms.CharField(max_length=100, required=False, widget=forms.TextInput(
-        attrs={'placeholder': 'Ciudad', 'class': 'form-control'}))
+        attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Ciudad', 'class': 'form-control'}))
     estado = forms.CharField(max_length=100, required=False, widget=forms.TextInput(
-        attrs={'placeholder': 'Estado', 'class': 'form-control'}))
+        attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Estado', 'class': 'form-control'}))
     empresa_institucion = forms.CharField(max_length=100, required=False, label='Empresa o Institución', widget=forms.TextInput(
-        attrs={'placeholder': 'Empresa o institución', 'class': 'form-control'}))
+        attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Empresa o institución', 'class': 'form-control'}))
     cargo = forms.CharField(max_length=100, required=False, label='Cargo',
-                            widget=forms.TextInput(attrs={'placeholder': 'Cargo', 'class': 'form-control'}))
+                            widget=forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Cargo', 'class': 'form-control'}))
     licenciatura = forms.CharField(max_length=100, required=False, widget=forms.TextInput(
-        attrs={'placeholder': 'Licenciatura', 'class': 'form-control'}))
+        attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Licenciatura', 'class': 'form-control'}))
     universidad_licenciatura = forms.CharField(max_length=100, required=False, widget=forms.TextInput(
-        attrs={'placeholder': 'Universidad de la licenciatura', 'class': 'form-control'}))
+        attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Universidad de la licenciatura', 'class': 'form-control'}))
     maestria = forms.CharField(max_length=100, required=False, widget=forms.TextInput(
-        attrs={'placeholder': 'Maestría', 'class': 'form-control'}))
+        attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Maestría', 'class': 'form-control'}))
     universidad_maestria = forms.CharField(max_length=100, required=False, widget=forms.TextInput(
-        attrs={'placeholder': 'Universidad de la maestría', 'class': 'form-control'}))
+        attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Universidad de la maestría', 'class': 'form-control'}))
     doctorado = forms.CharField(max_length=100, required=False, widget=forms.TextInput(
-        attrs={'placeholder': 'Doctorado', 'class': 'form-control'}))
+        attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Doctorado', 'class': 'form-control'}))
     universidad_doctorado = forms.CharField(max_length=100, required=False, widget=forms.TextInput(
-        attrs={'placeholder': 'Universidad del doctorado', 'class': 'form-control'}))
+        attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Universidad del doctorado', 'class': 'form-control'}))
     photo = forms.ImageField(widget=forms.ClearableFileInput(
-        attrs={'multiple': True, 'class': 'form-control'}), label='Fotografía', required=False)
+        attrs={'class': 'form-control-file','multiple': True}), label='Fotografía', required=False)
     experiencia = forms.CharField(widget=forms.Textarea(
-        attrs={'placeholder': 'Experiencia'}), required=False)
+        attrs={'class': 'form-control', 'placeholder': 'Experiencia'}), required=False)
     boletin = forms.BooleanField(
-        required=False, label='Deseo recibir boletín de noticias')
+        required=False, label='Deseo recibir boletín de noticias',
+        widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}))
     group = forms.ModelChoiceField(
         queryset=Group.objects.all(), label='Rol / Permisos',
         widget=forms.Select(attrs={'class': 'form-control'}))

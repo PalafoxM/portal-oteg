@@ -9,7 +9,12 @@
         <th class="text-left pl-3">Username</th>
         <th class="text-left pl-3">Nombre</th>
         <th class="text-left pl-3">Email</th>
-        <th class="actions">Acciones</th>
+        <th class="text-center" style="
+        position: relative;
+        background-color: #ECF0F1;
+        text-align: center;
+        height: 100%;
+    ">Acciones</th>
     </tr>
 {% endblock %}
 
@@ -17,21 +22,21 @@
     {% for user in object_list %}
     <tr class="text-center table-body mt-2">
         <th class="text-left pl-3">{{ user.id }}</td>
-            <td class="text-left pl-3">{{ user.username }}</td>
-            <td class="text-left pl-3">{{ user.first_name }} {{ user.last_name }}</td>
-            <td class="text-left pl-3">{{ user.email }}</td>
-            <th class="actions-container">
-                <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="location.href='{% url 'usuarios-perfil-update' user.id  %}'">
-                    <i class="far fa-eye"></i>
-                </button>
-                <form method="post" action="{% url 'delete_user' user.id %}" >
-                    {% csrf_token %}
-                    
-                    <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </form>
-
+            <td class="text-left tb-text">{{ user.username }}</td>
+            <td class="text-left tb-text">{{ user.first_name }} {{ user.last_name }}</td>
+            <td class="text-left tb-text">{{ user.email }}</td>
+            
+            <td class="text-center" style="position: relative; background-color: aqua; text-align: center; height: 100%;">
+                <div class="icon-container">
+                    <i class="fas fa-edit" onclick="location.href='{% url 'usuarios-perfil-update' user.id  %}'"></i>
+                    <form method="post" action="{% url 'delete_user' user.id %}" >
+                        {% csrf_token %}
+                        
+                        <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </form>
+                </div>
             </td>
         </tr>
     {% endfor %}
