@@ -45,7 +45,7 @@ class Banner(models.Model):
 class PlacesOfInterest(models.Model):
     logotipo = models.ImageField(upload_to='logos', storage=S3Storage(), verbose_name="Logotipo")
     sitio_web = models.URLField(verbose_name="Link")
-    decription = models.CharField(max_length=100, verbose_name="Descripcion")
+    description = models.CharField(max_length=100)
     date_created = models.DateTimeField(auto_now=True)
 
     def __str__(self):

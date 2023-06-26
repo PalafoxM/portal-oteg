@@ -4,22 +4,13 @@ import os
 from django.core.validators import FileExtensionValidator
 
 
+
 class S3Storage(S3Boto3Storage):
     location = 'media'  # Carpeta dentro del bucket donde se almacenarán las imágenes
     file_overwrite = False  # No sobrescribir archivos existentes con el mismo nombre
     bucket_name = os.getenv('AWS_BUCKET')
     access_key = os.getenv('AWS_ACCESS_KEY_ID')
     secret_key = os.getenv('AWS_SECRET_ACCESS_KEY')
-
-# Create your models here.
-
-#seccion 1 = Perfil de Visitante a Ciudad
-#seccion 2 = Perfil de Visitante a Evento
-#seccion 3 = Marco Normativo de Turismo
-#seccion 4 = Noticias Turísticas
-#seccion 5 = Sustentabilidad
-# .......
-
 
 
 class PerfilVisistantePDF (models.Model):
@@ -36,10 +27,12 @@ class PerfilVisistantePDF (models.Model):
 class BarometroTuristico (models.Model):
     semestre = models.IntegerField(null=True, blank=False)
     nombrePDF = models.CharField(max_length=100, null=True, blank=True)
-    url = models.FileField(null=True, blank=True, upload_to='barometro', storage=S3Storage())#
+    # url = models.FileField(upload_to='barometro-turistico', storage=S3Storage(), verbose_name="Archivo", blank=True)#
+    doc = models.FileField(upload_to='barometro-turistico', storage=S3Storage(), verbose_name="Documento", blank=True)#
     yearPDF = models.IntegerField(null=True, blank=False)
     num_descargas = models.IntegerField(null=True, blank=True, default=0)
     fecha_registro = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    
 
 
 

@@ -59,13 +59,11 @@ INSTALLED_APPS = [
     'logIn',
     # back
     'back',
-    # 'dash'
 
     # librerias
     'widget_tweaks',
     'ckeditor',
     'ckeditor_uploader',
-    # 'google_translate',
 ]
 
 
