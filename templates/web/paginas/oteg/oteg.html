@@ -39,7 +39,10 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">¿QUIÉNES LO INTEGRAN?</h5>
-                <img src="https://picsum.photos/id/237/500" class="card-img-top" alt="...">
+                <div id="svg-container">
+                    <embed src="{% static 'images/fuentes_informacion/Organigrama.svg' %}" type="image/svg+xml"
+                        onload="handleSVGLoad()" />
+                </div>
             </div>
         </div>
     </div>
@@ -98,7 +101,7 @@
                         correcta, útil y permanente.</li>
                     <li>Comisión de Tablero de Control y Sistema de Indicadores: Analiza los indicadores que miden la
                         actividad turística del Estado de Guanajuato.</li>
-                   
+
                     <li>Comisión de Portal de Internet: Vigila el correcto funcionamiento del Portal de Internet del
                         Observatorio.
                     </li>
@@ -113,6 +116,194 @@
         </div>
     </div>
 </div>
+<script>
+    function handleSVGLoad() {
+        var svgDocument = document.querySelector("#svg-container embed").getSVGDocument();
+        var ellipses = svgDocument.querySelectorAll("ellipse");
+        var rects = svgDocument.querySelectorAll("rect");
+        var texts = svgDocument.querySelectorAll("text");
 
+        ellipses.forEach(function (ellipse) {
+            ellipse.addEventListener("click", function () {
+                console.log("Se hizo clic en el elemento <ellipse>:", ellipse.id);
+                if (ellipse.id === "Ellipse_14") {
+                    window.location.href = "https://www.lasallebajio.edu.mx/";
+                }
+                else if (ellipse.id === "Ellipse_8") {
+                    window.location.href = "https://www.uii.edu.mx/";
+                }
+                else if (ellipse.id === "Ellipse_10") {
+                    window.location.href = "https://www.udec.edu.mx/";
+                }
+                else if (ellipse.id === "Ellipse_12") {
+                    window.location.href = "https://www.ugto.mx/";
+                }
+                else if (ellipse.id === "Ellipse_16") {
+                    window.location.href = "https://www.utsma.edu.mx/";
+                }
+                else if (ellipse.id === "Ellipse_18") {
+                    window.location.href = "https://www.inegi.org.mx/";
+                }
+                else if (ellipse.id === "Ellipse_20") {
+                    window.location.href = "https://iplaneg.guanajuato.gob.mx/";
+                }
+                else if (ellipse.id === "Ellipse_22") {
+                    window.location.href = "https://sde.guanajuato.gob.mx/sdes/";
+                }
+                else if (ellipse.id === "Ellipse_24") {
+                    window.location.href = "https://smaot.guanajuato.gob.mx/sitio/";
+                }
+                else if (ellipse.id === "Ellipse_26") {
+                    window.location.href = "https://www.lasallebajio.edu.mx/";
+                }
+                else if (ellipse.id === "Ellipse_28") {
+                    window.location.href = "https://www.lasallebajio.edu.mx/";
+                }
+                else if (ellipse.id === "Ellipse_30") {
+                    window.location.href = "https://www.lasallebajio.edu.mx/";
+                }
+                else if (ellipse.id === "Ellipse_32") {
+                    window.location.href = "https://www.lasallebajio.edu.mx/";
+                }
+                else if (ellipse.id === "Ellipse_34") {
+                    window.location.href = "https://www.lasallebajio.edu.mx/";
+                }
+                else if (ellipse.id === "Ellipse_36") {
+                    window.location.href = "https://www.lasallebajio.edu.mx/";
+                }
+                else if (ellipse.id === "Ellipse_40") {
+                    window.location.href = "https://www.lasallebajio.edu.mx/";
+                }
+                else if (ellipse.id === "Ellipse_42") {
+                    window.location.href = "https://www.lasallebajio.edu.mx/";
+                }
+                else if (ellipse.id === "Ellipse_44") {
+                    window.location.href = "https://www.lasallebajio.edu.mx/";
+                }
+            });
+        });
+
+        rects.forEach(function (rect) {
+            rect.addEventListener("click", function () {
+                console.log("Se hizo clic en el elemento <rect>:", rect.id);
+                // Realizar acciones adicionales para <rect>
+                if (rect.id === "Universidad_de_la_Salle_Bajío") {
+                    window.location.href = "https://www.lasallebajio.edu.mx/";
+                }
+                else if (rect.id === "Instituto_Irapuato") {
+                    window.location.href = "https://www.uii.edu.mx/";
+                }
+                else if (rect.id === "Universidad_de_celaya-2") {
+                    window.location.href = "https://www.udec.edu.mx/";
+                }
+                else if (rect.id === "Universidad_de_Guanajuato-2") {
+                    window.location.href = "https://www.ugto.mx/";
+                }
+                else if (rect.id === "Universidad_tecnológica_de_SMA") {
+                    window.location.href = "https://www.utsma.edu.mx/";
+                }
+                else if (rect.id === "INEGI-2") {
+                    window.location.href = "https://www.inegi.org.mx/";
+                }
+                else if (rect.id === "Instituto_de_planeación_del_Estado_de_Guanajuato") {
+                    window.location.href = "https://iplaneg.guanajuato.gob.mx/";
+                }
+                else if (rect.id === "Instituto_Estatal_de_Cultura-2") {
+                    window.location.href = "https://cultura.guanajuato.gob.mx/";
+                }
+                else if (rect.id === "Secretaria_de_Desarrollo_Económico_Sustentable") {
+                    window.location.href = "https://sde.guanajuato.gob.mx/sdes/";
+                }
+                else if (rect.id === "Secretaria_de_Medio_Ambiente_y_Ordenamiento_Territorial") {
+                    window.location.href = "https://smaot.guanajuato.gob.mx/sitio/";
+                }
+                else if (rect.id === "Escondido_Place-2") {
+                    window.location.href = "https://www.lasallebajio.edu.mx/";
+                }
+                else if (rect.id === "Asociación_de_empresarios_de_Turismo_del_Estado_de_Guanajuato") {
+                    window.location.href = "https://www.lasallebajio.edu.mx/";
+                }
+                else if (rect.id === "Asociación_Mexicana_de_Hoteles_de_León") {
+                    window.location.href = "https://www.lasallebajio.edu.mx/";
+                }
+                else if (rect.id === "Poliforum_León") {
+                    window.location.href = "https://www.lasallebajio.edu.mx/";
+                }
+                else if (rect.id === "Asoc._De_Turismo_de_Naturaleza_y_Aventura_de_Guanajuato-2") {
+                    window.location.href = "https://www.lasallebajio.edu.mx/";
+                }
+                else if (rect.id === "Representante_del_Segmento_de_Romance-2") {
+                    window.location.href = "https://www.lasallebajio.edu.mx/";
+                }
+                else if (rect.id === "SECTUR") {
+                    window.location.href = "https://www.lasallebajio.edu.mx/";
+                }
+            });
+        });
+
+        texts.forEach(function (text) {
+            text.addEventListener("click", function () {
+                console.log("Se hizo clic en el elemento <text>:", text.id);
+                if (text.id === "Universidad_De_La_Salle_Bajío") {
+                    window.location.href = "https://www.lasallebajio.edu.mx/";
+                }
+                else if (text.id === "Insituto_Irapuato") {
+                    window.location.href = "https://www.uii.edu.mx/";
+                }
+                else if (text.id === "Universidad_de_celaya") {
+                    window.location.href = "https://www.lasallebajio.edu.mx/";
+                }
+                else if (text.id === "Universidad_de_Guanajuato") {
+                    window.location.href = "https://www.ugto.mx/";
+                }
+                else if (text.id === "Universidad_Tecnológica_De_SMA") {
+                    window.location.href = "https://www.utsma.edu.mx/";
+                }
+                else if (text.id === "INEGI") {
+                    window.location.href = "https://www.inegi.org.mx/";
+                }
+                else if (text.id === "Instituto_de_Planeación_del_Estado_de_Guanajuato") {
+                    window.location.href = "https://iplaneg.guanajuato.gob.mx/";
+                }
+                else if (text.id === "Instituto_Estatal_de_Cultura") {
+                    window.location.href = "https://cultura.guanajuato.gob.mx/";
+                }
+                else if (text.id === "Secretaría_de_Desarrollo_Económico_Sustentable") {
+                    window.location.href = "https://sde.guanajuato.gob.mx/sdes/";
+                }
+                else if (text.id === "Secretaría_de_Medio_Ambiente_y_Ordenamiento_Territorial") {
+                    window.location.href = "https://smaot.guanajuato.gob.mx/sitio/";
+                }
+                else if (text.id === "Escondido_Place") {
+                    window.location.href = "https://www.lasallebajio.edu.mx/";
+                }
+                else if (text.id === "Asoc._De_Empresarios_de_Turismo_Cultural_del_Estado_de_Guanajuato") {
+                    window.location.href = "https://www.lasallebajio.edu.mx/";
+                }
+                else if (text.id === "Asociación_Mexicana_de_Hoteles_De_León") {
+                    window.location.href = "https://www.lasallebajio.edu.mx/";
+                }
+                else if (text.id === "Grupo_Flecha_Amarilla-2") {
+                    window.location.href = "https://www.lasallebajio.edu.mx/";
+                }
+                else if (text.id === "Poliforum_León") {
+                    window.location.href = "https://www.lasallebajio.edu.mx/";
+                }
+                else if (text.id === "Asoc._De_Turismo_de_Naturaleza_y_Aventura_de_Guanajuato") {
+                    window.location.href = "https://www.lasallebajio.edu.mx/";
+                }
+                else if (text.id === "Cámara_Nacional_de_Comercio") {
+                    window.location.href = "https://www.lasallebajio.edu.mx/";
+                }
+                else if (text.id === "Representante_del_Segmento_de_Romance") {
+                    window.location.href = "https://www.lasallebajio.edu.mx/";
+                }
+                else if (text.id === "Secretario_Técnico_Dirección_de_Información_y_Análisis_SECTUR") {
+                    window.location.href = "https://www.lasallebajio.edu.mx/";
+                }
+            });
+        });
+    }
+</script>
 
 {% endblock %}
