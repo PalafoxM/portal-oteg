@@ -35,8 +35,6 @@ class BarometroTuristico (models.Model):
     
 
 
-
-
 class DataPoint(models.Model):
     fecha_registro = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     year = models.IntegerField(null=True, blank=False)

@@ -43,7 +43,7 @@
                     <li><a href="{% url 'publicaciones_new' %}" class="nav-text">Publicaciones</a></li>
                     <li><a href="{% url 'inventario-turistico' %}" class="nav-text">Inventario Turístico</a></li>
                     <li><a href="{% url 'entorno-nacional'%}" class="nav-text">Entorno Nacional</a></li>
-                    <li><a class="nav-text">Barómetro Turístico</a></li>
+                    <li><a href="{% url 'barometro-turistico' %}" class="nav-text">Barómetro Turístico</a></li>
                     <li><a href="{% url 'eniot'%}" class="nav-text">ENIOT</a></li>
                 </ul>
             </div><!-- /.navbar-collapse -->
@@ -58,7 +58,7 @@
     <div class="carousel-inner" role="listbox">
         <div class="item active">
             <div class="mask">
-                <img src="https://guanajuato.mx/wp-content/uploads/2022/05/San-Miguel-de-Allende-Guanajuato-2.jpg"
+                <img src={% static img_url %} alt="">
                     alt="">
                 <div class="overlay"></div>
             </div>

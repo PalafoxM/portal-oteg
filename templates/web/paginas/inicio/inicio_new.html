@@ -538,7 +538,7 @@
         font-weight: 300;
         font-size: small;
         transition: transform 0.3s ease;
-        
+
 
     }
 
@@ -546,11 +546,37 @@
         color: #ED4C02 !important;
         cursor: pointer;
         transform: scale(1.2);
-
-
-
-
     }
+
+    .truncate {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .url-custom-btn{
+        background-color: transparent !important;
+        color: #fff;
+        border: 1px solid #fff;
+
+        padding: 10px 25px;
+        display: inline-block;
+        border-radius: 50px;
+        text-transform: uppercase;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 600;
+        font-size: 12px;
+        transition: transform 0.3s ease;
+    }
+
+ 
+    .url-custom-btn:hover{
+        background-image: linear-gradient(140.57deg, #ED4C02 0%, #FB8A55 100%);
+        border: 1px solid #ED4C02;
+        transform: scale(1.1);
+        cursor: pointer;
+    }
+
 </style>
 
 <body>
@@ -600,20 +626,21 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a  href="{% url 'oteg' %}" class="nav-text">OTEG</a></li>
-                        <li><a  href="{% url 'sustentabilidad' %}" class="nav-text">Sustentabilidad</a></li>
-                        <li><a href='https://guanajuato.mx/'  target="_blank" class="nav-text">Información Turística</a></li>
+                        <li><a href="{% url 'oteg' %}" class="nav-text">OTEG</a></li>
+                        <li><a href="{% url 'sustentabilidad' %}" class="nav-text">Sustentabilidad</a></li>
+                        <li><a href='https://guanajuato.mx/' target="_blank" class="nav-text">Información Turística</a>
+                        </li>
                         <li><a href="{% url 'solicitudes' %}" class="nav-text">Solicitudes</a>
                         <li> <a><input type="text" placeholder="Buscar" class="nav-input"></a></li>
                     </ul>
 
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a  href="{% url 'inicio' %}" class="nav-text">INICIO</a></li>
+                        <li><a href="{% url 'inicio' %}" class="nav-text">INICIO</a></li>
                         <li><a class="nav-text">Indicadores</a></li>
-                        <li><a href="{% url 'publicaciones_new' %}"  class="nav-text">Publicaciones</a></li>
+                        <li><a href="{% url 'publicaciones_new' %}" class="nav-text">Publicaciones</a></li>
                         <li><a href="{% url 'inventario-turistico' %}" class="nav-text">Inventario Turístico</a></li>
-                        <li><a  href="{% url 'entorno-nacional'%}" class="nav-text">Entorno Nacional</a></li>
-                        <li><a  class="nav-text">Barómetro Turístico</a></li>
+                        <li><a href="{% url 'entorno-nacional'%}" class="nav-text">Entorno Nacional</a></li>
+                        <li><a href="{% url 'barometro-turistico' %}" class="nav-text">Barómetro Turístico</a></li>
                         <li><a href="{% url 'eniot'%}" class="nav-text">ENIOT</a></li>
                     </ul>
                 </div><!-- /.navbar-collapse -->
@@ -622,57 +649,51 @@
 
 
         <ol class="carousel-indicators">
-            <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-            <li data-target="#carousel-example-generic" data-slide-to="1" class=""></li>
-            <li data-target="#carousel-example-generic" data-slide-to="2" class=""></li>
+            {% for baner in banners %}
+            <li data-target="#carousel-example-generic" data-slide-to="{{ forloop.counter0 }}"
+                class="{% if forloop.counter0 == 0 %}active{% endif %}"></li>
+            {% endfor %}
         </ol>
+
         <div class="carousel-inner" role="listbox">
-            <div class="item active">
+
+            {% for object in banners%}
+            <div class="item  {% if forloop.counter0 == 0 %}active{% endif %}">
+
                 <div class="mask">
-                    <img src="https://guanajuato.mx/wp-content/uploads/2022/05/San-Miguel-de-Allende-Guanajuato-2.jpg"
-                        alt="">
+                    <img src="{{object.imagen.url}}" alt="">
                     <div class="overlay"></div>
                 </div>
 
                 <div class="carousel-caption">
+                    {% if object.subtitulo %}
 
-                    <p>Perfil del Visitante</p>
+                    <p class="truncate" >{{object.subtitulo}}</p>
+                    {% else %}
 
-                    <h2>San Miguel <br>
-                        de Allende</h2>
+                    {% endif %}
 
-                </div>
-            </div>
-            <div class="item">
-                <div class="mask">
-                    <img src="https://escapadas.mexicodesconocido.com.mx/wp-content/uploads/2020/12/Guanajuato1.png"
-                        alt="">
-                    <div class="overlay"></div>
-                </div>
-                <div class="carousel-caption">
+                    {% if object.titulo_pricipal %}
 
-                    <p>Perfil del Visitante</p>
+                    <h2 class="truncate" >{{object.titulo_pricipal}} </h2>
+                    {% else %}
 
-                    <h2>Guanajuato <br>
-                        2023</h2>
+                    {% endif %}
 
-                </div>
-            </div>
-            <div class="item">
-                <div class="mask">
-                    <img src="https://mexicodesconocidoviajes.mx/wp-content/uploads/2019/08/GVMD-Guanajuato-Salvatierra-convento-del-Carmen-DPG_mdok.jpg"
-                        alt="">
-                    <div class="overlay"></div>
-                </div>
-                <div class="carousel-caption">
+                    {% if object.banner_url %}
+                    <a href="{{object.banner_url}}"
+                       class="url-custom-btn"
+                       style="
+                    text-decoration: none;
+                       "
+                    >Ir al enlace</a>
+                    {% else %}
 
-                    <p>Perfil del Visitante</p>
-
-                    <h2>Salvatierra <br>
-                        2023</h2>
+                    {% endif %}
 
                 </div>
             </div>
+            {% endfor %}
         </div>
 
     </div>
@@ -1059,6 +1080,19 @@
     <script src=" https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        // Truncate the text within the <p> and <h2> elements
+        var elements = document.querySelectorAll('.truncate');
+        for (var i = 0; i < elements.length; i++) {
+            var element = elements[i];
+            var maxLength = 50; // Adjust the desired length of the truncated text
+            var text = element.innerHTML;
+            if (text.length > maxLength) {
+                var truncatedText = text.substring(0, maxLength) + '...';
+                element.innerHTML = truncatedText;
+            }
+        }
+    </script>
 
 </body>
 
