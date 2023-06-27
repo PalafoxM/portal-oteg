@@ -7,6 +7,20 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js">
 
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<link href="{% static 'scss/custom-inputs.css' %}" rel="stylesheet" type="text/css">
+<style>
+    .input-with-icon {
+        position: relative;
+    }
+
+    .help-text {
+        display:none;
+    }
+    .help-text-2 {
+        margin-top: 5px;
+    }
+</style>
+
 
 
 {% endblock %}
@@ -121,6 +135,48 @@
 </form>
 
 
+<div style="display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 20px;
+">
+    <div id="baker" style="
+    cursor: pointer; 
+        background-color: #EC9711;
+        width: 370px;
+        height: 47px;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 5px;
+    ">
+        <p style="color: #fff; 
+            font-family: avenir;
+            font-weight: bold; font-size: 15px; margin: 0; padding: 0; text-align: center;">
+            Cancelar</p>
+    </div>
+
+    <button type="submit" style="
+        background-color: #0CAB7B;
+        width: 370px;
+        height: 47px;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: none;
+        border-radius: 5px;
+    ">
+        <p style="cursor: pointer; color: #fff; 
+            font-family: avenir;
+            font-weight: bold; font-size: 15px; margin: 0; padding: 0; text-align: center;">
+            Guardar </p>
+    </button>
+</div>
+</form>
+
 {% endblock %}
 
 
@@ -140,7 +196,7 @@
 
     flatpickr(".fecha-input", {
         dateFormat: "Y-m-d",
-        minDate: "today", // Fecha mínima seleccionable (hoy)
+        //minDate: "today", // Fecha mínima seleccionable (hoy)
         locale: "es",
     });
 

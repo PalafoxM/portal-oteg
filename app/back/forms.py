@@ -1,4 +1,4 @@
-from django.forms import ModelForm, TextInput, ClearableFileInput, CheckboxInput
+from django.forms import ModelForm, TextInput, ClearableFileInput, CheckboxInput, FileInput
 from .models import *
 from web.models import *
 from django import forms
@@ -6,6 +6,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from django.contrib.auth.models import User, Group
 from ckeditor.widgets import CKEditorWidget
+from django.core.exceptions import ValidationError
+import traceback
 
 # class SeccionChoiceField(forms.ModelChoiceField):
 #     def label_from_instance(self, obj):
@@ -84,19 +86,17 @@ class BannerForm(ModelForm):
         }
 
 
-class PlacesOfInterestForm(ModelForm):
+class PlacesOfInterestForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+    logotipo = forms.ImageField(widget=forms.ClearableFileInput(attrs={'class': 'form-control-file', 'multiple': True}), label='Logotipo', required=False)
+    sitio_web = forms.URLField(widget=forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Ingresa un Sitio Web'}), label='Sitio Web')
+    description = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Ingresa una Descripción'}), label='Descripción')
+
     class Meta:
         model = PlacesOfInterest
-        fields = '__all__'
-        widgets = {
-            'sitio_web': TextInput(attrs={'placeholder': 'Ingresa un Sitio Web'}),
-            'decription': TextInput(attrs={'placeholder': 'Ingresa un Descripcion'}),
-            'sitio_web': TextInput(attrs = { 'placeholder': 'Ingresa un Sitio Web', 'class': 'form-control'}),
-            'decription': TextInput(attrs = { 'placeholder': 'Ingresa un Descripcion', 'class': 'form-control'}), 
-        }
+        fields = ['logotipo', 'sitio_web', 'description']
 
 
 class PasswordChangeFormCustom(PasswordChangeForm):
@@ -189,18 +189,63 @@ class NoticiaForm(ModelForm):
 
 
 class BarometroForm(forms.ModelForm):
+    
     class Meta:
         model = BarometroTuristico
-        fields = ['semestre', 'nombrePDF', 'url', 'yearPDF']
+        fields = '__all__'
         widgets = {
             'semestre': forms.NumberInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-search', 'required': True}),
             'nombrePDF': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-file-pdf'}),
             'url': forms.ClearableFileInput(attrs={'class': 'form-control-file' ,'icon_class': 'fas fa-file-pdf'}),
             'yearPDF': forms.NumberInput(attrs={'class': 'custom-input' ,'icon_class': 'fas fa-calendar', 'required': True}),
         }
-        labels = {
-            'url': 'Archivo',
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['semestre'].required = True
+        self.fields['yearPDF'].required = True
+
+        self.error_messages = {
+            'semestre': {
+                'required': 'El campo Semestre es obligatorio.',
+            },
+            # 'url': {
+            #     'required': 'El campo Archivo es obligatorio.',
+            # },
+            'yearPDF': {
+                'required': 'El campo Year PDF es obligatorio.',
+            },
         }
+    
+    def clean_url(self):
+        url = self.cleaned_data.get('url')
+        if url:
+            try:
+                instance = self.instance  # Obtener la instancia actual del modelo
+                if instance.pk is None:  # Verificar si la instancia es nueva (creación)
+                    instance.url = url  # Asignar el valor del campo url antes de guardar
+                instance.url.storage.save(instance.url.name, url)
+            except Exception:
+                raise ValidationError('Error al subir el archivo al bucket de S3. Por favor, inténtelo nuevamente.')
+        return url
+
+    def clean_semestre(self):
+        semestre = self.cleaned_data['semestre']
+        if semestre is None:
+            raise forms.ValidationError(self.error_messages['semestre']['required'])
+        return semestre
+
+    # def clean_url(self):
+    #     url = self.cleaned_data['url']
+    #     if not url:
+    #         raise forms.ValidationError(self.error_messages['url']['required'])
+    #     return url
+
+    def clean_yearPDF(self):
+        yearPDF = self.cleaned_data['yearPDF']
+        if yearPDF is None:
+            raise forms.ValidationError(self.error_messages['yearPDF']['required'])
+        return yearPDF
 
 
 class AlbaForm(forms.ModelForm):
