@@ -41,7 +41,7 @@ class BannerListView(ListView):
 class  BannerCreateView(CreateView):
     model = Banner
     form_class = BannerForm
-    template_name = 'back/components/create_update.html'
+    template_name = 'back/banner/create_update.html'
     success_url = reverse_lazy('dashboard:banner_list')
 
     def post(self, request, *args, **kwargs):
@@ -92,7 +92,7 @@ class  BannerCreateView(CreateView):
 class BannerUpdateView( UpdateView):
     model = Banner
     form_class = BannerForm
-    template_name = 'back/components/create_update.html'
+    template_name = 'back/banner/create_update.html'
     success_url = reverse_lazy('dashboard:banner_list')
 
     def form_invalid(self, form):

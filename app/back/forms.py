@@ -81,8 +81,10 @@ class BannerForm(ModelForm):
             'banner_url': TextInput(attrs={'placeholder': 'Ingresa un Enlace'}),
             'name': TextInput(attrs = { 'placeholder': 'Ingresa una Nombre', 'class': 'custom-input', 'icon_class': 'fas fa-search'}),
             'banner_url': TextInput(attrs = { 'placeholder': 'Ingresa un Enlace','class': 'custom-input', 'icon_class': 'fas fa-globe'}), 
-            'publication': CheckboxInput(attrs = { 'placeholder': 'Ingresa una Publicación', 'class': 'custom-input' }), 
-            'imagen': ClearableFileInput(attrs = { 'placeholder': 'Ingresa una imagen', 'class': 'form-control-file'}), 
+            'activo': CheckboxInput(attrs = { 'class': 'form-check-input'}),
+            'imagen': ClearableFileInput(attrs = { 'placeholder': 'Ingresa una imagen', 'class': 'form-control-file'}),
+            'subtitulo' : TextInput(attrs = { 'placeholder': 'Ingresa un Subtitulo', 'class': 'custom-input', 'icon_class': 'fas fa-search'}),
+            'titulo_pricipal' : TextInput(attrs = { 'placeholder': 'Ingresa una Descripcion', 'class': 'custom-input', 'icon_class': 'fas fa-search'}),
         }
 
 
@@ -1553,7 +1555,7 @@ class ReportsForm(forms.ModelForm):
         self.fields['iframe'].widget.attrs['class'] = 'custom-input'
         self.fields['iframe'].widget.attrs['icon_class'] = 'fas fa-search'
 
-        self.fields['ods1'].widget.attrs['class'] = 'form-check-input'
+        self.fields['ods1'].widget.attrs['class'] = ''
         self.fields['ods2'].widget.attrs['class'] = 'form-check-input'
         self.fields['ods3'].widget.attrs['class'] = 'form-check-input'
         self.fields['ods4'].widget.attrs['class'] = 'form-check-input'

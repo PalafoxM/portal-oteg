@@ -23,10 +23,12 @@ class EcosistemaManager(models.Manager):
 # Create your models here.
 class Banner(models.Model):
     name = models.CharField(max_length=100, verbose_name="Nombre")
-    banner_url = models.CharField(max_length=100, verbose_name="Enlace")
-    publication = models.BooleanField(default=True)
+    banner_url = models.CharField(max_length=100, verbose_name="Enlace" , null=True, blank=True)
     imagen = models.ImageField(null=True, blank=True, upload_to='banner-images', storage=S3Storage())
     date_created = models.DateTimeField(auto_now=True)
+    subtitulo = models.CharField(max_length=100, verbose_name="Subtitulo" , null=True, blank=True)
+    titulo_pricipal = models.CharField(max_length=100, verbose_name="Titulo Principal" , null=True, blank=True)
+    activo = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name

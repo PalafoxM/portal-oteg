@@ -158,7 +158,7 @@ class BarometroTuristicoView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        pdf =  most_recent_register = BarometroTuristico.objects.latest('fecha_registro')
+        pdf = BarometroTuristico.objects.latest('fecha_registro')
         distinct_years = BarometroTuristico.objects.values('yearPDF').distinct().order_by('yearPDF')
         years_list = [item['yearPDF'] for item in distinct_years]
         
@@ -172,6 +172,9 @@ class BarometroTuristicoView(TemplateView):
         context['encuesta'] = encuesta
         context['years'] = years_list
         context['pdf'] = pdf
+
+        context['img_url'] = 'img_nav/barometro.jpg'
+        context['nav_title'] = 'BARÓMETRO TURÍSTICO'
         return context
 
 
@@ -227,7 +230,7 @@ def search(request):
     if bim:
         results = results.filter(semestre__icontains=bim)
 
-    data = [{'nombrePDF': obj.nombrePDF, 'url': obj.url ,'id':obj.id} for obj in results]
+    data = [{'nombrePDF': obj.nombrePDF, 'url': obj.doc.url ,'id':obj.id} for obj in results]
     return JsonResponse(data, safe=False)
 
 @require_GET

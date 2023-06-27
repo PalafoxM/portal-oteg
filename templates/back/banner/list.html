@@ -18,7 +18,22 @@
     <!-- <tr class="tr-space"></tr> -->
         <tr class="text-center table-body mt-2">
             <th class="text-left tb-text">{{ banner.id }}</th>
+
             <th class="text-left tb-text">{{banner.name}}</th>
+     
+            <th class="text-left tb-text">
+
+                {% if banner.imagen %}
+                <img  
+                    class="img-fluid" 
+                    style=" height: 50%"
+                 src='{{ banner.imagen.url }}'
+                />
+                {% else %}
+                <p>No hay imagen</p>
+
+                {% endif %}
+                </th>
             <th class="text-center" style="position: relative; background-color: #ECF0F1; text-align: center; height: 100%;">
                 <div class="icon-container">
                     <!-- <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="location.href='{% url 'dashboard:banner_update' banner.id %}'">
