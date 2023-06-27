@@ -18,11 +18,13 @@ margin-top: 40px;
     bottom: auto;
     opacity: 0.1;
     left: -350px;
+    z-index: 1;
   " src="{% static 'icons/footer_logo.svg' %}" style="width: 150px" />
     <div style="
     width: 100%;
     padding: 40px;
     flex-grow: 1;
+    z-index: 10;
   ">
         <div class="grid-container">
             <div class="grid-item">
@@ -43,6 +45,8 @@ margin-top: 40px;
             </div>
             <div class="grid-item">
                 <h4 class="footer-title">Indicadores</h4>
+                <div id="reports"></div>
+
                 <a class="footer-link"> Pacto Centro Occidente </a>
                 <a class="footer-link"> Nacionales </a>
                 <a class="footer-link"> Tablero de Control e Indicadores </a>
@@ -54,13 +58,14 @@ margin-top: 40px;
             </div>
             <div class="grid-item">
                 <a href="{% url 'publicaciones_new' %}" class="footer-title">Publicaciones</a>
-                <a class="footer-link"> Pacto Centro Occidente </a>
+                <div id="sections"></div>
+                <!-- <a class="footer-link"> Pacto Centro Occidente </a>
                 <a class="footer-link"> Nacionales </a>
                 <a class="footer-link"> Tablero de Control e Indicadores </a>
                 <a class="footer-link"> Gestión de Destinos </a>
                 <a class="footer-link"> Economía Inclusiva </a>
                 <a class="footer-link"> Sociedad y Cultura </a>
-                <a class="footer-link"> Medio Ambiente </a>
+                <a class="footer-link"> Medio Ambiente </a> -->
 
 
             </div>
@@ -76,10 +81,6 @@ margin-top: 40px;
                 <a class="footer-link"> Preguntas frecuentes</a>
                 <a class="footer-link"> Sitios de interés</a>
                 <a class="footer-link"> Mapa del Sitio</a>
-
-
-
-
             </div>
         </div>
         <div style="
@@ -115,7 +116,7 @@ margin-top: 40px;
             text-align: left;
         }
 
-        .footer-title:hover  {
+        .footer-title:hover {
             color: #DEE2E6;
             font-family: Poppins;
             font-size: 18px;
@@ -138,6 +139,7 @@ margin-top: 40px;
             text-align: left;
             cursor: pointer;
             text-decoration: none;
+            z-index: 999!important;
         }
 
         .footer-link:hover {
@@ -151,6 +153,7 @@ margin-top: 40px;
             text-align: left;
             cursor: pointer;
             text-decoration: underline;
+            z-index: 999!important;
         }
 
         .grid-container {
@@ -168,6 +171,9 @@ margin-top: 40px;
         .grid-image {
             width: 40%;
         }
+
+
+
 
 
         @media (min-width: 576px) {
@@ -188,4 +194,55 @@ margin-top: 40px;
             }
         }
     </style>
+
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: '{% url "dashboard:get_sections" %}',
+                data: { q: '' },
+
+                success: function (data) {
+                    var html = '';
+                    var containerHeight = $('#sections').height();
+                    var rowHeight = 0;
+                    var rowHtml = '<div class="row">';
+
+                    for (var i = 0; i < data.length; i++) {
+                        var url = '{% url "publicaciones_secciones" pk=1 %}'.replace('1', data[i].id);
+
+                        var itemHtml = '<p><a href="' + url + '" class="footer-link">' + data[i].titulo + '</a></p>';
+                        //var itemHtml = '<p><a href ="" class="text-reset">' + data[i].titulo + '</a></p>';
+
+                        $('#sections').append(itemHtml);
+                    }
+                }
+            });
+        });
+
+
+
+        $(document).ready(function () {
+            $.ajax({
+                url: '{% url "dashboard:get_reports" %}',
+                data: { q: '' },
+
+                success: function (data) {
+                    var html = '';
+                    var containerHeight = $('#reports').height();
+                    var rowHeight = 0;
+                    var rowHtml = '<div class="row">';
+
+                    for (var i = 0; i < data.length; i++) {
+                        var url = '{% url "dashboard:report_detail" pk=1 %}'.replace('1', data[i].id);
+
+                        var itemHtml = '<p><a href="' + url + '" class="footer-link">' + data[i].titulo + '</a></p>';
+                        //var itemHtml = '<p><a href ="" class="text-reset">' + data[i].titulo + '</a></p>';
+
+                        $('#reports').append(itemHtml);
+                    }
+                }
+            });
+        });
+
+    </script>
 </footer>

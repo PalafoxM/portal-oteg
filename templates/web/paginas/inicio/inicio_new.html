@@ -537,12 +537,19 @@
         font-family: 'Montserrat', sans-serif;
         font-weight: 300;
         font-size: small;
+        transition: transform 0.3s ease;
+        
+
     }
 
     .nav-text:hover {
-        color: #fff;
+        color: #ED4C02 !important;
         cursor: pointer;
-        text-decoration: underline;
+        transform: scale(1.2);
+
+
+
+
     }
 </style>
 
@@ -593,10 +600,10 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a class="nav-text">OTEG</a></li>
-                        <li><a class="nav-text">Sustentabilidad</a></li>
-                        <li><a class="nav-text">Información Turística</a></li>
-                        <li><a class="nav-text">Solicitudes</a>
+                        <li><a  href="{% url 'oteg' %}" class="nav-text">OTEG</a></li>
+                        <li><a  href="{% url 'sustentabilidad' %}" class="nav-text">Sustentabilidad</a></li>
+                        <li><a href='https://guanajuato.mx/'  target="_blank" class="nav-text">Información Turística</a></li>
+                        <li><a href="{% url 'solicitudes' %}" class="nav-text">Solicitudes</a>
                         <li> <a><input type="text" placeholder="Buscar" class="nav-input"></a></li>
                     </ul>
 
@@ -604,10 +611,10 @@
                         <li><a  href="{% url 'inicio' %}" class="nav-text">INICIO</a></li>
                         <li><a class="nav-text">Indicadores</a></li>
                         <li><a href="{% url 'publicaciones_new' %}"  class="nav-text">Publicaciones</a></li>
-                        <li><a class="nav-text">Inventario Turístico</a></li>
-                        <li><a class="nav-text">Entorno Nacional</a></li>
-                        <li><a class="nav-text">Barómetro Turístico</a></li>
-                        <li><a class="nav-text">ENIOT</a></li>
+                        <li><a href="{% url 'inventario-turistico' %}" class="nav-text">Inventario Turístico</a></li>
+                        <li><a  href="{% url 'entorno-nacional'%}" class="nav-text">Entorno Nacional</a></li>
+                        <li><a  class="nav-text">Barómetro Turístico</a></li>
+                        <li><a href="{% url 'eniot'%}" class="nav-text">ENIOT</a></li>
                     </ul>
                 </div><!-- /.navbar-collapse -->
             </div><!-- /.container-fluid -->

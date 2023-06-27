@@ -77,9 +77,9 @@ class BannerForm(ModelForm):
         widgets = {
             'name': TextInput(attrs={'placeholder': 'Ingresa una Nombre'}),
             'banner_url': TextInput(attrs={'placeholder': 'Ingresa un Enlace'}),
-            'name': TextInput(attrs = { 'placeholder': 'Ingresa una Nombre', 'class': 'custom-input'}),
-            'banner_url': TextInput(attrs = { 'placeholder': 'Ingresa un Enlace', 'class': 'custom-input'}), 
-            'publication': CheckboxInput(attrs = { 'placeholder': 'Ingresa una Publicación', 'class': 'custom-input'}), 
+            'name': TextInput(attrs = { 'placeholder': 'Ingresa una Nombre', 'class': 'custom-input', 'icon_class': 'fas fa-search'}),
+            'banner_url': TextInput(attrs = { 'placeholder': 'Ingresa un Enlace','class': 'custom-input', 'icon_class': 'fas fa-globe'}), 
+            'publication': CheckboxInput(attrs = { 'placeholder': 'Ingresa una Publicación', 'class': 'custom-input' }), 
             'imagen': ClearableFileInput(attrs = { 'placeholder': 'Ingresa una imagen', 'class': 'form-control-file'}), 
         }
 
