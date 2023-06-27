@@ -109,7 +109,7 @@ class Evento (models.Model):
     fecha_inicio = models.DateField()
     fecha_fin = models.DateField()
     tipo_evento = models.TextField()
-    imagen = models.ImageField(upload_to='eventos', storage=S3Storage())
+    imagen = models.ImageField(upload_to='oteg', storage=S3Storage())
     date_updated = models.DateTimeField(auto_now=True,)
     date_created = models.DateTimeField(auto_now=True)
 
