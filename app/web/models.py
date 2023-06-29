@@ -17,7 +17,7 @@ class PerfilVisistantePDF (models.Model):
     seccion = models.IntegerField(null=True, blank=False)
     subseccion = models.CharField(max_length=100, null=True, blank=True)
     nombrePDF = models.CharField(max_length=100, null=True, blank=True)
-    url = models.URLField(max_length=100, null=True, blank=True)
+    url = models.URLField(max_length=1000, null=True, blank=True)
     yearPDF = models.IntegerField(null=True, blank=False)
     num_descargas = models.IntegerField(null=True, blank=True, default=0)
     fecha_registro = models.DateTimeField(auto_now_add=True, null=True, blank=True)
@@ -52,9 +52,10 @@ class DataPoint(models.Model):
     diciembre_data = models.IntegerField(null=True, blank=True)
     estado = models.CharField(max_length=100, null=True, blank=True)
 
-
-
 class Encuesta(models.Model):
     fecha_registro = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-    url = models.URLField(max_length=100, null=True, blank=True)
+    url = models.URLField(max_length=1000, null=True, blank=True)
     activo = models.BooleanField(default=False)
+    seccion = models.IntegerField(null=True, blank=False)
+
+

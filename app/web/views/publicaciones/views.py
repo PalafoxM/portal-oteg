@@ -192,7 +192,7 @@ class PDFDownloadBarometro(View):
         pdf = get_object_or_404(BarometroTuristico, id=kwargs['pk'])
 
         # Download the file from the URL
-        r = requests.get(pdf.url, stream=True)
+        r = requests.get(pdf.doc.url, stream=True)
         # how to know the request is successful?
         if r.status_code != 200:
             return redirect('perfil_visistante_ciudad')
@@ -222,9 +222,8 @@ class BarometroTuristicoView(TemplateView):
         years_list = [item['yearPDF'] for item in distinct_years]
 
         try:
-            encuesta = Encuesta.objects.latest('fecha_registro')
+            encuesta = Encuesta.objects.filter(activo=True  , seccion = 1 ).latest('fecha_registro')
         except Encuesta.DoesNotExist:
-
             encuesta = None
             print("No hay registros disponibles.")
 
@@ -247,6 +246,10 @@ class NoticiasTuristicasView(TemplateView):
         context['title'] = 'Noticias Turisticas'
         context['publicaciones'] = Noticia.objects.order_by(
             F('fecha_nota').desc(nulls_last=True))[:10]  # order by date
+        
+        context['img_url'] = 'img_nav/noticia_t.png'
+        context['nav_title'] = 'NOTICIAS TURÍSTICAS'
+        context['noticias'] = Noticia.objects.order_by('-fecha_nota')[:10]
         return context
 
 
@@ -281,6 +284,8 @@ class BarometroViewer (TemplateView):
         barometro = get_object_or_404(
             BarometroTuristico, id=self.kwargs.get('pk'))
         context['pdf'] = barometro
+        context['img_url'] = 'img_nav/barometro.jpg'
+        context['nav_title'] = 'BARÓMETRO TURÍSTICO'
         return context
 
 
@@ -312,7 +317,7 @@ def search_noticias(request):
     if year:
         results = results.filter(fecha_nota__icontains=year)
 
-    data = [{'titulo': obj.titulo, 'id': obj.id, 'fecha_registro': datetime.strftime(
+    data = [{'titulo': obj.titulo, 'id': obj.id, 'fecha_nota': datetime.strftime(
         obj.fecha_nota, "%Y-%m-%d")} for obj in results]
     return JsonResponse(data, safe=False)
 
