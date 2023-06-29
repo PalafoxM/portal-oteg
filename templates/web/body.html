@@ -1,23 +1,40 @@
 {% extends 'web/index.html' %}
+{% load static %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'web/css/baner.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'fontawesome-free/css/all.min.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'web/css/nabar-portal.css' %}">
+  {% block head_view %}
+  {% endblock %}
+{% endblock %}
 {% block body %}
 
-    <!-- Header -->
-    {% include 'web/components/navbar/navbar.html' %}
-      <!-- Page Content -->
-      <div class="container">
-        {% block content %}
 
-        {% endblock %}
+<!-- Header -->
+{% include 'web/components/social_media_stiky/social_media_stiky.html' %}
+{% include 'web/components/navbar_new/navbar_new.html' %}
+<!-- Page Content -->
+<div class="container">
+  {% block content %}
 
-      </div>
+  {% endblock %}
 
-        <!-- Footer -->
-        {% include 'web/components/footer/footer_new.html' %}
-    </div>
-    <!-- Block javascript -->
-    {% block javascript %}
+</div>
 
-    {% endblock %}
-    <script>
-    </script>
+<!-- Footer -->
+{% include 'web/components/footer/footer_new.html' %}
+</div>
+<!-- Block javascript -->
+{% block javascript %}
+
+{% endblock %}
+<script>
+</script>
 {% endblock %}

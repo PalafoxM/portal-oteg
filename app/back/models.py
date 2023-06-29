@@ -163,6 +163,57 @@ class Alba(models.Model):
         db_table = 'alba'
         ordering = ['-id']
 
+class Eniot(models.Model):
+    nombrePDF = models.CharField(max_length=100, null=True, blank=True)
+    doc_url = models.FileField(upload_to='eniot', storage=S3Storage(), verbose_name="Documento", blank=True)
+    seccion = models.CharField(max_length=100, null=True, blank=True)
+    num_descargas = models.IntegerField(null=True, blank=True, default=0)
+    anio = models.IntegerField(null=True, blank=False)
+    # aniov2 = models.IntegerField(null=True, blank=False)
+    date_updated = models.DateTimeField(auto_now=True)
+    date_created = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        # db_table = 'eniot'
+        ordering = ['-id']
+
+    def save(self, *args, **kwargs):
+        # Actualizar la ruta del documento basado en el campo 'seccion'
+        if self.seccion is not None:
+            filename = os.path.basename(self.doc_url.name)
+            nombre_archivo, extension = os.path.splitext(filename)
+            new_filename = f'{nombre_archivo}-{self.seccion}{extension}'
+            self.doc_url.name = os.path.join( str(self.seccion), new_filename)
+
+        super(Eniot, self).save(*args, **kwargs)
+
+class EniotAlbun(models.Model):
+    nombreAlbun = models.CharField(max_length=100, null=True, blank=True)
+    foto_url = models.FileField(upload_to='eniot', storage=S3Storage(), verbose_name="Documento", blank=True)
+    descripcion = models.CharField(max_length=100, null=True, blank=True)
+    date_updated = models.DateTimeField(auto_now=True)
+    date_created = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        # db_table = 'eniot'
+        ordering = ['-id']
+
+    def save(self, *args, **kwargs):
+        # Actualizar la ruta del documento basado en el nombre del álbum
+        if self.foto_url is not None:
+            filename = os.path.basename(self.foto_url.name)
+            nombre_archivo, extension = os.path.splitext(filename)
+            new_filename = f'{nombre_archivo}-{self.nombreAlbun}{extension}'
+            self.foto_url.name = os.path.join('eniot', self.nombreAlbun, new_filename)
+
+        super(EniotAlbun, self).save(*args, **kwargs)
+        
+    def get_fotos(self):
+        return self.fotos.all()
+    
+    def get_fotos_by_nombre(self):
+        return self.fotos.filter(album__nombreAlbun=self.nombreAlbun)
+
 # #Fuentes de Informacion
 
 

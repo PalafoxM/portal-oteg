@@ -554,7 +554,7 @@
         text-overflow: ellipsis;
     }
 
-    .url-custom-btn{
+    .url-custom-btn {
         background-color: transparent !important;
         color: #fff;
         border: 1px solid #fff;
@@ -569,14 +569,13 @@
         transition: transform 0.3s ease;
     }
 
- 
-    .url-custom-btn:hover{
+
+    .url-custom-btn:hover {
         background-image: linear-gradient(140.57deg, #ED4C02 0%, #FB8A55 100%);
         border: 1px solid #ED4C02;
         transform: scale(1.1);
         cursor: pointer;
     }
-
 </style>
 
 <body>
@@ -668,25 +667,22 @@
                 <div class="carousel-caption">
                     {% if object.subtitulo %}
 
-                    <p class="truncate" >{{object.subtitulo}}</p>
+                    <p class="truncate">{{object.subtitulo}}</p>
                     {% else %}
 
                     {% endif %}
 
                     {% if object.titulo_pricipal %}
 
-                    <h2 class="truncate" >{{object.titulo_pricipal}} </h2>
+                    <h2 class="truncate">{{object.titulo_pricipal}} </h2>
                     {% else %}
 
                     {% endif %}
 
                     {% if object.banner_url %}
-                    <a href="{{object.banner_url}}"
-                       class="url-custom-btn"
-                       style="
+                    <a href="{{object.banner_url}}" class="url-custom-btn" style="
                     text-decoration: none;
-                       "
-                    >Ir al enlace</a>
+                       ">Ir al enlace</a>
                     {% else %}
 
                     {% endif %}

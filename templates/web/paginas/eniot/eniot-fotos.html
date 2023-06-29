@@ -1,0 +1,84 @@
+{% extends 'web/body.html' %}
+{% load static %}
+{% block head_view %}
+<style>
+  .albums-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.album {
+  background-color: #f0f0f0;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.album h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.album-photos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.album-photos img {
+  width: 200px;
+  height: auto;
+}
+
+</style>
+  {% endblock %}
+
+<!-- contenido -->
+{% block content %}
+
+<div class="row pl-5 pr-5 pt-5 pb-5">
+    <div class="col-lg-12 mt-5 text-center">
+        <h3>ENIOT MEMORIAS</h3>
+        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum laudantium impedit, labore dolores dolorum
+            voluptatibus accusantium debitis voluptas velit ratione molestiae nulla cum, voluptate temporibus aperiam
+            rem dolore est eaque.</p>
+    </div>
+</div>
+
+{% if albums %}
+  <div class="albums-container">
+    {% for album in albums %}
+      <div class="album">
+        <h2>Álbum: {{ album }}</h2>
+        <div class="album-photos">
+          {% for foto in fotos %}
+            {% if album == foto.nombreAlbun %}
+              <img src="https://portal-oteg.s3.amazonaws.com/media/{{ foto.foto_url }}" alt="" srcset="">
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <p>No hay álbumes de fotos disponibles.</p>
+{% endif %}
+
+
+
+
+
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+
+</script>
+</div>
+
+
+
+{% endblock %}

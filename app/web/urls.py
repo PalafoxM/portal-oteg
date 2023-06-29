@@ -64,7 +64,10 @@ urlpatterns = [
     # sustentabilidad
     path('sustentabilidad/',Sustentabilidad.as_view(), name='sustentabilidad'),
     # eniot
-    path('eniot/',Eniot.as_view(), name='eniot'),
+    path('eniot/',EniotView.as_view(), name='eniot'),
+    path('eniot/memorias',MemoriasView.as_view(), name='eniot_memorias'),
+    path('eniot/ponencia-eventos',PonenciaEventosView.as_view(), name='eniot_ponencia_eventos'),
+    path('eniot/ultimos-eventos',EniotEventosFotosView.as_view(), name='eniot_ultimos_eventos'),
     # entorno-nacional
     path('entorno-nacional/',EntornoNacional.as_view(), name='entorno-nacional'),
     # 

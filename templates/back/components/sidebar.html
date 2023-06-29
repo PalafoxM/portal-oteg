@@ -67,6 +67,21 @@
         <li>
             <div class="icon-link">
                 <a href="#">
+                    <img src="{% static 'images/icons/carpetas.png' %}" class="icons-list">
+                    <!-- <i class='bx bx-book-alt'></i> -->
+                    <span class="link_name">Eniot</span>
+                </a>
+                <i class='bx bxs-chevron-down arrow'></i>
+            </div>
+            <ul class="sub-menu">
+                <li><a class="link_name" href="#">Posts</a></li>
+                <li><a href="{%url 'dashboard:eniot_list'  %}">Lista ENIOT</a></li>
+                <li><a href="{%url 'dashboard:eniot_fotos_list'  %}">Lista Imagenes</a></li>
+            </ul>
+        </li>
+        <li>
+            <div class="icon-link">
+                <a href="#">
                     <img src="{% static 'images/icons/link.png' %}" class="icons-list">
                     <!-- <i class='bx bx-book-alt'></i> -->
                     <span class="link_name">Otros</span>

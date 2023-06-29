@@ -1,0 +1,36 @@
+{% extends 'web/body.html' %}
+{% load static %}
+
+
+<!-- contenido -->
+{% block content %}
+
+<div class="row pl-5 pr-5 pt-5 pb-5">
+    <div class="col-lg-12 mt-5 text-center">
+        <h3>ENIOT MEMORIAS</h3>
+        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum laudantium impedit, labore dolores dolorum
+            voluptatibus accusantium debitis voluptas velit ratione molestiae nulla cum, voluptate temporibus aperiam
+            rem dolore est eaque.</p>
+    </div>
+</div>
+{% for year, pdfs in pdf_by_year.items %}
+    <h2>{{ year }}</h2>
+    <ul>
+      {% for pdf in pdfs %}
+        <li>
+          <a href="https://portal-oteg.s3.amazonaws.com/media/{{ pdf.doc_url }}">{{ pdf.nombrePDF }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% endfor %}
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+
+</script>
+</div>
+
+
+
+{% endblock %}
