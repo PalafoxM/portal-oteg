@@ -624,6 +624,84 @@
         cursor: pointer;
         transform: scale(1.2);
     }
+
+
+
+    .url-custom-btn {
+        background-color: transparent !important;
+        color: #ED4C02;
+        border: 1px solid #ED4C02;
+
+        padding: 10px 25px;
+        display: inline-block;
+        border-radius: 50px;
+        text-transform: uppercase;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 600;
+        font-size: 12px;
+        transition: transform 0.3s ease;
+    }
+
+    .pdf-logo {
+        color: #333333;
+        transition: transform 0.3s ease;
+    }
+
+    .pdf-logo:hover {
+        transform: scale(1.5);
+        cursor: pointer;
+        color: #ED4C02 !important;
+    }
+
+
+
+    .url-custom-btn:hover {
+        background-image: linear-gradient(140.57deg, #ED4C02 0%, #FB8A55 100%);
+        border: 1px solid #ED4C02;
+        color: #fff;
+        transform: scale(1.1);
+        cursor: pointer;
+    }
+
+    .custom-search {
+
+        width: 60%;
+        height: 40px;
+        border-radius: 20px;
+        border: none;
+        padding-left: 20px;
+        margin-right: 10px;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 300;
+        color: #000;
+
+    }
+
+    .custom-search:focus {
+        border-color: #ED4C02;
+        outline: #ED4C02;
+
+    }
+
+    .pdf-logo {
+        color: #333333;
+        transition: transform 0.3s ease;
+    }
+
+    .pdf-logo:hover {
+        transform: scale(1.5);
+        cursor: pointer;
+        color: #ED4C02 !important;
+    }
+
+
+    .truncate {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+
 </style>
 
 <body>
@@ -641,17 +719,31 @@
 
     {% include 'web/components/navbar_new/navbar_new.html' %}
 
-    <div class="container mt-4">
+    <div class="container ">
 
+        <div style="
+        margin-top: 40px;
+        margin-bottom: 40px;
+        width: 50%;
+    ">
 
+            <h2 style="
+        color: #333333;
+        font-family: Montserrat;
+        font-size: 40px;
+        line-height: 58px;
+        font-weight: 600;
+        
+        text-align: left; ">Barómetro<br> Turístico</h2>
 
-        <div>
-            <h3 class="text-center">Barómetro Turístico</h3>
             <p>Es un estudio cualitativo y cuantitativo que examina la opinión y valoración presente, pasada y futura de
                 la
                 actividad turística y económica dentro del estado de Guanajuato, con fundamento en la experiencia de
                 líderes
                 de opinión, para el diseño de estrategias en pro del desarrollo turístico del Estado.</p>
+
+
+
         </div>
 
 
@@ -665,21 +757,74 @@
 
             <iframe height="80%" width="100%" src="{{pdf.doc.url}}" frameborder="0"></iframe>
         </div>
-        <h3 class="text-center">Buscador Barómetro Turístico</h3>
 
-        <form id="search-form" class="d-flex mt-5" role="search">
-            <select name="year" class="form-select me-2">
-                <option value="">Todos los años</option>
-                {% for year in years %}
-                <option value="{{ year }}">{{ year }}</option>
-                {% endfor %}
-            </select>
-            <input type="text" class="form-control me-2" name="q" placeholder="Search for PDF name">
-            <button type="submit" class="btn btn-outline-success">Buscar</button>
-        </form>
+        <div style="width: 100%;
+        height: fit-content;
+        background-color: #DEE2E6 ;
+        border-radius: 20px;
+        box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+        margin-bottom: 40px;
+        padding: 10px 30px;
+        ">
+
+            <div class="fas-fa-search"> </div>
+
+            <h3 style="
+        color: #333333;
+        font-family: Montserrat;
+        font-size: 30px;
+        line-height: 58px;
+        font-weight: 600;
+        margin-left: 20px;
+        text-align: left; ">
 
 
-        <div id="search-results" style="display: flex; "></div>
+                Buscador Barómetro Turístico</h3>
+
+            <form id="search-form" style="display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+
+        
+        " role="search">
+                <select name="year" style="
+                width: 20%;
+                height: 40px;
+                min-width: 200px;
+                border-radius: 20px;
+                border: none;
+                padding-left: 20px;
+                margin-bottom: 10px;
+
+                font-family: 'Montserrat', sans-serif;
+                font-weight: 300;
+                color: #000;
+                ">
+                    <option value="">Todos los años</option>
+                    {% for year in years %}
+                    <option value="{{ year }}">{{ year }}</option>
+                    {% endfor %}
+                </select>
+                <input autocomplete="off" type="text" class='custom-search' name="q" placeholder="Buscar por Nombre">
+
+
+                <button type="submit" class="url-custom-btn">Buscar</button>
+
+
+            </form>
+
+            <div id="search-results" style="
+                width: 100%;
+                display: flex; 
+                flex-wrap: wrap;
+                justify-content: space-between;
+                align-items: center;
+                
+                "></div>
+
+        </div>
 
 
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -697,32 +842,21 @@
 
                         for (var i = 0; i < data.length; i++) {
                             var url = '{% url "barometro_viewer" pk=1 %}'.replace('1', data[i].id);
-                            var itemHtml = '<div class="col-md-2 mb-2 ">' +
-                                '<div style="width:10rem; height:10rem; display: flex; flex-direction: column;  justify-content: center; align-items: center; margin-right:30px;">' +
+                            var itemHtml = 
+                                '<div class="" style=" display: flex; flex-direction: column; justify-content: center; align-items: center; max-width: 200px; margin: 10px;">' +
                                 '<a href="' + url + '">' +
-                                '<i style="font-size: 4rem; cursor: pointer; color: #ad0b00; align-self:flex-end;"class="fa-solid fa-file-pdf"></i>' +
+                                '<i style="font-size: 4rem; cursor: pointer; color: #333333; align-self:flex-end;" class="fa-solid fa-file-pdf pdf-logo"></i>' +
                                 '</a>' +
-                                '<p style="font-size: 10px; text-align: center;">' + data[i].nombrePDF + '</p>' +
-                                '</div>' +
-                                '</div>';
 
-                            rowHtml += itemHtml;
-                            rowHeight = Math.max(rowHeight, $(itemHtml).height());
+                                '<p style="font-family: Montserrat; font-size: 10px; text-align: center; margin:10px;" class="truncate">' + data[i].nombrePDF + '</p>' +
+                                '</div>' ;
+                        
 
-                            if (rowHeight > containerHeight) {
-                                // Add the current row to the HTML and start a new one
-                                html += rowHtml + '</div>';
-                                rowHtml = '<div class="row">';
-                                rowHeight = $(itemHtml).height();
-                            }
-                        }
-
-                        // Add any remaining items to the last row
-                        if (rowHtml !== '<div class="row">') {
-                            html += rowHtml + '</div>';
+                            html += itemHtml;
                         }
 
                         $('#search-results').html(html);
+
                     }
                 });
 
@@ -745,9 +879,9 @@
                                 var itemHtml = '<div class="col-md-3 mb-3">' +
                                     '<div style="width:10rem; height:10rem; display: flex; flex-direction: column;  justify-content: center; align-items: center; margin-right:30px;">' +
                                     '<a href="' + url + '">' +
-                                    '<i style="font-size: 4rem; cursor: pointer; color: #ad0b00; align-self:flex-end;"class="fa-solid fa-file-pdf"></i>' +
+                                    '<i  style="font-size: 4rem; cursor: pointer; align-self:flex-end;"class="fa-solid fa-file-pdf pdf-logo"></i>' +
                                     '</a>' +
-                                    '<p style="font-size: 10px; text-align: center;">' + data[i].nombrePDF + '</p>' +
+                                    '<p style="font-size: 10px; text-align: center;max-width: 50px;" class="truncate">' + data[i].nombrePDF + '</p>' +
                                     '</div>' +
                                     '</div>';
 

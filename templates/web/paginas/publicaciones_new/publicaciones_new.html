@@ -1,6 +1,3 @@
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <!--divinectorweb.com-->
@@ -600,13 +597,13 @@
 
     {% include 'web/components/navbar_new/navbar_new.html' %}
 
-        <div class='container'>
-            <div style="
+    <div class='container'>
+        <div style="
                     margin-top: 40px;
                     width: 50%;
                 ">
 
-                <h2 style="
+            <h2 style="
                     color: #333333;
                     font-family: Montserrat;
                     font-size: 40px;
@@ -615,22 +612,22 @@
                     
                     text-align: left; ">CENTRO <br> DOCUMENTAL</h2>
 
-                <p>Este es un espacio colaborativo en permanente construcción y enriquecimiento en el que cualquier
-                    persona que así lo desee, puede ingresar sus investigaciones, estudios, ensayos y publicaciones que
-                    quiera compartir con los usuarios del portal del observatorio.</p>
+            <p>Este es un espacio colaborativo en permanente construcción y enriquecimiento en el que cualquier
+                persona que así lo desee, puede ingresar sus investigaciones, estudios, ensayos y publicaciones que
+                quiera compartir con los usuarios del portal del observatorio.</p>
 
 
-
-            </div>
 
         </div>
 
-        <div class='container'>
-            <div style="
+    </div>
+
+    <div class='container'>
+        <div style="
                     margin-top: 40px;
                     width: 100%; ">
 
-                <h2 style="
+            <h2 style="
                     color: #333333;
                     font-family: Montserrat;
                     font-size: 40px;
@@ -638,26 +635,28 @@
                     font-weight: 600;
                     
                     text-align: left; ">Secciones Centro Documental</h2>
-            </div>
-
-
-
-
         </div>
 
-        <div class="scrolling-wrapper">
-
-            {% for section in secciones %}
 
 
 
-            <div class='card'>
-                <div style='        
+    </div>
+
+    <div class="scrolling-wrapper">
+
+        {% for section in secciones %}
+
+
+
+        <div class='card'>
+            <div style='        
                 position: relative;
                 overflow: hidden;
                 width: 100%;
                 height: 100%;'>
-                    <img style="
+
+                {% if section.imagen %}
+                <img style="
                         border-radius:8px  8px  0px 0px;
                         position: absolute;
                         top: 0;
@@ -666,10 +665,26 @@
                         height: 65%;
                         object-fit: cover;
                         object-position: center;"
-                        src="https://guanajuato.mx/wp-content/uploads/2022/05/San-Miguel-de-Allende-Guanajuato-2.jpg"
-                        alt="">
+                    src="{{section.imagen.url}}"
+                    alt="">
+                {% else %}
 
-                    <div style="
+                <img style="
+                    border-radius:8px  8px  0px 0px;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 65%;
+                    object-fit: cover;
+                    object-position: center;"
+                    src="{% static 'img_nav/defaultimage.webp' %}"
+                    alt="">
+
+
+                {% endif %}
+
+                <div style="
                         border-radius: 0px 0px 8px  8px  ;
                         position: absolute;
                         bottom: 0;
@@ -681,116 +696,116 @@
                         padding-left: 20px;
                         padding-right: 20px;
                         ">
-                        <h2>{{section.seccion}}</h2>
-                        <a href="{% url 'publicaciones_secciones' section.id %}" style="
+                    <h2>{{section.seccion}}</h2>
+                    <a href="{% url 'publicaciones_secciones' section.id %}" style="
                                 color:#ED4C02 ;
                                 font-family: Montserrat;
                                 font-size: 14px;
                             ">
-                            Seguir leyendo...
+                        Seguir leyendo...
 
-                        </a>
-                    </div>
-
+                    </a>
                 </div>
 
             </div>
 
-            {% endfor %}
-
-
         </div>
 
+        {% endfor %}
+
+
+    </div>
 
 
 
 
-        <script src=" https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
-        </script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-        <style>
-            .scrolling-wrapper {
-                width: 100%;
-                height: 400px;
-                display: flex;
-                flex-wrap: no-wrap;
-                overflow-x: auto;
-                cursor: grab;
-                -webkit-overflow-scrolling: touch;
-                /* Scrollbar hidden */
-                scrollbar-width: none !important;
+    <script src=" https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-                /* Firefox */
-                -ms-overflow-style: none;
-                overflow-x: hidden;
+    <style>
+        .scrolling-wrapper {
+            width: 100%;
+            height: 400px;
+            display: flex;
+            flex-wrap: no-wrap;
+            overflow-x: auto;
+            cursor: grab;
+            -webkit-overflow-scrolling: touch;
+            /* Scrollbar hidden */
+            scrollbar-width: none !important;
 
-                padding-left: 40px;
-                padding-right: 40px;
+            /* Firefox */
+            -ms-overflow-style: none;
+            overflow-x: hidden;
 
-                overflow-y: hidden;
+            padding-left: 40px;
+            padding-right: 40px;
+
+            overflow-y: hidden;
 
 
 
-                /* IE 10+ */
+            /* IE 10+ */
 
-            }
+        }
 
-            .scrolling-wrapper.active {
-                cursor: grabbing;
-            }
+        .scrolling-wrapper.active {
+            cursor: grabbing;
+        }
 
-            .scrolling-wrapper[data-dragging="true"] a {
-                pointer-events: none;
-            }
-        </style>
+        .scrolling-wrapper[data-dragging="true"] a {
+            pointer-events: none;
+        }
+    </style>
 
-        <script>
-            const wrappers = document.querySelectorAll('.scrolling-wrapper');
+    <script>
+        const wrappers = document.querySelectorAll('.scrolling-wrapper');
 
-            wrappers.forEach((wrapper) => {
-                let isDown = false;
-                let startX;
-                let scrollLeft;
+        wrappers.forEach((wrapper) => {
+            let isDown = false;
+            let startX;
+            let scrollLeft;
 
-                wrapper.addEventListener('mousedown', (e) => {
-                    let rect = wrapper.getBoundingClientRect();
-                    isDown = true;
-                    wrapper.classList.add('active');
-                    // Get initial mouse position
-                    startX = e.pageX - rect.left;
-                    // Get initial scroll position in pixels from left
-                    scrollLeft = wrapper.scrollLeft;
-                    console.log(startX, scrollLeft);
-                });
-
-                wrapper.addEventListener('mouseleave', () => {
-                    isDown = false;
-                    wrapper.dataset.dragging = false;
-                    wrapper.classList.remove('active');
-                });
-
-                wrapper.addEventListener('mouseup', () => {
-                    isDown = false;
-                    wrapper.dataset.dragging = false;
-                    wrapper.classList.remove('active');
-                });
-
-                wrapper.addEventListener('mousemove', (e) => {
-                    if (!isDown) return;
-                    let rect = wrapper.getBoundingClientRect();
-                    e.preventDefault();
-                    wrapper.dataset.dragging = true;
-                    // Get new mouse position
-                    const x = e.pageX - rect.left;
-                    // Get distance mouse has moved (new mouse position minus initial mouse position)
-                    const walk = x - startX;
-                    // Update scroll position of wrapper from left (amount mouse has moved minus initial scroll position)
-                    wrapper.scrollLeft = scrollLeft - walk;
-                    console.log(x, walk, wrapper.scrollLeft);
-                });
+            wrapper.addEventListener('mousedown', (e) => {
+                let rect = wrapper.getBoundingClientRect();
+                isDown = true;
+                wrapper.classList.add('active');
+                // Get initial mouse position
+                startX = e.pageX - rect.left;
+                // Get initial scroll position in pixels from left
+                scrollLeft = wrapper.scrollLeft;
+                console.log(startX, scrollLeft);
             });
-        </script>
+
+            wrapper.addEventListener('mouseleave', () => {
+                isDown = false;
+                wrapper.dataset.dragging = false;
+                wrapper.classList.remove('active');
+            });
+
+            wrapper.addEventListener('mouseup', () => {
+                isDown = false;
+                wrapper.dataset.dragging = false;
+                wrapper.classList.remove('active');
+            });
+
+            wrapper.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                let rect = wrapper.getBoundingClientRect();
+                e.preventDefault();
+                wrapper.dataset.dragging = true;
+                // Get new mouse position
+                const x = e.pageX - rect.left;
+                // Get distance mouse has moved (new mouse position minus initial mouse position)
+                const walk = x - startX;
+                // Update scroll position of wrapper from left (amount mouse has moved minus initial scroll position)
+                wrapper.scrollLeft = scrollLeft - walk;
+                console.log(x, walk, wrapper.scrollLeft);
+            });
+        });
+    </script>
 
 
 </body>

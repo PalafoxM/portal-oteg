@@ -49,6 +49,10 @@ urlpatterns = [
     path('publicaciones_pdf_viewer/<int:pk>/',PublicacionesPDFViewer.as_view(), name='publicaciones_pdf_viewer'),
     path('pdf/<int:pk>/', PDFDownloadView.as_view(), name='pdf_download'),
     path('pdf/back/<int:pk>/', PDFDownloadViewBack.as_view(), name='pdf_back'),
+    path('audioDownload/<int:pk>/', AudioDownload.as_view(), name='audio_download'),
+    path('excel_download/<int:pk>/', ExelDownload.as_view(), name='excel_download'),
+
+    
     path('perfil_visistante_ciudad/',PerfilVisitanteCiudad.as_view(), name='perfil_visistante_ciudad'),
     path('publicaciones/perfil-visistante-ciudad/<int:pk>/',PerfilVisitanteCiudad.as_view(), name='perfil_visistante_ciudad'),
     path('publicaciones-pdf-viewer/<int:pk>/',PublicacionesPDFViewer.as_view(), name='publicaciones_pdf_viewer'),

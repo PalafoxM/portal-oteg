@@ -68,14 +68,13 @@ class SeccionesCentroDocumental(models.Model):
     seccion = models.CharField(max_length=100)
     descripcion = models.TextField()
     observacion = models.TextField(blank=True, null=True)
+    imagen = models.ImageField(upload_to='secciones', storage=S3Storage() , null=True, blank=True)
 
 
 
 class Categorias(models.Model):
     nombre_categoria = models.CharField(max_length=100, null=True, blank=True)
     fecha_creacion = models.DateField()
-    publicacion = models.BooleanField(default=False, null=True, blank=True)
-    visible = models.BooleanField(default=True, null=True, blank=True)
     seccion = models.ForeignKey(
         SeccionesCentroDocumental, on_delete=models.CASCADE, null=True, blank=True)
 
@@ -90,15 +89,15 @@ class Publications(models.Model):
 
     section = models.ForeignKey(
         SeccionesCentroDocumental, on_delete=models.CASCADE, null=True, blank=True)
-    category = models.ForeignKey(
-        Categorias, on_delete=models.CASCADE, null=True, blank=True)
-    publication = models.BooleanField(default=True)
+    category = models.ForeignKey(Categorias, on_delete=models.CASCADE, null=True, blank=True)
+
     visible = models.BooleanField(default=True)
-    recent = models.BooleanField(default=True)
+
     type = models.CharField(max_length=10, choices=TYPE_CHOICES)
     num_descargas = models.IntegerField(null=True, blank=True, default=0)
     name = models.CharField(max_length=100, verbose_name="Nombre")
-    url = models.FileField(null=True, blank=True, upload_to='publicacion', storage=S3Storage(), validators=[FileExtensionValidator(['pdf'])])#pdf
+    # url = models.FileField(upload_to='publications', storage=S3Storage(), verbose_name="Archivo", blank=True , null=True) 
+    doc = models.FileField(upload_to='publications', storage=S3Storage(), verbose_name="Documento", blank=True)#
     date_created = models.DateTimeField(auto_now=True)
     num_descargas = models.IntegerField(null=True, blank=True, default=0)
 
