@@ -170,17 +170,16 @@ class NoticiaForm(ModelForm):
 
     class Meta:
         model = Noticia
-        fields = ['titulo', 'descripcion', 'sitio_web',
-                  'imagen', 'fecha_nota', 'autor_foto', 'autor_nota', 'fecha_recuperacion']
+        fields = '__all__'
         widgets = {
 
-            'titulo': forms.TextInput(attrs={'class': 'form-control'}),
-            'sitio_web': forms.TextInput(attrs={'class': 'form-control'}),
+            'titulo': forms.TextInput(attrs={'class': 'custom-input','icon_class': 'fas fa-search'}),
+            'sitio_web': forms.TextInput(attrs={'class': 'custom-input','icon_class': 'fas fa-globe'}),
+            'fecha_nota': forms.DateInput(attrs={'class': ' custom-input fecha-input','icon_class': 'fas fa-calendar'}),
+            'autor_foto': forms.TextInput(attrs={'class': 'custom-input form-control','icon_class': 'fas fa-user'}),
+            'autor_nota': forms.TextInput(attrs={'class': ' custom-input form-control','icon_class': 'fas fa-user'}),
+            'fecha_recuperacion': forms.DateInput(attrs={'class': ' custom-input fecha-input' ,'icon_class': 'fas fa-calendar'}),
             'imagen': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
-            'fecha_nota': forms.DateInput(attrs={'class': 'form-control fecha-input'}),
-            'autor_foto': forms.TextInput(attrs={'class': 'form-control'}),
-            'autor_nota': forms.TextInput(attrs={'class': 'form-control'}),
-            'fecha_recuperacion': forms.DateInput(attrs={'class': 'form-control fecha-input'}),
 
         }
 
@@ -198,6 +197,7 @@ class BarometroForm(forms.ModelForm):
         labels = {
             'yearPDF': 'Año del PDF',
         }
+
 
 class AlbaForm(forms.ModelForm):
     class Meta:
@@ -1481,6 +1481,22 @@ class DirectorioSpaForm(forms.ModelForm):
             'ret': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
             'rnt': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'})
         }
+
+
+class EncuestaFormB(forms.ModelForm):
+
+    TYPE_CHOICES = (
+        (1, 'Barometro'),
+        (2, 'ENIOT'),
+    )
+
+    seccion = forms.ChoiceField(choices=TYPE_CHOICES, widget=forms.Select(attrs={'class': 'custom-input', 'icon_class': 'fas fa-file'}))
+    url = forms.URLField(widget=forms.URLInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-globe'}))
+    activo = forms.BooleanField(required=False, widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}))
+
+    class Meta:
+        model = Encuesta
+        fields = '__all__'
 
 
 

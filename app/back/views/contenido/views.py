@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponseRedirect
-from django.urls import reverse_lazy , reverse
+from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
-from back.models import  *
+from back.models import *
 from back.forms import *
 from web.models import *
 
@@ -38,7 +38,8 @@ class BannerListView(ListView):
         context['subModuleActive '] = 'funtes-informacion'
         return context
 
-class  BannerCreateView(CreateView):
+
+class BannerCreateView(CreateView):
     model = Banner
     form_class = BannerForm
     template_name = 'back/banner/create_update.html'
@@ -61,7 +62,6 @@ class  BannerCreateView(CreateView):
                 'errors': form.errors
             }
             return JsonResponse(data)
-        
 
     def form_invalid(self, form):
         response = super().form_invalid(form)
@@ -89,7 +89,8 @@ class  BannerCreateView(CreateView):
         context['action'] = 'add'
         return context
 
-class BannerUpdateView( UpdateView):
+
+class BannerUpdateView(UpdateView):
     model = Banner
     form_class = BannerForm
     template_name = 'back/banner/create_update.html'
@@ -127,21 +128,23 @@ class BannerUpdateView( UpdateView):
         context['form'] = self.form_class(instance=self.object)
         return context
 
+
 class BanneDeleteView(DeleteView):
     model = Banner
     # template_name = 'back/delete.html'
     success_url = reverse_lazy('dashboard:banner_list')
-    
+
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         success_url = self.get_success_url()
         self.object.delete()
         return HttpResponseRedirect(success_url)
 
+
 class PlaceListView(ListView):
     model = PlacesOfInterest
     template_name = 'back/places_of_interest/list.html'
-    
+
     def post(self, request, *args, **kwargs):
         data = {}
         try:
@@ -164,10 +167,11 @@ class PlaceListView(ListView):
 
         return context
 
-class  PlaceCreateView(CreateView):
+
+class PlaceCreateView(CreateView):
     model = PlacesOfInterest
     form_class = PlacesOfInterestForm
-    template_name = 'back/components/create_update.html' 
+    template_name = 'back/components/create_update.html'
     success_url = reverse_lazy('dashboard:place_list')
 
     def post(self, request, *args, **kwargs):
@@ -187,7 +191,6 @@ class  PlaceCreateView(CreateView):
                 'errors': form.errors
             }
             return JsonResponse(data)
-        
 
     def form_invalid(self, form):
         print("form_invalid")
@@ -216,7 +219,8 @@ class  PlaceCreateView(CreateView):
         context['list_url'] = reverse_lazy('dashboard:place_list')
         return context
 
-class PlaceUpdateView( UpdateView):
+
+class PlaceUpdateView(UpdateView):
     model = PlacesOfInterest
     form_class = PlacesOfInterestForm
     template_name = 'back/components/create_update.html'
@@ -245,7 +249,7 @@ class PlaceUpdateView( UpdateView):
             return JsonResponse(data)
         else:
             return response
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Edición de un Sitio de Interest'
@@ -254,11 +258,11 @@ class PlaceUpdateView( UpdateView):
         context['form'] = self.form_class(instance=self.object)
         return context
 
+
 class PlaceDeleteView(DeleteView):
     model = PlacesOfInterest
     # template_name = 'back/delete.html'
     success_url = reverse_lazy('dashboard:place_list')
-    
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -267,6 +271,8 @@ class PlaceDeleteView(DeleteView):
         return HttpResponseRedirect(success_url)
 
 # Eventos
+
+
 class EventoListView(ListView):
     model = Evento
     template_name = 'back/eventos/viewer.html'
@@ -275,9 +281,11 @@ class EventoListView(ListView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Listado Eventos'
         context['create_url'] = reverse_lazy('dashboard:evento_create')
-        context['delete_url'] = reverse_lazy('dashboard:evento_delete',args=[0])
+        context['delete_url'] = reverse_lazy(
+            'dashboard:evento_delete', args=[0])
         return context
-    
+
+
 class EventoCreateView(CreateView):
     model = Evento
     form_class = EventoForm
@@ -328,6 +336,7 @@ class EventoCreateView(CreateView):
         context['action'] = 'add'
         return context
 
+
 class EventoDeleteView(DeleteView):
     model = Evento
     success_url = reverse_lazy('dashboard:eventos_list')
@@ -341,6 +350,7 @@ class EventoDeleteView(DeleteView):
 
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
+
 
 class EventoUpdateView(UpdateView):
     model = Evento
@@ -387,9 +397,9 @@ class NoticiaListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Listado Noticias'
-        context['create_url'] =  reverse_lazy('dashboard:noticia_create')
+        context['create_url'] = reverse_lazy('dashboard:noticia_create')
         return context
-    
+
 
 class NoticiaCreateView(CreateView):
     model = Noticia
@@ -432,7 +442,7 @@ class NoticiaCreateView(CreateView):
             'url': self.success_url
         }
         return JsonResponse(data)
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Crear una Noticia'
@@ -440,7 +450,8 @@ class NoticiaCreateView(CreateView):
         context['list_url'] = reverse_lazy('dashboard:noticias_list')
         context['action'] = 'add'
         return context
-    
+
+
 class NoticiaDeleteView(DeleteView):
     model = Noticia
     success_url = reverse_lazy('dashboard:noticias_list')
@@ -450,6 +461,7 @@ class NoticiaDeleteView(DeleteView):
         success_url = self.get_success_url()
         self.object.delete()
         return HttpResponseRedirect(success_url)
+
 
 class NoticiaUpdateView(UpdateView):
     model = Noticia
@@ -480,14 +492,15 @@ class NoticiaUpdateView(UpdateView):
             return JsonResponse(data)
         else:
             return response
-        
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form'] = self.form_class(instance=self.object)
         context['list_url'] = reverse_lazy('dashboard:noticias_list')
         return context
-    
-#Glosario   
+
+# Glosario
+
 
 class GlosarioListView(ListView):
     model = Glosario
@@ -496,15 +509,16 @@ class GlosarioListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Listado Glosario'
-        context['create_url'] =  reverse_lazy('dashboard:glosario_create')
+        context['create_url'] = reverse_lazy('dashboard:glosario_create')
         return context
-    
+
+
 class GlosarioCreateView(CreateView):
     model = Glosario
-    form_class =GlosarioForm
+    form_class = GlosarioForm
     template_name = 'back/components/create_update.html'
     success_url = reverse_lazy('dashboard:glosario_list')
-    
+
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
@@ -540,7 +554,7 @@ class GlosarioCreateView(CreateView):
             'url': self.success_url
         }
         return JsonResponse(data)
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Crear una Palabra'
@@ -548,7 +562,8 @@ class GlosarioCreateView(CreateView):
         context['list_url'] = reverse_lazy('dashboard:glosario_list')
         context['action'] = 'add'
         return context
-    
+
+
 class GlosarioDeleteView(DeleteView):
     model = Glosario
     success_url = reverse_lazy('dashboard:glosario_list')
@@ -596,24 +611,38 @@ class GlosarioUpdateView(UpdateView):
         context['list_url'] = reverse_lazy('dashboard:glosario_list')
         return context
 
+
 class BarometroListView(ListView):
     model = BarometroTuristico
     template_name = 'back/barometro/viewer.html'
 
+
+
+    try:
+        encuesta = Encuesta.objects.filter(seccion=1, activo=True).latest('fecha_registro')
+        print(encuesta.seccion)
+    except Encuesta.DoesNotExist:
+        print("No matching Encuesta found.")
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Listado Barometro'
-        context['create_url'] =  reverse_lazy('dashboard:barometro_create')
+        context['create_url'] = reverse_lazy('dashboard:barometro_create')
+        context['encuesta'] = self.encuesta
+    
+
         return context
-        
+
+
 class BarometroCreateView(CreateView):
     model = BarometroTuristico
     form_class = BarometroForm
     template_name = 'back/components/create_update.html'
     success_url = reverse_lazy('dashboard:barometro_list')
-    
+
     def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST, request.FILES)  # Incluir request.FILES para manejar los archivos subidos
+        # Incluir request.FILES para manejar los archivos subidos
+        form = self.form_class(request.POST, request.FILES)
         if form.is_valid():
             self.object = form.save()
             data = {
@@ -647,7 +676,7 @@ class BarometroCreateView(CreateView):
             'url': self.success_url
         }
         return JsonResponse(data)
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Crear una Documento'
@@ -655,7 +684,8 @@ class BarometroCreateView(CreateView):
         context['list_url'] = reverse_lazy('dashboard:barometro_list')
         context['action'] = 'add'
         return context
-    
+
+
 class BarometroDeleteView(DeleteView):
     model = BarometroTuristico
     success_url = reverse_lazy('dashboard:barometro_list')
@@ -665,6 +695,7 @@ class BarometroDeleteView(DeleteView):
         success_url = self.get_success_url()
         self.object.delete()
         return HttpResponseRedirect(success_url)
+
 
 class BarometroUpdateView(UpdateView):
     model = BarometroTuristico
@@ -701,13 +732,12 @@ class BarometroUpdateView(UpdateView):
         context['form'] = self.form_class(instance=self.object)
         context['list_url'] = reverse_lazy('dashboard:barometro_list')
         return context
-    
 
-        
+
 class AlbaListView(ListView):
     model = Alba
     template_name = 'back/alba/list.html'
-    
+
     def post(self, request, *args, **kwargs):
         data = {}
         try:
@@ -730,7 +760,8 @@ class AlbaListView(ListView):
 
         return context
 
-class  AlbaCreateView(CreateView):
+
+class AlbaCreateView(CreateView):
     model = Alba
     form_class = AlbaForm
     template_name = 'back/components/create_update.html'
@@ -753,7 +784,6 @@ class  AlbaCreateView(CreateView):
                 'errors': form.errors
             }
             return JsonResponse(data)
-        
 
     def form_invalid(self, form):
         print("form_invalid")
@@ -782,7 +812,8 @@ class  AlbaCreateView(CreateView):
         context['list_url'] = reverse_lazy('dashboard:alba_list')
         return context
 
-class AlbaUpdateView( UpdateView):
+
+class AlbaUpdateView(UpdateView):
     model = Alba
     form_class = AlbaForm
     template_name = 'back/components/create_update.html'
@@ -811,7 +842,7 @@ class AlbaUpdateView( UpdateView):
             return JsonResponse(data)
         else:
             return response
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Edición de Archivo Alba'
@@ -820,11 +851,11 @@ class AlbaUpdateView( UpdateView):
         context['form'] = self.form_class(instance=self.object)
         return context
 
+
 class AlbaDeleteView(DeleteView):
     model = PlacesOfInterest
     # template_name = 'back/delete.html'
     success_url = reverse_lazy('dashboard:alba_list')
-    
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
