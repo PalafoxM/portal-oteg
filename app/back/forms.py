@@ -43,8 +43,6 @@ class PublicationForm(forms.ModelForm):
     type = forms.ChoiceField(choices=TYPE_CHOICES, widget=forms.Select(attrs={'class': 'custom-input', 'icon_class': 'fas fa-file'}))
     name = forms.CharField(widget=forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-user'}))  
     visible = forms.BooleanField(required=False, widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}))
-    recent = forms.BooleanField(required=False, widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}))
-    publication = forms.BooleanField(required=False, widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}))
     class Meta:
         model = Publications
         exclude = ('category', 'section', 'num_descargas')
@@ -136,7 +134,7 @@ class DateInput(forms.DateInput):
 class SeccionCentroDocumentalForm(forms.ModelForm):
     class Meta:
         model = SeccionesCentroDocumental
-        fields = ['seccion', 'descripcion', 'observacion']
+        fields = ['seccion', 'descripcion', 'observacion','imagen']
         widgets = {
             'seccion':forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-search'}),
             'descripcion': forms.Textarea(attrs={'class': 'form-control'}),
@@ -148,14 +146,11 @@ class CategoriasForm(forms.ModelForm):
 
     class Meta:
         model = Categorias
-        fields = ['nombre_categoria', 'fecha_creacion',
-                  'publicacion', 'visible', 'seccion']
+        fields = ['nombre_categoria', 'fecha_creacion', 'seccion']
 
         widgets = {
             'nombre_categoria': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-search'}),
             'fecha_creacion': forms.DateInput(attrs={'class': 'form-control fecha-input' ,'icon_class': 'fas fa-calendar'}),
-            'publicacion': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-            'visible': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
 
     def __init__(self, *args, **kwargs):
@@ -195,60 +190,14 @@ class BarometroForm(forms.ModelForm):
     class Meta:
         model = BarometroTuristico
         fields = '__all__'
+        exclude = ['num_descargas']
         widgets = {
-            'semestre': forms.NumberInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-search', 'required': True}),
             'nombrePDF': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-file-pdf'}),
-            'url': forms.ClearableFileInput(attrs={'class': 'form-control-file' ,'icon_class': 'fas fa-file-pdf'}),
             'yearPDF': forms.NumberInput(attrs={'class': 'custom-input' ,'icon_class': 'fas fa-calendar', 'required': True}),
         }
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['semestre'].required = True
-        self.fields['yearPDF'].required = True
-
-        self.error_messages = {
-            'semestre': {
-                'required': 'El campo Semestre es obligatorio.',
-            },
-            # 'url': {
-            #     'required': 'El campo Archivo es obligatorio.',
-            # },
-            'yearPDF': {
-                'required': 'El campo Year PDF es obligatorio.',
-            },
+        labels = {
+            'yearPDF': 'Año del PDF',
         }
-    
-    def clean_url(self):
-        url = self.cleaned_data.get('url')
-        if url:
-            try:
-                instance = self.instance  # Obtener la instancia actual del modelo
-                if instance.pk is None:  # Verificar si la instancia es nueva (creación)
-                    instance.url = url  # Asignar el valor del campo url antes de guardar
-                instance.url.storage.save(instance.url.name, url)
-            except Exception:
-                raise ValidationError('Error al subir el archivo al bucket de S3. Por favor, inténtelo nuevamente.')
-        return url
-
-    def clean_semestre(self):
-        semestre = self.cleaned_data['semestre']
-        if semestre is None:
-            raise forms.ValidationError(self.error_messages['semestre']['required'])
-        return semestre
-
-    # def clean_url(self):
-    #     url = self.cleaned_data['url']
-    #     if not url:
-    #         raise forms.ValidationError(self.error_messages['url']['required'])
-    #     return url
-
-    def clean_yearPDF(self):
-        yearPDF = self.cleaned_data['yearPDF']
-        if yearPDF is None:
-            raise forms.ValidationError(self.error_messages['yearPDF']['required'])
-        return yearPDF
-
 
 class AlbaForm(forms.ModelForm):
     class Meta:
