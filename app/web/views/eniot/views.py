@@ -1,7 +1,7 @@
 from django.views.generic import TemplateView
-from web.models import BarometroTuristico 
 from back.models import Eniot, EniotAlbun
-from collections import defaultdict
+from django.shortcuts import get_object_or_404
+from django.urls import reverse_lazy
 
 
 class EniotView(TemplateView):
@@ -47,6 +47,7 @@ class MemoriasView(TemplateView):
 
         context['pdf_by_year'] = pdf_by_year
         context['nav_title'] = 'Memorias'
+        context['tipo'] =  'eniot_pdf_viewer'
         return context
 
 class PonenciaEventosView(TemplateView):
@@ -72,6 +73,8 @@ class PonenciaEventosView(TemplateView):
 
         context['pdf_by_year'] = pdf_by_year
         context['nav_title'] = 'Ponencia a Eventos'
+        
+        context['tipo'] =  'eniot_ponencia_eventos_pdf_viewer'
         return context
     
 class EniotEventosFotosView(TemplateView):
@@ -93,4 +96,28 @@ class EniotEventosFotosView(TemplateView):
 
         print(fotos)
         print(albums)
+        return context
+
+class MemoriasPDFViewer (TemplateView):
+    template_name = 'web/paginas/eniot/pdf_viewer.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        pdf = get_object_or_404(Eniot, id=self.kwargs.get('pk'))
+        context['pdf'] = pdf
+        context['nav_title'] = pdf.nombrePDF
+        context['img_url'] = 'img_nav/pdf.png'
+        context['list'] =  reverse_lazy('eniot_memorias')
+        return context
+
+class PonenciaEventosPDFViewer (TemplateView):
+    template_name = 'web/paginas/eniot/pdf_viewer.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        pdf = get_object_or_404(Eniot, id=self.kwargs.get('pk'))
+        context['pdf'] = pdf
+        context['nav_title'] = pdf.nombrePDF
+        context['img_url'] = 'img_nav/pdf.png'
+        context['list'] =  reverse_lazy('eniot_ponencia_eventos')
         return context

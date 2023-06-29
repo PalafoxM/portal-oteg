@@ -60,7 +60,7 @@
             </div>
 
 
-            {% if field.name != 'descripcion' and field.name != 'imagen' and field.name != 'doc' %}
+            {% if field.name != 'descripcion' and field.name != 'imagen' and field.name != 'doc' and field.field.widget.input_type != 'file' %}
 
             <div class="input-with-icon">
                 {{ field }}

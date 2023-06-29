@@ -585,3 +585,118 @@ body {
     cursor: pointer;
     transform: scale(1.2);
 }
+
+/* pdf */
+.truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.url-custom-btn {
+    background-color: transparent !important;
+    color: #fff;
+    border: 1px solid #fff;
+
+    padding: 10px 25px;
+    display: inline-block;
+    border-radius: 50px;
+    text-transform: uppercase;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    transition: transform 0.3s ease;
+}
+
+
+.url-custom-btn:hover {
+    background-image: linear-gradient(140.57deg, #ED4C02 0%, #FB8A55 100%);
+    border: 1px solid #ED4C02;
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+.pdf-logo {
+    color: #333333;
+    transition: transform 0.3s ease;
+}
+
+.pdf-logo:hover {
+    transform: scale(1.5);
+    cursor: pointer;
+    color: #ED4C02 !important;
+}
+
+.not-found-text {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    color: #ED4C02 !important;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+/* container */
+.container2 {
+    position: relative;
+    width: 100%;
+    height: 900px;
+}
+
+.corner-div {
+    position: absolute;
+    /* set corner-div position to absolute */
+    top: 10 !important;
+    /* position it at the top */
+    right: 0 !important;
+    /* position it at the right */
+
+
+
+    width: 200px;
+    height: 56px;
+    background-image: linear-gradient(140.57deg, #ED4C02 0%, #FB8A55 100%);
+    z-index: 999;
+    /* set a high z-index value to make it appear over other elements */
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10rem;
+    transition: transform 0.3s ease;
+
+}
+
+.corner-div:hover {
+    cursor: pointer;
+    text-decoration: none;
+    transform: scale(1.1);
+
+}
+
+.corner-div2 {
+    position: absolute;
+    /* set corner-div position to absolute */
+    top: 10 !important;
+    /* position it at the top */
+    right: 0 !important;
+    /* position it at the right */
+
+    width: 200px;
+    height: 56px;
+    background-image: linear-gradient(140.57deg, #ED4C02 0%, #FB8A55 100%);
+    z-index: 999;
+    /* set a high z-index value to make it appear over other elements */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10rem;
+    transition: transform 0.3s ease;
+
+}
+
+.corner-div2:hover {
+    cursor: pointer;
+    text-decoration: none;
+    transform: scale(1.1);
+}

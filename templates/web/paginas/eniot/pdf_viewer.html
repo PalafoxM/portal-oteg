@@ -1,0 +1,96 @@
+{% extends 'web/body.html' %}
+{% load static %}
+
+
+<!-- contenido -->
+{% block content %}
+    <div class="container">
+
+        <div style='
+            width: 100%;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        '>
+
+            <a href="{{ list }}" class="text-reset" style="padding-left: 12px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 20px;
+
+            color: #ED4C02 !important;"
+            
+            class = 'fa-arrow-left'
+            >
+        
+
+                Regresar a la
+                Lista </a>
+        </div>
+
+
+
+
+        <div class="container2">
+            <a class="corner-div" href="{% url 'pdf_download' pk=pdf.id %}">
+
+                <h5 style="font-size: small; font-weight: bold; color: #FFFF; margin: 0;">DESCARGAR PDF</h5><i
+                    style="color: #FFFF; padding-left: 10px;" class="fa-solid fa-cloud-arrow-down"></i>
+
+            </a>
+            <iframe height="100%" width="100%" src="https://portal-oteg.s3.amazonaws.com/media/{{pdf.doc_url}}" frameborder="0"></iframe>
+
+        </div>
+
+        <div
+
+            style="
+            margin-top: 20px;
+            margin-bottom: 20px;
+            font-family: 'Montserrat', sans-serif;
+            width: 100%;
+            "
+        
+        >
+            <h2>¡Gracias por consultar la página del OTEG! </h2>
+            <p>Toda la información publicada en ésta página es gratuita y de libre acceso, solo te pedimos utilizar las
+                referencias bajo los siguientes criterios (APA, 2014):</p>
+
+            <h4
+            style="
+            font-weight: 600;
+            "
+            >Documento disponible en el sitio web del OTEG:</h4>
+            
+            <ul>
+                <li>Autor (es): Cuando es un documento de un colaborador externo se coloca el apellido e inicial del nombre del autor. Cuando son documentos generados por una institución se coloca el nombre de la organización.</li>
+                <li>Año de edición o publicación (entre paréntesis)</li>
+                <li>Si la publicación no tiene fecha se colocan las iniciales s.f. (entre paréntesis)</li>
+                <li>Título del documento original (en letra cursiva)</li>
+                <li>Coloque la expresión "Recuperado el: Fecha de consulta (día, mes y año)"</li>
+                <li>Coloque la expresión "del sitio web del Observatorio Turistico den Estado de Guanajuato"</li>
+                <li>Nombre del departamento o programa y de la Universidad</li>
+                <li>Dirección electrónica</li>
+            </ul>
+
+            <h4
+            style="
+            font-weight: 600;
+            "
+            >Ejemplo 1:</h4>
+            <p>Sectur, Guanajuato. Dirección de Información y Análisis. Barómetro Turístico 4to. Trimestre 2014. Recuperado el 17 febrero de 2015, del Sitio Web del Observatorio Turístico de Estado de Guanajuato: http://www.observatorioturistico.org/indicadores/barometro_turistico</p>
+
+            <h4
+            style="
+            font-weight: 600;
+            "
+            >Ejemplo 2:</h4>
+            <p>Nava, S. (s.f.) La triada turística: tres elementos sustentables para la construcción del conocimiento turístico. Recuperado el 16 de enero de 2015, del Sitio Web del Observatorio Turístico de Estado de Guanajuato: http://www.observatorioturistico.org/cenDoc/2441d-296La-triada-turistica.pdf</p>
+
+        </div>
+
+
+
+
+        <!-- https://upcommons.upc.edu/bitstream/handle/2099.3/36408/9788483013380.pdf#zoom=100&view=fitH -->
+    </div>
+    {% endblock %}
