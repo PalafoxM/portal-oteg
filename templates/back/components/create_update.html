@@ -62,6 +62,18 @@
 
             {% if field.name != 'descripcion' and field.name != 'imagen' and field.name != 'doc' and field.field.widget.input_type != 'file' %}
 
+            {% if field.name == 'activo' %}
+            <div style="width: 100%; display: flex; justify-content: start;">
+
+                <div class="form-check form-switch" style="transform: scale(1.4);">
+                    {{ field }}
+                </div>
+
+            </div>
+
+
+            {% else %}
+
             <div class="input-with-icon">
                 {{ field }}
                 {% if field.errors %}
@@ -77,21 +89,24 @@
                     " class="{{ field.field.widget.attrs.icon_class }}"></i></div>
             </div>
 
+            {% endif %}
+
+    
+
             {% else %}
 
-            <div
-                style="
+  
+
+            <div style="
                     width: 100%;
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                    flex-direction: column;"
-            
-            >
-                {{ field }}
+                    flex-direction: column;">{{ field }}
             </div>
 
 
+ 
 
             {% endif %}
 

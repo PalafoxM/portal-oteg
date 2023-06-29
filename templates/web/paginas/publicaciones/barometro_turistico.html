@@ -32,16 +32,18 @@
         height: 80%;
     }
 
+
     .corner-div {
         position: absolute;
         /* set corner-div position to absolute */
-        top: 1.5;
+        top: 0 !important;
         /* position it at the top */
-        right: 50;
+        right: 15 !important;
         /* position it at the right */
+
         width: 200px;
-        height: 59px;
-        background-color: #0288d1;
+        height: 56px;
+        background-image: linear-gradient(140.57deg, #ED4C02 0%, #FB8A55 100%);
         z-index: 999;
         /* set a high z-index value to make it appear over other elements */
 
@@ -49,13 +51,15 @@
         justify-content: center;
         align-items: center;
         border-radius: 10rem;
-
+        transition: transform 0.3s ease;
 
     }
 
     .corner-div:hover {
         cursor: pointer;
-        background-color: #026ad1;
+        text-decoration: none;
+        transform: scale(1.1);
+
     }
 </style>
 
@@ -696,12 +700,58 @@
 
 
     .truncate {
-        white-space: nowrap;
+        white-space: normal;
         overflow: hidden;
-        text-overflow: ellipsis;
+        text-overflow: clip;
     }
 
+    .encuesta {
+        height: 60px;
+        width: 180px;
+        background-image: linear-gradient(140.57deg, #ED4C02 0%, #FB8A55 100%);
+        position: fixed;
+        top: 20%;
+        left: 0;
+        /* Set 'right' instead of 'left' */
+        transform: translateY(-50%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        z-index: 999;
+        border-radius: 0 10px 10px 0;
+        gap: 10px;
+        box-shadow: -12px 15px 18px -3px rgba(0, 0, 0, 0.1);
+        padding: 10px;
+        color: #DEE2E6;
+        opacity: 0;
+        /* Set initial opacity to 0 */
+        animation: slide-in 1.2s ease-out forwards;
+        /* Apply animation */
+    }
 
+    .encuesta a {
+        color: #DEE2E6;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 600;
+        font-size: 14px;
+    }
+
+    @keyframes slide-in {
+        0% {
+            transform: translateX(-100%);
+            /* Start from the left */
+            opacity: 0;
+            /* Start with 0 opacity */
+        }
+
+        100% {
+            transform: translateX(0%);
+            /* Move to the original position */
+            opacity: 1;
+            /* Fully visible */
+        }
+    }
 </style>
 
 <body>
@@ -715,6 +765,21 @@
         <a href="{% url 'sitios_interes' %}"><img src="{% static 'icons/globe3.svg' %}" alt=""
                 style="height: 20px; margin-bottom: 10px;" /></a>
     </div>
+
+    
+
+    {% if encuesta %}
+        <div class="encuesta">
+            <a
+                target="_blank"
+                href="{{encuesta.url}}"">
+                Encuesta disponible da click aquí.
+            </a>
+        </div>
+
+    {% else %}
+
+    {% endif %}
 
 
     {% include 'web/components/navbar_new/navbar_new.html' %}
@@ -842,15 +907,15 @@
 
                         for (var i = 0; i < data.length; i++) {
                             var url = '{% url "barometro_viewer" pk=1 %}'.replace('1', data[i].id);
-                            var itemHtml = 
-                                '<div class="" style=" display: flex; flex-direction: column; justify-content: center; align-items: center; max-width: 200px; margin: 10px;">' +
+                            var itemHtml =
+                                '<div class="" style=" display: flex; flex-direction: column; justify-content: center; align-items: center; min-width: 100px; margin: 10px;">' +
                                 '<a href="' + url + '">' +
                                 '<i style="font-size: 4rem; cursor: pointer; color: #333333; align-self:flex-end;" class="fa-solid fa-file-pdf pdf-logo"></i>' +
                                 '</a>' +
 
-                                '<p style="font-family: Montserrat; font-size: 10px; text-align: center; margin:10px;" class="truncate">' + data[i].nombrePDF + '</p>' +
-                                '</div>' ;
-                        
+                                '<p style="font-size: 10px; text-align: center;max-width: 100px;" class="truncate">' + data[i].nombrePDF + '</p>' +
+                                '</div>';
+
 
                             html += itemHtml;
                         }
@@ -876,32 +941,21 @@
 
                             for (var i = 0; i < data.length; i++) {
                                 var url = '{% url "barometro_viewer" pk=1 %}'.replace('1', data[i].id);
-                                var itemHtml = '<div class="col-md-3 mb-3">' +
-                                    '<div style="width:10rem; height:10rem; display: flex; flex-direction: column;  justify-content: center; align-items: center; margin-right:30px;">' +
+                                var itemHtml =
+                                    '<div class="" style=" display: flex; flex-direction: column; justify-content: center; align-items: center; min-width: 100px; margin: 10px;">' +
                                     '<a href="' + url + '">' +
-                                    '<i  style="font-size: 4rem; cursor: pointer; align-self:flex-end;"class="fa-solid fa-file-pdf pdf-logo"></i>' +
+                                    '<i style="font-size: 4rem; cursor: pointer; color: #333333; align-self:flex-end;" class="fa-solid fa-file-pdf pdf-logo"></i>' +
                                     '</a>' +
-                                    '<p style="font-size: 10px; text-align: center;max-width: 50px;" class="truncate">' + data[i].nombrePDF + '</p>' +
-                                    '</div>' +
+
+                                    '<p style="font-size: 10px; text-align: center;max-width: 100px;" class="truncate">' + data[i].nombrePDF + '</p>' +
                                     '</div>';
 
-                                rowHtml += itemHtml;
-                                rowHeight = Math.max(rowHeight, $(itemHtml).height());
 
-                                if (rowHeight > containerHeight) {
-                                    // Add the current row to the HTML and start a new one
-                                    html += rowHtml + '</div>';
-                                    rowHtml = '<div class="row">';
-                                    rowHeight = $(itemHtml).height();
-                                }
-                            }
-
-                            // Add any remaining items to the last row
-                            if (rowHtml !== '<div class="row">') {
-                                html += rowHtml + '</div>';
+                                html += itemHtml;
                             }
 
                             $('#search-results').html(html);
+
                         }
                     });
                 });

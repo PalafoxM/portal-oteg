@@ -6,16 +6,11 @@
 
 {% block columns %}
 <tr class="text-center table-header">
-    <th class="text-left ">N°</th>
-    <th class="text-left ">Titulo</th>
-    <th class="text-left ">Imagen</th>
-    <th class="text-left ">Fecha recuperacion</th>
-    <th class="text-center" style="
-            position: relative;
-            background-color: #ECF0F1;
-            text-align: center;
-            height: 100%;
-        ">Acciones</th>
+    <th scope="col" style="width: 10%;">id</th>
+    <th scope="col" style="width: 20%;">Url</th>
+    <th scope="col" style="width: 20%;">activo</th>
+    <th scope="col" style="width: 20%;">seccion</th>
+    <th scope="col" style="width: 20%;">Opciones</th>
 </tr>
 {% endblock %}
 
@@ -23,16 +18,19 @@
 {% for e in object_list %}
 <tr>
     <th class="text-left tb-text">{{e.id}}</th>
-    <th class="text-left tb-text">{{e.titulo}}</th>
-  
-    {% if e.imagen %}
+    <th class="text-left tb-text"><a href="{{e.url}}">{{e.url}}<a /></th>
+    <th class="text-left tb-text">{{e.activo}}</th>
+    <th class="text-left tb-text">
+        {% if e.seccion == 1 %}
+        Barometro
+        {% elif e.seccion == 2 %}
+        ENIOT
+        {% else %}
+        no definido
+        {% endif %}
 
-    <th class="text-left tb-text"><img src="{{e.imagen.url}}" alt="" width="100px"></th>
+    </th>
 
-    {% else %}
-    <th class="text-left tb-text">No hay imagen disponible</th>
-    {% endif %}
-    <th class="text-left tb-text">{{e.fecha_recuperacion}}</th>
 
     <th class="text-left actions-column tb-text" style="
     position: relative;
@@ -41,8 +39,7 @@
     height: 100%;
     ">
         <div class="icon-container2">
-
-            <form method="post" action="{% url 'dashboard:noticia_delete' e.id %}">
+            <form method="post" action="{% url 'dashboard:encuesta_delete' e.id %}">
                 {% csrf_token %}
                 <button type="submit" class="ml-1 mr-1 actions-btn"
                     onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">
@@ -53,7 +50,7 @@
                 </button>
             </form>
 
-            <form method="get" action="{% url 'dashboard:noticia_update' e.id %}">
+            <form method="get" action="{% url 'dashboard:encuesta_update' e.id %}">
                 {% csrf_token %}
                 <button type="submit" class="ml-1 mr-1 actions-btn">
 

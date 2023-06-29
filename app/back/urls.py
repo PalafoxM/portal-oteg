@@ -54,6 +54,7 @@ from back.views.fuente_info_dt_spa.views import *
 from back.views.fuente_info_pasajeros_ent_nac.views import *
 from back.views.modulo_reportes.views import *
 from back.views.eniot.views import *
+from back.views.modulo_encuestas.views import *
 
 
 from django.conf import settings
@@ -532,5 +533,11 @@ urlpatterns = [
     path('eniot/fotos/add', EniotAlbunCreateView.as_view(), name='eniot_fotos_create'),
     path('eniot/fotos/edit/<int:pk>/', EniotAlbunUpdateView.as_view(), name='eniot_fotos_update'),
     path('eniot/fotos/delete/<int:pk>/', EniotAlbunDeleteView.as_view(), name='eniot_fotos_delete'),
+    # encuestas
+
+    path('encuestas/', EncuestaView.as_view(), name='modulo_encuestas'),
+    path('encuestas/add', EncuestaCreate.as_view(), name='encuesta_create'),
+    path('encuestas/edit/<int:pk>/', EncuestaUpdate.as_view(), name='encuesta_update'),
+    path('encuestas/delete/<int:pk>/', EncuestaDelete.as_view(), name='encuesta_delete'),
     
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
