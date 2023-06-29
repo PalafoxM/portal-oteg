@@ -31,7 +31,7 @@ class PublicationsCreateView(CreateView):
     success_url = reverse_lazy('dashboard:publicacion_list')
     
     def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST)
+        form = self.form_class(request.POST ,request.FILES) 
 
         if form.is_valid():
             section_id = request.POST.get('section')

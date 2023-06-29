@@ -11,7 +11,9 @@
     <th>Fecha</th>
     <th>Sección</th>
     <th>Categoria</th>
+    <th>No. Descargas</th>
     <th>Acciones</th>
+
 
     {% endblock %}
 
@@ -22,7 +24,9 @@
     <th class="text-left tb-text">{{e.name}}</th>
     <th class="text-left tb-text">{{e.date_created}}</th>
     <th class="text-left tb-text">{{e.section.seccion}}</th>
+
     <th class="text-left tb-text">{{e.category.nombre_categoria}}</th>
+    <th class="text-left tb-text">{{e.num_descargas}}</th>
 
     <th class="text-left actions-column tb-text" style="
     position: relative;

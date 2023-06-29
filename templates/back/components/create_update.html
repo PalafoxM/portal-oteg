@@ -60,7 +60,7 @@
             </div>
 
 
-            {% if field.name != 'descripcion' %}
+            {% if field.name != 'descripcion' and field.name != 'imagen' and field.name != 'doc' %}
 
             <div class="input-with-icon">
                 {{ field }}
@@ -79,7 +79,19 @@
 
             {% else %}
 
-            {{ field }}
+            <div
+                style="
+                    width: 100%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    flex-direction: column;"
+            
+            >
+                {{ field }}
+            </div>
+
+
 
             {% endif %}
 

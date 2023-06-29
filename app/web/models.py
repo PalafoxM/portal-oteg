@@ -25,12 +25,12 @@ class PerfilVisistantePDF (models.Model):
     
     
 class BarometroTuristico (models.Model):
-    semestre = models.IntegerField(null=True, blank=False)
     nombrePDF = models.CharField(max_length=100, null=True, blank=True)
     # url = models.FileField(upload_to='barometro-turistico', storage=S3Storage(), verbose_name="Archivo", blank=True)#
-    doc = models.FileField(upload_to='barometro-turistico', storage=S3Storage(), verbose_name="Documento", blank=True)#
+
     yearPDF = models.IntegerField(null=True, blank=False)
     num_descargas = models.IntegerField(null=True, blank=True, default=0)
+    doc = models.FileField(upload_to='barometro-turistico', storage=S3Storage(), verbose_name="Documento", blank=True)#
     fecha_registro = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     
 
