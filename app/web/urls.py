@@ -75,6 +75,7 @@ urlpatterns = [
     path('eniot/ultimos-eventos',EniotEventosFotosView.as_view(), name='eniot_ultimos_eventos'),
     path('eniot/pdf-viewer/<int:pk>/',MemoriasPDFViewer.as_view(), name='eniot_pdf_viewer'),
     path('eniot/ponencia-eventos/pdf-viewer/<int:pk>/',PonenciaEventosPDFViewer.as_view(), name='eniot_ponencia_eventos_pdf_viewer'),
+    path('eniot/pdf-download/<int:pk>/', PDFDownloadEniot.as_view(), name='eniot_pdf_download'),
     # entorno-nacional
     path('entorno-nacional/',EntornoNacional.as_view(), name='entorno-nacional'),
     # 

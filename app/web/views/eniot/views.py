@@ -2,7 +2,10 @@ from django.views.generic import TemplateView
 from back.models import Eniot, EniotAlbun
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
-
+import requests
+from django.shortcuts import redirect
+from django.http import StreamingHttpResponse
+from django.views.generic import TemplateView, View
 
 class EniotView(TemplateView):
     template_name = 'web/paginas/eniot/eniot.html'
@@ -12,6 +15,7 @@ class EniotView(TemplateView):
         pdf =  Eniot.objects.filter(seccion='programa-eniot').order_by('-date_created')[:1].get()
         context['pdf'] = pdf
         context['nav_title'] = 'ENIOT'
+        context['img_url'] = 'img_nav/pdf.png'
         return context
     
 class ProgramaProximaEdicion(TemplateView):
@@ -93,6 +97,7 @@ class EniotEventosFotosView(TemplateView):
         context['albums'] = albums
         context['fotos'] = fotos
         context['nav_title'] = 'Ultimos Eventos'
+        context['img_url'] = 'img_nav/pdf.png'
 
         print(fotos)
         print(albums)
@@ -121,3 +126,29 @@ class PonenciaEventosPDFViewer (TemplateView):
         context['img_url'] = 'img_nav/pdf.png'
         context['list'] =  reverse_lazy('eniot_ponencia_eventos')
         return context
+    
+class PDFDownloadEniot(View):
+    def get(self, request, *args, **kwargs):
+        # Get the PDF object
+        pdf = get_object_or_404(Eniot, id=kwargs['pk'])
+
+        # Construct the complete URL
+        # complete_url = 'https://portal-oteg.s3.amazonaws.com/media/' + pdf.doc_url
+
+        # Download the file from the URL
+        r = requests.get(pdf.doc_url.url, stream=True)
+        # how to know the request is successful?
+        if r.status_code != 200:
+            return redirect('eniot')
+
+        # Send the file as a response
+        response = StreamingHttpResponse(r.iter_content(chunk_size=1024))
+        response['Content-Type'] = 'application/pdf'
+        response['Content-Disposition'] = 'attachment; filename="%s.pdf"' % pdf.nombrePDF
+
+        try:
+            pdf.num_descargas += 1
+            pdf.save()
+        except (ConnectionResetError, BrokenPipeError):
+            pass
+        return response

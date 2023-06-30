@@ -2,32 +2,32 @@
 {% load static %}
 {% block head_view %}
 <style>
-  .albums-container {
+  .album-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
+  justify-content: center;
+  margin-top: 20px;
 }
 
-.album {
-  background-color: #f0f0f0;
-  padding: 10px;
+.album-photo {
+  width: 250px;
+  height: 250px;
+  margin: 10px;
+  overflow: hidden;
   border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 
-.album h2 {
-  font-size: 18px;
-  margin-bottom: 10px;
+.album-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.album-photos {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.album-photos img {
-  width: 200px;
-  height: auto;
+.album-photo:hover {
+  transform: scale(1.5);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 </style>
@@ -45,24 +45,57 @@
     </div>
 </div>
 
+<div class="col">
 {% if albums %}
-  <div class="albums-container">
     {% for album in albums %}
-      <div class="album">
-        <h2>Álbum: {{ album }}</h2>
-        <div class="album-photos">
+    <div style="
+                width: 100%;
+                height: 40px;
+                background-image: linear-gradient(140.57deg, #ED4C02 0%, #FB8A55 100%);
+                color: #fff;
+                display: flex;
+                justify-content: start;
+                align-items: center;
+                padding: 20px;
+                border-radius: 5px;
+                box-shadow: -12px 15px 18px -3px rgba(0, 0, 0, 0.1);
+            ">
+            <h2 style="
+                    font-family: Montserrat;
+                    font-size: 20px;
+                    line-height: 29px;
+                    font-weight: 600;
+                    text-align: left;
+                    text-transform: uppercase;
+                    margin: 0;
+                    padding: 0;
+                
+                " class="truncate">Álbum: {{ album }}</h2>
+
+        </div>
+        <div class="album-container">
           {% for foto in fotos %}
             {% if album == foto.nombreAlbun %}
-              <img src="https://portal-oteg.s3.amazonaws.com/media/{{ foto.foto_url }}" alt="" srcset="">
+              <div class="album-photo">
+                <img src="https://portal-oteg.s3.amazonaws.com/media/{{ foto.foto_url }}" alt="" srcset="">
+              </div>
             {% endif %}
           {% endfor %}
         </div>
-      </div>
     {% endfor %}
-  </div>
 {% else %}
   <p>No hay álbumes de fotos disponibles.</p>
 {% endif %}
+</div>
+<script>
+  // Asegúrate de incluir este script después de cargar jQuery
+  
+  $(document).ready(function() {
+    $('.album-photo').click(function() {
+      $(this).toggleClass('enlarged');
+    });
+  });
+  </script>
 
 
 

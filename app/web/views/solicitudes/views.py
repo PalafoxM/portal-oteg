@@ -1,10 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from web.forms  import SenEmail
 
 from django.core.mail import BadHeaderError, send_mail, EmailMultiAlternatives
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse
 from django.template.loader import get_template
 from django.conf import  settings
+from django.contrib import messages
 
 # Create your views here.
 def solicitudes(request):
@@ -34,10 +35,18 @@ def solicitudes(request):
                 msg.attach_alternative(content, "text/html")
                 # mandamos el mensaje
                 msg.send()
+                messages.success(request, 'Solicitud enviada exitosamente.')
+                return redirect('solicitudes')
             except BadHeaderError:
                 return HttpResponse('Invalid header found.')
             print("si pasaron")
     else:
         form = SenEmail()
+    
+    context = {
+        'form': form,
+        'nav_title': 'Ultimos Eventos',
+        'img_url': 'img_nav/pdf.png',
+    }
 
-    return render(request, 'web/paginas/solicitudes.html', {'form': form})
+    return render(request, 'web/paginas/solicitudes.html', context)
