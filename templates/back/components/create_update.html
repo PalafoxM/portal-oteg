@@ -186,6 +186,19 @@
     $(function () {
         $('form').on('submit', function (e) {
             e.preventDefault();
+            
+            // Bloquear los botones
+            $('button[type="submit"]').prop('disabled', true);
+            $('#baker').prop('disabled', true);
+            
+            // Mostrar alerta de cargando
+            Swal.fire({
+                icon: 'info',
+                title: 'Cargando...',
+                showConfirmButton: false,
+                allowOutsideClick: false
+            });
+            
             var parameters = new FormData(this);
             $.ajax({
                 url: window.location.pathname,
@@ -198,7 +211,7 @@
                 if (data.success) {
                     Swal.fire({
                         icon: 'success',
-                        title: 'Buen trabajo!',
+                        title: '¡Buen trabajo!',
                         text: 'Operación exitosa.',
                         timer: 2000,
                         showConfirmButton: false
@@ -217,14 +230,19 @@
                     }
                     Swal.fire({
                         icon: 'error',
-                        title: 'Error!',
+                        title: '¡Error!',
                         text: errors
                     });
                 }
             }).fail(function (jqXHR, textStatus, errorThrown) {
                 alert(textStatus + ': ' + errorThrown);
             }).always(function (data) {
-
+                // Desbloquear los botones
+                $('button[type="submit"]').prop('disabled', false);
+                $('#baker').prop('disabled', false);
+                
+                // Cerrar la alerta de cargando
+                Swal.close();
             });
         });
     });

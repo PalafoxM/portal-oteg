@@ -22,7 +22,7 @@ def solicitudes(request):
                     'message': request.POST.get('message'),
                 }
                 # agregamos los parametros
-                subject, from_email, to = 'Solicitud de Informacion', settings.EMAIL_HOST_USER, request.POST.get('email')
+                subject, from_email, to = 'Solicitud de Informacion', settings.EMAIL_HOST_USER, settings.CORREO_DESTINO
                 # contenuido del mensaje
                 text_content = request.POST.get('message')
                 # plantilla del mensaje

@@ -1,10 +1,63 @@
+{% extends 'web/body.html' %}
 {% load static %}
-<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
-<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
-{% include 'web/components/navbar/navbar.html' %}
-
+{% block head_view %}
+<!-- <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script> -->
 <style>
-    .quiz-card {
+   .carousel-inner .carousel-item {
+  position: relative;
+}
+
+.carousel-inner .carousel-item img {
+  width: 100%;
+  height: auto;
+}
+
+.carousel-inner .carousel-item .carousel-caption {
+  position: absolute;
+  bottom: -100%;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 20px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-inner .carousel-item .carousel-caption h5 {
+  margin-top: 0;
+}
+
+.carousel-inner .carousel-item .carousel-caption .btn {
+  margin-top: 10px;
+  background-color: transparent;
+  border: none;
+  color: #fff;
+  font-weight: bold;
+}
+
+.carousel-inner .carousel-item .carousel-caption .btn:before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 2px;
+  background-color: #fff;
+}
+
+.carousel-inner .carousel-item .carousel-caption .btn:hover {
+  color: #ED4C02;
+}
+
+.carousel-inner .carousel-item .carousel-caption .btn:focus {
+  outline: none;
+}
+.quiz-card {
         width: 400px;
         height: 200px;
         padding: 20px;
@@ -51,8 +104,13 @@
     .show-answer .answer {
         display: block;
     }
+
+
+
 </style>
 
+{% endblock %}
+{% block content %}
 <section class="container">
     <h1 class="text-center">PREGUNTAS FRECUENTES</h1>
     <p class=" text-muted"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius quos facere quo debitis autem
@@ -158,4 +216,4 @@
 </script>
 
 
-{% include 'web/components/footer/footer.html' %}
+{% endblock %}

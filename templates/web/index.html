@@ -114,12 +114,12 @@
 
     function setFixedMenuPosition() {
       var translateElement = document.getElementById('google_translate_element');
-      if (translateElement) {
+      var fixedMenu = document.getElementsByClassName('all-fixed')[0];
+      
+      if (translateElement && fixedMenu) {
         var translateHeight = translateElement.offsetHeight;
-        var fixedMenu = document.getElementsByClassName('all-fixed')[0];
         fixedMenu.style.top = translateHeight + 'px';
-      } else {
-        var fixedMenu = document.getElementsByClassName('all-fixed')[0];
+      } else if (fixedMenu) {
         fixedMenu.style.top = '0';
       }
     }
