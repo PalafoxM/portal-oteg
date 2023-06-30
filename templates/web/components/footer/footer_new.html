@@ -53,15 +53,23 @@ margin-top: 40px;
 
 
             <div class="grid-item">
-                <a class="footer-title">INICIO</a>
-                <h4 class="footer-title">Indicadores</h4>
+                <a 
+                
+                href="{% url 'inicio' %}"
+                class="footer-title">INICIO</a>
+               
 
-                <!-- <div id="reports"></div> -->
+             
 
-                <a class="footer-link"> Pacto Centro Occidente </a>
                 <a class="footer-link"> Nacionales </a>
                 <a class="footer-link"> Tablero de Control</a>
                 <a class="footer-link"> Resumen Estatal </a>
+                <h4 class="footer-title">Indicadores</h4>
+                <div id="reports"></div>
+
+              
+
+
 
 
             </div>
@@ -97,9 +105,15 @@ margin-top: 40px;
                 <a class="footer-title"> Eventos y Actividades</a>
             </div>
             <div class="grid-item">
-                <h4 href="{% url 'noticias_turisticas'%}" class="footer-title">Glosario</h4>
-                <h4 class="footer-title">Preguntas Frecuentes</h4>
-                <h4 class="footer-title">Sitios de Interes</h4>
+                <a class="footer-title" href="{% url 'noticias_turisticas'%}" class="footer-title">Glosario</a>
+                <a 
+                    href="{% url 'preguntasf'%}"
+                class="footer-title">Preguntas Frecuentes</a>
+
+
+                <a 
+                    href="{% url 'sitios_interes'%}"
+                class="footer-title">Sitios de Interes</a>
             </div>
         </div>
         <div style="width: 100%; display: flex; justify-content: center; align-items: center; margin-top: 40px; ">
