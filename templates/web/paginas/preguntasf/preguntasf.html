@@ -57,155 +57,100 @@
 .carousel-inner .carousel-item .carousel-caption .btn:focus {
   outline: none;
 }
-.quiz-card {
-        width: 400px;
-        height: 200px;
-        padding: 20px;
-        margin: 20px;
-        border: 1px solid #ddd;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+.question-container {
+      width: 100%;
+      height: 40px;
+      background-image: linear-gradient(140.57deg, #ED4C02 0%, #FB8A55 100%);
+      color: #fff;
+      display: flex;
+      justify-content: start;
+      align-items: center;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: -12px 15px 18px -3px rgba(0, 0, 0, 0.1);
+      margin-bottom: 10px;
     }
-
-    .quiz-card h3 {
-        font-weight: bold;
-    }
-
+    
     .question {
-        margin-bottom: 20px;
+      font-family: Montserrat;
+      font-size: 20px;
+      line-height: 29px;
+      font-weight: 600;
+      text-align: left;
+      text-transform: uppercase;
+      margin: 0;
+      padding: 0;
     }
-
+    
     .answer {
-        display: none;
+      display: none;
+      margin-bottom: 10px;
     }
-
-    .hide {
-        display: none;
+    .instruction {
+        font-size: 18px;
+        color: #000000;
+        margin-bottom: 10px;
+        margin-top: 30px;
     }
-
-    .reveal-answer {
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
-
-    .reveal-answer:hover {
-        background-color: #0056b3;
-    }
-
-    .reveal-answer:focus {
-        outline: none;
-    }
-
-    .show-answer .answer {
-        display: block;
-    }
-
 
 
 </style>
-
+<script>
+    function toggleAnswer(id) {
+      var answer = document.getElementById(id);
+      answer.style.display = (answer.style.display === 'none') ? 'block' : 'none';
+    }
+  </script>
 {% endblock %}
 {% block content %}
 <section class="container">
-    <h1 class="text-center">PREGUNTAS FRECUENTES</h1>
-    <p class=" text-muted"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius quos facere quo debitis autem
-        eaque aspernatur
-        ipsam vel, sint magni officia dolore molestiae! Magnam, officiis quos corrupti iure consequatur sequi!
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet similique soluta ipsum, provident commodi
-        error numquam? Dolor repudiandae quibusdam quo numquam. Necessitatibus perspiciatis magnam deleniti laudantium
-        quae adipisci? Cum, quos?
+    <!-- <h1 class="text-center">PREGUNTAS FRECUENTES</h1> -->
+    <p class="instruction"> Da click sobre la pregunta, para visualizar la respuesta
     </p>
 
-    <div class="mt-3">
-        <div class="row">
-            <div class="col-sm text-center">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas a
-            </div>
-            <div class="col-sm text-center">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas a
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm text-center">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas a
-            </div>
-            <div class="col-sm text-center">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas a
-            </div>
-        </div>
-    </div>
-    <div class="mt-3">
-        <div class="row">
-            <div class="col-sm text-center">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas a
-            </div>
-            <div class="col-sm text-center">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas a
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm text-center">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas a
-            </div>
-            <div class="col-sm text-center">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas a
-            </div>
-        </div>
-    </div>
-    <div class="mt-3">
-        <div class="row">
-            <div class="col-sm text-center">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas a
-            </div>
-            <div class="col-sm text-center">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas a
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm text-center">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas a
-            </div>
-            <div class="col-sm text-center">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas a
-            </div>
-        </div>
-    </div>
-    <div class="mt-3">
-        <div class="row">
-            <div class="col-sm text-center">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas a
-            </div>
-            <div class="col-sm text-center">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas a
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm text-center">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas a
-            </div>
-            <div class="col-sm text-center">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas a
-            </div>
-        </div>
-    </div>
+    <div class="question-container" onclick="toggleAnswer('answer1')">
+        <h2 class="question truncate">1. ¿Qué es el OTEG?</h2>
+      </div>
+      <div class="answer" id="answer1">El Observatorio Turístico del Estado de Guanajuato es un espacio de análisis, técnico, intersectorial e interdisciplinario bajo el cual un grupo de personas y/o entidades se agrupan y organizan con el propósito de vigilar, medir y verificar la evolución del sector turismo en el Estado de Guanajuato.</div>
+    
+      <div class="question-container" onclick="toggleAnswer('answer2')">
+        <h2 class="question truncate">2. ¿Quiénes integran el OTEG?</h2>
+      </div>
+      <div class="answer" id="answer2">Está integrado por un Presidente, un suplente del presidente, secretario técnico, un representante de subsecretaria de promoción turística de SECTUR, un representante de la dirección general de desarrollo turístico SECTUR, por 5 instituciones del sector educativo, por 5 organismos del sector público y por 5 organizaciones del sector privado, además del Consejo Consultivo Turístico.</div>
+    
+      <div class="question-container" onclick="toggleAnswer('answer3')">
+        <h2 class="question truncate">3. ¿Cuáles son los objetivos que persigue OTEG?</h2>
+      </div>
+      <div class="answer" id="answer3">Los principales objetivos del Observatorio son jerarquizar las demandas y necesidades de los ciudadanos, orientar las actividades de los servidores públicos, facilitar la toma de decisiones y generar el diseño de la propia política de desarrollo del sector turismo.</div>
 
-
-    <div class="quiz-card">
-        <div class="question">
-            <h3>Question:</h3>
-            <p>What is the capital of France?</p>
-        </div>
-        <div class="answer">
-            <h3>Answer:</h3>
-            <p>Paris</p>
-        </div>
-        <button class="reveal-answer">Ver Respuesta</button>
+      <div class="question-container" onclick="toggleAnswer('answer4')">
+        <h2 class="question truncate">4. ¿En dónde incide el OTEG?</h2>
     </div>
+    <div class="answer" id="answer4">El OTEG incide en políticas públicas, metodologías y herramientas técnicas, transparencia y medición de resultados.</div>
+    <div class="question-container" onclick="toggleAnswer('answer5')">
+        <h2 class="question truncate">5. ¿Cuáles son las funciones del Observatorio?</h2>
+    </div>
+    <div class="answer" id="answer5">El Observatorio turístico realiza funciones como generar información adecuada y consensuada, poner al alcance de la sociedad información relevante, promover mecanismos para conocer las demandas de los ciudadanos, construir sistemas de información técnica, crear un tablero de control, y generar conocimiento a través de estudios e investigaciones en el sector turístico.</div>
+    <div class="question-container" onclick="toggleAnswer('answer6')">
+        <h2 class="question truncate">6. ¿Cómo vuelvo a la página principal después de entrar en otras secciones?</h2>
+    </div>
+    <div class="answer" id="answer6">En la parte superior izquierda de la página encontrarás un recuadro como este <span>&#x25C0;</span>. Al hacer clic en él, regresarás a la página principal.</div>
+    <div class="question-container" onclick="toggleAnswer('answer7')">
+        <h2 class="question truncate">7. ¿Qué es el sistema de indicadores del OTEG?</h2>
+    </div>
+    <div class="answer" id="answer7">El sistema de indicadores del OTEG es un conjunto de indicadores nacionales y estatales que se utilizan para medir la actividad turística.</div>
+    <div class="question-container" onclick="toggleAnswer('answer8')">
+        <h2 class="question truncate">8. ¿Cuáles son los indicadores nacionales?</h2>
+    </div>
+    <div class="answer" id="answer8">Los indicadores nacionales incluyen: Indicadores Económicos y Turísticos de México, Inflación Media por INPC, Índice General, Indicadores de la Actividad Aérea, Indicadores del Sector Servicios, Indicador Trimestral de la Actividad Turística, y Ocupación Mensual de Destinos Nacionales.</div>
+    <div class="question-container" onclick="toggleAnswer('answer9')">
+        <h2 class="question truncate">9. ¿Cuáles son los indicadores estatales?</h2>
+    </div>
+    <div class="answer" id="answer9">Los indicadores estatales incluyen: Reportes Mensuales, Barómetro Turístico y Tablero de Control e Indicadores.</div>
+    <div class="question-container" onclick="toggleAnswer('answer10')">
+        <h2 class="question truncate">10. ¿Qué son los Reportes Mensuales?</h2>
+    </div>
+    <div class="answer" id="answer10">Los Reportes Mensuales ofrecen un amplio conjunto de indicadores que brindan información complementaria al tablero de control. Estos reportes presentan características comparables, semaforizados, mapeados y representados en series históricas.</div>
 </section>
 
 <script>
