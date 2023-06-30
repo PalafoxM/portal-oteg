@@ -5,7 +5,8 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from back.models import *
 from back.forms import *
 from web.models import *
-
+def is_ajax(request):
+    return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 # Create your views here.
 class BannerListView(ListView):
@@ -615,8 +616,6 @@ class GlosarioUpdateView(UpdateView):
 class BarometroListView(ListView):
     model = BarometroTuristico
     template_name = 'back/barometro/viewer.html'
-
-
 
     try:
         encuesta = Encuesta.objects.filter(seccion=1, activo=True).latest('fecha_registro')

@@ -1499,6 +1499,43 @@ class EncuestaFormB(forms.ModelForm):
         fields = '__all__'
 
 
+class   ReporteMensualForm(forms.ModelForm):
+    MES_CHOICES = (
+        (1, 'Enero'),
+        (2, 'Febrero'),
+        (3, 'Marzo'),
+        (4, 'Abril'),
+        (5, 'Mayo'),
+        (6, 'Junio'),
+        (7, 'Julio'),
+        (8, 'Agosto'),
+        (9, 'Septiembre'),
+        (10, 'Octubre'),
+        (11, 'Noviembre'),
+        (12, 'Diciembre'),
+    )
+
+    mes = forms.ChoiceField(choices=MES_CHOICES, widget=forms.Select(attrs={'class': 'custom-input', 'icon_class': 'fas fa-calendar'}))
+
+    class Meta:
+        model = Reportes_Mensuales
+        fields = '__all__'
+        exclude = ['num_descargas']
+
+        labels = {'ano': 'Año', }
+        
+    def __init__ (self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['ano'].widget.attrs['class'] = 'custom-input'
+        self.fields['ano'].widget.attrs['icon_class'] = 'fas fa-calendar'
+
+        self.fields['titulo'].widget.attrs['class'] = 'custom-input'
+        self.fields['titulo'].widget.attrs['icon_class'] = 'fas fa-search'
+
+ 
+
+
 
 
 class ReportsForm(forms.ModelForm):

@@ -42,7 +42,7 @@ def logInUser(req):
 
 def logOutUser(req):
     logout(req)
-    return redirect('home')
+    return redirect('inicio')
 
 
 @login_required(login_url='login')
