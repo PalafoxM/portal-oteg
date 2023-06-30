@@ -36,30 +36,40 @@ margin-top: 40px;
                     font-family: Poppins , sans-serif;
                     font-size: 14px;
                     line-height: 32px;
-                    width: 298px;
+                
                     text-align: left;'>
                     Parque Guanajuato Bicentenario
                     Carretera de Cuota Silao - Guanajuato Km 3.8 Silao, Guanajuato., C.P. 36270
                     <br>Tel. (472) 103 99 00 Ext. 140 |observatorioturisticogto@gmail.com
                 </p>
+                <a class="footer-link"> MAPA DE SITIO </a>
+                {% if user.is_authenticated %}
+                <a class="footer-link" href="{% url 'dashboard:fuente_informacion' %}">Panel Admin</a>
+                {% else %}
+                <a class="footer-link" href="{% url 'login_user' %}">Log In</a>
+                {% endif %}
 
             </div>
+
+
             <div class="grid-item">
+                <a class="footer-title">INICIO</a>
                 <h4 class="footer-title">Indicadores</h4>
-                <div id="reports"></div>
+
+                <!-- <div id="reports"></div> -->
 
                 <a class="footer-link"> Pacto Centro Occidente </a>
                 <a class="footer-link"> Nacionales </a>
-                <a class="footer-link"> Tablero de Control e Indicadores </a>
-                <a class="footer-link"> Gestión de Destinos </a>
-                <a class="footer-link"> Economía Inclusiva </a>
-                <a class="footer-link"> Sociedad y Cultura </a>
-                <a class="footer-link"> Medio Ambiente </a>
+                <a class="footer-link"> Tablero de Control</a>
+                <a class="footer-link"> Resumen Estatal </a>
+
 
             </div>
             <div class="grid-item">
                 <a href="{% url 'publicaciones_new' %}" class="footer-title">Publicaciones</a>
                 <div id="sections"></div>
+                <a class="footer-link" href="{% url 'noticias_turisticas'%}"> Noticias Turisticas</a>
+                <a class="footer-link" href="{% url 'dashboard:report_mensual_detail'%}"> Reportes Mensuales</a>
                 <!-- <a class="footer-link"> Pacto Centro Occidente </a>
                 <a class="footer-link"> Nacionales </a>
                 <a class="footer-link"> Tablero de Control e Indicadores </a>
@@ -71,38 +81,31 @@ margin-top: 40px;
 
             </div>
             <div class="grid-item">
-                <h4 class="footer-title">Eventos y Actividades</h4>
-                <a class="footer-link"> Internacionales </a>
-                <a class="footer-link"> Nacionales </a>
-                <a class="footer-link"> Estatales </a>
-                <h4 class="footer-title">Información Turística</h4>
-                <a class="footer-link"> Solicitudes</a>
-                <a class="footer-link"> Protocolo Alba</a>
-                <a class="footer-link"> Glosario</a>
-                <a class="footer-link"> Preguntas frecuentes</a>
-                <a class="footer-link"> Sitios de interés</a>
-                <a class="footer-link"> Mapa del Sitio</a>
-                <a class="footer-link" href="{% url 'noticias_turisticas'%}"> Noticias Turisticas</a>
+                <a  href="{% url 'inventario-turistico' %}" class="footer-title">INVENTARIO TURISTICO</a>
+                <a class="footer-title">ENTORNO NACIONAL</a>
+                <a class="footer-link"> Indicadores Económicos</a>
+                <a class="footer-title">Barometro Turístico</a>
+                <a class="footer-title">ENIOT</a>
+                <a href="{% url 'oteg' %}" class="footer-title">OTEG</a>
+
+            </div>
+            <div class="grid-item">
+                <h4 href="{% url 'sustentabilidad' %}" class="footer-title">Sustentabilidad</h4>
+                <a class="footer-title"> Información Turistica </a>
+                <a class="footer-title"> Solicitudes</a>
+                <a  href="http://127.0.0.1:8000/pdf-protocolo_alba/" target="_blank" class="footer-title"> Protocolo Alba</a>
+                <a class="footer-title"> Eventos y Actividades</a>
+            </div>
+            <div class="grid-item">
+                <h4 href="{% url 'noticias_turisticas'%}" class="footer-title">Glosario</h4>
+                <h4 class="footer-title">Preguntas Frecuentes</h4>
+                <h4 class="footer-title">Sitios de Interes</h4>
             </div>
         </div>
-        <div style="
-                width: 100%;
-                display: flex;
-                justify-content: center;
-                align-items: center;   
-                
-                margin-top: 40px;
-            ">
-            <p style="
-              color: #DEE2E6;
-  font-family: Poppins;
-  font-size: 12px;
-  line-height: 32px;
-  width: 554px;
-  text-align: center;
-  
-            
-            ">Copyright © 2023 Observatorio Turístico del Estado de Guanajuato</p>
+        <div style="width: 100%; display: flex; justify-content: center; align-items: center; margin-top: 40px; ">
+            <p
+                style=" color: #DEE2E6; font-family: Poppins; font-size: 12px; line-height: 32px; width: 554px; text-align: center; ">
+                Copyright © 2023 Observatorio Turístico del Estado de Guanajuato</p>
 
         </div>
     </div>
@@ -111,19 +114,19 @@ margin-top: 40px;
         .footer-title {
             color: #DEE2E6;
             font-family: Poppins;
-            font-size: 18px;
+            font-size: 14px;
             line-height: 32px;
-            width: 271px;
+
             font-weight: 600;
             text-align: left;
+            text-transform: uppercase;
         }
 
         .footer-title:hover {
             color: #DEE2E6;
             font-family: Poppins;
-            font-size: 18px;
+            font-size: 14px;
             line-height: 32px;
-            width: 271px;
             font-weight: 600;
             text-align: left;
             cursor: pointer;
@@ -136,12 +139,12 @@ margin-top: 40px;
             font-family: Poppins;
             font-size: 14px;
             line-height: 32px;
-            width: 271px;
+            width: fit-content;
             font-weight: 400;
             text-align: left;
             cursor: pointer;
             text-decoration: none;
-            z-index: 999!important;
+            z-index: 999 !important;
         }
 
         .footer-link:hover {
@@ -150,12 +153,12 @@ margin-top: 40px;
             font-family: Poppins;
             font-size: 14px;
             line-height: 32px;
-            width: 271px;
+            width: fit-content;
             font-weight: 400;
             text-align: left;
             cursor: pointer;
             text-decoration: underline;
-            z-index: 999!important;
+            z-index: 999 !important;
         }
 
         .grid-container {
@@ -167,32 +170,44 @@ margin-top: 40px;
         }
 
         .grid-item {
-            width: 100%;
+            width: 160px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            gap: 10px;
         }
 
         .grid-image {
-            width: 40%;
+            width: 100%;
         }
-
-
-
 
 
         @media (min-width: 576px) {
             .grid-container {
                 grid-template-columns: 1fr 1fr;
+
             }
         }
 
         @media (min-width: 768px) {
             .grid-container {
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns: 1fr 1fr 1fr;
+
             }
         }
 
-        @media (min-width: 992px) {
+        @media (min-width: 1110px) {
             .grid-container {
                 grid-template-columns: 1fr 1fr 1fr 1fr;
+
+            }
+        }
+
+        @media (min-width: 1080px) {
+            .grid-container {
+                grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr 1fr;
+
             }
         }
     </style>

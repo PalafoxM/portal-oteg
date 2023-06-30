@@ -22,7 +22,8 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="#">
-                    <img src="{% static 'img/inicio/logo.png' %}" alt="" class="img-responsive" style="width: 140px; margin-top: -16px;">
+                    <img src="{% static 'img/inicio/logo.png' %}" alt="" class="img-responsive"
+                        style="width: 140px; margin-top: -16px;">
                 </a>
             </div>
 
@@ -55,11 +56,13 @@
 
 
     </ol>
+
+    {% if form_object %}
     <div class="carousel-inner" role="listbox">
         <div class="item active">
             <div class="mask">
-                <img src={% static img_url %} alt="">
-                    alt="">
+                <img src={{img_url}} alt="">
+                alt="">
                 <div class="overlay"></div>
             </div>
             <div class="carousel-caption">
@@ -69,6 +72,24 @@
             </div>
         </div>
     </div>
+
+    {% else %}
+    <div class="carousel-inner" role="listbox">
+        <div class="item active">
+            <div class="mask">
+                <img src={% static img_url %} alt="">
+                alt="">
+                <div class="overlay"></div>
+            </div>
+            <div class="carousel-caption">
+
+                <br>
+                <h2>{{nav_title}}</h2>
+            </div>
+        </div>
+    </div>
+
+    {% endif %}
 
 
 </div>

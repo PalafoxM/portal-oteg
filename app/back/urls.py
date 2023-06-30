@@ -54,6 +54,7 @@ from back.views.fuente_info_dt_spa.views import *
 from back.views.fuente_info_pasajeros_ent_nac.views import *
 from back.views.modulo_reportes.views import *
 from back.views.modulo_encuestas.views import *
+from back.views.reportes_mensuales.views import *
 
 
 from django.conf import settings
@@ -528,5 +529,14 @@ urlpatterns = [
     path('encuestas/add', EncuestaCreate.as_view(), name='encuesta_create'),
     path('encuestas/edit/<int:pk>/', EncuestaUpdate.as_view(), name='encuesta_update'),
     path('encuestas/delete/<int:pk>/', EncuestaDelete.as_view(), name='encuesta_delete'),
+
+    # reportes _ mensuales 
+    path('reportes-mensuales/', ReporteMensualView.as_view(), name='modulo_reportes_mensuales'),
+    path('reportes-mensuales/add', ReporteMensualCreate.as_view(), name='reporte_mensual_create'),
+    path('reportes-mensuales/edit/<int:pk>/', ReporteMensualUpdate.as_view(), name='reporte_mensual_update'),
+    path('reportes-mensuales/delete/<int:pk>/', ReporteMensualDelete.as_view(), name='reporte_mensual_delete'),
+    path('reports-mensuales', ReporteMensualDetail.as_view(), name='report_mensual_detail'),
+    
+
     
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
