@@ -1557,7 +1557,7 @@ class ReportsForm(forms.ModelForm):
         self.fields['iframe'].widget.attrs['class'] = 'custom-input'
         self.fields['iframe'].widget.attrs['icon_class'] = 'fas fa-search'
 
-        self.fields['ods1'].widget.attrs['class'] = ''
+        self.fields['ods1'].widget.attrs['class'] = 'form-check-input'
         self.fields['ods2'].widget.attrs['class'] = 'form-check-input'
         self.fields['ods3'].widget.attrs['class'] = 'form-check-input'
         self.fields['ods4'].widget.attrs['class'] = 'form-check-input'
