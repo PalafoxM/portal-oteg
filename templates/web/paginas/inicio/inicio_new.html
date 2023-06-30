@@ -5,6 +5,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>INICIO OTEG</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -894,6 +895,122 @@
         margin-bottom: 50px;
         ">
 
+            {% for object in noticias %}
+
+            <div class='n-card'>
+                <div style='        position: relative;
+                overflow: hidden;
+                width: 100%;
+                height: 100%;'>
+
+                    {% if object.imagen %}
+                    <img style="
+                        border-radius:8px  8px  0px 0px;
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 50%;
+                        object-fit: cover;
+                        object-position: center;"
+                        src="{{object.imagen.url}}"
+                        alt="">
+
+                    {% else %}
+
+                    <img style="
+                border-radius:8px  8px  0px 0px;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 50%;
+                object-fit: cover;
+                object-position: center;"
+                        src={% static 'img_nav/defaultimage.webp' %}
+                        alt="">
+
+                    {% endif %}
+
+
+                    <div style="
+                        border-radius: 0px 0px 8px  8px  ;
+                        position: absolute;
+                        bottom: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 50%;
+                        object-fit: cover;
+                        object-position: center;
+                        padding-left: 20px;
+                        padding-right: 20px;
+                        ">
+                        <h2>{{object.titulo |truncatewords:2}}</h2>
+                        <p>
+                            {{object.descripcion|truncatewords:10 |safe}}
+                        </p>
+                        <a href="{% url 'notica_viewer' object.id %}" style="
+                            color:#ED4C02 ;
+                            font-family: Montserrat;
+                            font-size: 14px;
+                        ">
+                            Seguir leyendo...
+
+                        </a>
+                    </div>
+
+                </div>
+
+
+            </div>
+            {% endfor %}
+            <!-- 
+            <div class='n-card'>
+                <div style='        position: relative;
+                overflow: hidden;
+                width: 100%;
+                height: 100%;'>
+                    <img style="
+                        border-radius:8px  8px  0px 0px;
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 50%;
+                        object-fit: cover;
+                        object-position: center;"
+                        src="https://guanajuato.mx/wp-content/uploads/2022/05/San-Miguel-de-Allende-Guanajuato-2.jpg"
+                        alt="">
+                    <div style="
+                        border-radius: 0px 0px 8px  8px  ;
+                        position: absolute;
+                        bottom: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 50%;
+                        object-fit: cover;
+                        object-position: center;
+                        padding-left: 20px;
+                        padding-right: 20px;
+                        ">
+                        <h2>Lorem ipsum</h2>
+                        <p>
+                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Expedita voluptate, quibusdam ad
+                            dignissimos qu
+                        </p>
+                        <a style="
+                                color:#ED4C02 ;
+                            ">
+                            Seguir leyendo...
+                        </a>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
             <div class='n-card'>
                 <div style='        position: relative;
                 overflow: hidden;
@@ -935,107 +1052,15 @@
                         </a>
                     </div>
 
-                </div>
-
-
-            </div>
-
-            <div class='n-card'>
-                <div style='        position: relative;
-                overflow: hidden;
-                width: 100%;
-                height: 100%;'>
-                    <img style="
-                        border-radius:8px  8px  0px 0px;
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                        width: 100%;
-                        height: 50%;
-                        object-fit: cover;
-                        object-position: center;"
-                        src="https://guanajuato.mx/wp-content/uploads/2022/05/San-Miguel-de-Allende-Guanajuato-2.jpg"
-                        alt="">
-                    <div style="
-                        border-radius: 0px 0px 8px  8px  ;
-                        position: absolute;
-                        bottom: 0;
-                        left: 0;
-                        width: 100%;
-                        height: 50%;
-                        object-fit: cover;
-                        object-position: center;
-                        padding-left: 20px;
-                        padding-right: 20px;
-                        ">
-                        <h2>Lorem ipsum</h2>
-                        <p>
-                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Expedita voluptate, quibusdam ad
-                            dignissimos qu
-                        </p>
-                        <a style="
-                                color:#ED4C02 ;
-                            ">
-                            Seguir leyendo...
-                        </a>
-                    </div>
-
-                </div>
-
-
-            </div>
-
-
-            <div class='n-card'>
-                <div style='        position: relative;
-                overflow: hidden;
-                width: 100%;
-                height: 100%;'>
-                    <img style="
-                        border-radius:8px  8px  0px 0px;
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                        width: 100%;
-                        height: 50%;
-                        object-fit: cover;
-                        object-position: center;"
-                        src="https://guanajuato.mx/wp-content/uploads/2022/05/San-Miguel-de-Allende-Guanajuato-2.jpg"
-                        alt="">
-                    <div style="
-                        border-radius: 0px 0px 8px  8px  ;
-                        position: absolute;
-                        bottom: 0;
-                        left: 0;
-                        width: 100%;
-                        height: 50%;
-                        object-fit: cover;
-                        object-position: center;
-                        padding-left: 20px;
-                        padding-right: 20px;
-                        ">
-                        <h2>Lorem ipsum</h2>
-                        <p>
-                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Expedita voluptate, quibusdam ad
-                            dignissimos qu
-                        </p>
-                        <a style="
-                                color:#ED4C02 ;
-                            ">
-                            Seguir leyendo...
-
-                        </a>
-                    </div>
-
-                </div>
-
-
-            </div>
+                </div> -->
 
 
         </div>
 
-        <div style="
+
+    </div>
+
+    <div style="
         display: flex;
         justify-content: center;
         align-items: center;
@@ -1043,7 +1068,7 @@
         margin-top: 80px;
         margin-bottom: 40px;">
 
-            <div class="butom-m" style="
+        <div class="butom-m" style="
         background-image: linear-gradient(140.57deg, #ED4C02 0%, #FB8A55 100%);
         border-radius: 20px;
         width: 291px;
@@ -1054,17 +1079,17 @@
         margin: 0;
         padding: 0;
         cursor: pointer;">
-
+            <a href="{% url 'noticias_turisticas' %}">
                 <h4 style="
                 padding: 0;
                 margin: 0;
                 color: #fff;
                 font-family: 'Montserrat', sans-serif;
                 font-size: 15px;">VER TODAS LAS NOTICIAS</h4>
-
-            </div>
-
+            </a>
         </div>
+
+    </div>
 
     </div>
 

@@ -99,6 +99,29 @@ class PDFDownloadView(View):
         except (ConnectionResetError, BrokenPipeError):
             pass
         return response
+    
+class PDFReporteMensualDownloadView(View):
+    def get(self, request, *args, **kwargs):
+        # Get the PDF object
+        pdf = get_object_or_404(Reportes_Mensuales, id=kwargs['pk'])
+
+        # Download the file from the URL
+        r = requests.get(pdf.doc.url, stream=True)
+        # how to know the request is successful?
+        if r.status_code != 200:
+            return redirect('publicaciones_secciones')
+
+        # Send the file as a response
+        response = StreamingHttpResponse(r.iter_content(chunk_size=1024))
+        response['Content-Type'] = 'application/pdf'
+        response['Content-Disposition'] = 'attachment; filename="%s.pdf"' % pdf.titulo
+
+        try:
+            pdf.num_descargas += 1
+            pdf.save()
+        except (ConnectionResetError, BrokenPipeError):
+            pass
+        return response
 
 
 class PDFDownloadViewBack(View):
@@ -272,7 +295,10 @@ class NoticiaViewer (TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         noticia = get_object_or_404(Noticia, id=self.kwargs.get('pk'))
+        context['form_object'] =True
         context['noticia'] = noticia
+        context['img_url'] = noticia.imagen.url
+        context['nav_title'] = noticia.titulo
         return context
 
 
@@ -303,6 +329,28 @@ def search(request):
 
     data = [{'nombrePDF': obj.nombrePDF, 'url': obj.doc.url, 'id': obj.id}
             for obj in results]
+    return JsonResponse(data, safe=False)
+
+
+@require_GET
+def search_reportes_m(request):
+
+   
+
+    q = request.GET.get('q', '')
+    year = request.GET.get('year', '')
+    bim = request.GET.get('bim', '')
+
+    results = Reportes_Mensuales.objects.filter(titulo__icontains=q)
+    if year:
+        results = results.filter(ano__icontains=year)
+    if bim:
+        results = results.filter(mes__icontains=bim)
+
+    data = [{'nombrePDF': obj.titulo, 'url': obj.doc.url, 'id': obj.id}
+            for obj in results]
+    
+    print(data)
     return JsonResponse(data, safe=False)
 
 

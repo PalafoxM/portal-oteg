@@ -52,6 +52,7 @@ urlpatterns = [
     path('pdf/back/<int:pk>/', PDFDownloadViewBack.as_view(), name='pdf_back'),
     path('audioDownload/<int:pk>/', AudioDownload.as_view(), name='audio_download'),
     path('excel_download/<int:pk>/', ExelDownload.as_view(), name='excel_download'),
+    path('reporte_mensual_download/<int:pk>/', PDFReporteMensualDownloadView.as_view(), name='reporte_mensual_download'),
 
     
     path('perfil_visistante_ciudad/',PerfilVisitanteCiudad.as_view(), name='perfil_visistante_ciudad'),
@@ -93,7 +94,8 @@ urlpatterns = [
     # eventos
     path('eventos/',EventosView.as_view(), name='eventos'),
     path('eventos-list1/', eventos_list, name='eventos-list1'),
-    # 
 
-
+    #reportes mensuales search 
+    path('reportes_mensuales_search/', search_reportes_m, name='reportes_mensuales_search'),
+    
 ]

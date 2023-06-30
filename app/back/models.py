@@ -1348,3 +1348,11 @@ class Report(models.Model):
     ods15 = models.BooleanField(default=False)
     ods16 = models.BooleanField(default=False)
     ods17 = models.BooleanField(default=False)
+
+class Reportes_Mensuales(models.Model):
+    mes = models.CharField(max_length=100 ,blank=True)
+    ano = models.CharField(max_length=100 ,blank=True)
+    titulo = models.CharField(max_length=100 ,blank=True)
+    doc = models.FileField(upload_to='reportes_mensuales', storage=S3Storage(), verbose_name="Documento", blank=True)#
+    num_descargas =  models.IntegerField(null=True, blank=True, default=0)
+ 
