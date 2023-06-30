@@ -163,5 +163,5 @@ def get_reports(request):
 
     results = Report.objects.all()  
 
-    data = [{'titulo': obj.titulo, 'id': obj.id } for obj in results]
+    data = [{'titulo': obj.nomenclatura, 'id': obj.id } for obj in results]
     return JsonResponse(data, safe=False)
