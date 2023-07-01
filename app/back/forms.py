@@ -1575,4 +1575,43 @@ class ReportsForm(forms.ModelForm):
         self.fields['ods16'].widget.attrs['class'] = 'form-check-input'
         self.fields['ods17'].widget.attrs['class'] = 'form-check-input'
         
+class EniotForm(forms.ModelForm):
+    seccion = forms.ChoiceField(choices=(
+        ('', 'Selecciona una sección'),
+        ('programa-eniot', 'Programa ENIOT'),
+        ('memorias', 'Memorias'),
+        ('ponencia-eventos', 'Ponencia a eventos')
+    ), widget=forms.Select(attrs={'class': 'form-control'}))
+
+    class Meta:
+        model = Eniot
+        fields = ['nombrePDF', 'doc_url', 'seccion', 'anio']
+        labels = {
+            'nombrePDF': 'Nombre del PDF',
+            'doc_url': 'Documento',
+            'seccion': 'Sección',
+            'anio': 'Año',
+        }
+        widgets = {
+            'nombrePDF': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
+            'doc_url': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
+            'anio': forms.NumberInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
+        }
+
+class EniotAlbunForm(forms.ModelForm):
+    class Meta:
+        model = EniotAlbun
+        fields = ['nombreAlbun', 'descripcion', 'foto_url']
+        widgets = {
+            'nombreAlbun': forms.TextInput(attrs={'class': 'form-control'}),
+            'descripcion': forms.TextInput(attrs={'class': 'form-control'}),
+            'foto_url': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
+        }
+
+    def clean_foto_url(self):
+        foto = self.cleaned_data.get('foto_url', False)
+        if foto:
+            if not isinstance(foto, str) and not foto.name.lower().endswith(('.jpg', '.jpeg', '.png', '.gif')):
+                raise forms.ValidationError("Solo se permiten archivos de imagen (JPG, JPEG, PNG, GIF).")
+        return foto
 

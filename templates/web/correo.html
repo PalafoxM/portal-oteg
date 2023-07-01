@@ -1,14 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            color: #555;
+        }
+        .email {
+            color: #007bff;
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
-    <p>Hola mi nombre es {{name}} y soy del pais de {{contry}}</p>
-    <p>solicito: </p>
-    <p>{{message}}</p>
+    <div class="container">
+        <h1>Solicitud de Información</h1>
+        <p>Hola, mi nombre es {{name}} y soy del país {{contry}}.</p>
+        <p>Solicito:</p>
+        <p>{{message}}</p>
+        <p>Puedes contactarme a través de mi correo electrónico: <a href="mailto:{{Email}}" class="email">{{Email}}</a></p>
+    </div>
 </body>
 </html>

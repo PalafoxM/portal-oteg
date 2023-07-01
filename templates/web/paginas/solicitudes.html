@@ -1,48 +1,146 @@
 {% extends 'web/body.html' %}
 {% load static %}
 {% load widget_tweaks %}
+{% block head_view %}
+<style>
+    .card-s {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin-top: 20px;
+}
+
+.card-header {
+  flex-shrink: 0;
+}
+
+.card-body {
+  flex-grow: 1;
+}
+
+.card-footer {
+  flex-shrink: 0;
+}
+
+.card-header hr.sidebar-divider {
+  margin-top: 0;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+/* Estilos de los inputs */
+.form-group label {
+  font-weight: bold;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group textarea {
+  border-radius: 0.25rem;
+  border: 1px solid #ced4da;
+  padding: 0.375rem 0.75rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="email"]:focus,
+.form-group textarea:focus {
+  border-color: #ffb980;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(255, 119, 0, 0.25);
+}
+
+/* Estilos de la alerta de éxito */
+.alert {
+  position: relative;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+}
+
+.alert-success {
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+}
+
+.alert-success h5 {
+  margin-top: 0;
+}
+
+.alert-success p {
+  margin-bottom: 0;
+}
+
+/* Estilos del botón sin icono */
+.btn-primary-no-icon {
+  background-color: #ed4c02;
+  background-image: linear-gradient(to bottom, #ed4c02 0%, #fb8a55);
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+  padding: 0.375rem 0.75rem;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.btn-primary-no-icon:hover {
+  background-color: #e54300;
+}
+
+
+
+</style>
+  {% endblock %}
 
 
 <!-- contenido -->
 {% block content %}
+{% if messages %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <h5><i class="icon fas fa-check"></i> Solicitud enviada correctamente</h5>
+        <p>Gracias por enviar tu solicitud. Nos pondremos en contacto contigo pronto.</p>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+{% endif %}
 <form method="post" action="" enctype="multipart/form-data">
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Solicitudes</h6>
-            <hr class="sidebar-divider">
-        </div>
+    <div class="card-s shadow mb-4">
         <div class="card-body">
             {% csrf_token %}
             <input type="hidden" name="action" >
             {% if form.errors %}
-                        <div class="alert alert-danger alert-dismissible">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                            <h5><i class="icon fas fa-ban"></i> Ha ocurrido un error al querer guardar el registro</h5>
-                            <ul>
-                                {% for field in form %}
-                                    {% for error in field.errors %}
-                                        <li>{{ error }}</li>
-                                    {% endfor %}
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    {% endif %}
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h5><i class="icon fas fa-ban"></i> Ha ocurrido un error al querer guardar el registro</h5>
+                    <ul>
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
 
             {% for field in form.visible_fields %}
-                <div class="from-gruop">
-                    <label for="email">{{field.label}}</label>
-                    {{field|add_class:'form-control'}}
-
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field|add_class:'form-control' }}
                 </div>
             {% endfor %}
-            <!-- {{ form }} -->
         </div>
         <div class="card-footer">
-            
-            <button type="submit" class="btn btn-primary ">
-                <i class="fas fa-save"></i> Enviar
+            <button type="submit" class="btn btn-primary-no-icon">
+                 Enviar
             </button>
         </div>
     </div>
 </form>
+
 {% endblock %}

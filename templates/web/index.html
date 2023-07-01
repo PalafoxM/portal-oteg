@@ -5,42 +5,98 @@
 <head>
 
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <link
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <!-- <link
     href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap"
-    rel="stylesheet">
+    rel="stylesheet"> -->
 
   <title>OTEG |</title>
 
   <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="{% static 'librerias/bootstrap/css/bootstrap.min.css' %}">
+  <!-- <link rel="stylesheet" href="{% static 'librerias/bootstrap/css/bootstrap.min.css' %}"> -->
 
-  <!-- <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script> -->
+  <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
   <!-- Block head style -->
   {% block head %}
 
   {% endblock %}
   <style>
-    /* Estilos para el botón de Google Translate */
-    /* #google_translate_element {
-      display: inline-block;
-      margin-right: 10px;
-    }
-    .goog-te-combo {
-      border-color: #ccc;
-      color: #333;
-    }
-    .goog-te-combo option {
-      color: #333;
-    } */
+    /* Estilo del contenedor del widget */
+#google_translate_element {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+/* Estilo del botón de traducción */
+.goog-te-combo {
+  border-color: #ccc;
+  color: #333;
+  padding: 5px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  background-color: #fff;
+  border-radius: 4px;
+}
+
+/* Estilo del texto dentro del botón de traducción */
+.goog-te-combo option {
+  color: #333;
+}
+
+/* Estilo del menú desplegable de idiomas */
+.goog-te-menu-value {
+  padding: 5px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo de los elementos del menú desplegable de idiomas */
+.goog-te-menu2 {
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo de los elementos del menú desplegable de idiomas cuando se pasa el mouse sobre ellos */
+.goog-te-menu2-item:hover {
+  background-color: #f0f0f0;
+}
+
+/* Estilo del botón de cierre del menú desplegable de idiomas */
+.goog-te-menu2-close-btn {
+  display: none;
+}
+
+/* Estilo del texto "Traducir" en el botón de traducción */
+.goog-te-combo-label {
+  color: #333;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+}
+
+/* Estilo del ícono de flecha hacia abajo en el botón de traducción */
+.goog-te-combo-arrow {
+  background-image: url('https://translate.google.com/translate/releases/twsfe_w_20191209_RC00/public/dictionaries/google_default/arrow_down.png');
+  width: 16px;
+  height: 16px;
+  margin-top: -8px;
+}
+
   </style>
   
 
 </head>
 
 <body>
+  <div id="google_translate_element"></div>
   
 
   {% block body %}
@@ -58,12 +114,12 @@
 
     function setFixedMenuPosition() {
       var translateElement = document.getElementById('google_translate_element');
-      if (translateElement) {
+      var fixedMenu = document.getElementsByClassName('all-fixed')[0];
+      
+      if (translateElement && fixedMenu) {
         var translateHeight = translateElement.offsetHeight;
-        var fixedMenu = document.getElementsByClassName('all-fixed')[0];
         fixedMenu.style.top = translateHeight + 'px';
-      } else {
-        var fixedMenu = document.getElementsByClassName('all-fixed')[0];
+      } else if (fixedMenu) {
         fixedMenu.style.top = '0';
       }
     }

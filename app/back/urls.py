@@ -53,6 +53,7 @@ from back.views.fuente_info_dt_recintos_auditorios_y_salones.views import *
 from back.views.fuente_info_dt_spa.views import *
 from back.views.fuente_info_pasajeros_ent_nac.views import *
 from back.views.modulo_reportes.views import *
+from back.views.eniot.views import *
 from back.views.modulo_encuestas.views import *
 from back.views.reportes_mensuales.views import *
 
@@ -523,6 +524,16 @@ urlpatterns = [
     path('reports/<int:pk>/', ReporteDetail.as_view(), name='report_detail'),
     path('get_reports/', get_reports, name='get_reports'),
 
+    # ENIOT
+    path('eniot/list', EniotListView.as_view(), name='eniot_list'),
+    path('eniot/add', EniotCreateView.as_view(), name='eniot_create'),
+    path('eniot/edit/<int:pk>/', EniotUpdateView.as_view(), name='eniot_update'),
+    path('eniot/delete/<int:pk>/', EniotDeleteView.as_view(), name='eniot_delete'),
+
+    path('eniot/fotos/list', EniotAlbunListView.as_view(), name='eniot_fotos_list'),
+    path('eniot/fotos/add', EniotAlbunCreateView.as_view(), name='eniot_fotos_create'),
+    path('eniot/fotos/edit/<int:pk>/', EniotAlbunUpdateView.as_view(), name='eniot_fotos_update'),
+    path('eniot/fotos/delete/<int:pk>/', EniotAlbunDeleteView.as_view(), name='eniot_fotos_delete'),
     # encuestas
 
     path('encuestas/', EncuestaView.as_view(), name='modulo_encuestas'),
