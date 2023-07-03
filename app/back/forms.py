@@ -1542,21 +1542,17 @@ class ReportsForm(forms.ModelForm):
     class Meta:
         model = Report
         fields = '__all__'
+        exclude = ['dimension']
 
     def __init__ (self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         self.fields['titulo'].widget.attrs['class'] = 'custom-input'
         self.fields['titulo'].widget.attrs['icon_class'] = 'fas fa-search'
-
         self.fields['nomenclatura'].widget.attrs['class'] = 'custom-input'
         self.fields['nomenclatura'].widget.attrs['icon_class'] = 'fas fa-search'
-        self.fields['dimension'].widget.attrs['class'] = 'custom-input'
-        self.fields['dimension'].widget.attrs['icon_class'] = 'fas fa-search'
-
         self.fields['iframe'].widget.attrs['class'] = 'custom-input'
         self.fields['iframe'].widget.attrs['icon_class'] = 'fas fa-search'
-
         self.fields['ods1'].widget.attrs['class'] = 'form-check-input'
         self.fields['ods2'].widget.attrs['class'] = 'form-check-input'
         self.fields['ods3'].widget.attrs['class'] = 'form-check-input'
