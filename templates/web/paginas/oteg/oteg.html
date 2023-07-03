@@ -1,18 +1,44 @@
 {% extends 'web/body.html' %}
 {% load static %}
+{% block head_view %}
+<!-- <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script> -->
+<style>
+ .card-title {
+  font-weight: bold;
+  font-size: 20px;
+}
 
+.card-text {
+  text-align: justify;
+}
+
+.tittle-v1 {
+  font-weight: bold;
+
+  
+}
+.mf-pf{
+    margin-top: 25px !important;
+  padding-left: 30px !important;
+  padding-right: 30px !important;;
+}
+
+
+</style>
+{% endblock %}
 
 <!-- contenido -->
 {% block content %}
 
 <div class="row pl-5 pr-5 pt-5 pb-5">
-    <div class="col-lg-12 mt-5">
-        <h3>¿ QUÉ ES EL OBSERVATORIO TURÍSTICO DEL ESTADO DE GUANAJUATO ?</h3>
+    <div class="col-lg-12 mt-5 mf-pf">
+        <h3 class="card-title">¿ QUÉ ES EL OBSERVATORIO TURÍSTICO DEL ESTADO DE GUANAJUATO ?</h3>
         <p>Es un espacio de análisis, técnico, intersectorial e interdisciplinario bajo el cual un grupo de personas y/o
             entidades se agrupan y organizan con el propósito de vigilar, medir y verificar la evolución del sector
             turismo en el Estado de Guanajuato.</p>
     </div>
-    <div class="col-lg-12 mt-5">
+    <div class="col-lg-6 mt-5">
         <div class="card-oteg">
             <div class="card-body">
                 <h5 class="card-title">MISIÓN</h5>
@@ -23,7 +49,7 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-12 mt-5">
+    <div class="col-lg-6 mt-5">
         <div class="card-oteg">
             <div class="card-body">
                 <h5 class="card-title">VISIÓN</h5>
@@ -38,7 +64,7 @@
     <div class="col-lg-12 mt-5">
         <div class="">
             <div class="">
-                <h5 class="">¿QUIÉNES LO INTEGRAN?</h5>
+                <h5 class="card-title">¿QUIÉNES LO INTEGRAN?</h5>
                 <div id="svg-container" style="width: 100%; height: auto;">
                     <embed src="{% static 'images/fuentes_informacion/Organigrama.svg' %}" type="image/svg+xml"
                         onload="handleSVGLoad()" style="width: 100%; height: auto;"/>
