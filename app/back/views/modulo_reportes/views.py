@@ -21,6 +21,7 @@ import json
 from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino
 from django.shortcuts import get_object_or_404
 from django.http import Http404
+from django.db.models import Q
 
 
 # Create your views here.
@@ -161,7 +162,7 @@ class ReporteDetail (TemplateView):
 def get_reports(request):
     q = request.GET.get('q', '')
 
-    results = Report.objects.all()  
-
+    results = Report.objects.filter(~Q(nomenclatura__icontains='OTEG'))
+    # results = Report.objects.all()
     data = [{'titulo': obj.nomenclatura, 'id': obj.id } for obj in results]
     return JsonResponse(data, safe=False)
