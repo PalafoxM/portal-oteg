@@ -27,17 +27,44 @@
         font-weight: bold;
         font-size: 14px;
     }
-    .legend-item {
-        border: 1px solid black;
-        padding: 5px;
-    }
-    .legend-circle {
-        display: inline-block;
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        margin-right: 5px;
-    }
+    .legend-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.legend-circle {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+.legend span {
+  font-family: Montserrat;
+  font-size: 14px;
+  color: #333333;
+}
+
+    .fc-button-primary {
+  background-image: linear-gradient(140.57deg, #ED4C02 0%, #ED4C02 100%);
+  border: none;
+  color: #ffffff;
+}
+
+.fc-button-primary:hover {
+  background-image: linear-gradient(140.57deg, #ED4C02 0%, #ED4C02 100%);
+}
+
 </style>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.js"></script>
@@ -52,9 +79,9 @@
 
     // Define the colors for each event type
     let coloresPorTipo = {
-        'internacionales': '#FF5733',
-        'nacionales': '#6A5ACD',
-        'estatales': '#00CED1', // Add a default color for any other event type
+        'internacionales': '#FF1493',
+        'nacionales': '#00BFFF',
+        'estatales': '#5ED506', 
     };
 
     // Fetch the events data from the server and render them in the calendar
@@ -77,6 +104,12 @@
                         left: 'prev,next today',
                         center: 'title',
                         right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                    },
+                    buttonText: {
+                        month: 'Mes',
+                        week: 'Semana',
+                        day: 'Día',
+                        today: 'Hoy'
                     },
                     locale: initialLocaleCode,
                     events: eventos,
@@ -118,18 +151,21 @@
                 });
 
                 // Add legend for event types
-                var legend = $("<div>").addClass("legend");
-                for (var tipoEvento in coloresPorTipo) {
-                    var div = $("<div>").addClass("legend-item");
-                    var color = coloresPorTipo[tipoEvento];
-                    var span = $("<span>").text(tipoEvento.charAt(0).toUpperCase() + tipoEvento.slice(1));
-                    var circulo = $("<div>").addClass("legend-circle").css("background-color", color);
-                    // div.append($("<div>").addClass("legend-color").css({"background-color": color, "border": "1px solid " + color}));
-                    div.append(circulo);
-                    div.append(span);
-                    legend.append(div);
-                }
+                
                 $("#search-results").append(legend);
+                var legend = $("<div>").addClass("legend");
+
+                for (var tipoEvento in coloresPorTipo) {
+                var div = $("<div>").addClass("legend-item");
+                var color = coloresPorTipo[tipoEvento];
+                var span = $("<span>").text(tipoEvento.charAt(0).toUpperCase() + tipoEvento.slice(1));
+                var circulo = $("<div>").addClass("legend-circle").css("background-color", color);
+                div.append(circulo);
+                div.append(span);
+                legend.append(div);
+                }
+
+                $(".legend-container").append(legend);
 
                 calendar.render();
             })
@@ -147,8 +183,9 @@
 {% block content %}
 <div class="row row-cols-1 row-cols-md-1 mt-5">
     <div class="col mt-5">
+        <div id="search-results" class="legend-container"></div>
         <div id='calendar'></div>
-        <div id="search-results" style="display: flex; "></div>
+
     </div>
 </div>
 

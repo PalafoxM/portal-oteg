@@ -546,9 +546,7 @@ body {
 }
 /* oteg */
 .card-oteg {
-    /* width: 350px;
-    height: 360px; */
-    background-color: #f2f2f2;
+    
     cursor: grab;
     user-select: none;
     flex-shrink: 0;

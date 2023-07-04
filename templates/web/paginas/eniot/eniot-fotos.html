@@ -29,6 +29,9 @@
   transform: scale(2);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+.mt-6{
+  margin-top: 35px;
+}
 
 </style>
   {% endblock %}
@@ -37,15 +40,15 @@
 {% block content %}
 
 <div class="row pl-5 pr-5 pt-5 pb-5">
-    <div class="col-lg-12 mt-5 text-center">
+    <!-- <div class="col-lg-12 mt-5 text-center">
         <h3>ENIOT MEMORIAS</h3>
         <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum laudantium impedit, labore dolores dolorum
             voluptatibus accusantium debitis voluptas velit ratione molestiae nulla cum, voluptate temporibus aperiam
             rem dolore est eaque.</p>
-    </div>
+    </div> -->
 </div>
 
-<div class="col">
+<div class="col mt-6">
 {% if albums %}
     {% for album in albums %}
     <div style="
