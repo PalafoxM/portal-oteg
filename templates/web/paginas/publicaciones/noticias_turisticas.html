@@ -19,7 +19,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
+    <link rel="stylesheet" href="{% static 'normalize/normal.css' %}">
 
 </head>
 
@@ -752,6 +752,59 @@
             /* Fully visible */
         }
     }
+
+
+    @media only screen and (max-width: 767px) {
+
+        /* CSS styles for mobile devices */
+        .scrolling-wrapper {
+            display: none !important;
+        }
+
+        .wrapper2 {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+
+        }
+    }
+
+    /* Tablets and larger mobile devices */
+    @media only screen and (min-width: 768px) and (max-width: 1023px) {
+        /* CSS styles for tablets and larger mobile devices */
+
+        .scrolling-wrapper {
+            display: none !important;
+        }
+
+        .wrapper2 {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+    }
+
+    /* Desktop devices */
+    @media only screen and (min-width: 1024px) {
+        /* CSS styles for desktop devices */
+
+        .scrolling-wrapper {
+            display: flex !important;
+        }
+
+        .wrapper2 {
+
+            display: none !important;
+
+        }
+
+    }
 </style>
 
 <body>
@@ -767,7 +820,9 @@
     </div>
 
     {% include 'web/components/navbar_new/navbar_new.html' %}
-    <div class="container">
+    <div class="container" style="
+        margin-bottom: 20px;
+    ">
 
         <h3 style="
         color: #333333;
@@ -778,7 +833,84 @@
         margin-left: 20px;
         text-align: left; ">Publicaciones Recientes</h3>
 
+        {% include 'web/components/glosario/glosario.html' %}
+
     </div>
+
+    <div class="container">
+
+        <div class="wrapper2">
+            {% for section in noticias %}
+
+
+
+            <div class='card'>
+                <div style='        
+                position: relative;
+                overflow: hidden;
+                width: 100%;
+                height: 100%;'>
+
+                    {% if section.imagen %}
+                    <img style="
+                        border-radius:8px  8px  0px 0px;
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 65%;
+                        object-fit: cover;
+                        object-position: center;" src="{{section.imagen.url}}" alt="">
+                    {% else %}
+
+                    <img style="
+                    border-radius:8px  8px  0px 0px;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 65%;
+                    object-fit: cover;
+                    object-position: center;" src="{% static 'img_nav/defaultimage.webp' %}" alt="">
+
+
+                    {% endif %}
+
+                    <div style="
+                        border-radius: 0px 0px 8px  8px  ;
+                        position: absolute;
+                        bottom: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 35%;
+                        object-fit: cover;
+                        object-position: center;
+                        padding-left: 20px;
+                        padding-right: 20px;
+                        ">
+                        <h2>{{section.titulo}}</h2>
+                        <a href="{% url 'notica_viewer' section.id %}" style="
+                                color:#ED4C02 ;
+                                font-family: Montserrat;
+                                font-size: 14px;
+                            ">
+                            Seguir leyendo...
+
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+
+        </div>
+
+    </div>
+
+
 
 
     <div class="scrolling-wrapper">
@@ -947,7 +1079,7 @@
 
     <div class="container">
 
-        {% include 'web/components/glosario/glosario.html' %}
+
 
         <!-- 
         <h2 style="

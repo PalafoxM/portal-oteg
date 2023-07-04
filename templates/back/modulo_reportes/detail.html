@@ -12,6 +12,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="{% static 'admin/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+
 </head>
 
 
@@ -580,19 +582,17 @@
         transform: scale(1.2);
     }
 
-    .ods-icon{
+    .ods-icon {
         border-radius: 8px;
-        
+
         box-shadow: -12px 15px 18px -3px rgba(0, 0, 0, 0.1);
         transition: transform 0.3s ease;
     }
 
-    .ods-icon:hover{
+    .ods-icon:hover {
         transform: scale(1.1);
         cursor: pointer;
     }
-
-    
 </style>
 
 <body>
@@ -804,22 +804,54 @@
 
             </div> -->
 
+            {% if report.nomenclatura == 'Tablero de Control' %}
+
+            <div style="display:flex;
+                justify-content: space-around;
+                align-items: center;
+                flex-wrap: wrap;
+                
+                ">
+                <div style="
+                        width: 50%;
+                        display: flex;
+                        justify-content: space-around;
+                        align-items: center;
+                        background-color: #DEE2E6;  
+                        border-radius: 8px;
+                        padding: 20px;
+                        background-image: linear-gradient(140.57deg, #ED4C02 0%, #FB8A55 100%);
+
+
+                    ">
+
+                    <div>
+                        <h2
+                            style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 20px; color: #fff; padding: 0; margin: 0;">
+                            Resumen Estatal</h2>
+                        <a style=" font-family: Poppins; color: #fff; font-weight: 300;" href="{% url 'dashboard:report_detail' 31 %}">Ver mas</a>
+                    </div>
+                    <div>
+                        <a
+                        href="{% url 'dashboard:report_detail' 31 %}"
+                        class="fas fa-chevron-circle-right"
+                        style="font-size: 30px; color: #fff; margin-left: 20px; margin-right: 20px; margin-top: 10px; margin-bottom: 10px; cursor: pointer; text-decoration: none;"
+                        >
+
+                    </a>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+
+            {% else %}
             <button
-                style="width: 100%;
-                    background-color: #ED4C02;
-                    color: #fff;
-                    border: none;
-                    padding: 10px 20px;
-                    border-radius: 5px;
-                    margin-top: 20px;
-                    margin-bottom: 20px;
-                    font-family: 'Montserrat', sans-serif;
-                    font-weight: 300;
-
-
-"
-            
-            data-toggle="collapse" data-target="#demo">Descripcion</button>
+                style="width: 100%; background-color: #ED4C02; color: #fff; border: none; padding: 10px 20px; border-radius: 5px; margin-top: 20px; margin-bottom: 20px; font-family: 'Montserrat', sans-serif; font-weight: 300;"
+                data-toggle="collapse" data-target="#demo">Descripcion</button>
             <div id="demo" class="collapse">
                 <div class="accordion-body">
                     {{report.descripcion |safe}}
@@ -830,81 +862,97 @@
                             align-items: center;
                             flex-wrap: wrap;">
 
-
                         {% if report.ods1 %}
-                        <img class="ods-icon" src="http://www.un.org/sustainabledevelopment/es/wp-content/uploads/sites/3/2016/01/S_SDG_Icons-01-01.jpg"
+                        <img class="ods-icon"
+                            src="http://www.un.org/sustainabledevelopment/es/wp-content/uploads/sites/3/2016/01/S_SDG_Icons-01-01.jpg"
                             alt="" style="width: 120px; height: 120px; margin-top: 10px;">
                         {% endif %}
 
                         {% if report.ods2 %}
-                        <img class="ods-icon" src="http://www.un.org/sustainabledevelopment/es/wp-content/uploads/sites/3/2016/01/S_SDG_Icons-01-02.jpg"
+                        <img class="ods-icon"
+                            src="http://www.un.org/sustainabledevelopment/es/wp-content/uploads/sites/3/2016/01/S_SDG_Icons-01-02.jpg"
                             alt="" style="width: 120px; height: 120px; margin-top: 10px;">
                         {% endif %}
 
                         {% if report.ods3 %}
-                        <img class="ods-icon" src="http://www.un.org/sustainabledevelopment/es/wp-content/uploads/sites/3/2016/01/S_SDG_Icons-01-03.jpg"
+                        <img class="ods-icon"
+                            src="http://www.un.org/sustainabledevelopment/es/wp-content/uploads/sites/3/2016/01/S_SDG_Icons-01-03.jpg"
                             alt="" style="width: 120px; height: 120px; margin-top: 10px;">
                         {% endif %}
 
                         {% if report.ods4 %}
-                        <img class="ods-icon" src="http://www.un.org/sustainabledevelopment/es/wp-content/uploads/sites/3/2016/01/S_SDG_Icons-01-04.jpg"
+                        <img class="ods-icon"
+                            src="http://www.un.org/sustainabledevelopment/es/wp-content/uploads/sites/3/2016/01/S_SDG_Icons-01-04.jpg"
                             alt="" style="width: 120px; height: 120px; margin-top: 10px;">
                         {% endif %}
 
                         {% if report.ods5 %}
-                        <img class="ods-icon" src="http://www.un.org/sustainabledevelopment/es/wp-content/uploads/sites/3/2016/01/S_SDG_Icons-01-05.jpg"
+                        <img class="ods-icon"
+                            src="http://www.un.org/sustainabledevelopment/es/wp-content/uploads/sites/3/2016/01/S_SDG_Icons-01-05.jpg"
                             alt="" style="width: 120px; height: 120px;margin-top: 10px;">
                         {% endif %}
 
                         {% if report.ods6 %}
-                        <img class="ods-icon" src="http://www.un.org/sustainabledevelopment/es/wp-content/uploads/sites/3/2016/01/S_SDG_Icons-01-06.jpg"
+                        <img class="ods-icon"
+                            src="http://www.un.org/sustainabledevelopment/es/wp-content/uploads/sites/3/2016/01/S_SDG_Icons-01-06.jpg"
                             alt="" style="width: 120px; height: 120px;margin-top: 10px;">
                         {% endif %}
 
                         {% if report.ods7 %}
-                        <img class="ods-icon" src="http://www.un.org/sustainabledevelopment/es/wp-content/uploads/sites/3/2016/01/S_SDG_Icons-01-07.jpg"
+                        <img class="ods-icon"
+                            src="http://www.un.org/sustainabledevelopment/es/wp-content/uploads/sites/3/2016/01/S_SDG_Icons-01-07.jpg"
                             alt="" style="width: 120px; height: 120px;margin-top: 10px;">
                         {% endif %}
 
                         {% if report.ods8 %}
-                        <img class="ods-icon" src="http://www.un.org/sustainabledevelopment/es/wp-content/uploads/sites/3/2016/01/S_SDG_Icons-01-08.jpg"
+                        <img class="ods-icon"
+                            src="http://www.un.org/sustainabledevelopment/es/wp-content/uploads/sites/3/2016/01/S_SDG_Icons-01-08.jpg"
                             alt="" style="width: 120px; height: 120px;margin-top: 10px;">
                         {% endif %}
 
                         {% if report.ods9 %}
-                        <img class="ods-icon" src="https://www.un.org/sustainabledevelopment/wp-content/uploads/sites/3/2015/09/S_SDG_Icons-01-09.jpg"
+                        <img class="ods-icon"
+                            src="https://www.un.org/sustainabledevelopment/wp-content/uploads/sites/3/2015/09/S_SDG_Icons-01-09.jpg"
                             alt="" style="width: 120px; height: 120px;margin-top: 10px;">
                         {% endif %}
                         {% if report.ods10 %}
-                        <img class="ods-icon" src="http://www.un.org/sustainabledevelopment/es/wp-content/uploads/sites/3/2016/01/S_SDG_Icons-01-10.jpg"
+                        <img class="ods-icon"
+                            src="http://www.un.org/sustainabledevelopment/es/wp-content/uploads/sites/3/2016/01/S_SDG_Icons-01-10.jpg"
                             alt="" style="width: 120px; height: 120px;margin-top: 10px;">
                         {% endif %}
                         {% if report.ods11 %}
-                        <img class="ods-icon" src="http://www.un.org/sustainabledevelopment/es/wp-content/uploads/sites/3/2016/01/S_SDG_Icons-01-11.jpg"
+                        <img class="ods-icon"
+                            src="http://www.un.org/sustainabledevelopment/es/wp-content/uploads/sites/3/2016/01/S_SDG_Icons-01-11.jpg"
                             alt="" style="width: 120px; height: 120px;margin-top: 10px;">
                         {% endif %}
                         {% if report.ods12 %}
-                        <img class="ods-icon" src="https://www.un.org/sustainabledevelopment/wp-content/uploads/sites/3/2015/09/S_SDG_Icons-01-12.jpg"
+                        <img class="ods-icon"
+                            src="https://www.un.org/sustainabledevelopment/wp-content/uploads/sites/3/2015/09/S_SDG_Icons-01-12.jpg"
                             alt="" style="width: 120px; height: 120px;margin-top: 10px;">
                         {% endif %}
                         {% if report.ods13 %}
-                        <img class="ods-icon" src="http://www.un.org/sustainabledevelopment/es/wp-content/uploads/sites/3/2016/01/S_SDG_Icons-01-13.jpg"
+                        <img class="ods-icon"
+                            src="http://www.un.org/sustainabledevelopment/es/wp-content/uploads/sites/3/2016/01/S_SDG_Icons-01-13.jpg"
                             alt="" style="width: 120px; height: 120px;margin-top: 10px;">
                         {% endif %}
                         {% if report.ods14 %}
-                        <img class="ods-icon" src="http://www.un.org/sustainabledevelopment/es/wp-content/uploads/sites/3/2016/01/S_SDG_Icons-01-14.jpg"
+                        <img class="ods-icon"
+                            src="http://www.un.org/sustainabledevelopment/es/wp-content/uploads/sites/3/2016/01/S_SDG_Icons-01-14.jpg"
                             alt="" style="width: 120px; height: 120px;margin-top: 10px;">
                         {% endif %}
                         {% if report.ods15 %}
-                        <img class="ods-icon" src="http://www.un.org/sustainabledevelopment/es/wp-content/uploads/sites/3/2016/01/S_SDG_Icons-01-15.jpg"
+                        <img class="ods-icon"
+                            src="http://www.un.org/sustainabledevelopment/es/wp-content/uploads/sites/3/2016/01/S_SDG_Icons-01-15.jpg"
                             alt="" style="width: 120px; height: 120px;margin-top: 10px;">
                         {% endif %}
                         {% if report.ods16 %}
-                        <img class="ods-icon" src="http://www.un.org/sustainabledevelopment/es/wp-content/uploads/sites/3/2016/01/S_SDG_Icons-01-16.jpg"
+                        <img class="ods-icon"
+                            src="http://www.un.org/sustainabledevelopment/es/wp-content/uploads/sites/3/2016/01/S_SDG_Icons-01-16.jpg"
                             alt="" style="width: 120px; height: 120px;margin-top: 10px;">
                         {% endif %}
                         {% if report.ods17 %}
-                        <img class="ods-icon" src="http://www.un.org/sustainabledevelopment/es/wp-content/uploads/sites/3/2016/01/S_SDG_Icons-01-17.jpg"
+                        <img class="ods-icon"
+                            src="http://www.un.org/sustainabledevelopment/es/wp-content/uploads/sites/3/2016/01/S_SDG_Icons-01-17.jpg"
                             alt="" style="width: 120px; height: 120px;margin-top: 10px;">
                         {% endif %}
 
@@ -914,6 +962,8 @@
 
                 </div>
             </div>
+
+            {% endif %}
 
 
         </div>

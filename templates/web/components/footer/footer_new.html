@@ -40,7 +40,7 @@ margin-top: 40px;
                     text-align: left;'>
                     Parque Guanajuato Bicentenario
                     Carretera de Cuota Silao - Guanajuato Km 3.8 Silao, Guanajuato., C.P. 36270
-                    <br>Tel. (472) 103 99 00 Ext. 140 |observatorioturisticogto@gmail.com
+                    <br>Tel. (472) 103 99 00 Ext. 140 observatorioturisticogto@gmail.com
                 </p>
                 <a class="footer-link"> MAPA DE SITIO </a>
                 {% if user.is_authenticated %}
@@ -62,9 +62,8 @@ margin-top: 40px;
              
 
                 <a class="footer-link"> Nacionales </a>
-                <a class="footer-link"> Tablero de Control</a>
-                <a class="footer-link"> Resumen Estatal </a>
-                <h4 class="footer-title">Indicadores</h4>
+
+                <a href="{% url 'dashboard:report_detail' 30 %}" class="footer-title">Indicadores</a>
                 <div id="reports"></div>
 
               

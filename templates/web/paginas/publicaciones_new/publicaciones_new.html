@@ -6,7 +6,11 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>INICIO OTEG</title>
+    <link rel="stylesheet" href="{% static 'web/css/baner.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'fontawesome-free/css/all.min.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,6 +18,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'normalize/normal.css' %}">
 
 </head>
 
@@ -173,9 +178,13 @@
             font-size: 40px;
             letter-spacing: 0;
         }
+
     }
 
     @media only screen and (max-width: 767px) {
+
+
+
         .navbar-default .navbar-collapse {
             border-color: transparent;
             background: #333333;
@@ -580,6 +589,58 @@
         cursor: pointer;
         transform: scale(1.2);
     }
+
+    @media only screen and (max-width: 767px) {
+
+        /* CSS styles for mobile devices */
+        .scrolling-wrapper {
+            display: none !important;
+        }
+
+        .wrapper2 {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+
+        }
+    }
+
+    /* Tablets and larger mobile devices */
+    @media only screen and (min-width: 768px) and (max-width: 1023px) {
+        /* CSS styles for tablets and larger mobile devices */
+
+        .scrolling-wrapper {
+            display: none !important;
+        }
+
+        .wrapper2 {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+    }
+
+    /* Desktop devices */
+    @media only screen and (min-width: 1024px) {
+        /* CSS styles for desktop devices */
+
+        .scrolling-wrapper {
+            display: flex !important;
+        }
+
+        .wrapper2 {
+
+            display: none !important;
+
+        }
+
+    }
 </style>
 
 <body>
@@ -642,11 +703,8 @@
 
     </div>
 
-    <div class="scrolling-wrapper">
-
+    <div class="wrapper2">
         {% for section in secciones %}
-
-
 
         <div class='card'>
             <div style='        
@@ -664,9 +722,7 @@
                         width: 100%;
                         height: 65%;
                         object-fit: cover;
-                        object-position: center;"
-                    src="{{section.imagen.url}}"
-                    alt="">
+                        object-position: center;" src="{{section.imagen.url}}" alt="">
                 {% else %}
 
                 <img style="
@@ -677,9 +733,74 @@
                     width: 100%;
                     height: 65%;
                     object-fit: cover;
-                    object-position: center;"
-                    src="{% static 'img_nav/defaultimage.webp' %}"
-                    alt="">
+                    object-position: center;" src="{% static 'img_nav/defaultimage.webp' %}" alt="">
+
+
+                {% endif %}
+
+                <div style="
+                        border-radius: 0px 0px 8px  8px  ;
+                        position: absolute;
+                        bottom: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 35%;
+                        object-fit: cover;
+                        object-position: center;
+                        padding-left: 20px;
+                        padding-right: 20px;
+                        ">
+                    <h2>{{section.seccion}}</h2>
+                    <a href="{% url 'publicaciones_secciones' section.id %}" style="
+                                color:#ED4C02 ;
+                                font-family: Montserrat;
+                                font-size: 14px;
+                            ">
+                        Seguir leyendo...
+
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    <div class="scrolling-wrapper">
+
+        {% for section in secciones %}
+
+        <div class='card'>
+            <div style='        
+                position: relative;
+                overflow: hidden;
+                width: 100%;
+                height: 100%;'>
+
+                {% if section.imagen %}
+                <img style="
+                        border-radius:8px  8px  0px 0px;
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 65%;
+                        object-fit: cover;
+                        object-position: center;" src="{{section.imagen.url}}" alt="">
+                {% else %}
+
+                <img style="
+                    border-radius:8px  8px  0px 0px;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 65%;
+                    object-fit: cover;
+                    object-position: center;" src="{% static 'img_nav/defaultimage.webp' %}" alt="">
 
 
                 {% endif %}
@@ -807,13 +928,8 @@
         });
     </script>
 
-
-</body>
-
-
 {% include 'web/components/footer/footer_new.html' %}
-
-
+</body>
 
 
 </html>
