@@ -652,7 +652,7 @@
 
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="{% url 'inicio' %}" class="nav-text">INICIO</a></li>
-                        <li><a class="nav-text">Indicadores</a></li>
+                        <li><a href="{% url 'dashboard:report_detail' 30 %}" class="nav-text">Indicadores</a></li>
                         <li><a href="{% url 'publicaciones_new' %}" class="nav-text">Publicaciones</a></li>
                         <li><a href="{% url 'inventario-turistico' %}" class="nav-text">Inventario Turístico</a></li>
                         <li><a href="{% url 'entorno-nacional'%}" class="nav-text">Entorno Nacional</a></li>
