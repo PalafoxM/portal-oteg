@@ -45,7 +45,7 @@ def solicitudes(request):
     
     context = {
         'form': form,
-        'nav_title': 'Ultimos Eventos',
+        'nav_title': 'SOLICITUDES',
         'img_url': 'img_nav/pdf.png',
     }
 

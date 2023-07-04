@@ -25,14 +25,15 @@
   <style>
     /* Estilo del contenedor del widget */
 #google_translate_element {
+  -moz-transform: translate(0, 0);
   display: inline-block;
   margin-right: 10px;
 }
 
 /* Estilo del botón de traducción */
 .goog-te-combo {
-  border-color: #ccc;
-  color: #333;
+  border-color: #ccc !important;
+  color: #333 !important;
   padding: 5px;
   font-family: Arial, sans-serif;
   font-size: 14px;
@@ -89,6 +90,11 @@
   height: 16px;
   margin-top: -8px;
 }
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  #google_translate_element {
+    position: absolute;
+  }
+}
 
   </style>
   
@@ -96,7 +102,7 @@
 </head>
 
 <body>
-  <div id="google_translate_element"></div>
+  <!-- <div id="google_translate_element"></div> -->
   
 
   {% block body %}
@@ -109,8 +115,12 @@
   
   <script>
     function googleTranslateElementInit() {
-      new google.translate.TranslateElement({pageLanguage: 'es', includedLanguages: 'en,fr', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
-    }
+  new google.translate.TranslateElement({
+    pageLanguage: 'es',
+    includedLanguages: 'en,it,ja,pt',
+    layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+  }, 'google_translate_element');
+}
 
     function setFixedMenuPosition() {
       var translateElement = document.getElementById('google_translate_element');

@@ -104,7 +104,7 @@ class EniotEventosFotosView(TemplateView):
 
         context['albums'] = albums
         context['fotos'] = fotos
-        context['nav_title'] = 'Ultimos Eventos'
+        context['nav_title'] = 'ÁLBUM ENIOT'
         context['img_url'] = 'img_nav/pdf.png'
 
         print(fotos)

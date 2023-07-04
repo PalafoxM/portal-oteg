@@ -14,6 +14,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <link rel="stylesheet" href="{% static 'web/css/nabar-portal.css' %}">
 
 </head>
 
@@ -580,19 +582,84 @@
         cursor: pointer;
         transform: scale(1.2);
     }
+    /* Estilo del contenedor del widget */
+#google_translate_element {
+  -moz-transform: translate(0, 0);
+  display: inline-block;
+  margin-right: 10px;
+}
+
+/* Estilo del botón de traducción */
+.goog-te-combo {
+  border-color: #ccc !important;
+  color: #333 !important;
+  padding: 5px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  background-color: #fff;
+  border-radius: 4px;
+}
+
+/* Estilo del texto dentro del botón de traducción */
+.goog-te-combo option {
+  color: #333;
+}
+
+/* Estilo del menú desplegable de idiomas */
+.goog-te-menu-value {
+  padding: 5px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo de los elementos del menú desplegable de idiomas */
+.goog-te-menu2 {
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo de los elementos del menú desplegable de idiomas cuando se pasa el mouse sobre ellos */
+.goog-te-menu2-item:hover {
+  background-color: #f0f0f0;
+}
+
+/* Estilo del botón de cierre del menú desplegable de idiomas */
+.goog-te-menu2-close-btn {
+  display: none;
+}
+
+/* Estilo del texto "Traducir" en el botón de traducción */
+.goog-te-combo-label {
+  color: #333;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+}
+
+/* Estilo del ícono de flecha hacia abajo en el botón de traducción */
+.goog-te-combo-arrow {
+  background-image: url('https://translate.google.com/translate/releases/twsfe_w_20191209_RC00/public/dictionaries/google_default/arrow_down.png');
+  width: 16px;
+  height: 16px;
+  margin-top: -8px;
+}
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  #google_translate_element {
+    position: absolute;
+  }
+}
 </style>
 
 <body>
 
 
-    <div class="social-media-stiky">
-        <a href="https://twitter.com/ObservaTur_GTO" target="_blank"><img src="{% static 'icons/twiter1.svg' %}"
-                target="_blank" alt="" style="height: 20px; margin-bottom: 10px;" /></a>
-        <a href="https://www.facebook.com/observatoriotgto/" target="_blank"><img src="{% static 'icons/fb2.svg' %}"
-                alt="" style="height: 20px; margin-bottom: 10px;" /></a>
-        <a href="{% url 'sitios_interes' %}"><img src="{% static 'icons/globe3.svg' %}" alt=""
-                style="height: 20px; margin-bottom: 10px;" /></a>
-    </div>
+    {% include 'web/components/social_media_stiky/social_media_stiky.html' %}
 
 
     {% include 'web/components/navbar_new/navbar_new.html' %}
@@ -805,6 +872,27 @@
                 console.log(x, walk, wrapper.scrollLeft);
             });
         });
+
+        function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'es',
+    includedLanguages: 'en,it,ja,pt',
+    layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+  }, 'google_translate_element');
+}
+
+    function setFixedMenuPosition() {
+      var translateElement = document.getElementById('google_translate_element');
+      var fixedMenu = document.getElementsByClassName('all-fixed')[0];
+      
+      if (translateElement && fixedMenu) {
+        var translateHeight = translateElement.offsetHeight;
+        fixedMenu.style.top = translateHeight + 'px';
+      } else if (fixedMenu) {
+        fixedMenu.style.top = '0';
+      }
+    }
+    window.onload = setFixedMenuPosition;
     </script>
 
 
