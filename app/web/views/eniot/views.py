@@ -33,7 +33,7 @@ class ProgramaProximaEdicion(TemplateView):
         context = super().get_context_data(**kwargs)
         pdf = Eniot.objects.filter(seccion='programa-eniot').order_by('-date_created')[:1].get()
         context['pdf'] = pdf
-        context['nav_title'] = 'Programa ENIOT'
+        context['nav_title'] = 'PROGRAMA ENIOT'
         return context
     
 class MemoriasView(TemplateView):
@@ -58,8 +58,9 @@ class MemoriasView(TemplateView):
             pdf_by_year[year] = Eniot.objects.filter(seccion='memorias', anio=year).order_by('-date_created')
 
         context['pdf_by_year'] = pdf_by_year
-        context['nav_title'] = 'Memorias'
+        context['nav_title'] = 'MEMORIAS'
         context['tipo'] =  'eniot_pdf_viewer'
+        context['img_url'] = 'img_nav/guanajuato.jpg'
         return context
 
 class PonenciaEventosView(TemplateView):
@@ -84,8 +85,8 @@ class PonenciaEventosView(TemplateView):
             pdf_by_year[year] = Eniot.objects.filter(seccion='ponencia-eventos', anio=year).order_by('-date_created')
 
         context['pdf_by_year'] = pdf_by_year
-        context['nav_title'] = 'Ponencia a Eventos'
-        
+        context['nav_title'] = 'PONENCIA A EVENTOS'
+        context['img_url'] = 'img_nav/pexels.jpg'
         context['tipo'] =  'eniot_ponencia_eventos_pdf_viewer'
         return context
     

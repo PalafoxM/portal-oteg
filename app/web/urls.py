@@ -79,6 +79,7 @@ urlpatterns = [
     path('eniot/pdf-download/<int:pk>/', PDFDownloadEniot.as_view(), name='eniot_pdf_download'),
     # entorno-nacional
     path('entorno-nacional/',EntornoNacional.as_view(), name='entorno-nacional'),
+    path('entorno-nacional/indicadores-economicos/',EntornoNacionalIndicadores.as_view(), name='entorno-nacional-indicadores'),
     # 
     # entorno-nacional
     path('inventario-turistico/',InventarioTuristico.as_view(), name='inventario-turistico'),

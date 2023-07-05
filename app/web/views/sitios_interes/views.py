@@ -5,6 +5,6 @@ class SitiosView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(SitiosView, self).get_context_data(**kwargs)
-        context['nav_title'] = 'Sitios de Interés'
+        context['nav_title'] = 'SITIOS DE INTERÉS'
         context['img_url'] = 'img_nav/preguntas.png'
         return context
