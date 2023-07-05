@@ -39,7 +39,9 @@ var datatur = {
                 {"data": "destino", className: "text-center hidden-t"},
                 {"data": "fecha", className: "text-left hidden-t"},
                 {"data": "calidad_del_aire", className: "text-center hidden-t"},
+                {"data": "fecha_actualizacion", className: "actions-container"},
                 {"data": "id", className: "actions-container"},
+                
             ],
             columnDefs: [
                 {

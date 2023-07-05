@@ -346,9 +346,11 @@ class InventarioHoteleroEntNac(models.Model):
     categoria = models.CharField(max_length=255)
     establecimientos = models.IntegerField()
     habitaciones = models.IntegerField()
+    fecha_actualizacion = models.DateField(auto_now=True)
 
     def toJSON(self):
         item = model_to_dict(self)
+        item['fecha_actualizacion'] = self.fecha_actualizacion.strftime('%Y-%m-%d')
         return item
 
     class Meta:
@@ -363,9 +365,12 @@ class CalidadAire(models.Model):
     fecha = models.DateField()
     destino = models.CharField(max_length=455, null=True, blank=True)
     calidad_del_aire = models.CharField(max_length=2255)
+    fecha_actualizacion = models.DateField(auto_now=True)
+
 
     def toJSON(self):
         item = model_to_dict(self)
+        item['fecha_actualizacion'] = self.fecha_actualizacion.strftime('%Y-%m-%d')
         return item
 
     class Meta:

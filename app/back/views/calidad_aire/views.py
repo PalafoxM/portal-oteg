@@ -39,6 +39,7 @@ class CalidadAireListView(ListView):
             if action == 'search':
                 data = []
                 for i in CalidadAire.objects.all():
+                    print(i.fecha_actualizacion)
                     data.append(i.toJSON())
             else:
                 data['error'] = 'Ha ocurrido un error'

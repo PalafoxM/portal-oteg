@@ -13,25 +13,66 @@ class FuentesInfoView (TemplateView):
         context['d_route'] = 'Fuentes de información > Dashboard'
 
         model_updated = {}
+        total_registers = {}
+        last_updated = {}
         non_updated_count = 0  # Variable to store the count of non-updated models
 
-        # Check if each model has been updated within the specified time period
-        # Adjust the timedelta according to the desired update period for each model
-        # Repeat the following block for each of your models
-        # update_period = timedelta(days=1)  # Example: Update period of 7 days
-        # model1_last_updated = InventarioHotelero.objects.latest('updated_at').updated_at
-        # model_updated['InventarioHotelero'] = timezone.now() - model1_last_updated <= update_period
-        # if not model_updated['Model1']:
-        #     non_updated_count += 1
+    
+        current_datetime = timezone.now()
 
-        # model2_last_updated = InventarioHoteleroEntNac.objects.latest('updated_at').updated_at
-        # model_updated['InventarioHoteleroEntNac'] = timezone.now() - model2_last_updated <= update_period
-        # if not model_updated['Model2']:
-        #     non_updated_count += 1
+        #determinar si el modelo esta actualizado
 
-        # # Repeat the above two lines for each of your models
+        #model1 
+        model1_last_updated_date = CalidadAire.objects.latest('fecha_actualizacion').fecha_actualizacion
+        model1_last_updated_datetime = datetime.combine(model1_last_updated_date, datetime.min.time())
+        #año en segundos
+        update_period = 2.628e+6  # define your desired update period in seconds
 
-        # context['model_updated'] = model_updated
-        # context['non_updated_count'] = non_updated_count
+        time_difference = current_datetime - model1_last_updated_datetime
+        model_updated['aire'] = time_difference.total_seconds() <= update_period
+
+
+        #model2
+
+        model2_last_updated_date = InventarioHoteleroEntNac.objects.latest('fecha_actualizacion').fecha_actualizacion
+        model2_last_updated_datetime = datetime.combine(model2_last_updated_date, datetime.min.time())
+        #mes en segundos
+        update_period = 2.628e+6  # define your desired update period in seconds
+        model_updated['hotelero_nac'] = time_difference.total_seconds() <= update_period
+
+        #model3
+        
+        # model3_last_updated_date = InventarioHotelero.objects.latest('fecha_actualizacion').fecha_actualizacion
+        # model3_last_updated_datetime = datetime.combine(model3_last_updated_date, datetime.min.time())
+
+        # #mes en segundos
+        # update_period = 2.628e+6  # define your desired update period in seconds
+
+
+
+        #count the updated models
+        if not model_updated['aire']:
+            non_updated_count += 1
+
+        if not model_updated['hotelero_nac']:
+            non_updated_count += 1
+
+
+
+        #register count
+        total_registers['aire'] = CalidadAire.objects.all().count()
+
+        total_registers['hotelero_nac'] = InventarioHoteleroEntNac.objects.all().count()
+
+
+        #last updated
+        last_updated['aire'] = CalidadAire.objects.latest('fecha_actualizacion').fecha_actualizacion
+        last_updated['hotelero_nac'] = InventarioHoteleroEntNac.objects.latest('fecha_actualizacion').fecha_actualizacion
+
+        context['model_updated'] = model_updated
+        context['total_registers'] = total_registers
+        context['non_updated_count'] = non_updated_count
+        context['last_updated'] = last_updated
+        context['totla_F_updated'] = 38-non_updated_count
 
         return context
