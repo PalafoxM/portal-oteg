@@ -8,7 +8,7 @@ class PreguntasfView(TemplateView):
         context['title'] = 'Preguntas Frecuentes'
         context['entity'] = 'Preguntas Frecuentes'
         context['img_url'] = 'img/Portada-1.png'
-        context['nav_title'] = 'Preguntas Frecuentes'
+        context['nav_title'] = 'PREGUNTAS FRECUENTES'
         return context
 
 

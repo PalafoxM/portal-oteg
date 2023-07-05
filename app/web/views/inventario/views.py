@@ -5,6 +5,6 @@ class InventarioTuristico(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['nav_title'] = 'Inventario Turístico'
+        context['nav_title'] = 'INVENTARIO TURÍSTICO'
         context['img_url'] = 'img/Portada-3.png'
         return context
