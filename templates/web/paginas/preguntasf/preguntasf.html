@@ -4,160 +4,666 @@
 <!-- <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
 <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script> -->
 <style>
-   .carousel-inner .carousel-item {
-  position: relative;
-}
+  .card-p {
+    background-color: #DEE2E6;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
 
-.carousel-inner .carousel-item img {
-  width: 100%;
-  height: auto;
-}
+  .question-container {
+    width: 100%;
+    height: 40px;
+    background-image: linear-gradient(140.57deg, #ED4C02 0%, #FB8A55 100%);
+    color: #fff;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: -12px 15px 18px -3px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+  }
 
-.carousel-inner .carousel-item .carousel-caption {
-  position: absolute;
-  bottom: -100%;
-  left: 0;
-  right: 0;
-  background-color: rgba(0, 0, 0, 0.4);
-  padding: 20px;
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
+  .question {
+    font-family: Montserrat;
+    font-size: 20px;
+    line-height: 29px;
+    font-weight: 600;
+    text-align: left;
+    text-transform: uppercase;
+    margin: 0;
+    padding: 0;
+  }
 
-.carousel-inner .carousel-item .carousel-caption h5 {
-  margin-top: 0;
-}
+  .answer {
+    display: none;
+    margin-bottom: 10px;
+  }
 
-.carousel-inner .carousel-item .carousel-caption .btn {
-  margin-top: 10px;
-  background-color: transparent;
-  border: none;
-  color: #fff;
-  font-weight: bold;
-}
+  .section-link {
+    color: #ED4C02;
+    text-decoration: underline;
+  }
 
-.carousel-inner .carousel-item .carousel-caption .btn:before {
-  content: '';
-  position: absolute;
-  top: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 20px;
-  height: 2px;
-  background-color: #fff;
-}
-
-.carousel-inner .carousel-item .carousel-caption .btn:hover {
-  color: #ED4C02;
-}
-
-.carousel-inner .carousel-item .carousel-caption .btn:focus {
-  outline: none;
-}
-.question-container {
-      width: 100%;
-      height: 40px;
-      background-image: linear-gradient(140.57deg, #ED4C02 0%, #FB8A55 100%);
-      color: #fff;
-      display: flex;
-      justify-content: start;
-      align-items: center;
-      padding: 20px;
-      border-radius: 5px;
-      box-shadow: -12px 15px 18px -3px rgba(0, 0, 0, 0.1);
-      margin-bottom: 10px;
-    }
-    
-    .question {
-      font-family: Montserrat;
-      font-size: 20px;
-      line-height: 29px;
-      font-weight: 600;
-      text-align: left;
-      text-transform: uppercase;
-      margin: 0;
-      padding: 0;
-    }
-    
-    .answer {
-      display: none;
-      margin-bottom: 10px;
-    }
-    .instruction {
-        font-size: 18px;
-        color: #000000;
-        margin-bottom: 10px;
-        margin-top: 30px;
-    }
-
-
+  .instruction {
+    font-size: 18px;
+    color: #000000;
+    margin-bottom: 10px;
+    margin-top: 30px;
+  }
+  .container-p{
+    margin-top: 35px;
+  }
 </style>
 <script>
-    function toggleAnswer(id) {
+  function toggleAnswer(id) {
       var answer = document.getElementById(id);
-      answer.style.display = (answer.style.display === 'none') ? 'block' : 'none';
+      if (answer.style.display === 'none') {
+        answer.style.display = 'block';
+      } else {
+        answer.style.display = 'none';
+      }
     }
-  </script>
+</script>
 {% endblock %}
 {% block content %}
-<section class="container">
-    <!-- <h1 class="text-center">PREGUNTAS FRECUENTES</h1> -->
-    <p class="instruction"> Da click sobre la pregunta, para visualizar la respuesta
+<section class="container-p">
+  <div class="question-container" onclick="toggleAnswer('answer1')">
+    <h2 class="question truncate">1. ¿Qué es el OTEG?</h2>
+  </div>
+  <div class="answer" id="answer1">
+    <div class="card-p">
+      <p>
+        El Observatorio Turístico del Estado de Guanajuato es un espacio de análisis,
+        técnico, intersectorial e interdisciplinario bajo el cual un grupo de personas y/o entidades se agrupan y
+        organizan
+        con el propósito de vigilar, medir y verificar la evolución del sector turismo en el Estado de Guanajuato.
+      </p>
+      <a class="section-link" href="{% url 'oteg' %}">Ver sección</a>
+    </div>
+  </div>
+
+  <div class="question-container" onclick="toggleAnswer('answer2')">
+    <h2 class="question truncate">2. ¿Quiénes integran el OTEG?</h2>
+  </div>
+  <div class="answer" id="answer2">
+    <div class="card-p">
+      <p>Está integrado por un Presidente, un suplente del presidente, secretario técnico, un representante de subsecretaria de promoción turística de SECTUR, un representante de la dirección general de desarrollo turístico SECTUR, por 5 instituciones del sector educativo (Universidad de La Salle Bajío, Universidad Iberoamericana, Universidad de Celaya, Universidad de Guanajuato, Instituto Tecnológico del Bajío) por el 5 organismos del sector público ( INEGI, Instituto Estatal de Ecología, Instituto de Cultura del Estado de Guanajuato, Secretaria de Desarrollo Económico Sustentable, Instituto de Planeación del Estado de Guanajuato), por 5 organizaciones del sector privado (Poliforum León, Inforum Irapuato, Aeropuerto Internacional de Guanajuato, Asociación de Hoteles y Moteles de León y ) y por el Consejo Consultivo Turístico (Consejo Turístico de San Miguel de Allende, Asociación Regional de Hoteles Laja-Bajío, Asociación Mexicana de Hoteles de León, Dirección General de Turismo Municipal de Guanajuato).</p>
+      <a class="section-link" href="{% url 'oteg' %}">Ver sección</a>
+    </div>
+  </div>
+<!-- Pregunta 3 -->
+<div class="question-container" onclick="toggleAnswer('answer3')">
+  <h2 class="question truncate">3. ¿Cuáles son los objetivos que persigue OTEG?</h2>
+</div>
+<div class="answer" id="answer3">
+  <div class="card-p">
+    <p>
+      Estos son los principales objetivos del Observatorio:
     </p>
+    <ul>
+      <li>Jerarquizar las demandas y necesidades de los ciudadanos.</li>
+      <li>Orientar las actividades de los servidores públicos.</li>
+      <li>Facilitar la toma de decisiones.</li>
+      <li>Generar el diseño de la propia política de desarrollo del sector turismo.</li>
+    </ul>
+    <a class="section-link" href="{% url 'oteg' %}">Ver sección</a>
+  </div>
+</div>
 
-    <div class="question-container" onclick="toggleAnswer('answer1')">
-        <h2 class="question truncate">1. ¿Qué es el OTEG?</h2>
+    <!-- Pregunta 4 -->
+    <div class="question-container" onclick="toggleAnswer('answer4')">
+      <h2 class="question truncate">4. ¿En dónde incide el OTEG?</h2>
+    </div>
+    <div class="answer" id="answer4">
+      <div class="card-p">
+        <ul>
+          <li>Políticas publicas.</li>
+          <li>Metodologías y herramientas técnicas.</li>
+          <li>Transparencia.</li>
+          <li>Medición de resultados.</li>
+        </ul>
+        <a class="section-link" href="{% url 'oteg' %}">Ver sección</a>
       </div>
-      <div class="answer" id="answer1">El Observatorio Turístico del Estado de Guanajuato es un espacio de análisis, técnico, intersectorial e interdisciplinario bajo el cual un grupo de personas y/o entidades se agrupan y organizan con el propósito de vigilar, medir y verificar la evolución del sector turismo en el Estado de Guanajuato.</div>
-    
-      <div class="question-container" onclick="toggleAnswer('answer2')">
-        <h2 class="question truncate">2. ¿Quiénes integran el OTEG?</h2>
-      </div>
-      <div class="answer" id="answer2">Está integrado por un Presidente, un suplente del presidente, secretario técnico, un representante de subsecretaria de promoción turística de SECTUR, un representante de la dirección general de desarrollo turístico SECTUR, por 5 instituciones del sector educativo, por 5 organismos del sector público y por 5 organizaciones del sector privado, además del Consejo Consultivo Turístico.</div>
-    
-      <div class="question-container" onclick="toggleAnswer('answer3')">
-        <h2 class="question truncate">3. ¿Cuáles son los objetivos que persigue OTEG?</h2>
-      </div>
-      <div class="answer" id="answer3">Los principales objetivos del Observatorio son jerarquizar las demandas y necesidades de los ciudadanos, orientar las actividades de los servidores públicos, facilitar la toma de decisiones y generar el diseño de la propia política de desarrollo del sector turismo.</div>
+    </div>
 
-      <div class="question-container" onclick="toggleAnswer('answer4')">
-        <h2 class="question truncate">4. ¿En dónde incide el OTEG?</h2>
+  <!-- Pregunta 5 -->
+<div class="question-container" onclick="toggleAnswer('answer5')">
+  <h2 class="question truncate">5. ¿Cuáles son las funciones del Observatorio?</h2>
+</div>
+<div class="answer" id="answer5">
+  <div class="card-p">
+    <ul>
+      <li>Recopilar, analizar y difundir información estadística y de mercado relacionada con el turismo en el estado.</li>
+      <li>Realizar estudios e investigaciones sobre la evolución y tendencias del sector turístico.</li>
+      <li>Generar indicadores y herramientas de medición para evaluar el desempeño turístico.</li>
+      <li>Establecer mecanismos de coordinación y colaboración entre los actores del sector turístico.</li>
+      <li>Promover la participación ciudadana en la toma de decisiones relacionadas con el turismo.</li>
+      <li>Impulsar la implementación de políticas y programas de desarrollo turístico sustentable.</li>
+    </ul>
+  </div>
+</div>
+<!-- Pregunta 6 -->
+<div class="question-container" onclick="toggleAnswer('answer6')">
+  <h2 class="question truncate">6. ¿Cómo vuelvo a la página principal después de entrar en otras secciones?</h2>
+</div>
+<div class="answer" id="answer6">
+  <div class="card-p">
+    <p>Posicionando el cursor en la parte superior o inferior de la página puedes encontrar el botón de "Inicio". Presiona el botón y podrás regresar al inicio.</p>
+    <img src="{% static 'img_nav/menu-ejemplo.png' %}" alt="Imagen" style="width: 100%; height: 50%;">
+  </div>
+</div>
+<!-- Pregunta 7 -->
+<div class="question-container" onclick="toggleAnswer('answer7')">
+  <h2 class="question truncate">7. ¿Qué es el sistema de indicadores del OTEG?</h2>
+</div>
+<div class="answer" id="answer7">
+  <div class="card-p">
+    <p>El sistema de indicadores del OTEG es un conjunto de indicadores nacionales y estatales que se utilizan para medir la actividad turística.</p>
+  </div>
+</div>
+  <!-- Pregunta 8 -->
+<div class="question-container" onclick="toggleAnswer('answer8')">
+  <h2 class="question truncate">8. ¿Cuáles son los indicadores nacionales?</h2>
+</div>
+<div class="answer" id="answer8">
+  <div class="card-p">
+    <ul>
+      <li>Indicadores Económicos y Turísticos de México.</li>
+      <li>Inflación Media por INPC. Índice General.</li>
+      <li>Indicadores de la Actividad Aérea.</li>
+      <li>Indicadores del Sector Servicios.</li>
+      <li>Indicador Trimestral de la Actividad Turística.</li>
+      <li>Ocupación Mensual de Destinos Nacionales.</li>
+    </ul>
+    <a class="section-link" href="{% url 'oteg' %}">Ver sección</a>
+  </div>
+</div>
+<!-- Pregunta 9 -->
+<div class="question-container" onclick="toggleAnswer('answer9')">
+  <h2 class="question truncate">9. ¿Cuáles son los indicadores estatales?</h2>
+</div>
+<div class="answer" id="answer9">
+  <div class="card-p">
+    <ul>
+      <li>Reportes Mensuales.</li>
+      <li>Barómetro Turístico.</li>
+      <li>Tablero de Control e Indicadores.</li>
+    </ul>
+    <a class="section-link" href="{% url 'oteg' %}">Ver sección</a>
+  </div>
+</div>
+<!-- Pregunta 10 -->
+<div class="question-container" onclick="toggleAnswer('answer10')">
+  <h2 class="question truncate">10. ¿Qué son los Reportes Mensuales?</h2>
+</div>
+<div class="answer" id="answer10">
+  <div class="card-p">
+    <p>Los Reportes Mensuales ofrecen un amplio conjunto de indicadores que brindan información complementaria al Tablero de Control. Estos indicadores tienen características comparables, están semaforizados, mapeados y representados en series históricas.</p>
+    <a class="section-link" href="{% url 'oteg' %}">Ver sección</a>
+  </div>
+
+</div>
+<!-- Pregunta 11 -->
+<div class="question-container" onclick="toggleAnswer('answer11')">
+  <h2 class="question truncate">11. ¿Qué encuentro en los Reportes Mensuales?</h2>
+</div>
+<div class="answer" id="answer11">
+  <div class="card-p">
+    <ul>
+      <li>Resultados de la Actividad Turística.</li>
+      <li>Ocupación Estatal.</li>
+      <li>Ocupación por Ciudad.</li>
+      <li>Ocupación Hotelera de los principales destinos del país.</li>
+    </ul>
+  </div>
+</div>
+  <!-- Pregunta 12 -->
+<div class="question-container" onclick="toggleAnswer('answer12')">
+  <h2 class="question truncate">12. ¿Qué es el Barómetro Turístico?</h2>
+</div>
+<div class="answer" id="answer12">
+  <div class="card-p">
+    <p>El Barómetro Turístico es un reporte que recopila la opinión pasada, presente y futura de la actividad turística-económica del estado de Guanajuato. Se basa en encuestas aplicadas a líderes de opinión y prestadores de servicios turísticos estatales y nacionales.</p>
+    <a class="section-link" href="{% url 'barometro-turistico' %}">Ver sección</a>
+  </div>
+</div>
+<!-- Pregunta 13 -->
+<div class="question-container" onclick="toggleAnswer('answer13')">
+  <h2 class="question truncate">13. ¿Cada cuándo se actualiza el Barómetro Turístico?</h2>
+</div>
+<div class="answer" id="answer13">
+  <div class="card-p">
+    <p>El Barómetro Turístico se actualiza periódicamente, pero la frecuencia exacta puede variar. Te sugerimos consultar la sección correspondiente del sitio web del OTEG para obtener la información más actualizada.</p>
+    <a class="section-link" href="{% url 'barometro-turistico' %}">Ver sección</a>
+  </div>
+</div>
+<!-- Pregunta 14 -->
+<div class="question-container" onclick="toggleAnswer('answer14')">
+  <h2 class="question truncate">14. ¿Qué es el Tablero de Control?</h2>
+</div>
+<div class="answer" id="answer14">
+  <div class="card-p">
+    <p>El Tablero de Control es una herramienta del OTEG que comunica mediante un semáforo el comportamiento de los indicadores turísticos determinados, mismos que se monitorean de manera permanente mostrando el porcentaje de avance respecto a las metas planteadas en el Programa Estatal de Turismo Guanajuato 2013-2018.</p>
+    <a class="section-link" href="{% url 'barometro-turistico' %}">Ver sección</a>
+  </div>
+</div>
+
+
+  <!-- Pregunta 15 -->
+  <div class="question-container" onclick="toggleAnswer('answer15')">
+    <h2 class="question truncate">15. ¿Qué información encontraré en el Tablero de Control?</h2>
+  </div>
+  <div class="answer" id="answer15">
+    <div class="card-p"> 
+    <p>En el Tablero de Control del Observatorio Turístico del Estado de Guanajuato encontrarás información organizada
+      en diferentes dimensiones y sus respectivos indicadores. A continuación, se presentan algunos ejemplos de
+      indicadores en cada dimensión:</p>
+    <ul>
+      <li><b>Gestión de Destinos:</b></li>
+      <ul>
+        <li><span class="indicator-code">OTEG-GD04:</span> Índice de satisfacción del visitante.</li>
+        <li><span class="indicator-code">OTEG-GD09:</span> Registro anual de la oferta de habitaciones en hoteles de 1-5
+          estrellas.</li>
+        <li><span class="indicator-code">OTEG-GD05:</span> Registro anual del monto de inversión privada realizada en el
+          sector turístico.</li>
+        <li><span class="indicator-code">OTEG-GD06:</span> Registro anual de la inversión pública para Infraestructura
+          turística.</li>
+        <li><span class="indicator-code">OTEG-GD08:</span> Registro de empresas de servicios turísticos con
+          certificación de calidad.</li>
+        <li><span class="indicator-code">OTEG-GD07:</span> Registro mensual del número de pasajeros del Aeropuerto
+          Internacional del Estado de Guanajuato.</li>
+        <li><span class="indicator-code">OTEG-GD02:</span> Registro anual del número de visitantes internacionales que
+          llegan al estado de Guanajuato.</li>
+        <li><span class="indicator-code">OTEG-GD01:</span> Distribución por tipo de visitante al Estado de Guanajuato.
+        </li>
+        <li><span class="indicator-code">OTEG-GD03:</span> Porcentaje de visitantes con intención de recomendar el
+          Estado de Guanajuato.</li>
+      </ul>
+      <li><b>Economía Inclusiva:</b></li>
+      <ul>
+        <li><span class="indicator-code">OTEG-EI01:</span> Índice anual de apertura de nuevas empresas.</li>
+        <li><span class="indicator-code">OTEG-EI02:</span> Registro porcentual anual en el gasto diario promedio del
+          visitante.</li>
+        <li><span class="indicator-code">OTEG-EI05:</span> Registro mensual de llegada de turistas al Estado de
+          Guanajuato.</li>
+        <li><span class="indicator-code">OTEG-EI07:</span> Porcentaje de ocupación de hoteles de 1 a 5 estrellas.</li>
+        <li><span class="indicator-code">OTEG-EI08:</span> Registro porcentual de la estadía promedio.</li>
+        <li><span class="indicator-code">OTEG-EI06:</span> Registro anual del aporte del PIB del rubro de Servicios de
+          alojamiento temporal y de preparación de alimentos y bebidas al PIB del Sector Terciario del estado de
+          Guanajuato.</li>
+        <li><span class="indicator-code">OTEG-EI04:</span> Número de hombres y mujeres ocupados en el sector turismo con
+          respecto al total general del estado de Guanajuato.</li>
+        <li><span class="indicator-code">OTEG-EI03:</span> Derrama económica generada por el número de visitantes que
+          llegan al Estado de Guanajuato.</li>
+      </ul>
+      <li><b>Sociedad y Cultura:</b></li>
+      <ul>
+        <li><span class="indicator-code">OTEG-SC01:</span> Registro mensual de la afluencia de visitantes nacionales y
+          extranjeros en cada Zona Arqueológica del estado de Guanajuato.</li>
+        <li><span class="indicator-code">OTEG-SC02:</span> Registro mensual de la afluencia de visitantes nacionales y
+          extranjeros en los museos del estado de Guanajuato.</li>
+        <li><span class="indicator-code">OTEG-SC03:</span> Personas con discapacidad ocupadas en el sector.</li>
+        <li><span class="indicator-code">OTEG-SC04:</span> Registro anual de las acciones de sensibilización turística
+          en los destinos del estado de Guanajuato.</li>
+        <li><span class="indicator-code">OTEG-SC05:</span> Registro anual de las acciones de capacitación turística en
+          los destinos del estado de Guanajuato.</li>
+      </ul>
+      <li><b>Medio Ambiente:</b></li>
+      <ul>
+        <li><span class="indicator-code">OTEG-MA01:</span> Registro anual de huella de carbono generada por el número de
+          visitantes a eventos en el estado de Guanajuato.</li>
+        <li><span class="indicator-code">OTEG-MA02:</span> Registro mensual de generación de residuos sólidos de los
+          destinos turísticos del Estado de Guanajuato.</li>
+        <li><span class="indicator-code">OTEG-MA03:</span> Registro mensual de la calidad del aire de los destinos
+          turísticos del Estado de Guanajuato.</li>
+        <li><span class="indicator-code">OTEG-MA04:</span> Registro mensual del consumo de agua de los destinos
+          turísticos del Estado de Guanajuato.</li>
+      </ul>
+
+    </ul>
     </div>
-    <div class="answer" id="answer4">El OTEG incide en políticas públicas, metodologías y herramientas técnicas, transparencia y medición de resultados.</div>
-    <div class="question-container" onclick="toggleAnswer('answer5')">
-        <h2 class="question truncate">5. ¿Cuáles son las funciones del Observatorio?</h2>
-    </div>
-    <div class="answer" id="answer5">El Observatorio turístico realiza funciones como generar información adecuada y consensuada, poner al alcance de la sociedad información relevante, promover mecanismos para conocer las demandas de los ciudadanos, construir sistemas de información técnica, crear un tablero de control, y generar conocimiento a través de estudios e investigaciones en el sector turístico.</div>
-    <div class="question-container" onclick="toggleAnswer('answer6')">
-        <h2 class="question truncate">6. ¿Cómo vuelvo a la página principal después de entrar en otras secciones?</h2>
-    </div>
-    <div class="answer" id="answer6">En la parte superior izquierda de la página encontrarás un recuadro como este <span>&#x25C0;</span>. Al hacer clic en él, regresarás a la página principal.</div>
-    <div class="question-container" onclick="toggleAnswer('answer7')">
-        <h2 class="question truncate">7. ¿Qué es el sistema de indicadores del OTEG?</h2>
-    </div>
-    <div class="answer" id="answer7">El sistema de indicadores del OTEG es un conjunto de indicadores nacionales y estatales que se utilizan para medir la actividad turística.</div>
-    <div class="question-container" onclick="toggleAnswer('answer8')">
-        <h2 class="question truncate">8. ¿Cuáles son los indicadores nacionales?</h2>
-    </div>
-    <div class="answer" id="answer8">Los indicadores nacionales incluyen: Indicadores Económicos y Turísticos de México, Inflación Media por INPC, Índice General, Indicadores de la Actividad Aérea, Indicadores del Sector Servicios, Indicador Trimestral de la Actividad Turística, y Ocupación Mensual de Destinos Nacionales.</div>
-    <div class="question-container" onclick="toggleAnswer('answer9')">
-        <h2 class="question truncate">9. ¿Cuáles son los indicadores estatales?</h2>
-    </div>
-    <div class="answer" id="answer9">Los indicadores estatales incluyen: Reportes Mensuales, Barómetro Turístico y Tablero de Control e Indicadores.</div>
-    <div class="question-container" onclick="toggleAnswer('answer10')">
-        <h2 class="question truncate">10. ¿Qué son los Reportes Mensuales?</h2>
-    </div>
-    <div class="answer" id="answer10">Los Reportes Mensuales ofrecen un amplio conjunto de indicadores que brindan información complementaria al tablero de control. Estos reportes presentan características comparables, semaforizados, mapeados y representados en series históricas.</div>
+  </div>
+
+  <!-- Pregunta 16 -->
+<div class="question-container" onclick="toggleAnswer('answer16')">
+  <h2 class="question truncate">16. ¿Qué son las publicaciones?</h2>
+</div>
+<div class="answer card-p" id="answer16">
+  <p>Las publicaciones son un centro documental creado como un espacio colaborativo en permanente construcción y enriquecimiento en el que cualquier persona que así lo desee puede ingresar sus investigaciones, estudios, ensayos y publicaciones que quiera compartir con los usuarios del portal del observatorio.</p>
+  <a class="section-link" href="{% url 'publicaciones_new' %}">Ver sección</a>
+</div>
+<!-- Pregunta 17 -->
+<div class="question-container" onclick="toggleAnswer('answer17')">
+  <h2 class="question truncate">17. ¿Qué encontraré en Publicaciones?</h2>
+</div>
+<div class="answer card-p" id="answer17">
+  <p>En Publicaciones encontrarás una variedad de estudios e información relevante del sector turístico, que incluye:</p>
+  <ul>
+    <li><p>Resultados de Ocupación Semanal</p></li>
+    <li><p>Perfil del Visitante a Ciudad</p></li>
+    <li><p>Perfil del Visitante a Eventos</p></li>
+    <li><p>Información de Vuelos</p></li>
+    <li><p>Documentos Normativos de Turismo</p></li>
+    <li><p>Estudios ICTUR (Instituto de Competitividad Turística)</p></li>
+    <li><p>Estudios de Mercado</p></li>
+    <li><p>Compendio Turístico</p></li>
+    <li><p>Boletín Electrónico</p></li>
+    <li><p>Noticias Turísticas</p></li>
+    <li><p>Estudios de Colaboradores Externos</p></li>
+    <li><p>Estudios OMT</p></li>
+  </ul>
+  <a class="section-link" href="{% url 'publicaciones_new' %}">Ver sección</a>
+</div>
+<!-- Pregunta 18 -->
+<div class="question-container" onclick="toggleAnswer('answer18')">
+  <h2 class="question truncate">18. ¿Qué es el perfil de visitante?</h2>
+</div>
+<div class="answer card-p" id="answer18">
+  <p>El perfil de visitante es una investigación de mercado que suministra información detallada sobre diversos aspectos relacionados con los visitantes, que incluyen:</p>
+  <ul>
+    <li><p>Perfil Sociodemográfico</p></li>
+    <li><p>Planeación de Viaje</p></li>
+    <li><p>Satisfacción y Lealtad</p></li>
+    <li><p>Recordación publicitaria</p></li>
+    <li><p>Gasto y Estadía</p></li>
+  </ul>
+  <a class="section-link" href="{% url 'publicaciones_new' %}">Ver sección</a>
+</div>
+  <!-- Pregunta 19 -->
+<div class="question-container" onclick="toggleAnswer('answer19')">
+  <h2 class="question truncate">19. ¿Cuáles son los estudios del perfil del visitante a destino que encontrarás?</h2>
+</div>
+<div class="answer card-p" id="answer19">
+  <p>Encontrarás estudios del perfil del visitante a destino de diferentes lugares en Guanajuato, que incluyen:</p>
+  <ul>
+    <li><p>Estado de Guanajuato</p></li>
+    <li><p>Zonas Arqueológicas y Circuitos</p></li>
+    <li><p>San Miguel de Allende</p></li>
+    <li><p>San José Iturbide</p></li>
+    <li><p>Salamanca</p></li>
+    <li><p>León</p></li>
+    <li><p>Irapuato</p></li>
+    <li><p>Guanajuato Capital</p></li>
+    <li><p>Dolores Hidalgo</p></li>
+    <li><p>Celaya- Región Laga-Bajio</p></li>
+  </ul>
+  <a class="section-link" href="{% url 'publicaciones_new' %}">Ver sección</a>
+</div>
+<!-- Pregunta 20 -->
+<div class="question-container" onclick="toggleAnswer('answer20')">
+  <h2 class="question truncate">20. ¿Cuáles son los estudios del perfil del visitante a eventos?</h2>
+</div>
+<div class="answer card-p" id="answer20">
+  <p>Encontrarás estudios del perfil del visitante a eventos que incluyen:</p>
+  <ul>
+    <li><p>WRC RALLY MÉXICO</p></li>
+    <li><p>FESTIVAL INTERNACIONAL DEL GLOBO</p></li>
+    <li><p>FESTIVAL INTERNACIONAL DE CINE EN GUANAJUATO</p></li>
+    <li><p>FESTIVAL INTERNACIONAL CERVENTINO</p></li>
+    <li><p>Otros 2013</p></li>
+    <li><p>Otro 2012</p></li>
+    <li><p>Otro 2011</p></li>
+  </ul>
+  <a class="section-link" href="{% url 'publicaciones_new' %}">Ver sección</a>
+</div>
+  <!-- Pregunta 21 -->
+  <div class="question-container" onclick="toggleAnswer('answer21')">
+    <h2 class="question truncate">21. ¿Qué contiene el inventario turístico?</h2>
+  </div>
+  <div class="answer card-p" id="answer21">
+    <p>El inventario turístico contiene información detallada sobre los siguientes segmentos:</p>
+    <ul>
+      <li>Agencias de Viajes</li>
+      <li>Arrendadoras</li>
+      <li>Atractivos Turísticos</li>
+      <li>Auxilio Turístico</li>
+      <li>Balnearios</li>
+      <li>Campos de Golf</li>
+      <li>Catálogo de Atractivos Turísticos de Celaya</li>
+      <li>Centros de Capacitación Turística</li>
+      <li>Deporte y Recreación</li>
+      <li>Escuelas de Turismo en Guanajuato</li>
+      <li>Establecimientos de A y B</li>
+      <li>Guías de Turistas</li>
+      <li>Hospedaje</li>
+      <li>Inventario de Hospedaje del estado de Guanajuato</li>
+      <li>Ranchos Cinegéticos</li>
+      <li>Recintos</li>
+      <li>Spas</li>
+      <li>Transportación</li>
+      <li>Vida Nocturna</li>
+    </ul>
+    <a class="section-link" href="{% url 'inventario-turistico' %}">Ver sección</a>
+  </div>
+  <!-- Pregunta 22 -->
+  <div class="question-container" onclick="toggleAnswer('answer22')">
+    <h2 class="question truncate">22. ¿Qué encuentro en información de vuelos?</h2>
+  </div>
+  <div class="answer card-p" id="answer22">En la sección de información de vuelos, podrás encontrar lo siguiente de manera
+    mensual:
+    <ul>
+      <li>Reportes de Vuelos</li>
+      <li>Itinerario de Vuelos</li>
+    </ul>
+    <a class="section-link" href="{% url 'inventario-turistico' %}">Ver sección</a>
+  </div>
+  <!-- Pregunta 23 -->
+  <div class="question-container" onclick="toggleAnswer('answer23')">
+    <h2 class="question truncate">23. ¿Cuáles documentos normativos de turismo encontraré en el Observatorio?</h2>
+  </div>
+  <div class="answer card-p" id="answer23">En el Observatorio encontrarás los siguientes documentos normativos de turismo:
+
+    <ul>
+      <li>Gabinete Turístico-SECTUR Federal</li>
+      <li>Ley de Turismo para el Estado de Guanajuato y sus municipios</li>
+      <li>Ley General de Turismo</li>
+      <li>Ley para el Fomento de la Industria Cinematográfica y Audiovisual del Estado de Guanajuato</li>
+      <li>Plan Nacional de Desarrollo 2013-2018</li>
+      <li>Programa Estatal de Turismo 2013-2018</li>
+      <li>PROSECTUR 2013- 2018</li>
+      <li>Reglamento de la Ley de Turismo para el Estado de Guanajuato y sus municipios</li>
+      <li>Reglamento de la Ley General de Turismo</li>
+    </ul>
+    <a class="section-link" href="{% url 'inventario-turistico' %}">Ver sección</a>
+  </div>
+  <!-- Pregunta 24 -->
+  <div class="question-container" onclick="toggleAnswer('answer24')">
+    <h2 class="question truncate">24. ¿Qué encontraré en los estudios ICTUR?</h2>
+  </div>
+  <div class="answer card-p" id="answer24">En los estudios ICTUR (Instituto de Competitividad Turística) encontrarás algunos
+    estudios del Instituto de Competitividad Turística de la SECTUR Federal, antes Centro de Estudios Turísticos
+    (CESTUR):
+    <ul>
+      <li>Estudios ICTUR 2014</li>
+      <li>Estudios CESTUR 2013</li>
+      <li>Estudios CESTUR 2012</li>
+      <li>Estudios CESTUR 2011</li>
+      <li>Estudios CESTUR 2000-2010</li>
+    </ul>
+    <a class="section-link" href="{% url 'inventario-turistico' %}">Ver sección</a>
+  </div>
+  <!-- Pregunta 25 -->
+  <div class="question-container" onclick="toggleAnswer('answer25')">
+    <h2 class="question truncate">25. ¿Qué encontraré en el apartado de estudios de mercado?</h2>
+  </div>
+  <div class="answer card-p" id="answer25">En el apartado de estudios de mercado, encontrarás una variedad de resultados de
+    estudios realizados por la Secretaría de Turismo del estado de Guanajuato. Algunos de los estudios que podrás
+    encontrar son:
+    <ul>
+      <li>Análisis de Movilidad del Visitante 2010</li>
+      <li>Comparativo de Destino 2011</li>
+      <li>Encuesta Nacional Gasto-Ingreso INEGI-análisis</li>
+      <li>Estadísticas Explora</li>
+      <li>Estudio de hospedaje alterno</li>
+      <li>Estudios de lealtad del visitante al estado de Guanajuato 2010</li>
+      <li>Expo Bicentenario estudio de opinión</li>
+      <li>INEGI a la mano</li>
+      <li>Parque Bicentenario Resultados de Reapertura</li>
+      <li>Reporte de Competitividad de Viajes y Turismo 2014</li>
+      <li>Resultado de la Actividad Hotelera en México, Ranking 2011</li>
+      <li>Resultado de la Actividad Turística en México, Ranking 2012</li>
+      <li>Resultado de la Actividad Turística en México, Ranking 2013</li>
+      <li>Resultados FeNaL 2009</li>
+      <li>Tendencias de Hospedaje</li>
+      <li>Turismo Doméstico</li>
+      <li>Turismo Religioso</li>
+    </ul>
+    <a class="section-link" href="{% url 'inventario-turistico' %}">Ver sección</a>
+  </div>
+  <!-- Pregunta 26 -->
+  <div class="question-container" onclick="toggleAnswer('answer26')">
+    <h2 class="question truncate">26. ¿Qué encontraré en el apartado de Compendio Turístico?</h2>
+  </div>
+  <div class="answer card-p" id="answer26">En el apartado de Compendio Turístico, podrás encontrar los estudios de los
+    siguientes años:
+    <ul>
+      <li>Compendio Turístico 2014</li>
+      <li>Compendio Turístico 2013</li>
+      <li>Compendio Turístico 2012</li>
+      <li>Compendio Turístico 2011</li>
+      <li>Compendio Turístico 2010</li>
+      <li>Compendio Turístico 2009</li>
+      <li>Compendio Turístico 2008</li>
+      <li>Compendio Turístico 2007</li>
+    </ul>
+    <a class="section-link" href="{% url 'inventario-turistico' %}">Ver sección</a>
+  </div>
+  <!-- Pregunta 27 -->
+  <div class="question-container" onclick="toggleAnswer('answer27')">
+    <h2 class="question truncate">27. ¿Qué encuentro en el apartado de noticias turísticas?</h2>
+  </div>
+  <div class="answer card-p" id="answer27">En el apartado de noticias turísticas, encontrarás noticias relacionadas con el
+    turismo del estado de Guanajuato. Estas noticias provienen de fuentes como la prensa local, estatal y nacional, así
+    como algunas notas publicadas en redes sociales.
+    <a class="section-link" href="{% url 'noticias_turisticas' %}">Ver sección</a>
+  </div>
+  <!-- Pregunta 28 -->
+  <div class="question-container" onclick="toggleAnswer('answer28')">
+    <h2 class="question truncate">28. ¿Qué datos encuentro en los estudios de colaboradores externos?</h2>
+  </div>
+  <div class="answer card-p" id="answer28">En los estudios de colaboradores externos, encontrarás investigaciones, artículos y
+    ponencias de académicos e investigadores nacionales e internacionales que colaboran con el Observatorio Turístico
+    del Estado de Guanajuato. Algunos de los archivos disponibles son:
+    <ul>
+      <li>"La triada turística: tres elementos sustentables para la construcción del conocimiento turístico" por Celeste
+        Nava Jiménez</li>
+      <li>"El turismo de Reuniones a 10 años de su ordenamiento" por Eduardo Yerto</li>
+      <li>"Agregando valor a un producto turístico tradicional, caso Pachuca"</li>
+    </ul>
+    <!-- <div class="section-link" onclick="scrollToSection('estudios-colaboradores')">Ver sección</div> -->
+  </div>
+  <!-- Pregunta 29 -->
+  <div class="question-container" onclick="toggleAnswer('answer29')">
+    <h2 class="question truncate">29. ¿Qué hace un colaborador en el Observatorio Turístico del Estado de Guanajuato?
+    </h2>
+  </div>
+  <div class="answer card-p" id="answer29">Un colaborador en el Observatorio Turístico del Estado de Guanajuato es un miembro
+    que participa como autor, aportando sus estudios, investigaciones, opiniones o artículos en materia turística. Su
+    contribución desde su propia perspectiva ayuda a la construcción del conocimiento turístico en el observatorio.
+
+    <!-- <div class="section-link" onclick="scrollToSection('colaboradores')">Ver sección</div> -->
+  </div>
+  <!-- Pregunta 30 -->
+  <div class="question-container" onclick="toggleAnswer('answer30')">
+    <h2 class="question truncate">30. ¿Cómo puedo obtener mi usuario y contraseña de colaborador?</h2>
+  </div>
+  <div class="answer card-p" id="answer30">Es necesario registrarse para ser un colaborador del observatorio turístico del
+    estado de Guanajuato, tienes que entrar al apartado de "Registro de colaboradores" ubicada en la parte inferior de
+    la página, ahí tienes que proporcionar algunos datos como nombre, correo, escolaridad, etc. Una vez que se verifica
+    la autenticidad de los datos se podrá generar tu usuario y contraseña.</div>
+  <!-- Pregunta 31 -->
+  <div class="question-container" onclick="toggleAnswer('answer31')">
+    <h2 class="question truncate">31. ¿Qué archivos puedo encontrar en los estudios OMT?</h2>
+  </div>
+  <div class="answer card-p" id="answer31">Documentos emitidos por la OMT, que como miembros afiliados estamos autorizados a
+    compartir con los usuarios del Observatorio, algunos documentos:
+    <ul>
+      <li>Conclusiones 2015 1er Foro Mundial de Turismo Gastronómico de la OMT</li>
+    </ul>
+  </div>
+  <!-- Pregunta 32 -->
+  <div class="question-container" onclick="toggleAnswer('answer32')">
+    <h2 class="question truncate">32. ¿Cómo puedo descargar los archivos del portal?</h2>
+  </div>
+  <div class="answer card-p" id="answer32">Das click en el archivo que sea de tu interés, después de que lo hagas se despliega
+    una leyenda como la siguiente: Localiza el botón anaranjado con la leyenda "Descargar PDF" y podrás acceder a
+    guardar el documento de tu interés.</div>
+  <!-- Pregunta 33 -->
+  <div class="question-container" onclick="toggleAnswer('answer33')">
+    <h2 class="question truncate">33. ¿Qué es la sección de eventos?</h2>
+  </div>
+  <div class="answer card-p" id="answer33"> <p> Es un espacio que conjunta los eventos y actividades de mayor relevancia e impacto
+    en el medio turístico a nivel internacional, nacional y del estado.</p>
+    <a class="section-link" href="{% url 'eventos' %}">Ver sección</a>
+  </div>
+  <!-- Pregunta 34 -->
+  <div class="question-container" onclick="toggleAnswer('answer34')">
+    <h2 class="question truncate">34. ¿Qué encontraré en el apartado de los eventos?</h2>
+  </div>
+  <div class="answer card-p" id="answer34"> <p> Encontrarás una nota con el evento, la fecha, el lugar y la descripción del mismo, a
+    nivel internacional, nacional y del Estado. Hay un calendario para que puedas buscar por fecha el evento que sea de
+    tu interés.</p>
+    <a class="section-link" href="{% url 'eventos' %}">Ver sección</a></div>
+  <!-- Pregunta 35 -->
+  <div class="question-container" onclick="toggleAnswer('answer35')">
+    <h2 class="question truncate">35. ¿Cómo regreso a los eventos principales después de entrar a uno en particular?
+    </h2>
+  </div>
+  <div class="answer card-p" id="answer35">En la parte inferior del sitio, encontrarás el mapa de sitio, donde podrás ubicar
+    las secciones que lo integran. Entre estos, la sección de "EVENTOS Y ACTIVIDADES".</div>
+  <!-- Pregunta 36 -->
+  <div class="question-container" onclick="toggleAnswer('answer36')">
+    <h2 class="question truncate">36. ¿Existe una forma más fácil de visualizar los eventos?</h2>
+  </div>
+  <div class="answer card-p" id="answer36">Sí, a través de la barra lateral naranja, donde encontrarás el icono de un
+    calendario. Al presionarlo te redireccionará a los eventos.</div>
+  <!-- Pregunta 37 -->
+  <div class="question-container" onclick="toggleAnswer('answer37')">
+    <h2 class="question truncate">37. ¿Qué encontraré en el apartado de información turística?</h2>
+  </div>
+  <div class="answer card-p" id="answer37"> <p> Si das click en esta pestaña, te enviará directamente a la página de información
+    turística del estado de Guanajuato, en la que encontrarás destinos, hoteles, planes de viajes, entre otras
+    publicaciones.</p>
+    <a class="section-link" href="https://guanajuato.mx/">Ver sección</a>
+  </div>
+  <!-- Pregunta 38 -->
+  <div class="question-container" onclick="toggleAnswer('answer38')">
+    <h2 class="question truncate">38. ¿Qué son las solicitudes de información?</h2>
+  </div>
+  <div class="answer card-p" id="answer38"> <p> Este apartado de la página es para que nos envíes un correo con alguna petición de
+    información que no hayas podido encontrar y nosotros con gusto te la haremos llegar. Solo tienes que proporcionar
+    tus datos como tu nombre completo, país, correo electrónico y que redactes la solicitud de información. Después das
+    enviar y nosotros te haremos llegar lo más pronto posible la respuesta.</p>
+    <a class="section-link" href="{% url 'solicitudes' %}">Ver sección</a>
+  </div>
+  <!-- Pregunta 39 -->
+  <div class="question-container" onclick="toggleAnswer('answer39')">
+    <h2 class="question truncate">39. ¿Tienen un número de atención al cual pueda comunicarme?</h2>
+  </div>
+  <div class="answer card-p" id="answer39">Sí, contamos con un número telefónico de atención que es (472) 103 99 00 en Silao,
+    Guanajuato.</div>
+  <!-- Pregunta 40 -->
+  <div class="question-container" onclick="toggleAnswer('answer40')">
+    <h2 class="question truncate">40. ¿Dónde está ubicada la oficina del Observatorio?</h2>
+  </div>
+  <div class="answer card-p" id="answer40">Estamos ubicados en Parque Guanajuato Bicentenario, Carretera de Cuota Silao -
+    Guanajuato Km 3.8, Silao, Guanajuato, C.P. 36270.</div>
+  <!-- Pregunta 41 -->
+  <div class="question-container" onclick="toggleAnswer('answer41')">
+    <h2 class="question truncate">41. ¿Cuentan con alguna red social?</h2>
+  </div>
+  <div class="answer card-p" id="answer41">Sí, estamos en Facebook como Observatorio Turístico del Estado de Guanajuato. En
+    Twitter somos @ObservaTur_GTO. ¡Síguenos!</div>
+
 </section>
 
 <script>
-    document.querySelector('.reveal-answer').addEventListener('click', function () {
-        document.querySelector('.quiz-card').classList.toggle('show-answer');
-        document.querySelector('.question').classList.toggle('hide');
-    });
+  document.querySelector('.reveal-answer').addEventListener('click', function () {
+    document.querySelector('.quiz-card').classList.toggle('show-answer');
+    document.querySelector('.question').classList.toggle('hide');
+  });
 </script>
 
 
