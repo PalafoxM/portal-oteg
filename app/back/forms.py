@@ -360,7 +360,7 @@ class InventarioHoteleroEntNacForm(ModelForm):
 
     class Meta:
         model = InventarioHoteleroEntNac
-        fields = ['entidad', 'fecha', 'categoria', 'habitaciones', 'establecimientos']
+        fields ='__all__'
     
     def __init__ (self, *args, **kwargs):
         super().__init__(*args, **kwargs)

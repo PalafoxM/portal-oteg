@@ -688,7 +688,7 @@
                     </button>
                     <a class="navbar-brand" href="#">
                         <img src="{% static 'img/inicio/logo.svg' %}" alt="" class="img-responsive"
-                            style="width: 140px; margin-top: -16px;">
+                            style="height: 60px;  margin-top: -16px;">
                     </a>
                 </div>
 
@@ -734,7 +734,11 @@
             <div class="item  {% if forloop.counter0 == 0 %}active{% endif %}">
 
                 <div class="mask">
+                    {% if object.imagen %}
                     <img src="{{object.imagen.url}}" alt="">
+                    {% else %}
+
+                    {% endif %}
                     <div class="overlay"></div>
                 </div>
 
