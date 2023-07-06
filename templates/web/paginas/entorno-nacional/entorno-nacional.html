@@ -20,44 +20,52 @@
     </div>
   
   </dic>
-  <div style="display:flex;
+  <div style="display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;">
+    <div style="width: 100%;
+                max-width: 500px;
+                display: flex;
                 justify-content: space-around;
                 align-items: center;
-                flex-wrap: wrap;
-                
-                ">
-                <div style="
-                        width: 50%;
-                        display: flex;
-                        justify-content: space-around;
-                        align-items: center;
-                        background-color: #DEE2E6;  
-                        border-radius: 8px;
-                        padding: 20px;
-                        background-image: linear-gradient(140.57deg, #ED4C02 0%, #FB8A55 100%);
+                background-color: #DEE2E6;
+                border-radius: 8px;
+                padding: 20px;
+                background-image: linear-gradient(140.57deg, #ED4C02 0%, #FB8A55 100%);">
+        <div>
+            <h2 style="font-family: 'Montserrat', sans-serif;
+                        font-weight: 600;
+                        font-size: 20px;
+                        color: #fff;
+                        padding: 0;
+                        margin: 0;">
+                INDICADORES ECONÓMICOS
+            </h2>
+            <a style="font-family: Poppins;
+                        color: #fff;
+                        font-weight: 300;
+                        text-decoration: none;"
+                href="{% url 'entorno-nacional-indicadores' %}">
+                Ver más
+            </a>
+        </div>
+        <div>
+            <a href="{% url 'entorno-nacional-indicadores' %}"
+                class="fas fa-chevron-circle-right"
+                style="font-size: 30px;
+                        color: #fff;
+                        margin-left: 20px;
+                        margin-right: 20px;
+                        margin-top: 10px;
+                        margin-bottom: 10px;
+                        cursor: pointer;
+                        text-decoration: none;">
+            </a>
+        </div>
+    </div>
+</div>
 
-
-                    ">
-
-                    <div>
-                        <h2
-                            style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 20px; color: #fff; padding: 0; margin: 0;">
-                            INDICADORES ECONÓMICOS</h2>
-                        <a style=" font-family: Poppins; color: #fff; font-weight: 300;" href="{% url 'entorno-nacional-indicadores'  %}">Ver mas</a>
-                    </div>
-                    <div>
-                        <a
-                        href="{% url 'entorno-nacional-indicadores'  %}"
-                        class="fas fa-chevron-circle-right"
-                        style="font-size: 30px; color: #fff; margin-left: 20px; margin-right: 20px; margin-top: 10px; margin-bottom: 10px; cursor: pointer; text-decoration: none;"
-                        >
-
-                    </a>
-                    </div>
-
-                </div>
-
-            </div>
 
 
 {% endblock %}
