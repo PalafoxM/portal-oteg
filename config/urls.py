@@ -24,13 +24,8 @@ urlpatterns = [
     path('',include('web.urls')),
     # admin
     path('admin/', admin.site.urls),
-    path('auth/',include('django.contrib.auth.urls')),
+    # path('auth/',include('django.contrib.auth.urls')),
     path('auth/',include('logIn.urls')),
-    # path('',include('dash.urls')),
-    # path('otros/',include('otros.urls')),
-    # path('users/',include('usuarios.urls')),
-    # path('admin-oteg/',include('colaboradores.urls')),
-    
     path('admin-oteg/',include('back.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
     

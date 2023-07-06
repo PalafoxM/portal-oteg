@@ -4,6 +4,15 @@ from django.urls import reverse_lazy
 from back.models import  *
 from back.forms import *
 from django.http import JsonResponse, HttpResponseRedirect
+from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.decorators import method_decorator
+from django.http import Http404
+from django.core.exceptions import PermissionDenied
+
+from django.contrib.auth.decorators import user_passes_test
+
+def es_admin_o_superadmin(user):
+    return user.is_authenticated and (user.is_staff or user.is_superuser)
 
 
 
@@ -12,6 +21,9 @@ from django.http import JsonResponse, HttpResponseRedirect
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
+@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
+@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
 class CatalagoDestinoListView(ListView):
     model = CatalagoDestino
     template_name = 'back/catalogo_destinos/list.html'
@@ -25,6 +37,9 @@ class CatalagoDestinoListView(ListView):
         context['entity'] = 'Catalago Destino'
         return context
 
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
+@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
+@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
 class  CatalagoDestinoCreateView(CreateView):
     model = CatalagoDestino
     form_class = CatalagoDestinoForm
@@ -76,6 +91,9 @@ class  CatalagoDestinoCreateView(CreateView):
         context['action'] = 'add'
         return context
 
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
+@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
+@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
 class CatalagoDestinoUpdateView( UpdateView):
     model = CatalagoDestino
     form_class = CatalagoDestinoForm
@@ -115,6 +133,9 @@ class CatalagoDestinoUpdateView( UpdateView):
         context['action'] = 'adit'
         return context
 
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
+@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
+@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
 class CatalagoDestinoDeleteView(DeleteView):
     model = CatalagoDestino
     # template_name = 'back/delete.html'

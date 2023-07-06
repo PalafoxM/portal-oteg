@@ -9,9 +9,19 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
 from django.views.decorators.http import require_GET
+from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.decorators import method_decorator
+from django.http import Http404
+from django.core.exceptions import PermissionDenied
+
+from django.contrib.auth.decorators import user_passes_test
+
+def es_admin_o_superadmin(user):
+    return user.is_authenticated and ( user.is_staff or user.is_superuser)
 
 
 # Create your views here.
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
 class PublicationsListView(ListView):
 
     model = Publications
@@ -24,6 +34,7 @@ class PublicationsListView(ListView):
         return context
     
 
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
 class PublicationsCreateView(CreateView):
     model = Publications
     form_class = PublicationForm
@@ -87,10 +98,12 @@ class PublicationsCreateView(CreateView):
         context['action'] = 'add'
         return context
 
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
 class PublicationUpdateView(UpdateView):
     model = Publications
     form_class = PublicationForm
@@ -151,7 +164,7 @@ class PublicationUpdateView(UpdateView):
         context ['category'] = self.object.category.id
         return context
 
-
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
 class PublicationDeleteView(DeleteView):
     model = Publications
     success_url = reverse_lazy('dashboard:publicacion_list')

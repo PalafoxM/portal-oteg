@@ -20,6 +20,15 @@ import openpyxl
 from django.http import HttpResponse
 import json
 from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino
+from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.decorators import method_decorator
+from django.http import Http404
+from django.core.exceptions import PermissionDenied
+
+from django.contrib.auth.decorators import user_passes_test
+
+def es_admin_o_superadmin(user):
+    return user.is_authenticated and (user.is_staff or user.is_superuser)
 
 
 
@@ -27,6 +36,9 @@ def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
+@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
+@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
 class FuenteInfoOtrosAnuales (ListView):
     model = otros_anuales
     template_name = 'back/fuente_info_otros_anuales/viewer.html'
@@ -41,6 +53,9 @@ class FuenteInfoOtrosAnuales (ListView):
         return context
 
 
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
+@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
+@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
 class FuenteInfoOtrosAnualesCreate (CreateView):
     model = otros_anuales
     form_class = OtrosAnualesForm
@@ -149,6 +164,9 @@ class FuenteInfoOtrosAnualesCreate (CreateView):
         return context
     
 
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
+@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
+@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
 class FuenteInfoOtrosAnualesUpdate (UpdateView):
     model = otros_anuales
     form_class = OtrosAnualesForm
@@ -192,6 +210,9 @@ class FuenteInfoOtrosAnualesUpdate (UpdateView):
         return context
 
 
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
+@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
+@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
 class FuenteInfoOtrosAnualesDelete (DeleteView):
     model = otros_anuales
     success_url = reverse_lazy('dashboard:fuente_info_otros_anuales')
@@ -202,6 +223,9 @@ class FuenteInfoOtrosAnualesDelete (DeleteView):
         self.object.delete()
         return HttpResponseRedirect(success_url)
 
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
+@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
+@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
 class OtrosAnualesCargaMasivaView(View):
     form_class = CargaMasivaForm
     template_name = 'back/fuente_info_otros_anuales/carga_masiva.html'
@@ -364,6 +388,9 @@ class OtrosAnualesCargaMasivaView(View):
             print(f"Error al procesar el archivo {archivo}: {e}")
         return registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas
 
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
+@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
+@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
 class OtrosAnualeDescargarArchivoView(View):
 
     def crear_archivo_excel(self, registros_incorrectos):

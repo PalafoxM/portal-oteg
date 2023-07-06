@@ -1,9 +1,11 @@
 {% load static %}
+{% load custom_tags %}
 <div class="sidebar ">
     <div class="logo-details">
         <img style="width: 70%;" src='{% static "img/inicio/logo.svg" %}' />
     </div>
     <ul class="nav-links">
+        {% if request.user|user_in_group:'Super-Admin' or request.user|user_in_group:'Admin' %}
         <li>
             <div class="icon-link">
                 <a href="#">
@@ -21,25 +23,42 @@
                 
             </ul>
         </li>
+        {% endif %}
+        {% if request.user|user_in_group:'Super-Admin' or request.user|user_in_group:'Admin' %}
         <li>
             <div class="icon-link">
                 <a href="#">
                     <img src="{% static 'images/icons/carpetas.png' %}" class="icons-list">
-                    <!-- <i class='bx bx-book-alt'></i> -->
                     <span class="link_name">CEDOC</span>
                 </a>
-                <i class='bx bxs-chevron-down arrow'></i>
+                <i class="bx bxs-chevron-down arrow"></i>
             </div>
             <ul class="sub-menu">
                 <li><a class="link_name" href="#">Posts</a></li>
-                <li><a href="{%url 'dashboard:centrodocumental'  %}">CEDOC</a></li>
-                <li><a href="{%url 'dashboard:publicacion_list'  %}">Publicaciones</a></li>
-                <li><a href="{%url 'dashboard:barometro_list'  %}">Barometro</a></li>
-                <li><a href="{%url 'dashboard:modulo_reportes_mensuales'  %}">Reportes Mensuales</a></li>
-                <li><a href="{%url 'dashboard:modulo_encuestas'  %}">Encuestas</a></li>
-                <li><a href="{%url 'dashboard:descargas_list'  %}">Descargar</a></li>
+                <li><a href="{% url 'dashboard:centrodocumental' %}">CEDOC</a></li>
+                <li><a href="{% url 'dashboard:publicacion_list' %}">Publicaciones</a></li>
+                <li><a href="{% url 'dashboard:barometro_list' %}">Barometro</a></li>
+                <li><a href="{% url 'dashboard:modulo_reportes_mensuales' %}">Reportes Mensuales</a></li>
+                <li><a href="{% url 'dashboard:modulo_encuestas' %}">Encuestas</a></li>
+                <li><a href="{% url 'dashboard:descargas_list' %}">Descargar</a></li>
             </ul>
         </li>
+        {% elif request.user|user_in_group:'Colaborador' %}
+        <li>
+            <div class="icon-link">
+                <a href="#">
+                    <img src="{% static 'images/icons/carpetas.png' %}" class="icons-list">
+                    <span class="link_name">CEDOC</span>
+                </a>
+                <i class="bx bxs-chevron-down arrow"></i>
+            </div>
+            <ul class="sub-menu">
+                <li><a class="link_name" href="#">Posts</a></li>
+                <li><a href="{% url 'dashboard:publicacion_list' %}">Publicaciones</a></li>
+            </ul>
+        </li>
+        {% endif %}
+        {% if request.user|user_in_group:'Super-Admin' or request.user|user_in_group:'Admin' %}
         <li>
             <div class="icon-link">
                 <a href="#">
@@ -56,6 +75,8 @@
                 <li><a href="{%url 'dashboard:eventos_list'  %}">Eventos</a></li>
             </ul>
         </li>
+        {% endif %}
+        {% if request.user|user_in_group:'Super-Admin'%}
         <li>
             <a href="{%url 'usuarios-list'  %}">
                 <img src="{% static 'images/icons/icon-users.png' %}" class="icons-list">
@@ -66,6 +87,8 @@
                 <li><a class="link_name" href="{%url 'usuarios-list'  %}">Colaboradores</a></li>
             </ul>
         </li>
+        {% endif %}
+        {% if request.user|user_in_group:'Super-Admin' or request.user|user_in_group:'Admin' %}
         <li>
             <div class="icon-link">
                 <a href="#">
@@ -96,6 +119,8 @@
                 <!-- <li><a href="{%url 'dashboard:place_list'  %}">Sitios de interés</a></li> -->
             </ul>
         </li>
+        {% endif %}
+        {% if request.user|user_in_group:'Super-Admin'%}
 
         <li>
             <a href="{%url 'dashboard:configuracion'  %}">
@@ -104,5 +129,6 @@
                 <span class="link_name">Config</span>
             </a>
         </li>
+        {% endif %}
     </ul>
 </div>

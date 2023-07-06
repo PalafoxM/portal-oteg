@@ -3,7 +3,19 @@ from back.models import *
 from django.views.generic import ListView, TemplateView
 from datetime import datetime, timedelta
 from django.utils import timezone
+from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.decorators import method_decorator
+from django.http import Http404
+from django.core.exceptions import PermissionDenied
 
+from django.contrib.auth.decorators import user_passes_test
+
+def es_admin_o_superadmin(user):
+    return user.is_authenticated and (user.is_staff or user.is_superuser)
+
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
+@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
+@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
 class FuentesInfoView (TemplateView):
     template_name = 'back/fuente-informacion/list.html'
 
@@ -33,5 +45,8 @@ class FuentesInfoView (TemplateView):
 
         # context['model_updated'] = model_updated
         # context['non_updated_count'] = non_updated_count
+
+        user_in_colaboradores_group = self.request.user.groups.filter(name='colaboradores').exists()
+        # context['user_in_colaboradores_group'] = user_in_colaboradores_group
 
         return context

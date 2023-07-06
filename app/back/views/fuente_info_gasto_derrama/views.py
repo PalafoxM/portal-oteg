@@ -19,6 +19,15 @@ import openpyxl
 from django.http import HttpResponse
 import json
 from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino
+from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.decorators import method_decorator
+from django.http import Http404
+from django.core.exceptions import PermissionDenied
+
+from django.contrib.auth.decorators import user_passes_test
+
+def es_admin_o_superadmin(user):
+    return user.is_authenticated and (user.is_staff or user.is_superuser)
 
 
 def is_ajax(request):
@@ -26,6 +35,9 @@ def is_ajax(request):
 
 
 
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
+@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
+@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
 class FuenteInfoGastoDerrama (ListView):
     model = GastoDerrama
     template_name = 'back/fuente_info_gasto_derrama/viewer.html'
@@ -38,7 +50,10 @@ class FuenteInfoGastoDerrama (ListView):
         context['is_fuente']    = True
         context['carga_masiva_url'] = reverse_lazy('dashboard:fuente_gasto_derrama_carga_masiva')
         return context
-    
+
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
+@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
+@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')    
 class FuenteInfoGastoDerramaCreate (CreateView):
     model = GastoDerrama
     form_class = GastoDerramaForm
@@ -90,6 +105,9 @@ class FuenteInfoGastoDerramaCreate (CreateView):
         return context
     
 
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
+@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
+@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
 class FuenteInfoGastoDerramaUpdate (UpdateView):
     model = GastoDerrama
     form_class = GastoDerramaForm
@@ -125,7 +143,10 @@ class FuenteInfoGastoDerramaUpdate (UpdateView):
         context['form'] = self.form_class(instance=self.object)
         context['list_url'] = reverse_lazy('dashboard:fuente_info_gasto_derrama')
         return context
-    
+
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
+@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
+@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')    
 class FuenteInfoGastoDerramaDelete(DeleteView):
     model = GastoDerrama
     success_url = reverse_lazy('dashboard:fuente_info_gasto_derrama')
@@ -135,7 +156,10 @@ class FuenteInfoGastoDerramaDelete(DeleteView):
         success_url = self.get_success_url()
         self.object.delete()
         return HttpResponseRedirect(success_url)
-    
+
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
+@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
+@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')    
 class GastoDerramaCargaMasivaView(View):
     form_class = CargaMasivaForm
     template_name = 'back/fuente_info_gasto_derrama/carga_masiva.html'
@@ -340,7 +364,10 @@ class GastoDerramaCargaMasivaView(View):
         except Exception as e:
             print(f"Error al procesar el archivo {archivo}: {e}")
         return registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas
-    
+
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
+@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
+@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')    
 class GastoDerramaDescargarArchivoView(View):
 
     def crear_archivo_excel(self, registros_incorrectos):

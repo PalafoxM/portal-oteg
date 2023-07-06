@@ -20,10 +20,25 @@ from django.http import HttpResponse
 import json
 from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino
 
+from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.decorators import method_decorator
+from django.http import Http404
+from django.core.exceptions import PermissionDenied
+
+from django.contrib.auth.decorators import user_passes_test
+
+def es_admin_o_superadmin(user):
+    return user.is_authenticated and (user.is_staff or user.is_superuser)
+
+
+
 # Create your views here.
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
+@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
+@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
 class CalidadAireListView(ListView):
     model = CalidadAire
     template_name = 'back/calidad_aire/list.html'
@@ -55,6 +70,9 @@ class CalidadAireListView(ListView):
         context['is_fuente'] = True
         return context
 
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
+@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
+@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
 class  CalidadAireCreateView(CreateView):
     model = CalidadAire
     form_class = CalidadAireForm
@@ -106,6 +124,9 @@ class  CalidadAireCreateView(CreateView):
         context['action'] = 'add'
         return context
 
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
+@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
+@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
 class CalidadAireUpdateView( UpdateView):
     model = CalidadAire
     form_class = CalidadAireForm
@@ -144,6 +165,9 @@ class CalidadAireUpdateView( UpdateView):
         context['form'] = self.form_class(instance=self.object)
         return context
 
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
+@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
+@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
 class CalidadAireDeleteView(DeleteView):
     model = CalidadAire
     # template_name = 'back/delete.html'
@@ -155,6 +179,9 @@ class CalidadAireDeleteView(DeleteView):
         self.object.delete()
         return HttpResponseRedirect(success_url)
 
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
+@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
+@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
 class CalidadAireCargaMasivaView(View):
     form_class = CargaMasivaForm
     template_name = 'back/calidad_aire/carga_masiva.html'
@@ -303,7 +330,9 @@ class CalidadAireCargaMasivaView(View):
         return registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas
 
 
-
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
+@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
+@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
 class DescargarArchivoAireView(View):
 
     def crear_archivo_excel(self, registros_incorrectos):

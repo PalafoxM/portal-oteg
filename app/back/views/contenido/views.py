@@ -5,13 +5,32 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from back.models import *
 from back.forms import *
 from web.models import *
+from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.decorators import method_decorator
+from django.http import Http404
+from django.core.exceptions import PermissionDenied
+
+from django.contrib.auth.decorators import user_passes_test
+
+def es_admin_o_superadmin(user):
+    return user.is_authenticated and (user.is_staff or user.is_superuser)
+
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 # Create your views here.
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
+@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
+@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
 class BannerListView(ListView):
     model = Banner
     template_name = 'back/banner/list.html'
+    
+    def dispatch(self, request, *args, **kwargs):
+        try:
+            return super().dispatch(request, *args, **kwargs)
+        except PermissionDenied:
+            raise Http404
 
     def post(self, request, *args, **kwargs):
         data = {}
@@ -40,6 +59,9 @@ class BannerListView(ListView):
         return context
 
 
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
+@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
+@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
 class BannerCreateView(CreateView):
     model = Banner
     form_class = BannerForm
@@ -90,7 +112,9 @@ class BannerCreateView(CreateView):
         context['action'] = 'add'
         return context
 
-
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
+@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
+@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
 class BannerUpdateView(UpdateView):
     model = Banner
     form_class = BannerForm
@@ -129,7 +153,9 @@ class BannerUpdateView(UpdateView):
         context['form'] = self.form_class(instance=self.object)
         return context
 
-
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
+@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
+@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
 class BanneDeleteView(DeleteView):
     model = Banner
     # template_name = 'back/delete.html'
@@ -141,7 +167,9 @@ class BanneDeleteView(DeleteView):
         self.object.delete()
         return HttpResponseRedirect(success_url)
 
-
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
+@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
+@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
 class PlaceListView(ListView):
     model = PlacesOfInterest
     template_name = 'back/places_of_interest/list.html'
@@ -168,7 +196,9 @@ class PlaceListView(ListView):
 
         return context
 
-
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
+@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
+@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
 class PlaceCreateView(CreateView):
     model = PlacesOfInterest
     form_class = PlacesOfInterestForm
@@ -220,7 +250,9 @@ class PlaceCreateView(CreateView):
         context['list_url'] = reverse_lazy('dashboard:place_list')
         return context
 
-
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
+@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
+@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
 class PlaceUpdateView(UpdateView):
     model = PlacesOfInterest
     form_class = PlacesOfInterestForm
@@ -259,7 +291,9 @@ class PlaceUpdateView(UpdateView):
         context['form'] = self.form_class(instance=self.object)
         return context
 
-
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
+@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
+@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
 class PlaceDeleteView(DeleteView):
     model = PlacesOfInterest
     # template_name = 'back/delete.html'
@@ -273,7 +307,9 @@ class PlaceDeleteView(DeleteView):
 
 # Eventos
 
-
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
+@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
+@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
 class EventoListView(ListView):
     model = Evento
     template_name = 'back/eventos/viewer.html'
@@ -286,7 +322,9 @@ class EventoListView(ListView):
             'dashboard:evento_delete', args=[0])
         return context
 
-
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
+@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
+@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
 class EventoCreateView(CreateView):
     model = Evento
     form_class = EventoForm
@@ -337,7 +375,9 @@ class EventoCreateView(CreateView):
         context['action'] = 'add'
         return context
 
-
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
+@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
+@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
 class EventoDeleteView(DeleteView):
     model = Evento
     success_url = reverse_lazy('dashboard:eventos_list')
@@ -352,7 +392,9 @@ class EventoDeleteView(DeleteView):
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
-
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
+@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
+@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
 class EventoUpdateView(UpdateView):
     model = Evento
     form_class = EventoForm
@@ -391,6 +433,9 @@ class EventoUpdateView(UpdateView):
 
 
 # Noticias
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
+@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
+@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
 class NoticiaListView(ListView):
     model = Noticia
     template_name = 'back/noticias/viewer.html'
@@ -401,7 +446,9 @@ class NoticiaListView(ListView):
         context['create_url'] = reverse_lazy('dashboard:noticia_create')
         return context
 
-
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
+@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
+@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
 class NoticiaCreateView(CreateView):
     model = Noticia
     form_class = NoticiaForm
@@ -452,7 +499,9 @@ class NoticiaCreateView(CreateView):
         context['action'] = 'add'
         return context
 
-
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
+@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
+@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
 class NoticiaDeleteView(DeleteView):
     model = Noticia
     success_url = reverse_lazy('dashboard:noticias_list')
@@ -463,7 +512,9 @@ class NoticiaDeleteView(DeleteView):
         self.object.delete()
         return HttpResponseRedirect(success_url)
 
-
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
+@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
+@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
 class NoticiaUpdateView(UpdateView):
     model = Noticia
     form_class = NoticiaForm
@@ -502,7 +553,9 @@ class NoticiaUpdateView(UpdateView):
 
 # Glosario
 
-
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
+@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
+@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
 class GlosarioListView(ListView):
     model = Glosario
     template_name = 'back/glosario/viewer.html'
@@ -513,7 +566,9 @@ class GlosarioListView(ListView):
         context['create_url'] = reverse_lazy('dashboard:glosario_create')
         return context
 
-
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
+@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
+@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
 class GlosarioCreateView(CreateView):
     model = Glosario
     form_class = GlosarioForm
@@ -564,7 +619,9 @@ class GlosarioCreateView(CreateView):
         context['action'] = 'add'
         return context
 
-
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
+@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
+@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
 class GlosarioDeleteView(DeleteView):
     model = Glosario
     success_url = reverse_lazy('dashboard:glosario_list')
@@ -575,7 +632,9 @@ class GlosarioDeleteView(DeleteView):
         self.object.delete()
         return HttpResponseRedirect(success_url)
 
-
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
+@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
+@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
 class GlosarioUpdateView(UpdateView):
     model = Glosario
     form_class = GlosarioForm
@@ -612,7 +671,9 @@ class GlosarioUpdateView(UpdateView):
         context['list_url'] = reverse_lazy('dashboard:glosario_list')
         return context
 
-
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
+@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
+@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
 class BarometroListView(ListView):
     model = BarometroTuristico
     template_name = 'back/barometro/viewer.html'
@@ -632,7 +693,9 @@ class BarometroListView(ListView):
 
         return context
 
-
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
+@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
+@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
 class BarometroCreateView(CreateView):
     model = BarometroTuristico
     form_class = BarometroForm
@@ -684,7 +747,9 @@ class BarometroCreateView(CreateView):
         context['action'] = 'add'
         return context
 
-
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
+@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
+@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
 class BarometroDeleteView(DeleteView):
     model = BarometroTuristico
     success_url = reverse_lazy('dashboard:barometro_list')
@@ -695,7 +760,9 @@ class BarometroDeleteView(DeleteView):
         self.object.delete()
         return HttpResponseRedirect(success_url)
 
-
+@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
+@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
+@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
 class BarometroUpdateView(UpdateView):
     model = BarometroTuristico
     form_class = BarometroForm
@@ -732,132 +799,3 @@ class BarometroUpdateView(UpdateView):
         context['list_url'] = reverse_lazy('dashboard:barometro_list')
         return context
 
-
-class AlbaListView(ListView):
-    model = Alba
-    template_name = 'back/alba/list.html'
-
-    def post(self, request, *args, **kwargs):
-        data = {}
-        try:
-            action = request.POST['action']
-            if action == 'search':
-                data = []
-                for i in PlacesOfInterest.objects.all():
-                    data.append(i.toJSON())
-            else:
-                data['error'] = 'Ha ocurrido un error'
-        except Exception as e:
-            data['error'] = str(e)
-        return JsonResponse(data, safe=False)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Listado de Aechivos Protocolo Alba'
-        context['create_url'] = reverse_lazy('dashboard:alba_create')
-        context['entity'] = 'Alba'
-
-        return context
-
-
-class AlbaCreateView(CreateView):
-    model = Alba
-    form_class = AlbaForm
-    template_name = 'back/components/create_update.html'
-    success_url = reverse_lazy('dashboard:alba_list')
-
-    def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST, request.FILES)
-        if form.is_valid():
-            self.object = form.save()
-            data = {
-                'success': True,
-                'message': 'Archivo Alba creado exitosamente.',
-                'url': self.success_url
-            }
-            return JsonResponse(data)
-        else:
-            data = {
-                'success': False,
-                'message': 'Hubo un error al crear un Archivo Alba.',
-                'errors': form.errors
-            }
-            return JsonResponse(data)
-
-    def form_invalid(self, form):
-        print("form_invalid")
-        response = super().form_invalid(form)
-        data = {
-            'success': False,
-            'message': 'Hubo un error al crear un Archivo Alba.',
-            'errors': form.errors
-        }
-        return JsonResponse(data)
-
-    def form_valid(self, form):
-        print("form_valid")
-        response = super().form_valid(form)
-        data = {
-            'success': True,
-            'message': 'Archivo Alba creado exitosamente.',
-            'url': self.success_url
-        }
-        return JsonResponse(data)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Subir Archivo Alba'
-        context['entity'] = 'Alba'
-        context['list_url'] = reverse_lazy('dashboard:alba_list')
-        return context
-
-
-class AlbaUpdateView(UpdateView):
-    model = Alba
-    form_class = AlbaForm
-    template_name = 'back/components/create_update.html'
-    success_url = reverse_lazy('dashboard:alba_list')
-
-    def form_invalid(self, form):
-        response = super().form_invalid(form)
-        data = {
-            'success': False,
-            'message': 'Hubo un error al crear el Archivo Alba.',
-            'errors': form.errors
-        }
-        if is_ajax(self.request):
-            return JsonResponse(data)
-        else:
-            return response
-
-    def form_valid(self, form):
-        response = super().form_valid(form)
-        data = {
-            'success': True,
-            'message': 'Archivo Alba creado exitosamente.',
-            'url': self.success_url
-        }
-        if is_ajax(self.request):
-            return JsonResponse(data)
-        else:
-            return response
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Edición de Archivo Alba'
-        context['entity'] = 'Alba'
-        context['list_url'] = reverse_lazy('dashboard:alba_list')
-        context['form'] = self.form_class(instance=self.object)
-        return context
-
-
-class AlbaDeleteView(DeleteView):
-    model = PlacesOfInterest
-    # template_name = 'back/delete.html'
-    success_url = reverse_lazy('dashboard:alba_list')
-
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        success_url = self.get_success_url()
-        self.object.delete()
-        return HttpResponseRedirect(success_url)
