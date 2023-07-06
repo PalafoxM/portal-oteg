@@ -214,7 +214,6 @@ class EniotAlbun(models.Model):
 
 # #Fuentes de Informacion
 
-
 class DataTour (models.Model):
     destino = models.CharField(max_length=256, null=True)
     categoria = models.CharField(max_length=256, null=True)
@@ -240,6 +239,7 @@ class DataTour (models.Model):
     densidad_de_ocupacion = models.FloatField(null=True)
     densidad_de_ocupacion_residentes = models.FloatField(null=True)
     densidad_de_ocupacion_no_residentes = models.FloatField(null=True)
+    fecha_actualizacion = models.DateField(auto_now=True)
 
     def toJSON(self):
         item = model_to_dict(self)
@@ -260,6 +260,7 @@ class GastoDerrama(models.Model):
     destino = models.CharField(max_length=256)
     participacion_en_hospedaje = models.FloatField()
     estadia_promedio = models.FloatField()
+    fecha_actualizacion = models.DateField(auto_now=True)
 
     class Meta:
         app_label = 'ecosistema'
@@ -273,6 +274,7 @@ class otros_anuales(models.Model):
     PIB_sector_72 = models.FloatField()
     PIB_actividades_terciarias = models.FloatField()
     basura_generada_persona_diaria_Kg = models.FloatField()
+    fecha_actualizacion = models.DateField(auto_now=True)
 
     class Meta:
         app_label = 'ecosistema'
@@ -287,6 +289,7 @@ class zonas_arqueologicas_museos(models.Model):
     fecha = models.DateField()
     origen_visitante = models.CharField(max_length=455)
     visitantes = models.IntegerField()
+    fecha_actualizacion = models.DateField(auto_now=True)
 
     class Meta:
 
@@ -302,6 +305,7 @@ class InventarioHotelero(models.Model):
     categoria = models.CharField(max_length=255)
     habitaciones = models.IntegerField()
     establecimientos = models.IntegerField()
+    fecha_actualizacion = models.DateField(auto_now=True)
 
     def toJSON(self):
         item = model_to_dict(self)
@@ -323,6 +327,7 @@ class InversionPublica(models.Model):
     monto_de_inversion_municipal = models.FloatField()
     monto_de_inversion_estatal = models.FloatField()
     monto_de_inversion_federal = models.FloatField()
+    fecha_actualizacion = models.DateField(auto_now=True)
 
     def __str__(self):
         return f"{self.destino} - {self.nombre_de_la_obra} ({self.fecha})"
@@ -339,33 +344,36 @@ class InversionPublica(models.Model):
 
 
 class InventarioHoteleroEntNac(models.Model):
-
     
     fecha = models.DateField()
     entidad = models.CharField(max_length=455, null=True, blank=True)
-    categoria = models.CharField(max_length=255)
+    categoria = models.CharField(max_length=455, null=True, blank=True)
+
     establecimientos = models.IntegerField()
     habitaciones = models.IntegerField()
+    fecha_actualizacion = models.DateField(auto_now=True)
 
     def toJSON(self):
         item = model_to_dict(self)
+        item['fecha_actualizacion'] = self.fecha_actualizacion.strftime('%Y-%m-%d')
         return item
 
     class Meta:
         app_label = 'ecosistema'
-        verbose_name = 'inventario_hotelero_ent_nac'
-        verbose_name_plural = 'inventario_hotelero_ent_nac'
         db_table = 'inventario_hotelero_ent_nac'
-        ordering = ['-id']
+
 
 
 class CalidadAire(models.Model):
     fecha = models.DateField()
     destino = models.CharField(max_length=455, null=True, blank=True)
     calidad_del_aire = models.CharField(max_length=2255)
+    fecha_actualizacion = models.DateField(auto_now=True)
+
 
     def toJSON(self):
         item = model_to_dict(self)
+        item['fecha_actualizacion'] = self.fecha_actualizacion.strftime('%Y-%m-%d')
         return item
 
     class Meta:
@@ -382,7 +390,7 @@ class Sensivilizacion(models.Model):
     participantes = models.IntegerField()
     accion_de_sensibilizacion = models.CharField(max_length=455, null=True, blank=True)
     # subcategoria = models.CharField(max_length=455, null=True, blank=True)
-
+    fecha_actualizacion = models.DateField(auto_now=True)
     def toJSON(self):
         item = model_to_dict(self)
         return item
@@ -415,6 +423,7 @@ class ProyectoInversion(models.Model):
     personas_beneficiadas_con_el_proyecto = models.FloatField(
         blank=True, null=True)
     datos_de_contacto = models.TextField(blank=True)
+    fecha_actualizacion = models.DateField(auto_now=True)
 
     def __str__(self):
         return self.nombre_del_proyecto
@@ -517,6 +526,7 @@ class Airbnb (models.Model):
     propiedad_renta = models.FloatField(verbose_name='Propiedad de renta')
     porcentaje_ocupacion = models.FloatField(verbose_name='Porcentaje de ocupación')
     tarifa_promedio = models.FloatField(verbose_name='Tarifa promedio')
+    fecha_actualizacion = models.DateField(auto_now=True)
 
     class Meta:
         app_label = 'ecosistema'
@@ -531,7 +541,7 @@ class inversion_privada (models.Model):
     nombre_del_proyecto = models.CharField(max_length=455)
     id_del_proyecto = models.CharField(max_length=455)
     destino = models.CharField(max_length=455, null=True, blank=True)
-
+    fecha_actualizacion = models.DateField(auto_now=True)
     class Meta:
         app_label = 'ecosistema'
         db_table = "inversion_privada"
@@ -543,6 +553,7 @@ class Certificacion(models.Model):
     destino = models.CharField(max_length=455, null=True, blank=True)
     tipo_de_certificacion = models.CharField(max_length=455)
     empresas_certificadas = models.IntegerField()
+    fecha_actualizacion = models.DateField(auto_now=True)
 
     class Meta:
         app_label = 'ecosistema'
@@ -558,6 +569,7 @@ class empleo (models.Model):
     mujeres_empleadas_sec_72_gto = models.IntegerField(null=True, default=None)
     hombres_empleados_sec_72_nac = models.IntegerField(null=True, default=None)
     mujeres_empleadas_sec_72_nac = models.IntegerField(null=True, default=None)
+    fecha_actualizacion = models.DateField(auto_now=True)
 
     class Meta:
         app_label = 'ecosistema'
@@ -584,6 +596,7 @@ class Discapacidad(models.Model):
     empleos_temporales_m = models.BigIntegerField()
     empleados_discapacidad_h = models.BigIntegerField()
     empleados_discapacidad_m = models.BigIntegerField()
+    fecha_actualizacion = models.DateField(auto_now=True)
 
     class Meta:
         app_label = 'ecosistema'
@@ -595,6 +608,7 @@ class ParticipacionSegmentos(models.Model):
     destino = models.CharField(max_length=256)
     segmento = models.CharField(max_length=256)
     participacion = models.FloatField()
+    fecha_actualizacion = models.DateField(auto_now=True)
 
     class Meta:
         app_label = 'ecosistema'
@@ -607,6 +621,7 @@ class ParticipacionOrigen(models.Model):
     part_visitantes_int = models.FloatField(verbose_name='Participación de Visitantes Internacionales')
     part_visitantes_nac = models.FloatField(verbose_name='Participación de Visitantes Nacionales')
     part_visitantes_est = models.FloatField(verbose_name='Participación de Visitantes Estatales')
+    fecha_actualizacion = models.DateField(auto_now=True)
 
     class Meta:
         app_label = 'ecosistema'
@@ -745,7 +760,7 @@ class FuenteInfoEntornoN(models.Model):
     estadia_promedio = models.FloatField(verbose_name='Estadía Promedio')
     estadia_promedio_nacionales = models.FloatField(verbose_name='Estadía Promedio Nacionales')
     estadia_promedio_extranjeros = models.FloatField(verbose_name='Estadía Promedio Extranjeros')
-    
+    fecha_actualizacion = models.DateField(auto_now=True)
     def toJSON(self):
         item = model_to_dict(self)
         return item
@@ -764,6 +779,7 @@ class Aeropuerto(models.Model):
     pasajeros_aeropuerto_gto = models.FloatField()
     pasajeros_nacionales = models.FloatField()
     pasajeros_internacionales = models.FloatField()
+    fecha_actualizacion = models.DateField(auto_now=True)
 
     vuelos = models.FloatField()
 
@@ -778,6 +794,7 @@ class Aerolinea(models.Model):
     destino_aeropuerto_id = models.CharField(max_length=256)
     tipo_aerolinea = models.CharField(max_length=256)
     codigo_aerolinea = models.CharField(max_length=256)
+    fecha_actualizacion = models.DateField(auto_now=True)
 
     class Meta:
         app_label = 'ecosistema'
@@ -859,6 +876,7 @@ class DirectorioHotelero(models.Model):
     hotel_boutique = models.DecimalField(max_digits=10, decimal_places=2)
     nombre_de_la_cadena = models.CharField(max_length=256)
     hoteles_tesoros = models.CharField(max_length=256)
+
 
     def toJSON(self):
         item = model_to_dict(self)
