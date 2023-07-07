@@ -28,7 +28,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.decorators import method_decorator
 from django.http import Http404
 from django.core.exceptions import PermissionDenied
-
+from back.mixins import *
 from django.contrib.auth.decorators import user_passes_test
 
 def es_admin_o_superadmin(user):
@@ -38,10 +38,8 @@ def es_admin_o_superadmin(user):
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class FuenteInfoDirectorioHotelero (ListView):
+
+class FuenteInfoDirectorioHotelero (SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = DirectorioHotelero
     template_name = 'back/fuente_info_directorio_hotelero/list.html'
 
@@ -76,10 +74,8 @@ class FuenteInfoDirectorioHotelero (ListView):
 
         return context
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class FuenteInfoDirectorioHoteleroCreate (CreateView):
+
+class FuenteInfoDirectorioHoteleroCreate (SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
     model = DirectorioHotelero
     form_class = DirectorioHoteleroForm
     template_name = 'back/fuente_info_directorio_hotelero/create.html'
@@ -320,10 +316,8 @@ class FuenteInfoDirectorioHoteleroCreate (CreateView):
         context['action'] = 'add'
         return context
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class FuenteInfoDirectorioHoteleroUpdate (UpdateView):
+
+class FuenteInfoDirectorioHoteleroUpdate (SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
     model = DirectorioHotelero
     form_class = DirectorioHoteleroForm
     template_name = 'back/fuente_info_directorio_hotelero/view_editor.html'
@@ -367,20 +361,16 @@ class FuenteInfoDirectorioHoteleroUpdate (UpdateView):
 
         return context
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class FuenteInfoDirectorioHoteleroDelete (DeleteView):
+
+class FuenteInfoDirectorioHoteleroDelete (SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
     model = DirectorioHotelero
     success_url = reverse_lazy('dashboard:fuente_info_directorio_hotelero')
 
     def post(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
         return super().post(request, *args, **kwargs)
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class DirectorioHoteleroCargaMasivaView(View):
+
+class DirectorioHoteleroCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
     form_class = CargaMasivaForm
     template_name = 'back/fuente_info_directorio_hotelero/carga_masiva.html'
     success_url = reverse_lazy('dashboard:fuente_info_directorio_hotelero')
@@ -899,10 +889,8 @@ class DirectorioHoteleroCargaMasivaView(View):
             print(f"Error al procesar el archivo {archivo}: {e}")
         return registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class DirectorioHoteleroDescargarArchivoView(View):
+
+class DirectorioHoteleroDescargarArchivoView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
 
     def crear_archivo_excel(self, registros_incorrectos):
         workbook = openpyxl.Workbook()

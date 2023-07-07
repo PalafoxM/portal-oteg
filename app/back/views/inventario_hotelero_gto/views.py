@@ -21,8 +21,9 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.decorators import method_decorator
 from django.http import Http404
 from django.core.exceptions import PermissionDenied
-
+from back.mixins import *
 from django.contrib.auth.decorators import user_passes_test
+from django.template.loader import render_to_string
 
 def es_admin_o_superadmin(user):
     return user.is_authenticated and (user.is_staff or user.is_superuser)
@@ -34,14 +35,12 @@ def es_admin_o_superadmin(user):
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class InventarioHoteleroListView(ListView):
+
+class InventarioHoteleroListView(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = InventarioHotelero
     template_name = 'back/inventario_hotelero_gto/list.html'
 
-    @method_decorator(csrf_exempt)
+    @method_decorator(csrf_exempt) 
     def dispatch(self, request, *args, **kwargs) :
         return super().dispatch(request, *args, **kwargs)
 
@@ -68,30 +67,119 @@ class InventarioHoteleroListView(ListView):
         context['is_fuente'] = True
         return context
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class  InventarioHoteleroCreateView(CreateView):
+
+class  InventarioHoteleroCreateView(SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
     model = InventarioHotelero
     form_class = InventarioHoteleroForm
-    template_name = 'back/components/create_update.html'
+    template_name = 'back/inventario_hotelero_gto/create.html'
     success_url = reverse_lazy('dashboard:inventario_hotelero_list')
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST, request.FILES)
+        replace_data = request.POST.get('replace_data')
         if form.is_valid():
-            self.object = form.save()
-            data = {
-                'success': True,
-                'message': 'Registro creado exitosamente.',
-                'url': self.success_url
-            }
-            return JsonResponse(data)
+            # Check if there is already a record with the same fecha, destino and categoria
+
+            fecha = form.cleaned_data['fecha']
+            destino = form.cleaned_data['destino']
+            categoria = form.cleaned_data['categoria']
+
+            try:
+                existing_object = self.get_object(fecha=fecha, destino=destino, categoria=categoria)
+
+            except InventarioHotelero.DoesNotExist:
+                existing_object = None
+
+            existing_catalogo = CatalagoDestino.objects.filter(destino=destino)
+            exiting_catalogo_categoria = CatalagoCategoria.objects.filter(categoria=categoria)
+            # ALTER TABLE mytable MODIFY mycolumn VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+            # If there is no existing data, save the new data
+            if not existing_catalogo or not exiting_catalogo_categoria:
+
+                if not existing_catalogo and not exiting_catalogo_categoria:
+                    data = {
+                        'success': False,
+                        'missingData': True,
+                        'destino': destino,
+                        'categoria': categoria,
+                        'message': 'No existe la destino y la categoria en el catálogo de destinoes y categorias',
+                    }
+                    return JsonResponse(data)
+
+                if not exiting_catalogo_categoria:
+                    data = {
+                        'success': False,
+                        'missingData': True,
+                        'categoria': categoria,
+                        'message': 'No existe la categoria en el catálogo de categorias',
+                    }
+                    return JsonResponse(data)
+                
+
+                if not existing_catalogo:
+                    data = {
+                        'success': False,
+                        'missingData': True,
+                        'destino': destino,
+                        'message': 'No existe la destino en el catálogo de destinos',
+                    }
+                    return JsonResponse(data)
+
+            # If there is existing data and replace_data is True, delete the existing data
+            if existing_object and request.POST.get('replace_data') == 'on':
+                # existing_object.delete()
+                # Save the new data
+                # self.object = form.save()
+
+                for field in form.cleaned_data:
+                    if field == 'replace_data':
+                        continue
+                    setattr(existing_object, field, form.cleaned_data[field])
+
+                existing_object.save()
+
+                data = {
+                    'success': True,
+                    'message': 'Data created successfully.',
+                    'url': self.success_url,
+
+                }
+                return JsonResponse(data)
+
+            # If there is existing data and replace_data is False, return an error
+
+            if existing_object:
+                data =  InventarioHotelero.objects.filter(fecha=fecha, destino=destino, categoria=categoria)
+
+                data_list = list(data.values('fecha', 'destino', 'categoria', 'establecimientos', 'habitaciones'))
+
+                data_list2 = list(form.cleaned_data.values())
+
+                table_html = render_to_string('back/inventario_hotelero_ent_nac/table.html',{'data_list': data_list, 'actual': True, 'data_list2': data_list2})
+
+                datajsn = {
+                    'success': False,
+                    'message': 'Hubo un error al crear registro.',
+                    'errors': 'Ya existe un registro con la misma fecha, destino y categoria',
+                    'existing_object': table_html
+                }
+
+                return JsonResponse(datajsn)
+            else:
+                self.object = form.save()
+                data = {
+                    'success': True,
+                    'message': 'Data created successfully.',
+                    'url': self.success_url
+                }
+                return JsonResponse(data)
         else:
             data = {
                 'success': False,
-                'message': 'Ha ocurrido un error al crear un registro.',
-                'errors': form.errors
+                'message': 'Error creating data.',
+                'errors': form.errors,
+                'format_errors': True
             }
             return JsonResponse(data)
         
@@ -122,13 +210,11 @@ class  InventarioHoteleroCreateView(CreateView):
         context['action'] = 'add'
         return context
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class InventarioHoteleroUpdateView( UpdateView):
+
+class InventarioHoteleroUpdateView(SuperAdminOrAdminMixin, LoginRequiredMixin,  UpdateView):
     model = InventarioHotelero
     form_class = InventarioHoteleroForm
-    template_name = 'back/components/create_update.html'
+    template_name = 'back/inventario_hotelero_gto/view_editor.html'
     success_url = reverse_lazy('dashboard:inventario_hotelero_list')
 
     def form_invalid(self, form):
@@ -157,17 +243,21 @@ class InventarioHoteleroUpdateView( UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Editar Hotel GTO'
-        context['entity'] = 'Hoteles GTO'
-        context['list_url'] = reverse_lazy('dashboard:inventario_hotelero_list')
-        context['form'] = self.form_class(instance=self.object)
-        context['action'] = 'adit'
+        context['title'] = 'Editar Inventario Hotelero'
+        context['entity'] = 'Inventario Hotelero'
+        context['list_url'] = reverse_lazy('dashboard:inventario_hotelero_ent_nac_list')
+        destino_widget = context['form'].fields['destino'].widget
+        destino_widget.attrs.update({'readonly': 'readonly'})
+        categoria_widget = context['form'].fields['categoria'].widget
+        categoria_widget.attrs.update({'readonly': 'readonly'})
+        fecha_widget = context['form'].fields['fecha'].widget
+        fecha_widget.attrs.update({'readonly': 'readonly'})
+        context['edit_msg'] = 'Los Campos que no se pueden editar están sombreados'
+
         return context
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class InventarioHoteleroDeleteView(DeleteView):
+
+class InventarioHoteleroDeleteView(SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
     model = InventarioHotelero
     # template_name = 'back/delete.html'
     success_url = reverse_lazy('dashboard:inventario_hotelero_list')
@@ -178,10 +268,8 @@ class InventarioHoteleroDeleteView(DeleteView):
         self.object.delete()
         return HttpResponseRedirect(success_url)
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class CargaMasivaView(View):
+
+class CargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
     form_class = CargaMasivaForm
     template_name = 'back/inventario_hotelero_gto/carga_masiva.html'
     success_url = reverse_lazy('dashboard:inventario_hotelero_list')
@@ -354,10 +442,8 @@ class CargaMasivaView(View):
         return registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas
 
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')    
-class DescargarArchivoGTOView(View):
+    
+class DescargarArchivoGTOView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
 
     def crear_archivo_excel(self, registros_incorrectos):
         workbook = openpyxl.Workbook()

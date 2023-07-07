@@ -28,22 +28,18 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.decorators import method_decorator
 from django.http import Http404
 from django.core.exceptions import PermissionDenied
-
+from back.mixins import *
 from django.contrib.auth.decorators import user_passes_test
 
 def es_admin_o_superadmin(user):
     return user.is_authenticated and (user.is_staff or user.is_superuser)
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
+
 
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class FuenteInfoDirectorioAuxilioTuristico(ListView):
+
+class FuenteInfoDirectorioAuxilioTuristico(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = DirectorioAuxilioTuristico
     template_name = 'back/fuente_info_dt_auxilio_turistico/list.html'
 
@@ -78,10 +74,8 @@ class FuenteInfoDirectorioAuxilioTuristico(ListView):
 
         return context
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class FuenteInfoDirectorioAuxilioTuristicoCreate (CreateView):
+
+class FuenteInfoDirectorioAuxilioTuristicoCreate (SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
     model = DirectorioAuxilioTuristico
     form_class = DirectorioAuxilioTuristicoForm
     template_name = 'back/fuente_info_dt_auxilio_turistico/create.html'
@@ -251,10 +245,8 @@ class FuenteInfoDirectorioAuxilioTuristicoCreate (CreateView):
         context['action'] = 'add'
         return context
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class FuenteInfoDirectorioAuxilioTuristicoUpdate (UpdateView):
+
+class FuenteInfoDirectorioAuxilioTuristicoUpdate (SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
     model = DirectorioAuxilioTuristico
     form_class = DirectorioAuxilioTuristicoForm
     template_name = 'back/fuente_info_dt_auxilio_turistico/view_editor.html'
@@ -302,20 +294,16 @@ class FuenteInfoDirectorioAuxilioTuristicoUpdate (UpdateView):
 
         return context
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class FuenteInfoDirectorioAuxilioTuristicoDelete (DeleteView):
+
+class FuenteInfoDirectorioAuxilioTuristicoDelete (SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
     model = DirectorioAuxilioTuristico
     success_url = reverse_lazy('dashboard:fuente_info_dt_auxilio_turistico')
 
     def post(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
         return super().post(request, *args, **kwargs)
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class DirectorioAuxilioTuristicoCargaMasivaView(View):
+
+class DirectorioAuxilioTuristicoCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
     form_class = CargaMasivaForm
     template_name = 'back/fuente_info_dt_auxilio_turistico/carga_masiva.html'
     success_url = reverse_lazy('dashboard:fuente_info_dt_auxilio_turistico')
@@ -613,10 +601,8 @@ class DirectorioAuxilioTuristicoCargaMasivaView(View):
             print(f"Error al procesar el archivo {archivo}: {e}")
         return registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class DirectorioAuxilioTuristicoDescargarArchivoView(View):
+
+class DirectorioAuxilioTuristicoDescargarArchivoView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
 
     def crear_archivo_excel(self, registros_incorrectos):
         workbook = openpyxl.Workbook()

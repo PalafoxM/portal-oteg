@@ -78,13 +78,13 @@
         {% endif %}
         {% if request.user|user_in_group:'Super-Admin'%}
         <li>
-            <a href="{%url 'usuarios-list'  %}">
+            <a href="{%url 'logIn:usuarios-list'  %}">
                 <img src="{% static 'images/icons/icon-users.png' %}" class="icons-list">
                 <!-- <i class='bx bx-line-chart'></i> -->
                 <span class="link_name">Colaboradores</span>
             </a>
             <ul class="sub-menu blank">
-                <li><a class="link_name" href="{%url 'usuarios-list'  %}">Colaboradores</a></li>
+                <li><a class="link_name" href="{%url 'logIn:usuarios-list'  %}">Colaboradores</a></li>
             </ul>
         </li>
         {% endif %}

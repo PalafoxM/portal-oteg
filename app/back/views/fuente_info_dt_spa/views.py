@@ -28,7 +28,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.decorators import method_decorator
 from django.http import Http404
 from django.core.exceptions import PermissionDenied
-
+from back.mixins import *
 from django.contrib.auth.decorators import user_passes_test
 
 def es_admin_o_superadmin(user):
@@ -38,10 +38,8 @@ def es_admin_o_superadmin(user):
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class FuenteInfoDirectorioSpa(ListView):
+
+class FuenteInfoDirectorioSpa(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = DirectorioSpa
     template_name = 'back/fuente_info_dt_spa/list.html'
 
@@ -75,10 +73,8 @@ class FuenteInfoDirectorioSpa(ListView):
 
         return context
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class FuenteInfoDirectorioSpaCreate (CreateView):
+
+class FuenteInfoDirectorioSpaCreate (SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
     model = DirectorioSpa
     form_class = DirectorioSpaForm
     template_name = 'back/fuente_info_dt_spa/create.html'
@@ -250,10 +246,8 @@ class FuenteInfoDirectorioSpaCreate (CreateView):
         return context
 
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class FuenteInfoDirectorioSpaUpdate (UpdateView):
+
+class FuenteInfoDirectorioSpaUpdate (SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
     model = DirectorioSpa
     form_class = DirectorioSpaForm
     template_name = 'back/fuente_info_dt_spa/view_editor.html'
@@ -302,20 +296,16 @@ class FuenteInfoDirectorioSpaUpdate (UpdateView):
 
         return context
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class FuenteInfoDirectorioSpaDelete (DeleteView):
+
+class FuenteInfoDirectorioSpaDelete (SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
     model = DirectorioSpa
     success_url = reverse_lazy('dashboard:fuente_info_dt_spa')
 
     def post(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
         return super().post(request, *args, **kwargs)
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class DirectorioSpaCargaMasivaView(View):
+
+class DirectorioSpaCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
     form_class = CargaMasivaForm
     template_name = 'back/fuente_info_dt_spa/carga_masiva.html'
     success_url = reverse_lazy('dashboard:fuente_info_dt_spa')
@@ -613,10 +603,8 @@ class DirectorioSpaCargaMasivaView(View):
             print(f"Error al procesar el archivo {archivo}: {e}")
         return registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class DirectorioSpaDescargarArchivoView(View):
+
+class DirectorioSpaDescargarArchivoView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
 
     def crear_archivo_excel(self, registros_incorrectos):
         workbook = openpyxl.Workbook()

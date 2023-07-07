@@ -734,7 +734,12 @@
             <div class="item  {% if forloop.counter0 == 0 %}active{% endif %}">
 
                 <div class="mask">
-                    <img src="{{object.imagen.url}}" alt="">
+                    {% if object.imagen %}
+                        <img src="{{ object.imagen.url }}" alt="">
+                    {% else %}
+                        <!-- Aquí puedes mostrar un mensaje o una imagen alternativa si no hay imagen asociada -->
+                        <p>No hay imagen disponible</p>
+                    {% endif %}
                     <div class="overlay"></div>
                 </div>
 

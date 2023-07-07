@@ -6,6 +6,15 @@ from back.forms import *
 from django.http import JsonResponse, HttpResponseRedirect
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.decorators import method_decorator
+from django.http import Http404
+from django.core.exceptions import PermissionDenied
+from back.mixins import *
+from django.contrib.auth.decorators import user_passes_test
+
+def es_admin_o_superadmin(user):
+    return user.is_authenticated and (user.is_staff or user.is_superuser)
 
 
 
@@ -14,7 +23,8 @@ from django.views.decorators.csrf import csrf_exempt
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
-class ProyectoInversionListView(ListView):
+
+class ProyectoInversionListView(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = ProyectoInversion
     template_name = 'back/proyectos_inversion/list.html'
 
@@ -45,7 +55,8 @@ class ProyectoInversionListView(ListView):
         context['entity'] = 'Proyectos privados'
         return context
 
-class  ProyectoInversionCreateView(CreateView):
+
+class  ProyectoInversionCreateView(SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
     model = ProyectoInversion
     form_class = ProyectoInversionForm
     template_name = 'back/proyectos_inversion/create.html'
@@ -96,10 +107,11 @@ class  ProyectoInversionCreateView(CreateView):
         context['action'] = 'add'
         return context
 
-class ProyectoInversionUpdateView( UpdateView):
+
+class ProyectoInversionUpdateView(SuperAdminOrAdminMixin, LoginRequiredMixin,  UpdateView):
     model = ProyectoInversion
     form_class = ProyectoInversionForm
-    template_name = 'back/components/create_update.html'
+    template_name = 'back/proyectos_inversion/view_editor.html'
     success_url = reverse_lazy('dashboard:proyectos_inversion_list')
 
     def form_invalid(self, form):
@@ -131,11 +143,15 @@ class ProyectoInversionUpdateView( UpdateView):
         context['title'] = 'Editar Categoría'
         context['entity'] = 'Catalago Categoría'
         context['list_url'] = reverse_lazy('dashboard:proyectos_inversion_list')
-        context['form'] = self.form_class(instance=self.object)
-        context['action'] = 'adit'
+        destino_widget = context['form'].fields['destino'].widget
+        destino_widget.attrs.update({'readonly': 'readonly'})
+        fecha_widget = context['form'].fields['nombre_del_proyecto'].widget
+        fecha_widget.attrs.update({'readonly': 'readonly'})
+        context['edit_msg'] = 'Los Campos que no se pueden editar están sombreados'
         return context
 
-class ProyectoInversionDeleteView(DeleteView):
+
+class ProyectoInversionDeleteView(SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
     model = ProyectoInversion
     # template_name = 'back/delete.html'
     success_url = reverse_lazy('dashboard:proyectos_inversion_list')

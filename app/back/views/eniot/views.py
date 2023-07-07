@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.decorators import method_decorator
 from django.http import Http404
 from django.core.exceptions import PermissionDenied
-
+from back.mixins import *
 from django.contrib.auth.decorators import user_passes_test
 
 def es_admin_o_superadmin(user):
@@ -19,10 +19,8 @@ def es_admin_o_superadmin(user):
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class EniotListView(ListView):
+
+class EniotListView(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = Eniot
     template_name = 'back/eniot/viewer.html'
 
@@ -32,10 +30,8 @@ class EniotListView(ListView):
         context['create_url'] =  reverse_lazy('dashboard:eniot_create')
         return context
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')        
-class EniotCreateView(CreateView):
+        
+class EniotCreateView(SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
     model = Eniot
     form_class = EniotForm
     template_name = 'back/components/create_update.html'
@@ -85,10 +81,8 @@ class EniotCreateView(CreateView):
         context['action'] = 'add'
         return context
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')    
-class EniotDeleteView(DeleteView):
+    
+class EniotDeleteView(SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
     model = Eniot
     success_url = reverse_lazy('dashboard:eniot_list')
 
@@ -98,10 +92,8 @@ class EniotDeleteView(DeleteView):
         self.object.delete()
         return HttpResponseRedirect(success_url)
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class EniotUpdateView(UpdateView):
+
+class EniotUpdateView(SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
     model = Eniot
     form_class = EniotForm
     template_name = 'back/components/create_update.html'
@@ -137,10 +129,8 @@ class EniotUpdateView(UpdateView):
         context['list_url'] = reverse_lazy('dashboard:eniot_list')
         return context
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')    
-class EniotAlbunListView(ListView):
+    
+class EniotAlbunListView(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = EniotAlbun
     template_name = 'back/eniot/foto_viewer.html'
 
@@ -150,10 +140,8 @@ class EniotAlbunListView(ListView):
         context['create_url'] =  reverse_lazy('dashboard:eniot_fotos_create')
         return context
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')        
-class EniotAlbunCreateView(CreateView):
+        
+class EniotAlbunCreateView(SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
     model = EniotAlbun
     form_class = EniotAlbunForm
     template_name = 'back/components/create_update.html'
@@ -203,10 +191,8 @@ class EniotAlbunCreateView(CreateView):
         context['action'] = 'add'
         return context
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')    
-class EniotAlbunDeleteView(DeleteView):
+    
+class EniotAlbunDeleteView(SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
     model = EniotAlbun
     success_url = reverse_lazy('dashboard:eniot_fotos_list')
 
@@ -216,10 +202,8 @@ class EniotAlbunDeleteView(DeleteView):
         self.object.delete()
         return HttpResponseRedirect(success_url)
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class EniotAlbunUpdateView(UpdateView):
+
+class EniotAlbunUpdateView(SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
     model = EniotAlbun
     form_class = EniotAlbunForm
     template_name = 'back/components/create_update.html'

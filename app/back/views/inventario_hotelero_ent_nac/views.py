@@ -23,7 +23,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.decorators import method_decorator
 from django.http import Http404
 from django.core.exceptions import PermissionDenied
-
+from back.mixins import *
 from django.contrib.auth.decorators import user_passes_test
 
 def es_admin_o_superadmin(user):
@@ -36,10 +36,8 @@ def es_admin_o_superadmin(user):
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class InventarioHoteleroEntNacListView(ListView):
+
+class InventarioHoteleroEntNacListView(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = InventarioHoteleroEntNac
     template_name = 'back/inventario_hotelero_ent_nac/list.html'
 
@@ -71,10 +69,8 @@ class InventarioHoteleroEntNacListView(ListView):
         return context
 
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class  InventarioHoteleroEntNacCreateView(CreateView):
+
+class  InventarioHoteleroEntNacCreateView(SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
     model = InventarioHoteleroEntNac
     form_class = InventarioHoteleroEntNacForm
     template_name = 'back/inventario_hotelero_ent_nac/create.html'
@@ -224,10 +220,8 @@ class  InventarioHoteleroEntNacCreateView(CreateView):
     
 
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class InventarioHoteleroEntNacUpdateView( UpdateView):
+
+class InventarioHoteleroEntNacUpdateView(SuperAdminOrAdminMixin, LoginRequiredMixin,  UpdateView):
     model = InventarioHoteleroEntNac
     form_class = InventarioHoteleroEntNacForm
     template_name = 'back/inventario_hotelero_ent_nac/view_editor.html'
@@ -272,10 +266,8 @@ class InventarioHoteleroEntNacUpdateView( UpdateView):
 
         return context
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class InventarioHoteleroEntNacDeleteView(DeleteView):
+
+class InventarioHoteleroEntNacDeleteView(SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
     model = InventarioHoteleroEntNac
     # template_name = 'back/delete.html'
     success_url = reverse_lazy('dashboard:inventario_hotelero_ent_nac_list')
@@ -286,10 +278,8 @@ class InventarioHoteleroEntNacDeleteView(DeleteView):
         self.object.delete()
         return HttpResponseRedirect(success_url)
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class InventarioHoteleroEntNacCargaMasivaView(View):
+
+class InventarioHoteleroEntNacCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
     form_class = CargaMasivaForm
     template_name = 'back/inventario_hotelero_ent_nac/carga_masiva.html'
     success_url = reverse_lazy('dashboard:inventario_hotelero_ent_nac_list')
@@ -467,7 +457,7 @@ class InventarioHoteleroEntNacCargaMasivaView(View):
 
     
     
-class DescargarArchivoView(View):
+class DescargarArchivoView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
 
     def crear_archivo_excel(self, registros_incorrectos):
         workbook = openpyxl.Workbook()

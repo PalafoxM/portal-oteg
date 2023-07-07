@@ -25,7 +25,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.decorators import method_decorator
 from django.http import Http404
 from django.core.exceptions import PermissionDenied
-
+from back.mixins import *
 from django.contrib.auth.decorators import user_passes_test
 
 def es_admin_o_superadmin(user):
@@ -36,10 +36,8 @@ def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class FuenteInfoPasajerosEntNacView(ListView):
+
+class FuenteInfoPasajerosEntNacView(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = Pasajeros_Ent_Nac
     template_name = 'back/pasajeros_ent_nac/viewer.html'
 
@@ -53,9 +51,7 @@ class FuenteInfoPasajerosEntNacView(ListView):
         context['carga_masiva_url'] = reverse_lazy('dashboard:fuente_info_pasajeros_ent_nac_carga_masiva')
         return context
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
+
 class FuenteInfoPasajerosEntNacCreate(LoginRequiredMixin, CreateView):
     model = Pasajeros_Ent_Nac
     form_class = PasajerosEntNacForm
@@ -207,9 +203,7 @@ class FuenteInfoPasajerosEntNacCreate(LoginRequiredMixin, CreateView):
         context['action'] = 'add'
         return context
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
+
 class FuenteInfoPasajerosEntNacUpdate (UpdateView):
     model = Pasajeros_Ent_Nac
     form_class =    PasajerosEntNacForm
@@ -256,9 +250,7 @@ class FuenteInfoPasajerosEntNacUpdate (UpdateView):
         context['edit_msg'] = 'Los Campos Año , Aeropuerto y Entidad no se pueden editar'
         return context
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
+
 class FuenteInfoPasajerosEntNacDelete (DeleteView):
     model = Pasajeros_Ent_Nac
     success_url = reverse_lazy('dashboard:fuente_info_pasajeros_ent_nac')
@@ -266,10 +258,8 @@ class FuenteInfoPasajerosEntNacDelete (DeleteView):
     def post(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
         return super().post(request, *args, **kwargs)
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class PasajerosEntNacCargaMasivaView(View):
+
+class PasajerosEntNacCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
     form_class = CargaMasivaForm
     template_name = 'back/pasajeros_ent_nac/carga_masiva.html'
     success_url = reverse_lazy('dashboard:fuente_info_pasajeros_ent_nac')
@@ -489,10 +479,8 @@ class PasajerosEntNacCargaMasivaView(View):
         return registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas
 
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class PasajerosEntNacDescargarArchivoView(View):
+
+class PasajerosEntNacDescargarArchivoView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
 
     def crear_archivo_excel(self, registros_incorrectos):
         workbook = openpyxl.Workbook()

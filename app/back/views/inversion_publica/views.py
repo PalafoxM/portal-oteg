@@ -23,7 +23,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.decorators import method_decorator
 from django.http import Http404
 from django.core.exceptions import PermissionDenied
-
+from back.mixins import *
 from django.contrib.auth.decorators import user_passes_test
 
 def es_admin_o_superadmin(user):
@@ -36,10 +36,8 @@ def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class InversionPublicaListView(ListView):
+
+class InversionPublicaListView(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = InversionPublica
     template_name = 'back/inversion_publica/list.html'
 
@@ -71,10 +69,8 @@ class InversionPublicaListView(ListView):
         context['is_fuente'] = True
         return context
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class  InversionPublicaCreateView(CreateView):
+
+class  InversionPublicaCreateView(SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
     model = InversionPublica
     form_class = InversionPublicaForm
     template_name = 'back/inversion_publica/create.html'
@@ -203,10 +199,8 @@ class  InversionPublicaCreateView(CreateView):
 
 
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class InversionPublicaUpdateView( UpdateView):
+
+class InversionPublicaUpdateView(SuperAdminOrAdminMixin, LoginRequiredMixin,  UpdateView):
     model = InversionPublica
     form_class = InversionPublicaForm
     template_name = 'back/inversion_publica/create.html'
@@ -245,10 +239,8 @@ class InversionPublicaUpdateView( UpdateView):
         context['action'] = 'edit'
         return context
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class InversionPublicaDeleteView(DeleteView):
+
+class InversionPublicaDeleteView(SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
     model = InversionPublica
     # template_name = 'back/delete.html'
     success_url = reverse_lazy('dashboard:inversion_publica_list')
@@ -259,10 +251,8 @@ class InversionPublicaDeleteView(DeleteView):
         self.object.delete()
         return HttpResponseRedirect(success_url)
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class InversionPublicaCargaMasivaView(View):
+
+class InversionPublicaCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
     form_class = CargaMasivaForm
     template_name = 'back/inversion_publica/carga_masiva.html'
     success_url = reverse_lazy('dashboard:inversion_publica_list')
@@ -427,10 +417,8 @@ class InversionPublicaCargaMasivaView(View):
         return registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas
 
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class DescargarArchivoInversionPublicaView(View):
+
+class DescargarArchivoInversionPublicaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
 
     def crear_archivo_excel(self, registros_incorrectos):
         workbook = openpyxl.Workbook()

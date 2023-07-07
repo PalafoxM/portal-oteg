@@ -37,7 +37,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.decorators import method_decorator
 from django.http import Http404
 from django.core.exceptions import PermissionDenied
-
+from back.mixins import *
 from django.contrib.auth.decorators import user_passes_test
 
 def es_admin_o_superadmin(user):
@@ -50,10 +50,8 @@ def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class FuenteInfoDatatur (ListView):
+
+class FuenteInfoDatatur (SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = DataTour
     template_name = 'back/fuente_info_datatur/viewer.html'
 
@@ -88,10 +86,8 @@ class FuenteInfoDatatur (ListView):
         return context
 
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class FuenteInfoDataturCreate (CreateView):
+
+class FuenteInfoDataturCreate (SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
     model = DataTour
     form_class = DataTurForm
     template_name = 'back/fuente_info_datatur/create.html'
@@ -262,10 +258,8 @@ class FuenteInfoDataturCreate (CreateView):
         context['action'] = 'add'
         return context
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class FuenteInfoDataturUpdate(UpdateView):
+
+class FuenteInfoDataturUpdate(SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
     
     model = DataTour
     form_class = DataTurForm
@@ -311,10 +305,8 @@ class FuenteInfoDataturUpdate(UpdateView):
         return context
 
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class FuenteInfoDataturDelete(DeleteView):
+
+class FuenteInfoDataturDelete(SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
     model = DataTour
     success_url = reverse_lazy('dashboard:fuente_info_datatour')
 
@@ -324,10 +316,8 @@ class FuenteInfoDataturDelete(DeleteView):
         self.object.delete()
         return HttpResponseRedirect(success_url)
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class DataturCargaMasivaView(View):
+
+class DataturCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
     form_class = CargaMasivaForm
     template_name = 'back/fuente_info_datatur/carga_masiva.html'
     success_url = reverse_lazy('dashboard:fuente_info_datatour')
@@ -622,10 +612,8 @@ class DataturCargaMasivaView(View):
         return registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas
 
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class DescargarArchivoDataturView(View):
+
+class DescargarArchivoDataturView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
 
     def crear_archivo_excel(self, registros_incorrectos):
         workbook = openpyxl.Workbook()

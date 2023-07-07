@@ -35,29 +35,32 @@ var datatur = {
                 }
             },
             columns: [
-                {"data": "id_del_proyecto", className: "text-left pl-3"},
-                {"data": "destino", className: "text-center hidden-t"},
-                {"data": "nombre_del_proyecto", className: "text-left hidden-t"},
-                {"data": "giro", className: "text-center hidden-t"},
-                {"data": "estatus", className: "text-left hidden-t"},
-                {"data": "monto_comprometido_del_proyecto_mxn", className: "text-left hidden-t"},
-                {"data": "id_del_proyecto", className: "actions-container"},
+                {"data": "id_del_proyecto", className: "text-left tb-text "},
+                {"data": "destino", className: "text-left tb-text "},
+                {"data": "nombre_del_proyecto", className: "text-left tb-text "},
+                {"data": "giro", className: "text-left tb-text "},
+                {"data": "estatus", className: "text-left tb-text "},
+                {"data": "monto_comprometido_del_proyecto_mxn", className: "text-left tb-text "},
+                {"data": "id_del_proyecto", className: "text-left  actions-column tb-text"},
             ],columnDefs: [
                 {
                     targets: [-1],
                     class: 'actions-container',
                     orderable: false,
                     render: function (data, type, row) {
-                        var buttons = '<button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="location.href=\'edit/' + row.id_del_proyecto + '/\'">';
-                        buttons += '<i class="fas fa-edit"></i>';
-                        buttons += '</button> ';
-                        buttons += '<form method="post" action="delete/' + row.id_del_proyecto + '/">';
-                        buttons += '<input type="hidden" name="csrfmiddlewaretoken" value="' + csrftoken + '">';
-                        buttons += '<button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="return confirm(\'¿Está seguro de que desea eliminar la informacion? PVD\');">';
-                        buttons += '<i class="fas fa-trash"></i>';
-                        buttons += '</button>';
-                        buttons += '</form>';
-                        return buttons;
+                        var html = '<td class="text-center" style="position: relative; text-align: center; height: 100%;">';
+                        html += '<div class="icon-container">';
+                        html += '<i class="fas fa-edit" onclick="location.href=\'edit/' + row.id + '/\'"></i>';
+                        html += '<form method="post" action="delete/' + row.id + '/">';
+                        html += '<input type="hidden" name="csrfmiddlewaretoken" value="' + csrftoken + '">';
+                        html += '<button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="return confirm(\'¿Está seguro de que desea eliminar la informacion?\');">';
+                        html += '<i class="fas fa-trash"></i>';
+                        html += '</button>';
+                        html += '</form>';
+                        html += '</div>';
+                        html += '</td>';
+                        // Append your existing buttons or elements here
+                        return html;
                     }
                 },
             ],

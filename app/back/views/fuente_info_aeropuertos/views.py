@@ -25,7 +25,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.decorators import method_decorator
 from django.http import Http404
 from django.core.exceptions import PermissionDenied
-
+from back.mixins import *
 from django.contrib.auth.decorators import user_passes_test
 
 def es_admin_o_superadmin(user):
@@ -36,10 +36,8 @@ def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class FuenteInfoAeropuerto (ListView):
+
+class FuenteInfoAeropuerto(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = Aeropuerto
     template_name = 'back/fuente_info_aeropuertos/list.html'
 
@@ -52,21 +50,19 @@ class FuenteInfoAeropuerto (ListView):
         context['carga_masiva_url'] = reverse_lazy('dashboard:fuente_info_aeropuertos_carga_masiva')
         return context  
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class FuenteInfoAeropuertoCreate (CreateView):
+
+class FuenteInfoAeropuertoCreate(SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
     model = Aeropuerto
-    form_class = AeropuertoForm
-    template_name = 'back/fuente_info_inventario_turistico/create.html'
+    form_class = AeropuertoForm 
+    template_name = 'back/fuente_info_aeropuertos/create.html'
     success_url = reverse_lazy('dashboard:fuente_info_aeropuertos')
 
-    def get_object(self, **kwargs):
-        queryset = self.get_queryset()
-        try:
-            return queryset.get(**kwargs)
-        except queryset.model.DoesNotExist:
-            return None
+    # def get_object(self, **kwargs):
+    #     queryset = self.get_queryset()
+    #     try:
+    #         return queryset.get(**kwargs)
+    #     except queryset.model.DoesNotExist:
+    #         return None
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -165,10 +161,8 @@ class FuenteInfoAeropuertoCreate (CreateView):
         return context
 
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class FuenteInfoAeropuertoUpdate (UpdateView):
+
+class FuenteInfoAeropuertoUpdate(SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
     model = Aeropuerto
     form_class = AeropuertoForm
     template_name = 'back/fuente_info_aeropuertos/view_editor.html'
@@ -210,20 +204,16 @@ class FuenteInfoAeropuertoUpdate (UpdateView):
         return context
     
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class FuenteInfoAeropuertoDelete (DeleteView):
+
+class FuenteInfoAeropuertoDelete(SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
     model = Aeropuerto
     success_url = reverse_lazy('dashboard:fuente_info_aeropuertos')
     
     def post(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
         return super().post(request, *args, **kwargs)
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class AeropuertoCargaMasivaView(View):
+
+class AeropuertoCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
     form_class = CargaMasivaForm
     template_name = 'back/fuente_info_aeropuertos/carga_masiva.html'
     success_url = reverse_lazy('dashboard:fuente_info_aeropuertos')
@@ -387,10 +377,8 @@ class AeropuertoCargaMasivaView(View):
         return registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas
 
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class AeropuertoDescargarArchivoView(View):
+
+class AeropuertoDescargarArchivoView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
 
     def crear_archivo_excel(self, registros_incorrectos):
         workbook = openpyxl.Workbook()

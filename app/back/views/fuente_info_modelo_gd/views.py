@@ -16,24 +16,12 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.http import require_GET
 from django.views.decorators.http import require_POST
 from django.template.loader import render_to_string
-from django.contrib.auth.decorators import login_required, permission_required
-from django.utils.decorators import method_decorator
-from django.http import Http404
-from django.core.exceptions import PermissionDenied
-
-from django.contrib.auth.decorators import user_passes_test
-
-def es_admin_o_superadmin(user):
-    return user.is_authenticated and (user.is_staff or user.is_superuser)
 
 
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
 class FuenteInfoModeloGD (ListView):
     model = ModeloGD
     template_name = 'back/fuente_info_Modelo_GD/viewer.html'
@@ -46,10 +34,7 @@ class FuenteInfoModeloGD (ListView):
         context['is_fuente'] = True
         
         return context
-
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')    
+    
 class FuenteInfoModeloGDCreate (CreateView):
     model = ModeloGD
     form_class = ModeloGDForm
@@ -174,10 +159,7 @@ class FuenteInfoModeloGDCreate (CreateView):
         context['list_url'] = reverse_lazy('dashboard:fuente_info_modelo_gd')
         context['action'] = 'add'
         return context
-
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')    
+    
 class FuenteInfoModeloGDUpdate (UpdateView):
     model = ModeloGD
     form_class = ModeloGDForm
@@ -220,10 +202,7 @@ class FuenteInfoModeloGDUpdate (UpdateView):
         context['edit_msg'] = 'Los Campos Destino y Año no pueden ser editados' 
 
         return context
-
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')    
+    
 class FuenteInfoModeloGDDelete (DeleteView):
     model = ModeloGD
     success_url = reverse_lazy('dashboard:fuente_info_modelo_gd')

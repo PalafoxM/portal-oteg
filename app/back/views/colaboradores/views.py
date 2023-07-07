@@ -13,7 +13,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.decorators import method_decorator
 from django.http import Http404
 from django.core.exceptions import PermissionDenied
-
+from back.mixins import *
 from django.contrib.auth.decorators import user_passes_test
 
 def es_admin_o_superadmin(user):
@@ -21,8 +21,8 @@ def es_admin_o_superadmin(user):
 
 
 # Create your views here.
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-class PublicationsListView(ListView):
+
+class PublicationsListView(LoginRequiredMixin, SuperAdminMixin, ListView):
 
     model = Publications
     template_name = 'back/publicaciones/viewer.html'
@@ -34,8 +34,8 @@ class PublicationsListView(ListView):
         return context
     
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-class PublicationsCreateView(CreateView):
+
+class PublicationsCreateView(LoginRequiredMixin, SuperAdminMixin, CreateView):
     model = Publications
     form_class = PublicationForm
     template_name = 'back/components/create_update_dynamic.html'
@@ -98,13 +98,13 @@ class PublicationsCreateView(CreateView):
         context['action'] = 'add'
         return context
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
+
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-class PublicationUpdateView(UpdateView):
+
+class PublicationUpdateView(LoginRequiredMixin, SuperAdminMixin, UpdateView):
     model = Publications
     form_class = PublicationForm
     template_name = 'back/components/update_dynamic.html'
@@ -164,8 +164,8 @@ class PublicationUpdateView(UpdateView):
         context ['category'] = self.object.category.id
         return context
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-class PublicationDeleteView(DeleteView):
+
+class PublicationDeleteView(LoginRequiredMixin, SuperAdminMixin, DeleteView):
     model = Publications
     success_url = reverse_lazy('dashboard:publicacion_list')
 

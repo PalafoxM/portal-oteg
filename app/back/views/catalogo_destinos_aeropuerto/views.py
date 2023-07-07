@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.decorators import method_decorator
 from django.http import Http404
 from django.core.exceptions import PermissionDenied
-
+from back.mixins import *
 from django.contrib.auth.decorators import user_passes_test
 
 def es_admin_o_superadmin(user):
@@ -21,10 +21,8 @@ def es_admin_o_superadmin(user):
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class CatalagoDestinoAeropuertoListView(ListView):
+
+class CatalagoDestinoAeropuertoListView(LoginRequiredMixin, SuperAdminMixin, ListView):
     model = CatalagoDestinoAeropuerto
     template_name = 'back/catalogo_destinos_aeropuerto/list.html'
 
@@ -37,10 +35,8 @@ class CatalagoDestinoAeropuertoListView(ListView):
         context['entity'] = 'Catalago Destino'
         return context
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class  CatalagoDestinoAeropuertoCreateView(CreateView):
+
+class  CatalagoDestinoAeropuertoCreateView(LoginRequiredMixin, SuperAdminMixin, CreateView):
     model = CatalagoDestinoAeropuerto
     form_class = CatalagoDestinoAeropuertoForm
     template_name = 'back/components/create_update.html'
@@ -91,10 +87,8 @@ class  CatalagoDestinoAeropuertoCreateView(CreateView):
         context['action'] = 'add'
         return context
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class CatalagoDestinoAeropuertoUpdateView( UpdateView):
+
+class CatalagoDestinoAeropuertoUpdateView(LoginRequiredMixin, SuperAdminMixin,  UpdateView):
     model = CatalagoDestinoAeropuerto
     form_class = CatalagoDestinoAeropuertoForm
     template_name = 'back/components/create_update.html'
@@ -133,10 +127,8 @@ class CatalagoDestinoAeropuertoUpdateView( UpdateView):
         context['action'] = 'adit'
         return context
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class CatalagoDestinoAeropuertoDeleteView(DeleteView):
+
+class CatalagoDestinoAeropuertoDeleteView(LoginRequiredMixin, SuperAdminMixin, DeleteView):
     model = CatalagoDestinoAeropuerto
     # template_name = 'back/delete.html'
     success_url = reverse_lazy('dashboard:catalogo_destinos_aeropuerto_list')

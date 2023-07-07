@@ -28,7 +28,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.decorators import method_decorator
 from django.http import Http404
 from django.core.exceptions import PermissionDenied
-
+from back.mixins import *
 from django.contrib.auth.decorators import user_passes_test
 
 def es_admin_o_superadmin(user):
@@ -38,10 +38,8 @@ def es_admin_o_superadmin(user):
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class FuenteInfoDirectorioRecintosAuditoriosYSalones(ListView):
+
+class FuenteInfoDirectorioRecintosAuditoriosYSalones(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = DirectorioRecintosAuditoriosYSalones
     template_name = 'back/fuente_info_dt_recintos_auditorios_y_salones/list.html'
 
@@ -75,10 +73,8 @@ class FuenteInfoDirectorioRecintosAuditoriosYSalones(ListView):
 
         return context
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class FuenteInfoDirectorioRecintosAuditoriosYSalonesCreate (CreateView):
+
+class FuenteInfoDirectorioRecintosAuditoriosYSalonesCreate (SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
     model = DirectorioRecintosAuditoriosYSalones
     form_class = DirectorioRecintosAuditoriosYSalonesForm
     template_name = 'back/fuente_info_dt_recintos_auditorios_y_salones/create.html'
@@ -255,10 +251,8 @@ class FuenteInfoDirectorioRecintosAuditoriosYSalonesCreate (CreateView):
         context['action'] = 'add'
         return context
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class FuenteInfoDirectorioRecintosAuditoriosYSalonesUpdate (UpdateView):
+
+class FuenteInfoDirectorioRecintosAuditoriosYSalonesUpdate (SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
     model = DirectorioRecintosAuditoriosYSalones
     form_class = DirectorioRecintosAuditoriosYSalonesForm
     template_name = 'back/fuente_info_dt_recintos_auditorios_y_salones/view_editor.html'
@@ -312,10 +306,8 @@ class FuenteInfoDirectorioRecintosAuditoriosYSalonesUpdate (UpdateView):
 
         return context
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class FuenteInfoDirectorioRecintosAuditoriosYSalonesDelete (DeleteView):
+
+class FuenteInfoDirectorioRecintosAuditoriosYSalonesDelete (SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
     model = DirectorioRecintosAuditoriosYSalones
     success_url = reverse_lazy(
         'dashboard:fuente_info_dt_recintos_auditorios_y_salones')
@@ -323,10 +315,8 @@ class FuenteInfoDirectorioRecintosAuditoriosYSalonesDelete (DeleteView):
     def post(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
         return super().post(request, *args, **kwargs)
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class DirectorioRecintosAuditoriosYSalonesCargaMasivaView(View):
+
+class DirectorioRecintosAuditoriosYSalonesCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
     form_class = CargaMasivaForm
     template_name = 'back/fuente_info_dt_recintos_auditorios_y_salones/carga_masiva.html'
     success_url = reverse_lazy(
@@ -653,10 +643,8 @@ class DirectorioRecintosAuditoriosYSalonesCargaMasivaView(View):
             print(f"Error al procesar el archivo {archivo}: {e}")
         return registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class DirectorioRecintosAuditoriosYSalonesDescargarArchivoView(View):
+
+class DirectorioRecintosAuditoriosYSalonesDescargarArchivoView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
 
     def crear_archivo_excel(self, registros_incorrectos):
         workbook = openpyxl.Workbook()

@@ -27,7 +27,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.decorators import method_decorator
 from django.http import Http404
 from django.core.exceptions import PermissionDenied
-
+from back.mixins import *
 from django.contrib.auth.decorators import user_passes_test
 
 def es_admin_o_superadmin(user):
@@ -38,10 +38,8 @@ def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class FuenteInfoInventarioTuristico (ListView):
+
+class FuenteInfoInventarioTuristico (SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = InventarioTuristico
     template_name = 'back/fuente_info_inventario_turistico/list.html'
 
@@ -73,10 +71,8 @@ class FuenteInfoInventarioTuristico (ListView):
         
         return context  
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class FuenteInfoInventarioTuristicoCreate (CreateView):
+
+class FuenteInfoInventarioTuristicoCreate (SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
     model = InventarioTuristico
     form_class = InventarioTuristicoForm
     template_name = 'back/fuente_info_inventario_turistico/create.html'
@@ -201,10 +197,8 @@ class FuenteInfoInventarioTuristicoCreate (CreateView):
         return context
 
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class FuenteInfoInventarioTuristicoUpdate (UpdateView):
+
+class FuenteInfoInventarioTuristicoUpdate (SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
     model = InventarioTuristico
     form_class = InventarioTuristicoForm
     template_name = 'back/fuente_info_inventario_turistico/view_editor.html'
@@ -248,20 +242,16 @@ class FuenteInfoInventarioTuristicoUpdate (UpdateView):
         return context
     
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class FuenteInfoInventarioTuristicoDelete (DeleteView):
+
+class FuenteInfoInventarioTuristicoDelete (SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
     model = InventarioTuristico
     success_url = reverse_lazy('dashboard:fuente_info_inventario_turistico')
     
     def post(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
         return super().post(request, *args, **kwargs)
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class InventarioTuristicoCargaMasivaView(View):
+
+class InventarioTuristicoCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
     form_class = CargaMasivaForm
     template_name = 'back/fuente_info_inventario_turistico/carga_masiva.html'
     success_url = reverse_lazy('dashboard:fuente_info_inventario_turistico')
@@ -433,10 +423,8 @@ class InventarioTuristicoCargaMasivaView(View):
         return registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas
 
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class InventarioTuristicoDescargarArchivoView(View):
+
+class InventarioTuristicoDescargarArchivoView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
 
     def crear_archivo_excel(self, registros_incorrectos):
         workbook = openpyxl.Workbook()

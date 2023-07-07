@@ -22,6 +22,15 @@ from config.diccionarios import clean_str_col, homologar_columna_categoria, homo
 from django.shortcuts import get_object_or_404
 from django.http import Http404
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.decorators import method_decorator
+from django.http import Http404
+from django.core.exceptions import PermissionDenied
+from back.mixins import *
+from django.contrib.auth.decorators import user_passes_test
+
+def es_admin_o_superadmin(user):
+    return user.is_authenticated and (user.is_staff or user.is_superuser)
 
 
 # Create your views here.
@@ -29,7 +38,8 @@ def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 
-class ReporteView(ListView):
+
+class ReporteView(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = Report
     template_name = 'back/modulo_reportes/viewer.html'
 
@@ -39,6 +49,7 @@ class ReporteView(ListView):
         context['create_url'] = reverse_lazy('dashboard:reporte_create')
         context['entity'] = 'Reportes'
         return context
+
 
 
 class ReporteCreate(CreateView):
@@ -92,6 +103,7 @@ class ReporteCreate(CreateView):
         return context
     
 
+
 class ReporteUpdate(UpdateView):
     model = Report
     form_class = ReportsForm
@@ -129,6 +141,7 @@ class ReporteUpdate(UpdateView):
         return context 
     
 
+
     
 class ReporteDelete(DeleteView):
     model = Report
@@ -141,6 +154,7 @@ class ReporteDelete(DeleteView):
         self.object.delete()
         return HttpResponseRedirect(success_url)
     
+
 
 class ReporteDetail (TemplateView):
     model = Report

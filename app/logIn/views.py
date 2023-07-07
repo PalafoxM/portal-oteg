@@ -9,6 +9,7 @@ from .models import User, Profile
 from django.views.generic import ListView, CreateView, UpdateView
 from django.http import JsonResponse, HttpResponseRedirect
 from django.urls import reverse_lazy
+from back.mixins import *
 
 
 # Create your views here.
@@ -21,18 +22,17 @@ def logInUser(req):
         username = req.POST.get('usuario')
         password = req.POST.get('pwd')
 
-        print(username, password)
+        # print(username, password)
 
         user = authenticate(req, username=username, password=password)
 
         if user is not None:
-            # if not validate(password):
-            #     messages.success(req,'Contraseña no cumple con los requisitos')
-            #     return redirect('login')
-            # else:
-
             login(req, user)
-            return redirect('dashboard:fuente_informacion')
+
+            if user.groups.filter(name='Colaborador').exists():
+                return redirect('dashboard:publicacion_list')
+            else:
+                return redirect('dashboard:fuente_informacion')
         else:
             messages.success(req, 'Usuario o Contraseña Incorrectos')
             return redirect('login_user')
@@ -139,7 +139,7 @@ def edit_user(req, user_id):
     return render(req, 'back/auth/edit_user2.html', {'form': form, "form_2": from_2, 'user': user})
 
 
-class UserListView( ListView):
+class UserListView(LoginRequiredMixin, SuperAdminMixin,  ListView):
     model = User
     template_name = 'back/auth/users_crud.html'
 
@@ -160,13 +160,13 @@ class UserListView( ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Listado de Usuarios'
-        context['create_url'] = reverse_lazy('usuarios-perfil-create')
-        context['list_url'] = reverse_lazy('usuarios-list')
+        context['create_url'] = reverse_lazy('logIn:usuarios-perfil-create')
+        context['list_url'] = reverse_lazy('logIn:usuarios-list')
         context['entity'] = 'Usuarios'
         return context
     
 
-class UserAndProfileCreateView(CreateView):
+class UserAndProfileCreateView(LoginRequiredMixin, SuperAdminMixin, CreateView):
     model = User
     form_class = CustomUserCreationForm
     template_name = 'back/components/create_update.html'
@@ -262,11 +262,11 @@ class UserAndProfileCreateView(CreateView):
 
         context['title'] = 'Crear Usuario'
         context['entity'] = 'Usuarios'
-        context['list_url'] = reverse_lazy('usuarios-list')
+        context['list_url'] = reverse_lazy('logIn:usuarios-list')
         return context
 
 
-class UserAndProfileUpdateView(UpdateView):
+class UserAndProfileUpdateView(LoginRequiredMixin, SuperAdminMixin, UpdateView):
     model = User
     form_class = CustomUserUpdateForm
     template_name = 'back/components/update_user_p.html'
@@ -354,10 +354,13 @@ class UserAndProfileUpdateView(UpdateView):
         profile = Profile.objects.get(user=self.object)
         context['title'] = 'Editar Usuario'
         context['entity'] = 'Usuarios'
-        context['list_url'] = reverse_lazy('usuarios-list')
+        context['list_url'] = reverse_lazy('logIn:usuarios-list')
         context['profile_form'] = ProfileForm(instance=profile)
         return context
     
 
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
+
+def error_404(request, exception):
+    return render(request, 'back/components/404.html', status=404)

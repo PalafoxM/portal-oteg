@@ -5,11 +5,22 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from back.models import *
 from back.forms import *
 from web.models import *
+from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.decorators import method_decorator
+from django.http import Http404
+from django.core.exceptions import PermissionDenied
+from back.mixins import *
+from django.contrib.auth.decorators import user_passes_test
+
+def es_admin_o_superadmin(user):
+    return user.is_authenticated and (user.is_staff or user.is_superuser)
+
 
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
-class EncuestaView(ListView):
+
+class EncuestaView(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = Encuesta
     template_name = 'back/modulo_encuestas/viewer.html'
 
@@ -18,6 +29,7 @@ class EncuestaView(ListView):
         context['title'] = 'Listado encuenstas'
         context['create_url'] = reverse_lazy('dashboard:encuesta_create')
         return context
+
 
 
 class EncuestaCreate (CreateView):
@@ -70,6 +82,7 @@ class EncuestaCreate (CreateView):
         context['action'] = 'add'
         return context
 
+
 class EncuestaUpdate (UpdateView):
     model = Encuesta
     form_class = EncuestaFormB
@@ -104,6 +117,7 @@ class EncuestaUpdate (UpdateView):
         context['form'] = self.form_class(instance=self.object)
         context['list_url'] = reverse_lazy('dashboard:modulo_encuestas')
         return context
+
 
 class EncuestaDelete (DeleteView):
     model = Encuesta

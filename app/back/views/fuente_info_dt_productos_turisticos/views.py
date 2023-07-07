@@ -28,7 +28,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.decorators import method_decorator
 from django.http import Http404
 from django.core.exceptions import PermissionDenied
-
+from back.mixins import *
 from django.contrib.auth.decorators import user_passes_test
 
 def es_admin_o_superadmin(user):
@@ -38,10 +38,8 @@ def es_admin_o_superadmin(user):
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class FuenteInfoDirectorioProductosTuristicos(ListView):
+
+class FuenteInfoDirectorioProductosTuristicos(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = DirectorioProductosTuristicos
     template_name = 'back/fuente_info_dt_productos_turisticos/list.html'
 
@@ -75,10 +73,8 @@ class FuenteInfoDirectorioProductosTuristicos(ListView):
 
         return context
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class FuenteInfoDirectorioProductosTuristicosCreate (CreateView):
+
+class FuenteInfoDirectorioProductosTuristicosCreate (SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
     model = DirectorioProductosTuristicos
     form_class = DirectorioProductosTuristicosForm
     template_name = 'back/fuente_info_dt_productos_turisticos/create.html'
@@ -251,10 +247,8 @@ class FuenteInfoDirectorioProductosTuristicosCreate (CreateView):
         context['action'] = 'add'
         return context
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class FuenteInfoDirectorioProductosTuristicosUpdate (UpdateView):
+
+class FuenteInfoDirectorioProductosTuristicosUpdate (SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
     model = DirectorioProductosTuristicos
     form_class = DirectorioProductosTuristicosForm
     template_name = 'back/fuente_info_dt_productos_turisticos/view_editor.html'
@@ -298,20 +292,16 @@ class FuenteInfoDirectorioProductosTuristicosUpdate (UpdateView):
 
         return context
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class FuenteInfoDirectorioProductosTuristicosDelete (DeleteView):
+
+class FuenteInfoDirectorioProductosTuristicosDelete (SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
     model = DirectorioProductosTuristicos
     success_url = reverse_lazy('dashboard:fuente_info_dt_productos_turisticos')
 
     def post(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
         return super().post(request, *args, **kwargs)
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class DirectorioProductosTuristicosCargaMasivaView(View):
+
+class DirectorioProductosTuristicosCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
     form_class = CargaMasivaForm
     template_name = 'back/fuente_info_dt_productos_turisticos/carga_masiva.html'
     success_url = reverse_lazy('dashboard:fuente_info_dt_productos_turisticos')
@@ -620,10 +610,8 @@ class DirectorioProductosTuristicosCargaMasivaView(View):
             print(f"Error al procesar el archivo {archivo}: {e}")
         return registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class DirectorioProductosTuristicosDescargarArchivoView(View):
+
+class DirectorioProductosTuristicosDescargarArchivoView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
 
     def crear_archivo_excel(self, registros_incorrectos):
         workbook = openpyxl.Workbook()

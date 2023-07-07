@@ -25,7 +25,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.decorators import method_decorator
 from django.http import Http404
 from django.core.exceptions import PermissionDenied
-
+from back.mixins import *
 from django.contrib.auth.decorators import user_passes_test
 
 def es_admin_o_superadmin(user):
@@ -36,10 +36,8 @@ def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class FuenteInfoCertificacion (ListView):
+
+class FuenteInfoCertificacion(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = Certificacion
     template_name = 'back/fuente_info_certificacion/viewer.html'
 
@@ -54,10 +52,8 @@ class FuenteInfoCertificacion (ListView):
         
         return context  
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class FuenteInfoCertificacionCreate (CreateView):
+
+class FuenteInfoCertificacionCreate(SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
     model = Certificacion
     form_class = CertificacionForm
     template_name = 'back/fuente_info_certificacion/create.html'
@@ -182,10 +178,8 @@ class FuenteInfoCertificacionCreate (CreateView):
         return context
 
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class FuenteInfoCertificacionUpdate (UpdateView):
+
+class FuenteInfoCertificacionUpdate(SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
     model = Certificacion
     form_class = CertificacionForm
     template_name = 'back/fuente_info_certificacion/view_editor.html'
@@ -229,20 +223,16 @@ class FuenteInfoCertificacionUpdate (UpdateView):
         return context
     
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class FuenteInfoCertificacionDelete (DeleteView):
+
+class FuenteInfoCertificacionDelete(SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
     model = Certificacion
     success_url = reverse_lazy('dashboard:fuente_info_certificacion')
     
     def post(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
         return super().post(request, *args, **kwargs)
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class CertificacionCargaMasivaView(View):
+
+class CertificacionCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
     form_class = CargaMasivaForm
     template_name = 'back/fuente_info_certificacion/carga_masiva.html'
     success_url = reverse_lazy('dashboard:fuente_info_certificacion')
@@ -431,10 +421,8 @@ class CertificacionCargaMasivaView(View):
         return registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas
 
 
-@method_decorator(login_required(login_url='/auth/login_user'), name='dispatch')
-@method_decorator(permission_required('auth.view_banner', raise_exception=True), name='dispatch')
-@method_decorator(user_passes_test(es_admin_o_superadmin, login_url='404'), name='dispatch')
-class CertificacionDescargarArchivoView(View):
+
+class CertificacionDescargarArchivoView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
 
     def crear_archivo_excel(self, registros_incorrectos):
         workbook = openpyxl.Workbook()
