@@ -4,6 +4,15 @@ from django.urls import reverse_lazy
 from back.models import  *
 from back.forms import *
 from django.http import JsonResponse, HttpResponseRedirect
+from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.decorators import method_decorator
+from django.http import Http404
+from django.core.exceptions import PermissionDenied
+from back.mixins import *
+from django.contrib.auth.decorators import user_passes_test
+
+def es_admin_o_superadmin(user):
+    return user.is_authenticated and (user.is_staff or user.is_superuser)
 
 
 
@@ -12,7 +21,8 @@ from django.http import JsonResponse, HttpResponseRedirect
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
-class CatalagoTipoVisistanteListView(ListView):
+
+class CatalagoTipoVisistanteListView(LoginRequiredMixin, SuperAdminMixin, ListView):
     model = CatalagoTipoVisistante
     template_name = 'back/catalago_tipo_visitante/list.html'
 
@@ -25,7 +35,8 @@ class CatalagoTipoVisistanteListView(ListView):
         context['entity'] = 'Catalago Tipo de Visitante'
         return context
 
-class  CatalagoTipoVisistanteCreateView(CreateView):
+
+class  CatalagoTipoVisistanteCreateView(LoginRequiredMixin, SuperAdminMixin, CreateView):
     model = CatalagoTipoVisistante
     form_class = CatalagoTipoVisistanteForm
     template_name = 'back/components/create_update.html'
@@ -76,7 +87,8 @@ class  CatalagoTipoVisistanteCreateView(CreateView):
         context['action'] = 'add'
         return context
 
-class CatalagoTipoVisistanteUpdateView( UpdateView):
+
+class CatalagoTipoVisistanteUpdateView(LoginRequiredMixin, SuperAdminMixin,  UpdateView):
     model = CatalagoTipoVisistante
     form_class = CatalagoTipoVisistanteForm
     template_name = 'back/components/create_update.html'
@@ -115,7 +127,8 @@ class CatalagoTipoVisistanteUpdateView( UpdateView):
         context['action'] = 'adit'
         return context
 
-class CatalagoTipoVisistanteDeleteView(DeleteView):
+
+class CatalagoTipoVisistanteDeleteView(LoginRequiredMixin, SuperAdminMixin, DeleteView):
     model = CatalagoTipoVisistante
     # template_name = 'back/delete.html'
     success_url = reverse_lazy('dashboard:catalago_tipo_visitante_list')

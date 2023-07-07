@@ -6,34 +6,57 @@
 
 {% block columns %}
 <tr class="text-center table-header">
-    <th class="text-left pl-3">N°</th>
-    <th class="text-center hidden-t">Año</th>
-    <th class="text-left hidden-t">Destino</th>
-    <th class="text-center hidden-t">Segmento</th>
-    <th class="text-center hidden-t">Participación</th>
+    <th class="text-left">N°</th>
+    <th class="text-left">Año</th>
+    <th class="text-left">Destino</th>
+    <th class="text-left">Segmento</th>
+    <th class="text-left">Participación</th>
    
-    <th class="actions">Acciones</th>
+    <th class="text-center" style="
+            position: relative;
+            background-color: #ECF0F1;
+            text-align: center;
+            height: 100%;
+        ">Acciones</th>
 </tr>
 {% endblock %}
 
 {% block rows %}
 {% for e in object_list %}
-<tr class="text-center table-body mt-2">
-    <th class="text-left pl-3">{{e.id}}</th>
-    <th class="text-center hidden-t">{{e.ano}}</th>
-    <th class="text-center hidden-t">{{e.destino}}</th>
-    <th class="text-center hidden-t">{{e.segmento}}</th>
-    <th class="text-left hidden-t">{{e.participacion}}</th>
-    <th class="actions-container">
-        <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="location.href='{% url 'dashboard:fuente_info_segmentos_update' e.id %}'">
-            <i class="far fa-eye"></i>
-        </button>
-        <form method="post" action="{% url 'dashboard:fuente_info_segmentos_delete' e.id %}" >
-            {% csrf_token %}
-            <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">
-                <i class="fas fa-trash"></i>
-            </button>
-        </form>
+<tr>
+    <th class="text-left tb-text">{{e.id}}</th>
+    <th class="text-left tb-text">{{e.ano}}</th>
+    <th class="text-left tb-text">{{e.destino}}</th>
+    <th class="text-left tb-text">{{e.segmento}}</th>
+    <th class="text-left tb-text">{{e.participacion}}</th>
+    <th class="text-left actions-column tb-text" style="
+    position: relative;
+    background-color: #ECF0F1;
+    text-align: center;
+    height: 100%;
+    ">
+        <div class="icon-container2">
+            <form method="post" action="{% url 'dashboard:fuente_info_segmentos_delete' e.id %}">
+                {% csrf_token %}
+                <button type="submit" class="ml-1 mr-1 actions-btn"
+                    onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">
+
+                    <i class="fas fa-trash"></i>
+
+
+                </button>
+            </form>
+
+            <form method="get" action="{% url 'dashboard:fuente_info_segmentos_update' e.id %}">
+                {% csrf_token %}
+                <button type="submit" class="ml-1 mr-1 actions-btn">
+
+                    <i class="fas fa-pencil-alt"></i>
+
+
+                </button>
+            </form>
+        </div>
 
     </th>
 </tr>

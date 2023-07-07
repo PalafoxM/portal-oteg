@@ -19,6 +19,15 @@ from django.template.loader import render_to_string
 
 import json
 from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino
+from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.decorators import method_decorator
+from django.http import Http404
+from django.core.exceptions import PermissionDenied
+from back.mixins import *
+from django.contrib.auth.decorators import user_passes_test
+
+def es_admin_o_superadmin(user):
+    return user.is_authenticated and (user.is_staff or user.is_superuser)
 
 
 
@@ -26,7 +35,9 @@ from config.diccionarios import clean_str_col, homologar_columna_categoria, homo
 # Create your views here.
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
-class InventarioHoteleroEntNacListView(ListView):
+
+
+class InventarioHoteleroEntNacListView(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = InventarioHoteleroEntNac
     template_name = 'back/inventario_hotelero_ent_nac/list.html'
 
@@ -58,7 +69,8 @@ class InventarioHoteleroEntNacListView(ListView):
         return context
 
 
-class  InventarioHoteleroEntNacCreateView(CreateView):
+
+class  InventarioHoteleroEntNacCreateView(SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
     model = InventarioHoteleroEntNac
     form_class = InventarioHoteleroEntNacForm
     template_name = 'back/inventario_hotelero_ent_nac/create.html'
@@ -208,7 +220,8 @@ class  InventarioHoteleroEntNacCreateView(CreateView):
     
 
 
-class InventarioHoteleroEntNacUpdateView( UpdateView):
+
+class InventarioHoteleroEntNacUpdateView(SuperAdminOrAdminMixin, LoginRequiredMixin,  UpdateView):
     model = InventarioHoteleroEntNac
     form_class = InventarioHoteleroEntNacForm
     template_name = 'back/inventario_hotelero_ent_nac/view_editor.html'
@@ -253,7 +266,8 @@ class InventarioHoteleroEntNacUpdateView( UpdateView):
 
         return context
 
-class InventarioHoteleroEntNacDeleteView(DeleteView):
+
+class InventarioHoteleroEntNacDeleteView(SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
     model = InventarioHoteleroEntNac
     # template_name = 'back/delete.html'
     success_url = reverse_lazy('dashboard:inventario_hotelero_ent_nac_list')
@@ -264,7 +278,8 @@ class InventarioHoteleroEntNacDeleteView(DeleteView):
         self.object.delete()
         return HttpResponseRedirect(success_url)
 
-class InventarioHoteleroEntNacCargaMasivaView(View):
+
+class InventarioHoteleroEntNacCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
     form_class = CargaMasivaForm
     template_name = 'back/inventario_hotelero_ent_nac/carga_masiva.html'
     success_url = reverse_lazy('dashboard:inventario_hotelero_ent_nac_list')
@@ -442,7 +457,7 @@ class InventarioHoteleroEntNacCargaMasivaView(View):
 
     
     
-class DescargarArchivoView(View):
+class DescargarArchivoView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
 
     def crear_archivo_excel(self, registros_incorrectos):
         workbook = openpyxl.Workbook()

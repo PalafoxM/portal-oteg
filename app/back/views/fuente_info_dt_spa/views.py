@@ -24,13 +24,22 @@ import openpyxl
 from django.http import HttpResponse
 import json
 from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino
+from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.decorators import method_decorator
+from django.http import Http404
+from django.core.exceptions import PermissionDenied
+from back.mixins import *
+from django.contrib.auth.decorators import user_passes_test
+
+def es_admin_o_superadmin(user):
+    return user.is_authenticated and (user.is_staff or user.is_superuser)
 
 
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 
-class FuenteInfoDirectorioSpa(ListView):
+class FuenteInfoDirectorioSpa(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = DirectorioSpa
     template_name = 'back/fuente_info_dt_spa/list.html'
 
@@ -65,7 +74,7 @@ class FuenteInfoDirectorioSpa(ListView):
         return context
 
 
-class FuenteInfoDirectorioSpaCreate (CreateView):
+class FuenteInfoDirectorioSpaCreate (SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
     model = DirectorioSpa
     form_class = DirectorioSpaForm
     template_name = 'back/fuente_info_dt_spa/create.html'
@@ -238,7 +247,7 @@ class FuenteInfoDirectorioSpaCreate (CreateView):
 
 
 
-class FuenteInfoDirectorioSpaUpdate (UpdateView):
+class FuenteInfoDirectorioSpaUpdate (SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
     model = DirectorioSpa
     form_class = DirectorioSpaForm
     template_name = 'back/fuente_info_dt_spa/view_editor.html'
@@ -288,7 +297,7 @@ class FuenteInfoDirectorioSpaUpdate (UpdateView):
         return context
 
 
-class FuenteInfoDirectorioSpaDelete (DeleteView):
+class FuenteInfoDirectorioSpaDelete (SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
     model = DirectorioSpa
     success_url = reverse_lazy('dashboard:fuente_info_dt_spa')
 
@@ -296,7 +305,7 @@ class FuenteInfoDirectorioSpaDelete (DeleteView):
         return super().post(request, *args, **kwargs)
 
 
-class DirectorioSpaCargaMasivaView(View):
+class DirectorioSpaCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
     form_class = CargaMasivaForm
     template_name = 'back/fuente_info_dt_spa/carga_masiva.html'
     success_url = reverse_lazy('dashboard:fuente_info_dt_spa')
@@ -595,7 +604,7 @@ class DirectorioSpaCargaMasivaView(View):
         return registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas
 
 
-class DirectorioSpaDescargarArchivoView(View):
+class DirectorioSpaDescargarArchivoView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
 
     def crear_archivo_excel(self, registros_incorrectos):
         workbook = openpyxl.Workbook()

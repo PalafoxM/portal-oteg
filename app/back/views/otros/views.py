@@ -13,6 +13,15 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
 from django.views.decorators.http import require_GET
+from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.decorators import method_decorator
+from django.http import Http404
+from django.core.exceptions import PermissionDenied
+from back.mixins import *
+from django.contrib.auth.decorators import user_passes_test
+
+def es_admin_o_superadmin(user):
+    return user.is_authenticated and (user.is_staff or user.is_superuser)
 
 
 # Create your views here
@@ -21,7 +30,8 @@ def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 
-class CentroDocumentalView(ListView):
+
+class CentroDocumentalView(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = SeccionesCentroDocumental
     template_name = 'back/centro_documental/centro_documental.html'
 
@@ -33,6 +43,7 @@ class CentroDocumentalView(ListView):
         return context
     
  
+
 class SeccionCentroDocumentalDelete(DeleteView):
     model = SeccionesCentroDocumental
     success_url = reverse_lazy('dashboard:centrodocumental')
@@ -42,6 +53,7 @@ class SeccionCentroDocumentalDelete(DeleteView):
         success_url = self.get_success_url()
         self.object.delete()
         return HttpResponseRedirect(success_url)
+
 
 
 class SeccionCentroDocumentalUpdate(UpdateView):
@@ -79,6 +91,7 @@ class SeccionCentroDocumentalUpdate(UpdateView):
         context['form'] = self.form_class(instance=self.object)
         context['list_url'] = reverse_lazy('dashboard:centrodocumental')
         return context
+
 
     
 class SeccionCentroDocumentalCreate(CreateView):
@@ -132,6 +145,7 @@ class SeccionCentroDocumentalCreate(CreateView):
         return context
     
 
+
 def edit_seccion(request, seccion_id):
 
     seccion = SeccionesCentroDocumental.objects.get(id=seccion_id)
@@ -147,7 +161,8 @@ def edit_seccion(request, seccion_id):
     return render(request, 'back/otros/otros/edit_seccion.html', {'form': form})
 
 
-class CategoriasListView(ListView):
+
+class CategoriasListView(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = Categorias
     template_name = 'back/centro_documental/categorias.html'
     context_object_name = 'categorias_list'
@@ -169,7 +184,8 @@ class CategoriasListView(ListView):
         context['pk'] = seccion_id
         return context
 
-class CategoriasCreateView(CreateView):
+
+class CategoriasCreateView(SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
     model = Categorias
     form_class = CategoriasForm
     template_name = 'back/centro_documental/categorias_create.html'
@@ -227,7 +243,8 @@ class CategoriasCreateView(CreateView):
         context['action'] = 'add'
         return context
 
-class CategoriasDeleteView(DeleteView):
+
+class CategoriasDeleteView(SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
     model = Categorias
     success_url = reverse_lazy('dashboard:centrodocumental')
 
@@ -235,7 +252,8 @@ class CategoriasDeleteView(DeleteView):
         seccion_pk = self.kwargs['seccion_pk']
         return reverse_lazy('dashboard:categorias_list', kwargs={'pk': seccion_pk})
 
-class CategoriasUpdateView(UpdateView):
+
+class CategoriasUpdateView(SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
     model = Categorias
     form_class = CategoriasForm
     template_name = 'back/centro_documental/categorias_create.html'
@@ -285,7 +303,8 @@ def descargas_list(request):
 
     return render(request, 'back/descargas/list.html', data)
 
-class DescargasView (ListView):
+
+class DescargasView (SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
 
     template_name = 'back/descargas/viewer.html'
     context_object_name = 'descargas'

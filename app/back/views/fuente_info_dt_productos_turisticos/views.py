@@ -24,13 +24,22 @@ import openpyxl
 from django.http import HttpResponse
 import json
 from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino
+from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.decorators import method_decorator
+from django.http import Http404
+from django.core.exceptions import PermissionDenied
+from back.mixins import *
+from django.contrib.auth.decorators import user_passes_test
+
+def es_admin_o_superadmin(user):
+    return user.is_authenticated and (user.is_staff or user.is_superuser)
 
 
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 
-class FuenteInfoDirectorioProductosTuristicos(ListView):
+class FuenteInfoDirectorioProductosTuristicos(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = DirectorioProductosTuristicos
     template_name = 'back/fuente_info_dt_productos_turisticos/list.html'
 
@@ -65,7 +74,7 @@ class FuenteInfoDirectorioProductosTuristicos(ListView):
         return context
 
 
-class FuenteInfoDirectorioProductosTuristicosCreate (CreateView):
+class FuenteInfoDirectorioProductosTuristicosCreate (SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
     model = DirectorioProductosTuristicos
     form_class = DirectorioProductosTuristicosForm
     template_name = 'back/fuente_info_dt_productos_turisticos/create.html'
@@ -239,7 +248,7 @@ class FuenteInfoDirectorioProductosTuristicosCreate (CreateView):
         return context
 
 
-class FuenteInfoDirectorioProductosTuristicosUpdate (UpdateView):
+class FuenteInfoDirectorioProductosTuristicosUpdate (SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
     model = DirectorioProductosTuristicos
     form_class = DirectorioProductosTuristicosForm
     template_name = 'back/fuente_info_dt_productos_turisticos/view_editor.html'
@@ -284,7 +293,7 @@ class FuenteInfoDirectorioProductosTuristicosUpdate (UpdateView):
         return context
 
 
-class FuenteInfoDirectorioProductosTuristicosDelete (DeleteView):
+class FuenteInfoDirectorioProductosTuristicosDelete (SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
     model = DirectorioProductosTuristicos
     success_url = reverse_lazy('dashboard:fuente_info_dt_productos_turisticos')
 
@@ -292,7 +301,7 @@ class FuenteInfoDirectorioProductosTuristicosDelete (DeleteView):
         return super().post(request, *args, **kwargs)
 
 
-class DirectorioProductosTuristicosCargaMasivaView(View):
+class DirectorioProductosTuristicosCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
     form_class = CargaMasivaForm
     template_name = 'back/fuente_info_dt_productos_turisticos/carga_masiva.html'
     success_url = reverse_lazy('dashboard:fuente_info_dt_productos_turisticos')
@@ -602,7 +611,7 @@ class DirectorioProductosTuristicosCargaMasivaView(View):
         return registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas
 
 
-class DirectorioProductosTuristicosDescargarArchivoView(View):
+class DirectorioProductosTuristicosDescargarArchivoView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
 
     def crear_archivo_excel(self, registros_incorrectos):
         workbook = openpyxl.Workbook()

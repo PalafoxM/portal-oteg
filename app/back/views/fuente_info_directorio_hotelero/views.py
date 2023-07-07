@@ -24,13 +24,22 @@ import openpyxl
 from django.http import HttpResponse
 import json
 from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino
+from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.decorators import method_decorator
+from django.http import Http404
+from django.core.exceptions import PermissionDenied
+from back.mixins import *
+from django.contrib.auth.decorators import user_passes_test
+
+def es_admin_o_superadmin(user):
+    return user.is_authenticated and (user.is_staff or user.is_superuser)
 
 
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 
-class FuenteInfoDirectorioHotelero (ListView):
+class FuenteInfoDirectorioHotelero (SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = DirectorioHotelero
     template_name = 'back/fuente_info_directorio_hotelero/list.html'
 
@@ -66,7 +75,7 @@ class FuenteInfoDirectorioHotelero (ListView):
         return context
 
 
-class FuenteInfoDirectorioHoteleroCreate (CreateView):
+class FuenteInfoDirectorioHoteleroCreate (SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
     model = DirectorioHotelero
     form_class = DirectorioHoteleroForm
     template_name = 'back/fuente_info_directorio_hotelero/create.html'
@@ -308,7 +317,7 @@ class FuenteInfoDirectorioHoteleroCreate (CreateView):
         return context
 
 
-class FuenteInfoDirectorioHoteleroUpdate (UpdateView):
+class FuenteInfoDirectorioHoteleroUpdate (SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
     model = DirectorioHotelero
     form_class = DirectorioHoteleroForm
     template_name = 'back/fuente_info_directorio_hotelero/view_editor.html'
@@ -353,7 +362,7 @@ class FuenteInfoDirectorioHoteleroUpdate (UpdateView):
         return context
 
 
-class FuenteInfoDirectorioHoteleroDelete (DeleteView):
+class FuenteInfoDirectorioHoteleroDelete (SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
     model = DirectorioHotelero
     success_url = reverse_lazy('dashboard:fuente_info_directorio_hotelero')
 
@@ -361,7 +370,7 @@ class FuenteInfoDirectorioHoteleroDelete (DeleteView):
         return super().post(request, *args, **kwargs)
 
 
-class DirectorioHoteleroCargaMasivaView(View):
+class DirectorioHoteleroCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
     form_class = CargaMasivaForm
     template_name = 'back/fuente_info_directorio_hotelero/carga_masiva.html'
     success_url = reverse_lazy('dashboard:fuente_info_directorio_hotelero')
@@ -881,7 +890,7 @@ class DirectorioHoteleroCargaMasivaView(View):
         return registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas
 
 
-class DirectorioHoteleroDescargarArchivoView(View):
+class DirectorioHoteleroDescargarArchivoView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
 
     def crear_archivo_excel(self, registros_incorrectos):
         workbook = openpyxl.Workbook()

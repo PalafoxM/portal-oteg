@@ -22,12 +22,22 @@ from django.http import HttpResponse
 import json
 from datetime import datetime
 from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino
+from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.decorators import method_decorator
+from django.http import Http404
+from django.core.exceptions import PermissionDenied
+from back.mixins import *
+from django.contrib.auth.decorators import user_passes_test
+
+def es_admin_o_superadmin(user):
+    return user.is_authenticated and (user.is_staff or user.is_superuser)
 
 
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
-class FuenteInfoAerolinea (ListView):
+
+class FuenteInfoAerolinea(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = Aerolinea
     template_name = 'back/fuente_info_aerolinea/list.html'
 
@@ -43,7 +53,8 @@ class FuenteInfoAerolinea (ListView):
     
 
 
-class FuenteInfoAerolineaCreate (CreateView):
+
+class FuenteInfoAerolineaCreate(SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
     model = Aerolinea
     form_class = AerolineaForm
     template_name = 'back/fuente_info_aerolinea/create.html'
@@ -171,7 +182,8 @@ class FuenteInfoAerolineaCreate (CreateView):
         return context
 
 
-class FuenteInfoAerolineaUpdate (UpdateView):
+
+class FuenteInfoAerolineaUpdate(SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
 
     model = Aerolinea
     form_class = AerolineaForm
@@ -215,14 +227,16 @@ class FuenteInfoAerolineaUpdate (UpdateView):
         return context
     
 
-class FuenteInfoAerolineaDelete (DeleteView):
+
+class FuenteInfoAerolineaDelete(SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
     model = Aerolinea
     success_url = reverse_lazy('dashboard:fuente_info_aerolineas')
     
     def post(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
         return super().post(request, *args, **kwargs)
 
-class AerolineaCargaMasivaView(View):
+
+class AerolineaCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
     form_class = CargaMasivaForm
     template_name = 'back/fuente_info_aerolinea/carga_masiva.html'
     success_url = reverse_lazy('dashboard:fuente_info_aerolinea')
@@ -404,7 +418,8 @@ class AerolineaCargaMasivaView(View):
         return registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas
 
 
-class AerolineaDescargarArchivoView(View):
+
+class AerolineaDescargarArchivoView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
 
     def crear_archivo_excel(self, registros_incorrectos):
         workbook = openpyxl.Workbook()

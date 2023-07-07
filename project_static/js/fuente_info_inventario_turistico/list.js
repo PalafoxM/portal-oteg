@@ -35,29 +35,32 @@ var datatur = {
                 }
             },
             columns: [
-                {"data": "id", className: "text-left pl-3"},
-                {"data": "ano", className: "text-center hidden-t"},
-                {"data": "giro", className: "text-center hidden-t"},
-                {"data": "destino", className: "text-center hidden-t"},
-                {"data": "inventario", className: "text-center hidden-t"},
-                {"data": "id", className: "actions-container"},
+                {"data": "id", className: "text-left"},
+                {"data": "ano", className: "text-left tb-text"},
+                {"data": "giro", className: "text-left tb-text"},
+                {"data": "destino", className: "text-left tb-text"},
+                {"data": "inventario", className: "text-left tb-text"},
+                {"data": "id", className: "text-left  actions-column tb-text"},
             ],
             columnDefs: [
                 {
                     targets: [-1],
-                    class: 'actions-container',
+                    class: 'actions-column',
                     orderable: false,
                     render: function (data, type, row) {
-                        var buttons = '<button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="location.href=\'inventario-turistico/edit/' + row.id + '/\'">';
-                        buttons += '<i class="fas fa-edit"></i>';
-                        buttons += '</button> ';
-                        buttons += '<form method="post" action="inventario-turistico/delete/' + row.id + '/">';
-                        buttons += '<input type="hidden" name="csrfmiddlewaretoken" value="' + csrftoken + '">';
-                        buttons += '<button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="return confirm(\'¿Está seguro de que desea eliminar la informacion?\');">';
-                        buttons += '<i class="fas fa-trash"></i>';
-                        buttons += '</button>';
-                        buttons += '</form>';
-                        return buttons;
+                        var html = '<td class="text-center" style="position: relative; background-color: aqua; text-align: center; height: 100%;">';
+                        html += '<div class="icon-container">';
+                        html += '<i class="fas fa-edit" onclick="location.href=\'edit/' + row.id + '/\'"></i>';
+                        html += '<form method="post" action="delete/' + row.id + '/">';
+                        html += '<input type="hidden" name="csrfmiddlewaretoken" value="' + csrftoken + '">';
+                        html += '<button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="return confirm(\'¿Está seguro de que desea eliminar la informacion?\');">';
+                        html += '<i class="fas fa-trash"></i>';
+                        html += '</button>';
+                        html += '</form>';
+                        html += '</div>';
+                        html += '</td>';
+                        // Append your existing buttons or elements here
+                        return html;
                     }
                 },
             ],

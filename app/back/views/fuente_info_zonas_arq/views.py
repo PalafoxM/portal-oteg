@@ -21,13 +21,23 @@ import openpyxl
 from django.http import HttpResponse
 import json
 from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino
+from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.decorators import method_decorator
+from django.http import Http404
+from django.core.exceptions import PermissionDenied
+from back.mixins import *
+from django.contrib.auth.decorators import user_passes_test
+
+def es_admin_o_superadmin(user):
+    return user.is_authenticated and (user.is_staff or user.is_superuser)
 
 
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 
-class FuenteInfoZonasArqueologicas (ListView):
+
+class FuenteInfoZonasArqueologicas (SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = zonas_arqueologicas_museos
     template_name = 'back/fuente_info_zonas_arq/viewer.html'
 
@@ -42,7 +52,8 @@ class FuenteInfoZonasArqueologicas (ListView):
         return context
 
 
-class FuenteInfoZonasArqueologicasCreate (CreateView):
+
+class FuenteInfoZonasArqueologicasCreate (SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
     model = zonas_arqueologicas_museos
     form_class = ZonasArqueologicasMuseosForm
     template_name = 'back/fuente_info_zonas_arq/create.html'    
@@ -191,7 +202,8 @@ class FuenteInfoZonasArqueologicasCreate (CreateView):
         context['action'] = 'add'
         return context
 
-class FuenteInfoZonasArqueologicasUpdate (UpdateView):
+
+class FuenteInfoZonasArqueologicasUpdate (SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
     model = zonas_arqueologicas_museos
     form_class = ZonasArqueologicasMuseosForm_edit
     template_name = 'back/fuente_info_zonas_arq/view_editor.html'
@@ -238,7 +250,8 @@ class FuenteInfoZonasArqueologicasUpdate (UpdateView):
 
         return context
 
-class FuenteInfoZonasArqueologicasDelete (DeleteView):
+
+class FuenteInfoZonasArqueologicasDelete (SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
     model = zonas_arqueologicas_museos
     success_url = reverse_lazy('dashboard:fuente_info_zonas_arqueologicas')
 
@@ -248,7 +261,8 @@ class FuenteInfoZonasArqueologicasDelete (DeleteView):
         self.object.delete()
         return HttpResponseRedirect(success_url)
 
-class ZonasArqueoCargaMasivaView(View):
+
+class ZonasArqueoCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
     form_class = CargaMasivaForm
     template_name = 'back/fuente_info_zonas_arq/carga_masiva.html'
     success_url = reverse_lazy('dashboard:fuente_info_zonas_arqueologicas')
@@ -475,7 +489,8 @@ class ZonasArqueoCargaMasivaView(View):
         return registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas
 
 
-class ZonasArqueoDescargarArchivoView(View):
+
+class ZonasArqueoDescargarArchivoView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
 
     def crear_archivo_excel(self, registros_incorrectos):
         workbook = openpyxl.Workbook()

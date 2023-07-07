@@ -28,13 +28,22 @@ import openpyxl
 from django.http import HttpResponse
 import json
 from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino
+from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.decorators import method_decorator
+from django.http import Http404
+from django.core.exceptions import PermissionDenied
+from back.mixins import *
+from django.contrib.auth.decorators import user_passes_test
+
+def es_admin_o_superadmin(user):
+    return user.is_authenticated and (user.is_staff or user.is_superuser)
 
 
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 
-class FuenteInfoAirbnb (ListView):
+class FuenteInfoAirbnb(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = Airbnb
     template_name = 'back/fuente_info_airbnb/viewer.html'
 
@@ -47,7 +56,8 @@ class FuenteInfoAirbnb (ListView):
         context['carga_masiva_url'] = reverse_lazy('dashboard:fuente_info_airbnb_carga_masiva')
         return context
 
-class FuenteInfoAirbnbCreate (CreateView):
+
+class FuenteInfoAirbnbCreate(SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
     model = Airbnb
     form_class = AirbnbForm
     template_name = 'back/fuente_info_airbnb/create.html'
@@ -173,7 +183,7 @@ class FuenteInfoAirbnbCreate (CreateView):
         return context
 
 
-class FuenteInfoAirbnbUpdate (UpdateView): 
+class FuenteInfoAirbnbUpdate(SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView): 
     model = Airbnb
     form_class = AirbnbForm
     template_name = 'back/fuente_info_airbnb/create.html'
@@ -218,14 +228,14 @@ class FuenteInfoAirbnbUpdate (UpdateView):
         return context
     
 
-class FuenteInfoAirbnbDelete (DeleteView):
+class FuenteInfoAirbnbDelete(SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
     model = Airbnb
     success_url = reverse_lazy('dashboard:fuente_info_airbnb')
     
     def post(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
         return super().post(request, *args, **kwargs)
 
-class AirbnbCargaMasivaView(View):
+class AirbnbCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
     form_class = CargaMasivaForm
     template_name = 'back/fuente_info_airbnb/carga_masiva.html'
     success_url = reverse_lazy('dashboard:fuente_info_airbnb')
@@ -430,7 +440,7 @@ class AirbnbCargaMasivaView(View):
         return registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas
 
 
-class AirbnbDescargarArchivoView(View):
+class AirbnbDescargarArchivoView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
 
     def crear_archivo_excel(self, registros_incorrectos):
         workbook = openpyxl.Workbook()

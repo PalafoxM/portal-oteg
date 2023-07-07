@@ -28,8 +28,8 @@
             
             <td class="text-center" style="position: relative; background-color: aqua; text-align: center; height: 100%;">
                 <div class="icon-container">
-                    <i class="fas fa-edit" onclick="location.href='{% url 'usuarios-perfil-update' user.id  %}'"></i>
-                    <form method="post" action="{% url 'delete_user' user.id %}" >
+                    <i class="fas fa-edit" onclick="location.href='{% url 'logIn:usuarios-perfil-update' user.id  %}'"></i>
+                    <form method="post" action="{% url 'logIn:delete_user' user.id %}" >
                         {% csrf_token %}
                         
                         <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">

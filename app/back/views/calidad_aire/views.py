@@ -20,11 +20,25 @@ from django.http import HttpResponse
 import json
 from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino
 
+from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.decorators import method_decorator
+from django.http import Http404
+from django.core.exceptions import PermissionDenied
+from back.mixins import *
+from django.contrib.auth.decorators import user_passes_test
+from django.template.loader import render_to_string
+
+def es_admin_o_superadmin(user):
+    return user.is_authenticated and (user.is_staff or user.is_superuser)
+
+
+
 # Create your views here.
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
-class CalidadAireListView(ListView):
+
+class CalidadAireListView(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = CalidadAire
     template_name = 'back/calidad_aire/list.html'
 
@@ -56,27 +70,65 @@ class CalidadAireListView(ListView):
         context['is_fuente'] = True
         return context
 
-class  CalidadAireCreateView(CreateView):
+
+class CalidadAireCreateView(SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
     model = CalidadAire
     form_class = CalidadAireForm
-    template_name = 'back/components/create_update.html'
+    template_name = 'back/calidad_aire/create.html'
     success_url = reverse_lazy('dashboard:calidad_aire_list')
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST, request.FILES)
+        replace_data = request.POST.get('replace_data')
         if form.is_valid():
-            self.object = form.save()
-            data = {
-                'success': True,
-                'message': 'Registro creado exitosamente.',
-                'url': self.success_url
-            }
-            return JsonResponse(data)
+            # Verificar si ya existe un registro con la misma fecha y destino
+            fecha = form.cleaned_data['fecha']
+            destino = form.cleaned_data['destino']
+
+            try:
+                existing_object = self.model.objects.get(fecha=fecha, destino=destino)
+            except self.model.DoesNotExist:
+                existing_object = None
+
+            # Si no existe un objeto existente, guardar los nuevos datos
+            if not existing_object:
+                self.object = form.save()
+                data = {
+                    'success': True,
+                    'message': 'Datos creados exitosamente.',
+                    'url': self.success_url,
+                }
+                return JsonResponse(data)
+
+            # Si existe un objeto existente y replace_data es True, actualizar los datos existentes
+            if existing_object and replace_data == 'on':
+                for field in form.cleaned_data:
+                    if field == 'replace_data':
+                        continue
+                    setattr(existing_object, field, form.cleaned_data[field])
+                existing_object.save()
+
+                data = {
+                    'success': True,
+                    'message': 'Datos actualizados exitosamente.',
+                    'url': self.success_url,
+                }
+                return JsonResponse(data)
+
+            # Si existe un objeto existente y replace_data es False, devolver un error
+            if existing_object:
+                data = {
+                    'success': False,
+                    'message': 'Hubo un error al crear el registro.',
+                    'errors': 'Ya existe un registro con la misma fecha y destino.',
+                }
+                return JsonResponse(data)
         else:
             data = {
                 'success': False,
-                'message': 'Ha ocurrido un error al crear un registro.',
-                'errors': form.errors
+                'message': 'Error al crear los datos.',
+                'errors': form.errors,
+                'format_errors': True,
             }
             return JsonResponse(data)
         
@@ -107,10 +159,11 @@ class  CalidadAireCreateView(CreateView):
         context['action'] = 'add'
         return context
 
-class CalidadAireUpdateView( UpdateView):
+
+class CalidadAireUpdateView(SuperAdminOrAdminMixin, LoginRequiredMixin,  UpdateView):
     model = CalidadAire
     form_class = CalidadAireForm
-    template_name = 'back/components/create_update.html'
+    template_name = 'back/calidad_aire/view_editor.html'
     success_url = reverse_lazy('dashboard:calidad_aire_list')
 
     def form_invalid(self, form):
@@ -142,10 +195,15 @@ class CalidadAireUpdateView( UpdateView):
         context['title'] = 'Editar Calidad del Aire'
         context['entity'] = 'Calidad del Aire'
         context['list_url'] = reverse_lazy('dashboard:calidad_aire_list')
-        context['form'] = self.form_class(instance=self.object)
+        destino_widget = context['form'].fields['destino'].widget
+        destino_widget.attrs.update({'readonly': 'readonly'})
+        fecha_widget = context['form'].fields['fecha'].widget
+        fecha_widget.attrs.update({'readonly': 'readonly'})
+        context['edit_msg'] = 'Los Campos que no se pueden editar están sombreados'
         return context
 
-class CalidadAireDeleteView(DeleteView):
+
+class CalidadAireDeleteView(SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
     model = CalidadAire
     # template_name = 'back/delete.html'
     success_url = reverse_lazy('dashboard:calidad_aire_list')
@@ -156,7 +214,8 @@ class CalidadAireDeleteView(DeleteView):
         self.object.delete()
         return HttpResponseRedirect(success_url)
 
-class CalidadAireCargaMasivaView(View):
+
+class CalidadAireCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
     form_class = CargaMasivaForm
     template_name = 'back/calidad_aire/carga_masiva.html'
     success_url = reverse_lazy('dashboard:calidad_aire_list')
@@ -305,7 +364,7 @@ class CalidadAireCargaMasivaView(View):
 
 
 
-class DescargarArchivoAireView(View):
+class DescargarArchivoAireView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
 
     def crear_archivo_excel(self, registros_incorrectos):
         workbook = openpyxl.Workbook()

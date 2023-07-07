@@ -24,13 +24,22 @@ import openpyxl
 from django.http import HttpResponse
 import json
 from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino
+from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.decorators import method_decorator
+from django.http import Http404
+from django.core.exceptions import PermissionDenied
+from back.mixins import *
+from django.contrib.auth.decorators import user_passes_test
+
+def es_admin_o_superadmin(user):
+    return user.is_authenticated and (user.is_staff or user.is_superuser)
 
 
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 
-class FuenteInfoDirectorioRecintosAuditoriosYSalones(ListView):
+class FuenteInfoDirectorioRecintosAuditoriosYSalones(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = DirectorioRecintosAuditoriosYSalones
     template_name = 'back/fuente_info_dt_recintos_auditorios_y_salones/list.html'
 
@@ -65,7 +74,7 @@ class FuenteInfoDirectorioRecintosAuditoriosYSalones(ListView):
         return context
 
 
-class FuenteInfoDirectorioRecintosAuditoriosYSalonesCreate (CreateView):
+class FuenteInfoDirectorioRecintosAuditoriosYSalonesCreate (SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
     model = DirectorioRecintosAuditoriosYSalones
     form_class = DirectorioRecintosAuditoriosYSalonesForm
     template_name = 'back/fuente_info_dt_recintos_auditorios_y_salones/create.html'
@@ -243,7 +252,7 @@ class FuenteInfoDirectorioRecintosAuditoriosYSalonesCreate (CreateView):
         return context
 
 
-class FuenteInfoDirectorioRecintosAuditoriosYSalonesUpdate (UpdateView):
+class FuenteInfoDirectorioRecintosAuditoriosYSalonesUpdate (SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
     model = DirectorioRecintosAuditoriosYSalones
     form_class = DirectorioRecintosAuditoriosYSalonesForm
     template_name = 'back/fuente_info_dt_recintos_auditorios_y_salones/view_editor.html'
@@ -298,7 +307,7 @@ class FuenteInfoDirectorioRecintosAuditoriosYSalonesUpdate (UpdateView):
         return context
 
 
-class FuenteInfoDirectorioRecintosAuditoriosYSalonesDelete (DeleteView):
+class FuenteInfoDirectorioRecintosAuditoriosYSalonesDelete (SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
     model = DirectorioRecintosAuditoriosYSalones
     success_url = reverse_lazy(
         'dashboard:fuente_info_dt_recintos_auditorios_y_salones')
@@ -307,7 +316,7 @@ class FuenteInfoDirectorioRecintosAuditoriosYSalonesDelete (DeleteView):
         return super().post(request, *args, **kwargs)
 
 
-class DirectorioRecintosAuditoriosYSalonesCargaMasivaView(View):
+class DirectorioRecintosAuditoriosYSalonesCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
     form_class = CargaMasivaForm
     template_name = 'back/fuente_info_dt_recintos_auditorios_y_salones/carga_masiva.html'
     success_url = reverse_lazy(
@@ -635,7 +644,7 @@ class DirectorioRecintosAuditoriosYSalonesCargaMasivaView(View):
         return registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas
 
 
-class DirectorioRecintosAuditoriosYSalonesDescargarArchivoView(View):
+class DirectorioRecintosAuditoriosYSalonesDescargarArchivoView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
 
     def crear_archivo_excel(self, registros_incorrectos):
         workbook = openpyxl.Workbook()

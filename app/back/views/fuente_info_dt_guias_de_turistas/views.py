@@ -24,13 +24,22 @@ import openpyxl
 from django.http import HttpResponse
 import json
 from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino
+from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.decorators import method_decorator
+from django.http import Http404
+from django.core.exceptions import PermissionDenied
+from back.mixins import *
+from django.contrib.auth.decorators import user_passes_test
+
+def es_admin_o_superadmin(user):
+    return user.is_authenticated and (user.is_staff or user.is_superuser)
 
 
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 
-class FuenteInfoDirectorioGuiasDeTuristas(ListView):
+class FuenteInfoDirectorioGuiasDeTuristas(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = DirectorioGuiasDeTuristas
     template_name = 'back/fuente_info_dt_guias_de_turistas/list.html'
 
@@ -65,7 +74,7 @@ class FuenteInfoDirectorioGuiasDeTuristas(ListView):
         return context
 
 
-class FuenteInfoDirectorioGuiasDeTuristasCreate (CreateView):
+class FuenteInfoDirectorioGuiasDeTuristasCreate (SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
     model = DirectorioGuiasDeTuristas
     form_class = DirectorioGuiasDeTuristasForm
     template_name = 'back/fuente_info_dt_guias_de_turistas/create.html'
@@ -240,7 +249,7 @@ class FuenteInfoDirectorioGuiasDeTuristasCreate (CreateView):
         return context
 
 
-class FuenteInfoDirectorioGuiasDeTuristasUpdate (UpdateView):
+class FuenteInfoDirectorioGuiasDeTuristasUpdate (SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
     model = DirectorioGuiasDeTuristas
     form_class = DirectorioGuiasDeTuristasForm
     template_name = 'back/fuente_info_dt_guias_de_turistas/view_editor.html'
@@ -285,7 +294,7 @@ class FuenteInfoDirectorioGuiasDeTuristasUpdate (UpdateView):
         return context
 
 
-class FuenteInfoDirectorioGuiasDeTuristasDelete (DeleteView):
+class FuenteInfoDirectorioGuiasDeTuristasDelete (SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
     model = DirectorioGuiasDeTuristas
     success_url = reverse_lazy('dashboard:fuente_info_dt_guias_de_turistas')
 
@@ -293,7 +302,7 @@ class FuenteInfoDirectorioGuiasDeTuristasDelete (DeleteView):
         return super().post(request, *args, **kwargs)
 
 
-class DirectorioGuiasDeTuristasCargaMasivaView(View):
+class DirectorioGuiasDeTuristasCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
     form_class = CargaMasivaForm
     template_name = 'back/fuente_info_dt_guias_de_turistas/carga_masiva.html'
     success_url = reverse_lazy('dashboard:fuente_info_dt_guias_de_turistas')
@@ -619,7 +628,7 @@ class DirectorioGuiasDeTuristasCargaMasivaView(View):
         return registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas
 
 
-class DirectorioGuiasDeTuristasDescargarArchivoView(View):
+class DirectorioGuiasDeTuristasDescargarArchivoView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
 
     def crear_archivo_excel(self, registros_incorrectos):
         workbook = openpyxl.Workbook()

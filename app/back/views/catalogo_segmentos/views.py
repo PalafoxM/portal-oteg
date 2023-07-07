@@ -4,6 +4,15 @@ from django.urls import reverse_lazy
 from back.models import  *
 from back.forms import *
 from django.http import JsonResponse, HttpResponseRedirect
+from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.decorators import method_decorator
+from django.http import Http404
+from django.core.exceptions import PermissionDenied
+from back.mixins import *
+from django.contrib.auth.decorators import user_passes_test
+
+def es_admin_o_superadmin(user):
+    return user.is_authenticated and (user.is_staff or user.is_superuser)
 
 
 
@@ -12,7 +21,8 @@ from django.http import JsonResponse, HttpResponseRedirect
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
-class CatalagoSegmentosListView(ListView):
+
+class CatalagoSegmentosListView(LoginRequiredMixin, SuperAdminMixin, ListView):
     model = CatalagoSegmentos
     template_name = 'back/catalago_segmento/list.html'
 
@@ -25,7 +35,8 @@ class CatalagoSegmentosListView(ListView):
         context['entity'] = 'Catalago Segmentos'
         return context
 
-class  CatalagoSegmentosCreateView(CreateView):
+
+class  CatalagoSegmentosCreateView(LoginRequiredMixin, SuperAdminMixin, CreateView):
     model = CatalagoSegmentos
     form_class = CatalagoSegmentosForm
     template_name = 'back/components/create_update.html'
@@ -76,7 +87,8 @@ class  CatalagoSegmentosCreateView(CreateView):
         context['action'] = 'add'
         return context
 
-class CatalagoSegmentosUpdateView( UpdateView):
+
+class CatalagoSegmentosUpdateView(LoginRequiredMixin, SuperAdminMixin,  UpdateView):
     model = CatalagoSegmentos
     form_class = CatalagoSegmentosForm
     template_name = 'back/components/create_update.html'
@@ -115,7 +127,8 @@ class CatalagoSegmentosUpdateView( UpdateView):
         context['action'] = 'adit'
         return context
 
-class CatalagoSegmentosDeleteView(DeleteView):
+
+class CatalagoSegmentosDeleteView(LoginRequiredMixin, SuperAdminMixin, DeleteView):
     model = CatalagoSegmentos
     # template_name = 'back/delete.html'
     success_url = reverse_lazy('dashboard:catalago_segmento_list')
