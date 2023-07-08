@@ -32,5 +32,5 @@ class ConfigurationView (TemplateView):
     # context_object_name = 'fuentes_informacion'
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Configuración'
+        context['title'] = 'LISTADO CATÁLOGOS'
         return context    

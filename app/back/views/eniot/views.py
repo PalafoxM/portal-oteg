@@ -16,7 +16,7 @@ class EniotListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Listado ENIOT'
+        context['title'] = ''
         context['create_url'] =  reverse_lazy('dashboard:eniot_create')
         return context
         
@@ -122,7 +122,7 @@ class EniotAlbunListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Listado ENIOT-fotos'
+        context['title'] = 'LISTADO ÁLBUMES'
         context['create_url'] =  reverse_lazy('dashboard:eniot_fotos_create')
         return context
         

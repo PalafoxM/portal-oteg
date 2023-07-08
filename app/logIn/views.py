@@ -269,7 +269,7 @@ class UserAndProfileCreateView(CreateView):
 class UserAndProfileUpdateView(UpdateView):
     model = User
     form_class = CustomUserUpdateForm
-    template_name = 'back/components/update_user_p.html'
+    template_name = 'back/components/create_update.html'
     success_url = reverse_lazy('usuarios-list')
 
     def get_object(self, queryset=None):
