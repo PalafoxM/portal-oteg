@@ -2,6 +2,7 @@ from django.urls import path
 from .import views 
 from .views import delete_user,edit_user,edit_user_pwd, UserListView, UserAndProfileCreateView, UserAndProfileUpdateView
 
+app_name = 'logIn'
 
 urlpatterns = [
     path('login_user', views.logInUser, name='login_user'),

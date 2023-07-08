@@ -16,13 +16,23 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.http import require_GET
 from django.views.decorators.http import require_POST
 from django.template.loader import render_to_string
+from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.decorators import method_decorator
+from django.http import Http404
+from django.core.exceptions import PermissionDenied
+from back.mixins import *
+from django.contrib.auth.decorators import user_passes_test
+
+def es_admin_o_superadmin(user):
+    return user.is_authenticated and (user.is_staff or user.is_superuser)
 
 
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'\
     
 
-class ModiuloConfigDestinos (ListView):
+
+class ModiuloConfigDestinos (LoginRequiredMixin, SuperAdminMixin, ListView):
     model = CatalagoDestino
     template_name  =  'back/modulo_config_destinos/viewer.html'
 
@@ -34,7 +44,8 @@ class ModiuloConfigDestinos (ListView):
         return context  
     
 
-class ModiuloConfigDestinosCreateView (CreateView):
+
+class ModiuloConfigDestinosCreateView (LoginRequiredMixin, SuperAdminMixin, CreateView):
     model = CatalagoDestino
     form_class = CatalogoDestinoForm
     template_name = 'back/modulo_config_destinos/create.html'
@@ -112,7 +123,8 @@ class ModiuloConfigDestinosCreateView (CreateView):
         return context
 
 
-class ModiuloConfigDestinosUpdateView (UpdateView):
+
+class ModiuloConfigDestinosUpdateView (LoginRequiredMixin, SuperAdminMixin, UpdateView):
 
     model = CatalagoDestino
     form_class = CatalogoDestinoForm
@@ -149,8 +161,9 @@ class ModiuloConfigDestinosUpdateView (UpdateView):
         context['title'] = 'Editar Modulo Config Destinos'
 
         return context
-    
-class ModiuloConfigDestinosDeleteView  (DeleteView):
+
+   
+class ModiuloConfigDestinosDeleteView  (LoginRequiredMixin, SuperAdminMixin, DeleteView):
     model = CatalagoDestino
     success_url = reverse_lazy('dashboard:configuracion_destinos_list')
 

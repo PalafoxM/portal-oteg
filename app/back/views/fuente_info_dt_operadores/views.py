@@ -24,13 +24,22 @@ import openpyxl
 from django.http import HttpResponse
 import json
 from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino
+from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.decorators import method_decorator
+from django.http import Http404
+from django.core.exceptions import PermissionDenied
+from back.mixins import *
+from django.contrib.auth.decorators import user_passes_test
+
+def es_admin_o_superadmin(user):
+    return user.is_authenticated and (user.is_staff or user.is_superuser)
 
 
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 
-class FuenteInfoDirectorioOperadores(ListView):
+class FuenteInfoDirectorioOperadores(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = DirectorioOperadores
     template_name = 'back/fuente_info_dt_operadores/list.html'
 
@@ -65,7 +74,7 @@ class FuenteInfoDirectorioOperadores(ListView):
         return context
 
 
-class FuenteInfoDirectorioOperadoresCreate (CreateView):
+class FuenteInfoDirectorioOperadoresCreate (SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
     model = DirectorioOperadores
     form_class = DirectorioOperadoresForm
     template_name = 'back/fuente_info_dt_operadores/create.html'
@@ -237,7 +246,7 @@ class FuenteInfoDirectorioOperadoresCreate (CreateView):
         return context
 
 
-class FuenteInfoDirectorioOperadoresUpdate (UpdateView):
+class FuenteInfoDirectorioOperadoresUpdate (SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
     model = DirectorioOperadores
     form_class = DirectorioOperadoresForm
     template_name = 'back/fuente_info_dt_operadores/view_editor.html'
@@ -287,7 +296,7 @@ class FuenteInfoDirectorioOperadoresUpdate (UpdateView):
         return context
 
 
-class FuenteInfoDirectorioOperadoresDelete (DeleteView):
+class FuenteInfoDirectorioOperadoresDelete (SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
     model = DirectorioOperadores
     success_url = reverse_lazy('dashboard:fuente_info_dt_operadores')
 
@@ -295,7 +304,7 @@ class FuenteInfoDirectorioOperadoresDelete (DeleteView):
         return super().post(request, *args, **kwargs)
 
 
-class DirectorioOperadoresCargaMasivaView(View):
+class DirectorioOperadoresCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
     form_class = CargaMasivaForm
     template_name = 'back/fuente_info_dt_operadores/carga_masiva.html'
     success_url = reverse_lazy('dashboard:fuente_info_dt_operadores')
@@ -594,7 +603,7 @@ class DirectorioOperadoresCargaMasivaView(View):
         return registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas
 
 
-class DirectorioOperadoresDescargarArchivoView(View):
+class DirectorioOperadoresDescargarArchivoView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
 
     def crear_archivo_excel(self, registros_incorrectos):
         workbook = openpyxl.Workbook()

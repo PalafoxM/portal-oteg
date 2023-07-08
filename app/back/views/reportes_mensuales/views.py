@@ -5,11 +5,22 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from back.models import *
 from back.forms import *
 from web.models import *
+from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.decorators import method_decorator
+from django.http import Http404
+from django.core.exceptions import PermissionDenied
+from back.mixins import *
+from django.contrib.auth.decorators import user_passes_test
+
+def es_admin_o_superadmin(user):
+    return user.is_authenticated and (user.is_staff or user.is_superuser)
+
 
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
-class ReporteMensualView (ListView):
+
+class ReporteMensualView (SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = Reportes_Mensuales
     template_name = 'back/reportes_mensuales/viewer.html'
 
@@ -20,7 +31,8 @@ class ReporteMensualView (ListView):
         return context
 
 
-class ReporteMensualCreate (CreateView):
+
+class ReporteMensualCreate (SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
     model = Reportes_Mensuales
     form_class = ReporteMensualForm
     template_name = 'back/components/create_update.html'
@@ -70,8 +82,9 @@ class ReporteMensualCreate (CreateView):
         context['list_url'] = reverse_lazy('dashboard:modulo_reportes_mensuales')
         context['action'] = 'add'
         return context
+
     
-class ReporteMensualUpdate (UpdateView):
+class ReporteMensualUpdate (SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
     model = Reportes_Mensuales
     form_class = ReporteMensualForm
     template_name = 'back/components/create_update.html'
@@ -108,7 +121,8 @@ class ReporteMensualUpdate (UpdateView):
         return context
     
 
-class ReporteMensualDelete(DeleteView):
+
+class ReporteMensualDelete(SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
 
     model = Reportes_Mensuales
     success_url = reverse_lazy('dashboard:modulo_reportes_mensuales')
@@ -120,7 +134,8 @@ class ReporteMensualDelete(DeleteView):
         return HttpResponseRedirect(success_url)
     
 
-class ReporteMensualDetail(ListView):
+
+class ReporteMensualDetail(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = Reportes_Mensuales
     template_name = 'back/reportes_mensuales/detail.html'
 

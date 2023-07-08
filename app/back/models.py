@@ -598,6 +598,10 @@ class Discapacidad(models.Model):
     empleados_discapacidad_m = models.BigIntegerField()
     fecha_actualizacion = models.DateField(auto_now=True)
 
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+
     class Meta:
         app_label = 'ecosistema'
         db_table = "empleo_discapacidad"

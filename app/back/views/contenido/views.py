@@ -5,13 +5,30 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from back.models import *
 from back.forms import *
 from web.models import *
+from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.decorators import method_decorator
+from django.http import Http404
+from django.core.exceptions import PermissionDenied
+from back.mixins import *
+from django.contrib.auth.decorators import user_passes_test
+
+def es_admin_o_superadmin(user):
+    return user.is_authenticated and (user.is_staff or user.is_superuser)
+
+
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 # Create your views here.
-class BannerListView(ListView):
+class BannerListView(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = Banner
     template_name = 'back/banner/list.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        try:
+            return super().dispatch(request, *args, **kwargs)
+        except PermissionDenied:
+            raise Http404('No tiene permisos para acceder a esta página.')
 
     def post(self, request, *args, **kwargs):
         data = {}
@@ -40,7 +57,7 @@ class BannerListView(ListView):
         return context
 
 
-class BannerCreateView(CreateView):
+class BannerCreateView(SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
     model = Banner
     form_class = BannerForm
     template_name = 'back/banner/create_update.html'
@@ -91,7 +108,7 @@ class BannerCreateView(CreateView):
         return context
 
 
-class BannerUpdateView(UpdateView):
+class BannerUpdateView(SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
     model = Banner
     form_class = BannerForm
     template_name = 'back/banner/create_update.html'
@@ -130,7 +147,7 @@ class BannerUpdateView(UpdateView):
         return context
 
 
-class BanneDeleteView(DeleteView):
+class BanneDeleteView(SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
     model = Banner
     # template_name = 'back/delete.html'
     success_url = reverse_lazy('dashboard:banner_list')
@@ -142,7 +159,7 @@ class BanneDeleteView(DeleteView):
         return HttpResponseRedirect(success_url)
 
 
-class PlaceListView(ListView):
+class PlaceListView(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = PlacesOfInterest
     template_name = 'back/places_of_interest/list.html'
 
@@ -169,7 +186,7 @@ class PlaceListView(ListView):
         return context
 
 
-class PlaceCreateView(CreateView):
+class PlaceCreateView(SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
     model = PlacesOfInterest
     form_class = PlacesOfInterestForm
     template_name = 'back/components/create_update.html'
@@ -221,7 +238,7 @@ class PlaceCreateView(CreateView):
         return context
 
 
-class PlaceUpdateView(UpdateView):
+class PlaceUpdateView(SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
     model = PlacesOfInterest
     form_class = PlacesOfInterestForm
     template_name = 'back/components/create_update.html'
@@ -260,7 +277,7 @@ class PlaceUpdateView(UpdateView):
         return context
 
 
-class PlaceDeleteView(DeleteView):
+class PlaceDeleteView(SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
     model = PlacesOfInterest
     # template_name = 'back/delete.html'
     success_url = reverse_lazy('dashboard:place_list')
@@ -274,7 +291,7 @@ class PlaceDeleteView(DeleteView):
 # Eventos
 
 
-class EventoListView(ListView):
+class EventoListView(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = Evento
     template_name = 'back/eventos/viewer.html'
 
@@ -287,7 +304,7 @@ class EventoListView(ListView):
         return context
 
 
-class EventoCreateView(CreateView):
+class EventoCreateView(SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
     model = Evento
     form_class = EventoForm
     template_name = 'back/components/create_update.html'
@@ -338,7 +355,7 @@ class EventoCreateView(CreateView):
         return context
 
 
-class EventoDeleteView(DeleteView):
+class EventoDeleteView(SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
     model = Evento
     success_url = reverse_lazy('dashboard:eventos_list')
 
@@ -353,7 +370,7 @@ def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 
-class EventoUpdateView(UpdateView):
+class EventoUpdateView(SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
     model = Evento
     form_class = EventoForm
     template_name = 'back/components/create_update.html'
@@ -391,7 +408,8 @@ class EventoUpdateView(UpdateView):
 
 
 # Noticias
-class NoticiaListView(ListView):
+
+class NoticiaListView(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = Noticia
     template_name = 'back/noticias/viewer.html'
 
@@ -402,7 +420,7 @@ class NoticiaListView(ListView):
         return context
 
 
-class NoticiaCreateView(CreateView):
+class NoticiaCreateView(SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
     model = Noticia
     form_class = NoticiaForm
     template_name = 'back/components/create_update_CKE.html'
@@ -453,7 +471,7 @@ class NoticiaCreateView(CreateView):
         return context
 
 
-class NoticiaDeleteView(DeleteView):
+class NoticiaDeleteView(SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
     model = Noticia
     success_url = reverse_lazy('dashboard:noticias_list')
 
@@ -464,7 +482,7 @@ class NoticiaDeleteView(DeleteView):
         return HttpResponseRedirect(success_url)
 
 
-class NoticiaUpdateView(UpdateView):
+class NoticiaUpdateView(SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
     model = Noticia
     form_class = NoticiaForm
     template_name = 'back/components/create_update_CKE.html'
@@ -503,7 +521,7 @@ class NoticiaUpdateView(UpdateView):
 # Glosario
 
 
-class GlosarioListView(ListView):
+class GlosarioListView(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = Glosario
     template_name = 'back/glosario/viewer.html'
 
@@ -514,7 +532,7 @@ class GlosarioListView(ListView):
         return context
 
 
-class GlosarioCreateView(CreateView):
+class GlosarioCreateView(SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
     model = Glosario
     form_class = GlosarioForm
     template_name = 'back/components/create_update.html'
@@ -565,7 +583,7 @@ class GlosarioCreateView(CreateView):
         return context
 
 
-class GlosarioDeleteView(DeleteView):
+class GlosarioDeleteView(SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
     model = Glosario
     success_url = reverse_lazy('dashboard:glosario_list')
 
@@ -576,7 +594,7 @@ class GlosarioDeleteView(DeleteView):
         return HttpResponseRedirect(success_url)
 
 
-class GlosarioUpdateView(UpdateView):
+class GlosarioUpdateView(SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
     model = Glosario
     form_class = GlosarioForm
     template_name = 'back/components/create_update.html'
@@ -613,7 +631,7 @@ class GlosarioUpdateView(UpdateView):
         return context
 
 
-class BarometroListView(ListView):
+class BarometroListView(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = BarometroTuristico
     template_name = 'back/barometro/viewer.html'
 
@@ -633,7 +651,7 @@ class BarometroListView(ListView):
         return context
 
 
-class BarometroCreateView(CreateView):
+class BarometroCreateView(SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
     model = BarometroTuristico
     form_class = BarometroForm
     template_name = 'back/components/create_update.html'
@@ -685,7 +703,7 @@ class BarometroCreateView(CreateView):
         return context
 
 
-class BarometroDeleteView(DeleteView):
+class BarometroDeleteView(SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
     model = BarometroTuristico
     success_url = reverse_lazy('dashboard:barometro_list')
 
@@ -696,7 +714,7 @@ class BarometroDeleteView(DeleteView):
         return HttpResponseRedirect(success_url)
 
 
-class BarometroUpdateView(UpdateView):
+class BarometroUpdateView(SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
     model = BarometroTuristico
     form_class = BarometroForm
     template_name = 'back/components/create_update.html'
@@ -732,132 +750,3 @@ class BarometroUpdateView(UpdateView):
         context['list_url'] = reverse_lazy('dashboard:barometro_list')
         return context
 
-
-class AlbaListView(ListView):
-    model = Alba
-    template_name = 'back/alba/list.html'
-
-    def post(self, request, *args, **kwargs):
-        data = {}
-        try:
-            action = request.POST['action']
-            if action == 'search':
-                data = []
-                for i in PlacesOfInterest.objects.all():
-                    data.append(i.toJSON())
-            else:
-                data['error'] = 'Ha ocurrido un error'
-        except Exception as e:
-            data['error'] = str(e)
-        return JsonResponse(data, safe=False)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Listado de Aechivos Protocolo Alba'
-        context['create_url'] = reverse_lazy('dashboard:alba_create')
-        context['entity'] = 'Alba'
-
-        return context
-
-
-class AlbaCreateView(CreateView):
-    model = Alba
-    form_class = AlbaForm
-    template_name = 'back/components/create_update.html'
-    success_url = reverse_lazy('dashboard:alba_list')
-
-    def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST, request.FILES)
-        if form.is_valid():
-            self.object = form.save()
-            data = {
-                'success': True,
-                'message': 'Archivo Alba creado exitosamente.',
-                'url': self.success_url
-            }
-            return JsonResponse(data)
-        else:
-            data = {
-                'success': False,
-                'message': 'Hubo un error al crear un Archivo Alba.',
-                'errors': form.errors
-            }
-            return JsonResponse(data)
-
-    def form_invalid(self, form):
-        print("form_invalid")
-        response = super().form_invalid(form)
-        data = {
-            'success': False,
-            'message': 'Hubo un error al crear un Archivo Alba.',
-            'errors': form.errors
-        }
-        return JsonResponse(data)
-
-    def form_valid(self, form):
-        print("form_valid")
-        response = super().form_valid(form)
-        data = {
-            'success': True,
-            'message': 'Archivo Alba creado exitosamente.',
-            'url': self.success_url
-        }
-        return JsonResponse(data)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Subir Archivo Alba'
-        context['entity'] = 'Alba'
-        context['list_url'] = reverse_lazy('dashboard:alba_list')
-        return context
-
-
-class AlbaUpdateView(UpdateView):
-    model = Alba
-    form_class = AlbaForm
-    template_name = 'back/components/create_update.html'
-    success_url = reverse_lazy('dashboard:alba_list')
-
-    def form_invalid(self, form):
-        response = super().form_invalid(form)
-        data = {
-            'success': False,
-            'message': 'Hubo un error al crear el Archivo Alba.',
-            'errors': form.errors
-        }
-        if is_ajax(self.request):
-            return JsonResponse(data)
-        else:
-            return response
-
-    def form_valid(self, form):
-        response = super().form_valid(form)
-        data = {
-            'success': True,
-            'message': 'Archivo Alba creado exitosamente.',
-            'url': self.success_url
-        }
-        if is_ajax(self.request):
-            return JsonResponse(data)
-        else:
-            return response
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Edición de Archivo Alba'
-        context['entity'] = 'Alba'
-        context['list_url'] = reverse_lazy('dashboard:alba_list')
-        context['form'] = self.form_class(instance=self.object)
-        return context
-
-
-class AlbaDeleteView(DeleteView):
-    model = PlacesOfInterest
-    # template_name = 'back/delete.html'
-    success_url = reverse_lazy('dashboard:alba_list')
-
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        success_url = self.get_success_url()
-        self.object.delete()
-        return HttpResponseRedirect(success_url)

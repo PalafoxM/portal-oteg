@@ -21,13 +21,23 @@ import openpyxl
 from django.http import HttpResponse
 import json
 from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino
+from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.decorators import method_decorator
+from django.http import Http404
+from django.core.exceptions import PermissionDenied
+from back.mixins import *
+from django.contrib.auth.decorators import user_passes_test
+
+def es_admin_o_superadmin(user):
+    return user.is_authenticated and (user.is_staff or user.is_superuser)
 
 
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 
-class FuenteInfoPasajerosEntNacView(ListView):
+
+class FuenteInfoPasajerosEntNacView(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = Pasajeros_Ent_Nac
     template_name = 'back/pasajeros_ent_nac/viewer.html'
 
@@ -40,6 +50,7 @@ class FuenteInfoPasajerosEntNacView(ListView):
         context['is_fuente'] = True
         context['carga_masiva_url'] = reverse_lazy('dashboard:fuente_info_pasajeros_ent_nac_carga_masiva')
         return context
+
 
 class FuenteInfoPasajerosEntNacCreate(LoginRequiredMixin, CreateView):
     model = Pasajeros_Ent_Nac
@@ -192,6 +203,7 @@ class FuenteInfoPasajerosEntNacCreate(LoginRequiredMixin, CreateView):
         context['action'] = 'add'
         return context
 
+
 class FuenteInfoPasajerosEntNacUpdate (UpdateView):
     model = Pasajeros_Ent_Nac
     form_class =    PasajerosEntNacForm
@@ -238,6 +250,7 @@ class FuenteInfoPasajerosEntNacUpdate (UpdateView):
         context['edit_msg'] = 'Los Campos Año , Aeropuerto y Entidad no se pueden editar'
         return context
 
+
 class FuenteInfoPasajerosEntNacDelete (DeleteView):
     model = Pasajeros_Ent_Nac
     success_url = reverse_lazy('dashboard:fuente_info_pasajeros_ent_nac')
@@ -245,7 +258,8 @@ class FuenteInfoPasajerosEntNacDelete (DeleteView):
     def post(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
         return super().post(request, *args, **kwargs)
 
-class PasajerosEntNacCargaMasivaView(View):
+
+class PasajerosEntNacCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
     form_class = CargaMasivaForm
     template_name = 'back/pasajeros_ent_nac/carga_masiva.html'
     success_url = reverse_lazy('dashboard:fuente_info_pasajeros_ent_nac')
@@ -465,7 +479,8 @@ class PasajerosEntNacCargaMasivaView(View):
         return registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas
 
 
-class PasajerosEntNacDescargarArchivoView(View):
+
+class PasajerosEntNacDescargarArchivoView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
 
     def crear_archivo_excel(self, registros_incorrectos):
         workbook = openpyxl.Workbook()

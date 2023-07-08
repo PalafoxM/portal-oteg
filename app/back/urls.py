@@ -91,10 +91,10 @@ urlpatterns = [
     path('noticias/delete/<int:pk>/', NoticiaDeleteView.as_view(), name='noticia_delete'),
     
     # contenido -> places of interest
-    path('alba/list', AlbaListView.as_view(), name='alba_list'),
-    path('alba/add', AlbaCreateView.as_view(), name='alba_create'),
-    path('alba/edit/<int:pk>/', AlbaUpdateView.as_view(), name='alba_update'),
-    path('alba/delete/<int:pk>/', AlbaDeleteView.as_view(), name='alba_delete'),
+    # path('alba/list', AlbaListView.as_view(), name='alba_list'),
+    # path('alba/add', AlbaCreateView.as_view(), name='alba_create'),
+    # path('alba/edit/<int:pk>/', AlbaUpdateView.as_view(), name='alba_update'),
+    # path('alba/delete/<int:pk>/', AlbaDeleteView.as_view(), name='alba_delete'),
 
 
     # otros

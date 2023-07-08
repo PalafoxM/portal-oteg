@@ -19,6 +19,15 @@ from django.template.loader import render_to_string
 
 import json
 from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino
+from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.decorators import method_decorator
+from django.http import Http404
+from django.core.exceptions import PermissionDenied
+from back.mixins import *
+from django.contrib.auth.decorators import user_passes_test
+
+def es_admin_o_superadmin(user):
+    return user.is_authenticated and (user.is_staff or user.is_superuser)
 
 
 
@@ -27,7 +36,8 @@ def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 
-class InversionPublicaListView(ListView):
+
+class InversionPublicaListView(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = InversionPublica
     template_name = 'back/inversion_publica/list.html'
 
@@ -59,7 +69,8 @@ class InversionPublicaListView(ListView):
         context['is_fuente'] = True
         return context
 
-class  InversionPublicaCreateView(CreateView):
+
+class  InversionPublicaCreateView(SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
     model = InversionPublica
     form_class = InversionPublicaForm
     template_name = 'back/inversion_publica/create.html'
@@ -188,7 +199,8 @@ class  InversionPublicaCreateView(CreateView):
 
 
 
-class InversionPublicaUpdateView( UpdateView):
+
+class InversionPublicaUpdateView(SuperAdminOrAdminMixin, LoginRequiredMixin,  UpdateView):
     model = InversionPublica
     form_class = InversionPublicaForm
     template_name = 'back/inversion_publica/create.html'
@@ -227,7 +239,8 @@ class InversionPublicaUpdateView( UpdateView):
         context['action'] = 'edit'
         return context
 
-class InversionPublicaDeleteView(DeleteView):
+
+class InversionPublicaDeleteView(SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
     model = InversionPublica
     # template_name = 'back/delete.html'
     success_url = reverse_lazy('dashboard:inversion_publica_list')
@@ -238,7 +251,8 @@ class InversionPublicaDeleteView(DeleteView):
         self.object.delete()
         return HttpResponseRedirect(success_url)
 
-class InversionPublicaCargaMasivaView(View):
+
+class InversionPublicaCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
     form_class = CargaMasivaForm
     template_name = 'back/inversion_publica/carga_masiva.html'
     success_url = reverse_lazy('dashboard:inversion_publica_list')
@@ -403,7 +417,8 @@ class InversionPublicaCargaMasivaView(View):
         return registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas
 
 
-class DescargarArchivoInversionPublicaView(View):
+
+class DescargarArchivoInversionPublicaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
 
     def crear_archivo_excel(self, registros_incorrectos):
         workbook = openpyxl.Workbook()

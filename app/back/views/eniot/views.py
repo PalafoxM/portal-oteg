@@ -4,13 +4,23 @@ from django.urls import reverse_lazy , reverse
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from back.models import  *
 from back.forms import *
+from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.decorators import method_decorator
+from django.http import Http404
+from django.core.exceptions import PermissionDenied
+from back.mixins import *
+from django.contrib.auth.decorators import user_passes_test
+
+def es_admin_o_superadmin(user):
+    return user.is_authenticated and (user.is_staff or user.is_superuser)
 
 
 # Create your views here.
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
-class EniotListView(ListView):
+
+class EniotListView(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = Eniot
     template_name = 'back/eniot/viewer.html'
 
@@ -19,8 +29,9 @@ class EniotListView(ListView):
         context['title'] = ''
         context['create_url'] =  reverse_lazy('dashboard:eniot_create')
         return context
+
         
-class EniotCreateView(CreateView):
+class EniotCreateView(SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
     model = Eniot
     form_class = EniotForm
     template_name = 'back/components/create_update.html'
@@ -69,8 +80,9 @@ class EniotCreateView(CreateView):
         context['list_url'] = reverse_lazy('dashboard:eniot_list')
         context['action'] = 'add'
         return context
+
     
-class EniotDeleteView(DeleteView):
+class EniotDeleteView(SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
     model = Eniot
     success_url = reverse_lazy('dashboard:eniot_list')
 
@@ -80,7 +92,8 @@ class EniotDeleteView(DeleteView):
         self.object.delete()
         return HttpResponseRedirect(success_url)
 
-class EniotUpdateView(UpdateView):
+
+class EniotUpdateView(SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
     model = Eniot
     form_class = EniotForm
     template_name = 'back/components/create_update.html'
@@ -115,8 +128,9 @@ class EniotUpdateView(UpdateView):
         context['form'] = self.form_class(instance=self.object)
         context['list_url'] = reverse_lazy('dashboard:eniot_list')
         return context
+
     
-class EniotAlbunListView(ListView):
+class EniotAlbunListView(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = EniotAlbun
     template_name = 'back/eniot/foto_viewer.html'
 
@@ -125,8 +139,9 @@ class EniotAlbunListView(ListView):
         context['title'] = 'LISTADO ÁLBUMES'
         context['create_url'] =  reverse_lazy('dashboard:eniot_fotos_create')
         return context
+
         
-class EniotAlbunCreateView(CreateView):
+class EniotAlbunCreateView(SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
     model = EniotAlbun
     form_class = EniotAlbunForm
     template_name = 'back/components/create_update.html'
@@ -175,8 +190,9 @@ class EniotAlbunCreateView(CreateView):
         context['list_url'] = reverse_lazy('dashboard:eniot_fotos_list')
         context['action'] = 'add'
         return context
+
     
-class EniotAlbunDeleteView(DeleteView):
+class EniotAlbunDeleteView(SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
     model = EniotAlbun
     success_url = reverse_lazy('dashboard:eniot_fotos_list')
 
@@ -186,7 +202,8 @@ class EniotAlbunDeleteView(DeleteView):
         self.object.delete()
         return HttpResponseRedirect(success_url)
 
-class EniotAlbunUpdateView(UpdateView):
+
+class EniotAlbunUpdateView(SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
     model = EniotAlbun
     form_class = EniotAlbunForm
     template_name = 'back/components/create_update.html'

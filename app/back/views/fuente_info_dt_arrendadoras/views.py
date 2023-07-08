@@ -24,13 +24,22 @@ import openpyxl
 from django.http import HttpResponse
 import json
 from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino
+from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.decorators import method_decorator
+from django.http import Http404
+from django.core.exceptions import PermissionDenied
+from back.mixins import *
+from django.contrib.auth.decorators import user_passes_test
+
+def es_admin_o_superadmin(user):
+    return user.is_authenticated and (user.is_staff or user.is_superuser)
 
 
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 
-class FuenteInfoDirectorioArrendadoras(ListView):
+class FuenteInfoDirectorioArrendadoras(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = DirectorioArrendadoras
     template_name = 'back/fuente_info_dt_arrendadoras/list.html'
 
@@ -65,7 +74,7 @@ class FuenteInfoDirectorioArrendadoras(ListView):
         return context
 
 
-class FuenteInfoDirectorioArrendadorasCreate (CreateView):
+class FuenteInfoDirectorioArrendadorasCreate (SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
     model = DirectorioArrendadoras
     form_class = DirectorioArrendadorasForm
     template_name = 'back/fuente_info_dt_arrendadoras/create.html'
@@ -237,7 +246,7 @@ class FuenteInfoDirectorioArrendadorasCreate (CreateView):
         return context
 
 
-class FuenteInfoDirectorioArrendadorasUpdate (UpdateView):
+class FuenteInfoDirectorioArrendadorasUpdate (SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
     model = DirectorioArrendadoras
     form_class = DirectorioArrendadorasForm
     template_name = 'back/fuente_info_dt_arrendadoras/view_editor.html'
@@ -286,7 +295,7 @@ class FuenteInfoDirectorioArrendadorasUpdate (UpdateView):
         return context
 
 
-class FuenteInfoDirectorioArrendadorasDelete (DeleteView):
+class FuenteInfoDirectorioArrendadorasDelete (SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
     model = DirectorioArrendadoras
     success_url = reverse_lazy('dashboard:fuente_info_dt_arrendadoras')
 
@@ -294,7 +303,7 @@ class FuenteInfoDirectorioArrendadorasDelete (DeleteView):
         return super().post(request, *args, **kwargs)
 
 
-class DirectorioArrendadorasCargaMasivaView(View):
+class DirectorioArrendadorasCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
     form_class = CargaMasivaForm
     template_name = 'back/fuente_info_dt_arrendadoras/carga_masiva.html'
     success_url = reverse_lazy('dashboard:fuente_info_dt_arrendadoras')
@@ -593,7 +602,7 @@ class DirectorioArrendadorasCargaMasivaView(View):
         return registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas
 
 
-class DirectorioArrendadorasDescargarArchivoView(View):
+class DirectorioArrendadorasDescargarArchivoView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
 
     def crear_archivo_excel(self, registros_incorrectos):
         workbook = openpyxl.Workbook()

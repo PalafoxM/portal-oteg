@@ -3,9 +3,27 @@ from back.models import *
 from django.views.generic import ListView, TemplateView
 from datetime import datetime, timedelta
 from django.utils import timezone
+from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.decorators import method_decorator
+from django.http import Http404
+from django.core.exceptions import PermissionDenied
+from django.contrib.auth.mixins import *
+from back.mixins import *
 
-class FuentesInfoView (TemplateView):
+from django.contrib.auth.decorators import user_passes_test
+
+def es_admin_o_superadmin(user):
+    return user.is_authenticated and (user.is_staff or user.is_superuser)
+
+class FuentesInfoView (SuperAdminOrAdminMixin, LoginRequiredMixin,  TemplateView):
     template_name = 'back/fuente-informacion/list.html'
+    def test_func(self):
+        return es_admin_o_superadmin(self.request.user)
+
+    @classmethod
+    def as_view(cls, **initkwargs):
+        view = super().as_view(**initkwargs)
+        return login_required(view, login_url='/auth/login_user')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -235,5 +253,8 @@ class FuentesInfoView (TemplateView):
         context['non_updated_count'] = non_updated_count
         context['last_updated'] = last_updated
         context['total_F_updated'] = 39 - non_updated_count
+
+        user_in_colaboradores_group = self.request.user.groups.filter(name='colaboradores').exists()
+        # context['user_in_colaboradores_group'] = user_in_colaboradores_group
 
         return context

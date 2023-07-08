@@ -31,14 +31,42 @@ import openpyxl
 from django.http import HttpResponse
 import json
 from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino
+from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.decorators import method_decorator
+from django.http import Http404
+from django.core.exceptions import PermissionDenied
+from back.mixins import *
+from django.contrib.auth.decorators import user_passes_test
+
+def es_admin_o_superadmin(user):
+    return user.is_authenticated and (user.is_staff or user.is_superuser)
 
 
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
-class FuenteInfoDiscapacidad (ListView):
+
+class FuenteInfoDiscapacidad (SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = Discapacidad
     template_name = 'back/fuente_info_discapacidad/list.html'
+
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'search':
+                data = []
+                for i in Discapacidad.objects.all():
+                    data.append(i.toJSON())
+            else:
+                data.append({'error': 'Ha ocurrido un error'})
+        except Exception as e:
+            data.append({'error': str(e)})
+        return JsonResponse(data, safe=False)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -50,10 +78,11 @@ class FuenteInfoDiscapacidad (ListView):
 
         return context
 
-class FuenteInfoDiscapacidadCreate (CreateView):
+
+class FuenteInfoDiscapacidadCreate (SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
     model = Discapacidad
     form_class = DiscapacidadForm
-    template_name = 'back/components/create_update.html'
+    template_name = 'back/fuente_info_discapacidad/create.html'
     success_url = reverse_lazy('dashboard:fuente_info_discapacidad')
 
     def get_object(self, **kwargs):
@@ -158,7 +187,8 @@ class FuenteInfoDiscapacidadCreate (CreateView):
         context['action'] = 'add'
         return context
 
-class FuenteInfoDiscapacidadUpdate (UpdateView):
+
+class FuenteInfoDiscapacidadUpdate (SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
     model = Discapacidad
     form_class = DiscapacidadForm
     template_name = 'back/fuente_info_discapacidad/view_editor.html'
@@ -197,14 +227,16 @@ class FuenteInfoDiscapacidadUpdate (UpdateView):
 
         return context
 
-class FuenteInfoDiscapacidadDelete (DeleteView):
+
+class FuenteInfoDiscapacidadDelete (SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
     model = Discapacidad
     success_url = reverse_lazy('dashboard:fuente_info_discapacidad')
 
     def post(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
         return super().post(request, *args, **kwargs)
 
-class DiscapacidadCargaMasivaView(View):
+
+class DiscapacidadCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
     form_class = CargaMasivaForm
     template_name = 'back/fuente_info_discapacidad/carga_masiva.html'
     success_url = reverse_lazy('dashboard:fuente_info_discapacidad')
@@ -415,7 +447,8 @@ class DiscapacidadCargaMasivaView(View):
             print(f"Error al procesar el archivo {archivo}: {e}")
         return registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas
 
-class DiscapacidadDescargarArchivoView(View):
+
+class DiscapacidadDescargarArchivoView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
 
     def crear_archivo_excel(self, registros_incorrectos):
         workbook = openpyxl.Workbook()

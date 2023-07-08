@@ -33,13 +33,23 @@ import openpyxl
 from django.http import HttpResponse
 import json
 from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino
+from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.decorators import method_decorator
+from django.http import Http404
+from django.core.exceptions import PermissionDenied
+from back.mixins import *
+from django.contrib.auth.decorators import user_passes_test
+
+def es_admin_o_superadmin(user):
+    return user.is_authenticated and (user.is_staff or user.is_superuser)
 
 
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 
-class FuenteInfoPerfilVisitanteEventos(ListView):
+
+class FuenteInfoPerfilVisitanteEventos(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = FuenteInfoPerfilVisitanteEvento
     template_name = 'back/fuente_info_perfil_visitante_eventos/viewer.html'
 
@@ -72,7 +82,8 @@ class FuenteInfoPerfilVisitanteEventos(ListView):
         return context
 
 
-class FuenteInfoPerfilVisitanteEventosCreate (CreateView):
+
+class FuenteInfoPerfilVisitanteEventosCreate (SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
     model = FuenteInfoPerfilVisitanteEvento
     form_class = FuenteInfoPerfilVisitanteEventoForm
     template_name = 'back/fuente_info_perfil_visitante_eventos/create.html'
@@ -226,7 +237,8 @@ class FuenteInfoPerfilVisitanteEventosCreate (CreateView):
         return context
 
 
-class FuenteInfoPerfilVisitanteEventosUpdate(UpdateView):
+
+class FuenteInfoPerfilVisitanteEventosUpdate(SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
     model = FuenteInfoPerfilVisitanteEvento
     form_class = FuenteInfoPerfilVisitanteEventoForm
     template_name = 'back/fuente_info_perfil_visitante_eventos/create.html'
@@ -280,7 +292,8 @@ class FuenteInfoPerfilVisitanteEventosUpdate(UpdateView):
         return context
 
 
-class FuenteInfoPerfilVisitanteEventosDelete(DeleteView):
+
+class FuenteInfoPerfilVisitanteEventosDelete(SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
     model = FuenteInfoPerfilVisitanteEvento
     success_url = reverse_lazy(
         'dashboard:fuente_info_perfil_visitante_eventos')
@@ -288,7 +301,8 @@ class FuenteInfoPerfilVisitanteEventosDelete(DeleteView):
     def post(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
         return super().post(request, *args, **kwargs)
 
-class PerfilVisitanteEventosCargaMasivaView(View):
+
+class PerfilVisitanteEventosCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
     form_class = CargaMasivaForm
     template_name = 'back/fuente_info_perfil_visitante_eventos/carga_masiva.html'
     success_url = reverse_lazy('dashboard:fuente_info_perfil_visitante_eventos')
@@ -582,7 +596,8 @@ class PerfilVisitanteEventosCargaMasivaView(View):
         return registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas
 
 
-class PerfilVisitanteEventosDescargarArchivoView(View):
+
+class PerfilVisitanteEventosDescargarArchivoView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
 
     def crear_archivo_excel(self, registros_incorrectos):
         workbook = openpyxl.Workbook()

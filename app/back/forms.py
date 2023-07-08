@@ -63,7 +63,11 @@ class PublicationForm(forms.ModelForm):
         labels = {
             'type': 'Tipo de Documento',
             'url': 'Archivo',
-            'category': 'Categoria',
+            'category': 'Categoría',
+            'download': 'Descarga',
+            'name': 'Nombre',
+            'fiel': 'Imagen',
+            'section': 'Sección',
         }
 
 
@@ -141,12 +145,11 @@ class SeccionCentroDocumentalForm(forms.ModelForm):
             'observacion': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-search'}),
         }
         labels = {
-            'seccion' : 'Sección',
-            'descripcion' : 'Descripción',
-            'observacion' : 'Observación',
+            'seccion': 'Sección',
+            'descripcion': 'Descripción',
+            'observacion': 'Observación',
+            'imagen': 'Imagen',
         }
-
-        
 
 
 class CategoriasForm(forms.ModelForm):
@@ -240,6 +243,11 @@ class EventoForm(forms.ModelForm):
         }
         labels = {
             'tipo_evento': 'Tipo de Evento',
+            'titulo': 'Título',
+            'descripcion': 'Descripción',
+            'fecha_inicio': 'Fecha de inicio',
+            'fecha_fin': 'Fecha de fin',
+            'imagen': 'Imagen',
         }
     
    
@@ -248,12 +256,19 @@ class InventarioHoteleroForm(ModelForm):
         model = InventarioHotelero
         fields = ['destino', 'fecha', 'categoria', 'habitaciones', 'establecimientos']
         widgets = {
-            'destino': forms.TextInput(attrs={'class': 'form-control'}),
-            'fecha': forms.DateInput(attrs={'class': 'form-control fecha-input'}),
-            'categoria': forms.TextInput(attrs={'class': 'form-control'}),
-            'habitaciones': forms.NumberInput(attrs={'class': 'form-control'}),
-            'establecimientos': forms.NumberInput(attrs={'class': 'form-control'}),
+            'destino': forms.TextInput(attrs={'class': 'form-control','icon_class': 'fas fa-search'}), 
+            'fecha': forms.DateInput(attrs={'class': 'form-control fecha-input', 'icon_class': 'fas fa-calendar'}),
+            'categoria': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-search'}),
+            'habitaciones': forms.NumberInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
+            'establecimientos': forms.NumberInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
         }
+        labels = {
+        'destino': 'Destino:',
+        'fecha': 'Fecha:',
+        'categoria': 'Categoría:',
+        'habitaciones': 'Número de habitaciones:',
+        'establecimientos': 'Número de establecimientos:',
+    }
 
 class CargaMasivaForm(forms.Form):
     archivo = forms.FileField(label='Seleccione un archivo', help_text='(xlsx, csv)')
@@ -368,7 +383,14 @@ class InventarioHoteleroEntNacForm(ModelForm):
 
     class Meta:
         model = InventarioHoteleroEntNac
-        fields ='__all__'
+        fields = ['entidad', 'fecha', 'categoria', 'habitaciones', 'establecimientos']
+        labels = {
+        'entidad': 'Entidad:',
+        'fecha': 'Fecha:',
+        'categoria': 'Categoría:',
+        'habitaciones': 'Número de habitaciones:',
+        'establecimientos': 'Número de establecimientos:',
+    }
     
     def __init__ (self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -395,35 +417,63 @@ class CalidadAireForm(forms.ModelForm):
         model = CalidadAire
         fields = ['fecha', 'destino', 'calidad_del_aire']
         widgets = {
-            'fecha': forms.DateInput(attrs={'class': 'form-control fecha-input'}),
-            'destino': forms.TextInput(attrs={'class': 'form-control'}),
-            'calidad_del_aire': forms.TextInput(attrs={'class': 'form-control'}),
+            'fecha': forms.DateInput(attrs={'class': 'form-control fecha-input', 'icon_class': 'fas fa-calendar'}),
+            'destino': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-search'}),
+            'calidad_del_aire': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
         },
+        labels = {
+                'fecha': 'Fecha:',
+                'destino': 'Destino:',
+                'calidad_del_aire': 'Calidad del aire:',
+            }
 
 class ProyectoInversionForm(forms.ModelForm):
     class Meta:
         model = ProyectoInversion
         fields = '__all__'
+        labels = {
+            'destino': 'Destino:',
+            'nombre_del_proyecto': 'Nombre del proyecto:',
+            'promotor_del_proyecto': 'Promotor del proyecto:',
+            'referencia_de_ubicacion': 'Referencia de ubicación:',
+            'zona_turistica': 'Zona turística:',
+            'giro': 'Giro:',
+            'habitaciones': 'Habitaciones:',
+            'empleos_permanentes': 'Empleos permanentes:',
+            'empleos_temporales': 'Empleos temporales:',
+            'tipo_de_inversion': 'Tipo de inversión:',
+            'origen_de_inversion': 'Origen de inversión:',
+            'estatus': 'Estatus:',
+            'fecha_de_inicio_de_obra': 'Fecha de inicio de obra:',
+            'fecha_de_conclusion_de_obra': 'Fecha de conclusión de obra:',
+            'fecha_de_apertura': 'Fecha de apertura:',
+            'monto_comprometido_del_proyecto_mxn': 'Monto comprometido del proyecto (MXN):',
+            'plazo': 'Plazo:',
+            'personas_beneficiadas_con_el_proyecto': 'Personas beneficiadas con el proyecto:',
+            'datos_de_contacto': 'Datos de contacto:',
+        }
         widgets = {
-            'destino': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Destino'}),
-            'nombre_del_proyecto': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombre del proyecto'}),
-            'promotor_del_proyecto': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Promotor del proyecto'}),
-            'referencia_de_ubicacion': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Referencia de ubicación'}),
-            'zona_turistica': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Zona turística'}),
-            'giro': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Giro'}),
-            'habitaciones': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Habitaciones'}),
-            'empleos_permanentes': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Empleos permanentes'}),
-            'empleos_temporales': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Empleos temporales'}),
-            'tipo_de_inversion': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Tipo de inversión'}),
-            'origen_de_inversion': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Origen de inversión'}),
-            'estatus': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Estatus'}),
-            'fecha_de_inicio_de_obra': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Fecha de inicio de obra'}),
-            'fecha_de_conclusion_de_obra': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Fecha de conclusión de obra'}),
-            'fecha_de_apertura': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Fecha de apertura'}),
-            'monto_comprometido_del_proyecto_mxn': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Monto comprometido del proyecto (MXN)'}),
-            'plazo': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Plazo'}),
-            'personas_beneficiadas_con_el_proyecto': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Personas beneficiadas con el proyecto'}),
-            'datos_de_contacto': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Datos de contacto'})
+            'destino': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Destino', 'icon_class': 'fas fa-search'}),
+            'fecha': forms.DateInput(attrs={'class': 'form-control fecha-input', 'placeholder': 'Fecha', 'icon_class': 'fas fa-calendar'}),
+            'calidad_del_aire': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Calidad del aire', 'icon_class': 'fas fa-table'}),
+            'nombre_del_proyecto': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombre del proyecto', 'icon_class': 'fas fa-table'}),
+            'promotor_del_proyecto': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Promotor del proyecto', 'icon_class': 'fas fa-table'}),
+            'referencia_de_ubicacion': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Referencia de ubicación', 'icon_class': 'fas fa-table'}),
+            'zona_turistica': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Zona turística', 'icon_class': 'fas fa-table'}),
+            'giro': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Giro', 'icon_class': 'fas fa-table'}),
+            'habitaciones': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Habitaciones', 'icon_class': 'fas fa-table'}),
+            'empleos_permanentes': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Empleos permanentes', 'icon_class': 'fas fa-table'}),
+            'empleos_temporales': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Empleos temporales', 'icon_class': 'fas fa-table'}),
+            'tipo_de_inversion': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Tipo de inversión', 'icon_class': 'fas fa-table'}),
+            'origen_de_inversion': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Origen de inversión', 'icon_class': 'fas fa-table'}),
+            'estatus': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Estatus', 'icon_class': 'fas fa-table'}),
+            'fecha_de_inicio_de_obra': forms.DateInput(attrs={'class': 'form-control fecha-input', 'placeholder': 'Fecha de inicio de obra', 'icon_class': 'fas fa-calendar'}),
+            'fecha_de_conclusion_de_obra': forms.DateInput(attrs={'class': 'form-control fecha-input', 'placeholder': 'Fecha de conclusión de obra', 'icon_class': 'fas fa-calendar'}),
+            'fecha_de_apertura': forms.DateInput(attrs={'class': 'form-control fecha-input', 'placeholder': 'Fecha de apertura', 'icon_class': 'fas fa-calendar'}),
+            'monto_comprometido_del_proyecto_mxn': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Monto comprometido del proyecto (MXN)', 'icon_class': 'fas fa-table'}),
+            'plazo': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Plazo', 'icon_class': 'fas fa-table'}),
+            'personas_beneficiadas_con_el_proyecto': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Personas beneficiadas con el proyecto', 'icon_class': 'fas fa-table'}),
+            'datos_de_contacto': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Datos de contacto', 'icon_class': 'fas fa-table'}),
         }
 
 # Catalagos
@@ -606,7 +656,13 @@ class AerolineaForm(forms.ModelForm):
     class Meta:
         model = Aerolinea
         fields = '__all__'
-
+        labels = {
+            'fecha': 'Fecha',
+            'destino_aeropuerto': 'Destino Aeropuerto',
+            'destino_aeropuerto_id': 'ID Destino Aeropuerto',
+            'tipo_aerolinea': 'Tipo de Aerolínea',
+            'codigo_aerolinea': 'Código de Aerolínea',
+        }
         widgets = {
             'fecha': forms.TextInput(attrs={'class': 'form-control'}),
             'destino_aeropuerto': forms.TextInput(attrs={'class': 'form-control'}),
@@ -1505,6 +1561,11 @@ class EncuestaFormB(forms.ModelForm):
     class Meta:
         model = Encuesta
         fields = '__all__'
+        labels = {
+        'seccion': 'Sección',
+        'url': 'URL',
+        'activo': 'Activo',
+    }
 
 
 class   ReporteMensualForm(forms.ModelForm):
@@ -1530,7 +1591,7 @@ class   ReporteMensualForm(forms.ModelForm):
         fields = '__all__'
         exclude = ['num_descargas']
 
-        labels = {'ano': 'Año', }
+        labels = {'ano': 'Año','mes': 'Mes', 'titulo':'Título' }
         
     def __init__ (self, *args, **kwargs):
         super().__init__(*args, **kwargs)

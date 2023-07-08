@@ -24,13 +24,22 @@ import openpyxl
 from django.http import HttpResponse
 import json
 from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino
+from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.decorators import method_decorator
+from django.http import Http404
+from django.core.exceptions import PermissionDenied
+from back.mixins import *
+from django.contrib.auth.decorators import user_passes_test
+
+def es_admin_o_superadmin(user):
+    return user.is_authenticated and (user.is_staff or user.is_superuser)
 
 
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 
-class FuenteInfoDirectorioActivosRecreacionYDeporte(ListView):
+class FuenteInfoDirectorioActivosRecreacionYDeporte(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = DirectorioActivosRecreacionYDeporte
     template_name = 'back/fuente_info_dt_atractivos_recreacion_y_deporte/list.html'
 
@@ -65,7 +74,7 @@ class FuenteInfoDirectorioActivosRecreacionYDeporte(ListView):
         return context
 
 
-class FuenteInfoDirectorioActivosRecreacionYDeporteCreate (CreateView):
+class FuenteInfoDirectorioActivosRecreacionYDeporteCreate (SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
     model = DirectorioActivosRecreacionYDeporte
     form_class = DirectorioActivosRecreacionYDeporteForm
     template_name = 'back/fuente_info_dt_atractivos_recreacion_y_deporte/create.html'
@@ -236,7 +245,7 @@ class FuenteInfoDirectorioActivosRecreacionYDeporteCreate (CreateView):
         return context
 
 
-class FuenteInfoDirectorioActivosRecreacionYDeporteUpdate (UpdateView):
+class FuenteInfoDirectorioActivosRecreacionYDeporteUpdate (SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
     model = DirectorioActivosRecreacionYDeporte
     form_class = DirectorioActivosRecreacionYDeporteForm
     template_name = 'back/fuente_info_dt_atractivos_recreacion_y_deporte/view_editor.html'
@@ -286,7 +295,7 @@ class FuenteInfoDirectorioActivosRecreacionYDeporteUpdate (UpdateView):
         return context
 
 
-class FuenteInfoDirectorioActivosRecreacionYDeporteDelete (DeleteView):
+class FuenteInfoDirectorioActivosRecreacionYDeporteDelete (SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
     model = DirectorioActivosRecreacionYDeporte
     success_url = reverse_lazy('dashboard:fuente_info_dt_atractivos_recreacion_y_deporte')
 
@@ -294,7 +303,7 @@ class FuenteInfoDirectorioActivosRecreacionYDeporteDelete (DeleteView):
         return super().post(request, *args, **kwargs)
 
 
-class DirectorioActivosRecreacionYDeporteCargaMasivaView(View):
+class DirectorioActivosRecreacionYDeporteCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
     form_class = CargaMasivaForm
     template_name = 'back/fuente_info_dt_atractivos_recreacion_y_deporte/carga_masiva.html'
     success_url = reverse_lazy('dashboard:fuente_info_dt_atractivos_recreacion_y_deporte')
@@ -593,7 +602,7 @@ class DirectorioActivosRecreacionYDeporteCargaMasivaView(View):
         return registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas
 
 
-class DirectorioActivosRecreacionYDeporteDescargarArchivoView(View):
+class DirectorioActivosRecreacionYDeporteDescargarArchivoView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
 
     def crear_archivo_excel(self, registros_incorrectos):
         workbook = openpyxl.Workbook()

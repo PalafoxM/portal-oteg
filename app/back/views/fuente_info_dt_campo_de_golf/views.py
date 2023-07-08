@@ -24,13 +24,22 @@ import openpyxl
 from django.http import HttpResponse
 import json
 from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino
+from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.decorators import method_decorator
+from django.http import Http404
+from django.core.exceptions import PermissionDenied
+from back.mixins import *
+from django.contrib.auth.decorators import user_passes_test
+
+def es_admin_o_superadmin(user):
+    return user.is_authenticated and (user.is_staff or user.is_superuser)
 
 
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 
-class FuenteInfoDirectorioCampoDeGolf(ListView):
+class FuenteInfoDirectorioCampoDeGolf(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = DirectorioCampoDeGolf
     template_name = 'back/fuente_info_dt_campo_de_golf/list.html'
 
@@ -65,7 +74,7 @@ class FuenteInfoDirectorioCampoDeGolf(ListView):
         return context
 
 
-class FuenteInfoDirectorioCampoDeGolfCreate (CreateView):
+class FuenteInfoDirectorioCampoDeGolfCreate (SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
     model = DirectorioCampoDeGolf
     form_class = DirectorioCampoDeGolfForm
     template_name = 'back/fuente_info_dt_campo_de_golf/create.html'
@@ -237,7 +246,7 @@ class FuenteInfoDirectorioCampoDeGolfCreate (CreateView):
         return context
 
 
-class FuenteInfoDirectorioCampoDeGolfUpdate (UpdateView):
+class FuenteInfoDirectorioCampoDeGolfUpdate (SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
     model = DirectorioCampoDeGolf
     form_class = DirectorioCampoDeGolfForm
     template_name = 'back/fuente_info_dt_campo_de_golf/view_editor.html'
@@ -283,7 +292,7 @@ class FuenteInfoDirectorioCampoDeGolfUpdate (UpdateView):
         return context
 
 
-class FuenteInfoDirectorioCampoDeGolfDelete (DeleteView):
+class FuenteInfoDirectorioCampoDeGolfDelete (SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
     model = DirectorioCampoDeGolf
     success_url = reverse_lazy('dashboard:fuente_info_dt_campo_de_golf')
 
@@ -291,7 +300,7 @@ class FuenteInfoDirectorioCampoDeGolfDelete (DeleteView):
         return super().post(request, *args, **kwargs)
 
 
-class DirectorioCampoDeGolfCargaMasivaView(View):
+class DirectorioCampoDeGolfCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
     form_class = CargaMasivaForm
     template_name = 'back/fuente_info_dt_campo_de_golf/carga_masiva.html'
     success_url = reverse_lazy('dashboard:fuente_info_dt_campo_de_golf')
@@ -594,7 +603,7 @@ class DirectorioCampoDeGolfCargaMasivaView(View):
         return registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas
 
 
-class DirectorioCampoDeGolfDescargarArchivoView(View):
+class DirectorioCampoDeGolfDescargarArchivoView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
 
     def crear_archivo_excel(self, registros_incorrectos):
         workbook = openpyxl.Workbook()

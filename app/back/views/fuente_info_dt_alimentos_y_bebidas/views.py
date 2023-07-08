@@ -24,13 +24,22 @@ import openpyxl
 from django.http import HttpResponse
 import json
 from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino
+from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.decorators import method_decorator
+from django.http import Http404
+from django.core.exceptions import PermissionDenied
+from back.mixins import *
+from django.contrib.auth.decorators import user_passes_test
+
+def es_admin_o_superadmin(user):
+    return user.is_authenticated and (user.is_staff or user.is_superuser)
 
 
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 
-class FuenteInfoDirectorioAlimentosYBebidas(ListView):
+class FuenteInfoDirectorioAlimentosYBebidas(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = DirectorioAlimentosYBebidas
     template_name = 'back/fuente_info_dt_alimentos_y_bebidas/list.html'
 
@@ -65,7 +74,7 @@ class FuenteInfoDirectorioAlimentosYBebidas(ListView):
         return context
 
 
-class FuenteInfoDirectorioAlimentosYBebidasCreate (CreateView):
+class FuenteInfoDirectorioAlimentosYBebidasCreate (SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
     model = DirectorioAlimentosYBebidas
     form_class = DirectorioAlimentosYBebidasForm
     template_name = 'back/fuente_info_dt_alimentos_y_bebidas/create.html'
@@ -230,7 +239,7 @@ class FuenteInfoDirectorioAlimentosYBebidasCreate (CreateView):
         return context
     
 
-class FuenteInfoDirectorioAlimentosYBebidasUpdate (UpdateView):
+class FuenteInfoDirectorioAlimentosYBebidasUpdate (SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
     model = DirectorioAlimentosYBebidas
     form_class = DirectorioAlimentosYBebidasForm
     template_name = 'back/fuente_info_dt_alimentos_y_bebidas/view_editor.html'
@@ -280,7 +289,7 @@ class FuenteInfoDirectorioAlimentosYBebidasUpdate (UpdateView):
         return context
 
 
-class FuenteInfoDirectorioAlimentosYBebidasDelete (DeleteView):
+class FuenteInfoDirectorioAlimentosYBebidasDelete (SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
     model = DirectorioAlimentosYBebidas
     success_url = reverse_lazy('dashboard:fuente_info_dt_alimentos_y_bebidas')
 
@@ -288,7 +297,7 @@ class FuenteInfoDirectorioAlimentosYBebidasDelete (DeleteView):
         return super().post(request, *args, **kwargs)
 
 
-class DirectorioAlimentosYBebidasCargaMasivaView(View):
+class DirectorioAlimentosYBebidasCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
     form_class = CargaMasivaForm
     template_name = 'back/fuente_info_dt_alimentos_y_bebidas/carga_masiva.html'
     success_url = reverse_lazy('dashboard:fuente_info_dt_alimentos_y_bebidas')
@@ -587,7 +596,7 @@ class DirectorioAlimentosYBebidasCargaMasivaView(View):
         return registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas
 
 
-class DirectorioAlimentosYBebidasDescargarArchivoView(View):
+class DirectorioAlimentosYBebidasDescargarArchivoView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
 
     def crear_archivo_excel(self, registros_incorrectos):
         workbook = openpyxl.Workbook()

@@ -24,13 +24,22 @@ import openpyxl
 from django.http import HttpResponse
 import json
 from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino
+from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.decorators import method_decorator
+from django.http import Http404
+from django.core.exceptions import PermissionDenied
+from back.mixins import *
+from django.contrib.auth.decorators import user_passes_test
+
+def es_admin_o_superadmin(user):
+    return user.is_authenticated and (user.is_staff or user.is_superuser)
 
 
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 
-class FuenteInfoDirectorioBalneariosParquesAcuaticos(ListView):
+class FuenteInfoDirectorioBalneariosParquesAcuaticos(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = DirectorioBalneariosParquesAcuaticos
     template_name = 'back/fuente_info_dt_balnearios_parques_acuaticos/list.html'
 
@@ -65,7 +74,7 @@ class FuenteInfoDirectorioBalneariosParquesAcuaticos(ListView):
         return context
 
 
-class FuenteInfoDirectorioBalneariosParquesAcuaticosCreate (CreateView):
+class FuenteInfoDirectorioBalneariosParquesAcuaticosCreate (SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
     model = DirectorioBalneariosParquesAcuaticos
     form_class = DirectorioBalneariosParquesAcuaticosForm
     template_name = 'back/fuente_info_dt_balnearios_parques_acuaticos/create.html'
@@ -239,7 +248,7 @@ class FuenteInfoDirectorioBalneariosParquesAcuaticosCreate (CreateView):
 
 
 
-class FuenteInfoDirectorioBalneariosParquesAcuaticosUpdate (UpdateView):
+class FuenteInfoDirectorioBalneariosParquesAcuaticosUpdate (SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
     model = DirectorioBalneariosParquesAcuaticos
     form_class = DirectorioBalneariosParquesAcuaticosForm
     template_name = 'back/fuente_info_dt_balnearios_parques_acuaticos/view_editor.html'
@@ -284,7 +293,7 @@ class FuenteInfoDirectorioBalneariosParquesAcuaticosUpdate (UpdateView):
         return context
 
 
-class FuenteInfoDirectorioBalneariosParquesAcuaticosDelete (DeleteView):
+class FuenteInfoDirectorioBalneariosParquesAcuaticosDelete (SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
     model = DirectorioBalneariosParquesAcuaticos
     success_url = reverse_lazy('dashboard:fuente_info_dt_balnearios_parques_acuaticos')
 
@@ -292,7 +301,7 @@ class FuenteInfoDirectorioBalneariosParquesAcuaticosDelete (DeleteView):
         return super().post(request, *args, **kwargs)
 
 
-class DirectorioBalneariosParquesAcuaticosCargaMasivaView(View):
+class DirectorioBalneariosParquesAcuaticosCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
     form_class = CargaMasivaForm
     template_name = 'back/fuente_info_dt_balnearios_parques_acuaticos/carga_masiva.html'
     success_url = reverse_lazy('dashboard:fuente_info_dt_balnearios_parques_acuaticos')
@@ -609,7 +618,7 @@ class DirectorioBalneariosParquesAcuaticosCargaMasivaView(View):
         return registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas
 
 
-class DirectorioBalneariosParquesAcuaticosDescargarArchivoView(View):
+class DirectorioBalneariosParquesAcuaticosDescargarArchivoView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
 
     def crear_archivo_excel(self, registros_incorrectos):
         workbook = openpyxl.Workbook()

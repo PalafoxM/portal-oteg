@@ -44,7 +44,7 @@ margin-top: 40px;
                 {% if user.is_authenticated %}
                 <a class="footer-title" href="{% url 'dashboard:fuente_informacion' %}">Panel Admin</a>
                 {% else %}
-                <a class="footer-title" href="{% url 'login_user' %}">Log In</a>
+                <a class="footer-link" href="{% url 'logIn:login_user' %}">Log In</a>
                 {% endif %}
 
             </div>

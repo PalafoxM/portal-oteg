@@ -24,13 +24,22 @@ import openpyxl
 from django.http import HttpResponse
 import json
 from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino
+from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.decorators import method_decorator
+from django.http import Http404
+from django.core.exceptions import PermissionDenied
+from back.mixins import *
+from django.contrib.auth.decorators import user_passes_test
+
+def es_admin_o_superadmin(user):
+    return user.is_authenticated and (user.is_staff or user.is_superuser)
 
 
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 
-class FuenteInfoDirectorioAgenciasDeViajes(ListView):
+class FuenteInfoDirectorioAgenciasDeViajes(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = DirectorioAgenciasDeViajes
     template_name = 'back/fuente_info_dt_agencias_de_viajes/list.html'
 
@@ -65,14 +74,14 @@ class FuenteInfoDirectorioAgenciasDeViajes(ListView):
         return context
 
 
-class FuenteInfoDirectorioAgenciasDeViajesCreate (CreateView):
+class FuenteInfoDirectorioAgenciasDeViajesCreate (SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
     model = DirectorioAgenciasDeViajes
     form_class = DirectorioAgenciasDeViajesForm
     template_name = 'back/fuente_info_dt_agencias_de_viajes/create.html'
     success_url = reverse_lazy('dashboard:fuente_info_dt_agencias_de_viajes')
 
     def get_object(self, **kwargs):
-        queryset = self.get_queryset()
+        queryset = self.get_queryset() 
         try:
             return queryset.get(**kwargs)
         except queryset.model.DoesNotExist:
@@ -237,7 +246,7 @@ class FuenteInfoDirectorioAgenciasDeViajesCreate (CreateView):
         return context
 
 
-class FuenteInfoDirectorioAgenciasDeViajesUpdate (UpdateView):
+class FuenteInfoDirectorioAgenciasDeViajesUpdate (SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
     model = DirectorioAgenciasDeViajes
     form_class = DirectorioAgenciasDeViajesForm
     template_name = 'back/fuente_info_dt_agencias_de_viajes/view_editor.html'
@@ -283,7 +292,7 @@ class FuenteInfoDirectorioAgenciasDeViajesUpdate (UpdateView):
         return context
 
 
-class FuenteInfoDirectorioAgenciasDeViajesDelete (DeleteView):
+class FuenteInfoDirectorioAgenciasDeViajesDelete (SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
     model = DirectorioAgenciasDeViajes
     success_url = reverse_lazy('dashboard:fuente_info_dt_agencias_de_viajes')
 
@@ -291,7 +300,7 @@ class FuenteInfoDirectorioAgenciasDeViajesDelete (DeleteView):
         return super().post(request, *args, **kwargs)
 
 
-class DirectorioAgenciasDeViajesCargaMasivaView(View):
+class DirectorioAgenciasDeViajesCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
     form_class = CargaMasivaForm
     template_name = 'back/fuente_info_dt_agencias_de_viajes/carga_masiva.html'
     success_url = reverse_lazy('dashboard:fuente_info_dt_agencias_de_viajes')
@@ -590,7 +599,7 @@ class DirectorioAgenciasDeViajesCargaMasivaView(View):
         return registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas
 
 
-class DirectorioAgenciasDeViajesDescargarArchivoView(View):
+class DirectorioAgenciasDeViajesDescargarArchivoView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
 
     def crear_archivo_excel(self, registros_incorrectos):
         workbook = openpyxl.Workbook()

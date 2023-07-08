@@ -23,13 +23,23 @@ import openpyxl
 from django.http import HttpResponse
 import json
 from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino
+from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.decorators import method_decorator
+from django.http import Http404
+from django.core.exceptions import PermissionDenied
+from back.mixins import *
+from django.contrib.auth.decorators import user_passes_test
+
+def es_admin_o_superadmin(user):
+    return user.is_authenticated and (user.is_staff or user.is_superuser)
 
 
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 
-class FuenteInfoSensivilizacion (ListView):
+
+class FuenteInfoSensivilizacion (SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = Sensivilizacion
     template_name  =  'back/fuente_info_sensibilizacion/viewer.html'
 
@@ -59,8 +69,9 @@ class FuenteInfoSensivilizacion (ListView):
         context['is_fuente'] = True
         context['carga_masiva_url'] = reverse_lazy('dashboard:fuente_info_sensibilizacion_carga_masiva')
         return context  
+
     
-class FuenteInfoSensivilizacionCreate (CreateView):
+class FuenteInfoSensivilizacionCreate (SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
     model = Sensivilizacion
     form_class = SensivilizacionForm
     template_name = 'back/fuente_info_sensibilizacion/create.html'
@@ -185,7 +196,8 @@ class FuenteInfoSensivilizacionCreate (CreateView):
         context['action'] = 'add'
         return context
 
-class FuenteInfoSensivilizacionUpdate (UpdateView):
+
+class FuenteInfoSensivilizacionUpdate (SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
     model = Sensivilizacion
     form_class = SensivilizacionForm
     template_name = 'back/fuente_info_sensibilizacion/view_editor.html'
@@ -227,15 +239,17 @@ class FuenteInfoSensivilizacionUpdate (UpdateView):
         context['edit_msg'] = 'Los Campos Destino y Fecha no pueden ser editados' 
 
         return context
+
    
-class FuenteInfoSensivilizacionDelete (DeleteView):
+class FuenteInfoSensivilizacionDelete (SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
     model = Sensivilizacion
     success_url = reverse_lazy('dashboard:fuente_info_sensibilizacion') 
 
     def post(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
         return super().post(request, *args, **kwargs)
 
-class SensivilizacionCargaMasivaView(View):
+
+class SensivilizacionCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
     form_class = CargaMasivaForm
     template_name = 'back/fuente_info_sensibilizacion/carga_masiva.html'
     success_url = reverse_lazy('dashboard:fuente_info_sensibilizacion')
@@ -429,7 +443,8 @@ class SensivilizacionCargaMasivaView(View):
             print(f"Error al procesar el archivo {archivo}: {e}")
         return registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas
 
-class SensivilizacionDescargarArchivoView(View):
+
+class SensivilizacionDescargarArchivoView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
 
     def crear_archivo_excel(self, registros_incorrectos):
         workbook = openpyxl.Workbook()
