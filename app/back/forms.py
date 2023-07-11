@@ -162,6 +162,7 @@ class CategoriasForm(forms.ModelForm):
             'nombre_categoria': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-search'}),
             'fecha_creacion': forms.DateInput(attrs={'class': 'form-control fecha-input' ,'icon_class': 'fas fa-calendar'}),
         }
+        
 
     def __init__(self, *args, **kwargs):
         pk = kwargs.pop('pk', None)
@@ -1670,6 +1671,12 @@ class EniotAlbunForm(forms.ModelForm):
             'nombreAlbun': forms.TextInput(attrs={'class': 'form-control'}),
             'descripcion': forms.TextInput(attrs={'class': 'form-control'}),
             'foto_url': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
+        }
+
+        labels = {
+            'nombreAlbun': 'Nombre del Álbum',
+            'descripcion': 'Descripción',
+            'foto_url': 'Foto',
         }
 
     def clean_foto_url(self):

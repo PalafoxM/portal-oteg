@@ -120,9 +120,11 @@
             </div>
 
             {% else %}
-            {%if field.name == 'url' %}
+            {%if field.name == 'doc' %}
 
-            {{ field }}
+            <div style="width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                {{ field }}
+            </div>
             {% else %}
 
             <div style="width: 100%; display: flex; justify-content: start;">
@@ -196,13 +198,13 @@
 <script>
     $(document).ready(function () {
         // Get the value of the pk passed to the context data
-        var section = "{{ section }}";
-        var category = "{{ category }}";
+        var section = "{{section}}";
+        var category = "{{category}}";
         // Set the selected value of the select field
         $("#id_section").val(section);
 
         // Attach a change event handler to the section select field
-        var sectionId = {{ section }};
+        var sectionId = {{section}};
 
     console.log(sectionId);
     if (sectionId) {

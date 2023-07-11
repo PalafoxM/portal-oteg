@@ -119,15 +119,19 @@
             {% else %}
             {%if field.name == 'doc' %}
 
+            <div style="width: 100%; display: flex; justify-content: start;">
+                {{ field }}
+            </div>
+
             {{ field }}
             {% else %}
 
-                <div style="width: 100%; display: flex; justify-content: start;">
-                    <div class="form-check form-switch" style="transform: scale(1.4);">
-                        {{ field }}
-                    </div>
+            <div style="width: 100%; display: flex; justify-content: start;">
+                <div class="form-check form-switch" style="transform: scale(1.4);">
+                    {{ field }}
                 </div>
-                
+            </div>
+
             {% endif %}
 
             {% endif %}
