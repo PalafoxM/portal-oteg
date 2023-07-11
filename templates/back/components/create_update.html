@@ -224,8 +224,6 @@
                         window.location.href = '{{ list_url }}';
                     });
                 } else {
-                    console.log(data.errors)
-                    console.log("erorororororororo: ",data)
                     var errors = '';
                     for (var field in data.errors) {
                         if (Array.isArray(data.errors[field])) {

@@ -245,6 +245,17 @@ $(document).ready(function () {
     $(function () {
         $('form').on('submit', function (e) {
             e.preventDefault();
+            // Bloquear los botones
+            $('button[type="submit"]').prop('disabled', true);
+            $('#baker').prop('disabled', true);
+            
+            // Mostrar alerta de cargando
+            Swal.fire({
+                icon: 'info',
+                title: 'Cargando...',
+                showConfirmButton: false,
+                allowOutsideClick: false
+            });
 
             var parameters = new FormData(this);
 
@@ -273,6 +284,8 @@ $(document).ready(function () {
                 contentType: false,
                 dataType: 'json'
             }).done(function (data) {
+                // Cerrar la alerta de cargando
+                Swal.close();
                 if (data.success) {
                     Swal.fire({
                         icon: 'success',
@@ -291,12 +304,17 @@ $(document).ready(function () {
                     Swal.fire({
                         icon: 'error',
                         title: 'Error!',
-                        text: errors
+                        text: errors,
+                        timer: 3000, // Cerrar después de 3 segundos (3000 milisegundos)
+                        showConfirmButton: false
                     });
                 }
             }).fail(function (jqXHR, textStatus, errorThrown) {
                 alert(textStatus + ': ' + errorThrown);
             }).always(function (data) {
+                // Desbloquear los botones
+                $('button[type="submit"]').prop('disabled', false);
+                $('#baker').prop('disabled', false);
 
             });
         });

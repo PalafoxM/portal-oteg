@@ -702,7 +702,6 @@
             }).fail(function (jqXHR, textStatus, errorThrown) {
                 alert(textStatus + ': ' + errorThrown);
             }).always(function (data) {
-                console.log("que es esto", data)
                 // Desbloquear los botones
                 $('button[type="submit"]').prop('disabled', false);
                 $('#baker').prop('disabled', false);
