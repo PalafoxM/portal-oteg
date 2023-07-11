@@ -477,6 +477,9 @@
     }
 
     @media (max-width: 991px) {
+        .mt-45{
+            margin-top: 45px !important;
+        }
         .navbar-header {
             float: none;
         }
@@ -722,7 +725,7 @@
                         "></div></li>
                     </ul>
 
-                    <ul class="nav navbar-nav navbar-right">
+                    <ul class="nav navbar-nav navbar-right mt-45">
                         <li><a href="{% url 'inicio' %}" class="nav-text">INICIO</a></li>
                         <li><a href="{% url 'dashboard:report_detail' 30 %}" class="nav-text">Indicadores</a></li>
                         <li><a href="{% url 'publicaciones_new' %}" class="nav-text">Publicaciones</a></li>

@@ -400,7 +400,25 @@
         padding-right: 40px;
     }
 
+    .navbar-nav>li:first-child {
+        margin-right: 10px;
+    }
+
+    #google_translate_element {
+        margin-left: 0px;
+        margin-right: 0px;
+        margin-top: 10px;
+    }
+
     @media (max-width: 991px) {
+        .mt-45{
+            margin-top: 45px !important;
+        }
+        #google_translate_element {
+            margin: 0;
+            margin-left: 0px;
+            margin-right: 0;
+        }
         .navbar-header {
             float: none;
         }
@@ -702,12 +720,10 @@
                         </li>
                         <li><a href="{% url 'solicitudes' %}" class="nav-text">Solicitudes</a>
                         <li> <a><input type="text" placeholder="Buscar" class="nav-input"></a></li>
-                        <li><div id="google_translate_element" style="
-                            padding-top: 15px;
-                        "></div></li>
+                        <li> <div id="google_translate_element" class="nav-input "></div></li>
                     </ul>
 
-                    <ul class="nav navbar-nav navbar-right">
+                    <ul class="nav navbar-nav navbar-right mt-45">
                         <li><a href="{% url 'inicio' %}" class="nav-text">INICIO</a></li>
                         <li><a  href="{% url 'dashboard:report_detail' 30 %}" class="nav-text">Indicadores</a></li>
                         <li><a href="{% url 'publicaciones_new' %}" class="nav-text">Publicaciones</a></li>
