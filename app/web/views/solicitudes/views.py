@@ -45,8 +45,9 @@ def solicitudes(request):
     
     context = {
         'form': form,
-        'nav_title': 'SOLICITUDES',
-        'img_url': 'img_nav/pdf.png',
+        'nav_title': 'SOLICITUDES DE INFROMACIÓN',
+        'img_url': 'img_nav/arana.jpg',
+        'subtitulo': True
     }
 
     return render(request, 'web/paginas/solicitudes.html', context)
