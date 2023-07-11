@@ -70,8 +70,6 @@ class SeccionesCentroDocumental(models.Model):
     observacion = models.TextField(blank=True, null=True)
     imagen = models.ImageField(upload_to='secciones', storage=S3Storage() , null=True, blank=True)
 
-
-
 class Categorias(models.Model):
     nombre_categoria = models.CharField(max_length=100, null=True, blank=True)
     fecha_creacion = models.DateField()
@@ -100,7 +98,6 @@ class Publications(models.Model):
     doc = models.FileField(upload_to='publications', storage=S3Storage(), verbose_name="Documento", blank=True)#
     date_created = models.DateTimeField(auto_now=True)
     num_descargas = models.IntegerField(null=True, blank=True, default=0)
-
 
 class Evento (models.Model):
     titulo = models.CharField(max_length=100)
@@ -138,8 +135,8 @@ class Noticia (models.Model):
     imagen = models.ImageField(null=True, blank=True, upload_to='noticias', storage=S3Storage())
 
 class Glosario (models.Model):
-    palabra = models.CharField(max_length=100, null=True, blank=True)
-    definicion = models.CharField(max_length=100, null=True, blank=True)
+    palabra = models.CharField(max_length=300, null=True, blank=True)
+    definicion = models.CharField(max_length=2000, null=True, blank=True)
 
 
 class Alba(models.Model):
@@ -542,10 +539,17 @@ class inversion_privada (models.Model):
     id_del_proyecto = models.CharField(max_length=455)
     destino = models.CharField(max_length=455, null=True, blank=True)
     fecha_actualizacion = models.DateField(auto_now=True)
+    
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+    
     class Meta:
         app_label = 'ecosistema'
         db_table = "inversion_privada"
         ordering = ['-id']
+
+    
 
 
 class Certificacion(models.Model):

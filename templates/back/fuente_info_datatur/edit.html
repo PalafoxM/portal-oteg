@@ -3,6 +3,47 @@
 {% load static %}
 {% block content %}
 
+<head>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
+
+
+    <link href="{% static 'scss/custom-inputs.css' %}" rel="stylesheet" type="text/css">
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    <script>
+        var $j = jQuery.noConflict();
+    </script>
+
+    <script>
+        $j(function () {
+            $j("#id_destino").autocomplete({
+                source: "{% url 'dashboard:search_destinos' %}"
+            });
+
+            $j("#id_categoria").autocomplete({
+                source: "{% url 'dashboard:search_categorias' %}"
+            });
+        });
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'avenir';
+            src: url('{% static "fonts/Avenir-Light.woff" %}');
+        }
+    </style>
+
+
+
+</head>
+
 
 
 <form method="post" enctype="multipart/form-data">
@@ -18,21 +59,8 @@
         padding: 20px;
     
         ">
+        {{edit_msg}}
             {% csrf_token %}
-
-            <div class="form-group">
-                <label for="id_section">ID Proyecto:</label>
-                <select class="custom-input" id="id_section" name="section">
-                    <option value="">-- Selecciona ID --</option>
-                    {% for section in sections %}
-                    <option value="{{ section.id_del_proyecto }}">id: {{ section.id_del_proyecto }} -
-                        {{section.nombre_del_proyecto}}</option>
-                    {% endfor %}
-                </select>
-            </div>
-
-
-
 
             <!-- Modify the form rendering loop to add icons to each field -->
             {% for field in form %}
@@ -115,8 +143,9 @@
 </form>
 
 
-{% endblock %}
 
+
+{% endblock %}
 
 
 {% block javascript %}
@@ -178,11 +207,11 @@
 
 
                         if (data.categoria && data.destino) {
-                            var htmdata = 'Los siguientes campos no se encuentran en el catalogo de datos revisa tu escritura: <br> ' + 'Categoria: ' + data.categoria + '<br>' + 'Destino: ' + data.destino
+                            var htmdata = 'Los siguientes campos no se encuentran en el catalogo de datos revisa tu escritura: <br> ' + 'Categoria: ' + data.categoria + '<br>' + 'Entidad: ' + data.destino
                         } else if (data.categoria) {
                             var htmdata = 'Los siguientes campos no se encuentran en el catalogo de datos revisa tu escritura: <br> ' + 'Categoria: ' + data.categoria
                         } else if (data.destino) {
-                            var htmdata = 'Los siguientes campos no se encuentran en el catalogo de datos revisa tu escritura: <br> ' + 'Destino: ' + data.destino
+                            var htmdata = 'Los siguientes campos no se encuentran en el catalogo de datos revisa tu escritura: <br> ' + 'Entidad: ' + data.destino
                         }
 
                         Swal.fire({
@@ -269,37 +298,6 @@
             return false;
         }
     });
-</script>
 
-
-<script>
-    $(document).ready(function () {
-
-        $('#id_section').change(function () {
-            var sectionId = $(this).val();
-            console.log(sectionId);
-            if (sectionId) {
-                $.ajax({
-                    url: '{% url "dashboard:get_inversion_privada" %}',
-                    data: {
-                        'section_id': Number(sectionId)
-                    },
-                    success: function (data) {
-                        console.log(data);
-
-                        $('#id_destino').val(data.destino);
-                        $('#id_nombre_del_proyecto').val(data.nombre_del_proyecto);
-
-
-
-                    }
-                });
-
-            } else {
-                $('#id_category').empty();
-                $('#id_category').append('<option value="">---------</option>');
-            }
-        });
-    });
 </script>
 {% endblock %}
