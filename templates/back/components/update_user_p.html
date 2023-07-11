@@ -13,6 +13,7 @@
 {% block content %}
 
 <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
     <!-- {{ form.as_p }} -->
     <!-- {{ profile_form.as_p }} - -->
     <div class=" shadow mb-4" style="
@@ -110,8 +111,7 @@
                         font-size: 15px;
                         margin: 0;
                         padding: 0;
-                    " for="{{ profile_form.apellido_materno.id_for_label }}">{{ profile_form.apellido_materno.label
-                        }}</label>
+                    " for="{{ profile_form.apellido_materno.id_for_label }}">{{ profile_form.apellido_materno.label}}</label>
                 </div>
                 <div class="input-with-icon">
                     {{ profile_form.apellido_materno }}
@@ -345,8 +345,7 @@
                         font-size: 15px;
                         margin: 0;
                         padding: 0;
-                    " for="{{ profile_form.empresa_institucion.id_for_label }}">{{
-                        profile_form.empresa_institucion.label }}</label>
+                    " for="{{ profile_form.empresa_institucion.id_for_label }}">{{profile_form.empresa_institucion.label}}</label>
                 </div>
                 <div class="input-with-icon">
                     {{ profile_form.empresa_institucion }}
@@ -424,8 +423,7 @@
                         font-size: 15px;
                         margin: 0;
                         padding: 0;
-                    " for="{{ profile_form.universidad_licenciatura.id_for_label }}">{{
-                        profile_form.universidad_licenciatura.label }}</label>
+                    " for="{{ profile_form.universidad_licenciatura.id_for_label }}">{{profile_form.universidad_licenciatura.label}}</label>
                 </div>
                 <div class="input-with-icon">
                     {{ profile_form.universidad_licenciatura }}
@@ -477,8 +475,7 @@
                         font-size: 15px;
                         margin: 0;
                         padding: 0;
-                    " for="{{ profile_form.universidad_maestria.id_for_label }}">{{
-                        profile_form.universidad_maestria.label }}</label>
+                    " for="{{ profile_form.universidad_maestria.id_for_label }}">{{profile_form.universidad_maestria.label}}</label>
                 </div>
                 <div class="input-with-icon">
                     {{ profile_form.universidad_maestria }}
@@ -530,8 +527,7 @@
                         font-size: 15px;
                         margin: 0;
                         padding: 0;
-                    " for="{{ profile_form.universidad_doctorado.id_for_label }}">{{
-                        profile_form.universidad_doctorado.label }}</label>
+                    " for="{{ profile_form.universidad_doctorado.id_for_label }}">{{profile_form.universidad_doctorado.label}}</label>
                 </div>
                 <div class="input-with-icon">
                     {{ profile_form.universidad_doctorado }}
@@ -558,13 +554,40 @@
             
 
            
-                {{ form.boletin }}
-                {{ form.boletin.label_tag }}
+                <!-- {{ form.boletin }}
+                {{ form.boletin.label_tag }} -->
             
 
            
                 {{ form.group.label_tag }}
                 {{ form.group }}
+
+                <!-- Agregar campos para cambiar la contraseña -->
+                <div style="width: 100%;">
+                    <label for="{{ form.new_password.id_for_label }}">{{ form.new_password.label }}</label>
+                </div>
+                <div class="input-with-icon">
+                    {{ form.new_password }}
+                    {% if form.new_password.errors %}
+                    <div class="error-message">{{ form.new_password.errors }}</div>
+                    {% endif %}
+                    <div class="icon">
+                        <i class="{{ form.new_password.field.widget.attrs.icon_class }}"></i>
+                    </div>
+                </div>
+
+                <div style="width: 100%;">
+                    <label for="{{ form.confirm_password.id_for_label }}">{{ form.confirm_password.label }}</label>
+                </div>
+                <div class="input-with-icon">
+                    {{ form.confirm_password }}
+                    {% if form.confirm_password.errors %}
+                    <div class="error-message">{{ form.confirm_password.errors }}</div>
+                    {% endif %}
+                    <div class="icon">
+                        <i class="{{ form.confirm_password.field.widget.attrs.icon_class }}"></i>
+                    </div>
+                </div>
             
         </div>
     </div>
@@ -626,6 +649,17 @@
     $(function () {
         $('form').on('submit', function (e) {
             e.preventDefault();
+            // Bloquear los botones
+            $('button[type="submit"]').prop('disabled', true);
+            $('#baker').prop('disabled', true);
+            
+            // Mostrar alerta de cargando
+            Swal.fire({
+                icon: 'info',
+                title: 'Cargando...',
+                showConfirmButton: false,
+                allowOutsideClick: false
+            });
             var parameters = new FormData(this);
             $.ajax({
                 url: window.location.pathname,
@@ -635,6 +669,8 @@
                 contentType: false,
                 dataType: 'json'
             }).done(function (data) {
+                // Cerrar la alerta de cargando
+                Swal.close();
                 if (data.success) {
                     Swal.fire({
                         icon: 'success',
@@ -658,13 +694,20 @@
                     Swal.fire({
                         icon: 'error',
                         title: 'Error!',
-                        text: errors
+                        text: errors,
+                        timer: 3000, // Cerrar después de 3 segundos (3000 milisegundos)
+                        showConfirmButton: false
                     });
                 }
             }).fail(function (jqXHR, textStatus, errorThrown) {
                 alert(textStatus + ': ' + errorThrown);
             }).always(function (data) {
-
+                console.log("que es esto", data)
+                // Desbloquear los botones
+                $('button[type="submit"]').prop('disabled', false);
+                $('#baker').prop('disabled', false);
+                
+                
             });
         });
     });

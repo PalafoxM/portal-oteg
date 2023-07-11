@@ -129,7 +129,7 @@
 <form method="post" action="" enctype="multipart/form-data">
   <div class="card-s shadow mb-4">
     <div class="card-header">
-      <h4>Formulario de solicitud</h4>
+      <h4>Requerimiento y objetivo de la solicitud</h4>
     </div>
     <div class="card-body">
       {% csrf_token %}
@@ -161,4 +161,8 @@
   </div>
 </form>
 
+{% endblock %}
+
+{% block head_title %}
+  <p>Contáctanos si requieres información detallada de algún tema en específico.</p>
 {% endblock %}

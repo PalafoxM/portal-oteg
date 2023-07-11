@@ -47,16 +47,19 @@ var datatur = {
                     class: 'actions-container',
                     orderable: false,
                     render: function (data, type, row) {
-                        var buttons = '<button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="location.href=\'perfil-visitante-destinos/edit/' + row.id + '/\'">';
-                        buttons += '<i class="fas fa-edit"></i>';
-                        buttons += '</button> ';
-                        buttons += '<form method="post" action="perfil-visitante-destinos/delete/' + row.id + '/">';
-                        buttons += '<input type="hidden" name="csrfmiddlewaretoken" value="' + csrftoken + '">';
-                        buttons += '<button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="return confirm(\'¿Está seguro de que desea eliminar la informacion? PVD\');">';
-                        buttons += '<i class="fas fa-trash"></i>';
-                        buttons += '</button>';
-                        buttons += '</form>';
-                        return buttons;
+                        var html = '<td class="text-center" style="position: relative; text-align: center; height: 100%;">';
+                        html += '<div class="icon-container">';
+                        html += '<i class="fas fa-edit" onclick="location.href=\'inversion_privada/edit/' + row.id + '/\'"></i>';
+                        html += '<form method="post" action="inversion_privada/delete/' + row.id + '/">';
+                        html += '<input type="hidden" name="csrfmiddlewaretoken" value="' + csrftoken + '">';
+                        html += '<button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="return confirm(\'¿Está seguro de que desea eliminar la informacion?\');">';
+                        html += '<i class="fas fa-trash"></i>';
+                        html += '</button>';
+                        html += '</form>';
+                        html += '</div>';
+                        html += '</td>';
+                        // Append your existing buttons or elements here
+                        return html;
                     }
                 },
             ],

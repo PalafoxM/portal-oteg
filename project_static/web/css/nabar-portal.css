@@ -37,6 +37,7 @@
     text-align: left;
     padding: 0 15%;
     padding-top: 40px;
+    margin-top: 30px;
 
 }
 
@@ -47,6 +48,15 @@
     letter-spacing: 2px;
     color: #DEE2E6;
     font-size: 60px;
+    font-weight: 600;
+
+}
+.carousel-caption h3 {
+    font-size: 30px;
+    /* font-family: 'Montserrat', sans-serif; */
+
+    letter-spacing: 2px;
+    color: #DEE2E6;
     font-weight: 600;
 
 }
@@ -148,9 +158,16 @@
 }
 
 @media only screen and (max-width: 991px) {
+    .mt-45{
+        margin-top: 45px !important;
+    }
 
     .carousel-caption h2 {
         font-size: 40px;
+        letter-spacing: 0;
+    }
+    .carousel-caption h3 {
+        font-size: 20px;
         letter-spacing: 0;
     }
 }
@@ -182,6 +199,10 @@
 
     .carousel-caption h2 {
         font-size: 20px;
+        letter-spacing: 0;
+    }
+    .carousel-caption h3 {
+        font-size: 17px;
         letter-spacing: 0;
     }
 

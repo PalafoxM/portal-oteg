@@ -231,12 +231,11 @@ class FuenteInfoSensivilizacionUpdate (SuperAdminOrAdminMixin, LoginRequiredMixi
         context = super().get_context_data(**kwargs)
         context['list_url'] = reverse_lazy('dashboard:fuente_info_sensibilizacion')
             # Set the widget for the 'destino' field to read-only text input
-        context['form'].fields['destino'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
+        context['form'].fields['destino'].widget.attrs['readonly'] = True
+        context['form'].fields['fecha'].widget.attrs['readonly'] = True
+        context['title'] = 'Editar Fuente'
 
-        context['form'].fields['fecha'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
-        context['title'] = 'Editar fuente'
-
-        context['edit_msg'] = 'Los Campos Destino y Fecha no pueden ser editados' 
+        context['edit_msg'] = "Los campos 'Destino' y 'Fecha' no pueden ser editados."
 
         return context
 

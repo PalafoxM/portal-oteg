@@ -19,8 +19,8 @@
 {% for e in object_list %}
 <tr>
     <th class="text-left tb-text">{{e.id}}</th>
-    <th class="text-left tb-text">{{e.palabra}}</th>
-    <th class="text-left tb-text">{{e.definicion}}</th>
+    <th class="text-left tb-text">{{e.palabra }}</th>
+    <th class="text-left tb-text">{{e.definicion | truncatechars:160 }}</th>
 
     <th class="text-left actions-column tb-text" style="
     position: relative;

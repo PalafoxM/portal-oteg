@@ -48,6 +48,25 @@ class FuenteInfoInversionPriv (SuperAdminOrAdminMixin, LoginRequiredMixin, ListV
     model = inversion_privada
     template_name = 'back/fuente_info_inversion_priv/viewer.html'
 
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs) :
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'search':
+                data = []
+                for i in inversion_privada.objects.all():
+                    data.append(i.toJSON())
+            else:
+                data.append({'error': 'Ha ocurrido un error'})
+        except Exception as e:
+            data.append({'error': str(e)})
+        return JsonResponse(data, safe=False)
+
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Listado de Fuentes de Informacion de Inversion Privada'
@@ -188,10 +207,9 @@ class FuenteInfoInversionPrivCreate (SuperAdminOrAdminMixin, LoginRequiredMixin,
         context = super().get_context_data(**kwargs)
         context['title'] = 'Crear una fuente'
         context['entity'] = 'Glosario'
-        context['form'].fields['destino'].widget = forms.TextInput(
-            attrs={'readonly': 'readonly'})
-        context['form'].fields['nombre_del_proyecto'].widget = forms.TextInput(
-            attrs={'readonly': 'readonly'})
+        context['form'].fields['destino'].widget.attrs['readonly'] = True
+        context['form'].fields['nombre_del_proyecto'].widget.attrs['readonly'] = True
+        
         context['list_url'] = reverse_lazy(
             'dashboard:fuente_info_inversion_privada')
         context['sections'] = ProyectoInversion.objects.all()
@@ -235,14 +253,10 @@ class FuenteInfoInversionPrivUpdate (SuperAdminOrAdminMixin, LoginRequiredMixin,
         context['list_url'] = reverse_lazy(
             'dashboard:fuente_info_inversion_privada')
         # Set the widget for the 'destino' field to read-only text input
-        context['form'].fields['destino'].widget = forms.TextInput(
-            attrs={'readonly': 'readonly'})
-        context['form'].fields['fecha'].widget = forms.TextInput(
-            attrs={'readonly': 'readonly'})
-        context['form'].fields['id_del_proyecto'].widget = forms.TextInput(
-            attrs={'readonly': 'readonly'})
-        context['form'].fields['nombre_del_proyecto'].widget = forms.TextInput(
-            attrs={'readonly': 'readonly'})
+        context['form'].fields['destino'].widget.attrs['readonly'] = True
+        context['form'].fields['fecha'].widget.attrs['readonly'] = True
+        context['form'].fields['id_del_proyecto'].widget.attrs['readonly'] = True
+        context['form'].fields['nombre_del_proyecto'].widget.attrs['readonly'] = True
         context['title'] = 'Editar fuente'
 
         context['edit_msg'] = 'Los Campos ID, Destino , Fecha no pueden ser editados'

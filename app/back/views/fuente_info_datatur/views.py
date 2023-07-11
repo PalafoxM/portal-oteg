@@ -263,7 +263,7 @@ class FuenteInfoDataturUpdate(SuperAdminOrAdminMixin, LoginRequiredMixin, Update
     
     model = DataTour
     form_class = DataTurForm
-    template_name = 'back/components/create_update_fuentes_info.html'
+    template_name = 'back/fuente_info_datatur/edit.html'
     success_url = reverse_lazy('dashboard:fuente_info_datatour')
 
     def form_invalid(self, form):
@@ -294,13 +294,13 @@ class FuenteInfoDataturUpdate(SuperAdminOrAdminMixin, LoginRequiredMixin, Update
         context = super().get_context_data(**kwargs)
         context['list_url'] = reverse_lazy('dashboard:fuente_info_datatour')
             # Set the widget for the 'destino' field to read-only text input
-        context['form'].fields['destino'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
+        context['form'].fields['destino'].widget.attrs['readonly'] = True
         # Set the widget for the 'fecha' field to read-only text input
-        context['form'].fields['fecha'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
+        context['form'].fields['fecha'].widget.attrs['readonly'] = True
         # Set the widget for the 'categoria' field to read-only text input
-        context['form'].fields['categoria'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
+        context['form'].fields['categoria'].widget.attrs['readonly'] = True
         context['title'] = 'Editar fuente'
-        context['edit_msg'] = 'Los Campos Destino, Fecha y Categoria no pueden ser editados'    
+        context['edit_msg'] = 'Los Campos Destino, Fecha y Categoria no pueden ser editados.'    
 
         return context
 

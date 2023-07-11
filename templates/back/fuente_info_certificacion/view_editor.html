@@ -2,54 +2,190 @@
 {% load widget_tweaks %}
 {% load static %}
 {% block content %}
-<div class="card shadow mb-4">
-    <form method="post" enctype="multipart/form-data">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">{{title}}</h6>
-            {{edit_msg}}
-        </div>
+<head>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 
-        <div class="card-body">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
+
+
+    <link href="{% static 'scss/custom-inputs.css' %}" rel="stylesheet" type="text/css">
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    <script>
+        var $j = jQuery.noConflict();
+    </script>
+
+    <script>
+        $j(function () {
+            $j("#id_destino").autocomplete({
+                source: "{% url 'dashboard:search_destinos' %}"
+            });
+
+            $j("#id_categoria").autocomplete({
+                source: "{% url 'dashboard:search_categorias' %}"
+            });
+        });
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'avenir';
+            src: url('{% static "fonts/Avenir-Light.woff" %}');
+        }
+    </style>
+
+
+
+</head>
+
+
+
+<form method="post" enctype="multipart/form-data">
+
+    <div class=" shadow mb-4" style="
+        border-radius: 5px;
+    ">
+   
+        <div style="
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    
+        ">
+         {{edit_msg}}
             {% csrf_token %}
-            {% if form.errors %}
-            <div class="alert alert-danger alert-dismissible">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                <h5><i class="icon fas fa-ban"></i> Ha ocurrido un error al querer guardar el registro</h5>
-                <ul>
-                    {% for field in form %}
-                    {% for error in field.errors %}
-                    <li>{{ error }}</li>
-                    {% endfor %}
-                    {% endfor %}
-                </ul>
+
+            <!-- Modify the form rendering loop to add icons to each field -->
+            {% for field in form %}
+
+            <div style="
+                    width: 100%;
+      
+                ">
+                <label style="
+                font-family: avenir;
+                font-weight: bold;
+                font-size: 15px;
+                margin: 0;
+                padding: 0;
+            " for="{{ field.id_for_label }}">{{ field.label }}</label>
+
             </div>
-            {% endif %}
-            {{ form.as_p }}
-        </div>
-        <div class="card-footer">
 
-            <button type="submit" class="btn btn-primary ">
-                <i class="fas fa-save"></i> Guardar
-            </button>
 
-            <div id="baker" class="btn btn-danger ">
-                <i class="fas fa-times"></i> Cancelar
+            <div class="input-with-icon">
+                {{ field }}
+                {% if field.errors %}
+                <div class="error-message">{{ field.errors }}</div>
+                {% endif %}
+                {% if field.help_text %}
+                <div class="help-text">{{ field.help_text }}</div>
+                {% endif %}
+                <div class="icon"><i style="
+                        margin: 0;
+                        padding: 0;
+                        color: #fff;
+                    " class="{{ field.field.widget.attrs.icon_class }}"></i></div>
             </div>
+            {% endfor %}
+
         </div>
-    </form>
+    </div>
+
+    <div style="display: flex;
+        justify-content: space-around;
+        align-items: center;
+        margin-bottom: 20px;
+        gap: 20px;
+    ">
+        <div id="baker" style="
+        cursor: pointer; 
+            background-color: #EC9711;
+            width: 370px;
+            height: 47px;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+        ">
+            <p style="color: #fff; 
+                font-family: avenir;
+                font-weight: bold; font-size: 15px; margin: 0; padding: 0; text-align: center;">
+                Cancelar</p>
+        </div>
+
+        <button type="submit" style="
+            background-color: #0CAB7B;
+            width: 370px;
+            height: 47px;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: none;
+            border-radius: 5px;
+        ">
+            <p style="cursor: pointer; color: #fff; 
+                font-family: avenir;
+                font-weight: bold; font-size: 15px; margin: 0; padding: 0; text-align: center;">
+                Guardar </p>
+        </button>
+    </div>
+
+</form>
 
 
-</div>
+
 
 {% endblock %}
 
 
 {% block javascript %}
+
+
 <script type="application/javascript">
+
+    $(document).ready(function () {
+        $('.card-body .input-with-icon [data-icon-class]').each(function () {
+            var iconClass = $(this).data('icon-class');
+            var iconElement = $(this).closest('.input-with-icon').find('.icon');
+            iconElement.html('<i class="' + iconClass + '"></i>');
+
+            console.log('Element found:', $(this));
+        });
+    });
+
+
+
+
+
+
     $(function () {
         $('form').on('submit', function (e) {
             e.preventDefault();
             var parameters = new FormData(this);
+            var selected_section = $('#id_section').val();
+
+
+            parameters.append('section', selected_section);
+
+            if (selected_section == '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: 'Debe seleccionar un ID de Proyecto'
+                });
+                return false;
+            }
+
             $.ajax({
                 url: window.location.pathname,
                 type: 'POST',
@@ -76,52 +212,19 @@
 
 
                         if (data.categoria && data.destino) {
-                            var htmdata = 'Los siguientes campos no se encuentran en el catalogo de datos revisa tu escritura: <br> ' + 'Categoria: ' + data.categoria + '<br>' + 'Destino: ' + data.destino
+                            var htmdata = 'Los siguientes campos no se encuentran en el catalogo de datos revisa tu escritura: <br> ' + 'Categoria: ' + data.categoria + '<br>' + 'Entidad: ' + data.destino
                         } else if (data.categoria) {
                             var htmdata = 'Los siguientes campos no se encuentran en el catalogo de datos revisa tu escritura: <br> ' + 'Categoria: ' + data.categoria
                         } else if (data.destino) {
-                            var htmdata = 'Los siguientes campos no se encuentran en el catalogo de datos revisa tu escritura: <br> ' + 'Destino: ' + data.destino
+                            var htmdata = 'Los siguientes campos no se encuentran en el catalogo de datos revisa tu escritura: <br> ' + 'Entidad: ' + data.destino
                         }
 
                         Swal.fire({
                             icon: 'error',
                             title: 'Error!',
                             html: htmdata,
-                            width: '95%',
-                            showCancelButton: true,
-                            confirmButtonText: 'Agregar los Nuevos Campos a los Catalogos',
-                        }).then((result) => {
-                            if (result.isConfirmed) {
 
-                                parameters.append('catalog', 'on');
-
-                                $.ajax({
-                                    url: window.location.pathname,
-                                    type: 'POST',
-                                    data: parameters,
-                                    processData: false,
-                                    contentType: false,
-                                    dataType: 'json'
-                                })
-
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Buen trabajo!',
-                                    text: 'Operación exitosa.',
-                                    timer: 2000,
-                                    showConfirmButton: false
-                                }).then(function () {
-                                    window.location.href = '{{ list_url }}';
-                                });
-
-                                v
-
-
-                            } else if (result.isDenied) {
-                                window.location.href = '{{ list_url }}';
-                            }
-                        })
-
+                        });
                         return;
                     } else if (data.format_errors) {
                         for (var field in data.errors) {
@@ -137,10 +240,7 @@
 
                     }
 
-
                     var existing_object = data.existing_object;
-
-
                     Swal.fire({
                         icon: 'error',
                         title: 'Error!',
@@ -163,8 +263,25 @@
                                 processData: false,
                                 contentType: false,
                                 dataType: 'json'
-                            })
-                            window.location.href = '{{ list_url }}'
+                            }).done(function (data) {
+                                if (data.success) {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Buen trabajo!',
+                                        text: 'Operación exitosa.',
+                                        timer: 2000,
+                                        showConfirmButton: false
+                                    }).then(function () {
+                                        window.location.href = '{{ list_url }}';
+                                    });
+                                } else {
+                                    var errors = '';
+                                }
+                            }).fail(function (jqXHR, textStatus, errorThrown) {
+                                alert(textStatus + ': ' + errorThrown);
+                            }).always(function (data) {
+
+                            });
                         } else if (result.isDenied) {
                             window.location.href = '{{ list_url }}';
                         }
@@ -186,5 +303,6 @@
             return false;
         }
     });
+
 </script>
 {% endblock %}

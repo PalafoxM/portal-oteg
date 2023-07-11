@@ -285,7 +285,7 @@ class GlosarioForm(forms.ModelForm):
         }
         widgets = {
             'palabra': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-search'}),
-            'definicion': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-book'}),
+            'definicion': forms.Textarea(attrs={'class': 'custom-input', 'icon_class': 'fas fa-book'}),
         }
 
 
@@ -293,6 +293,91 @@ class DataTurForm(forms.ModelForm):
     class Meta:
         model = DataTour
         fields = '__all__'
+
+
+    def __init__ (self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['destino'].widget.attrs['class'] = 'custom-input'
+        self.fields['destino'].widget.attrs['icon_class'] = 'fas fa-search'
+
+        self.fields['fecha'].widget.attrs['class'] = 'custom-input'
+        self.fields['fecha'].widget.attrs['icon_class'] = 'fas fa-calendar'
+        
+
+
+        self.fields['categoria'].widget.attrs['class'] = 'custom-input'
+        self.fields['categoria'].widget.attrs['icon_class'] = 'fas fa-search'
+
+        self.fields['cuartos_registrados_fin_periodo'].widget.attrs['class'] = 'custom-input'
+        self.fields['cuartos_registrados_fin_periodo'].widget.attrs['icon_class'] = 'fas fa-table'
+
+
+        self.fields['cuartos_disponibles_promedio'].widget.attrs['class'] = 'custom-input'
+        self.fields['cuartos_disponibles_promedio'].widget.attrs['icon_class'] = 'fas fa-table'
+
+
+        self.fields['cuartos_disponibles'].widget.attrs['class'] = 'custom-input'
+        self.fields['cuartos_disponibles'].widget.attrs['icon_class'] = 'fas fa-table'
+
+
+        self.fields['cuartos_ocupados'].widget.attrs['class'] = 'custom-input'
+        self.fields['cuartos_ocupados'].widget.attrs['icon_class'] = 'fas fa-table'
+        
+        self.fields['cuartos_ocupados_residentes'].widget.attrs['class'] = 'custom-input'
+        self.fields['cuartos_ocupados_residentes'].widget.attrs['icon_class'] = 'fas fa-table'
+        
+        self.fields['cuartos_ocupados_no_residentes'].widget.attrs['class'] = 'custom-input'
+        self.fields['cuartos_ocupados_no_residentes'].widget.attrs['icon_class'] = 'fas fa-table'
+
+        self.fields['llegadas_de_turistas'].widget.attrs['class'] = 'custom-input'
+        self.fields['llegadas_de_turistas'].widget.attrs['icon_class'] = 'fas fa-table'
+
+        self.fields['llegadas_de_turistas_residentes'].widget.attrs['class'] = 'custom-input'
+        self.fields['llegadas_de_turistas_residentes'].widget.attrs['icon_class'] = 'fas fa-table'
+
+        self.fields['llegadas_de_turistas_no_residentes'].widget.attrs['class'] = 'custom-input'
+        self.fields['llegadas_de_turistas_no_residentes'].widget.attrs['icon_class'] = 'fas fa-table'
+
+        self.fields['turistas_noche'].widget.attrs['class'] = 'custom-input'
+        self.fields['turistas_noche'].widget.attrs['icon_class'] = 'fas fa-table'
+
+        self.fields['turistas_noche_residentes'].widget.attrs['class'] = 'custom-input'
+        self.fields['turistas_noche_residentes'].widget.attrs['icon_class'] = 'fas fa-table'
+
+        self.fields['turistas_noche_no_residentes'].widget.attrs['class'] = 'custom-input'
+        self.fields['turistas_noche_no_residentes'].widget.attrs['icon_class'] = 'fas fa-table'
+
+        self.fields['porcentaje_de_ocupacion'].widget.attrs['class'] = 'custom-input'
+        self.fields['porcentaje_de_ocupacion'].widget.attrs['icon_class'] = 'fas fa-table'
+
+        self.fields['porcentaje_de_ocupacion_residentes'].widget.attrs['class'] = 'custom-input'
+        self.fields['porcentaje_de_ocupacion_residentes'].widget.attrs['icon_class'] = 'fas fa-table'
+
+        self.fields['porcentaje_de_ocupacion_no_residentes'].widget.attrs['class'] = 'custom-input'
+        self.fields['porcentaje_de_ocupacion_no_residentes'].widget.attrs['icon_class'] = 'fas fa-table'
+
+        self.fields['estadia_promedio'].widget.attrs['class'] = 'custom-input'
+        self.fields['estadia_promedio'].widget.attrs['icon_class'] = 'fas fa-table'
+
+        self.fields['estadia_promedio_residentes'].widget.attrs['class'] = 'custom-input'
+        self.fields['estadia_promedio_residentes'].widget.attrs['icon_class'] = 'fas fa-table'
+
+
+        self.fields['estadia_promedio_no_residentes'].widget.attrs['class'] = 'custom-input'
+        self.fields['estadia_promedio_no_residentes'].widget.attrs['icon_class'] = 'fas fa-table'
+
+
+        self.fields['densidad_de_ocupacion'].widget.attrs['class'] = 'custom-input'
+        self.fields['densidad_de_ocupacion'].widget.attrs['icon_class'] = 'fas fa-table'
+        
+        self.fields['densidad_de_ocupacion_residentes'].widget.attrs['class'] = 'custom-input'
+        self.fields['densidad_de_ocupacion_residentes'].widget.attrs['icon_class'] = 'fas fa-table'
+
+        self.fields['densidad_de_ocupacion_no_residentes'].widget.attrs['class'] = 'custom-input'
+        self.fields['densidad_de_ocupacion_no_residentes'].widget.attrs['icon_class'] = 'fas fa-table'
+
+
 
 class GastoDerramaForm (forms.ModelForm):
     class Meta:
@@ -341,11 +426,43 @@ class SensivilizacionForm (forms.ModelForm):
         model = Sensivilizacion
         fields = '__all__'  
 
+    def __init__ (self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['destino'].widget.attrs['class'] = 'custom-input'
+        self.fields['destino'].widget.attrs['icon_class'] = 'fas fa-search'
+
+        self.fields['fecha'].widget.attrs['class'] = 'custom-input'
+        self.fields['fecha'].widget.attrs['icon_class'] = 'fas fa-calendar'
+
+        self.fields['participantes'].widget.attrs['class'] = 'custom-input'
+        self.fields['participantes'].widget.attrs['icon_class'] = 'fas fa-sort-numeric-up'
+        
+        self.fields['accion_de_sensibilizacion'].widget.attrs['class'] = 'custom-input'
+        self.fields['accion_de_sensibilizacion'].widget.attrs['icon_class'] = 'fas fa-table'
+
 
 class CertificacionForm (forms.ModelForm):
     class Meta:
         model = Certificacion
         fields = '__all__'
+    def __init__ (self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['destino'].widget.attrs['class'] = 'custom-input'
+        self.fields['destino'].widget.attrs['icon_class'] = 'fas fa-search'
+
+        self.fields['fecha'].widget.attrs['class'] = 'custom-input'
+        self.fields['fecha'].widget.attrs['icon_class'] = 'fas fa-calendar'
+        
+
+        self.fields['tipo_de_certificacion'].widget.attrs['class'] = 'custom-input'
+        self.fields['tipo_de_certificacion'].widget.attrs['icon_class'] = 'fas fa-search'
+
+        self.fields['empresas_certificadas'].widget.attrs['class'] = 'custom-input'
+        self.fields['empresas_certificadas'].widget.attrs['icon_class'] = 'fas fa-table'
+
+
 
 
 class InversionPublicaForm(forms.ModelForm):
@@ -554,15 +671,49 @@ class InversionPrivadaForm (forms.ModelForm):
         model = inversion_privada
         fields = ['destino','nombre_del_proyecto','fecha','monto_ejecutado','avance_proyecto']
 
+        widgets = {
+            'destino': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Destino', 'icon_class': 'fas fa-search'}),
+            'fecha': forms.DateInput(attrs={'class': 'form-control fecha-input', 'placeholder': 'Fecha', 'icon_class': 'fas fa-calendar'}),
+            'monto_ejecutado' : forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Monto Ejecutado', 'icon_class': 'fas fa-dollar-sign'}),
+            'avance_proyecto' : forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Avance Proyecto', 'icon_class': 'fas fa-percent'}),       
+            'nombre_del_proyecto' : forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombre del Proyecto', 'icon_class': 'fas fa-table'}),
+        }
+
+
+
 class InversionPrivadaEditForm(forms.ModelForm):
     class Meta:
         model = inversion_privada
         fields = ['id_del_proyecto','nombre_del_proyecto','destino','fecha','monto_ejecutado','avance_proyecto']
 
+        widgets = {
+            'id_del_proyecto' : forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'ID del Proyecto', 'icon_class': 'fas fa-table'}),
+            'destino': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Destino', 'icon_class': 'fas fa-search'}),
+            'fecha': forms.DateInput(attrs={'class': 'form-control fecha-input', 'placeholder': 'Fecha', 'icon_class': 'fas fa-calendar'}),
+            'monto_ejecutado' : forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Monto Ejecutado', 'icon_class': 'fas fa-dollar-sign'}),
+            'avance_proyecto' : forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Avance Proyecto', 'icon_class': 'fas fa-percent'}),       
+            'nombre_del_proyecto' : forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombre del Proyecto', 'icon_class': 'fas fa-table'}),
+        }
+
+
+
+
 class EmpleoForm (forms.ModelForm):
     class Meta:
         model = empleo
         fields ='__all__'
+
+        widgets = {
+            'fecha_inicio': forms.DateInput(attrs={'class': 'form-control fecha-input', 'placeholder': 'Fecha', 'icon_class': 'fas fa-calendar'}),
+            'fecha_fin' : forms.NumberInput(attrs={'class': 'custom-input fecha-input','icon_class': 'fas fa-calendar'}),
+            'hombres_empleados_gto' : forms.NumberInput(attrs={'class': 'custom-input','icon_class': 'fas fa-table'}),
+            'mujeres_empleadas_gto' : forms.NumberInput(attrs={'class': 'custom-input','icon_class': 'fas fa-table'}),
+            'hombres_empleados_sec_72_gto' : forms.NumberInput(attrs={'class': 'custom-input','icon_class': 'fas fa-table'}),
+            'mujeres_empleadas_sec_72_gto' : forms.NumberInput(attrs={'class': 'custom-input','icon_class': 'fas fa-table'}),
+            'hombres_empleados_sec_72_nac' : forms.NumberInput(attrs={'class': 'custom-input','icon_class': 'fas fa-table'}),
+            'mujeres_empleadas_sec_72_nac' : forms.NumberInput(attrs={'class': 'custom-input','icon_class': 'fas fa-table'}),        
+        }
+
 
 class ModeloGDForm (forms.ModelForm):
     class Meta:
