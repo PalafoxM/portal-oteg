@@ -17,7 +17,7 @@ function getCookie(name) {
 
 var datatur = {
     list: function () {
-        console.log("Ejecutando datatur.list()", window.location.pathname); // Mensaje de depuració
+        console.log("Ejecutando proyectos_inv", window.location.pathname); // Mensaje de depuració
         $('#dataTable').DataTable({
             responsive: true,
             autoWidth: false,
@@ -35,15 +35,13 @@ var datatur = {
                 }
             },
             columns: [
-                {"data": "id", className: "text-left pl-3"},
-                {"data": "destino", className: "text-center hidden-t"},
-                {"data": "fecha", className: "text-left hidden-t"},
-                {"data": "categoria", className: "text-center hidden-t"},
-                {"data": "cuartos_registrados_fin_periodo", className: "text-left hidden-t"},
-                {"data": "cuartos_disponibles_promedio", className: "text-left hidden-t"},
-                {"data": "id", className: "actions-container"},
-            ],
-            columnDefs: [
+                {"data": "id", className: "text-left tb-text "},
+                {"data": "monto_ejecutado", className: "text-left tb-text "},
+                {"data": "avance_proyecto", className: "text-left tb-text "},
+                {"data": "nombre_del_proyecto", className: "text-left tb-text "},
+                {"data": "destino", className: "text-left tb-text "},
+                {"data": "id", className: "text-left  actions-column tb-text"},
+            ],columnDefs: [
                 {
                     targets: [-1],
                     class: 'actions-container',
@@ -51,8 +49,8 @@ var datatur = {
                     render: function (data, type, row) {
                         var html = '<td class="text-center" style="position: relative; text-align: center; height: 100%;">';
                         html += '<div class="icon-container">';
-                        html += '<i class="fas fa-edit" onclick="location.href=\'datatur/edit/' + row.id + '/\'"></i>';
-                        html += '<form method="post" action="datatur/delete/' + row.id + '/">';
+                        html += '<i class="fas fa-edit" onclick="location.href=\'inversion_privada/edit/' + row.id + '/\'"></i>';
+                        html += '<form method="post" action="inversion_privada/delete/' + row.id + '/">';
                         html += '<input type="hidden" name="csrfmiddlewaretoken" value="' + csrftoken + '">';
                         html += '<button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="return confirm(\'¿Está seguro de que desea eliminar la informacion?\');">';
                         html += '<i class="fas fa-trash"></i>';

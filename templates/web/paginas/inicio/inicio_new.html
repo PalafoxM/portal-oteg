@@ -16,7 +16,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'normalize/normal.css' %}">
-    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script type="text/javascript"
+        src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <link rel="stylesheet" href="{% static 'web/css/nabar-portal.css' %}">
 </head>
 
@@ -582,78 +583,80 @@
         transform: scale(1.1);
         cursor: pointer;
     }
+
     /* Estilo del contenedor del widget */
-#google_translate_element {
-  -moz-transform: translate(0, 0);
-  display: inline-block;
-  margin-right: 10px;
-}
+    #google_translate_element {
+        -moz-transform: translate(0, 0);
+        display: inline-block;
+        margin-right: 10px;
+    }
 
-/* Estilo del botón de traducción */
-.goog-te-combo {
-  border-color: #ccc !important;
-  color: #333 !important;
-  padding: 5px;
-  font-family: Arial, sans-serif;
-  font-size: 14px;
-  background-color: #fff;
-  border-radius: 4px;
-}
+    /* Estilo del botón de traducción */
+    .goog-te-combo {
+        border-color: #ccc !important;
+        color: #333 !important;
+        padding: 5px;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        background-color: #fff;
+        border-radius: 4px;
+    }
 
-/* Estilo del texto dentro del botón de traducción */
-.goog-te-combo option {
-  color: #333;
-}
+    /* Estilo del texto dentro del botón de traducción */
+    .goog-te-combo option {
+        color: #333;
+    }
 
-/* Estilo del menú desplegable de idiomas */
-.goog-te-menu-value {
-  padding: 5px;
-  font-family: Arial, sans-serif;
-  font-size: 14px;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
+    /* Estilo del menú desplegable de idiomas */
+    .goog-te-menu-value {
+        padding: 5px;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
 
-/* Estilo de los elementos del menú desplegable de idiomas */
-.goog-te-menu2 {
-  max-height: 200px;
-  overflow-y: auto;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
+    /* Estilo de los elementos del menú desplegable de idiomas */
+    .goog-te-menu2 {
+        max-height: 200px;
+        overflow-y: auto;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
 
-/* Estilo de los elementos del menú desplegable de idiomas cuando se pasa el mouse sobre ellos */
-.goog-te-menu2-item:hover {
-  background-color: #f0f0f0;
-}
+    /* Estilo de los elementos del menú desplegable de idiomas cuando se pasa el mouse sobre ellos */
+    .goog-te-menu2-item:hover {
+        background-color: #f0f0f0;
+    }
 
-/* Estilo del botón de cierre del menú desplegable de idiomas */
-.goog-te-menu2-close-btn {
-  display: none;
-}
+    /* Estilo del botón de cierre del menú desplegable de idiomas */
+    .goog-te-menu2-close-btn {
+        display: none;
+    }
 
-/* Estilo del texto "Traducir" en el botón de traducción */
-.goog-te-combo-label {
-  color: #333;
-  font-family: Arial, sans-serif;
-  font-size: 14px;
-}
+    /* Estilo del texto "Traducir" en el botón de traducción */
+    .goog-te-combo-label {
+        color: #333;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+    }
 
-/* Estilo del ícono de flecha hacia abajo en el botón de traducción */
-.goog-te-combo-arrow {
-  background-image: url('https://translate.google.com/translate/releases/twsfe_w_20191209_RC00/public/dictionaries/google_default/arrow_down.png');
-  width: 16px;
-  height: 16px;
-  margin-top: -8px;
-}
-@media screen and (-webkit-min-device-pixel-ratio:0) {
-  #google_translate_element {
-    position: absolute;
-  }
-}
+    /* Estilo del ícono de flecha hacia abajo en el botón de traducción */
+    .goog-te-combo-arrow {
+        background-image: url('https://translate.google.com/translate/releases/twsfe_w_20191209_RC00/public/dictionaries/google_default/arrow_down.png');
+        width: 16px;
+        height: 16px;
+        margin-top: -8px;
+    }
+
+    @media screen and (-webkit-min-device-pixel-ratio:0) {
+        #google_translate_element {
+            position: absolute;
+        }
+    }
 </style>
 
 <body>
@@ -702,14 +705,16 @@
                         </li>
                         <li><a href="{% url 'solicitudes' %}" class="nav-text">Solicitudes</a>
                         <li> <a><input type="text" placeholder="Buscar" class="nav-input"></a></li>
-                        <li><div id="google_translate_element" style="
+                        <li>
+                            <div id="google_translate_element" style="
                             padding-top: 15px;
-                        "></div></li>
+                        "></div>
+                        </li>
                     </ul>
 
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="{% url 'inicio' %}" class="nav-text">INICIO</a></li>
-                        <li><a  href="{% url 'dashboard:report_detail' 30 %}" class="nav-text">Indicadores</a></li>
+                        <li><a href="{% url 'dashboard:report_detail' 30 %}" class="nav-text">Indicadores</a></li>
                         <li><a href="{% url 'publicaciones_new' %}" class="nav-text">Publicaciones</a></li>
                         <li><a href="{% url 'inventario-turistico' %}" class="nav-text">Inventario Turístico</a></li>
                         <li><a href="{% url 'entorno-nacional'%}" class="nav-text">Entorno Nacional</a></li>
@@ -820,18 +825,18 @@
                 </div>
 
 
-                <h2 style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 14px; color: #333333;
-                    
-                    
-                    ">
-                    $816 MDP <br>
-                    (Millones de Pesos)</h2>
+                <h2
+                    style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 14px; color: #333333; ">
+                    816 Millones <br> <span style=" font-weight: 600;">Visitantes</span><br></h2>
 
                 <div style=" width: 90%; height: 1px; background-color: #FB8A55;"> </div>
-
                 <p
-                    style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 12px; color: #000;">
-                    Acumulado de la Inversión Privada Enero a Marzo 2023</p>
+                    style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 12px; color: #000; margin-top: 5px;">
+                    Acumulado<br>
+                    Enero-Mayo <br>
+                    2023<br>
+
+                </p>
 
 
 
@@ -849,15 +854,19 @@
                 </div>
 
 
+
                 <h2
-                    style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 14px; color: #333333;">
-                    714 mil 700 </h2>
+                    style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 14px; color: #333333; ">
+                    $20 mil 978 <br> <span style=" font-weight: 600;">Derrama <br>Económica</span><br></h2>
 
                 <div style=" width: 90%; height: 1px; background-color: #FB8A55;"> </div>
-
                 <p
-                    style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 12px; color: #000;">
-                    Pasajeros del Aeropuerto Internacional de Guanajuato Enero a Marzo 2023</p>
+                    style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 12px; color: #000; margin-top: 5px;">
+                    Acumulado<br>
+                    Enero-Mayo <br>
+                    2023<br>
+
+                </p>
 
 
 
@@ -874,17 +883,18 @@
                 </div>
 
 
+
                 <h2
-                    style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 14px; color: #333333;">
-                    $816 MDP <br>
-                    (Millones de Pesos)</h2>
+                    style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 14px; color: #333333; ">
+                    217 mil 506 <br> <span style=" font-weight: 600;">Personas<br>Ocupadas</span><br></h2>
 
                 <div style=" width: 90%; height: 1px; background-color: #FB8A55;"> </div>
-
                 <p
-                    style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 12px; color: #000;">
-                    Acumulado de la Inversión Privada Enero a Marzo 2023</p>
+                    style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 12px; color: #000; margin-top: 5px;">
+                    I Trimestre 2023<br>
 
+
+                </p>
 
 
             </div>
@@ -902,17 +912,17 @@
 
 
                 <h2
-                    style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 14px; color: #333333;">
-                    $816 MDP <br>
-                    (Millones de Pesos)</h2>
+                    style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 14px; color: #333333; ">
+                    1 mil 052 <br> <span style=" font-weight: 600;">Participantes</span> en <br> acciones de <br><span
+                        style=" font-weight: 600;">Sensibilización <br> Turística</span> </h2>
 
                 <div style=" width: 90%; height: 1px; background-color: #FB8A55;"> </div>
-
                 <p
-                    style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 12px; color: #000;">
-                    Acumulado de la Inversión Privada Enero a Marzo 2023</p>
+                    style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 12px; color: #000; margin-top: 5px;">
+                    Anual 2022<br>
 
 
+                </p>
 
             </div>
 
@@ -927,19 +937,20 @@
                     ">
                     <img src="{% static 'icons/icon6.svg' %}" alt="" style="width: 55%; height:55%;">
                 </div>
-
-
                 <h2
-                    style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 14px; color: #333333;">
-                    $816 MDP <br>
-                    (Millones de Pesos)</h2>
+                    style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 14px; color: #333333; ">
+                    $ 1 mil 499 mdp <br> <span style=" font-weight: 600;">Inversión Privada Turística</span> </h2>
 
                 <div style=" width: 90%; height: 1px; background-color: #FB8A55;"> </div>
-
                 <p
-                    style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 12px; color: #000;">
-                    Acumulado de la Inversión Privada Enero a Marzo 2023</p>
+                    style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 12px; color: #000; margin-top: 5px;">
+                    Acumulado<br>
+                    Enero-Mayo<br>
+                    2023<br>
 
+
+
+                </p>
             </div>
 
 
@@ -1169,8 +1180,8 @@
 
 
 
-   
-   <script>
+
+    <script>
         // Truncate the text within the <p> and <h2> elements
         var elements = document.querySelectorAll('.truncate');
         for (var i = 0; i < elements.length; i++) {
@@ -1184,25 +1195,25 @@
         }
 
         function googleTranslateElementInit() {
-  new google.translate.TranslateElement({
-    pageLanguage: 'es',
-    includedLanguages: 'en,it,ja,pt',
-    layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-  }, 'google_translate_element');
-}
+            new google.translate.TranslateElement({
+                pageLanguage: 'es',
+                includedLanguages: 'en,it,ja,pt',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+        }
 
-    function setFixedMenuPosition() {
-      var translateElement = document.getElementById('google_translate_element');
-      var fixedMenu = document.getElementsByClassName('all-fixed')[0];
-      
-      if (translateElement && fixedMenu) {
-        var translateHeight = translateElement.offsetHeight;
-        fixedMenu.style.top = translateHeight + 'px';
-      } else if (fixedMenu) {
-        fixedMenu.style.top = '0';
-      }
-    }
-    window.onload = setFixedMenuPosition;
+        function setFixedMenuPosition() {
+            var translateElement = document.getElementById('google_translate_element');
+            var fixedMenu = document.getElementsByClassName('all-fixed')[0];
+
+            if (translateElement && fixedMenu) {
+                var translateHeight = translateElement.offsetHeight;
+                fixedMenu.style.top = translateHeight + 'px';
+            } else if (fixedMenu) {
+                fixedMenu.style.top = '0';
+            }
+        }
+        window.onload = setFixedMenuPosition;
     </script>
     {% include 'web/components/footer/footer_new.html' %}
 </body>

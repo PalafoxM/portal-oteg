@@ -82,7 +82,7 @@ class FuenteInfoAirbnbCreate(SuperAdminOrAdminMixin, LoginRequiredMixin, CreateV
             try:
                 existing_object = self.get_object(fecha_inicio=fechaI, destino=destino, fecha_fin=fechaF)
 
-            except Certificacion.DoesNotExist:
+            except Airbnb.DoesNotExist:
                 existing_object = None
 
             existing_catalogo = CatalagoDestino.objects.filter(destino__iexact=destino).exists()
