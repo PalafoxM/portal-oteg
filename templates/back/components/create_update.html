@@ -8,6 +8,9 @@
 
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <link href="{% static 'scss/custom-inputs.css' %}" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.0/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.0/dist/sweetalert2.all.min.js"></script>
+
 <style>
     .input-with-icon {
         position: relative;
@@ -208,6 +211,8 @@
                 contentType: false,
                 dataType: 'json'
             }).done(function (data) {
+                // Cerrar la alerta de cargando
+                Swal.close();
                 if (data.success) {
                     Swal.fire({
                         icon: 'success',
@@ -220,6 +225,7 @@
                     });
                 } else {
                     console.log(data.errors)
+                    console.log("erorororororororo: ",data)
                     var errors = '';
                     for (var field in data.errors) {
                         if (Array.isArray(data.errors[field])) {
@@ -230,8 +236,10 @@
                     }
                     Swal.fire({
                         icon: 'error',
-                        title: '¡Error!',
-                        text: errors
+                        title: 'Error!',
+                        text: errors,
+                        timer: 3000, // Cerrar después de 3 segundos (3000 milisegundos)
+                        showConfirmButton: false
                     });
                 }
             }).fail(function (jqXHR, textStatus, errorThrown) {
@@ -241,8 +249,7 @@
                 $('button[type="submit"]').prop('disabled', false);
                 $('#baker').prop('disabled', false);
                 
-                // Cerrar la alerta de cargando
-                Swal.close();
+                
             });
         });
     });

@@ -326,6 +326,10 @@ class CustomUserUpdateForm(UserChangeForm):
     group = forms.ModelChoiceField(
         queryset=Group.objects.all(), label='Rol / Permisos',
         widget=forms.Select(attrs={'class': 'form-control'}))
+    new_password = forms.CharField(max_length=100, required=False, widget=forms.PasswordInput(
+        attrs={'class': 'form-control', 'placeholder': 'Nueva contraseña'}), label='Nueva Contraseña')
+    confirm_password = forms.CharField(max_length=100, required=False, widget=forms.PasswordInput(
+        attrs={'class': 'form-control', 'placeholder': 'Confirmar contraseña'}), label='Confirmar Contraseña')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -375,6 +379,14 @@ class CustomUserUpdateForm(UserChangeForm):
             self.add_error('username', 'Este nombre de usuario ya está en uso.')
         return cleaned_data
     
+    def clean(self):
+        cleaned_data = super().clean()
+        new_password = cleaned_data.get('new_password')
+        confirm_password = cleaned_data.get('confirm_password')
+        if new_password and confirm_password and new_password != confirm_password:
+            self.add_error('confirm_password', 'Las contraseñas no coinciden.')
+        return cleaned_data
+    
     def save(self, commit=True):
 
         user = super().save(commit=False)
@@ -382,6 +394,10 @@ class CustomUserUpdateForm(UserChangeForm):
         user.first_name = self.cleaned_data['first_name']
         user.last_name = self.cleaned_data['last_name']
         user.email = self.cleaned_data['email']
+
+        new_password = self.cleaned_data['new_password']
+        if new_password:
+            user.set_password(new_password)  # Actualizar la contraseña si se proporciona una nueva
 
         if 'photo' in self.changed_data:
             photo = self.cleaned_data['photo']

@@ -51,7 +51,7 @@
                     "></div></li>
                 </ul>
 
-                <ul class="nav navbar-nav navbar-right">
+                <ul class="nav navbar-nav navbar-right mt-45">
                     <li><a href="{% url 'inicio' %}" class="nav-text">INICIO</a></li>
                     <!-- https://develop.observatorioturistico.org/admin-oteg/reports/30/ -->
                     <li><a href="{% url 'dashboard:report_detail' 30 %}" class="nav-text">Indicadores</a></li>
@@ -85,6 +85,9 @@
 
                 <br>
                 <h2>{{nav_title}}</h2>
+                {% if subtitulo  %}
+                    <p>Contáctanos si requieres información detallada de algún tema en específico.</p>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -93,7 +96,7 @@
     <div class="carousel-inner" role="listbox">
         <div class="item active">
             <div class="mask">
-                <img src={% static img_url %} alt="">
+                <img src="{% static img_url %}" alt="">
                 alt="">
                 <div class="overlay"></div>
             </div>
@@ -101,6 +104,9 @@
 
                 <br>
                 <h2>{{nav_title}}</h2>
+                {% if subtitulo  %}
+                    <h3>Contáctanos si requieres información detallada de algún tema en específico.</h3>
+                {% endif %}
             </div>
         </div>
     </div>
