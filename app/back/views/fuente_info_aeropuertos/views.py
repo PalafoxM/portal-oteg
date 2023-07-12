@@ -72,8 +72,7 @@ class FuenteInfoAeropuertoCreate(SuperAdminOrAdminMixin, LoginRequiredMixin, Cre
 
             fecha = form.cleaned_data['fecha']
 
-            
-
+        
             try:
                 existing_object = self.get_object(fecha=fecha)
 
@@ -196,10 +195,10 @@ class FuenteInfoAeropuertoUpdate(SuperAdminOrAdminMixin, LoginRequiredMixin, Upd
         context = super().get_context_data(**kwargs)
         context['list_url'] = reverse_lazy('dashboard:fuente_info_aeropuertos')
             # Set the widget for the 'destino' field to read-only text input
-        context['form'].fields['fecha'].widget = forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly'})
+        context['form'].fields['fecha'].widget.attrs['readonly'] = True
 
         context['title'] = 'Editar fuente'
-        context['edit_msg'] = 'Los Campos Destino y Año no pueden ser editados' 
+        context['edit_msg'] = 'El campo Año no pude ser editado.'
 
         return context
     

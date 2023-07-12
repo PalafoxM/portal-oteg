@@ -278,6 +278,14 @@ class otros_anuales(models.Model):
         db_table = "otros_anuales"
         ordering = ['-id']
 
+    
+
+
+
+
+
+
+
 
 class zonas_arqueologicas_museos(models.Model):
     destino = models.CharField(max_length=255)
@@ -287,6 +295,13 @@ class zonas_arqueologicas_museos(models.Model):
     origen_visitante = models.CharField(max_length=455)
     visitantes = models.IntegerField()
     fecha_actualizacion = models.DateField(auto_now=True)
+
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+
+
 
     class Meta:
 
@@ -524,6 +539,10 @@ class Airbnb (models.Model):
     porcentaje_ocupacion = models.FloatField(verbose_name='Porcentaje de ocupación')
     tarifa_promedio = models.FloatField(verbose_name='Tarifa promedio')
     fecha_actualizacion = models.DateField(auto_now=True)
+    
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
 
     class Meta:
         app_label = 'ecosistema'

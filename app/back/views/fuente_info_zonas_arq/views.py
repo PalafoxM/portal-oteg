@@ -27,7 +27,7 @@ from django.http import Http404
 from django.core.exceptions import PermissionDenied
 from back.mixins import *
 from django.contrib.auth.decorators import user_passes_test
-
+from django.views.decorators.csrf import csrf_exempt
 def es_admin_o_superadmin(user):
     return user.is_authenticated and (user.is_staff or user.is_superuser)
 
@@ -40,6 +40,25 @@ def is_ajax(request):
 class FuenteInfoZonasArqueologicas (SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = zonas_arqueologicas_museos
     template_name = 'back/fuente_info_zonas_arq/viewer.html'
+
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'search':
+                data = []
+                for i in zonas_arqueologicas_museos.objects.all():
+                    data.append(i.toJSON())
+            else:
+                data.append({'error': 'Ha ocurrido un error'})
+        except Exception as e:
+            data.append({'error': str(e)})
+        return JsonResponse(data, safe=False)
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -206,7 +225,7 @@ class FuenteInfoZonasArqueologicasCreate (SuperAdminOrAdminMixin, LoginRequiredM
 class FuenteInfoZonasArqueologicasUpdate (SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
     model = zonas_arqueologicas_museos
     form_class = ZonasArqueologicasMuseosForm_edit
-    template_name = 'back/fuente_info_zonas_arq/view_editor.html'
+    template_name = 'back/fuente_info_zonas_arq/create.html'
     success_url = reverse_lazy('dashboard:fuente_info_zonas_arqueologicas')
 
     def form_invalid(self, form):
@@ -237,13 +256,14 @@ class FuenteInfoZonasArqueologicasUpdate (SuperAdminOrAdminMixin, LoginRequiredM
         context = super().get_context_data(**kwargs)
         context['list_url'] = reverse_lazy('dashboard:fuente_info_zonas_arqueologicas')
             # Set the widget for the 'destino' field to read-only text input
-        context['form'].fields['destino'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
+        context['form'].fields['destino'].widget.attrs['readonly'] = True
         # Set the widget for the 'fecha' field to read-only text input
-        context['form'].fields['nombre'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
+        context['form'].fields['nombre'].widget.attrs['readonly'] = True
         # Set the widget for the 'categoria' field to read-only text input
-        context['form'].fields['fecha'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
+        context['form'].fields['fecha'].widget.attrs['readonly'] = True
         # Set the widget for the 'categoria' field to read-only text input
-        context['form'].fields['origen_visitante'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
+        context['form'].fields['fecha'].widget.attrs['readonly'] = True
+        context['form'].fields['origen_visitante'].widget.attrs['readonly'] = True
 
         context['title'] = 'Editar fuente'
         context['edit_msg'] = 'Los Campos Destino, Fecha, Museo o Zona Arqueologica y Origen Visitante no pueden ser editados' 

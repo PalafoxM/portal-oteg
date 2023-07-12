@@ -47,6 +47,22 @@ class FuenteInfoAirbnb(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = Airbnb
     template_name = 'back/fuente_info_airbnb/viewer.html'
 
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'search':
+                data = []
+                for i in Airbnb.objects.all():
+                    data.append(i.toJSON())
+            else:
+                data.append({'error': 'Ha ocurrido un error'})
+        except Exception as e:
+            data.append({'error': str(e)})
+        return JsonResponse(data, safe=False)
+
+
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Listado de Fuentes de Informacion Airbnb'
@@ -186,7 +202,7 @@ class FuenteInfoAirbnbCreate(SuperAdminOrAdminMixin, LoginRequiredMixin, CreateV
 class FuenteInfoAirbnbUpdate(SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView): 
     model = Airbnb
     form_class = AirbnbForm
-    template_name = 'back/fuente_info_airbnb/create.html'
+    template_name = 'back/fuente_info_airbnb/view_editor.html'
     success_url = reverse_lazy('dashboard:fuente_info_airbnb')
 
     def form_invalid(self, form):
@@ -217,11 +233,11 @@ class FuenteInfoAirbnbUpdate(SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateV
         context = super().get_context_data(**kwargs)
         context['list_url'] = reverse_lazy('dashboard:fuente_info_airbnb')
             # Set the widget for the 'destino' field to read-only text input
-        context['form'].fields['destino'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
+        context['form'].fields['destino'].widget.attrs['readonly'] = True
         # Set the widget for the 'fecha' field to read-only text input
-        context['form'].fields['fecha_inicio'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
+        context['form'].fields['fecha_inicio'].widget.attrs['readonly'] = True
         # Set the widget for the 'categoria' field to read-only text input
-        context['form'].fields['fecha_fin'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
+        context['form'].fields['fecha_fin'].widget.attrs['readonly'] = True
         context['title'] = 'Editar fuente'
         context['edit_msg'] = 'Los Campos Fecha Inicio , Destino y Fecha Fin no se pueden editar'
 

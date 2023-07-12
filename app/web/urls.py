@@ -16,10 +16,13 @@ from web.views.entornonacional.views import *
 from web.views.inventario.views import *
 from web.views.eventos.views import *
 from web.views.publicaciones_new.views import *
+from web.views.buscador.views import *
 
 
 urlpatterns = [
     # path('', HomeView.as_view(), name='home'),
+
+    
 
     # path('solicitudes/',OtegView.as_view(), name='solicitudes'),
     path('', InicioView.as_view(), name='inicio'),
@@ -63,7 +66,9 @@ urlpatterns = [
     path('potencias-eventos/',PotenciasEventos.as_view(), name='potencias-eventos'),
     path('otras-publicaciones/',OtasPublicaciones.as_view(), name='otras-publicaciones'),
     path('revista-oteg/',RevistaOTEG.as_view(), name='revista-oteg'),
-    path('inventario-turistico/',InventarioTuristico.as_view(), name='inventario-turistico'),
+
+    path('inventario-turistico/',InventarioTuristicoView.as_view(), name='inventario-turistico'),
+
     path('barometro-turistico/',BarometroTuristicoView.as_view(), name='barometro-turistico'),
     path('pdfDownload-Bar/<int:pk>/', PDFDownloadBarometro.as_view(), name='pdfDownload_Bar'),
     path('search/', search, name='search'),
@@ -81,9 +86,6 @@ urlpatterns = [
     path('entorno-nacional/',EntornoNacional.as_view(), name='entorno-nacional'),
     path('entorno-nacional/indicadores-economicos/',EntornoNacionalIndicadores.as_view(), name='entorno-nacional-indicadores'),
     # 
-    # entorno-nacional
-    path('inventario-turistico/',InventarioTuristico.as_view(), name='inventario-turistico'),
-    # 
     path('search_noticias/', search_noticias, name='search_noticias'),
     path('noticias_turisticas/',NoticiasTuristicasView.as_view(), name='noticias_turisticas'),
     path('notica_viewer/<int:pk>/',NoticiaViewer.as_view(), name='notica_viewer'),
@@ -98,5 +100,8 @@ urlpatterns = [
 
     #reportes mensuales search 
     path('reportes_mensuales_search/', search_reportes_m, name='reportes_mensuales_search'),
+    #buscador 
+    path('buscador_CEDOC/', search_view, name='search_view'),   
+
     
 ]

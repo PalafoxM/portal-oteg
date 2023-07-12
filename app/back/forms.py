@@ -390,6 +390,22 @@ class OtrosAnualesForm (forms.ModelForm):
         model = otros_anuales
         fields = '__all__'
 
+        widgets = {
+            'ano': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-search'}),
+            'PIB_sector_72': forms.Textarea(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'PIB_actividades_terciarias' : forms.Textarea(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+             'basura_generada_persona_diaria_Kg' : forms.Textarea(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+        }
+
+    
+
+
+
+
+
+
+
+
 
 class ZonasArqueologicasMuseosForm (forms.ModelForm):
 
@@ -397,6 +413,7 @@ class ZonasArqueologicasMuseosForm (forms.ModelForm):
         ('museo', 'Museo'),
         ('zona arqueologica', 'Zona Arqueológica'),
     )
+
     tipo = forms.ChoiceField(choices=TIPO_CHOICES, required=False)
 
     ORIGEN_CHOICES = (
@@ -409,6 +426,30 @@ class ZonasArqueologicasMuseosForm (forms.ModelForm):
         model = zonas_arqueologicas_museos
         fields = ['destino', 'tipo', 'nombre', 'fecha', 'visitantes']
 
+    
+    def __init__ (self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['destino'].widget.attrs['class'] = 'custom-input'
+        self.fields['destino'].widget.attrs['icon_class'] = 'fas fa-search'
+
+        self.fields['fecha'].widget.attrs['class'] = 'custom-input'
+        self.fields['fecha'].widget.attrs['icon_class'] = 'fas fa-calendar'
+
+        self.fields['tipo'].widget.attrs['class'] = 'custom-input'
+        self.fields['tipo'].widget.attrs['icon_class'] = 'fas fa-sort-numeric-up'
+        
+        self.fields['nombre'].widget.attrs['class'] = 'custom-input'
+        self.fields['nombre'].widget.attrs['icon_class'] = 'fas fa-table'
+
+        self.fields['visitantes'].widget.attrs['class'] = 'custom-input'
+        self.fields['visitantes'].widget.attrs['icon_class'] = 'fas fa-table'
+
+        self.fields['origen_visitante'].widget.attrs['class'] = 'custom-input'
+        self.fields['origen_visitante'].widget.attrs['icon_class'] = 'fas fa-table'
+
+
+
 class ZonasArqueologicasMuseosForm_edit (forms.ModelForm):
     TIPO_CHOICES = (
         ('museo', 'Museo'),
@@ -420,6 +461,26 @@ class ZonasArqueologicasMuseosForm_edit (forms.ModelForm):
         model = zonas_arqueologicas_museos
         fields = '__all__'
 
+    def __init__ (self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['destino'].widget.attrs['class'] = 'custom-input'
+        self.fields['destino'].widget.attrs['icon_class'] = 'fas fa-search'
+
+        self.fields['fecha'].widget.attrs['class'] = 'custom-input'
+        self.fields['fecha'].widget.attrs['icon_class'] = 'fas fa-calendar'
+
+        self.fields['tipo'].widget.attrs['class'] = 'custom-input'
+        self.fields['tipo'].widget.attrs['icon_class'] = 'fas fa-sort-numeric-up'
+        
+        self.fields['nombre'].widget.attrs['class'] = 'custom-input'
+        self.fields['nombre'].widget.attrs['icon_class'] = 'fas fa-table'
+
+        self.fields['visitantes'].widget.attrs['class'] = 'custom-input'
+        self.fields['visitantes'].widget.attrs['icon_class'] = 'fas fa-table'
+
+        self.fields['origen_visitante'].widget.attrs['class'] = 'custom-input'
+        self.fields['origen_visitante'].widget.attrs['icon_class'] = 'fas fa-table'
 
 class SensivilizacionForm (forms.ModelForm):
     class Meta:
@@ -732,6 +793,18 @@ class AirbnbForm (forms.ModelForm):
     class Meta:
         model = Airbnb
         fields = '__all__'
+
+        widgets = {
+            'fecha_inicio': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-calendar'}),
+            'fecha_fin': forms.DateInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-calendar'}),
+            'destino': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-search'}),
+            'propiedad_renta': forms.NumberInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'porcentaje_ocupacion': forms.NumberInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'tarifa_promedio': forms.NumberInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'fecha_actualizacion': forms.NumberInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+        }
+
+
 class DiscapacidadForm(forms.ModelForm):
     class Meta:
         model = Discapacidad
@@ -788,11 +861,11 @@ class AeropuertoForm(forms.ModelForm):
             'vuelos': 'Vuelos'
         }
         widgets = {
-            'pasajeros_aeropuerto_gto': forms.NumberInput(attrs={'class': 'form-control'}),
-            'pasajeros_nacionales': forms.NumberInput(attrs={'class': 'form-control'}),
-            'pasajeros_internacionales': forms.NumberInput(attrs={'class': 'form-control'}),
-            'fecha': forms.DateInput(attrs={'class': 'form-control'}),
-            'vuelos': forms.TextInput(attrs={'class': 'form-control'}),
+            'pasajeros_aeropuerto_gto': forms.NumberInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'pasajeros_nacionales': forms.NumberInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'pasajeros_internacionales': forms.NumberInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'fecha': forms.DateInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-calendar'}),
+            'vuelos': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
         }
 
 class AerolineaForm(forms.ModelForm):
@@ -815,20 +888,39 @@ class AerolineaForm(forms.ModelForm):
             'codigo_aerolinea': 'Código de Aerolínea',
         }
         widgets = {
-            'fecha': forms.TextInput(attrs={'class': 'form-control'}),
-            'destino_aeropuerto': forms.TextInput(attrs={'class': 'form-control'}),
-            'destino_aeropuerto_id' : forms.TextInput(attrs={'class': 'form-control'}),
-            'tipo_aerolinea': forms.TextInput(attrs={'class': 'form-control'}),
-            'codigo_aerolinea': forms.TextInput(attrs={'class': 'form-control'}),
+            'fecha': forms.DateInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-calendar'}),
+            'destino_aeropuerto': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-search'}),
+            'destino_aeropuerto_id' : forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'tipo_aerolinea': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'codigo_aerolinea': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
         }
     
 class ParticipacionOrigenForm (forms.ModelForm):
-     class Meta:
+    class Meta:
         model = ParticipacionOrigen
         fields = '__all__'
         labels = {
             'anio': 'Año',
         }
+    def __init__ (self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['ano'].widget.attrs['class'] = 'custom-input'
+        self.fields['ano'].widget.attrs['icon_class'] = 'fas fa-calendar'
+        self.fields['destino'].widget.attrs['class'] = 'custom-input'
+        self.fields['destino'].widget.attrs['icon_class'] = 'fas fa-search'
+        self.fields['part_visitantes_int'].widget.attrs['class'] = 'custom-input'
+        self.fields['part_visitantes_int'].widget.attrs['icon_class'] = 'fas fa-search'
+        
+        self.fields['part_visitantes_nac'].widget.attrs['class'] = 'custom-input'
+        self.fields['part_visitantes_nac'].widget.attrs['icon_class'] = 'fas fa-search'
+        self.fields['part_visitantes_est'].widget.attrs['class'] = 'custom-input'
+        self.fields['part_visitantes_est'].widget.attrs['icon_class'] = 'fas fa-search'
+
+    
+    
+    
+
 
 class FuenteInfoEntornoNForm (forms.ModelForm):
     class Meta:

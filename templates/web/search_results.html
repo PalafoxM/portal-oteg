@@ -1,16 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-<!--divinectorweb.com-->
-{% load static %}
-
 
 <head>
+    {% load static %}
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>INICIO OTEG</title>
-    <link rel="stylesheet" href="{% static 'web/css/baner.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'fontawesome-free/css/all.min.css' %}">
+    <title>Buscador CEDOC</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,13 +12,90 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <link href="{% static 'admin/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <script type="text/javascript"
+        src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <link rel="stylesheet" href="{% static 'web/css/nabar-portal.css' %}">
-    <link rel="stylesheet" href="{% static 'normalize/normal.css' %}">
-
+    <link rel="stylesheet" type="text/css" href="{% static 'fontawesome-free/css/all.min.css' %}">
 </head>
 
+
+
 <style>
+    /* Estilo del contenedor del widget */
+    #google_translate_element {
+        -moz-transform: translate(0, 0);
+        display: inline-block;
+        margin-right: 10px;
+    }
+
+    /* Estilo del botón de traducción */
+    .goog-te-combo {
+        border-color: #ccc !important;
+        color: #333 !important;
+        padding: 5px;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        background-color: #fff;
+        border-radius: 4px;
+    }
+
+    /* Estilo del texto dentro del botón de traducción */
+    .goog-te-combo option {
+        color: #333;
+    }
+
+    /* Estilo del menú desplegable de idiomas */
+    .goog-te-menu-value {
+        padding: 5px;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Estilo de los elementos del menú desplegable de idiomas */
+    .goog-te-menu2 {
+        max-height: 200px;
+        overflow-y: auto;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Estilo de los elementos del menú desplegable de idiomas cuando se pasa el mouse sobre ellos */
+    .goog-te-menu2-item:hover {
+        background-color: #f0f0f0;
+    }
+
+    /* Estilo del botón de cierre del menú desplegable de idiomas */
+    .goog-te-menu2-close-btn {
+        display: none;
+    }
+
+    /* Estilo del texto "Traducir" en el botón de traducción */
+    .goog-te-combo-label {
+        color: #333;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+    }
+
+    /* Estilo del ícono de flecha hacia abajo en el botón de traducción */
+    .goog-te-combo-arrow {
+        background-image: url('https://translate.google.com/translate/releases/twsfe_w_20191209_RC00/public/dictionaries/google_default/arrow_down.png');
+        width: 16px;
+        height: 16px;
+        margin-top: -8px;
+    }
+
+    @media screen and (-webkit-min-device-pixel-ratio:0) {
+        #google_translate_element {
+            position: absolute;
+        }
+    }
+
     .navbar-default {
         background-color: transparent !important;
         border-color: transparent !important;
@@ -180,13 +251,9 @@
             font-size: 40px;
             letter-spacing: 0;
         }
-
     }
 
     @media only screen and (max-width: 767px) {
-
-
-
         .navbar-default .navbar-collapse {
             border-color: transparent;
             background: #333333;
@@ -289,8 +356,6 @@
         font-size: small;
 
     }
-
-
 
     .navbar {
         position: absolute;
@@ -591,154 +656,41 @@
         cursor: pointer;
         transform: scale(1.2);
     }
-    /* Estilo del contenedor del widget */
-#google_translate_element {
-  -moz-transform: translate(0, 0);
-  display: inline-block;
-  margin-right: 10px;
-}
 
-/* Estilo del botón de traducción */
-.goog-te-combo {
-  border-color: #ccc !important;
-  color: #333 !important;
-  padding: 5px;
-  font-family: Arial, sans-serif;
-  font-size: 14px;
-  background-color: #fff;
-  border-radius: 4px;
-}
+    .ods-icon {
+        border-radius: 8px;
 
-/* Estilo del texto dentro del botón de traducción */
-.goog-te-combo option {
-  color: #333;
-}
-
-/* Estilo del menú desplegable de idiomas */
-.goog-te-menu-value {
-  padding: 5px;
-  font-family: Arial, sans-serif;
-  font-size: 14px;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-/* Estilo de los elementos del menú desplegable de idiomas */
-.goog-te-menu2 {
-  max-height: 200px;
-  overflow-y: auto;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-/* Estilo de los elementos del menú desplegable de idiomas cuando se pasa el mouse sobre ellos */
-.goog-te-menu2-item:hover {
-  background-color: #f0f0f0;
-}
-
-/* Estilo del botón de cierre del menú desplegable de idiomas */
-.goog-te-menu2-close-btn {
-  display: none;
-}
-
-/* Estilo del texto "Traducir" en el botón de traducción */
-.goog-te-combo-label {
-  color: #333;
-  font-family: Arial, sans-serif;
-  font-size: 14px;
-}
-
-/* Estilo del ícono de flecha hacia abajo en el botón de traducción */
-.goog-te-combo-arrow {
-  background-image: url('https://translate.google.com/translate/releases/twsfe_w_20191209_RC00/public/dictionaries/google_default/arrow_down.png');
-  width: 16px;
-  height: 16px;
-  margin-top: -8px;
-}
-@media screen and (-webkit-min-device-pixel-ratio:0) {
-  #google_translate_element {
-    position: absolute;
-  }
-}
-
-    @media only screen and (max-width: 767px) {
-
-        /* CSS styles for mobile devices */
-        .scrolling-wrapper {
-            display: none !important;
-        }
-
-        .wrapper2 {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-
-        }
+        box-shadow: -12px 15px 18px -3px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
     }
 
-    /* Tablets and larger mobile devices */
-    @media only screen and (min-width: 768px) and (max-width: 1023px) {
-        /* CSS styles for tablets and larger mobile devices */
-
-        .scrolling-wrapper {
-            display: none !important;
-        }
-
-        .wrapper2 {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-    }
-
-    /* Desktop devices */
-    @media only screen and (min-width: 1024px) {
-        /* CSS styles for desktop devices */
-
-        .scrolling-wrapper {
-            display: flex !important;
-        }
-
-        .wrapper2 {
-
-            display: none !important;
-
-        }
-
+    .ods-icon:hover {
+        transform: scale(1.1);
+        cursor: pointer;
     }
 </style>
 
 <body>
-
+    {%include 'web/components/navbar_new/navbar_new.html' %}
 
     {% include 'web/components/social_media_stiky/social_media_stiky.html' %}
 
+    <div class="container " style="margin-top:5rem;">
 
-    {% include 'web/components/navbar_new/navbar_new.html' %}
-
-    <div class='container'>
         <div style="
-                    margin-top: 40px;
-                    width: 50%;
-                ">
+        margin-top: 40px;
+        width: 50%;
+        margin-bottom: 40px;
+            ">
 
             <h2 style="
-                    color: #333333;
-                    font-family: Montserrat;
-                    font-size: 40px;
-                    line-height: 58px;
-                    font-weight: 600;
-                    
-                    text-align: left; ">CENTRO  DOCUMENTAL</h2>
+        color: #333333;
+        font-family: Montserrat;
+        font-size: 40px;
+        line-height: 58px;
+        font-weight: 600;
+        
+        text-align: left; ">CENTRO DOCUMENTAL</h2>
 
             <p align="justify" >Este es un espacio colaborativo en permanente construcción y enriquecimiento en el que cualquier
                 persona que así lo desee, puede ingresar sus investigaciones, estudios, ensayos y publicaciones que
@@ -748,276 +700,141 @@
 
         </div>
 
-    </div>
+    </div>  
 
-    <div class='container'>
+
+    <div class="container">
+        {% if publicaciones %}
+        {% for publication in publicaciones %}
         <div style="
-                    margin-top: 40px;
-                    width: 100%; ">
+        display: flex; 
+        justify-content: center;
+        align-items: center;
+        ">
+            <div style="
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-top: 20px;
+                margin-bottom: 20px;
+                padding: 10px;
+                padding-left: 20px;
+                padding-right: 20px;
+                border-radius: 5px;
+                background-color: #f1f1f1;
+                box-shadow: -12px 15px 18px -3px rgba(0, 0, 0, 0.1);
+             
 
-            <h2 style="
-                    color: #333333;
+">
+
+
+
+                <h4 style="
+
                     font-family: Montserrat;
-                    font-size: 40px;
-                    line-height: 58px;
-                    font-weight: 600;
-                    
-                    text-align: left; ">Secciones Centro Documental</h2>
-        </div>
+                    font-size: 14px;
+           
+                    font-weight: 400;
+                    text-align: left;
+                    text-transform: uppercase;
+                    margin: 0;
+                    padding: 0;
+                    color: #333333;
+                
+                " class="truncate">{{ publication.name }}</h4>
+                <!-- <div style="background-color: #026ad1; color: #fff; font-weight: bold; border-radius: 5rem;"> -->
+                <!-- <p style="margin: 0; padding-left: 10px; padding-right: 10px;">Num Descargas :
+                    {{publication.num_descargas}} </p> -->
+                <!-- </div> -->
 
 
 
-
-    </div>
-
-    <div class="wrapper2">
-        {% for section in secciones %}
-
-        <div class='card'>
-            <div style='        
-                position: relative;
-                overflow: hidden;
-                width: 100%;
-                height: 100%;'>
-
-                {% if section.imagen %}
-                <img style="
-                        border-radius:8px  8px  0px 0px;
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                        width: 100%;
-                        height: 65%;
-                        object-fit: cover;
-                        object-position: center;" src="{{section.imagen.url}}" alt="">
-                {% else %}
-
-                <img style="
-                    border-radius:8px  8px  0px 0px;
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 65%;
-                    object-fit: cover;
-                    object-position: center;" src="{% static 'img_nav/defaultimage.webp' %}" alt="">
-
-
-                {% endif %}
 
                 <div style="
-                        border-radius: 0px 0px 8px  8px  ;
-                        position: absolute;
-                        bottom: 0;
-                        left: 0;
-                        width: 100%;
-                        height: 35%;
-                        object-fit: cover;
-                        object-position: center;
-                        padding-left: 20px;
-                        padding-right: 20px;
-                        ">
-                    <h2>{{section.seccion}}</h2>
-                    <a href="{% url 'publicaciones_secciones' section.id %}" style="
-                                color:#ED4C02 ;
-                                font-family: Montserrat;
-                                font-size: 14px;
-                            ">
-                        Seguir leyendo...
+                        min-width: fit-content;
 
-                    </a>
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        gap: 10px;
+
+                    ">
+
+                    <p style="
+                            padding: 0;
+                            margin: 0;
+                            font-family: Montserrat;
+
+                        " class="p-date">Fecha de publicación: {{publication.date_created|date:"d-m-Y"}}</p>
+
+
+
+                    {% if publication.type == '1' %}
+
+                    <a class='pdf-logo' href="{% url 'publicaciones_pdf_viewer' pk=publication.id %}"><i
+                            style="font-size: 2rem; cursor: pointer; align-self:flex-end;"
+                            class="fa-solid fa-file-pdf"></i></a>
+
+                    {% elif publication.type == '3' %}
+
+                    <a class='pdf-logo' href="{% url 'excel_download' pk=publication.id %}"><i
+                            style="font-size: 2rem; cursor: pointer; align-self:flex-end;"
+                            class="fa-solid fa-file-excel"></i></a>
+
+                    {% elif publication.type == '2' %}
+
+                    <a class='pdf-logo' href="{% url 'publicaciones_pdf_viewer' pk=publication.id %}"><i
+                            style="font-size: 2rem; cursor: pointer; align-self:flex-end;"
+                            class="fa-solid fa-play"></i></a>
+
+
+                    {% endif %}
+
                 </div>
 
             </div>
-
         </div>
 
-        {% endfor %}
-
-    </div>
-
-    <div class="scrolling-wrapper">
-
-        {% for section in secciones %}
-
-        <div class='card'>
-            <div style='        
-                position: relative;
-                overflow: hidden;
-                width: 100%;
-                height: 100%;'>
-
-                {% if section.imagen %}
-                <img style="
-                        border-radius:8px  8px  0px 0px;
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                        width: 100%;
-                        height: 65%;
-                        object-fit: cover;
-                        object-position: center;" src="{{section.imagen.url}}" alt="">
-                {% else %}
-
-                <img style="
-                    border-radius:8px  8px  0px 0px;
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 65%;
-                    object-fit: cover;
-                    object-position: center;" src="{% static 'img_nav/defaultimage.webp' %}" alt="">
-
-
-                {% endif %}
-
-                <div style="
-                        border-radius: 0px 0px 8px  8px  ;
-                        position: absolute;
-                        bottom: 0;
-                        left: 0;
-                        width: 100%;
-                        height: 35%;
-                        object-fit: cover;
-                        object-position: center;
-                        padding-left: 20px;
-                        padding-right: 20px;
-                        ">
-                    <h2>{{section.seccion}}</h2>
-                    <a href="{% url 'publicaciones_secciones' section.id %}" style="
-                                color:#ED4C02 ;
-                                font-family: Montserrat;
-                                font-size: 14px;
-                            ">
-                        Seguir leyendo...
-
-                    </a>
-                </div>
-
-            </div>
-
-        </div>
 
         {% endfor %}
+        {% else %}
 
+        <p class='not-found-text'>No existen resultados para esta busqueda</p>
+        {% endif %}
 
     </div>
-
-
-
-
 
     <script src=" https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-    <style>
-        .scrolling-wrapper {
-            width: 100%;
-            height: 400px;
-            display: flex;
-            flex-wrap: no-wrap;
-            overflow-x: auto;
-            cursor: grab;
-            -webkit-overflow-scrolling: touch;
-            /* Scrollbar hidden */
-            scrollbar-width: none !important;
-
-            /* Firefox */
-            -ms-overflow-style: none;
-            overflow-x: hidden;
-
-            padding-left: 40px;
-            padding-right: 40px;
-
-            overflow-y: hidden;
-
-
-
-            /* IE 10+ */
-
-        }
-
-        .scrolling-wrapper.active {
-            cursor: grabbing;
-        }
-
-        .scrolling-wrapper[data-dragging="true"] a {
-            pointer-events: none;
-        }
-    </style>
-
     <script>
-        const wrappers = document.querySelectorAll('.scrolling-wrapper');
-
-        wrappers.forEach((wrapper) => {
-            let isDown = false;
-            let startX;
-            let scrollLeft;
-
-            wrapper.addEventListener('mousedown', (e) => {
-                let rect = wrapper.getBoundingClientRect();
-                isDown = true;
-                wrapper.classList.add('active');
-                // Get initial mouse position
-                startX = e.pageX - rect.left;
-                // Get initial scroll position in pixels from left
-                scrollLeft = wrapper.scrollLeft;
-                console.log(startX, scrollLeft);
-            });
-
-            wrapper.addEventListener('mouseleave', () => {
-                isDown = false;
-                wrapper.dataset.dragging = false;
-                wrapper.classList.remove('active');
-            });
-
-            wrapper.addEventListener('mouseup', () => {
-                isDown = false;
-                wrapper.dataset.dragging = false;
-                wrapper.classList.remove('active');
-            });
-
-            wrapper.addEventListener('mousemove', (e) => {
-                if (!isDown) return;
-                let rect = wrapper.getBoundingClientRect();
-                e.preventDefault();
-                wrapper.dataset.dragging = true;
-                // Get new mouse position
-                const x = e.pageX - rect.left;
-                // Get distance mouse has moved (new mouse position minus initial mouse position)
-                const walk = x - startX;
-                // Update scroll position of wrapper from left (amount mouse has moved minus initial scroll position)
-                wrapper.scrollLeft = scrollLeft - walk;
-                console.log(x, walk, wrapper.scrollLeft);
-            });
-        });
-
         function googleTranslateElementInit() {
-  new google.translate.TranslateElement({
-    pageLanguage: 'es',
-    includedLanguages: 'en,it,ja,pt',
-    layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-  }, 'google_translate_element');
-}
+            new google.translate.TranslateElement({
+                pageLanguage: 'es',
+                includedLanguages: 'en,it,ja,pt',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+        }
 
-    function setFixedMenuPosition() {
-      var translateElement = document.getElementById('google_translate_element');
-      var fixedMenu = document.getElementsByClassName('all-fixed')[0];
-      
-      if (translateElement && fixedMenu) {
-        var translateHeight = translateElement.offsetHeight;
-        fixedMenu.style.top = translateHeight + 'px';
-      } else if (fixedMenu) {
-        fixedMenu.style.top = '0';
-      }
-    }
-    window.onload = setFixedMenuPosition;
+        function setFixedMenuPosition() {
+            var translateElement = document.getElementById('google_translate_element');
+            var fixedMenu = document.getElementsByClassName('all-fixed')[0];
+
+            if (translateElement && fixedMenu) {
+                var translateHeight = translateElement.offsetHeight;
+                fixedMenu.style.top = translateHeight + 'px';
+            } else if (fixedMenu) {
+                fixedMenu.style.top = '0';
+            }
+        }
+        window.onload = setFixedMenuPosition;
+
     </script>
-
-{% include 'web/components/footer/footer_new.html' %}
+    {% include 'web/components/footer/footer_new.html' %}
 </body>
+
+
 
 
 </html>

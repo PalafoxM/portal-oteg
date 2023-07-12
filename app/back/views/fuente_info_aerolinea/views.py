@@ -187,7 +187,7 @@ class FuenteInfoAerolineaUpdate(SuperAdminOrAdminMixin, LoginRequiredMixin, Upda
 
     model = Aerolinea
     form_class = AerolineaForm
-    template_name = 'back/fuente_info_aerolinea/create.html'
+    template_name = 'back/fuente_info_aerolinea/view_editor.html'
     success_url = reverse_lazy('dashboard:fuente_info_aerolineas')
 
     def form_invalid(self, form):
