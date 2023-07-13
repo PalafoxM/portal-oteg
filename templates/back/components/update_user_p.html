@@ -546,6 +546,9 @@
            
                 {{ profile_form.photo.label_tag }}
                 {{ profile_form.photo }}
+                {% if profile_form.photo.value and profile_form.photo.value.size > 1048576 %}
+                    <p style="color: red;">El tamaño del archivo debe ser menor o igual a 1 MB.</p>
+                {% endif %}
             
 
            
@@ -556,6 +559,24 @@
            
                 <!-- {{ form.boletin }}
                 {{ form.boletin.label_tag }} -->
+                <div style="
+                    width: 100%;
+                ">
+                    <label style="
+                        font-family: avenir;
+                        font-weight: bold;
+                        font-size: 15px;
+                        margin: 0;
+                        padding: 0;
+                    " for="{{ form.boletin.id_for_label }}">{{form.boletin.label}}</label>
+                </div>
+                <div style="width: 100%; display: flex; justify-content: start;">
+
+                    <div class="form-check form-switch" style="margin-left: 15px; transform: scale(1.4);">
+                        {{ form.boletin }}
+                    </div>
+    
+                </div>
             
 
            
@@ -566,13 +587,15 @@
                 <div style="width: 100%;">
                     <label for="{{ form.new_password.id_for_label }}">{{ form.new_password.label }}</label>
                 </div>
+
                 <div class="input-with-icon">
                     {{ form.new_password }}
                     {% if form.new_password.errors %}
                     <div class="error-message">{{ form.new_password.errors }}</div>
                     {% endif %}
                     <div class="icon">
-                        <i class="{{ form.new_password.field.widget.attrs.icon_class }}"></i>
+                        <i style="margin: 0; padding: 0; color: #fff;"
+                        class="{{ form.new_password.field.widget.attrs.icon_class }}"></i>
                     </div>
                 </div>
 
@@ -585,7 +608,8 @@
                     <div class="error-message">{{ form.confirm_password.errors }}</div>
                     {% endif %}
                     <div class="icon">
-                        <i class="{{ form.confirm_password.field.widget.attrs.icon_class }}"></i>
+                        <i style="margin: 0; padding: 0; color: #fff;"
+                        class="{{ form.confirm_password.field.widget.attrs.icon_class }}"></i>
                     </div>
                 </div>
             
@@ -702,7 +726,6 @@
             }).fail(function (jqXHR, textStatus, errorThrown) {
                 alert(textStatus + ': ' + errorThrown);
             }).always(function (data) {
-                console.log("que es esto", data)
                 // Desbloquear los botones
                 $('button[type="submit"]').prop('disabled', false);
                 $('#baker').prop('disabled', false);

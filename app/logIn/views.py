@@ -100,7 +100,7 @@ def users_crud(req):
 @login_required(login_url='login')
 def delete_user(req, user_id):
     User.objects.get(id=user_id).delete()
-    return redirect('usuarios-list')
+    return redirect('logIn:usuarios-list')
 
 
 @login_required(login_url='login')

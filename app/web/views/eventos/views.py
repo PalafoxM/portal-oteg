@@ -12,6 +12,7 @@ class EventosView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Eventos'
         context['entity'] = 'Eventos'
+        context['img_url'] = 'img_nav/festival-globos.jpg'
         return context
 
 @require_GET

@@ -61,7 +61,7 @@ class BannerListView(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
 class BannerCreateView(SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
     model = Banner
     form_class = BannerForm
-    template_name = 'back/banner/create_update.html'
+    template_name = 'back/components/create_update.html'
     success_url = reverse_lazy('dashboard:banner_list')
 
     def post(self, request, *args, **kwargs):
@@ -113,7 +113,7 @@ class BannerCreateView(SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
 class BannerUpdateView(SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
     model = Banner
     form_class = BannerForm
-    template_name = 'back/banner/create_update.html'
+    template_name = 'back/components/create_update.html'
     success_url = reverse_lazy('dashboard:banner_list')
 
     def form_invalid(self, form):
@@ -142,7 +142,7 @@ class BannerUpdateView(SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Edición una Pulicacion'
+        context['title'] = 'Edición de Banner'
         context['entity'] = 'Banners'
         context['list_url'] = reverse_lazy('dashboard:banner_list')
         context['form'] = self.form_class(instance=self.object)
@@ -763,5 +763,6 @@ class BarometroUpdateView(SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView
         context['form'] = self.form_class(instance=self.object)
         context['list_url'] = reverse_lazy('dashboard:barometro_list')
         context['d_route'] = 'CEDOC > Barometro'
+        context['title'] = 'Editar un Documento'
         return context
 
