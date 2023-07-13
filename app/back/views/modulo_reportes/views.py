@@ -46,8 +46,10 @@ class ReporteView(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Listado de Reportes'
+        context['d_route'] = 'Estadísticas > Reportes'
         context['create_url'] = reverse_lazy('dashboard:reporte_create')
         context['entity'] = 'Reportes'
+    
         return context
 
 
@@ -100,6 +102,7 @@ class ReporteCreate(CreateView):
         context['entity'] = 'Reportes'
         context['list_url'] = reverse_lazy('dashboard:modulo_reportes')
         context['action'] = 'add'
+        context['d_route'] = 'Estadísticas > Reportes'
         return context
     
 
@@ -138,6 +141,7 @@ class ReporteUpdate(UpdateView):
         context = super().get_context_data(**kwargs)
         context['form'] = self.form_class(instance=self.object)
         context['list_url'] = reverse_lazy('dashboard:modulo_reportes')
+        context['d_route'] = 'Estadísticas > Reportes'
         return context 
     
 

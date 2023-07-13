@@ -51,20 +51,17 @@ margin-top: 40px;
 
 
             <div class="grid-item">
-                <a 
-                
-                href="{% url 'inicio' %}"
-                class="footer-title">INICIO</a>
-               
+                <a href="{% url 'inicio' %}" class="footer-title">INICIO</a>
 
-             
+
+
 
                 <a class="footer-link"> Nacionales </a>
 
                 <a href="{% url 'dashboard:report_detail' 30 %}" class="footer-title">Indicadores</a>
                 <div id="reports"></div>
 
-              
+
 
 
 
@@ -86,7 +83,7 @@ margin-top: 40px;
 
             </div>
             <div class="grid-item">
-                <a  href="{% url 'inventario-turistico' %}" class="footer-title">INVENTARIO TURISTICO</a>
+                <a href="{% url 'inventario-turistico' %}" class="footer-title">INVENTARIO TURISTICO</a>
                 <a class="footer-title">ENTORNO NACIONAL</a>
                 <a class="footer-link"> Indicadores Económicos</a>
                 <a href="{% url 'barometro-turistico' %}" class="footer-title">Barometro Turístico</a>
@@ -98,27 +95,40 @@ margin-top: 40px;
                 <a href="{% url 'sustentabilidad' %}" class="footer-title">Sustentabilidad</a>
                 <a class="footer-title"> Información Turistica </a>
                 <a class="footer-title"> Solicitudes</a>
-                <a  href="http://127.0.0.1:8000/pdf-protocolo_alba/" target="_blank" class="footer-title"> Protocolo Alba</a>
-                <a class="footer-title"> Eventos y Actividades</a>
+                <!-- <a href="http://127.0.0.1:8000/pdf-protocolo_alba/" target="_blank" class="footer-title"> Protocolo
+                    Alba</a>
+                <a class="footer-title"> Eventos y Actividades</a> -->
             </div>
             <div class="grid-item">
                 <a class="footer-title" href="{% url 'noticias_turisticas'%}" class="footer-title">Glosario</a>
-                <a 
-                    href="{% url 'preguntasf'%}"
-                class="footer-title">Preguntas Frecuentes</a>
+                <a href="{% url 'preguntasf'%}" class="footer-title">Preguntas Frecuentes</a>
 
 
-                <a 
-                    href="{% url 'sitios_interes'%}"
-                class="footer-title">Sitios de Interes</a>
+                <a href="{% url 'sitios_interes'%}" class="footer-title">Sitios de Interes</a>
+
+                <div class='bottom-logo-omt'>
+
+                    <image style="
+                        margin-top: 18px;
+                        height: 70px;
+                        object-fit: cover;
+                        object-position: center;
+                        " src="{% static 'img_nav/unwto-white.png' %}" />
+
+                    <p
+                        style=" color: #DEE2E6; font-family: Poppins; font-size: 12px; line-height: 32px; width: 554px; text-align: center; font-weight: 600; ">
+                        OTEG Miembro afiliado a la OMT desde 2014 </p>
+
+                </div>
             </div>
         </div>
         <div style="width: 100%; display: flex; justify-content: center; align-items: center; margin-top: 40px; ">
             <p
                 style=" color: #DEE2E6; font-family: Poppins; font-size: 12px; line-height: 32px; width: 554px; text-align: center; ">
                 Copyright © 2023 Observatorio Turístico del Estado de Guanajuato</p>
-
         </div>
+
+
     </div>
 
     <style>
@@ -127,7 +137,7 @@ margin-top: 40px;
             font-family: Poppins;
             font-size: 12px;
 
-            width:400px !important;
+            width: 400px !important;
             font-weight: 600;
             text-align: left;
             text-transform: uppercase;
@@ -196,6 +206,7 @@ margin-top: 40px;
                 grid-template-columns: 1fr 1fr;
 
             }
+
         }
 
         @media (min-width: 768px) {
@@ -203,6 +214,7 @@ margin-top: 40px;
                 grid-template-columns: 1fr 1fr 1fr;
 
             }
+
         }
 
         @media (min-width: 1110px) {
@@ -210,6 +222,8 @@ margin-top: 40px;
                 grid-template-columns: 1fr 1fr 1fr 1fr;
 
             }
+
+
         }
 
         @media (min-width: 1080px) {
@@ -217,6 +231,17 @@ margin-top: 40px;
                 grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr 1fr;
 
             }
+
+            .bottom-logo-omt {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                position: absolute;
+                bottom: 0;
+                right: 30px;
+            }
+
         }
     </style>
 
@@ -246,7 +271,6 @@ margin-top: 40px;
                 }
             });
         });
-
 
 
         $(document).ready(function () {

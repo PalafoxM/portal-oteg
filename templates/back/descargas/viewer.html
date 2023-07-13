@@ -18,21 +18,21 @@
 {% for e in object_list %}
 
 <tr>
-    <th>
+    <th class="text-left tb-text">
         {% if e.nombrePDF %}
         {{e.nombrePDF}}</th>
     {% else %}
     {{e.name}}</th>
     {% endif %}
-    <th>{{e.num_descargas}}</th>
-    <th>
+    <th class="text-left tb-text">{{e.num_descargas}}</th>
+    <th class="text-left tb-text">
         {% if e.section %}
         {{e.section.seccion}}
         {% else %}
         <span>BarometroTuristico</span>
         {% endif %}
     </th>
-    <th>
+    <th class="text-left tb-text">
         {{e.definicion}}
 
         {% if e.category %}
@@ -42,13 +42,42 @@
         {% endif %}
 
     </th>
-    <th>
-        {% if e.url %}
-        <a href="{% url 'pdf_back' pk=e.id %}">
-            Descargar   
-        </a>
+
+    <th class="text-left tb-text">
+        {% if e.doc %}
+
+
+            {% if e.type %}
+
+            {% if e.type == '1' %}
+                <a href="{% url 'pdf_back' pk=e.id %}">
+                    Descargar
+                </a>
+
+            {% elif e.type == '2' %}        
+
+                <a href="{% url 'audio_download' pk=e.id %}">
+                    Descargar
+                </a>
+
+            {% elif e.type == '3' %}
+                <a href="{% url 'excel_download' pk=e.id %}">
+                    Descargar
+                </a>
+            {% endif %}
+
+            {% else %}
+
+            <a href="{% url 'pdf_back' pk=e.id %}">
+                Descargar
+            </a>
+            {% endif %}
+
+        {% else %}
+
         {% endif %}
     </th>
+
 </tr>
 
 {% endfor %}

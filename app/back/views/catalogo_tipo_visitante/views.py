@@ -33,6 +33,7 @@ class CatalagoTipoVisistanteListView(LoginRequiredMixin, SuperAdminMixin, ListVi
         context['title'] = 'Catalago Tipo de Visitante'
         context['create_url'] = reverse_lazy('dashboard:catalago_tipo_visitante_create')
         context['entity'] = 'Catalago Tipo de Visitante'
+        context['d_route'] = 'Configuración  > Tipo de Visitante'
         return context
 
 
@@ -85,6 +86,7 @@ class  CatalagoTipoVisistanteCreateView(LoginRequiredMixin, SuperAdminMixin, Cre
         context['entity'] = 'Catalago Tipo de Visitante'
         context['list_url'] = reverse_lazy('dashboard:catalago_tipo_visitante_list')
         context['action'] = 'add'
+        context['d_route'] = 'Configuración  > Tipo de Visitante'
         return context
 
 
@@ -125,6 +127,7 @@ class CatalagoTipoVisistanteUpdateView(LoginRequiredMixin, SuperAdminMixin,  Upd
         context['list_url'] = reverse_lazy('dashboard:catalago_tipo_visitante_list')
         context['form'] = self.form_class(instance=self.object)
         context['action'] = 'adit'
+        context['d_route'] = 'Configuración  > Tipo de Visitante'
         return context
 
 

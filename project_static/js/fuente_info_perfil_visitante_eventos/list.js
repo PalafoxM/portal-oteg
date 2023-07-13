@@ -51,8 +51,8 @@ var datatur = {
                     render: function (data, type, row) {
                         var html = '<td class="text-center" style="position: relative; text-align: center; height: 100%;">';
                         html += '<div class="icon-container">';
-                        html += '<i class="fas fa-edit" onclick="location.href=\'inversion_privada/edit/' + row.id + '/\'"></i>';
-                        html += '<form method="post" action="inversion_privada/delete/' + row.id + '/">';
+                        html += '<i class="fas fa-edit" onclick="location.href=\'perfil-visitante-eventos/edit/' + row.id + '/\'"></i>';
+                        html += '<form method="post" action="perfil-visitante-eventos/delete/' + row.id + '/">';
                         html += '<input type="hidden" name="csrfmiddlewaretoken" value="' + csrftoken + '">';
                         html += '<button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="return confirm(\'¿Está seguro de que desea eliminar la informacion?\');">';
                         html += '<i class="fas fa-trash"></i>';

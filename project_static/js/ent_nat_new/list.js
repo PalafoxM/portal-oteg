@@ -17,7 +17,7 @@ function getCookie(name) {
 
 var datatur = {
     list: function () {
-        console.log("Ejecutando perfil Visitante E.list()", window.location.pathname); // Mensaje de depuració
+        console.log("Ejecutando datatur.list()", window.location.pathname); // Mensaje de depuració
         $('#dataTable').DataTable({
             responsive: true,
             autoWidth: false,
@@ -35,22 +35,23 @@ var datatur = {
                 }
             },
             columns: [
-                {"data": "id", className: "text-left pl-3"},
-                {"data": "ano", className: "text-center hidden-t"},
-                {"data": "fecha", className: "text-center hidden-t"},
-                {"data": "tipo_asistente", className: "text-center hidden-t"},
-                {"data": "destino", className: "text-center hidden-t"},
-                {"data": "id", className: "actions-container"},
-            ],columnDefs: [
+                {"data": "id", className: "text-left"},
+                {"data": "entidad", className: "text-left tb-text "},
+                {"data": "cuartos_disponibles", className: "text-left tb-text "},
+                {"data": "densidad", className: "text-left tb-text "},
+                {"data": "llegada_de_turistas", className: "text-left tb-text "},
+                {"data": "id", className: "text-left  actions-column tb-text"},
+            ],
+            columnDefs: [
                 {
                     targets: [-1],
-                    class: 'actions-container',
+                    class: 'actions-column',
                     orderable: false,
                     render: function (data, type, row) {
-                        var html = '<td class="text-center" style="position: relative; text-align: center; height: 100%;">';
+                        var html = '<td class="text-center" style="position: relative; background-color: aqua; text-align: center; height: 100%;">';
                         html += '<div class="icon-container">';
-                        html += '<i class="fas fa-edit" onclick="location.href=\'perfil-visitante-destinos/edit/' + row.id + '/\'"></i>';
-                        html += '<form method="post" action="perfil-visitante-destinos/delete/' + row.id + '/">';
+                        html += '<i class="fas fa-edit" onclick="location.href=\'entorno-nacional/edit/' + row.id + '/\'"></i>';
+                        html += '<form method="post" action="entorno-nacional/delete/' + row.id + '/">';
                         html += '<input type="hidden" name="csrfmiddlewaretoken" value="' + csrftoken + '">';
                         html += '<button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="return confirm(\'¿Está seguro de que desea eliminar la informacion?\');">';
                         html += '<i class="fas fa-trash"></i>';

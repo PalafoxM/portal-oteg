@@ -8,7 +8,7 @@
 
 {% block columns %}
     <tr class="text-center table-header">
-        <th class="text-left pl-3">N°</th>
+        <th class="text-left pl-3">ID</th>
         <th class="text-center hidden-t">Tipo de Visitante</th>
         <th class="actions">Acciones</th>
     </tr>
@@ -17,18 +17,21 @@
 {% block rows %}
     {% for e in object_list %}
         <tr class="text-center table-body mt-2">
-            <th class="text-left pl-3">{{ e.id }}</th>
-            <th class="text-center hidden-t">{{e.tipo_visitante}}</th>
-            <th class="actions-container">
-                <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="location.href='{% url 'dashboard:catalago_tipo_visitante_update' e.id %}'">
-                    <i class="far fa-eye"></i>
+            <th class="text-left tb-text">{{ e.id }}</th>
+            <th class="text-left tb-text">{{e.tipo_visitante}}</th>
+            <th class="text-left tb-text" style="position: relative; background-color: #ECF0F1; text-align: center; height: 100%;">
+
+                <div class="icon-container">
+                <button style="border: none;" tooltip="Consultar" flow="down" onclick="location.href='{% url 'dashboard:catalago_tipo_visitante_update' e.id %}'">
+                    <i class="fas fa-edit"></i>
                 </button>
                 <form method="post" action="{% url 'dashboard:catalago_tipo_visitante_delete' e.id %}" >
                     {% csrf_token %}
-                    <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">
+                    <button style="border: none;" tooltip="Consultar" flow="down" onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">
                         <i class="fas fa-trash"></i>
                     </button>
                 </form>
+                </div>
             </th>
         </tr>
     {% endfor %}

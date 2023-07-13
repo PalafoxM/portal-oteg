@@ -23,10 +23,10 @@
 {% block rows %}
 {% for e in object_list %}
 <tr>
-    <th class="text-left pl-3">{{e.id}}</th>
-    <th  class="text-left pl-3">{{e.nombreAlbun}}</th>
-    <th  class="text-left pl-3">{{e.descripcion}}</th>
-    <th  class="text-left pl-3"><a href="https://portal-oteg.s3.amazonaws.com/media/{{e.foto_url}}">{{e.foto_url}}</a></th>
+    <th class="text-left tb-text">{{e.id}}</th>
+    <th  class="text-left tb-text">{{e.nombreAlbun}}</th>
+    <th  class="text-left tb-text">{{e.descripcion}}</th>
+    <th  class="text-left tb-text"><a href="https://portal-oteg.s3.amazonaws.com/media/{{e.foto_url}}">{{e.foto_url}}</a></th>
    
 
     <th class="text-center" style="position: relative; background-color: #ECF0F1; text-align: center; height: 100%;">

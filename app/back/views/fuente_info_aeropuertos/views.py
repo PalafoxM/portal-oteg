@@ -48,6 +48,8 @@ class FuenteInfoAeropuerto(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView)
         context['entity'] = 'Aeropuerto'
         context['is_fuente'] = True
         context['carga_masiva_url'] = reverse_lazy('dashboard:fuente_info_aeropuertos_carga_masiva')
+        
+        context['d_route'] = 'Fuentes de Información > Aeropuerto'
         return context  
 
 

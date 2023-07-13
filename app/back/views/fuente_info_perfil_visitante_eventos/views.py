@@ -241,7 +241,7 @@ class FuenteInfoPerfilVisitanteEventosCreate (SuperAdminOrAdminMixin, LoginRequi
 class FuenteInfoPerfilVisitanteEventosUpdate(SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
     model = FuenteInfoPerfilVisitanteEvento
     form_class = FuenteInfoPerfilVisitanteEventoForm
-    template_name = 'back/fuente_info_perfil_visitante_eventos/create.html'
+    template_name = 'back/fuente_info_perfil_visitante_eventos/view_editor.html'
     success_url = reverse_lazy(
         'dashboard:fuente_info_perfil_visitante_eventos')
 
@@ -274,17 +274,11 @@ class FuenteInfoPerfilVisitanteEventosUpdate(SuperAdminOrAdminMixin, LoginRequir
         context['list_url'] = reverse_lazy(
             'dashboard:fuente_info_perfil_visitante_eventos')
         # Set the widget for the 'destino' field to read-only text input
-        context['form'].fields['ano'].widget = forms.TextInput(
-            attrs={'readonly': 'readonly'})
-        context['form'].fields['folio'].widget = forms.TextInput(
-            attrs={'readonly': 'readonly'})
-        context['form'].fields['fecha'].widget = forms.TextInput(
-            attrs={'readonly': 'readonly'})
-        context['form'].fields['destino'].widget = forms.TextInput(
-            attrs={'readonly': 'readonly'})
-        context['form'].fields['nombre_evento'].widget = forms.TextInput(
-            attrs={'readonly': 'readonly'})
-
+        context['form'].fields['ano'].widget.attrs['readonly'] = True
+        context['form'].fields['folio'].widget.attrs['readonly'] = True
+        context['form'].fields['fecha'].widget.attrs['readonly'] = True
+        context['form'].fields['destino'].widget.attrs['readonly'] = True
+        context['form'].fields['nombre_evento'].widget.attrs['readonly'] = True
         context['title'] = 'Editar fuente'
 
         context['edit_msg'] = 'Los Campos año , folio, fecha, destino y nombre_evento no se pueden editar'

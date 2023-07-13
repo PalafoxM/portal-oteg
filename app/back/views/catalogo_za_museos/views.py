@@ -33,6 +33,7 @@ class CatalagoZAMuseosListView(SuperAdminOrAdminMixin, LoginRequiredMixin, ListV
         context['title'] = 'Catalago Museo/Zona Arqueológica'
         context['create_url'] = reverse_lazy('dashboard:catalogo_za_museos_create')
         context['entity'] = 'Catalago Museo/Zona Arqueológica'
+        context['d_route'] = 'Configuración  > Catalago Museo/Zona Arqueológica'
         return context
 
 
@@ -85,6 +86,7 @@ class  CatalagoZAMuseosCreateView(SuperAdminOrAdminMixin, LoginRequiredMixin, Cr
         context['entity'] = 'Catalago Museo/Zona Arqueológica'
         context['list_url'] = reverse_lazy('dashboard:catalogo_za_museos_list')
         context['action'] = 'add'
+        context['d_route'] = 'Configuración  > Catalago Museo/Zona Arqueológica'
         return context
 
 
@@ -125,6 +127,7 @@ class CatalagoZAMuseosUpdateView(SuperAdminOrAdminMixin, LoginRequiredMixin,  Up
         context['list_url'] = reverse_lazy('dashboard:catalogo_za_museos_list')
         context['form'] = self.form_class(instance=self.object)
         context['action'] = 'adit'
+        context['d_route'] = 'Configuración  > Catalago Museo/Zona Arqueológica'
         return context
 
 

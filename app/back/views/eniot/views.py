@@ -28,6 +28,7 @@ class EniotListView(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['title'] = ''
         context['create_url'] =  reverse_lazy('dashboard:eniot_create')
+        context['d_route'] = 'Eniot'
         return context
 
         
@@ -79,6 +80,7 @@ class EniotCreateView(SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
         context['entity'] = 'Eniot'
         context['list_url'] = reverse_lazy('dashboard:eniot_list')
         context['action'] = 'add'
+        context['d_route'] = 'Eniot'
         return context
 
     
@@ -127,6 +129,7 @@ class EniotUpdateView(SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         context['form'] = self.form_class(instance=self.object)
         context['list_url'] = reverse_lazy('dashboard:eniot_list')
+        context['d_route'] = 'Eniot'
         return context
 
     
@@ -138,6 +141,7 @@ class EniotAlbunListView(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'LISTADO ÁLBUMES'
         context['create_url'] =  reverse_lazy('dashboard:eniot_fotos_create')
+        context['d_route'] = 'Eniot > Álbum'
         return context
 
         
@@ -189,6 +193,7 @@ class EniotAlbunCreateView(SuperAdminOrAdminMixin, LoginRequiredMixin, CreateVie
         context['entity'] = 'EniotAlbun'
         context['list_url'] = reverse_lazy('dashboard:eniot_fotos_list')
         context['action'] = 'add'
+        context['d_route'] = 'Eniot > Álbum'
         return context
 
     
@@ -237,4 +242,5 @@ class EniotAlbunUpdateView(SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateVie
         context = super().get_context_data(**kwargs)
         context['form'] = self.form_class(instance=self.object)
         context['list_url'] = reverse_lazy('dashboard:eniot_fotos_list')
+        context['d_route'] = 'Eniot > Álbum'
         return context

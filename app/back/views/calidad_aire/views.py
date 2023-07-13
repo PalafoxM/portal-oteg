@@ -67,6 +67,7 @@ class CalidadAireListView(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
         context['create_url'] = reverse_lazy('dashboard:calidad_aire_create')
         context['carga_masiva_url'] = reverse_lazy('dashboard:calidad_aire_carga_masiva')
         context['entity'] = 'Calidad del Aire'
+        context['d_route'] = 'Fuentes de información > Dashboard'
         context['is_fuente'] = True
         return context
 

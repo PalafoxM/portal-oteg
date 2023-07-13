@@ -28,6 +28,7 @@ class ReporteMensualView (SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Listado de  Reportes Mensuales'
         context['create_url'] =  reverse_lazy('dashboard:reporte_mensual_create')
+        context['d_route'] = 'CEDOC > Reportes Mensuales'
         return context
 
 
@@ -81,6 +82,7 @@ class ReporteMensualCreate (SuperAdminOrAdminMixin, LoginRequiredMixin, CreateVi
         context['entity'] = 'Reporte Mensual'
         context['list_url'] = reverse_lazy('dashboard:modulo_reportes_mensuales')
         context['action'] = 'add'
+        context['d_route'] = 'CEDOC > Reportes Mensuales'
         return context
 
     
@@ -118,6 +120,7 @@ class ReporteMensualUpdate (SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateVi
         context = super().get_context_data(**kwargs)
         context['form'] = self.form_class(instance=self.object)
         context['list_url'] = reverse_lazy('dashboard:modulo_reportes_mensuales')
+        context['d_route'] = 'CEDOC > Reportes Mensuales'
         return context
     
 
@@ -150,6 +153,7 @@ class ReporteMensualDetail(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView)
         context['list_url'] = reverse_lazy('dashboard:modulo_reportes_mensuales')
         context['img_url'] = 'img_nav/publicaciones.jpg'
         context['nav_title'] = 'Reportes Mensuales'
+        
 
         context['years'] = years_list
         

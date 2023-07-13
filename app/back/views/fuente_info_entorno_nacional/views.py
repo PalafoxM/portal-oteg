@@ -227,7 +227,7 @@ class FuenteInfoEntornoNacionalCreate(SuperAdminOrAdminMixin, LoginRequiredMixin
 class FuenteInfoEntornoNacionalUpdate (SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
     model =     FuenteInfoEntornoN
     form_class = FuenteInfoEntornoNForm
-    template_name = 'back/fuente_info_entorno_nacional/create.html'
+    template_name = 'back/fuente_info_entorno_nacional/view_editor.html'
     success_url = reverse_lazy('dashboard:fuente_info_entorno_nacional')
 
     def form_invalid(self, form):
@@ -258,11 +258,11 @@ class FuenteInfoEntornoNacionalUpdate (SuperAdminOrAdminMixin, LoginRequiredMixi
         context = super().get_context_data(**kwargs)
         context['list_url'] = reverse_lazy('dashboard:fuente_info_entorno_nacional')
             # Set the widget for the 'destino' field to read-only text input
-        context['form'].fields['fecha'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
-        context['form'].fields['entidad'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
+        context['form'].fields['fecha'].widget.attrs['readonly'] = True
+        context['form'].fields['entidad'].widget.attrs['readonly'] = True
         context['title'] = 'Editar fuente'
 
-        context['edit_msg'] = 'Los Campos Destino y Fecha no pueden ser editados' 
+        context['edit_msg'] = 'Los Campos Entidad y Fecha no pueden ser editados' 
 
         return context
 
@@ -270,6 +270,7 @@ class FuenteInfoEntornoNacionalUpdate (SuperAdminOrAdminMixin, LoginRequiredMixi
 class FuenteInfoEntornoNacionalDelete (SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
     model = FuenteInfoEntornoN
     success_url = reverse_lazy('dashboard:fuente_info_entorno_nacional')
+
     
     def post(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
         return super().post(request, *args, **kwargs)

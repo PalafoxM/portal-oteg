@@ -54,6 +54,7 @@ class BannerListView(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
         context['moduleActive '] = 'Estadisticas'
         context['list'] = '2'
         context['subModuleActive '] = 'funtes-informacion'
+        context['d_route'] = 'Contenido  > Banners'
         return context
 
 
@@ -105,6 +106,7 @@ class BannerCreateView(SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
         context['entity'] = 'Banners'
         context['list_url'] = reverse_lazy('dashboard:banner_list')
         context['action'] = 'add'
+        context['d_route'] = 'Contenido  > Banners'
         return context
 
 
@@ -144,6 +146,7 @@ class BannerUpdateView(SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
         context['entity'] = 'Banners'
         context['list_url'] = reverse_lazy('dashboard:banner_list')
         context['form'] = self.form_class(instance=self.object)
+        context['d_route'] = 'Contenido  > Banners'
         return context
 
 
@@ -301,6 +304,7 @@ class EventoListView(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
         context['create_url'] = reverse_lazy('dashboard:evento_create')
         context['delete_url'] = reverse_lazy(
             'dashboard:evento_delete', args=[0])
+        context['d_route'] = 'Contenido > Eventos'
         return context
 
 
@@ -352,6 +356,7 @@ class EventoCreateView(SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
         context['entity'] = 'Evento'
         context['list_url'] = reverse_lazy('dashboard:eventos_list')
         context['action'] = 'add'
+        context['d_route'] = 'Contenido > Eventos'
         return context
 
 
@@ -404,6 +409,7 @@ class EventoUpdateView(SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         context['form'] = self.form_class(instance=self.object)
         context['list_url'] = reverse_lazy('dashboard:eventos_list')
+        context['d_route'] = 'Contenido > Eventos'
         return context
 
 
@@ -417,6 +423,7 @@ class NoticiaListView(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Listado Noticias'
         context['create_url'] = reverse_lazy('dashboard:noticia_create')
+        context['d_route'] = 'Contenido > Noticias'
         return context
 
 
@@ -468,6 +475,7 @@ class NoticiaCreateView(SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
         context['entity'] = 'Noticia'
         context['list_url'] = reverse_lazy('dashboard:noticias_list')
         context['action'] = 'add'
+        context['d_route'] = 'Contenido > Noticias'
         return context
 
 
@@ -516,6 +524,7 @@ class NoticiaUpdateView(SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         context['form'] = self.form_class(instance=self.object)
         context['list_url'] = reverse_lazy('dashboard:noticias_list')
+        context['d_route'] = 'Contenido > Noticias'
         return context
 
 # Glosario
@@ -529,6 +538,7 @@ class GlosarioListView(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Listado Glosario'
         context['create_url'] = reverse_lazy('dashboard:glosario_create')
+        context['d_route'] = 'Otros > Glosario'
         return context
 
 
@@ -580,6 +590,7 @@ class GlosarioCreateView(SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView)
         context['entity'] = 'Glosario'
         context['list_url'] = reverse_lazy('dashboard:glosario_list')
         context['action'] = 'add'
+        context['d_route'] = 'Otros > Glosario'
         return context
 
 
@@ -628,6 +639,7 @@ class GlosarioUpdateView(SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView)
         context = super().get_context_data(**kwargs)
         context['form'] = self.form_class(instance=self.object)
         context['list_url'] = reverse_lazy('dashboard:glosario_list')
+        context['d_route'] = 'Otros > Glosario'
         return context
 
 
@@ -646,6 +658,7 @@ class BarometroListView(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
         context['title'] = 'Listado Barometro'
         context['create_url'] = reverse_lazy('dashboard:barometro_create')
         context['encuesta'] = self.encuesta
+        context['d_route'] = 'CEDOC > Barometro'
     
 
         return context
@@ -700,6 +713,7 @@ class BarometroCreateView(SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView
         context['entity'] = 'Barometro'
         context['list_url'] = reverse_lazy('dashboard:barometro_list')
         context['action'] = 'add'
+        context['d_route'] = 'CEDOC > Barometro'
         return context
 
 
@@ -748,5 +762,6 @@ class BarometroUpdateView(SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView
         context = super().get_context_data(**kwargs)
         context['form'] = self.form_class(instance=self.object)
         context['list_url'] = reverse_lazy('dashboard:barometro_list')
+        context['d_route'] = 'CEDOC > Barometro'
         return context
 

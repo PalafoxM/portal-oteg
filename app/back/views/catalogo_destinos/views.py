@@ -33,6 +33,7 @@ class CatalagoDestinoListView(LoginRequiredMixin, SuperAdminMixin, ListView):
         context['title'] = 'Catalago Destino'
         context['create_url'] = reverse_lazy('dashboard:catalogo_destinos_create')
         context['entity'] = 'Catalago Destino'
+        context['d_route'] = 'Configuración  > Catalago Destino' 
         return context
 
 
@@ -85,6 +86,7 @@ class  CatalagoDestinoCreateView(LoginRequiredMixin, SuperAdminMixin, CreateView
         context['entity'] = 'Catalago Destino'
         context['list_url'] = reverse_lazy('dashboard:catalogo_destinos_list')
         context['action'] = 'add'
+        context['d_route'] = 'Configuración  > Catalago Destino' 
         return context
 
 
@@ -125,6 +127,7 @@ class CatalagoDestinoUpdateView(LoginRequiredMixin, SuperAdminMixin,  UpdateView
         context['list_url'] = reverse_lazy('dashboard:catalogo_destinos_list')
         context['form'] = self.form_class(instance=self.object)
         context['action'] = 'adit'
+        context['d_route'] = 'Configuración  > Catalago Destino' 
         return context
 
 
