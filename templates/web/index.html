@@ -7,14 +7,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
-  <!-- <link
-    href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap"
-    rel="stylesheet"> -->
+  
 
   <title>OTEG |</title>
 
-  <!-- Bootstrap core CSS -->
-  <!-- <link rel="stylesheet" href="{% static 'librerias/bootstrap/css/bootstrap.min.css' %}"> -->
+  
 
   <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
@@ -111,21 +108,21 @@
 
   <!-- Bootstrap core JavaScript -->
   <!-- <script src="{% static 'lib/jquery/jquery.min.js' %}"></script> -->
-  <script src="{% static 'lib/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <!-- <script src="{% static 'lib/bootstrap/js/bootstrap.bundle.min.js' %}"></script> -->
   
   <script>
     function googleTranslateElementInit() {
-  new google.translate.TranslateElement({
-    pageLanguage: 'es',
-    includedLanguages: 'en,it,ja,pt',
-    layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-  }, 'google_translate_element');
-}
-
+      new google.translate.TranslateElement({
+        pageLanguage: 'es',
+        includedLanguages: 'en,it,ja,pt',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      }, 'google_translate_element');
+    }
+  
     function setFixedMenuPosition() {
       var translateElement = document.getElementById('google_translate_element');
       var fixedMenu = document.getElementsByClassName('all-fixed')[0];
-      
+  
       if (translateElement && fixedMenu) {
         var translateHeight = translateElement.offsetHeight;
         fixedMenu.style.top = translateHeight + 'px';
@@ -133,6 +130,7 @@
         fixedMenu.style.top = '0';
       }
     }
+  
     window.onload = setFixedMenuPosition;
   </script>
 

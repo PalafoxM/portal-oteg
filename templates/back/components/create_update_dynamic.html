@@ -1,6 +1,40 @@
 {% extends 'back/index.html' %}
 {% load widget_tweaks %}
 {% load static %}
+{% block head %}
+<style>
+    .input-file {
+        width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.input-file label {
+    margin-bottom: 5px;
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.text-file {
+    font-size: 14px;
+    color: #888888;
+    margin-top: 5px;
+}
+
+/* Estilos responsivos */
+@media screen and (max-width: 767px) {
+    .input-file {
+        margin-bottom: 10px;
+    }
+}
+</style>
+{% endblock %}
 {% block content %}
 <!-- <div class="card shadow mb-4">
     <form method="post" enctype="multipart/form-data">
@@ -88,56 +122,46 @@
             </select>
 
 
-            <!-- Modify the form rendering loop to add icons to each field -->
             {% for field in form %}
+                {% if field.name == 'doc' %}
+                    <div class="input-file" style="font-weight: bold;">
+                        {{ field.label_tag }}
+                        {{ field }}
+                        {% if field.errors %}
+                            <div class="error-message">{{ field.errors }}</div>
+                        {% endif %}
+                        <div class="text-file">Recuerda comprimir el archivo para que no supere 1MB. Te recomendamos utilizar un compresor de archivos como <a href="https://squoosh.app/" target="_blank">Squoosh</a> para imágenes y <a href="https://smallpdf.com/compress-pdf" target="_blank">Smallpdf</a> para archivos PDF.</div>
 
-            <div style="width: 100%;">
-
-                <label style="font-family: avenir;font-weight: bold;font-size: 15px;margin: 0;padding: 0;"
-                    for="{{ field.id_for_label }}">{{ field.label }}
-                </label>
-
-            </div>
-
-            {% if field.name == 'type' or field.name == 'name' %}
-
-            <div class="input-with-icon">
-                {{ field }}
-                {% if field.errors %}
-                <div class="error-message">{{ field.errors }}</div>
+                    </div>
+                {% else %}
+                    <div style="width: 100%;">
+                        <label style="font-family: avenir;font-weight: bold;font-size: 15px;margin: 0;padding: 0;"
+                            for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    </div>
+                    
+                    {% if field.name == 'type' or field.name == 'name' %}
+                        <div class="input-with-icon">
+                            {{ field }}
+                            {% if field.errors %}
+                                <div class="error-message">{{ field.errors }}</div>
+                            {% endif %}
+                            {% if field.help_text %}
+                                <div class="help-text">{{ field.help_text }}</div>
+                            {% endif %}
+                            <div class="icon">
+                                <i style="margin: 0;padding: 0;color: #fff;" class="{{ field.field.widget.attrs.icon_class }}"></i>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div style="width: 100%; display: flex; justify-content: start;">
+                            <div class="form-check form-switch" style="transform: scale(1.4);">
+                                {{ field }}
+                            </div>
+                        </div>
+                    {% endif %}
                 {% endif %}
-                {% if field.help_text %}
-                <div class="help-text">{{ field.help_text }}</div>
-                {% endif %}
-                <div class="icon"><i style="
-                        margin: 0;
-                        padding: 0;
-                        color: #fff;
-                    " class="{{ field.field.widget.attrs.icon_class }}"></i></div>
-            </div>
-
-            {% else %}
-            {%if field.name == 'doc' %}
-
-            <div style="width: 100%; display: flex; justify-content: start;">
-                {{ field }}
-            </div>
-
-            {{ field }}
-            {% else %}
-
-            <div style="width: 100%; display: flex; justify-content: start;">
-                <div class="form-check form-switch" style="transform: scale(1.4);">
-                    {{ field }}
-                </div>
-            </div>
-
-            {% endif %}
-
-            {% endif %}
-
-
             {% endfor %}
+
 
         </div>
     </div>
@@ -222,6 +246,17 @@
                 });
                 return false;
             }
+            // Bloquear los botones
+            $('button[type="submit"]').prop('disabled', true);
+            $('#baker').prop('disabled', true);
+            
+            // Mostrar alerta de cargando
+            Swal.fire({
+                icon: 'info',
+                title: 'Cargando...',
+                showConfirmButton: false,
+                allowOutsideClick: false
+            });
 
 
             $.ajax({
@@ -232,6 +267,8 @@
                 contentType: false,
                 dataType: 'json'
             }).done(function (data) {
+                // Cerrar la alerta de cargando
+                Swal.close();
                 if (data.success) {
                     Swal.fire({
                         icon: 'success',
@@ -250,7 +287,9 @@
                     Swal.fire({
                         icon: 'error',
                         title: 'Error!',
-                        text: errors
+                        text: errors,
+                        timer: 3000, // Cerrar después de 3 segundos (3000 milisegundos)
+                        showConfirmButton: false
                     });
                 }
             }).fail(function (jqXHR, textStatus, errorThrown) {

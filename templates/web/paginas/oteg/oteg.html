@@ -81,7 +81,7 @@
             <div class="">
                 <h5 class="card-title-v2">¿QUIÉNES LO INTEGRAN?</h5>
                 <div id="svg-container" style="width: 100%; height: auto;">
-                    <embed src="{% static 'images/fuentes_informacion/Organigrama.svg' %}" type="image/svg+xml"
+                    <embed src="{% static 'images/fuentes_informacion/Organigrama-v5.svg' %}" type="image/svg+xml"
                         onload="handleSVGLoad()" style="width: 100%; height: auto;"/>
                 </div>
             </div>
@@ -160,70 +160,55 @@
 <script>
     function handleSVGLoad() {
         var svgDocument = document.querySelector("#svg-container embed").getSVGDocument();
-        var ellipses = svgDocument.querySelectorAll("ellipse");
-        var rects = svgDocument.querySelectorAll("rect");
-        var texts = svgDocument.querySelectorAll("text");
-
-        ellipses.forEach(function (ellipse) {
-            ellipse.addEventListener("click", function () {
-                console.log("Se hizo clic en el elemento <ellipse>:", ellipse.id);
-                if (ellipse.id === "Ellipse_14") {
-                    window.open("https://www.lasallebajio.edu.mx/", "_blank");
-                }
-                else if (ellipse.id === "Ellipse_8") {
-                    window.open("https://www.uii.edu.mx/", "_blank");
-                }
-                else if (ellipse.id === "Ellipse_10") {
+        // var ellipses = svgDocument.querySelectorAll("ellipse");
+        // var rects = svgDocument.querySelectorAll("rect");
+        // var texts = svgDocument.querySelectorAll("text");
+        var groups = svgDocument.querySelectorAll("g"); // Obtener todos los elementos <g>
+        
+        groups.forEach(function (group) {
+            group.addEventListener("click", function () {
+            console.log("Se hizo clic en el grupo:", group.id);
+                if (group.id  === "Layer_2") {
+                    window.open("https://enes.unam.mx/", "_blank");
+                }else if (group.id  === "Layer_3") {
                     window.open("https://www.udec.edu.mx/", "_blank");
-                }
-                else if (ellipse.id === "Ellipse_12") {
+                }else if (group.id  === "Layer_4") {
                     window.open("https://www.ugto.mx/", "_blank");
-                }
-                else if (ellipse.id === "Ellipse_16") {
-                    window.open("https://www.utsma.edu.mx/", "_blank");
-                }
-                else if (ellipse.id === "Ellipse_18") {
-                    window.open("https://www.inegi.org.mx/", "_blank");
-                }
-                else if (ellipse.id === "Ellipse_20") {
-                    window.open("https://iplaneg.guanajuato.gob.mx/", "_blank");
-                }
-                else if (ellipse.id === "Ellipse_22") {
-                    window.open("https://sde.guanajuato.gob.mx/sdes/", "_blank");
-                }
-                else if (ellipse.id === "Ellipse_24") {
-                    window.open("https://sde.guanajuato.gob.mx/sdes/", "_blank");
-                }
-                else if (ellipse.id === "Ellipse_26") {
-                    window.open("https://smaot.guanajuato.gob.mx/sitio/", "_blank");
-                }
-                else if (ellipse.id === "Ellipse_28") {
-                    window.open("http://www.escondidoplace.com/aguas-termales-san-miguel-de-allende/", "_blank");
-                }
-                else if (ellipse.id === "Ellipse_30") {
-                    window.open("https://www.amhm.org/", "_blank");
-                }
-                else if (ellipse.id === "Ellipse_32") {
+                }else if (group.id  === "Layer_5") {
                     window.open("https://www.lasallebajio.edu.mx/", "_blank");
+                }else if (group.id  === "Layer_6") {
+                    window.open("https://www.utsma.edu.mx/", "_blank");
+                }else if (group.id  === "Layer_7") {
+                    window.open("https://www.inegi.org.mx/", "_blank");
+                }else if (group.id  === "Layer_8") {
+                    window.open("https://iplaneg.guanajuato.gob.mx/", "_blank");
+                }else if (group.id  === "Layer_9") {
+                    window.open("https://cultura.guanajuato.gob.mx/", "_blank");
+                }else if (group.id  === "Layer_10") {
+                    window.open("https://sde.guanajuato.gob.mx/sdes/", "_blank");
+                }else if (group.id  === "Layer_11") {
+                    window.open("https://smaot.guanajuato.gob.mx/sitio/", "_blank");
+                }else if (group.id  === "Layer_13") {
+                    window.open("http://www.escondidoplace.com/aguas-termales-san-miguel-de-allende/", "_blank");
+                }else if (group.id  === "Layer_14") {
+                    window.open("https://atuceg.experienciasmx.travel/#/", "_blank");
+                }else if (group.id  === "Layer_12") {
+                    window.open("https://www.amhm.org/", "_blank");
+                }else if (group.id  === "Layer_15") {
+                    window.open("https://www.conectagfa.com.mx/#es/principal", "_blank");//fecla amarilla
+                }else if (group.id  === "Layer_16") {
+                    window.open("https://www.poliforumleon.com.mx/", "_blank");//Poliforum_León
+                }else if (group.id  === "Layer_17") {
+                    window.open("https://atnag.com/", "_blank");//Asoc._De_Turismo_de_Naturaleza_y_Aventura_de_Guanajuato
+                }else if (group.id  === "Layer_18") {
+                    window.open("https://canacoguanajuato.com/", "_blank");//Cámara_Nacional_de_Comercio
+                }else if (group.id  === "Layer_19") {
+                    window.open("https://guanajuato.mx/romance/", "_blank");//Representante_del_Segmento_de_Romance
                 }
-                else if (ellipse.id === "Ellipse_34") {
-                    // window.open("https://www.lasallebajio.edu.mx/", "_blank");
-                    console.log("Grupo_Flecha_Amarilla-2")
-                }
-                else if (ellipse.id === "Ellipse_36") {
-                    window.open("https://www.poliforumleon.com.mx/", "_blank");
-                }
-                else if (ellipse.id === "Ellipse_40") {
-                    window.open("https://canacoguanajuato.com/", "_blank");
-                }
-                else if (ellipse.id === "Ellipse_42") {
-                    window.open("https://guanajuato.mx/romance/", "_blank");
-                }
-                else if (ellipse.id === "Ellipse_44") {
-                    window.open("https://sectur.guanajuato.gob.mx/", "_blank");
-                }
-            });
+            })
         });
+
+        
 
         rects.forEach(function (rect) {
             rect.addEventListener("click", function () {
