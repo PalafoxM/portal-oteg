@@ -68,6 +68,8 @@
 </style>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+
 
 <script>
     
@@ -149,9 +151,13 @@
                             confirmButtonText: 'Cerrar',
                             confirmButtonColor: '#6A5ACD',
                         });
+                    },
+                    viewDidMount: function(info) {
+                        updateCalendarHeader();
+                    },
+                    datesSet: function (info) {
+                        updateCalendarHeader();
                     }
-
-
                 });
 
                 // Add legend for event types
@@ -170,6 +176,16 @@
                 }
 
                 $(".legend-container").append(legend);
+
+                function updateCalendarHeader() {
+                    var headerEl = calendarEl.querySelector('.fc-toolbar-chunk h2');
+                    var currentDate = calendar.view.currentStart;
+                    var monthName = currentDate.toLocaleString(initialLocaleCode, { month: 'long' });
+                    var formattedMonth = monthName.charAt(0).toUpperCase() + monthName.slice(1);
+                    var year = currentDate.getFullYear();
+
+                    headerEl.textContent = formattedMonth + ' ' + year;
+                }
 
                 calendar.render();
             })
