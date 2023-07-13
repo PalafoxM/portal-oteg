@@ -33,6 +33,7 @@ class CatalagoDestinoAeropuertoListView(LoginRequiredMixin, SuperAdminMixin, Lis
         context['title'] = 'Catalago Destino'
         context['create_url'] = reverse_lazy('dashboard:catalogo_destinos_aeropuerto_create')
         context['entity'] = 'Catalago Destino'
+        context['d_route'] = 'Configuración  > Catalago Destino Aeropuerto'
         return context
 
 
@@ -85,6 +86,7 @@ class  CatalagoDestinoAeropuertoCreateView(LoginRequiredMixin, SuperAdminMixin, 
         context['entity'] = 'Catalago Destino'
         context['list_url'] = reverse_lazy('dashboard:catalogo_destinos_aeropuerto_list')
         context['action'] = 'add'
+        context['d_route'] = 'Configuración  > Catalago Destino Aeropuerto'
         return context
 
 
@@ -125,6 +127,7 @@ class CatalagoDestinoAeropuertoUpdateView(LoginRequiredMixin, SuperAdminMixin,  
         context['list_url'] = reverse_lazy('dashboard:catalogo_destinos_aeropuerto_list')
         context['form'] = self.form_class(instance=self.object)
         context['action'] = 'adit'
+        context['d_route'] = 'Configuración  > Catalago Destino Aeropuerto'
         return context
 
 

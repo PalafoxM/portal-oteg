@@ -43,12 +43,13 @@ class FuenteInfoAerolinea(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Listado de Fuentes de Informacion de Aerolinea'
+        context['title'] = 'Listado de Fuentes de Información de Aerolinea'
         context['create_url'] = reverse_lazy('dashboard:fuente_info_aerolineas_create')
         context['entity'] = 'Aerolinea'
         context['is_fuente'] = True
         context['carga_masiva_url'] = reverse_lazy('dashboard:fuente_info_aerolineas_carga_masiva')
-        
+
+        context['d_route'] = 'Fuentes de Información > Aerolinea'
         return context  
     
 
@@ -179,6 +180,8 @@ class FuenteInfoAerolineaCreate(SuperAdminOrAdminMixin, LoginRequiredMixin, Crea
         context['entity'] = 'Glosario'
         context['list_url'] = reverse_lazy('dashboard:fuente_info_aerolineas')
         context['action'] = 'add'
+        
+        context['d_route'] = 'Fuentes de Información > Aerolinea'
         return context
 
 
@@ -187,7 +190,7 @@ class FuenteInfoAerolineaUpdate(SuperAdminOrAdminMixin, LoginRequiredMixin, Upda
 
     model = Aerolinea
     form_class = AerolineaForm
-    template_name = 'back/fuente_info_aerolinea/create.html'
+    template_name = 'back/fuente_info_aerolinea/view_editor.html'
     success_url = reverse_lazy('dashboard:fuente_info_aerolineas')
 
     def form_invalid(self, form):
@@ -223,6 +226,8 @@ class FuenteInfoAerolineaUpdate(SuperAdminOrAdminMixin, LoginRequiredMixin, Upda
         context['form'].fields['destino_aeropuerto_id'].widget = forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly'})
         context['title'] = 'Editar fuente'
         context['edit_msg'] = 'Los Campos Destino y Año no pueden ser editados' 
+        
+        context['d_route'] = 'Fuentes de Información > Aerolinea'
 
         return context
     

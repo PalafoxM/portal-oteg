@@ -1,7 +1,3 @@
-
-
-
-
 var bar = new ProgressBar.Circle('#progress', {
     color: '#aaa',
     strokeWidth: 6,

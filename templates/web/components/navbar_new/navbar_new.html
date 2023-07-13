@@ -23,7 +23,7 @@
                 </button>
                 <a class="navbar-brand" href="#">
                     <img src="{% static 'img/inicio/logo.png' %}" alt="" class="img-responsive"
-                        style="width: 140px; margin-top: -16px;">
+                    style="height: 60px;  margin-top: -16px;">
                 </a>
             </div>
 
@@ -35,7 +35,17 @@
                     <li><a href="{% url 'sustentabilidad' %}" class="nav-text">Sustentabilidad</a></li>
                     <li><a href='https://guanajuato.mx/' target="_blank" class="nav-text">Información Turística</a></li>
                     <li><a href="{% url 'solicitudes' %}" class="nav-text">Solicitudes</a>
-                    <li> <a><input type="text" placeholder="Buscar" class="nav-input"></a></li>
+                    <li> <a>
+
+                        <form id="search-form" action="{% url 'search_view' %}" method="get"
+                        onsubmit="handleSearch(event)">
+                        <input
+                        autocomplete="off"
+                        type="text" name="query" id="search-input" class="nav-input"
+                            placeholder="Buscador">
+                        <input type="submit" style="display: none;">
+                    </form>
+                    </a></li>
                     <li><div id="google_translate_element" style="
                         padding-top: 15px;
                     "></div></li>
@@ -105,4 +115,14 @@
 
 
 </div>
+
+<script>
+    function handleSearch(event) {
+        event.preventDefault();  // Prevent form submission
+
+        const query = document.getElementById('search-input').value;
+        const url = document.getElementById('search-form').action + '?query=' + encodeURIComponent(query);
+        window.location.href = url;
+    }
+</script>
 {% endblock %}

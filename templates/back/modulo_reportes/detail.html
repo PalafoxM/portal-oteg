@@ -13,85 +13,90 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link href="{% static 'admin/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
-    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script type="text/javascript"
+        src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <link rel="stylesheet" href="{% static 'web/css/nabar-portal.css' %}">
+
+
 </head>
 
 
 
 <style>
     /* Estilo del contenedor del widget */
-#google_translate_element {
-  -moz-transform: translate(0, 0);
-  display: inline-block;
-  margin-right: 10px;
-}
+    #google_translate_element {
+        -moz-transform: translate(0, 0);
+        display: inline-block;
+        margin-right: 10px;
+    }
 
-/* Estilo del botón de traducción */
-.goog-te-combo {
-  border-color: #ccc !important;
-  color: #333 !important;
-  padding: 5px;
-  font-family: Arial, sans-serif;
-  font-size: 14px;
-  background-color: #fff;
-  border-radius: 4px;
-}
+    /* Estilo del botón de traducción */
+    .goog-te-combo {
+        border-color: #ccc !important;
+        color: #333 !important;
+        padding: 5px;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        background-color: #fff;
+        border-radius: 4px;
+    }
 
-/* Estilo del texto dentro del botón de traducción */
-.goog-te-combo option {
-  color: #333;
-}
+    /* Estilo del texto dentro del botón de traducción */
+    .goog-te-combo option {
+        color: #333;
+    }
 
-/* Estilo del menú desplegable de idiomas */
-.goog-te-menu-value {
-  padding: 5px;
-  font-family: Arial, sans-serif;
-  font-size: 14px;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
+    /* Estilo del menú desplegable de idiomas */
+    .goog-te-menu-value {
+        padding: 5px;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
 
-/* Estilo de los elementos del menú desplegable de idiomas */
-.goog-te-menu2 {
-  max-height: 200px;
-  overflow-y: auto;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
+    /* Estilo de los elementos del menú desplegable de idiomas */
+    .goog-te-menu2 {
+        max-height: 200px;
+        overflow-y: auto;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
 
-/* Estilo de los elementos del menú desplegable de idiomas cuando se pasa el mouse sobre ellos */
-.goog-te-menu2-item:hover {
-  background-color: #f0f0f0;
-}
+    /* Estilo de los elementos del menú desplegable de idiomas cuando se pasa el mouse sobre ellos */
+    .goog-te-menu2-item:hover {
+        background-color: #f0f0f0;
+    }
 
-/* Estilo del botón de cierre del menú desplegable de idiomas */
-.goog-te-menu2-close-btn {
-  display: none;
-}
+    /* Estilo del botón de cierre del menú desplegable de idiomas */
+    .goog-te-menu2-close-btn {
+        display: none;
+    }
 
-/* Estilo del texto "Traducir" en el botón de traducción */
-.goog-te-combo-label {
-  color: #333;
-  font-family: Arial, sans-serif;
-  font-size: 14px;
-}
+    /* Estilo del texto "Traducir" en el botón de traducción */
+    .goog-te-combo-label {
+        color: #333;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+    }
 
-/* Estilo del ícono de flecha hacia abajo en el botón de traducción */
-.goog-te-combo-arrow {
-  background-image: url('https://translate.google.com/translate/releases/twsfe_w_20191209_RC00/public/dictionaries/google_default/arrow_down.png');
-  width: 16px;
-  height: 16px;
-  margin-top: -8px;
-}
-@media screen and (-webkit-min-device-pixel-ratio:0) {
-  #google_translate_element {
-    position: absolute;
-  }
-}
+    /* Estilo del ícono de flecha hacia abajo en el botón de traducción */
+    .goog-te-combo-arrow {
+        background-image: url('https://translate.google.com/translate/releases/twsfe_w_20191209_RC00/public/dictionaries/google_default/arrow_down.png');
+        width: 16px;
+        height: 16px;
+        margin-top: -8px;
+    }
+
+    @media screen and (-webkit-min-device-pixel-ratio:0) {
+        #google_translate_element {
+            position: absolute;
+        }
+    }
+
     .navbar-default {
         background-color: transparent !important;
         border-color: transparent !important;
@@ -477,9 +482,10 @@
     }
 
     @media (max-width: 991px) {
-        .mt-45{
+        .mt-45 {
             margin-top: 45px !important;
         }
+
         .navbar-header {
             float: none;
         }
@@ -677,7 +683,7 @@
     {% include 'web/components/social_media_stiky/social_media_stiky.html' %}
 
 
-    
+
 
 
 
@@ -706,7 +712,7 @@
                     </button>
                     <a class="navbar-brand" href="#">
                         <img src="{% static 'img/inicio/logo.png' %}" alt="" class="img-responsive"
-                            style="width: 140px; margin-top: -16px;">
+                            style="height: 60px;  margin-top: -16px;">
                     </a>
                 </div>
 
@@ -719,10 +725,23 @@
                         <li><a href='https://guanajuato.mx/' target="_blank" class="nav-text">Información Turística</a>
                         </li>
                         <li><a href="{% url 'solicitudes' %}" class="nav-text">Solicitudes</a>
-                        <li> <a><input type="text" placeholder="Buscar" class="nav-input"></a></li>
-                        <li><div id="google_translate_element" style="
+                        <li> <a>
+
+
+                                <form id="search-form" action="{% url 'search_view' %}" method="get"
+                                    onsubmit="handleSearch(event)">
+                                    <input autocomplete="off" type="text" name="query" id="search-input"
+                                        class="nav-input" placeholder="Buscador">
+                                    <input type="submit" style="display: none;">
+                                </form>
+
+
+                            </a></li>
+                        <li>
+                            <div id="google_translate_element" style="
                             padding-top: 15px;
-                        "></div></li>
+                        "></div>
+                        </li>
                     </ul>
 
                     <ul class="nav navbar-nav navbar-right mt-45">
@@ -765,6 +784,42 @@
 
 
         <div class="container" style="margin-top: 5rem;">
+
+            {% if report.nomenclatura == 'Tablero de Control' %}
+            <div class='container'>
+                <div style="
+                            margin-top: 40px;
+                            width: 50%;
+                        ">
+
+                    <h2 style="
+                            color: #333333;
+                            font-family: Montserrat;
+                            font-size: 40px;
+                            line-height: 58px;
+                            font-weight: 600;
+                            
+                            text-align: left; ">Tablero de Control </h2>
+
+                    <p align="justify">Herramienta del OTEG que comunica mediante semáforos, el comportamiento de los
+                        indicadores turísticos monitoreados.
+                        Los resultados de cada indicador aportan un puntaje ponderado a cada dimensión sobre una base de
+                        100 puntos.
+                        Se dividen en las siguientes <span style="
+                        font-weight: 600;
+
+                         ">cuatro dimensiones: </span>
+                    </p>
+
+
+
+                </div>
+
+            </div>
+
+            {% endif %}
+
+
             <div style="width: 100%; padding: 0;">
                 {{report.iframe |safe}}
             </div>
@@ -904,16 +959,14 @@
                         <h2
                             style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 20px; color: #fff; padding: 0; margin: 0;">
                             Resumen Estatal</h2>
-                        <a style=" font-family: Poppins; color: #fff; font-weight: 300;" href="{% url 'dashboard:report_detail' 31 %}">Ver mas</a>
+                        <a style=" font-family: Poppins; color: #fff; font-weight: 300;"
+                            href="{% url 'dashboard:report_detail' 31 %}">Ver mas</a>
                     </div>
                     <div>
-                        <a
-                        href="{% url 'dashboard:report_detail' 31 %}"
-                        class="fas fa-chevron-circle-right"
-                        style="font-size: 30px; color: #fff; margin-left: 20px; margin-right: 20px; margin-top: 10px; margin-bottom: 10px; cursor: pointer; text-decoration: none;"
-                        >
+                        <a href="{% url 'dashboard:report_detail' 31 %}" class="fas fa-chevron-circle-right"
+                            style="font-size: 30px; color: #fff; margin-left: 20px; margin-right: 20px; margin-top: 10px; margin-bottom: 10px; cursor: pointer; text-decoration: none;">
 
-                    </a>
+                        </a>
                     </div>
 
                 </div>
@@ -1036,7 +1089,7 @@
                 </div>
             </div>
 
-          
+
 
 
         </div>
@@ -1047,30 +1100,40 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <script>
             function googleTranslateElementInit() {
-  new google.translate.TranslateElement({
-    pageLanguage: 'es',
-    includedLanguages: 'en,it,ja,pt',
-    layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-  }, 'google_translate_element');
-}
+                new google.translate.TranslateElement({
+                    pageLanguage: 'es',
+                    includedLanguages: 'en,it,ja,pt',
+                    layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+                }, 'google_translate_element');
+            }
 
-    function setFixedMenuPosition() {
-      var translateElement = document.getElementById('google_translate_element');
-      var fixedMenu = document.getElementsByClassName('all-fixed')[0];
-      
-      if (translateElement && fixedMenu) {
-        var translateHeight = translateElement.offsetHeight;
-        fixedMenu.style.top = translateHeight + 'px';
-      } else if (fixedMenu) {
-        fixedMenu.style.top = '0';
-      }
-    }
-    window.onload = setFixedMenuPosition;
+            function setFixedMenuPosition() {
+                var translateElement = document.getElementById('google_translate_element');
+                var fixedMenu = document.getElementsByClassName('all-fixed')[0];
+
+                if (translateElement && fixedMenu) {
+                    var translateHeight = translateElement.offsetHeight;
+                    fixedMenu.style.top = translateHeight + 'px';
+                } else if (fixedMenu) {
+                    fixedMenu.style.top = '0';
+                }
+            }
+            window.onload = setFixedMenuPosition;
         </script>
 
+        <script>
+            function handleSearch(event) {
+                event.preventDefault();  // Prevent form submission
+
+                const query = document.getElementById('search-input').value;
+                const url = document.getElementById('search-form').action + '?query=' + encodeURIComponent(query);
+                window.location.href = url;
+            }
+        </script>
+
+        {% include 'web/components/footer/footer_new.html' %}
 </body>
 
-{% include 'web/components/footer/footer_new.html' %}
 
 
 </html>

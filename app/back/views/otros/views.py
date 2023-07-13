@@ -40,6 +40,7 @@ class CentroDocumentalView(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView)
         context = super().get_context_data(**kwargs)
         context['title'] = 'Listado Secciones Centro Documental'
         context['create_url'] =  reverse_lazy('dashboard:centrodocumenta_create')
+        context['d_route'] = 'Centro Documental'
         return context
     
  
@@ -90,6 +91,8 @@ class SeccionCentroDocumentalUpdate(UpdateView):
         context = super().get_context_data(**kwargs)
         context['form'] = self.form_class(instance=self.object)
         context['list_url'] = reverse_lazy('dashboard:centrodocumental')
+        context['d_route'] = 'Centro Documental'
+
         return context
 
 
@@ -142,6 +145,7 @@ class SeccionCentroDocumentalCreate(CreateView):
         context['entity'] = 'Secciones Centro Documental'
         context['list_url'] = reverse_lazy('dashboard:centrodocumental')
         context['action'] = 'add'
+        context['d_route'] = 'Centro Documental > Crear Sección'
         return context
     
 
@@ -240,6 +244,7 @@ class CategoriasCreateView(SuperAdminOrAdminMixin, LoginRequiredMixin, CreateVie
         context['title'] = 'Crear una Seccion'
         context['entity'] = 'Categoria'
         context['list_url'] = reverse_lazy('dashboard:categorias_list', kwargs={'pk': self.kwargs['pk']})
+        context['d_route'] = 'Centro Documental > Categorias > Crear Categoria'
         context['action'] = 'add'
         return context
 
@@ -289,6 +294,7 @@ class CategoriasUpdateView(SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateVie
         context['form'] = self.form_class(instance=self.object)
         seccion_pk = self.kwargs['seccion_pk']
         context['list_url'] = reverse_lazy('dashboard:categorias_list', kwargs={'pk': seccion_pk})
+        context['d_route'] = 'Centro Documental > Categorias > Editar Categoria'
         return context
 
 
@@ -312,14 +318,15 @@ class DescargasView (SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         queryset1 = Publications.objects.all()
-        queryset2 = BarometroTuristico.objects.all()
-        queryset = list(queryset1) + list(queryset2)
-        return queryset
+        # queryset2 = BarometroTuristico.objects.all()
+        # queryset = list(queryset1) + list(queryset2)
+        return queryset1
 
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Listado de Descargas'
+        context['d_route'] = 'CEDOC > Descargas'
         return context      
 
 

@@ -7,33 +7,37 @@
 {% endblock %}
 
 {% block columns %}
-    <tr class="text-center table-header">
-        <th class="text-left pl-3">N°</th>
-        <th class="text-center hidden-t">Destino Aeropuerto</th>
-        <th class="text-center hidden-t">ID Destino Aeropuerto</th>
-        <th class="actions">Acciones</th>
-    </tr>
+<tr class="text-center table-header">
+    <th class="text-left pl-3">ID</th>
+    <th class="text-center hidden-t">Destino Aeropuerto</th>
+    <th class="text-center hidden-t">ID Destino Aeropuerto</th>
+    <th class="actions">Acciones</th>
+</tr>
 {% endblock %}
 
 {% block rows %}
-    {% for e in object_list %}
-        <tr class="text-center table-body mt-2">
-            <th class="text-left pl-3">{{ e.id }}</th>
-            <th class="text-center hidden-t">{{e.destino_aeropuerto}}</th>
-            <th class="text-center hidden-t">{{e.destino_aeropuerto_id}}</th>
-            <th class="actions-container">
-                <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="location.href='{% url 'dashboard:catalogo_destinos_update' e.id %}'">
-                    <i class="far fa-eye"></i>
+{% for e in object_list %}
+<tr class="text-center table-body mt-2">
+    <th class="text-left pl-3">{{ e.id }}</th>
+    <th class="text-center hidden-t">{{e.destino_aeropuerto}}</th>
+    <th class="text-center hidden-t">{{e.destino_aeropuerto_id}}</th>
+    <th class="text-center" style="position: relative; background-color: #ECF0F1; text-align: center; height: 100%;">
+        <div class="icon-container">
+            <button tooltip="Consultar" flow="down"
+                onclick="location.href='{% url 'dashboard:catalogo_destinos_update' e.id %}'">
+                <i class="far fa-eye"></i>
+            </button>
+            <form method="post" action="{% url 'dashboard:catalogo_destinos_delete' e.id %}">
+                {% csrf_token %}
+                <button tooltip="Consultar" flow="down"
+                    onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">
+                    <i class="fas fa-trash"></i>
                 </button>
-                <form method="post" action="{% url 'dashboard:catalogo_destinos_delete' e.id %}" >
-                    {% csrf_token %}
-                    <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </form>
-            </th>
-        </tr>
-    {% endfor %}
+            </form>
+        </div>
+    </th>
+</tr>
+{% endfor %}
 {% endblock %}
 
 {% block javascript %}

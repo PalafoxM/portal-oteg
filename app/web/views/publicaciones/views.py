@@ -205,8 +205,8 @@ class OtasPublicaciones (TemplateView):
     template_name = 'web/paginas/publicaciones/otras_publicaciones.html'
 
 
-class InventarioTuristico (TemplateView):
-    template_name = 'web/paginas/publicaciones/inventario_turistico.html'
+# class InventarioTuristico (TemplateView):
+#     template_name = 'web/paginas/publicaciones/inventario_turistico.html'
 
 
 class PDFDownloadBarometro(View):
@@ -318,8 +318,8 @@ class BarometroViewer (TemplateView):
 @require_GET
 def search(request):
     q = request.GET.get('q', '')
-    year = request.GET.get('year', '')
-    bim = request.GET.get('bim', '')
+    year = request.GET.geet('year', '')
+    bim = request.GET.gt('bim', '')
 
     results = BarometroTuristico.objects.filter(nombrePDF__icontains=q)
     if year:

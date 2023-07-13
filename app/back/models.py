@@ -278,6 +278,14 @@ class otros_anuales(models.Model):
         db_table = "otros_anuales"
         ordering = ['-id']
 
+    
+
+
+
+
+
+
+
 
 class zonas_arqueologicas_museos(models.Model):
     destino = models.CharField(max_length=255)
@@ -287,6 +295,13 @@ class zonas_arqueologicas_museos(models.Model):
     origen_visitante = models.CharField(max_length=455)
     visitantes = models.IntegerField()
     fecha_actualizacion = models.DateField(auto_now=True)
+
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+
+
 
     class Meta:
 
@@ -524,6 +539,10 @@ class Airbnb (models.Model):
     porcentaje_ocupacion = models.FloatField(verbose_name='Porcentaje de ocupación')
     tarifa_promedio = models.FloatField(verbose_name='Tarifa promedio')
     fecha_actualizacion = models.DateField(auto_now=True)
+    
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
 
     class Meta:
         app_label = 'ecosistema'
@@ -675,58 +694,76 @@ class FuenteInfoPerfilVisitanteDestino(models.Model):
     folio = models.IntegerField(verbose_name='Folio')
     herramienta = models.CharField(max_length=256, verbose_name='Herramienta')
     fecha = models.DateField(verbose_name='Fecha')
+    
     temporada = models.CharField(max_length=256, verbose_name='Temporada')
     destino = models.CharField(max_length=256, verbose_name='Destino')
     residencia = models.CharField(max_length=256, verbose_name='Residencia')
+    
     tipo_asistente = models.CharField(max_length=256, verbose_name='Tipo de asistente')
     municipio = models.CharField(max_length=256, verbose_name='Municipio')
     estado = models.CharField(max_length=256, verbose_name='Estado')
+    
     pais = models.CharField(max_length=256, verbose_name='País')
     origen = models.CharField(max_length=256, verbose_name='Origen')
     motivo_visita = models.CharField(max_length=256, verbose_name='Motivo de visita')
+    
     motivo_visita_otro = models.CharField(max_length=256, verbose_name='Otro motivo de visita')
     segmento = models.CharField(max_length=256, verbose_name='Segmento')
     tipo_hospedaje = models.CharField(max_length=256, verbose_name='Tipo de hospedaje')
+    
     tipo_visitante = models.CharField(max_length=256, verbose_name='Tipo de visitante')
     estadia_dias = models.FloatField(verbose_name='Estadía en días')
     estadia_hrs = models.FloatField(verbose_name='Estadía en horas')
     acompanantes = models.FloatField(verbose_name='Acompañantes')
     acompanantes_maxmin = models.FloatField(verbose_name='Acompañantes (máx/min)')
+    
     medio_transporte_edo = models.CharField(max_length=256, verbose_name='Medio de transporte desde el estado')
     tiene_fam = models.CharField(max_length=256, verbose_name='¿Tiene familiares en el destino?')
     visita_fam = models.CharField(max_length=256, verbose_name='Motivo de visita a familiares')
+    
     sat_hospedaje = models.IntegerField(verbose_name='Satisfacción con el hospedaje')
     sat_ayb = models.IntegerField(verbose_name='Satisfacción con alimentos y bebidas')
     sat_atractivos = models.IntegerField(verbose_name='Satisfacción con atractivos turísticos')
+    
     sat_tours = models.IntegerField(verbose_name='Satisfacción con tours o actividades')
     sat_central = models.IntegerField(verbose_name='Satisfacción con la central de autobuses')
     sat_aeropuerto = models.IntegerField(verbose_name='Satisfacción con el aeropuerto')
+    
     sat_carretera = models.IntegerField(verbose_name='Satisfacción con carreteras')
     sat_infotur = models.IntegerField(verbose_name='Satisfacción con módulos de información turística')
     sat_estacionamiento = models.IntegerField(verbose_name='Satisfacción con estacionamientos')
+    
     sat_hospitalidad = models.IntegerField(verbose_name='Satisfacción con la hospitalidad')
     sat_seguridad = models.IntegerField(verbose_name='Satisfacción con la seguridad')
+   
     sat_experiencia = models.IntegerField(verbose_name='Satisfacción con la experiencia general')
     sat_accesibilidad = models.IntegerField(verbose_name='Satisfacción con la accesibilidad')
     sat_senaletica = models.IntegerField(verbose_name='Satisfacción con señalética')
+    
     sat_transporte = models.IntegerField(verbose_name='Satisfacción con transporte público')
     sat_limpieza = models.IntegerField(verbose_name='Satisfacción con la limpieza')
     sat_eventos = models.IntegerField(verbose_name='Satisfacción con eventos y espectáculos')
+    
     sat_protocolos = models.IntegerField(verbose_name='Satisfacción con protocolos COVID-19')
     sat_precios = models.IntegerField(verbose_name='Satisfacción con precios')
     recomendacion_destino = models.CharField(max_length=256, verbose_name='Recomendación del destino')
+    
     retorno_destino = models.CharField(max_length=256, verbose_name='Retorno al destino')
     nps_destino = models.FloatField(verbose_name='NPS del destino')
     nps_destino_categoria = models.CharField(max_length=256, verbose_name='Categoría NPS del destino')
+    
     nps_hotel = models.FloatField(verbose_name='NPS del hotel')
     nps_ayb = models.FloatField(verbose_name='NPS de alimentos y bebidas')
     nps_atractivos = models.FloatField(verbose_name='NPS de atractivos turísticos')
+    
     nps_tours = models.FloatField(verbose_name='NPS de tours o actividades')
     vio_escucho_noticias = models.CharField(max_length=256, verbose_name='Vio o escuchó noticias del destino')
     impacto_noticias = models.CharField(max_length=256, verbose_name='Impacto de las noticias en la visita')
+    
     identifico_practicas_sust = models.CharField(max_length=256, verbose_name='Identificación de prácticas sustentables')
     edad = models.FloatField(verbose_name='Edad')
     nse = models.CharField(max_length=256, verbose_name='NSE (Nivel Socioeconómico)')
+    
     sexo = models.CharField(max_length=256, verbose_name='Sexo')
     proposito_visita_destino_estado = models.CharField(max_length=256, verbose_name='Propósito de la visita al destino o estado')
     codigo_encuesta_ano = models.CharField(max_length=256, verbose_name='Código de encuesta del año')
@@ -825,6 +862,7 @@ class InventarioTuristico(models.Model):
         ordering = ['-id']
 
 class DirectorioHotelero(models.Model):
+
     id_establecimiento = models.IntegerField()
     nombre_de_la_unidad_economica = models.CharField(max_length=256)
     razon_social = models.CharField(max_length=256)

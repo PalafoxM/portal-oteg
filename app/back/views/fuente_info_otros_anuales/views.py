@@ -165,8 +165,7 @@ class FuenteInfoOtrosAnualesUpdate (SuperAdminOrAdminMixin, LoginRequiredMixin, 
     model = otros_anuales
     form_class = OtrosAnualesForm
     success_url = reverse_lazy('dashboard:fuente_info_otros_anuales')
-    template_name = 'back/fuente_info_otros_anuales/view_editor.html'
-
+    template_name = 'back/fuente_info_otros_anuales/create.html'
     
     def form_invalid(self, form):
         response = super().form_invalid(form)
@@ -195,9 +194,7 @@ class FuenteInfoOtrosAnualesUpdate (SuperAdminOrAdminMixin, LoginRequiredMixin, 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['list_url'] = reverse_lazy('dashboard:fuente_info_otros_anuales')
-        # Set the widget for the 'destino' field to read-only text input
-        context['form'].fields['ano'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
-      
+        context['form'].fields['ano'].widget.attrs['readonly'] = True
         context['title'] = 'Editar fuente'
         context['edit_msg'] = 'El campo Año no pueden ser editado'    
 

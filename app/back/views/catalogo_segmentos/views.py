@@ -33,6 +33,7 @@ class CatalagoSegmentosListView(LoginRequiredMixin, SuperAdminMixin, ListView):
         context['title'] = 'Catalago Segmentos'
         context['create_url'] = reverse_lazy('dashboard:catalago_segmento_create')
         context['entity'] = 'Catalago Segmentos'
+        context['d_route'] = 'Configuración  > Catalago Segmentos'
         return context
 
 
@@ -85,6 +86,7 @@ class  CatalagoSegmentosCreateView(LoginRequiredMixin, SuperAdminMixin, CreateVi
         context['entity'] = 'Catalago Segmentos'
         context['list_url'] = reverse_lazy('dashboard:catalago_segmento_list')
         context['action'] = 'add'
+        context['d_route'] = 'Configuración  > Catalago Segmentos'
         return context
 
 
@@ -125,6 +127,7 @@ class CatalagoSegmentosUpdateView(LoginRequiredMixin, SuperAdminMixin,  UpdateVi
         context['list_url'] = reverse_lazy('dashboard:catalago_segmento_list')
         context['form'] = self.form_class(instance=self.object)
         context['action'] = 'adit'
+        context['d_route'] = 'Configuración  > Catalago Segmentos'
         return context
 
 

@@ -16,11 +16,11 @@
 
 {% block columns %}
 <tr class="text-center table-header">
-    <th class="text-left pl-3">N°</th>
+    <th class="text-left pl-3">ID </th>
     <th class="text-center hidden-t">Año</th>
-    <th class="text-left hidden-t">PIB_sector_72</th>
-    <th class="text-left hidden-t">PIB_actividades_terciarias</th>
-    <th style="width: 300px;">basura_generada_persona_diaria_Kg</th>   
+    <th class="text-left hidden-t">PIB Sector 72</th>
+    <th class="text-left hidden-t">PIB Sctividades Terciarias</th>
+    <th style="width: 300px;"> Basura generada persona diaria Kg</th>
     <th class="actions">Acciones</th>
 </tr>
 {% endblock %}
@@ -28,23 +28,24 @@
 {% block rows %}
 {% for e in object_list %}
 <tr class="text-center table-body mt-2">
-    <th class="text-left pl-3">{{e.id}}</th>
-    <th class="text-center hidden-t">{{e.ano}}</th>
-    <th class="text-left hidden-t">{{e.PIB_sector_72}}</th>
-    <th class="text-center hidden-t">{{e.PIB_actividades_terciarias}}</th>
-    <th class="text-center hidden-t">{{e.basura_generada_persona_diaria_Kg}}</th>
-    <th class="actions-container">
-        <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="location.href='{% url 'dashboard:fuente_info_otros_anuales_update' e.id %}'">
-            <i class="far fa-eye"></i>
-        </button>
-        <form method="post" action="{% url 'dashboard:fuente_info_otros_anuales_delete' e.id %}" >
-            {% csrf_token %}
-            <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">
-                <i class="fas fa-trash"></i>
-            </button>
-        </form>
+    <th class="text-left tb-text">{{e.id}}</th>
+    <th class="text-left tb-text">{{e.ano}}</th>
+    <th class="text-left tb-text">{{e.PIB_sector_72}}</th>
+    <th class="text-left tb-text">{{e.PIB_actividades_terciarias}}</th>
+    <th class="text-left tb-text">{{e.basura_generada_persona_diaria_Kg}}</th>
+    <th class="text-center" style="
+    position: relative;
+    background-color: #ECF0F1;
+    text-align: center;
+    height: 100%;">
+
+        <div class="icon-container">
+            <i class="fas fa-edit" onclick="location.href='{% url 'dashboard:fuente_info_otros_anuales_update' e.id %}'"
+                style="color: #6c6e7e; cursor: pointer;"> </i>
+            <i class="fas fa-trash" onclick="location.href='{% url 'dashboard:fuente_info_otros_anuales_delete' e.id %}'"
+                style="color: #6c6e7e; cursor: pointer;"> </i>
+        </div>
     </th>
 </tr>
 {% endfor %}
 {% endblock %}
-  

@@ -28,6 +28,7 @@ class EncuestaView(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Listado encuenstas'
         context['create_url'] = reverse_lazy('dashboard:encuesta_create')
+        context['d_route'] = 'CEDOC > Encuestas'
         return context
 
 
@@ -80,6 +81,7 @@ class EncuestaCreate (CreateView):
         context['entity'] = 'Glosario'
         context['list_url'] = reverse_lazy('dashboard:modulo_encuestas')
         context['action'] = 'add'
+        context['d_route'] = 'CEDOC > Encuestas'
         return context
 
 
@@ -116,6 +118,7 @@ class EncuestaUpdate (UpdateView):
         context = super().get_context_data(**kwargs)
         context['form'] = self.form_class(instance=self.object)
         context['list_url'] = reverse_lazy('dashboard:modulo_encuestas')
+        context['d_route'] = 'CEDOC > Encuestas'
         return context
 
 

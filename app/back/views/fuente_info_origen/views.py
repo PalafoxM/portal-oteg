@@ -212,12 +212,12 @@ class FuenteInfoParticipacionOrigenUpdate (SuperAdminOrAdminMixin, LoginRequired
         context = super().get_context_data(**kwargs)
         context['list_url'] = reverse_lazy('dashboard:fuente_info_origen')
             # Set the widget for the 'destino' field to read-only text input
-        context['form'].fields['destino'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
+        context['form'].fields['destino'].widget.attrs['readonly'] = True 
 
-        context['form'].fields['ano'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
+        context['form'].fields['ano'].widget.attrs['readonly'] = True 
         context['title'] = 'Editar fuente'
 
-        context['edit_msg'] = 'Los Campos Destino y Fecha no pueden ser editados' 
+        context['edit_msg'] = 'Los Campos Destino y Fecha no pueden ser editados.' 
 
         return context
     

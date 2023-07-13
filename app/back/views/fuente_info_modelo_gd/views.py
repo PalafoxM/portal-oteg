@@ -23,7 +23,7 @@ def is_ajax(request):
 
 
 class FuenteInfoModeloGD (ListView):
-    model = ModeloGD
+    model = GastoDerrama
     template_name = 'back/fuente_info_Modelo_GD/viewer.html'
 
     def get_context_data(self, **kwargs):
@@ -36,8 +36,8 @@ class FuenteInfoModeloGD (ListView):
         return context
     
 class FuenteInfoModeloGDCreate (CreateView):
-    model = ModeloGD
-    form_class = ModeloGDForm
+    model = GastoDerrama
+    form_class = GastoDerramaForm
     template_name = 'back/fuente_info_Modelo_GD/create.html'
     success_url = reverse_lazy('dashboard:fuente_info_modelo_gd')
 
@@ -54,12 +54,12 @@ class FuenteInfoModeloGDCreate (CreateView):
         if form.is_valid():
             # Check if there is already a record with the same fecha, destino and categoria
 
-            anio = form.cleaned_data['anio']
+            ano = form.cleaned_data['ano']
             destino = form.cleaned_data['destino']
 
 
             try:
-                existing_object = self.get_object(anio=anio, destino=destino)
+                existing_object = self.get_object(ano=ano, destino=destino)
 
             except ModeloGD.DoesNotExist:
                 existing_object = None
@@ -103,9 +103,9 @@ class FuenteInfoModeloGDCreate (CreateView):
             # If there is existing data and replace_data is False, return an error
 
             if existing_object:
-                data = ModeloGD.objects.filter(anio=anio, destino=destino)
+                data = GastoDerrama.objects.filter(ano=ano, destino=destino)
 
-                data_list = list(data.values('anio','destino','gasto_diario_promedio','participacion','estadia_promedio'))
+                data_list = list(data.values('ano','destino','gasto_diario_promedio','participacion','estadia_promedio'))
                 data_list2 = list(form.cleaned_data.values())
                 table_html = render_to_string('back/fuente_info_Modelo_GD/table.html',{'data_list': data_list, 'actual': True, 'data_list2': data_list2})
 
@@ -161,8 +161,8 @@ class FuenteInfoModeloGDCreate (CreateView):
         return context
     
 class FuenteInfoModeloGDUpdate (UpdateView):
-    model = ModeloGD
-    form_class = ModeloGDForm
+    model = GastoDerrama
+    form_class = GastoDerramaForm
     template_name = 'back/fuente_info_Modelo_GD/create.html'
     success_url = reverse_lazy('dashboard:fuente_info_modelo_gd')
 
@@ -194,9 +194,9 @@ class FuenteInfoModeloGDUpdate (UpdateView):
         context = super().get_context_data(**kwargs)
         context['list_url'] = reverse_lazy('dashboard:fuente_info_modelo_gd')
             # Set the widget for the 'destino' field to read-only text input
-        context['form'].fields['destino'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
+        context['form'].fields['destino'].widget.attrs['readonly'] = True
 
-        context['form'].fields['anio'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
+        context['form'].fields['ano'].widget.attrs['readonly'] = True
         context['title'] = 'Editar fuente'
 
         context['edit_msg'] = 'Los Campos Destino y Año no pueden ser editados' 
@@ -204,7 +204,7 @@ class FuenteInfoModeloGDUpdate (UpdateView):
         return context
     
 class FuenteInfoModeloGDDelete (DeleteView):
-    model = ModeloGD
+    model = GastoDerrama
     success_url = reverse_lazy('dashboard:fuente_info_modelo_gd')
         
     def post(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:

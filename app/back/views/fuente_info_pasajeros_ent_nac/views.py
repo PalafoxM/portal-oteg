@@ -241,9 +241,9 @@ class FuenteInfoPasajerosEntNacUpdate (UpdateView):
         context['list_url'] = reverse_lazy('dashboard:fuente_info_pasajeros_ent_nac')
         # Set the widget for the 'destino' field to read-only text input
 
-        context['form'].fields['ano'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
-        context['form'].fields['aereopuerto'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
-        context['form'].fields['entidad'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
+        context['form'].fields['ano'].widget.attrs['readonly'] = True
+        context['form'].fields['aereopuerto'].widget.attrs['readonly'] = True
+        context['form'].fields['entidad'].widget.attrs['readonly'] = True
 
         context['title'] = 'Editar fuente de informacion'
 

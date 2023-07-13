@@ -31,6 +31,7 @@ class PublicationsListView(LoginRequiredMixin, SuperAdminMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Listado de Publicaciones'
         context['create_url'] =  reverse_lazy('dashboard:publicacion_create')
+        context['d_route'] = 'CEDOC > Publicaciones' 
         return context
     
 
@@ -96,6 +97,7 @@ class PublicationsCreateView(LoginRequiredMixin, SuperAdminMixin, CreateView):
         context['sections'] = SeccionesCentroDocumental.objects.all()
         context['list_url'] = reverse_lazy('dashboard:publicacion_list')
         context['action'] = 'add'
+        context['d_route'] = 'CEDOC > Publicaciones' 
         return context
 
 
@@ -162,6 +164,7 @@ class PublicationUpdateView(LoginRequiredMixin, SuperAdminMixin, UpdateView):
         context ['pk'] = self.kwargs.get('pk')
         context ['section'] = self.object.section.id
         context ['category'] = self.object.category.id
+        context['d_route'] = 'CEDOC > Publicaciones' 
         return context
 
 

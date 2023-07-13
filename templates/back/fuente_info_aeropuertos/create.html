@@ -142,6 +142,14 @@
 
 
 <script type="application/javascript">
+
+flatpickr("#id_fecha", {
+        dateFormat: "Y-m-d",
+        minDate: "today", // Fecha mínima seleccionable (hoy)
+        locale: "es",
+    });
+
+    
     $(function () {
         $('form').on('submit', function (e) {
             e.preventDefault();

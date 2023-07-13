@@ -273,7 +273,7 @@ class FuenteInfoPerfilVisitanteDestinosCreate(SuperAdminOrAdminMixin, LoginRequi
 class FuenteInfoPerfilVisitanteDestinosUpdate(SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
     model = FuenteInfoPerfilVisitanteDestino
     form_class = FuenteInfoPerfilVisitanteDestinoForm
-    template_name = 'back/fuente_info_perfil_visitante_destinos/create.html'
+    template_name = 'back/fuente_info_perfil_visitante_destinos/view_editor.html'
     success_url = reverse_lazy('dashboard:fuente_info_perfil_visitante_destinos')
 
     def form_invalid(self, form):
@@ -304,10 +304,10 @@ class FuenteInfoPerfilVisitanteDestinosUpdate(SuperAdminOrAdminMixin, LoginRequi
         context = super().get_context_data(**kwargs)
         context['list_url'] = reverse_lazy('dashboard:fuente_info_perfil_visitante_destinos')
             # Set the widget for the 'destino' field to read-only text input
-        context['form'].fields['ano'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
-        context['form'].fields['folio'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
-        context['form'].fields['fecha'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
-        context['form'].fields['destino'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
+        context['form'].fields['ano'].widget.attrs['readonly'] = True
+        context['form'].fields['folio'].widget.attrs['readonly'] = True
+        context['form'].fields['fecha'].widget.attrs['readonly'] = True
+        context['form'].fields['destino'].widget.attrs['readonly'] = True
   
         context['title'] = 'Editar fuente de información de PV Destinos'
 

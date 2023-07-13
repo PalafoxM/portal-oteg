@@ -33,6 +33,7 @@ class CatalagoCategoriaListView(LoginRequiredMixin, SuperAdminMixin, ListView):
         context['title'] = 'Catalago Categorías'
         context['create_url'] = reverse_lazy('dashboard:catalago_categoria_create')
         context['entity'] = 'Catalago Categorías'
+        context['d_route'] = 'Configuración  > Catalago Categorías' 
         return context
 
 
@@ -85,6 +86,7 @@ class  CatalagoCategoriaCreateView(LoginRequiredMixin, SuperAdminMixin, CreateVi
         context['entity'] = 'Catalago Categorías'
         context['list_url'] = reverse_lazy('dashboard:catalago_categoria_list')
         context['action'] = 'add'
+        context['d_route'] = 'Configuración  > Catalago Categorías' 
         return context
 
 
@@ -125,6 +127,7 @@ class CatalagoCategoriaUpdateView(LoginRequiredMixin, SuperAdminMixin,  UpdateVi
         context['list_url'] = reverse_lazy('dashboard:catalago_categoria_list')
         context['form'] = self.form_class(instance=self.object)
         context['action'] = 'adit'
+        context['d_route'] = 'Configuración  > Catalago Categorías' 
         return context
 
 

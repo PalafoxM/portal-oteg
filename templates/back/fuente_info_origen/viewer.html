@@ -16,12 +16,15 @@
 
 {% block columns %}
 <tr class="text-center table-header">
-    <th class="text-left pl-3">N°</th>  
+    <th class="text-left pl-3">ID</th>  
     <th class="text-left hidden-t">Año</th>
     <th class="text-center hidden-t">Destino</th>
-    <th style="width: 300px;">part_visitantes_int</th>
-    <th style="width: 300px;">part_visitantes_nac</th>
-    <th style="width: 300px;">part_visitantes_est</th>
+    <th style="width: 300px;">
+        Participación de visitantes internacionales
+    <th style="width: 300px;">
+        Participación de visitantes nacionales
+    <th style="width: 300px;">
+        Participación de visitantes estatales
     <th class="actions">Acciones</th>
 </tr>
 {% endblock %}
@@ -29,15 +32,26 @@
 {% block rows %}
 {% for e in object_list %}
 <tr class="text-center table-body mt-2">
-    <th class="text-left pl-3">{{e.id}}</th>
-    <th class="text-left hidden-t">{{e.ano}}</th>
-    <th class="text-center hidden-t">{{e.destino}}</th>
-    <th class="text-center hidden-t">{{e.part_visitantes_int}}</th>
-    <th class="text-center hidden-t">{{e.part_visitantes_nac}}</th>
-    <th class="text-center hidden-t">{{e.part_visitantes_est}}</th>
-    <th class="actions-container">
+    <th class="text-left tb-text">{{e.id}}</th>
+    <th class="text-left tb-text">{{e.ano}}</th>
+    <th class="text-left tb-text">{{e.destino}}</th>
+    <th class="text-left tb-text">{{e.part_visitantes_int}}</th>
+    <th class="text-left tb-text">{{e.part_visitantes_nac}}</th>
+    <th class="text-left tb-text">{{e.part_visitantes_est}}</th>
+    <th style="
+    position: relative;
+    background-color: #ECF0F1;
+    text-align: center;
+    height: 100%;
+    ">
+
+    <div
+    class="icon-container2"
+    >
+
+
         <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="location.href='{% url 'dashboard:fuente_info_origen_update' e.id %}'">
-            <i class="far fa-eye"></i>
+            <i class="far fa-edit"></i>
         </button>
         <form method="post" action="{% url 'dashboard:fuente_info_origen_delete' e.id %}" >
             {% csrf_token %}
@@ -45,6 +59,7 @@
                 <i class="fas fa-trash"></i>
             </button>
         </form>
+    </div>
     </th>
 </tr>
 {% endfor %}
