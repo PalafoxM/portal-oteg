@@ -4,7 +4,7 @@
 
 {% block columns %}
 
-<tr>
+<tr class="text-center table-header">
     <th scope="col" style="width: 20%;">Nombre</th>
     <th scope="col" style="width: 20%;">No. de Descargas</th>
     <th scope="col" style="width: 20%;">Sección</th>
@@ -21,61 +21,111 @@
     <th class="text-left tb-text">
         {% if e.nombrePDF %}
         {{e.nombrePDF}}</th>
+    {% elif e.name %}
+    {{e.name}}
     {% else %}
-    {{e.name}}</th>
+    {{e.titulo}}
     {% endif %}
+    </th>
+
+
     <th class="text-left tb-text">{{e.num_descargas}}</th>
+
     <th class="text-left tb-text">
         {% if e.section %}
         {{e.section.seccion}}
+        {% elif e.nombrePDF %}
+        BarometroTuristico
         {% else %}
-        <span>BarometroTuristico</span>
+        Reportes Mensuales
         {% endif %}
     </th>
+
     <th class="text-left tb-text">
         {{e.definicion}}
 
         {% if e.category %}
         {{e.category.nombre_categoria}}
         {% else %}
-        Año :{{e.yearPDF}}, Semestre :{{e.semestre}}
+        {{e.yearPDF}}
         {% endif %}
 
     </th>
 
-    <th class="text-left tb-text">
-        {% if e.doc %}
+    <th class="text-center" style="
+    position: relative;
+    background-color: #ECF0F1;
+    text-align: center;
+    height: 100%;">
 
+        <div style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);">
+            {% if e.doc %}
 
             {% if e.type %}
 
             {% if e.type == '1' %}
-                <a href="{% url 'pdf_back' pk=e.id %}">
-                    Descargar
-                </a>
+            <a class='fas fa-download' style="
+        color: #747373;
+        font-size: 20px;
 
-            {% elif e.type == '2' %}        
+        " href="{% url 'pdf_back' pk=e.id %}">
 
-                <a href="{% url 'audio_download' pk=e.id %}">
-                    Descargar
-                </a>
+            </a>
+
+            {% elif e.type == '2' %}
+
+            <a class='fas fa-download' style="
+        color: #747373;
+        font-size: 20px;
+
+        " href="{% url 'audio_download' pk=e.id %}">
+
+            </a>
 
             {% elif e.type == '3' %}
-                <a href="{% url 'excel_download' pk=e.id %}">
-                    Descargar
-                </a>
+            <a class='fas fa-download' style="
+        color: #747373;
+        font-size: 20px;
+
+        " href="{% url 'excel_download' pk=e.id %}">
+
+            </a>
             {% endif %}
 
             {% else %}
 
-            <a href="{% url 'pdf_back' pk=e.id %}">
-                Descargar
+            {% if e.mes %}
+
+            <a class='fas fa-download' style="
+        color: #747373;
+        font-size: 20px;
+
+        " href="{% url 'reporte_mensual_download' pk=e.id %}"> </a>
+            {% else %}
+
+            <a class='fas fa-download' style="
+        color: #747373;
+        font-size: 20px;
+
+        " href="{% url 'pdfDownload_Bar' pk=e.id %}">
+
             </a>
+
             {% endif %}
 
-        {% else %}
 
-        {% endif %}
+
+
+            {% endif %}
+
+            {% else %}
+
+            {% endif %}
+        </div>
     </th>
 
 </tr>

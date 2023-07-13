@@ -316,10 +316,10 @@ class BarometroViewer (TemplateView):
 
 
 @require_GET
-def search(request):
+def searchBar(request):
     q = request.GET.get('q', '')
-    year = request.GET.geet('year', '')
-    bim = request.GET.gt('bim', '')
+    year = request.GET.get('year', '')
+    bim = request.GET.get('bim', '')
 
     results = BarometroTuristico.objects.filter(nombrePDF__icontains=q)
     if year:
@@ -329,6 +329,7 @@ def search(request):
 
     data = [{'nombrePDF': obj.nombrePDF, 'url': obj.doc.url, 'id': obj.id}
             for obj in results]
+    
     return JsonResponse(data, safe=False)
 
 

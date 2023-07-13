@@ -5,12 +5,6 @@
     <nav class="navbar navbar-default force-hamburger">
 
         <div class="container otwn-logo">
-            <image style="
-                height: 30px;
-                object-fit: cover;
-                object-position: center;
-                " src="{% static 'icons/unwto.png' %}" />
-
         </div>
         <div class="container">
             <div class="navbar-header">
@@ -21,10 +15,27 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">
-                    <img src="{% static 'img/inicio/logo.png' %}" alt="" class="img-responsive"
-                    style="height: 60px;  margin-top: -16px;">
-                </a>
+                <div style="
+                display: flex;
+                justify-content: center;
+                align-items: center;
+           
+
+                    ">
+                    <a class="navbar-brand" href="#">
+                        <img src="{% static 'img/inicio/logo.svg' %}" alt="" class="img-responsive"
+                            style="height: 60px;  margin-top: -16px;">
+                    </a>
+                    <div>
+                        <image style="
+                            margin-top: 18px;
+                            height: 50px;
+                            object-fit: cover;
+                            object-position: center;
+                            " src="{% static 'icons/unwto.png' %}" />
+                    </div>
+                </div>
+
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -37,7 +48,7 @@
                     <li><a href="{% url 'solicitudes' %}" class="nav-text">Solicitudes</a>
                     <li> <a>
 
-                        <form id="search-form" action="{% url 'search_view' %}" method="get"
+                    <form id="search-form" action="{% url 'search_view' %}" method="get"
                         onsubmit="handleSearch(event)">
                         <input
                         autocomplete="off"
@@ -45,6 +56,8 @@
                             placeholder="Buscador">
                         <input type="submit" style="display: none;">
                     </form>
+
+                    
                     </a></li>
                     <li><div id="google_translate_element" style="
                         padding-top: 15px;
@@ -119,10 +132,10 @@
 <script>
     function handleSearch(event) {
         event.preventDefault();  // Prevent form submission
-
         const query = document.getElementById('search-input').value;
         const url = document.getElementById('search-form').action + '?query=' + encodeURIComponent(query);
         window.location.href = url;
     }
 </script>
+
 {% endblock %}
