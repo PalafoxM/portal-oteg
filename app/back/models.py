@@ -91,10 +91,9 @@ class Publications(models.Model):
 
     visible = models.BooleanField(default=True)
 
-    type = models.CharField(max_length=10, choices=TYPE_CHOICES)
+    type = models.CharField(max_length=10, choices=TYPE_CHOICES, verbose_name="Tipo de Documento")
     num_descargas = models.IntegerField(null=True, blank=True, default=0)
     name = models.CharField(max_length=100, verbose_name="Nombre")
-    # url = models.FileField(upload_to='publications', storage=S3Storage(), verbose_name="Archivo", blank=True , null=True) 
     doc = models.FileField(upload_to='publications', storage=S3Storage(), verbose_name="Documento", blank=True)#
     date_created = models.DateTimeField(auto_now=True)
     num_descargas = models.IntegerField(null=True, blank=True, default=0)

@@ -36,46 +36,6 @@
 </style>
 {% endblock %}
 {% block content %}
-<!-- <div class="card shadow mb-4">
-    <form method="post" enctype="multipart/form-data">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">{{title}}</h6>
-        </div>
-        <div class="card-body">
-            {% csrf_token %}
-
-            <div class="form-group">
-                <label for="id_section">Section:</label>
-                <select class="form-control" id="id_section" name="section">
-                    <option value="">---------</option>
-                    {% for section in sections %}
-                    <option value="{{ section.id }}">{{ section.seccion }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="id_category">Category:</label>
-                <select class="form-control" id="id_category" name="category">
-                </select>
-            </div>
-
-
-            {{ form.as_p }}
-
-        </div>
-        <div class="card-footer">
-
-            <button type="submit" class="btn btn-primary ">
-                <i class="fas fa-save"></i> Guardar
-            </button>
-
-            <div id="baker" class="btn btn-danger ">
-                <i class="fas fa-times"></i> Cancelar
-            </div>
-        </div>
-    </form>
-
-</div> -->
 <form method="post" enctype="multipart/form-data">
 
     <div class=" shadow mb-4" style="
@@ -120,7 +80,7 @@
                 font-size: 15px;
                 margin: 0;
                 padding: 0;
-            " for="id_section">Categoria</label>
+            " for="id_section">Categoría</label>
             </div>
             <div class="form-group" style=" width: 100%;">
                 <select class="form-control" id="id_category" name="category"></select>
@@ -134,7 +94,8 @@
                         {% if field.errors %}
                             <div class="error-message">{{ field.errors }}</div>
                         {% endif %}
-                        <div class="text-file">Recuerda comprimir el archivo para que no supere 1MB. Te recomendamos utilizar un compresor de archivos como <a href="https://squoosh.app/" target="_blank">Squoosh</a> para imágenes y <a href="https://smallpdf.com/compress-pdf" target="_blank">Smallpdf</a> para archivos PDF.</div>
+                        <div class="text-file">Recuerda comprimir el archivo para que no supere 1MB. Te recomendamos utilizar un compresor de archivos como <a href="https://squoosh.app/" target="_blank">Squoosh</a> para imágenes y <a href="https://www.ilovepdf.com/es/comprimir_pdf" target="_blank">iLovePDF</a> para archivos PDF.</div>
+
 
                     </div>
                 {% else %}

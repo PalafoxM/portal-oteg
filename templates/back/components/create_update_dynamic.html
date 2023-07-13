@@ -97,7 +97,7 @@
                 margin-bottom: 10px;
                 ">
                 <label style="font-family: avenir;font-weight: bold;font-size: 15px;margin: 0;padding: 0;"
-                    for="id_section">Section:</label>
+                    for="id_section">Sección:</label>
             </div>
             <select class="custom-input" id="id_section" name="section">
 
@@ -115,7 +115,7 @@
                 margin-bottom: 10px;
             ">
                 <label style="font-family: avenir;font-weight: bold;font-size: 15px;margin: 0;padding: 0;"
-                    for="id_category">Category:</label>
+                    for="id_category">Categoría:</label>
 
             </div>
             <select class="custom-input" id="id_category" name="category">
@@ -130,13 +130,14 @@
                         {% if field.errors %}
                             <div class="error-message">{{ field.errors }}</div>
                         {% endif %}
-                        <div class="text-file">Recuerda comprimir el archivo para que no supere 1MB. Te recomendamos utilizar un compresor de archivos como <a href="https://squoosh.app/" target="_blank">Squoosh</a> para imágenes y <a href="https://smallpdf.com/compress-pdf" target="_blank">Smallpdf</a> para archivos PDF.</div>
+                        <div class="text-file">Recuerda comprimir el archivo para que no supere 1MB. Te recomendamos utilizar un compresor de archivos como <a href="https://squoosh.app/" target="_blank">Squoosh</a> para imágenes y <a href="https://www.ilovepdf.com/es/comprimir_pdf" target="_blank">iLovePDF</a> para archivos PDF.</div>
+
 
                     </div>
                 {% else %}
                     <div style="width: 100%;">
                         <label style="font-family: avenir;font-weight: bold;font-size: 15px;margin: 0;padding: 0;"
-                            for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        for="{{ field.id_for_label }}">{{ field.label }} </label>
                     </div>
                     
                     {% if field.name == 'type' or field.name == 'name' %}
