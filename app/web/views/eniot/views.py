@@ -22,7 +22,7 @@ class EniotView(TemplateView):
         pdf =  Eniot.objects.filter(seccion='programa-eniot').order_by('-date_created')[:1].get()
         context['pdf'] = pdf
         context['nav_title'] = 'ENIOT'
-        context['img_url'] = 'img_nav/preguntas.png'
+        context['img_url'] = 'img_nav/phone.jpg'
         context['encuesta'] = self.encuesta 
         return context
     

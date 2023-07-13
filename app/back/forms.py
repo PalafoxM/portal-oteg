@@ -41,47 +41,33 @@ class PublicationForm(forms.ModelForm):
         ('3', 'XLS'),
     )
 
-    type = forms.ChoiceField(choices=TYPE_CHOICES, widget=forms.Select(
+    type = forms.ChoiceField(label='Tipo de Documento',choices=TYPE_CHOICES, widget=forms.Select(
         attrs={'class': 'custom-input', 'icon_class': 'fas fa-file'}))
-    name = forms.CharField(widget=forms.TextInput(
-        attrs={'class': 'custom-input', 'icon_class': 'fas fa-user'}))
-    visible = forms.BooleanField(required=False, widget=forms.CheckboxInput(
-        attrs={'class': 'form-check-input'}))
 
     class Meta:
         model = Publications
         exclude = ('category', 'section', 'num_descargas')
-        fields = '__all__'
+        fields = ['type', 'name', 'doc', 'visible']
         widgets = {
-
-            'type': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
-            'name': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-name'}),
-            'url': forms.ClearableFileInput(attrs={'class': 'custom-input-file'}),
-
-            'section': TextInput(attrs={'placeholder': 'Ingresa una Sección', 'class': 'custom-input'}),
-            'category': TextInput(attrs={'placeholder': 'Ingresa una Categroia', 'class': 'custom-input'}),
-            'type': TextInput(attrs={'placeholder': 'Ingresa un Tipo', 'class': 'custom-input'}),
-            'download': TextInput(attrs={'placeholder': 'Descarga', 'class': 'custom-input'}),
-            'name': TextInput(attrs={'placeholder': 'Ingresa un Nombre ', 'class': 'custom-input'}),
-            'fiel': ClearableFileInput(attrs={'placeholder': 'Ingresa una imagen', 'class': 'custom-input-file'}),
+            # 'type': forms.Select(attrs={'class': 'custom-input', 'icon_class': 'fas fa-file'}, choices=TYPE_CHOICES),
+            'name': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-user'}),
+            'doc': forms.ClearableFileInput(attrs={'class': 'custom-input-file'}),
         }
         labels = {
             'type': 'Tipo de Documento',
-            'url': 'Archivo',
             'category': 'Categoría',
-            'download': 'Descarga',
             'name': 'Nombre',
-            'fiel': 'Imagen',
-            'section': 'Sección',
+            'doc': 'Documento',
+            'visible': 'Visible',
         }
 
-    def clean_imagen(self):
-        imagen = self.cleaned_data.get('fiel', False)
-        if imagen:
-            print(imagen.size)
-            if imagen.size > self.MAX_SIZE_MB * 1024 * 1024:
-                raise ValidationError(f"La imagen no debe superar {self.MAX_SIZE_MB} MB de tamaño.")
-        return imagen
+    def clean_doc(self):
+        doc = self.cleaned_data.get('doc')
+        if doc:
+            if doc.size > self.MAX_SIZE_MB * 1024 * 1024:
+                raise forms.ValidationError(f"El documento no debe superar {self.MAX_SIZE_MB} MB de tamaño.")
+        return doc
+
 
 
 class BannerForm(ModelForm):
