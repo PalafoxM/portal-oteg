@@ -23,6 +23,39 @@
     .help-text-2 {
         margin-top: 5px;
     }
+    .input-file {
+        width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.input-file label {
+    margin-bottom: 5px;
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.text-file {
+    font-size: 14px;
+    color: #888888;
+    margin-top: 5px;
+}
+
+/* Estilos responsivos */
+@media screen and (max-width: 767px) {
+    .input-file {
+        margin-bottom: 10px;
+    }
+}
+
+
+
 </style>
 
 
@@ -63,9 +96,9 @@
             </div>
 
 
-            {% if field.name != 'descripcion' and field.name != 'imagen' and field.name != 'doc' and field.field.widget.input_type != 'file' %}
+            {% if field.name != 'descripcion' and field.name != 'imagen' and field.name != 'doc' and field.field.widget.input_type != 'file' and field.name != 'experiencia' and field.field.widget.input_type != 'select' %}
 
-            {% if field.name == 'activo' %}
+            {% if field.field.widget.input_type == 'checkbox' %}
             <div style="width: 100%; display: flex; justify-content: start;">
 
                 <div class="form-check form-switch" style="transform: scale(1.4);">
@@ -98,7 +131,18 @@
 
             {% else %}
 
-  
+            {% if field.field.widget.input_type == 'file' %}
+
+            <div class="input-file">
+                {{ field }}
+                {% if field.errors %}
+                <div class="error-message">{{ field.errors }}</div>
+                {% endif %}
+                <div class="text-file">Recuerda comprimir el archivo para que no supere 1MB. Te recomendamos utilizar un compresor de archivos como <a href="https://squoosh.app/" target="_blank">Squoosh</a> para imágenes y <a href="https://smallpdf.com/compress-pdf" target="_blank">Smallpdf</a> para archivos PDF.</div>
+
+            </div>
+
+            {% else %}
 
             <div style="
                     width: 100%;
@@ -108,11 +152,9 @@
                     flex-direction: column;">{{ field }}
             </div>
 
-
- 
-
             {% endif %}
-
+  
+            {% endif %}
 
             {% endfor %}
 
