@@ -79,8 +79,6 @@ margin-top: 40px;
                 <a class="footer-link"> Economía Inclusiva </a>
                 <a class="footer-link"> Sociedad y Cultura </a>
                 <a class="footer-link"> Medio Ambiente </a> -->
-
-
             </div>
             <div class="grid-item">
                 <a href="{% url 'inventario-turistico' %}" class="footer-title">INVENTARIO TURISTICO</a>
@@ -107,16 +105,28 @@ margin-top: 40px;
                 <a href="{% url 'sitios_interes'%}" class="footer-title">Sitios de Interes</a>
 
                 <div class='bottom-logo-omt'>
+                    <div
+                        style="
+                            width: 100%;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            flex-direction: column;
 
-                    <image style="
-                        margin-top: 18px;
-                        height: 70px;
-                        object-fit: cover;
-                        object-position: center;
-                        " src="{% static 'img_nav/unwto-white.png' %}" />
+                        "
+                    
+                    >
+
+
+                        <image style="
+                    height: 70px;
+                    " src="{% static 'img_nav/unwto-white.png' %}" />
+
+                    </div>
+
 
                     <p
-                        style=" color: #DEE2E6; font-family: Poppins; font-size: 12px; line-height: 32px; width: 554px; text-align: center; font-weight: 600; ">
+                        style=" color: #DEE2E6; font-family: Poppins; font-size: 12px; line-height: 32px; text-align: center; font-weight: 600; ">
                         OTEG Miembro afiliado a la OMT desde 2014 </p>
 
                 </div>
@@ -238,6 +248,7 @@ margin-top: 40px;
                 align-items: center;
                 flex-direction: column;
                 position: absolute;
+                flex-wrap: wrap;
                 bottom: 0;
                 right: 30px;
             }
@@ -245,8 +256,7 @@ margin-top: 40px;
         }
     </style>
 
-    <script src=" https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
-    </script>
+    <script src=" https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script>
         $(document).ready(function () {

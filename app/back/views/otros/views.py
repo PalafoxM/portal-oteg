@@ -318,14 +318,15 @@ class DescargasView (SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         queryset1 = Publications.objects.all()
-        # queryset2 = BarometroTuristico.objects.all()
-        # queryset = list(queryset1) + list(queryset2)
-        return queryset1
-
+        queryset2 = BarometroTuristico.objects.all()
+        queryset3 = Reportes_Mensuales.objects.all()
+        queryset = list(queryset1) + list(queryset2) + list(queryset3)
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Listado de Descargas'
+        context['object_list'] = self.get_queryset()
         context['d_route'] = 'CEDOC > Descargas'
         return context      
 

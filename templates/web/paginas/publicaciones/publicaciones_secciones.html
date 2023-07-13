@@ -9,7 +9,6 @@
     <title>Publicaciones</title>
     <!-- custom css -->
     <link rel="stylesheet" href="{% static 'web/css/baner.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'fontawesome-free/css/all.min.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,10 +16,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'normalize/normal.css' %}">
+    <link href="{% static 'admin/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
     <script type="text/javascript"
         src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
+    <link rel="stylesheet" href="{% static 'web/css/nabar-portal.css' %}">
+    <link rel="stylesheet" href="{% static 'normalize/normal.css' %}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 
 
@@ -695,12 +696,7 @@
     <div class="myslide carousel slide" id="carousel-example-generic" data-ride="carousel">
         <nav class="navbar navbar-default force-hamburger">
 
-            <div class="container otwn-logo">
-                <image style="
-                height: 30px;
-                object-fit: cover;
-                object-position: center;
-                " src="{% static 'icons/unwto.png' %}" />
+            <div class="container otwn-logo">/>
 
             </div>
             <div class="container">
@@ -712,10 +708,27 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">
-                        <img src="{% static 'img/inicio/logo.png' %}" alt="" class="img-responsive"
-                            style="width: 140px; margin-top: -16px;">
-                    </a>
+
+                    <div style="
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+               
+
+                        ">
+                        <a class="navbar-brand" href="#">
+                            <img src="{% static 'img/inicio/logo.svg' %}" alt="" class="img-responsive"
+                                style="height: 60px;  margin-top: -16px;">
+                        </a>
+                        <div>
+                            <image style="
+                                margin-top: 18px;
+                                height: 50px;
+                                object-fit: cover;
+                                object-position: center;
+                                " src="{% static 'icons/unwto.png' %}" />
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Collect the nav links, forms, and other content for toggling -->

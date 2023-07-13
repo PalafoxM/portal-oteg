@@ -71,7 +71,9 @@ urlpatterns = [
 
     path('barometro-turistico/',BarometroTuristicoView.as_view(), name='barometro-turistico'),
     path('pdfDownload-Bar/<int:pk>/', PDFDownloadBarometro.as_view(), name='pdfDownload_Bar'),
-    path('search/', search, name='search'),
+    path('searchBar/', searchBar, name='search_bar'),
+
+
     # sustentabilidad
     path('sustentabilidad/',Sustentabilidad.as_view(), name='sustentabilidad'),
     # eniot
