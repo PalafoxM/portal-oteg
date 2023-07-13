@@ -34,6 +34,7 @@ import traceback
 #         }
 
 class PublicationForm(forms.ModelForm):
+    MAX_SIZE_MB = 1  # Tamaño máximo permitido en MB
     TYPE_CHOICES = (
         ('1', 'PDF'),
         ('2', 'MP3'),
@@ -70,8 +71,17 @@ class PublicationForm(forms.ModelForm):
             'section': 'Sección',
         }
 
+    def clean_imagen(self):
+        imagen = self.cleaned_data.get('fiel', False)
+        if imagen:
+            print(imagen.size)
+            if imagen.size > self.MAX_SIZE_MB * 1024 * 1024:
+                raise ValidationError(f"La imagen no debe superar {self.MAX_SIZE_MB} MB de tamaño.")
+        return imagen
+
 
 class BannerForm(ModelForm):
+    MAX_SIZE_MB = 1  # Tamaño máximo permitido en MB
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -88,6 +98,14 @@ class BannerForm(ModelForm):
             'subtitulo' : TextInput(attrs = { 'placeholder': 'Ingresa un Subtitulo', 'class': 'custom-input', 'icon_class': 'fas fa-search'}),
             'titulo_pricipal' : TextInput(attrs = { 'placeholder': 'Ingresa una Descripcion', 'class': 'custom-input', 'icon_class': 'fas fa-search'}),
         }
+    
+    def clean_imagen(self):
+        imagen = self.cleaned_data.get('imagen', False)
+        if imagen:
+            print(imagen.size)
+            if imagen.size > self.MAX_SIZE_MB * 1024 * 1024:
+                raise ValidationError(f"La imagen no debe superar {self.MAX_SIZE_MB} MB de tamaño.")
+        return imagen
 
 
 class PlacesOfInterestForm(forms.ModelForm):
@@ -176,6 +194,7 @@ class CategoriasForm(forms.ModelForm):
 
 
 class NoticiaForm(ModelForm):
+    MAX_SIZE_MB = 1  # Tamaño máximo permitido en MB
 
     descripcion = forms.CharField(widget=CKEditorWidget())
 
@@ -193,9 +212,18 @@ class NoticiaForm(ModelForm):
             'imagen': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
 
         }
+    
+    def clean_imagen(self):
+        imagen = self.cleaned_data.get('imagen', False)
+        if imagen:
+            print(imagen.size)
+            if imagen.size > self.MAX_SIZE_MB * 1024 * 1024:
+                raise ValidationError(f"La imagen no debe superar {self.MAX_SIZE_MB} MB de tamaño.")
+        return imagen
 
 
 class BarometroForm(forms.ModelForm):
+    MAX_SIZE_MB = 1  # Tamaño máximo permitido en MB
     
     class Meta:
         model = BarometroTuristico
@@ -204,10 +232,20 @@ class BarometroForm(forms.ModelForm):
         widgets = {
             'nombrePDF': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-file-pdf'}),
             'yearPDF': forms.NumberInput(attrs={'class': 'custom-input' ,'icon_class': 'fas fa-calendar', 'required': True}),
+            'doc': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
         }
         labels = {
             'yearPDF': 'Año del PDF',
+            'nombrePDF': 'Nombre del PDF',
         }
+    
+    def clean_doc(self):
+        doc = self.cleaned_data.get('doc', False)
+        if doc:
+            if doc.size > self.MAX_SIZE_MB * 1024 * 1024:
+                raise forms.ValidationError(f"El PDF no debe superar {self.MAX_SIZE_MB} MB de tamaño.")
+        return doc
+
 
 
 class AlbaForm(forms.ModelForm):
@@ -219,6 +257,7 @@ class DateInput(forms.DateInput):
     input_type = 'date'
 
 class EventoForm(forms.ModelForm):
+    MAX_SIZE_MB = 1  # Tamaño máximo permitido en MB
     
     
     TIPOS_EVENTO_CHOICES = [
@@ -249,6 +288,14 @@ class EventoForm(forms.ModelForm):
             'fecha_fin': 'Fecha de fin',
             'imagen': 'Imagen',
         }
+
+    def clean_imagen(self):
+        imagen = self.cleaned_data.get('imagen', False)
+        if imagen:
+            print(imagen.size)
+            if imagen.size > self.MAX_SIZE_MB * 1024 * 1024:
+                raise ValidationError(f"La imagen no debe superar {self.MAX_SIZE_MB} MB de tamaño.")
+        return imagen
     
    
 class InventarioHoteleroForm(ModelForm):
@@ -1759,6 +1806,7 @@ class   ReporteMensualForm(forms.ModelForm):
 
 
 class ReportsForm(forms.ModelForm):
+    MAX_SIZE_MB = 1  # Tamaño máximo permitido en MB
     class Meta:
         model = Report
         fields = '__all__'
@@ -1792,6 +1840,7 @@ class ReportsForm(forms.ModelForm):
         self.fields['ods17'].widget.attrs['class'] = 'form-check-input'
         
 class EniotForm(forms.ModelForm):
+    MAX_SIZE_MB = 1  # Tamaño máximo permitido en MB
     seccion = forms.ChoiceField(choices=(
         ('', 'Selecciona una sección'),
         ('programa-eniot', 'Programa ENIOT'),
@@ -1814,7 +1863,16 @@ class EniotForm(forms.ModelForm):
             'anio': forms.NumberInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
         }
 
+    def clean_imagen(self):
+        imagen = self.cleaned_data.get('doc_url', False)
+        if imagen:
+            print(imagen.size)
+            if imagen.size > self.MAX_SIZE_MB * 1024 * 1024:
+                raise ValidationError(f"La imagen no debe superar {self.MAX_SIZE_MB} MB de tamaño.")
+        return imagen
+
 class EniotAlbunForm(forms.ModelForm):
+    MAX_SIZE_MB = 1  # Tamaño máximo permitido en MB
     class Meta:
         model = EniotAlbun
         fields = ['nombreAlbun', 'descripcion', 'foto_url']
@@ -1829,6 +1887,14 @@ class EniotAlbunForm(forms.ModelForm):
             'descripcion': 'Descripción',
             'foto_url': 'Foto',
         }
+    
+    def clean_imagen(self):
+        imagen = self.cleaned_data.get('foto_url', False)
+        if imagen:
+            print(imagen.size)
+            if imagen.size > self.MAX_SIZE_MB * 1024 * 1024:
+                raise ValidationError(f"La imagen no debe superar {self.MAX_SIZE_MB} MB de tamaño.")
+        return imagen
 
     def clean_foto_url(self):
         foto = self.cleaned_data.get('foto_url', False)

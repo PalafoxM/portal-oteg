@@ -216,6 +216,14 @@ class CustomUserCreationForm(UserCreationForm):
         fields = ('username', 'first_name', 'last_name', 'apellido_materno', 'fecha_cumple', 'direccion', 'tel', 'email', 'facebook', 'twitter', 'ciudad', 'estado', 'empresa_institucion',
                   'cargo', 'licenciatura', 'universidad_licenciatura', 'maestria', 'universidad_maestria', 'doctorado', 'universidad_doctorado', 'photo', 'experiencia', 'boletin', 'group')
 
+    def clean_imagen(self):
+        imagen = self.cleaned_data.get('photo', False)
+        if imagen:
+            print(imagen.size)
+            if imagen.size > self.MAX_SIZE_MB * 1024 * 1024:
+                raise ValidationError(f"La imagen no debe superar {self.MAX_SIZE_MB} MB de tamaño.")
+        return imagen
+    
     def cleaned_data(self):
         cleaned_data = super().cleaned_data()
         email = cleaned_data.get('email')
@@ -327,9 +335,9 @@ class CustomUserUpdateForm(UserChangeForm):
         queryset=Group.objects.all(), label='Rol / Permisos',
         widget=forms.Select(attrs={'class': 'form-control'}))
     new_password = forms.CharField(max_length=100, required=False, widget=forms.PasswordInput(
-        attrs={'class': 'form-control', 'placeholder': 'Nueva contraseña'}), label='Nueva Contraseña')
+        attrs={'class': 'form-control', 'placeholder': 'Nueva contraseña', 'icon_class': 'fas fa-key'}), label='Nueva Contraseña')
     confirm_password = forms.CharField(max_length=100, required=False, widget=forms.PasswordInput(
-        attrs={'class': 'form-control', 'placeholder': 'Confirmar contraseña'}), label='Confirmar Contraseña')
+        attrs={'class': 'form-control', 'placeholder': 'Confirmar contraseña', 'icon_class': 'fas fa-key'}), label='Confirmar Contraseña')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -366,6 +374,14 @@ class CustomUserUpdateForm(UserChangeForm):
         fields = ('username', 'first_name', 'last_name', 'apellido_materno', 'fecha_cumple', 'direccion', 'tel', 'email', 'facebook', 'twitter', 'ciudad', 'estado', 'empresa_institucion',
                   'cargo', 'licenciatura', 'universidad_licenciatura', 'maestria', 'universidad_maestria', 'doctorado', 'universidad_doctorado', 'photo', 'experiencia', 'boletin', 'group')
 
+    def clean_imagen(self):
+        imagen = self.cleaned_data.get('photo', False)
+        if imagen:
+            print(imagen.size)
+            if imagen.size > self.MAX_SIZE_MB * 1024 * 1024:
+                raise ValidationError(f"La imagen no debe superar {self.MAX_SIZE_MB} MB de tamaño.")
+        return imagen
+    
     def cleaned_data(self):
         print("cleaned_data")
         cleaned_data = super().cleaned_data()
