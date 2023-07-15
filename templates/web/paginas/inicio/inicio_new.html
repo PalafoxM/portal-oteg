@@ -927,7 +927,7 @@
                     justify-content: center;
                     align-items: center;
                     ">
-                    <img src="{% static 'icons/icon5.svg' %}" alt="" style="width: 55%; height:55%;">
+                    <img src="{% static 'icons/icon7.svg' %}" alt="" style="width: 55%; height:55%;">
                 </div>
 
 
@@ -984,7 +984,7 @@
         >
             <h2 style="
         text-transform: uppercase; text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 40px; color: #333333;">
-                Consulta el % de Ocupación Hotelera <br> 8 Principales Destinos
+                Consulta el % de Ocupación Hotelera <br>  <span style="font-size: 30px;">8 Principales Destinos</span>
             </h2>
         </div>
 
@@ -1192,9 +1192,8 @@
         margin: 0;
         padding: 0;
         cursor: pointer;">
-            <a href="{% url 'noticias_turisticas' %}">
-                <h4 style="
-                padding: 0;
+            <a style="text-decoration: none;"href="{% url 'noticias_turisticas' %}">
+                <h4 style=" padding: 0;
                 margin: 0;
                 color: #fff;
                 font-family: 'Montserrat', sans-serif;
@@ -1203,8 +1202,7 @@
         </div>
 
     </div>
-
-    </div>
+</div>
 
 
     <script>
