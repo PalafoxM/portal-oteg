@@ -1,0 +1,289 @@
+{% extends 'back/index.html' %}
+{% load static %}
+
+{% block head %}
+
+<link rel="stylesheet" href="{% static 'librerias/datatables-1.10.25/css/dataTables.bootstrap4.min.css' %}" />
+<link rel="stylesheet"
+    href="{% static 'librerias/datatables-1.10.25/plugins/responsive-2.2.9/css/responsive.bootstrap4.min.css' %}" />
+
+<!-- head_list -->
+{% block head_list %}
+
+{% endblock %}
+{% endblock %}
+
+{% block content %}
+<!-- <div class="row">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-12 ">
+        <div class="row p-3 pl-1 container-cards">
+            <div class="col-lg-4 col-md-12 mb-3">
+                <div class="small-cards card-white">
+                    <div class="row ml-0 mr-0" style="height: 100%; width: 100%;">
+                        <div class="col-lg-1 col-md-1 pl-0 pr-0 d-none d-sm-none d-md-block card-blue"></div>
+                        <div class="col-lg-6 col-md-6 col-sm-12 text-center justify-content-center align-self-center">
+                            <span class="card-text-black">
+                                Total de<br>FUENTES
+                            </span>
+                            <h3 class="card-text-black-num">4</h3>
+                        </div>
+                        <div
+                            class="col-lg-4 col-md-5 col-sm-5 d-none d-sm-none d-md-block text-center content-icon-card justify-content-center align-self-center">
+                            <img src="{% static 'images/fuentes_informacion/database-azul.png' %}" alt=""
+                                class="icon-card">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-12 mb-3">
+                <div class="small-cards card-white">
+                    <div class="row ml-0 mr-0" style="height: 100%; width: 100%;">
+                        <div class="col-lg-1 col-md-1 pl-0 pr-0 d-none d-sm-none d-md-block card-red"></div>
+                        <div class="col-lg-6 col-md-6 col-sm-12 text-center justify-content-center align-self-center">
+                            <span class="card-text-black">
+                                Total de<br>FUENTES por actualizar
+                            </span>
+                            <h3 class="card-text-black-num">4</h3>
+                        </div>
+                        <div
+                            class="col-lg-4 col-md-5 col-sm-5 d-none d-sm-none d-md-block text-center content-icon-card justify-content-center align-self-center">
+                            <img src="{% static 'images/fuentes_informacion/info-verde.png' %}" alt=""
+                                class="icon-card">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-12">
+                <div class="small-cards card-white">
+                    <div class="row ml-0 mr-0" style="height: 100%; width: 100%;">
+                        <div class="col-lg-1 col-md-1 pl-0 pr-0 d-none d-sm-none d-md-block card-green"></div>
+                        <div class="col-lg-6 col-md-6 col-sm-12 text-center justify-content-center align-self-center">
+                            <span class="card-text-black">
+                                Total de<br>FUENTES actualizadas
+                            </span>
+                            <h3 class="card-text-black-num">4</h3>
+                        </div>
+                        <div
+                            class="col-lg-4 col-md-5 col-sm-5 d-none d-sm-none d-md-block text-center content-icon-card justify-content-center align-self-center">
+                            <img src="{% static 'images/fuentes_informacion/database-verde.png' %}" alt=""
+                                class="icon-card">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+<!-- DataTales Example -->
+<div class="col-12 p-0">
+    <div class="row p-3">
+        <div class="col-12">
+            <div class="big-card">
+
+
+                <div class="table-responsive">
+                    <table class="table t" id="dataTable">
+                        <thead>
+                            <tr class="text-center table-header">
+                                <!-- <th class="text-left pl-3">Clave</th> -->
+                                <th class="text-left pl-3">Catálogos de Configuracion</th>
+                                <!-- <th class="text-left pl-3">Total de registros</th>
+                                <th class="text-left pl-3">Última actualización</th>
+                                <th class="text-left pl-3">Periodo de actualización</th>
+                                <th class="text-left pl-3">Estatus</th> -->
+                                <th class="text-center">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- <tr class="tr-space"></tr> -->
+                            <tr class="text-center table-body mt-2">
+                                <!-- <td class="text-left pl-3">Sin clave</td> -->
+                                <td class="text-left pl-3"> Catálogo Destinos</td>
+                                <!-- <td class="text-left pl-3">200</td>
+                                <td class="text-left pl-3">dd/mm/aaaa hh:mm</td>
+                                <td class="text-left pl-3">Mensual</td>
+                                <td class="text-center pl-3">Estatus</td> -->
+                                <td class="text-center" style="
+                                position: relative;
+                                background-color: #ECF0F1;
+                                text-align: center;
+                                height: 100%;">
+                                    <div style="
+                                        position: absolute;
+                                        top: 50%;
+                                        left: 50%;
+                                        transform: translate(-50%, -50%);">
+
+                                        <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down"
+                                            onclick="location.href='{% url 'dashboard:configuracion_destinos_list' %}'">
+                                            <i class="far fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+
+
+                            <tr class="text-center table-body mt-2">
+                                <!-- <td class="text-left pl-3">Sin clave</td> -->
+                                <td class="text-left pl-3">Catálogo Categorias</td>
+                                <!-- <td class="text-left pl-3">200</td>
+                                <td class="text-left pl-3">dd/mm/aaaa hh:mm</td>
+                                <td class="text-left pl-3">Mensual</td>
+                                <td class="text-center pl-3">Estatus</td> -->
+                                <td class="text-center" style="
+                                    position: relative;
+                                    background-color: #ECF0F1;
+                                    text-align: center;
+                                    height: 100%;">
+
+                                    <div style="
+                                        position: absolute;
+                                        top: 50%;
+                                        left: 50%;
+                                        transform: translate(-50%, -50%);">
+                                        <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down"
+                                            onclick="location.href='{% url 'dashboard:catalago_categoria_list' %}'">
+                                            <i class="far fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="text-center table-body mt-2">
+                                <!-- <td class="text-left pl-3">Sin clave</td> -->
+                                <td class="text-left pl-3">Catálogo Segmento</td>
+                                <!-- <td class="text-left pl-3">200</td>
+                                <td class="text-left pl-3">dd/mm/aaaa hh:mm</td>
+                                <td class="text-left pl-3">Mensual</td>
+                                <td class="text-center pl-3">Estatus</td> -->
+                                <td class="text-center" style="
+                                position: relative;
+                                background-color: #ECF0F1;
+                                text-align: center;
+                                height: 100%;">
+
+                                    <div style="
+                                position: absolute;
+                                top: 50%;
+                                left: 50%;
+                                transform: translate(-50%, -50%);">
+                                        <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down"
+                                            onclick="location.href='{% url 'dashboard:catalago_segmento_list' %}'">
+                                            <i class="far fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="text-center table-body mt-2">
+                                <!-- <td class="text-left pl-3">Sin clave</td> -->
+                                <td class="text-left pl-3">Catálogo Tipo Visitante</td>
+                                <!-- <td class="text-left pl-3">200</td>
+                                <td class="text-left pl-3">dd/mm/aaaa hh:mm</td>
+                                <td class="text-left pl-3">Mensual</td>
+                                <td class="text-center pl-3">Estatus</td> -->
+                                <td class="text-center" style="
+                                position: relative;
+                                background-color: #ECF0F1;
+                                text-align: center;
+                                height: 100%;">
+
+                                    <div style="
+                                position: absolute;
+                                top: 50%;
+                                left: 50%;
+                                transform: translate(-50%, -50%);">
+                                        <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down"
+                                            onclick="location.href='{% url 'dashboard:catalago_tipo_visitante_list' %}'">
+                                            <i class="far fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="text-center table-body mt-2">
+                                <!-- <td class="text-left pl-3">Sin clave</td> -->
+                                <td class="text-left pl-3">Catálogo Museos</td>
+                                <!-- <td class="text-left pl-3">200</td>
+                                <td class="text-left pl-3">dd/mm/aaaa hh:mm</td>
+                                <td class="text-left pl-3">Mensual</td>
+                                <td class="text-center pl-3">Estatus</td> -->
+                                <td class="text-center" style="
+                                position: relative;
+                                background-color: #ECF0F1;
+                                text-align: center;
+                                height: 100%;">
+
+                                    <div style="
+                                position: absolute;
+                                top: 50%;
+                                left: 50%;
+                                transform: translate(-50%, -50%);">
+                                        <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down"
+                                            onclick="location.href='{% url 'dashboard:catalogo_za_museos_list' %}'">
+                                            <i class="far fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </td>
+
+                            </tr>
+
+                            <tr class="text-center table-body mt-2">
+                                <!-- <td class="text-left pl-3">Sin clave</td> -->
+                                <td class="text-left pl-3">Catálogo destinos Aeropuerto</td>
+                                <!-- <td class="text-left pl-3">200</td>
+                                <td class="text-left pl-3">dd/mm/aaaa hh:mm</td>
+                                <td class="text-left pl-3">Mensual</td>
+                                <td class="text-center pl-3">Estatus</td> -->
+                                <td class="text-center" style="
+                                    position: relative;
+                                    background-color: #ECF0F1;
+                                    text-align: center;
+                                    height: 100%;">
+
+                                    <div style="
+                                    position: absolute;
+                                    top: 50%;
+                                    left: 50%;
+                                    transform: translate(-50%, -50%);">
+                                        <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down"
+                                            onclick="location.href='{% url 'dashboard:catalogo_za_museos_list' %}'">
+                                            <i class="far fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+
+
+
+
+                        </tbody>
+
+
+                    </table>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block footerjs %}
+
+<script src="{% static 'librerias/datatables-1.10.25/js/jquery.dataTables.js' %}"></script>
+<script src="{% static 'librerias/datatables-1.10.25/js/dataTables.bootstrap4.min.js' %}"></script>
+<script
+    src="{% static 'librerias/datatables-1.10.25/plugins/responsive-2.2.9/js/dataTables.responsive.min.js' %}"></script>
+<script
+    src="{% static 'librerias/datatables-1.10.25/plugins/responsive-2.2.9/js/responsive.bootstrap4.min.js' %}"></script>
+<script type="application/javascript">
+    $(document).ready(function () {
+        $('#dataTable').DataTable();
+    });
+</script>
+
+
+{% endblock %}

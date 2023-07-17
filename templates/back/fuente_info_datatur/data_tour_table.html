@@ -1,0 +1,125 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'librerias/datatables-1.10.25/css/dataTables.bootstrap4.min.css' %}" />
+<link rel="stylesheet"
+    href="{% static 'librerias/datatables-1.10.25/plugins/responsive-2.2.9/css/responsive.bootstrap4.min.css' %}" />
+
+<p>El dato que intenta ingresar ya existe en la base de datos. ¿Desea reemplazar el dato actual con el nuevo dato?</p>
+
+
+<div style="overflow-x: auto;">
+    <h4>Dato Histórico</h4>
+    <table class="table table-bordered" id="dataTable" style="table-layout: fixed;">
+        <thead>
+            <tr>
+                <th style="width: 300px;">Destino</th>
+                <th style="width: 300px;">Categoría</th>
+                <th style="width: 300px;">Fecha</th>
+                <th style="width: 200px;">Cuartos Registrados Fin Periodo</th>
+                <th style="width: 200px;">Cuartos Disponibles Promedio</th>
+                <th style="width: 200px;">Cuartos Disponibles</th>
+                <th style="width: 200px;">Cuartos Ocupados</th>
+                <th style="width: 200px;">Cuartos Ocupados Residentes</th>
+                <th style="width: 200px;">Cuartos Ocupados No Residentes</th>
+                <th style="width: 200px;">Llegadas de Turistas</th>
+                <th style="width: 250px;">Llegadas de Turistas Residentes</th>
+                <th style="width: 250px;">Llegadas de Turistas No Residentes</th>
+                <th style="width: 200px;">Turistas Noche</th>
+                <th style="width: 250px;">Turistas Noche Residentes</th>
+                <th style="width: 250px;">Turistas Noche No Residentes</th>
+                <th style="width: 250px;">Porcentaje de Ocupacion</th>
+                <th style="width: 300px;">Porcentaje de Ocupacion Residentes</th>
+                <th style="width: 300px;">Porcentaje de Ocupacion No Residentes</th>
+                <th style="width: 200px;">Estadia Promedio</th>
+                <th style="width: 300px;">Estadia Promedio Residentes</th>
+                <th style="width: 300px;">Estadia Promedio No Residentes</th>
+                <th style="width: 300px;">Densidad de Ocupacion</th>
+                <th style="width: 400px;">Densidad de Ocupacion Residentes</th>
+                <th style="width: 400px;">Densidad de Ocupacion No Residentes</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for data in data_list %}
+            <tr>
+                <td>{{ data.destino }}</td>
+                <td>{{ data.categoria }}</td>
+                <td>{{ data.fecha }}</td>
+                <td>{{ data.cuartos_registrados_fin_periodo }}</td>
+                <td>{{ data.cuartos_disponibles_promedio }}</td>
+                <td>{{ data.cuartos_disponibles }}</td>
+                <td>{{ data.cuartos_ocupados }}</td>
+                <td>{{ data.cuartos_ocupados_residentes }}</td>
+                <td>{{ data.cuartos_ocupados_no_residentes }}</td>
+                <td>{{ data.llegadas_de_turistas }}</td>
+                <td>{{ data.llegadas_de_turistas_residentes }}</td>
+                <td>{{ data.llegadas_de_turistas_no_residentes }}</td>
+                <td>{{ data.turistas_noche }}</td>
+                <td>{{ data.turistas_noche_residentes }}</td>
+                <td>{{ data.turistas_noche_no_residentes }}</td>
+                <td>{{ data.porcentaje_de_ocupacion }}</td>
+                <td>{{ data.porcentaje_de_ocupacion_residentes }}</td>
+                <td>{{ data.porcentaje_de_ocupacion_no_residentes }}</td>
+                <td>{{ data.estadia_promedio }}</td>
+                <td>{{ data.estadia_promedio_residentes }}</td>
+                <td>{{ data.estadia_promedio_no_residentes }}</td>
+                <td>{{ data.densidad_de_ocupacion }}</td>
+                <td>{{ data.densidad_de_ocupacion_residentes }}</td>
+                <td>{{ data.densidad_de_ocupacion_no_residentes }}</td>
+
+
+
+
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h4>Dato que se intento subir</h4>
+
+    <table class="table table-bordered" id="dataTable" style="table-layout: fixed;">
+        <thead>
+            <tr>
+                <th style="width: 300px;">Destino</th>
+
+                <th style="width: 300px;">Categoría</th>
+                <th style="width: 300px;">Fecha</th>
+
+                <th style="width: 200px;">Cuartos Registrados Fin Periodo</th>
+                <th style="width: 200px;">Cuartos Disponibles Promedio</th>
+                <th style="width: 200px;">Cuartos Disponibles</th>
+                <th style="width: 200px;">Cuartos Ocupados</th>
+                <th style="width: 200px;">Cuartos Ocupados Residentes</th>
+                <th style="width: 200px;">Cuartos Ocupados No Residentes</th>
+                <th style="width: 200px;">Llegadas de Turistas</th>
+                <th style="width: 250px;">Llegadas de Turistas Residentes</th>
+                <th style="width: 250px;">Llegadas de Turistas No Residentes</th>
+                <th style="width: 200px;">Turistas Noche</th>
+                <th style="width: 250px;">Turistas Noche Residentes</th>
+                <th style="width: 250px;">Turistas Noche No Residentes</th>
+                <th style="width: 250px;">Porcentaje de Ocupacion</th>
+                <th style="width: 300px;">Porcentaje de Ocupacion Residentes</th>
+                <th style="width: 300px;">Porcentaje de Ocupacion No Residentes</th>
+                <th style="width: 200px;">Estadia Promedio</th>
+                <th style="width: 300px;">Estadia Promedio Residentes</th>
+                <th style="width: 300px;">Estadia Promedio No Residentes</th>
+                <th style="width: 300px;">Densidad de Ocupacion</th>
+                <th style="width: 400px;">Densidad de Ocupacion Residentes</th>
+                <th style="width: 400px;">Densidad de Ocupacion No Residentes</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                {% for data in data_list2 %}
+                <td>{{ data }}</td>
+                <!-- ... -->
+                {% endfor %}
+
+            </tr>
+        </tbody>
+    </table>
+
+
+
+</div>

@@ -1,0 +1,23 @@
+{% extends 'back/components/list.html' %}
+{% load static %}
+
+{% block head_list %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script src="{% static 'js/inv_priv/list.js' %}"></script>
+{% endblock %}
+
+{% block columns %}
+<tr class="text-center table-header">
+    <th class="text-left pl-3">ID</th>
+    <th class="text-left">Monto_ejecutado</th>
+    <th class="text-left">Avance proyecto</th>
+    <th class="text-left">Nombre</th>
+    <th class="text-left">Destino</th>
+    <th class="actions">Acciones</th>
+</tr>
+{% endblock %}

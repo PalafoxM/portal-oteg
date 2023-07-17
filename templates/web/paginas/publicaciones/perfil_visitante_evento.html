@@ -1,0 +1,235 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'fontawesome-free/css/all.min.css' %}">
+
+
+{% include 'web/components/navbar/navbar.html' %}
+
+
+<div class="container mt-4">
+
+    <div>
+        <h3 class="text-center">CENTRO DOCUMENTAL</h3>
+        <p>Este es un espacio colaborativo en permanente construcción y enriquecimiento en el que cualquier persona que
+            así lo desee, puede ingresar sus investigaciones, estudios, ensayos y publicaciones que quiera compartir con
+            los usuarios del portal del observatorio.</p>
+    </div>
+
+    <div>
+
+        <div class="row">
+
+            <div class="col text-center">
+                <img src="http://www.observatorioturistico.org/img/iconos/publicaciones_recientes.png">
+                <h5 class="mt-3">PERFIL DEL VISITANTE A CIUDAD</h5>
+            </div>
+
+
+            <div class="col">
+                <h5 class="text-center">
+                    COMONFORT
+                </h5>
+                {% for pdf in pdfs %}
+                {% if pdf.puebloMagico == "comonfort" %}
+                
+                <div style="display: flex; justify-content: space-between; align-items: center;" class="mb-3">
+                    
+                   
+                    <p style="margin: 0; padding-right: 1rem; align-self:flex-start;">{{pdf.nombrePDF}}</p>
+                    <div style="background-color: #026ad1; color: #fff; font-weight: bold; border-radius: 5rem;"> <p style="margin: 0; padding-left: 10px; padding-right: 10px;">Num Descargas : {{pdf.num_descargas}} </p></div>
+                    <a href="{% url 'publicaciones_pdf_viewer' pk=pdf.id %}"><i style="font-size: 1.5rem; cursor: pointer; color: #ad0b00; align-self:flex-end;"class="fa-solid fa-file-pdf"></i></a>
+
+                </div>
+                {% endif %}
+                {% endfor %}
+
+
+
+                <h5 class="text-center">
+                    JALPA DE CÁNOVAS
+                </h5>
+
+                {% for pdf in pdfs %}
+                {% if pdf.puebloMagico == "jalpa" %}
+                 
+                <div style="display: flex; justify-content: space-between; align-items: center;" class="mb-3">
+                    <p style="margin: 0; padding-right: 1rem; align-self:flex-start;">{{pdf.nombrePDF}}</p>
+                    <div style="background-color: #026ad1; color: #fff; font-weight: bold; border-radius: 5rem;"> <p style="margin: 0; padding-left: 10px; padding-right: 10px;">Num Descargas : {{pdf.num_descargas}} </p></div>
+                    <a href="{% url 'publicaciones_pdf_viewer' pk=pdf.id %}"><i style="font-size: 1.5rem; cursor: pointer; color: #ad0b00; align-self:flex-end;"class="fa-solid fa-file-pdf"></i></a>
+
+        
+                </div>
+
+                {% endif %}
+                {% endfor %}
+
+
+
+                <h5 class="text-center">
+                    MINERAL DE POZOS
+                </h5>
+
+                {% for pdf in pdfs %}
+                {% if pdf.puebloMagico == "mineral" %}
+                
+                <div style="display: flex; justify-content: space-between; align-items: center;" class="mb-3">
+                    
+                    <p style="margin: 0; padding-right: 1rem; align-self:flex-start;">{{pdf.nombrePDF}}</p>
+                    <div style="background-color: #026ad1; color: #fff; font-weight: bold; border-radius: 5rem;"> <p style="margin: 0; padding-left: 10px; padding-right: 10px;">Num Descargas : {{pdf.num_descargas}} </p></div>
+                    <a href="{% url 'publicaciones_pdf_viewer' pk=pdf.id %}"><i style="font-size: 1.5rem; cursor: pointer; color: #ad0b00; align-self:flex-end;"class="fa-solid fa-file-pdf"></i></a>
+
+                </div>
+
+                {% endif %}
+                {% endfor %}
+
+
+
+                <h5 class="text-center">
+                    SALVATIERRA
+                </h5>
+
+                {% for pdf in pdfs %}
+                {% if pdf.puebloMagico == "mineral" %}
+                  
+                <div style="display: flex; justify-content: space-between; align-items: center;" class="mb-3">
+                    
+                    <p style="margin: 0; padding-right: 1rem; align-self:flex-start;">{{pdf.nombrePDF}}</p>
+                    <div style="background-color: #026ad1; color: #fff; font-weight: bold; border-radius: 5rem;"> <p style="margin: 0; padding-left: 10px; padding-right: 10px;">Num Descargas : {{pdf.num_descargas}} </p></div>
+                    <a href="{% url 'publicaciones_pdf_viewer' pk=pdf.id %}"><i style="font-size: 1.5rem; cursor: pointer; color: #ad0b00; align-self:flex-end;"class="fa-solid fa-file-pdf"></i></a>
+
+                </div>
+
+                {% endif %}
+                {% endfor %}
+
+
+                <h5 class="text-center">
+                    YURIRIA
+                </h5>
+
+                {% for pdf in pdfs %}
+                {% if pdf.puebloMagico == "yuria" %}
+               
+                <div style="display: flex; justify-content: space-evenly; align-items: center;" class="mb-3">
+                    
+                    <p style="margin: 0; padding-right: 1rem; align-self:flex-start;">{{pdf.nombrePDF}}</p>
+                    <div style="background-color: #026ad1; color: #fff; font-weight: bold; border-radius: 5rem;"> <p style="margin: 0; padding-left: 10px; padding-right: 10px;">Num Descargas : {{pdf.num_descargas}} </p></div>
+                    <a href="{% url 'publicaciones_pdf_viewer' pk=pdf.id %}"><i style="font-size: 1.5rem; cursor: pointer; color: #ad0b00; align-self:flex-end;"class="fa-solid fa-file-pdf"></i></a>
+
+                </div>
+
+                {% endif %}
+                {% endfor %}
+
+
+                <h5 class="text-center">
+                    SILAO
+                </h5>
+
+                {% for pdf in pdfs %}
+                {% if pdf.puebloMagico == "silao" %}
+                   
+                <div style="display: flex; justify-content: space-evenly; align-items: center;" class="mb-3">
+                    
+                    <p style="margin: 0; padding-right: 1rem; align-self:flex-start;">{{pdf.nombrePDF}}</p>
+                    <div style="background-color: #026ad1; color: #fff; font-weight: bold; border-radius: 5rem;"> <p style="margin: 0; padding-left: 10px; padding-right: 10px;">Num Descargas : {{pdf.num_descargas}} </p></div>
+                    <a href="{% url 'publicaciones_pdf_viewer' pk=pdf.id %}"><i style="font-size: 1.5rem; cursor: pointer; color: #ad0b00; align-self:flex-end;"class="fa-solid fa-file-pdf"></i></a>
+
+                </div>
+
+                {% endif %}
+                {% endfor %}
+
+
+
+                <h5 class="text-center">
+                    PARQUE GUANAJUATO BICENTENARIO
+                </h5>
+
+                {% for pdf in pdfs %}
+                {% if pdf.puebloMagico == "parque" %}
+               
+                <div style="display: flex; justify-content: space-between; align-items: center;" class="mb-3">
+                    
+                    <p style="margin: 0; padding-right: 1rem; align-self:flex-start;">{{pdf.nombrePDF}}</p>
+                    <div style="background-color: #026ad1; color: #fff; font-weight: bold; border-radius: 5rem;"> <p style="margin: 0; padding-left: 10px; padding-right: 10px;">Num Descargas : {{pdf.num_descargas}} </p></div>
+                    <a href="{% url 'publicaciones_pdf_viewer' pk=pdf.id %}"><i style="font-size: 1.5rem; cursor: pointer; color: #ad0b00; align-self:flex-end;"class="fa-solid fa-file-pdf"></i></a>
+
+                </div>
+
+                {% endif %}
+                {% endfor %}
+
+                <h5 class="text-center">
+                    ZONAS ARQUEOLÓGICAS Y CIRCUITOS
+                </h5>
+
+                {% for pdf in pdfs %}
+                {% if pdf.puebloMagico == "zonas" %}
+          
+                <div style="display: flex; justify-content: space-between; align-items: center;" class="mb-3">
+                    
+                    <p style="margin: 0; padding-right: 1rem; align-self:flex-start;">{{pdf.nombrePDF}}</p>
+                    <div style="background-color: #026ad1; color: #fff; font-weight: bold; border-radius: 5rem;"> <p style="margin: 0; padding-left: 10px; padding-right: 10px;">Num Descargas : {{pdf.num_descargas}} </p></div>
+                    <a href="{% url 'publicaciones_pdf_viewer' pk=pdf.id %}"><i style="font-size: 1.5rem; cursor: pointer; color: #ad0b00; align-self:flex-end;"class="fa-solid fa-file-pdf"></i></a>
+
+
+                    
+                </div>
+
+                {% endif %}
+                {% endfor %}
+
+
+                <h5 class="text-center">
+                    SAN JOSÉ ITURBIDE
+                </h5>
+
+                {% for pdf in pdfs %}
+                {% if pdf.puebloMagico == "sanjose" %}
+                
+                <div style="display: flex; justify-content: space-between; align-items: center;" class="mb-3">
+                    
+                    <p style="margin: 0; padding-right: 1rem; align-self:flex-start;">{{pdf.nombrePDF}}</p>
+                    <div style="background-color: #026ad1; color: #fff; font-weight: bold; border-radius: 5rem;"> <p style="margin: 0; padding-left: 10px; padding-right: 10px;">Num Descargas : {{pdf.num_descargas}} </p></div>
+                    <a href="{% url 'publicaciones_pdf_viewer' pk=pdf.id %}"><i style="font-size: 1.5rem; cursor: pointer; color: #ad0b00; align-self:flex-end;"class="fa-solid fa-file-pdf"></i></a>
+
+                </div>
+                {% endif %}
+                {% endfor %}
+
+
+                <h5 class="text-center">
+                    SAN MIGUEL DE ALLENDE
+                </h5>
+
+                {% for pdf in pdfs %}
+                {% if pdf.puebloMagico == "sanjose" %}
+              
+                <div style="display: flex; justify-content: space-between; align-items: center;" class="mb-3">
+                    
+                    <p style="margin: 0; padding-right: 1rem; align-self:flex-start;">{{pdf.nombrePDF}}</p>
+                    <div style="background-color: #026ad1; color: #fff; font-weight: bold; border-radius: 5rem;"> <p style="margin: 0; padding-left: 10px; padding-right: 10px;">Num Descargas : {{pdf.num_descargas}} </p></div>
+                    <a href="{% url 'publicaciones_pdf_viewer' pk=pdf.id %}"><i style="font-size: 1.5rem; cursor: pointer; color: #ad0b00; align-self:flex-end;"class="fa-solid fa-file-pdf"></i></a>
+
+                </div>
+
+                {% endif %}
+                {% endfor %}
+
+            </div>
+
+
+
+
+
+        </div>
+
+
+    </div>
+
+
+
+</div>

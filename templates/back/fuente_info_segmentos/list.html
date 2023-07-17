@@ -1,0 +1,64 @@
+{% extends 'back/components/list.html' %}
+{% load static %}
+{% block head_list %}
+<!-- <script src="{% static 'admin/banner/list.js' %}"></script> -->
+{% endblock %}
+
+{% block columns %}
+<tr class="text-center table-header">
+    <th class="text-left">ID</th>
+    <th class="text-left">Año</th>
+    <th class="text-left">Destino</th>
+    <th class="text-left">Segmento</th>
+    <th class="text-left">Participación</th>
+   
+    <th class="text-center" style="
+            position: relative;
+            background-color: #ECF0F1;
+            text-align: center;
+            height: 100%;
+        ">Acciones</th>
+</tr>
+{% endblock %}
+
+{% block rows %}
+{% for e in object_list %}
+<tr>
+    <th class="text-left tb-text">{{e.id}}</th>
+    <th class="text-left tb-text">{{e.ano}}</th>
+    <th class="text-left tb-text">{{e.destino}}</th>
+    <th class="text-left tb-text">{{e.segmento}}</th>
+    <th class="text-left tb-text">{{e.participacion}}</th>
+    <th class="text-left actions-column tb-text" style="
+    position: relative;
+    background-color: #ECF0F1;
+    text-align: center;
+    height: 100%;
+    ">
+        <div class="icon-container2">
+            <form method="post" action="{% url 'dashboard:fuente_info_segmentos_delete' e.id %}">
+                {% csrf_token %}
+                <button type="submit" class="ml-1 mr-1 actions-btn"
+                    onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">
+
+                    <i class="fas fa-trash"></i>
+
+
+                </button>
+            </form>
+
+            <form method="get" action="{% url 'dashboard:fuente_info_segmentos_update' e.id %}">
+                {% csrf_token %}
+                <button type="submit" class="ml-1 mr-1 actions-btn">
+
+                    <i class="fas fa-pencil-alt"></i>
+
+
+                </button>
+            </form>
+        </div>
+
+    </th>
+</tr>
+{% endfor %}
+{% endblock %}

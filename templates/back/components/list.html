@@ -1,0 +1,108 @@
+{% extends 'back/index.html' %}
+{% load static %}
+
+{% block head %}
+
+<link rel="stylesheet" href="{% static 'librerias/datatables-1.10.25/css/dataTables.bootstrap4.min.css' %}" />
+<link rel="stylesheet"
+    href="{% static 'librerias/datatables-1.10.25/plugins/responsive-2.2.9/css/responsive.bootstrap4.min.css' %}" />
+
+
+
+<!-- head_list -->
+{% block head_list %}
+
+{% endblock %}
+
+
+{% endblock %}
+
+
+{% block content %}
+<!-- DataTales Example -->
+<div class="col-12 p-0">
+    <div class="row p-3">
+        <div class="col-12">
+            <div class="big-card">
+
+                <div class="table-responsive">
+                    <table class="table t" id="dataTable">
+                        <thead>
+                            {% block columns %}
+
+                            {% endblock %}
+                        </thead>
+                        <tbody>
+                            {% block rows %}
+
+                            {% endblock %}
+                        </tbody>
+                    </table>
+                    <div class="mt-5 d-flex justify-content-start">
+
+                        {% if is_category %}
+
+                        <div style="display: flex; gap: 1rem;">
+                            <a id="botonMas" href="{% url 'dashboard:centrodocumental' %}"
+                                class="btn btn-primary btn-icon-split">
+                                <span class="icon text-white-50">
+                                    <i class="fas fa-arrow-left"></i>
+                                </span>
+                                <span class="text">Regresar a la Lista</span>
+                            </a>
+
+                            <form method="get" action="{% url 'dashboard:add_categoria' pk %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary btn-icon-split">
+                                    <span class="icon text-white-50">
+                                        <i class="fas fa-plus"></i>
+                                    </span>
+                                    <span class="text">Nuevo Registro</span>
+                                </button>
+                            </form>
+                        </div>
+                        {% else %}
+                        <div style="display: flex; gap: 1rem;">
+                            <!-- <a id="botonMas" href="{{ create_url }}" class="btn btn-primary btn-icon-split">
+                                <span class="icon text-white-50">
+                                    <i class="fas fa-plus"></i>
+                                </span>
+                                <span class="text">Nuevo Registro</span>
+                            </a> -->
+
+                            {% if is_fuente %}
+                            <button type="button" class="btn btn-outline-primary"
+                                onclick="location.href='{{ carga_masiva_url }}'">
+                                <span class="icon text-blue-50">
+                                    <i class="fas fa-upload"></i>
+                                </span>
+                                <span class="text">Carga Masiva</span>
+                            </button>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+{% endblock %}
+
+{% block footerjs %}
+
+<script src="{% static 'librerias/datatables-1.10.25/js/jquery.dataTables.js' %}"></script>
+<script src="{% static 'librerias/datatables-1.10.25/js/dataTables.bootstrap4.min.js' %}"></script>
+<script
+    src="{% static 'librerias/datatables-1.10.25/plugins/responsive-2.2.9/js/dataTables.responsive.min.js' %}"></script>
+<script
+    src="{% static 'librerias/datatables-1.10.25/plugins/responsive-2.2.9/js/responsive.bootstrap4.min.js' %}"></script>
+<script type="application/javascript">
+    $(document).ready(function () {
+        $('#dataTable').DataTable();
+    });
+</script>
+
+{% endblock %}

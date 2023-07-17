@@ -1,0 +1,142 @@
+{% extends 'web/body.html' %}
+{% load static %}
+{% block head_view %}
+<style>
+ 
+ .row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.col {
+  flex: 1 0 25%;
+  max-width: 25%;
+}
+
+.card-s {
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 50px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.card-image img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  object-position: center;
+}
+
+.card-content {
+  flex: 1;
+  background-color: #DEE2E6;
+  padding: 20px;
+  text-align: center;
+}
+
+.card-content h2 {
+  font-family: Montserrat, sans-serif;
+  font-size: 20px;
+  color: #000000;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.card-content a {
+  font-family: Poppins, sans-serif;
+  color: #cd7536;
+  font-weight: 300;
+}
+
+@media (max-width: 767px) {
+  .col {
+    flex-basis: 100%;
+    max-width: 100%;
+  }
+}
+.text-justify {
+    text-align: justify;
+  }
+
+  .title {
+    color: #333333;
+    font-family: Montserrat;
+    font-size: 40px;
+    line-height: 58px;
+    font-weight: 600;
+    text-align: left;
+  }
+
+.mt-tb{
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+</style>
+  {% endblock %}
+
+<!-- contenido -->
+{% block content %}
+
+<div class="container">
+  <div class="row pl-5 pr-5 pt-5 pb-5">
+    <div class="col-lg-12 mt-tb text-center">
+      <h3 class="title">Modelo de Sustentabilidad Turística</h3>
+      <p class="text-justify">El estado de Guanajuato trabaja por el turismo sustentable a través del Modelo de Sustentabilidad Turística, una herramienta basada en los Criterios Globales de Turismo Sostenible, para incluir prácticas sustentables en destinos y organismos del sector turismo del Estado. El estado de Guanajuato trabaja por el turismo sustentable a través del Modelo de Sustentabilidad Turística, una herramienta basada en los Criterios Globales de Turismo Sostenible, para incluir prácticas sustentables en destinos y organismos del sector turismo del Estado.</p>
+
+    </div>
+  </div>
+</div>
+<div class="row row-cols-1 row-cols-md-4 g-4">
+  <div class="col">
+    <div class="card-s">
+      <div class="card-image">
+        <img src="{% static 'img_nav/SUSTENTABILIDAD4-1.jpg' %}" alt="">
+      </div>
+      <div class="card-content">
+        <h2>Objetivos de Desarrollo Sostenible</h2>
+        <a href="https://sectur.guanajuato.gob.mx/sustentabilidad/ods/" target="_blank">Seguir leyendo...</a>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card-s">
+      <div class="card-image">
+        <img src="{% static 'img_nav/SUSTENTABILIDAD3.jpg' %}" alt="">
+      </div>
+      <div class="card-content">
+        <h2>Buenas Prácticas</h2>
+        <a href="https://sectur.guanajuato.gob.mx/sustentabilidad/buenas-practicas/" target="_blank">Seguir leyendo...</a>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card-s">
+      <div class="card-image">
+        <img src="{% static 'img_nav/SUSTENTABILIDAD5.jpg' %}" alt="">
+      </div>
+      <div class="card-content">
+        <h2>Calculadora Huella de carbono</h2>
+        <a href="https://sectur.guanajuato.gob.mx/sustentabilidad/calculadora/" target="_blank">Seguir leyendo...</a>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card-s">
+      <div class="card-image">
+        <img src="{% static 'img_nav/SUSTENTABILIDAD2.jpg' %}" alt="">
+      </div>
+      <div class="card-content">
+        <h2>Distintivo Guanajuato Sustentable</h2>
+        <a href="https://sectur.guanajuato.gob.mx/distintivo-guanajuato-turismo-sostenible/" target="_blank">Seguir leyendo...</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+{% endblock %}

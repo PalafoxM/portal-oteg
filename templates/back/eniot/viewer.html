@@ -1,0 +1,55 @@
+{% extends 'back/components/list.html' %}
+{% load static %}
+{% block head_list %}
+<!-- <script src="{% static 'admin/banner/list.js' %}"></script> -->
+{% endblock %}
+
+{% block columns %}
+<tr class="text-center table-header">
+    <th class="text-left pl-3">ID</th>
+    <th  class="text-left pl-3">Nombre PDF</th>
+    <th  class="text-left pl-3">Sección</th>
+    <th  class="text-left pl-3">PDF URL</th>
+    <th  class="text-left pl-3">No. de Descargas</th>
+    <th class="text-center" style="
+            position: relative;
+            background-color: #ECF0F1;
+            text-align: center;
+            height: 100%;
+        ">Acciones</th>
+        </tr>
+   
+{% endblock %}
+
+{% block rows %}
+{% for e in object_list %}
+<tr>
+    <th class="text-left tb-text">{{e.id}}</th>
+    <th  class="text-left tb-text">{{e.nombrePDF}}</th>
+    <th  class="text-left tb-text">
+        {% if e.seccion == 'programa-eniot' %}
+            Programa ENIOT
+        {% elif e.seccion == 'memorias' %}
+            Memorias
+        {% elif e.seccion == 'ponencia-eventos' %}
+            Ponencia a eventos
+        {% endif %}
+    </th>
+    <th  class="text-left tb-text"><a href="https://portal-oteg.s3.amazonaws.com/media/{{e.doc_url}}">{{e.doc_url}}</a></th>
+    <th  class="text-left tb-text">{{e.num_descargas}}</th>
+
+    <th class="text-center" style="position: relative; background-color: #ECF0F1; text-align: center; height: 100%;">
+        <div class="icon-container">
+            <i class="fas fa-edit" onclick="location.href='{% url 'dashboard:eniot_update' e.id %}'"></i>
+                    <form method="post" action="{% url 'dashboard:eniot_delete' e.id %}" >
+                        {% csrf_token %}
+                        <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </form>
+        
+        </div>
+    </th>
+</tr>
+{% endfor %}
+{% endblock %}

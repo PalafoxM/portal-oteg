@@ -1,0 +1,88 @@
+{% extends 'back/components/list.html' %}
+{% load static %}
+{% block head_list %}
+<!-- <script src="{% static 'admin/banner/list.js' %}"></script> -->
+{% endblock %}
+
+{% block columns %}
+<tr class="text-center table-header">
+    <th>ID</th>
+    <th>Título</th>
+    <th>Mes</th>
+    <th>Año</th>
+    <th>No. de Descargas</th>
+    <th>Acciones</th>
+
+
+    {% endblock %}
+
+    {% block rows %}
+    {% for e in object_list %}
+<tr class="table-body">
+    <th class="text-left tb-text">{{e.id }}</th>
+    <th class="text-left tb-text">{{e.titulo}}</th>
+    <th class="text-left tb-text">
+        {% if e.mes == '1' %}
+        Enero
+        {% elif e.mes == '2' %}
+        Febrero
+        {% elif e.mes == '3' %}
+        Marzo
+        {% elif e.mes == '4' %}
+        Abril
+        {% elif e.mes == '5' %}
+        Mayo
+        {% elif e.mes == '6' %}
+        Junio
+        {% elif e.mes == '7' %}
+        Julio
+        {% elif e.mes == '8' %}
+        Agosto
+        {% elif e.mes == '9' %}
+        Septiembre
+        {% elif e.mes == '10' %}
+        Octubre
+        {% elif e.mes == '11' %}
+        Noviembre
+        {% elif e.mes == '12' %}
+        Diciembre
+        {% endif %}
+
+
+    </th>
+    <th class="text-left tb-text">{{e.ano}}</th>
+    <th class="text-left tb-text">{{e.num_descargas}}</th>
+
+    <th class="text-left actions-column tb-text" style="
+    position: relative;
+    background-color: #ECF0F1;
+    text-align: center;
+    height: 100%;
+    ">
+        <div class="icon-container2">
+
+            <form method="get" action="{% url 'dashboard:reporte_mensual_update' e.id %}">
+                {% csrf_token %}
+                <button type="submit" class="ml-1 mr-1 actions-btn">
+                    <i class="fas fa-edit"></i>
+                </button>
+            </form>
+
+
+            <form method="post" action="{% url 'dashboard:reporte_mensual_delete' e.id %}">
+                {% csrf_token %}
+                <button type="submit" class="ml-1 mr-1 actions-btn"
+                    onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">
+
+                    <i class="fas fa-trash"></i>
+
+                </button>
+            </form>
+
+        </div>
+
+    </th>
+
+</tr>
+{% endfor %}
+{% endblock %}

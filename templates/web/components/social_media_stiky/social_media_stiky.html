@@ -1,0 +1,11 @@
+{% load static %}
+<div class="social-media-stiky">
+    <a href="https://twitter.com/ObservaTur_GTO" target="_blank"><img src="{% static 'icons/twiter1.svg' %}"
+            target="_blank" alt="" style="height: 20px; margin-bottom: 10px;" /></a>
+    <a href="https://www.facebook.com/observatoriotgto/" target="_blank"><img src="{% static 'icons/fb2.svg' %}" alt=""
+            style="height: 20px; margin-bottom: 10px;" /></a>
+    <a href="{% url 'sitios_interes' %}"><img src="{% static 'icons/globe3.svg' %}" alt=""
+            style="height: 20px; margin-bottom: 10px;" /></a>
+    <a href="{% url 'eventos' %}"><img src="{% static 'icons/perfil_visitante_evento.svg' %}" alt=""
+            style="height: 30px; margin-bottom: 10px;  filter: invert(1); stroke-width: 2px;" /></a>
+</div>

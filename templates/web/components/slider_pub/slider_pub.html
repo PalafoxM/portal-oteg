@@ -1,0 +1,61 @@
+
+{% load static %}
+<style>
+.image-container2 {
+    width: 100%;
+    height: 256px;
+    position: relative;
+}
+
+.image-container2 img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    mask-image: linear-gradient(to bottom, transparent 0%, black 100%);
+}
+
+</style>
+
+<link rel="stylesheet" type="text/css" href="{% static 'fontawesome-free/css/all.min.css' %}">
+<div id="carouselExample" class="carousel slide mt-5">
+    <div class="carousel-inner">
+        {% for pub in  publicaciones %}
+        <div class="carousel-item {% if forloop.counter0 == 0 %}active{% endif %}">
+            <div class="container" style="display: flex; justify-content: center;">
+                <div class="card mb-3" style="width: 80%;">
+                    <div class="row g-0" style="width: 100%;">
+                        <div class="col-md-4">
+                            {% if pub.imagen %}
+                            <div class="image-container2">
+                                <img src="{{pub.imagen.url}}" style="border-radius: 10px;" alt="...">
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">{{pub.nombrePDF}}</h5>
+                                <p class="card-text">Num Descargas {{pub.num_descargas}}</p>
+                                <p class="card-text">Fecha Publicacion {{pub.fecha_registro}}</p>
+                                <p class="card-text"><small class="text-muted">{{pub.fecha_recuperacion}}</small></p>
+                                <a href="{% url 'publicaciones_pdf_viewer' pk=pub.id %}"><button type="button" class="btn btn-outline-primary"><i class="fa-solid fa-file-pdf"></i> Ver PDF</button></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+
+    </div>
+
+    <button class="carousel-control-prev" style="color: black;" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+        <i class="fa-solid fa-chevron-left"></i>
+    </button>
+    <button class="carousel-control-next" style="color: black;" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+        <i class="fa-solid fa-chevron-right"></i>
+    </button>
+</div>

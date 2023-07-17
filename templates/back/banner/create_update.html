@@ -1,0 +1,238 @@
+{% extends 'back/index.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js">
+
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<link href="{% static 'scss/custom-inputs.css' %}" rel="stylesheet" type="text/css">
+<style>
+    .input-with-icon {
+        position: relative;
+    }
+
+    .help-text {
+        display: none;
+    }
+
+    .help-text-2 {
+        margin-top: 5px;
+    }
+</style>
+
+
+
+{% endblock %}
+{% block content %}
+
+<form method="post" enctype="multipart/form-data">
+
+    <div class=" shadow mb-4" style="
+        border-radius: 5px;
+    ">
+        <div style="
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    
+        ">
+            {% csrf_token %}
+
+            <!-- Modify the form rendering loop to add icons to each field -->
+            {% for field in form %}
+
+            <div style="
+                        width: 100%;
+        
+                    ">
+                <label style="
+                    font-family: avenir;
+                    font-weight: bold;
+                    font-size: 15px;
+                    margin: 0;
+                    padding: 0;
+                " for="{{ field.id_for_label }}">{{ field.label }}</label>
+
+            </div>
+
+
+            {% if field.name != 'imagen' %}
+
+            {% if field.name == 'activo' %}
+            <div style="width: 100%; display: flex; justify-content: start; padding-left: 10px;">
+                <div class="form-check form-switch" style="transform: scale(1.4);">
+                    {{ field }}
+                </div>
+            </div>
+            {% else %}
+
+            <div class="input-with-icon">
+                {{ field }}
+                {% if field.errors %}
+                <div class="error-message">{{ field.errors }}</div>
+                {% endif %}
+                {% if field.help_text %}
+                <div class="help-text">{{ field.help_text }}</div>
+                {% endif %}
+                <div class="icon"><i style="
+                                margin: 0;
+                                padding: 0;
+                                color: #fff;
+                            " class="{{ field.field.widget.attrs.icon_class }}"></i></div>
+            </div>
+
+            {% endif %}
+
+            {% else %}
+
+            <div style="
+                        width: 100%;
+                        height: 200px;
+                        display: flex;
+                        justify-content: center;
+                        align-items: start ;
+                        margin-bottom: 20px;
+                        flex-direction: column;
+
+                    ">
+        
+            {{ field }}
+            </div>
+
+            {% endif %}
+
+
+
+
+            {% endfor %}
+
+        </div>
+    </div>
+
+    <div style="display: flex;
+        justify-content: space-around;
+        align-items: center;
+        margin-bottom: 20px;
+        gap: 20px;
+    ">
+        <div id="baker" style="
+        cursor: pointer; 
+            background-color: #EC9711;
+            width: 370px;
+            height: 47px;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+        ">
+            <p style="color: #fff; 
+                font-family: avenir;
+                font-weight: bold; font-size: 15px; margin: 0; padding: 0; text-align: center;">
+                Cancelar</p>
+        </div>
+
+        <button type="submit" style="
+            background-color: #0CAB7B;
+            width: 370px;
+            height: 47px;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: none;
+            border-radius: 5px;
+        ">
+            <p style="cursor: pointer; color: #fff; 
+                font-family: avenir;
+                font-weight: bold; font-size: 15px; margin: 0; padding: 0; text-align: center;">
+                Guardar </p>
+        </button>
+    </div>
+
+</form>
+
+
+{% endblock %}
+
+
+{% block javascript %}
+<script type="application/javascript">
+
+    $(document).ready(function () {
+        $('.card-body .input-with-icon [data-icon-class]').each(function () {
+            var iconClass = $(this).data('icon-class');
+            var iconElement = $(this).closest('.input-with-icon').find('.icon');
+            iconElement.html('<i class="' + iconClass + '"></i>');
+
+            console.log('Element found:', $(this));
+        });
+    });
+
+
+    flatpickr(".fecha-input", {
+        dateFormat: "Y-m-d",
+        //minDate: "today", // Fecha mínima seleccionable (hoy)
+        locale: "es",
+    });
+
+    $(function () {
+        $('form').on('submit', function (e) {
+            e.preventDefault();
+            var parameters = new FormData(this);
+            $.ajax({
+                url: window.location.pathname,
+                type: 'POST',
+                data: parameters,
+                processData: false,
+                contentType: false,
+                dataType: 'json'
+            }).done(function (data) {
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Buen trabajo!',
+                        text: 'Operación exitosa.',
+                        timer: 2000,
+                        showConfirmButton: false
+                    }).then(function () {
+                        window.location.href = '{{ list_url }}';
+                    });
+                } else {
+                    console.log(data.errors)
+                    var errors = '';
+                    for (var field in data.errors) {
+                        if (Array.isArray(data.errors[field])) {
+                            errors += data.errors[field].join('\n');
+                        } else {
+                            errors += data.errors[field];
+                        }
+                    }
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: errors
+                    });
+                }
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                alert(textStatus + ': ' + errorThrown);
+            }).always(function (data) {
+
+            });
+        });
+    });
+
+    $('#baker').on('click', function (e) {
+        e.preventDefault();
+        if (confirm('¿Está seguro de cancelar la operación?...los datos no guardados se perderán')) {
+            window.location.href = '{{ list_url }}';
+        } else {
+            return false;
+        }
+    });
+</script>
+{% endblock %}

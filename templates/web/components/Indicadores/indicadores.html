@@ -1,0 +1,247 @@
+{% load static %}
+
+<script src="https://cdn.rawgit.com/kimmobrunfeldt/progressbar.js/0.9.0/dist/progressbar.js"></script>
+<link rel="stylesheet" href="{% static 'web/css/indicadores.css' %}">
+
+<div class="container ">
+    <div class="row">
+        <div class="col pt-3" style="display: flex; justify-content: center;">
+            <div class="card " style="width: 15rem; height: 15rem;">
+
+                <div id="progress" style="width: 10rem; height: 10rem;"></div>
+
+                <h6 class="card-subtitle mt-2 text-muted text-center"> Índice de satisfacción del visitante</h6>
+            </div>
+        </div>
+        <div class="col pt-3" style="display: flex; justify-content: center;">
+
+            <div class="card" style="width: 15rem; height: 15rem;">
+                <div id="progress2" style="width: 10rem; height: 10rem;"></div>
+                <h6 class="card-subtitle mt-2 text-muted text-center"> Acumulado de la Invesión Privada del 2013 al 2021
+                </h6>
+            </div>
+        </div>
+        <div class="col pt-3" style="display: flex; justify-content: center;">
+
+            <div class="card" style="width: 15rem; height: 15rem;">
+
+                <div id="progress3" style="width: 10rem; height: 10rem;"></div>
+                <h6 class="card-subtitle mt-2 text-muted text-center" style="font-size: 12px;"> Llegada de pasajeros del
+                    Aeropuerto Internacional de Guanajuato Junio 2022 </h6>
+            </div>
+        </div>
+
+        <div class="col pt-3" style="display: flex; justify-content: center;">
+            <div class="card" style="width: 15rem; height: 15rem;">
+                <div id="progress4" style="width: 10rem; height: 10rem;">
+                </div>
+                <h6 class="card-subtitle mt-2 text-muted text-center"> Visitantes internacionales al cierre 2021</h6>
+            </div>
+
+
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col pt-3" style="display: flex; justify-content: center;">
+            <div class="card " style="width: 15rem; height: 15rem;">
+                <div id="progress5" style="width: 10rem; height: 10rem;">
+                </div>
+                <h6 class="card-subtitle mt-2 text-muted text-center"> Hotel</h6>
+            </div>
+        </div>
+        <div class="col pt-3" style="display: flex; justify-content: center;">
+            <div class="card" style="width: 15rem; height: 15rem;">
+                <div id="progress6" style="width: 10rem; height: 10rem;">
+                </div>
+    
+                <h6 class="card-subtitle mt-2 text-muted text-center"> Derrama económica 2021</h6>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+{% block indicadores %}{% endblock %}
+</div>
+
+
+<script>
+    var data = {{data}};
+    var data2 = {{data2}};
+    var data3 = 21.5600;
+    var data4 = 39.9;
+    var data5 = 75;
+    var data6 = 35.841;
+
+
+    var bar = new ProgressBar.Circle('#progress', {
+        color: '#aaa',
+        strokeWidth: 6,
+        trailWidth: 1,
+        easing: 'easeInOut',
+        duration: 1400,
+        text: {
+            autoStyleContainer: false
+        },
+        from: { color: '#aaa', width: 1 },
+        to: { color: '#66CCCC', width: 6 },
+        // Set default step function for all animate calls
+        step: function (state, circle) {
+            circle.path.setAttribute('stroke', state.color);
+            circle.path.setAttribute('stroke-width', state.width);
+
+            var value = Math.round(circle.value() * 100);
+            if (value === 0) {
+                circle.setText('');
+            } else {
+                circle.setText(value / 10);
+            }
+        }
+    });
+
+    var bar2 = new ProgressBar.Circle('#progress2', {
+        color: '#aaa',
+        strokeWidth: 6,
+        trailWidth: 1,
+        easing: 'easeInOut',
+        duration: 1400,
+        text: {
+            autoStyleContainer: false
+        },
+        from: { color: '#aaa', width: 1 },
+        to: { color: '#336699', width: 6 },
+        // Set default step function for all animate calls
+        step: function (state, circle) {
+            circle.path.setAttribute('stroke', state.color);
+            circle.path.setAttribute('stroke-width', state.width);
+
+            var value = Math.round(circle.value() * 100);
+            if (value === 0) {
+                circle.setText('');
+            } else {
+                circle.setText((data2 * 1000).toLocaleString() + 'MDP');
+            }
+        }
+    });
+
+
+    var bar3 = new ProgressBar.Circle('#progress3', {
+        color: '#aaa',
+        strokeWidth: 6,
+        trailWidth: 1,
+        easing: 'easeInOut',
+        duration: 1400,
+        text: {
+            autoStyleContainer: false
+        },
+        from: { color: '#aaa', width: 1 },
+        to: { color: '#E91E63', width: 6 },
+        // Set default step function for all animate calls
+        step: function (state, circle) {
+            circle.path.setAttribute('stroke', state.color);
+            circle.path.setAttribute('stroke-width', state.width);
+
+            var value = Math.round(circle.value() * 100);
+            if (value === 0) {
+                circle.setText('');
+            } else {
+                circle.setText((data3 * 10000).toLocaleString());
+            }
+        }
+    });
+
+
+    var bar4 = new ProgressBar.Circle('#progress4', {
+        color: '#aaa',
+        strokeWidth: 6,
+        trailWidth: 1,
+        easing: 'easeInOut',
+        duration: 1400,
+        text: {
+            autoStyleContainer: false
+        },
+        from: { color: '#aaa', width: 1 },
+        to: { color: '#9C27B0', width: 6 },
+        // Set default step function for all animate calls
+        step: function (state, circle) {
+            circle.path.setAttribute('stroke', state.color);
+            circle.path.setAttribute('stroke-width', state.width);
+
+            var value = (data4 * 10).toLocaleString() + " mill";
+
+            if (value === 0) {
+                circle.setText('');
+            } else {
+                circle.setText(value);
+            }
+        }
+    });
+
+
+    var bar5 = new ProgressBar.Circle('#progress5', {
+        color: '#aaa',
+        strokeWidth: 6,
+        trailWidth: 1,
+        easing: 'easeInOut',
+        duration: 1400,
+        text: {
+            autoStyleContainer: false
+        },
+        from: { color: '#aaa', width: 1 },
+        to: { color: '#FFC107:', width: 6 },
+        // Set default step function for all animate calls
+        step: function (state, circle) {
+            circle.path.setAttribute('stroke', state.color);
+            circle.path.setAttribute('stroke-width', state.width);
+
+            var value = Math.round(circle.value() * 100);
+            if (value === 0) {
+                circle.setText('');
+            } else {
+                circle.setText("HOTEL");
+            }
+        }
+    });
+
+
+    var bar6 = new ProgressBar.Circle('#progress6', {
+        color: '#aaa',
+        strokeWidth: 6,
+        trailWidth: 1,
+        easing: 'easeInOut',
+        duration: 1400,
+        text: {
+            autoStyleContainer: false
+        },
+        from: { color: '#aaa', width: 1 },
+        to: { color: '#4CAF50', width: 6 },
+        // Set default step function for all animate calls
+        step: function (state, circle) {
+            circle.path.setAttribute('stroke', state.color);
+            circle.path.setAttribute('stroke-width', state.width);
+
+            var value = (data6 * 1000).toLocaleString() + "MDP";
+            if (value === 0) {
+                circle.setText('');
+            } else {
+                circle.setText(value);
+            }
+        }
+    });
+
+
+    bar.animate(data / 100);
+    bar2.animate(data2 / 100);
+    bar3.animate(98 / 100);
+    bar4.animate(98 / 100);
+    bar5.animate(98 / 100);
+    bar6.animate(98 / 100);
+
+
+
+</script>

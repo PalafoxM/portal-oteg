@@ -1,0 +1,31 @@
+{% extends 'back/components/list.html' %}
+{% load static %}
+
+{% block head_list %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+<script src="{% static 'js/inventario_hotelero_ent_nac/list.js' %}"></script>
+{% endblock %}
+
+{% block columns %}
+<tr class="text-center table-header">
+    <th class="text-left ">ID</th>
+    <th class="text-left ">Entidad</th>
+    <th class="text-left ">Fecha</th>
+    <th class="text-left ">Categoría</th>
+    <th class="text-left">Habitaciones</th>
+    <th class="text-left">Establecimientos</th>
+    <th class="text-center" style="
+    position: relative;
+    background-color: #ECF0F1;
+    text-align: center;
+    height: 100%;
+  ">Acciones</th>
+</tr>
+{% endblock %}
+
+

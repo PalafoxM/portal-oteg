@@ -1,0 +1,52 @@
+{% extends 'back/components/list.html' %}
+
+{% load static %}
+
+
+{% block head_list %}
+{% endblock %}
+
+{% block columns %}
+<tr class="text-center table-header">
+    <th class="text-left pl-3">ID</th>
+    <th class="text-center hidden-t">Categoría</th>
+    <th class="actions">Acciones</th>
+</tr>
+{% endblock %}
+
+{% block rows %}
+{% for e in object_list %}
+<tr class="text-center table-body mt-2">
+    <th class="text-left tb-text">{{ e.id }}</th>
+    <th class="text-left tb-text">{{e.categoria}}</th>
+    <th style="
+            position: relative;
+            background-color: #ECF0F1;
+            text-align: center;
+            height: 100%;
+          ">
+          <div
+           class="icon-container"
+          >
+        <button  tooltip="Consultar" flow="down"
+        style="border: none;"
+            onclick="location.href='{% url 'dashboard:catalago_categoria_update' e.id %}'">
+            <i class="fas fa-edit"></i>
+        </button>
+        <form method="post" action="{% url 'dashboard:catalago_categoria_delete' e.id %}">
+            {% csrf_token %}
+            <button  style="border: none;" tooltip="Consultar" flow="down"
+                onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">
+                <i class="fas fa-trash"></i>
+            </button>
+        </form>
+    </div>
+    </th>
+</tr>
+{% endfor %}
+{% endblock %}
+
+{% block javascript %}
+<!-- <script src="{% static 'admin/sitios-interes/list.js' %}"></script> -->
+
+{% endblock %}

@@ -1,0 +1,141 @@
+{% load static %}
+
+{% block navbar_new %}
+<div class="myslide carousel slide" id="carousel-example-generic" data-ride="carousel">
+    <nav class="navbar navbar-default force-hamburger">
+
+        <div class="container otwn-logo">
+        </div>
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div style="
+                display: flex;
+                justify-content: center;
+                align-items: center;
+           
+
+                    ">
+                    <a class="navbar-brand" href="#">
+                        <img src="{% static 'img/inicio/logo.svg' %}" alt="" class="img-responsive"
+                            style="height: 60px;  margin-top: -16px;">
+                    </a>
+                    <div>
+                        <image style="
+                            margin-top: 18px;
+                            height: 50px;
+                            object-fit: cover;
+                            object-position: center;
+                            " src="{% static 'img_nav/unwto-white.png' %}" />
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="{% url 'oteg' %}" class="nav-text">OTEG</a></li>
+                    <li><a href="{% url 'sustentabilidad' %}" class="nav-text">Sustentabilidad</a></li>
+                    <li><a href='https://guanajuato.mx/' target="_blank" class="nav-text">Información Turística</a></li>
+                    <li><a href="{% url 'solicitudes' %}" class="nav-text">Solicitudes</a>
+                    <li> <a>
+
+                    <form id="search-form" action="{% url 'search_view' %}" method="get"
+                        onsubmit="handleSearch(event)">
+                        <input
+                        autocomplete="off"
+                        type="text" name="query" id="search-input" class="nav-input"
+                            placeholder="Buscador">
+                        <input type="submit" style="display: none;">
+                    </form>
+
+                    
+                    </a></li>
+                    <li><div id="google_translate_element" style="
+                        padding-top: 15px;
+                    "></div></li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right mt-45">
+                    <li><a href="{% url 'inicio' %}" class="nav-text">INICIO</a></li>
+                    <!-- https://develop.observatorioturistico.org/admin-oteg/reports/30/ -->
+                    <li><a href="{% url 'dashboard:report_detail' 30 %}" class="nav-text">Indicadores</a></li>
+                    <li><a href="{% url 'publicaciones_new' %}" class="nav-text">Publicaciones</a></li>
+                    <li><a href="{% url 'inventario-turistico' %}" class="nav-text">Inventario Turístico</a></li>
+                    <li><a href="{% url 'entorno-nacional'%}" class="nav-text">Entorno Nacional</a></li>
+                    <li><a href="{% url 'barometro-turistico' %}" class="nav-text">Barómetro Turístico</a></li>
+                    <li><a href="{% url 'eniot'%}" class="nav-text">ENIOT</a></li>
+
+                
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+
+
+    <ol class="carousel-indicators">
+
+
+    </ol>
+
+    {% if form_object %}
+    <div class="carousel-inner" role="listbox">
+        <div class="item active">
+            <div class="mask">
+                <img src={{img_url}} alt="">
+                alt="">
+                <div class="overlay"></div>
+            </div>
+            <div class="carousel-caption">
+
+                <br>
+                <h2>{{nav_title}}</h2>
+                {% if subtitulo  %}
+                    <p>Contáctanos si requieres información detallada de algún tema en específico.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    {% else %}
+    <div class="carousel-inner" role="listbox">
+        <div class="item active">
+            <div class="mask">
+                <img src="{% static img_url %}" alt="">
+                alt="">
+                <div class="overlay"></div>
+            </div>
+            <div class="carousel-caption">
+
+                <br>
+                <h2>{{nav_title}}</h2>
+                {% if subtitulo  %}
+                    <h3>Contáctanos si requieres información detallada de algún tema en específico.</h3>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    {% endif %}
+
+
+</div>
+
+<script>
+    function handleSearch(event) {
+        event.preventDefault();  // Prevent form submission
+        const query = document.getElementById('search-input').value;
+        const url = document.getElementById('search-form').action + '?query=' + encodeURIComponent(query);
+        window.location.href = url;
+    }
+</script>
+
+{% endblock %}

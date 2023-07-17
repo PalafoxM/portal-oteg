@@ -1,78 +1,60 @@
-{% extends 'back/index.html' %}
+{% extends 'back/components/list.html' %}
 {% load static %}
-
-{% block head %}
-<link href="{% static 'admin/vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+{% block head_list %}
+<!-- <script src="{% static 'admin/banner/list.js' %}"></script> -->
 {% endblock %}
 
+{% block columns %}
 
-{% block content %}
-<!-- DataTales Example -->
-<div class="card shadow mb-4">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">{{title}}</h6>
-        <hr class="sidebar-divider">
-        <a id="botonMas" href="{% url 'colaboradores:publicacion_create' %}" class="btn btn-primary btn-icon-split">
+<tr class="text-center table-header">
+
+    <th scope="col">N°</th>
+    <th scope="col">Nombre</th>
+    <th scope="col">Fecha</th>
+    <th scope="col">Sección</th>
+    <th scope="col">Categoría</th>
+    <th scope="col">Descargas</th>
+    <th scope="col">Acciones</th>
+
+
+    {% endblock %}
+
+    {% block rows %}
+    {% for publicacion in object_list %}
+<tr class="table-body">
+
+    <th class="text-left tb-text">{{ publicacion.id }}</th>
+    <th class="text-left tb-text">{{publicacion.name}}</th>
+    <th class="text-left tb-text">{{publicacion.date_created}}</th>
+    <th class="text-left tb-text">{{publicacion.section.seccion}}</th>
+    <th class="text-left tb-text">{{publicacion.category.nombre_categoria}}</th>
+    <th>
+
+        <a href="{% url 'dashboard:publicacion_delete' publicacion.id %}" class="btn btn-danger btn-icon-split">
             <span class="icon text-white-50">
-                <i class="fas fa-plus"></i>
+                <i class="fas fa-trash"></i>
             </span>
-            <span class="text">Crear Publicación</span>
+            <span class="text">Eliminar</span>
         </a>
-    </div>
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nombre</th>
-                        <th>Fecha</th>
-                        <th>Sección</th>
-                        <th>Categoria</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for publicacion in publicaciones %}
-                        <tr>
-                            <th>{{ publicacion.id }}</th>
-                            <th>{{publicacion.name}}</th>
-                            <th>{{publicacion.date_created}}</th>
-                            <th>{{publicacion.section}}</th>
-                            <th>{{publicacion.category}}</th>
-                            <th>
-                                <a href="{% url 'colaboradores:publicacion_delete' publicacion.id %}" class="btn btn-danger btn-icon-split">
-                                    <span class="icon text-white-50">
-                                        <i class="fas fa-trash"></i>
-                                    </span>
-                                    <span class="text">Eliminar</span>
-                                </a>
-                                <a href="{% url 'colaboradores:publicacion_update' publicacion.id %}" class="btn btn-primary btn-icon-split">
-                                    <span class="icon text-white-50">
-                                        <i class="fas fa-edit"></i>
-                                    </span>
-                                    <span class="text">Editar</span>
-                                </a>
-                            </th>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
+
+        <a href="{% url 'dashboard:publicacion_update' publicacion.id %}" class="btn btn-primary btn-icon-split">
+
+            <span class="icon text-white-50">
+                <i class="fas fa-edit"></i>
+            </span>
+
+            <span class="text">Editar</span>
+
+        </a>
+
+    </th>
+
+</tr>
+
+{% endfor %}
 {% endblock %}
 
-{% block footerjs %}
-<!-- Page level custom scripts -->
-<script src="{% static 'admin/js/demo/datatables-demo.js' %}"></script>
-<script type="text/javascript">
-    $(function (){
-        $('#botonMas').on('click', function(){
-            $.ajax({
-                url: ''
-            })
-        })
-    })
-</script>
+{% block javascript %}
+<!-- <script src="{% static 'admin/publicaciones/list.js' %}"></script> -->
+
 {% endblock %}

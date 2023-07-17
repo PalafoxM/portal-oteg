@@ -1,0 +1,44 @@
+{% extends 'back/components/list.html' %}
+{% load static %}
+{% block head_list %}
+<!-- <script src="{% static 'admin/banner/list.js' %}"></script> -->
+{% endblock %}
+
+{% block columns %}
+<tr class="text-center table-header">
+    <th class="text-left pl-3">ID</th>
+    <th class="text-left pl-3">Título</th>
+    <th class="text-left pl-3">Tipo de Evento</th>
+    <th class="text-left pl-3">Imagen</th>
+    <th class="text-center" style="
+            position: relative;
+            background-color: #ECF0F1;
+            text-align: center;
+            height: 100%;
+        ">Acciones</th>
+        </tr>
+</tr>
+{% endblock %}
+
+{% block rows %}
+{% for e in object_list %}
+<tr>
+    <th class="text-left tb-text">{{e.id}}</th>
+    <th class="text-left tb-text">{{e.titulo}}</th>
+    <th class="text-left tb-text">{{e.tipo_evento}}</th>
+    <th class="text-left tb-text"><img src="{{e.imagen.url}}" alt="" width="100px"></th>
+    <th class="text-center" style="position: relative; background-color: #ECF0F1; text-align: center; height: 100%;">
+        <div class="icon-container">
+            <i class="fas fa-edit" onclick="location.href='{% url 'dashboard:evento_update' e.id %}'"></i>
+                    <form method="post" action="{% url 'dashboard:evento_delete' e.id %}" >
+                        {% csrf_token %}
+                        
+                        <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </form>
+        </div>
+    </th>
+</tr>
+{% endfor %}
+{% endblock %}

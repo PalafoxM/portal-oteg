@@ -1,0 +1,97 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'fontawesome-free/css/all.min.css' %}">
+
+
+{% include 'web/components/navbar/navbar.html' %}
+
+
+<div class="container mt-4">
+
+    <div>
+        <h3 class="text-center">CENTRO DOCUMENTAL</h3>
+        <p>Este es un espacio colaborativo en permanente construcción y enriquecimiento en el que cualquier persona que
+            así lo desee, puede ingresar sus investigaciones, estudios, ensayos y publicaciones que quiera compartir con
+            los usuarios del portal del observatorio.</p>
+    </div>
+
+    <div>
+
+        <div class="row">
+
+            <div class="col text-center">
+                <img src="http://www.observatorioturistico.org/img/iconos/publicaciones_recientes.png">
+                {% if current_seccion == 1 %}
+                    <h5 class="mt-3">PERFIL DEL VISITANTE A CIUDAD</h5>
+                {% endif %}
+                {% if current_seccion == 2 %}
+                <h5 class="mt-3">Perfil de Visitante a Evento</h5>
+                {% endif %}
+
+                {% if current_seccion == 3 %}
+                <h5 class="mt-3">MARCO NORMATIVO DE TURISMO</h5>
+                {% endif %}
+
+                {% if current_seccion == 8 %}
+                <h5 class="mt-3">PONENCIAS DE EVENTOS</h5>
+                {% endif %}
+
+                {% if current_seccion == 9 %}
+                <h5 class="mt-3">REVISTA OTEG</h5>
+                {% endif %}
+
+                {% if current_seccion == 10 %}
+                <h5 class="mt-3">OTRAS PUBLICACIONES</h5>
+                {% endif %}
+            </div>
+
+    
+
+
+            <div class="col">
+
+                    {% for subseccion, pdfs in subseccion_data %}
+
+                    <h2 class="text-center">{{ subseccion }}</h2>
+
+                    {% for pdf in pdfs %}
+
+                    <div style="display: flex; justify-content: space-between; align-items: center;" class="mb-3">
+
+                        <p style="margin: 0; padding-right: 1rem; align-self:flex-start;">{{pdf.nombrePDF}}</p>
+                        <div style="background-color: #026ad1; color: #fff; font-weight: bold; border-radius: 5rem;">
+                            <p style="margin: 0; padding-left: 10px; padding-right: 10px;">Num Descargas :
+                                {{pdf.num_descargas}} </p>
+                        </div>
+                        <a href="{% url 'publicaciones_pdf_viewer' pk=pdf.id %}"><i
+                                style="font-size: 1.5rem; cursor: pointer; color: #ad0b00; align-self:flex-end;"
+                                class="fa-solid fa-file-pdf"></i></a>
+    
+                    </div>
+
+                    {% endfor %}
+
+                    {% endfor %}
+    
+                
+
+            </div>
+
+
+
+
+
+        </div>
+
+
+    </div>
+
+
+
+</div>
+
+
+
+
+{% include 'web/components/footer/footer.html' %}

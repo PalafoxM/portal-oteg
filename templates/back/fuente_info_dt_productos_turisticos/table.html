@@ -1,0 +1,115 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'librerias/datatables-1.10.25/css/dataTables.bootstrap4.min.css' %}" />
+<link rel="stylesheet"
+    href="{% static 'librerias/datatables-1.10.25/plugins/responsive-2.2.9/css/responsive.bootstrap4.min.css' %}" />
+
+<p>El dato que intenta ingresar ya existe en la base de datos. ¿Desea reemplazar el dato actual con el nuevo dato?</p>
+
+
+<div style="overflow-x: auto;">
+    <h4>Dato Histórico</h4>
+    <table class="table table-bordered" id="dataTable" style="table-layout: fixed;">
+        <thead>
+            <tr>
+                <th style="width: 300px;">giro</th>
+                <th style="width: 300px;">clave_del_giro</th>
+                <th style="width: 300px;">entidad</th>
+                <th style="width: 300px;">clave_entidad</th>
+                <th style="width: 300px;">destino</th>
+                <th style="width: 300px;">nombre_comercial</th>
+                <th style="width: 300px;">razon_social</th>
+                <th style="width: 300px;">rfc</th>
+                <th style="width: 300px;">calle</th>
+                <th style="width: 300px;">numero</th>
+                <th style="width: 300px;">colonia</th>
+                <th style="width: 300px;">codigo_postal</th>
+                <th style="width: 300px;">lada</th>
+                <th style="width: 300px;">telefono_1</th>
+                <th style="width: 300px;">telefono_2</th>
+                <th style="width: 300px;">celular</th>
+                <th style="width: 300px;">correo_electronico</th>
+                <th style="width: 300px;">sitio_web</th>
+                <th style="width: 300px;">ret</th>
+                <th style="width: 300px;">rnt</th>
+                <th style="width: 300px;">segmento</th>
+                <th style="width: 300px;">clave_municipio</th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for data in data_list %}
+            <tr>
+                <td>{{ data.giro }}</td>
+                <td>{{ data.clave_del_giro }}</td>
+                <td>{{ data.entidad }}</td>
+                <td>{{ data.clave_entidad }}</td>
+                <td>{{ data.destino }}</td>
+                <td>{{ data.nombre_comercial }}</td>
+                <td>{{ data.razon_social }}</td>
+                <td>{{ data.rfc }}</td>
+                <td>{{ data.calle }}</td>
+                <td>{{ data.numero }}</td>
+                <td>{{ data.colonia }}</td>
+                <td>{{ data.codigo_postal }}</td>
+                <td>{{ data.lada }}</td>
+                <td>{{ data.telefono_1 }}</td>
+                <td>{{ data.telefono_2 }}</td>
+                <td>{{ data.celular }}</td>
+                <td>{{ data.correo_electronico }}</td>
+                <td>{{ data.sitio_web }}</td>
+                <td>{{ data.ret }}</td>
+                <td>{{ data.rnt }}</td>
+                <td>{{ data.segmento }}</td>
+                <td>{{ data.clave_municipio }}</td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h4>Dato que se intento subir</h4>
+
+    <table class="table table-bordered" id="dataTable" style="table-layout: fixed;">
+        <thead>
+            <tr>
+                <th style="width: 300px;">giro</th>
+                <th style="width: 300px;">clave_del_giro</th>
+                <th style="width: 300px;">entidad</th>
+                <th style="width: 300px;">clave_entidad</th>
+                <th style="width: 300px;">destino</th>
+                <th style="width: 300px;">nombre_comercial</th>
+                <th style="width: 300px;">razon_social</th>
+                <th style="width: 300px;">rfc</th>
+                <th style="width: 300px;">calle</th>
+                <th style="width: 300px;">numero</th>
+                <th style="width: 300px;">colonia</th>
+                <th style="width: 300px;">codigo_postal</th>
+                <th style="width: 300px;">lada</th>
+                <th style="width: 300px;">telefono_1</th>
+                <th style="width: 300px;">telefono_2</th>
+                <th style="width: 300px;">celular</th>
+                <th style="width: 300px;">correo_electronico</th>
+                <th style="width: 300px;">sitio_web</th>
+                <th style="width: 300px;">ret</th>
+                <th style="width: 300px;">rnt</th>
+                <th style="width: 300px;">segmento</th>
+                <th style="width: 300px;">clave_municipio</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                {% for data in data_list2 %}
+                <td>{{ data }}</td>
+                <!-- ... -->
+                {% endfor %}
+
+            </tr>
+        </tbody>
+    </table>
+
+
+
+</div>

@@ -1,0 +1,337 @@
+{% extends 'web/body.html' %}
+{% load static %}
+{% block head_view %}
+<!-- <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script> -->
+<style>
+ .card-title {
+  font-weight: bold;
+  font-size: 20px;
+  margin-bottom: 10px; /* Ajusta el valor según el espacio deseado */
+  padding-bottom: 10px; /* Ajusta el valor según el espacio deseado */
+  border-bottom: 2px solid #FB8A55;
+
+}
+ .card-title-v2 {
+  font-weight: bold;
+  font-size: 20px;
+  margin-bottom: 10px; /* Ajusta el valor según el espacio deseado */
+  padding-bottom: 10px; /* Ajusta el valor según el espacio deseado */
+  
+
+}
+
+.card-text {
+  text-align: justify;
+}
+
+.tittle-v1 {
+  font-weight: bold;
+
+  
+}
+.mf-pf{
+    margin-top: 25px !important;
+  padding-left: 30px !important;
+  padding-right: 30px !important;;
+}
+.mt-6{
+    margin-top: 35px !important;
+}
+
+
+</style>
+{% endblock %}
+
+<!-- contenido -->
+{% block content %}
+
+<div class="row pl-5 pr-5 pt-5 pb-5">
+    <div class="col-lg-12 mt-5 mf-pf">
+        <h3 class="card-title">¿ QUÉ ES EL OBSERVATORIO TURÍSTICO DEL ESTADO DE GUANAJUATO ?</h3>
+        <p>Es un espacio de análisis, técnico, intersectorial e interdisciplinario bajo el cual un grupo de personas y/o
+            entidades se agrupan y organizan con el propósito de vigilar, medir y verificar la evolución del sector
+            turismo en el Estado de Guanajuato.</p>
+    </div>
+    <div class="col-lg-6 mt-5">
+        <div class="card-oteg">
+            <div class="card-body">
+                <h5 class="card-title">MISIÓN</h5>
+                <p class="card-text">Ser un organismo multidisciplinario, enfocado a la identificación, análisis,
+                    interpretación y evaluación de los resultados de la actividad turística, a través de indicadores que
+                    permitan mejorar la competitividad del sector, con un enfoque de sostenibilidad e inclusión social
+                    que ayude a la toma de decisiones.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 mt-5">
+        <div class="card-oteg">
+            <div class="card-body">
+                <h5 class="card-title">VISIÓN</h5>
+                <p class="card-text">Consolidarnos como el organismo de referencia nacional e internacional que sirve de
+                    guía a los actores del Sector Turístico, gestionando
+                    el conocimiento de esta actividad y que genera los indicadores claves que inciden en la
+                    recuperación, competitividad y desarrollo
+                    turístico sostenible del Estado de Guanajuato.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12 mt-5">
+        <div class="mt-6">
+            <div class="">
+                <h5 class="card-title-v2">¿QUIÉNES LO INTEGRAN?</h5>
+                <div id="svg-container" style="width: 100%; height: auto;">
+                    <embed src="{% static 'images/fuentes_informacion/Organigrama-v5.svg' %}" type="image/svg+xml"
+                        onload="handleSVGLoad()" style="width: 100%; height: auto;"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 mt-5">
+        <div class="card-oteg">
+            <div class="card-body">
+                <h5 class="card-title">OBJETIVOS</h5>
+                <ul>
+                    <li>Jerarquizar las demandas y necesidades de los ciudadanos.</li>
+                    <li>Orientar las actividades de los servidores públicos.</li>
+                    <li>Facilitar la toma de decisiones y,</li>
+                    <li>Generar el diseño de la propia política de desarrollo del sector turismo.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 mt-5">
+        <div class="card-oteg">
+            <div class="card-body">
+                <h5 class="card-title">¿EN DÓNDE INCIDE?</h5>
+                <ul>
+                    <li>Políticas públicas.</li>
+                    <li>Metodologías y herramientas técnicas.</li>
+                    <li>Transparencia.</li>
+                    <li>Medición de resultados.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12 mt-5">
+        <div class="card-oteg">
+            <div class="card-body">
+                <h5 class="card-title">FUNCIONES</h5>
+                <ul>
+                    <li>Genera información adecuada y consensuada, que permita definir el actuar del sector.</li>
+                    <li>Pone al alcance de la sociedad la información relativa al fenómeno en estudio, atendiendo a
+                        criterios metodológicos, técnicos y de transparencia.</li>
+                    <li>Promueve mecanismos e instrumentos dirigidos a conocer las demandas de los ciudadanos.</li>
+                    <li>Construye sistemas de información técnica que permitan la generación, homologación y
+                        estandarización de indicadores en materia de turismo, además de facilitar su uso y consulta.
+                    </li>
+                    <li>Construye un tablero de control como mecanismo permanente de medición y monitoreo en aspectos
+                        prioritarios del tema</li>
+                    <li>Genera conocimiento útil a través de estudios e investigaciones respecto al sector turístico
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12 mt-5">
+        <div class="card-oteg">
+            <div class="card-body">
+                <h5 class="card-title">COMISIONES DE TRABAJO</h5>
+                <ul>
+                    <li>Comisión de Publicaciones y Glosarios: Vigila que la información que se publica sea seria,
+                        correcta, útil y permanente.</li>
+                    <li>Comisión de Tablero de Control y Sistema de Indicadores: Analiza los indicadores que miden la
+                        actividad turística del Estado de Guanajuato.</li>
+
+                    <li>Comisión de Portal de Internet: Vigila el correcto funcionamiento del Portal de Internet del
+                        Observatorio.
+                    </li>
+                    <li>Comisión de Actividades Públicas, Vinculación y Relaciones Públicas: Propone y gestiona
+                        sinergias con otros observatorios, y propone la participación del Observatorio en eventos del
+                        sector.</li>
+                    <li>Red de Investigadores: Coadyuva en la generación de indicadores que no estén disponibles o
+                        previstos por falta de información o investigación.
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function handleSVGLoad() {
+        var svgDocument = document.querySelector("#svg-container embed").getSVGDocument();
+        // var ellipses = svgDocument.querySelectorAll("ellipse");
+        // var rects = svgDocument.querySelectorAll("rect");
+        // var texts = svgDocument.querySelectorAll("text");
+        var groups = svgDocument.querySelectorAll("g"); // Obtener todos los elementos <g>
+        
+        groups.forEach(function (group) {
+            group.addEventListener("click", function () {
+            console.log("Se hizo clic en el grupo:", group.id);
+                if (group.id  === "Layer_2") {
+                    window.open("https://enes.unam.mx/", "_blank");
+                }else if (group.id  === "Layer_3") {
+                    window.open("https://www.udec.edu.mx/", "_blank");
+                }else if (group.id  === "Layer_4") {
+                    window.open("https://www.ugto.mx/", "_blank");
+                }else if (group.id  === "Layer_5") {
+                    window.open("https://www.lasallebajio.edu.mx/", "_blank");
+                }else if (group.id  === "Layer_6") {
+                    window.open("https://www.utsma.edu.mx/", "_blank");
+                }else if (group.id  === "Layer_7") {
+                    window.open("https://www.inegi.org.mx/", "_blank");
+                }else if (group.id  === "Layer_8") {
+                    window.open("https://iplaneg.guanajuato.gob.mx/", "_blank");
+                }else if (group.id  === "Layer_9") {
+                    window.open("https://cultura.guanajuato.gob.mx/", "_blank");
+                }else if (group.id  === "Layer_10") {
+                    window.open("https://sde.guanajuato.gob.mx/sdes/", "_blank");
+                }else if (group.id  === "Layer_11") {
+                    window.open("https://smaot.guanajuato.gob.mx/sitio/", "_blank");
+                }else if (group.id  === "Layer_13") {
+                    window.open("http://www.escondidoplace.com/aguas-termales-san-miguel-de-allende/", "_blank");
+                }else if (group.id  === "Layer_14") {
+                    window.open("https://atuceg.experienciasmx.travel/#/", "_blank");
+                }else if (group.id  === "Layer_12") {
+                    window.open("https://www.amhm.org/", "_blank");
+                }else if (group.id  === "Layer_15") {
+                    window.open("https://www.conectagfa.com.mx/#es/principal", "_blank");//fecla amarilla
+                }else if (group.id  === "Layer_16") {
+                    window.open("https://www.poliforumleon.com.mx/", "_blank");//Poliforum_León
+                }else if (group.id  === "Layer_17") {
+                    window.open("https://atnag.com/", "_blank");//Asoc._De_Turismo_de_Naturaleza_y_Aventura_de_Guanajuato
+                }else if (group.id  === "Layer_18") {
+                    window.open("https://canacoguanajuato.com/", "_blank");//Cámara_Nacional_de_Comercio
+                }else if (group.id  === "Layer_19") {
+                    window.open("https://guanajuato.mx/romance/", "_blank");//Representante_del_Segmento_de_Romance
+                }
+            })
+        });
+
+        
+
+        rects.forEach(function (rect) {
+            rect.addEventListener("click", function () {
+                console.log("Se hizo clic en el elemento <rect>:", rect.id);
+                // Realizar acciones adicionales para <rect>
+                if (rect.id === "Universidad_de_la_Salle_Bajío") {
+                    window.open("https://www.lasallebajio.edu.mx/", "_blank");
+                }
+                else if (rect.id === "Instituto_Irapuato") {
+                    window.open("https://www.uii.edu.mx/", "_blank");
+                }
+                else if (rect.id === "Universidad_de_celaya-2") {
+                    window.open("https://www.udec.edu.mx/", "_blank");
+                }
+                else if (rect.id === "Universidad_de_Guanajuato-2") {
+                    window.open("https://www.ugto.mx/", "_blank");
+                }
+                else if (rect.id === "Universidad_tecnológica_de_SMA") {
+                    window.open("https://www.utsma.edu.mx/", "_blank");
+                }
+                else if (rect.id === "INEGI-2") {
+                    window.open("https://www.inegi.org.mx/", "_blank");
+                }
+                else if (rect.id === "Instituto_de_planeación_del_Estado_de_Guanajuato") {
+                    window.open("https://iplaneg.guanajuato.gob.mx/", "_blank");
+                }
+                else if (rect.id === "Instituto_Estatal_de_Cultura-2") {
+                    window.open("https://cultura.guanajuato.gob.mx/", "_blank");
+                }
+                else if (rect.id === "Secretaria_de_Desarrollo_Económico_Sustentable") {
+                    window.open("https://sde.guanajuato.gob.mx/sdes/", "_blank");
+                }
+                else if (rect.id === "Secretaria_de_Medio_Ambiente_y_Ordenamiento_Territorial") {
+                    window.open("https://smaot.guanajuato.gob.mx/sitio/", "_blank");
+                }
+                else if (rect.id === "Escondido_Place-2") {
+                    window.open("http://www.escondidoplace.com/aguas-termales-san-miguel-de-allende/", "_blank");
+                }
+                else if (rect.id === "Asociación_de_empresarios_de_Turismo_del_Estado_de_Guanajuato") {
+                    window.open("https://atuceg.experienciasmx.travel/#/", "_blank");
+                }
+                else if (rect.id === "Asociación_Mexicana_de_Hoteles_de_León") {
+                    window.open("https://www.amhm.org/", "_blank");
+                }
+                else if (rect.id === "Poliforum_León") {
+                    window.open("https://www.poliforumleon.com.mx/", "_blank");
+                }
+                else if (rect.id === "Asoc._De_Turismo_de_Naturaleza_y_Aventura_de_Guanajuato-2") {
+                    window.open("https://atnag.com/", "_blank");
+                }
+                else if (rect.id === "Representante_del_Segmento_de_Romance-2") {
+                    window.open("https://guanajuato.mx/romance/", "_blank");
+                }
+                else if (rect.id === "SECTUR") {
+                    window.open("https://sectur.guanajuato.gob.mx/", "_blank");
+                }
+            });
+        });
+
+        texts.forEach(function (text) {
+            text.addEventListener("click", function () {
+                console.log("Se hizo clic en el elemento <text>:", text.id);
+                if (text.id === "Universidad_De_La_Salle_Bajío") {
+                    window.open("https://www.lasallebajio.edu.mx/", "_blank");
+                }
+                else if (text.id === "Insituto_Irapuato") {
+                    window.open("https://www.uii.edu.mx/", "_blank");
+                }
+                else if (text.id === "Universidad_de_celaya") {
+                    window.open("https://www.lasallebajio.edu.mx/", "_blank");
+                }
+                else if (text.id === "Universidad_de_Guanajuato") {
+                    window.open("https://www.ugto.mx/", "_blank");
+                }
+                else if (text.id === "Universidad_Tecnológica_De_SMA") {
+                    window.open("https://www.utsma.edu.mx/", "_blank");
+                }
+                else if (text.id === "INEGI") {
+                    window.open("https://www.inegi.org.mx/", "_blank");
+                }
+                else if (text.id === "Instituto_de_Planeación_del_Estado_de_Guanajuato") {
+                    window.open("https://iplaneg.guanajuato.gob.mx/", "_blank");
+                }
+                else if (text.id === "Instituto_Estatal_de_Cultura") {
+                    window.open("https://cultura.guanajuato.gob.mx/", "_blank");
+                }
+                else if (text.id === "Secretaría_de_Desarrollo_Económico_Sustentable") {
+                    window.open("https://sde.guanajuato.gob.mx/sdes/", "_blank");
+                }
+                else if (text.id === "Secretaría_de_Medio_Ambiente_y_Ordenamiento_Territorial") {
+                    window.open("https://smaot.guanajuato.gob.mx/sitio/", "_blank");
+                }
+                else if (text.id === "Escondido_Place") {
+                    window.open("http://www.escondidoplace.com/aguas-termales-san-miguel-de-allende/", "_blank");
+                }
+                else if (text.id === "Asoc._De_Empresarios_de_Turismo_Cultural_del_Estado_de_Guanajuato") {
+                    window.open("https://atuceg.experienciasmx.travel/#/", "_blank");
+                }
+                else if (text.id === "Asociación_Mexicana_de_Hoteles_De_León") {
+                    window.open("https://www.amhm.org/", "_blank");
+                }
+                else if (text.id === "Grupo_Flecha_Amarilla-2") {
+                    // window.open("https://www.lasallebajio.edu.mx/", "_blank");
+                    console.log("Grupo_Flecha_Amarilla-2")
+                }
+                else if (text.id === "Poliforum_León") {
+                    window.open("https://www.poliforumleon.com.mx/", "_blank");
+                }
+                else if (text.id === "Asoc._De_Turismo_de_Naturaleza_y_Aventura_de_Guanajuato") {
+                    window.open("https://atnag.com/", "_blank");
+                }
+                else if (text.id === "Cámara_Nacional_de_Comercio") {
+                    window.open("https://canacoguanajuato.com/", "_blank");
+                }
+                else if (text.id === "Representante_del_Segmento_de_Romance") {
+                    window.open("https://guanajuato.mx/romance/", "_blank");
+                }
+                else if (text.id === "Secretario_Técnico_Dirección_de_Información_y_Análisis_SECTUR") {
+                    window.open("https://sectur.guanajuato.gob.mx/", "_blank");
+                }
+            });
+        });
+    }
+</script>
+
+{% endblock %}

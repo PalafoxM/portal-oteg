@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            color: #555;
+        }
+        .email {
+            color: #007bff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Solicitud de Información</h1>
+        <p>Hola, mi nombre es {{name}} y soy del país {{contry}}.</p>
+        <p>Solicito:</p>
+        <p>{{message}}</p>
+        <p>Puedes contactarme a través de mi correo electrónico: <a href="mailto:{{Email}}" class="email">{{Email}}</a></p>
+    </div>
+</body>
+</html>

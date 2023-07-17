@@ -15,14 +15,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path ,include
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 urlpatterns = [
-    path('', include('home.urls')),
+    # web
+    path('',include('web.urls')),
+    # admin
     path('admin/', admin.site.urls),
-    path('users/',include('django.contrib.auth.urls')),
-    path('users/',include('logIn.urls')),
-    path('admin-oteg/',include('colaboradores.urls')),
-    path('users/',include('usuarios.urls')),
+    # path('auth/',include('django.contrib.auth.urls', namespace='auth')),
+    path('auth/',include('logIn.urls', namespace='auth')),
+    path('admin-oteg/',include('back.urls')),
+    path('ckeditor/', include('ckeditor_uploader.urls')),
     
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

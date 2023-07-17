@@ -1,0 +1,65 @@
+{% extends 'back/components/list.html' %}
+{% load static %}
+{% block head_list %}
+<!-- <script src="{% static 'admin/banner/list.js' %}"></script> -->
+{% endblock %}
+
+{% block columns %}
+<tr class="text-center table-header">
+    <th class="text-left">ID</th>
+    <th class="text-left">Fecha</th>
+    <th class="text-left">Destino del aeropuerto</th>
+    <th class="text-left">ID del destino del aeropuerto</th>
+    <th class="text-left">Tipo de aerolínea</th>
+    <th class="text-left">Código de aerolínea</th>
+    <th class="text-center" style="
+            position: relative;
+            background-color: #ECF0F1;
+            text-align: center;
+            height: 100%;
+        ">Acciones</th>
+</tr>
+{% endblock %}
+
+{% block rows %}
+{% for e in object_list %}
+<tr>
+    <th class="text-left tb-text">{{e.id}}</th>
+    <th class="text-left tb-text">{{e.fecha}}</th>
+    <th class="text-left tb-text">{{e.destino_aeropuerto}}</th>
+    <th class="text-left tb-text">{{e.destino_aeropuerto_id}}</th>
+    <th class="text-left tb-text">{{e.tipo_aerolinea}}</th>
+    <th class="text-left tb-text">{{e.codigo_aerolinea}}</th>
+    <th class="text-left actions-column tb-text" style="
+    position: relative;
+    background-color: #ECF0F1;
+    text-align: center;
+    height: 100%;
+    ">
+        <div class="icon-container2">
+            <form method="post" action="{% url 'dashboard:fuente_info_aerolineas_delete' e.id %}">
+                {% csrf_token %}
+                <button type="submit" class="ml-1 mr-1 actions-btn"
+                    onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">
+
+                    <i class="fas fa-trash"></i>
+
+
+                </button>
+            </form>
+
+            <form method="get" action="{% url 'dashboard:fuente_info_aerolineas_update' e.id %}">
+                {% csrf_token %}
+                <button type="submit" class="ml-1 mr-1 actions-btn">
+
+                    <i class="fas fa-pencil-alt"></i>
+
+
+                </button>
+            </form>
+        </div>
+
+    </th>
+</tr>
+{% endfor %}
+{% endblock %}

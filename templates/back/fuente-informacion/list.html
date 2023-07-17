@@ -1,0 +1,1941 @@
+{% extends 'back/index.html' %}
+{% load static %}
+
+{% block head %}
+
+<link rel="stylesheet" href="{% static 'librerias/datatables-1.10.25/css/dataTables.bootstrap4.min.css' %}" />
+<link rel="stylesheet"
+    href="{% static 'librerias/datatables-1.10.25/plugins/responsive-2.2.9/css/responsive.bootstrap4.min.css' %}" />
+
+<!-- head_list -->
+{% block head_list %}
+
+{% endblock %}
+
+
+{% endblock %}
+
+{% block content %}
+
+<style>
+    div.dataTables_wrapper div.dataTables_length select {
+        width: 3.5rem !important;
+        display: inline-block;
+    }
+</style>
+<div class="row p-3 pl-3  container-cards justify-content-center" style="
+    padding-left: 3% !important;
+    ">
+    <div class="col-lg-4 col-md-12 mb-3 text-center ">
+        <!-- Card content here -->
+
+        <div class="small-cards card-white">
+            <div class="row ml-0 mr-0" style="height: 100%; width: 100%;">
+                <div class="col-lg-1 col-md-1 pl-0 pr-0 d-none d-sm-none d-md-block card-blue"></div>
+                <div class="col-lg-6 col-md-6 col-sm-12 text-center justify-content-center align-self-center">
+                    <span class="card-text-black">
+                        Total de<br>Fuentes
+                    </span>
+                    <h3 class="card-text-black-num">39</h3>
+                </div>
+                <div
+                    class="col-lg-4 col-md-5 col-sm-5 d-none d-sm-none d-md-block text-center content-icon-card justify-content-center align-self-center">
+                    <img src="{% static 'images/fuentes_informacion/database-azul.png' %}" alt="" class="icon-card">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-12 mb-3">
+        <!-- Card content here -->
+
+        <div class="small-cards card-white">
+            <div class="row ml-0 mr-0" style="height: 100%; width: 100%;">
+                <div class="col-lg-1 col-md-1 pl-0 pr-0 d-none d-sm-none d-md-block card-red"></div>
+                <div class="col-lg-6 col-md-6 col-sm-12 text-center justify-content-center align-self-center">
+                    <span class="card-text-black">
+                        Total de<br>Fuentes por actualizar
+                    </span>
+                    <h3 class="card-text-black-num">{{non_updated_count}}</h3>
+                </div>
+                <div
+                    class="col-lg-4 col-md-5 col-sm-5 d-none d-sm-none d-md-block text-center content-icon-card justify-content-center align-self-center">
+                    <img src="{% static 'images/fuentes_informacion/info-verde.png' %}" alt="" class="icon-card-i">
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-lg-4 col-md-12">
+        <!-- Card content here -->
+        <div class="small-cards card-white">
+            <div class="row ml-0 mr-0" style="height: 100%; width: 100%;">
+                <div class="col-lg-1 col-md-1 pl-0 pr-0 d-none d-sm-none d-md-block card-green"></div>
+                <div class="col-lg-6 col-md-6 col-sm-12 text-center justify-content-center align-self-center">
+                    <span class="card-text-black">
+                        Total de<br>Fuentes actualizadas
+                    </span>
+                    <h3 class="card-text-black-num">{{total_F_updated}}</h3>
+                </div>
+                <div
+                    class="col-lg-4 col-md-5 col-sm-5 d-none d-sm-none d-md-block text-center content-icon-card justify-content-center align-self-center">
+                    <img src="{% static 'images/fuentes_informacion/database-verde.png' %}" alt="" class="icon-card">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- DataTales Example -->
+<div class="col-12 p-0">
+    <div class="row p-3">
+        <div class="col-12">
+            <div class="big-card">
+                <div class="table-responsive">
+                    <table class="table t" id="dataTable">
+                        <thead>
+                            <tr class="text-center table-header">
+                                <th class="text-left ">Clave</th>
+                                <th class="text-left ">Fuente de información</th>
+                                <th class="text-left ">Total de registros</th>
+                                <th class="text-left" style='min-width: 200px;'>Última actualización</th>
+                                <th class="text-left ">Periodo de actualización</th>
+                                <th class="text-left ">Estatus</th>
+                                <th class="text-center ">Acciones</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <!-- <tr class="tr-space"></tr> -->
+                            <tr class="table-body">
+                                <td class="text-left tb-text">Sin Clave</td>
+                                <td class="text-left tb-text">Hoteles nacionales</td>
+                                <td class="text-left tb-text">{{total_registers.hotelero_nac}}</td>
+                                <td class="text-left tb-text">{{last_updated.hotelero_nac}}</td>
+                                <td class="text-left tb-text">Mensual</td>
+
+                                <td class="text-left tb-text ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;">
+                                        {% if model_updated.hotelero_nac %}
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                        {% else %}
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #B50D0D;" />
+                                        {% endif %}
+                                    </div>
+
+
+
+                                </td>
+
+                                <td class="text-center" style="
+                                                position: relative;
+                                                background-color: #ECF0F1;
+                                                text-align: center;
+                                                height: 100%;">
+
+                                    <div style="
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:inventario_hotelero_ent_nac_list' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
+                                </td>
+                            </tr>
+                            <tr class="text-center table-body mt-2">
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Hoteles GTO</td>
+                                <td class="text-left tb-text"> {{total_registers.hotelero_gto}}</td>
+                                <td class="text-left tb-text">{{last_updated.hotelero_gto}}</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        {% if model_updated.hotelero_gto %}
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                        {% else %}
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #B50D0D;" />
+                                        {% endif %}
+                                    </div>
+
+
+
+                                </td>
+
+                                <td class="text-center" style="
+                                position: relative;
+                                text-align: center;
+                                height: 100%;
+                              ">
+
+                                    <div class="icon-container">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:inventario_hotelero_list' %}'"></i>
+                                    </div>
+
+                                </td>
+                            </tr>
+                            <tr class="text-center table-body mt-2">
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Inversión publica</td>
+                                <td class="text-left tb-text">{{total_registers.inversion_publica}}</td>
+                                <td class="text-left tb-text">{{last_updated.inversion_publica}}</td>
+                                <td class="text-left tb-text">Anual</td>
+                                <td class="text-center tb-text">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                      
+                                        {% if model_updated.inversion_publica %}
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                        {% else %}
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #B50D0D;" />
+                                        {% endif %}
+
+                                    </div>
+
+
+
+                                </td>
+
+
+
+                                <td class="text-center" style="
+                                                position: relative;
+                                                background-color: #ECF0F1;
+                                                text-align: center;
+                                                height: 100%;">
+
+                                    <div style="
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:inversion_publica_list' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
+                                </td>
+
+                            </tr>
+<!-- 
+                            <tr class="text-center table-body mt-2">
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Gasto Derrama</td>
+                                <td class="text-left tb-text">{{total_registers.gasto_derrama}}</td>
+                                <td class="text-left tb-text">{{last_updated.gasto_derrama}}</td>
+                                <td class="text-left tb-text">Anual</td>
+                                <td class="text-center tb-text">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+
+                                        {% if model_updated.gasto_derrama %}
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                        {% else %}
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #B50D0D;" />
+                                        {% endif %}
+
+                                    </div>
+
+
+
+                                </td>
+
+
+
+                                <td class="text-center" style="
+                                                position: relative;
+                                                background-color: #ECF0F1;
+                                                text-align: center;
+                                                height: 100%;">
+
+                                    <div style="
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_gasto_derrama' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                            <tr class="text-center table-body mt-2">
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Aire</td>
+                                <td class="text-left tb-text">{{total_registers.aire}}</td>
+                                <td class="text-left tb-text">{{last_updated.aire}}</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+
+                                        {% if model_updated.aire %}
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                        {% else %}
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #B50D0D;" />
+                                        {% endif %}
+                                    </div>
+
+
+
+                                </td>
+                                <td class="text-center" style="
+                                position: relative;
+                                background-color: #ECF0F1;
+                                text-align: center;
+                                height: 100%;">
+
+                                    <div style="
+                                position: absolute;
+                                top: 50%;
+                                left: 50%;
+                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:calidad_aire_list' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
+                                </td>
+                            </tr> -->
+
+                            <tr class="text-center table-body mt-2">
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Sensibilización</td>
+                                <td class="text-left tb-text">{{ total_registers.sensibilizacion }}</td>
+                                <td class="text-left tb-text">{{ last_updated.sensibilizacion }}</td>
+                                <td class="text-left tb-text">Anual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        {% if model_updated.sensibilizacion %}
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;"
+                                            />
+                                        {% else %}
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #B50D0D;"
+                                            />
+                                        {% endif %}
+
+                                    </div>
+
+
+
+                                </td>
+
+                                <td class="text-center" style="
+                                                position: relative;
+                                                background-color: #ECF0F1;
+                                                text-align: center;
+                                                height: 100%;">
+
+                                    <div style="
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_sensibilizacion' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
+                                </td>
+                            </tr>
+                            <tr class="text-center table-body mt-2">
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Proyectos privados</td>
+                            <td class="text-left tb-text">{{total_registers.proyecto_inversion}}</td>
+                                <td class="text-left tb-text">{{last_updated.proyecto_inversion}}</td>
+                                <td class="text-left tb-text">
+                                    Anual
+                                </td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                       
+                                        {% if model_updated.proyecto_inversion %}
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;"
+                                            />
+                                        {% else %}
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #B50D0D;"
+                                            />
+                                        {% endif %}
+
+                                    </div>
+
+
+
+
+                                </td>
+
+                                <td class="text-center" style="
+                                                position: relative;
+                                                background-color: #ECF0F1;
+                                                text-align: center;
+                                                height: 100%;">
+
+                                    <div style="
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:proyectos_inversion_list' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
+                                </td>
+                            </tr>
+                            <tr class="text-center table-body mt-2">
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Certificación</td>
+                                <td class="text-left tb-text">{{total_registers.certificacion}}</td>
+                                <td class="text-left tb-text">{{last_updated.certificacion}}</td>
+                                <td class="text-left tb-text">Anual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+
+                                        {% if model_updated.certificacion %}
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                        {% else %}
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #B50D0D;" />
+                                        {% endif %}
+
+                                    </div>
+
+
+
+                                </td>
+
+
+
+                                <td class="text-center" style="
+                                                position: relative;
+                                                background-color: #ECF0F1;
+                                                text-align: center;
+                                                height: 100%;">
+
+                                    <div style="
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_certificacion' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
+                                </td>
+                            </tr>
+
+                            <tr class="text-center table-body mt-2">
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Inversion privada</td>
+                                <td class="text-left tb-text">{{total_registers.inversion_privada}}</td>
+                                <td class="text-left tb-text">{{last_updated.inversion_privada}}</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        {% if model_updated.inversion_privada %}
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                        {% else %}
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #B50D0D;" />
+                                        {% endif %}
+                                    </div>
+
+
+
+                                </td>
+
+
+
+                                <td class="text-center" style="
+                                                position: relative;
+                                                background-color: #ECF0F1;
+                                                text-align: center;
+                                                height: 100%;">
+
+                                    <div style="
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_inversion_privada' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
+                                </td>
+                            </tr>
+
+                            <tr class="text-center table-body mt-2">
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Datatur</td>
+                                <td class="text-left tb-text">{{total_registers.datatur}}</td>
+                                <td class="text-left tb-text">{{last_updated.datatur}}</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        {% if model_updated.datatur %}
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                        {% else %}
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #B50D0D;" />
+                                        {% endif %}
+
+                                    </div>
+
+
+
+                                </td>
+
+
+
+
+                                <td class="text-center" style="
+                                                position: relative;
+                                                background-color: #ECF0F1;
+                                                text-align: center;
+                                                height: 100%;">
+
+                                    <div style="
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_datatour' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
+                                </td>
+                            </tr>
+
+
+                            <tr class="text-center table-body mt-2">
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Empleo</td>
+                                <td class="text-left tb-text">{{total_registers.empleo}}</td>
+                                <td class="text-left tb-text">{{last_updated.empleo}}</td>
+                                <td class="text-left tb-text">Trimestral</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        {% if model_updated.empleo %}
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                        {% else %}
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #B50D0D;" />
+                                        {% endif %}
+
+
+                                    </div>
+
+
+
+                                </td>
+
+
+
+
+                                <td class="text-center" style="
+                                                position: relative;
+                                                background-color: #ECF0F1;
+                                                text-align: center;
+                                                height: 100%;">
+
+                                    <div style="
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_empleo' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
+                                </td>
+                            </tr>
+
+                            <tr class="text-center table-body mt-2">
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Zonas ARQ</td>
+                                <td class="text-left tb-text">{{ total_registers.zonas_arqueologicas }}</td>
+                                <td class="text-left tb-text">{{ last_updated.zonas_arqueologicas }}</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                     
+                                        {% if model_updated.zonas_arqueologicas %}
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;"
+                                            />
+                                        {% else %}
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #B50D0D;"
+                                            />
+                                        {% endif %}
+
+
+
+                                    </div>
+
+
+
+                                </td>
+
+
+                                <td class="text-center" style="
+                                                position: relative;
+                                                background-color: #ECF0F1;
+                                                text-align: center;
+                                                height: 100%;">
+
+                                    <div style="
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_zonas_arqueologicas' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                            <tr class="text-center table-body mt-2">
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Modelo GD</td>
+                                <td class="text-left tb-text">200</td>
+                                <td class="text-left tb-text">dd/mm/aaaa hh:mm</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                    </div>
+
+
+
+                                </td>
+
+
+                                <td class="text-center" style="
+                                                position: relative;
+                                                background-color: #ECF0F1;
+                                                text-align: center;
+                                                height: 100%;">
+
+                                    <div style="
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_modelo_gd' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
+                                </td>
+                            </tr>
+
+
+
+                            <tr class="text-center table-body mt-2">
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Discapacidad</td>
+                                <td class="text-left tb-text">{{total_registers.discapacidad}}</td>
+                                <td class="text-left tb-text">{{last_updated.discapacidad}}</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        {% if model_updated.discapacidad %}
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                        {% else %}
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #B50D0D;" />
+                                        {% endif %}
+
+                                    </div>
+
+
+
+                                </td>
+
+
+
+                                <td class="text-center" style="
+                                                position: relative;
+                                                background-color: #ECF0F1;
+                                                text-align: center;
+                                                height: 100%;">
+
+                                    <div style="
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_discapacidad' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                            <tr class="text-center table-body mt-2">
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Otros</td>
+                                <td class="text-left tb-text">{{total_registers.otros_anuales}}</td>
+                                <td class="text-left tb-text">{{last_updated.otros_anuales}}</td>
+                                <td class="text-left tb-text">Anual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        {% if model_updated.otros_anuales %}
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;"
+                                            />
+                                        {% else %}
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #B50D0D;"
+                                            />
+                                        {% endif %}
+
+                                    </div>
+
+
+
+                                </td>
+
+
+
+                                <td class="text-center" style="
+                                                position: relative;
+                                                background-color: #ECF0F1;
+                                                text-align: center;
+                                                height: 100%;">
+
+                                    <div style="
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_otros_anuales' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                            <tr class="text-center table-body mt-2">
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Airbnb</td>
+
+                                <td class="text-left tb-text">{{total_registers.airbnb}}</td>
+                                <td class="text-left tb-text">{{last_updated.airbnb}}</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+
+                                        {% if model_updated.airbnb %}
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                        {% else %}
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #B50D0D;" />
+                                        {% endif %}
+
+                                    </div>
+
+
+
+                                </td>
+
+
+                                <td class="text-center" style="
+                                                position: relative;
+                                                background-color: #ECF0F1;
+                                                text-align: center;
+                                                height: 100%;">
+
+                                    <div style="
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_airbnb' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
+                                </td>
+                            </tr>
+                            <tr class="text-center table-body mt-2">
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">% Segmentos</td>
+                                <td class="text-left tb-text">{{ total_registers.participacion_segmentos }}</td>
+                                <td class="text-left tb-text">{{ last_updated.participacion_segmentos }}</td>
+                                <td class="text-left tb-text">Anual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                            
+                                            {% if model_updated.participacion_segmentos %}  
+                                            <div
+                                                style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;"
+                                                />
+                                            {% else %}
+                                            <div
+                                                style="width: 20px; height: 20px; border-radius: 50%; background-color: #B50D0D;"
+                                                />
+                                            {% endif %}
+                                    </div>
+
+
+
+                                </td>
+
+
+
+
+                                <td class="text-center" style="
+                                                position: relative;
+                                                background-color: #ECF0F1;
+                                                text-align: center;
+                                                height: 100%;">
+
+                                    <div style="
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_segmentos' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
+                                </td>
+                            </tr>
+
+                            <tr class="text-center table-body mt-2">
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">% Origen</td>
+                                <td class="text-left tb-text">{{total_registers.participacion_origen}}</td>
+                                <td class="text-left tb-text">{{last_updated.participacion_origen}}</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        {% if model_updated.participacion_origen %}
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;"
+                                            />
+                                        {% else %}
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #B50D0D;"
+                                            />
+                                        {% endif %} 
+                                    </div>
+
+
+
+                                </td>
+
+
+                                <td class="text-center" style="
+                                                position: relative;
+                                                background-color: #ECF0F1;
+                                                text-align: center;
+                                                height: 100%;">
+
+                                    <div style="
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_origen' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
+                                </td>
+                            </tr>
+                            <tr class="text-center table-body mt-2">
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Aeropuertos</td>
+                                <td class="text-left tb-text">{{ total_registers.aeropuerto }}</td>
+                                <td class="text-left tb-text">{{ last_updated.aeropuerto }}</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                             
+                                                    {% if model_updated.aeropuerto %}
+                                                    <div
+                                                        style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;"
+                                                        />
+                                                    {% else %}
+                                                    <div
+                                                        style="width: 20px; height: 20px; border-radius: 50%; background-color: #B50D0D;"
+                                                        />
+                                                    {% endif %} 
+                                    </div>
+
+
+
+                                </td>
+
+
+
+                                <td class="text-center" style="
+                                                position: relative;
+                                                background-color: #ECF0F1;
+                                                text-align: center;
+                                                height: 100%;">
+
+                                    <div style="
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_aeropuertos' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
+                                </td>
+                            </tr>
+
+
+                            <tr class="text-center table-body mt-2">
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Aerolíneas</td>
+                                <td class="text-left tb-text">{{ total_registers.aerolinea }}</td>
+                                <td class="text-left tb-text">{{ last_updated.aerolinea }}</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                         
+                                            {% if model_updated.aerolinea %}
+                                            <div
+                                                style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;"
+                                                />
+                                            {% else %}
+                                            <div
+                                                style="width: 20px; height: 20px; border-radius: 50%; background-color: #B50D0D;"
+                                                />
+                                            {% endif %} 
+                                    </div>
+
+
+
+                                </td>
+
+
+                                <td class="text-center" style="
+                                                position: relative;
+                                                background-color: #ECF0F1;
+                                                text-align: center;
+                                                height: 100%;">
+
+                                    <div style="
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_aerolineas' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
+                                </td>
+                            </tr>
+                            <tr class="text-center table-body mt-2">
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Inventario turistico</td>
+                                <td class="text-left tb-text">200</td>
+                                <td class="text-left tb-text">dd/mm/aaaa hh:mm</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                    </div>
+
+
+
+                                </td>
+
+
+
+                                <td class="text-center" style="
+                                                position: relative;
+                                                background-color: #ECF0F1;
+                                                text-align: center;
+                                                height: 100%;">
+
+                                    <div style="
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_inventario_turistico' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
+                                </td>
+                            </tr>
+                            <tr class="text-center table-body mt-2">
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Nacional</td>
+                                <td class="text-left tb-text">{{total_registers.entorno_n}}</td>
+                                <td class="text-left tb-text">{{last_updated.entorno_n}}</td>
+                                <td class="text-left tb-text">Anual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                             
+                                                {% if model_updated.entorno_n %}
+                                                <div
+                                                    style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;"
+                                                    />
+                                                {% else %}
+                                                <div
+                                                    style="width: 20px; height: 20px; border-radius: 50%; background-color: #B50D0D;"
+                                                    />
+                                                {% endif %} 
+                                    </div>
+
+
+
+                                </td>
+
+
+
+
+                                <td class="text-center" style="
+                                                position: relative;
+                                                background-color: #ECF0F1;
+                                                text-align: center;
+                                                height: 100%;">
+
+                                    <div style="
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_entorno_nacional' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                            <tr class="text-center table-body mt-2">
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">PV Eventos</td>
+                                <td class="text-left tb-text">200</td>
+                                <td class="text-left tb-text">dd/mm/aaaa hh:mm</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                    </div>
+
+
+
+                                </td>
+
+
+
+
+                                <td class="text-center" style="
+                                                position: relative;
+                                                background-color: #ECF0F1;
+                                                text-align: center;
+                                                height: 100%;">
+
+                                    <div style="
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_perfil_visitante_eventos' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+
+                            <tr class="text-center table-body mt-2">
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">PV Destinos</td>
+                                <td class="text-left tb-text">200</td>
+                                <td class="text-left tb-text">dd/mm/aaaa hh:mm</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                    </div>
+
+
+
+                                </td>
+
+
+
+                                <td class="text-center" style="
+                                                position: relative;
+                                                background-color: #ECF0F1;
+                                                text-align: center;
+                                                height: 100%;">
+
+                                    <div style="
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_perfil_visitante_destinos' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
+                                </td>
+                            </tr>
+
+
+
+
+                            <tr class="text-center table-body mt-2">
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Directorio Hotelero</td>
+                                <td class="text-left tb-text">200</td>
+                                <td class="text-left tb-text">dd/mm/aaaa hh:mm</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                    </div>
+
+
+
+                                </td>
+
+                                <td class="text-center" style="
+                                                position: relative;
+                                                background-color: #ECF0F1;
+                                                text-align: center;
+                                                height: 100%;">
+
+                                    <div style="
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:inventario_hotelero_ent_nac_list' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                            <tr class="text-center table-body mt-2">
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Pasajeros Nacionales</td>
+                                <td class="text-left tb-text">200</td>
+                                <td class="text-left tb-text">dd/mm/aaaa hh:mm</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                    </div>
+
+
+
+                                </td>
+
+
+
+
+                                <td class="text-center" style="
+                                                position: relative;
+                                                background-color: #ECF0F1;
+                                                text-align: center;
+                                                height: 100%;">
+
+                                    <div style="
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_pasajeros_ent_nac' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                            <tr class="text-center table-body mt-2">
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Directorio Agencias De Viajes</td>
+                                <td class="text-left tb-text">200</td>
+                                <td class="text-left tb-text">dd/mm/aaaa hh:mm</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                    </div>
+
+                                </td>
+                                <td class="text-center" style="
+                                position: relative;
+                                background-color: #ECF0F1;
+                                text-align: center;
+                                height: 100%;">
+
+                                    <div style="
+                                position: absolute;
+                                top: 50%;
+                                left: 50%;
+                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_dt_agencias_de_viajes' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
+                                </td>
+                            </tr>
+                            <tr class="text-center table-body mt-2">
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Directorio Alimentos Y Bebidas</td>
+                                <td class="text-left tb-text">200</td>
+                                <td class="text-left tb-text">dd/mm/aaaa hh:mm</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                    </div>
+
+                                </td>
+
+
+
+                                <td class="text-center" style="
+                                position: relative;
+                                background-color: #ECF0F1;
+                                text-align: center;
+                                height: 100%;">
+
+                                    <div style="
+                                position: absolute;
+                                top: 50%;
+                                left: 50%;
+                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_dt_alimentos_y_bebidas' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
+                                </td>
+                            </tr>
+                            <tr class="text-center table-body mt-2">
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Directorio Arrendadoras</td>
+                                <td class="text-left tb-text">200</td>
+                                <td class="text-left tb-text">dd/mm/aaaa hh:mm</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                    </div>
+
+                                </td>
+
+                                <td class="text-center" style="
+                                position: relative;
+                                background-color: #ECF0F1;
+                                text-align: center;
+                                height: 100%;">
+
+                                    <div style="
+                                position: absolute;
+                                top: 50%;
+                                left: 50%;
+                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_dt_arrendadoras' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                            <tr class="text-center table-body mt-2">
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Directorio Atractivos Recreacion y Deporte</td>
+                                <td class="text-left tb-text">200</td>
+                                <td class="text-left tb-text">dd/mm/aaaa hh:mm</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                    </div>
+
+                                </td>
+
+                                <td class="text-center" style="
+                                position: relative;
+                                background-color: #ECF0F1;
+                                text-align: center;
+                                height: 100%;">
+
+                                    <div style="
+                                position: absolute;
+                                top: 50%;
+                                left: 50%;
+                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_dt_atractivos_recreacion_y_deporte' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
+                                </td>
+                            </tr>
+
+                            <tr class="text-center table-body mt-2">
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Directorio Auxilio Turistico</td>
+                                <td class="text-left tb-text">200</td>
+                                <td class="text-left tb-text">dd/mm/aaaa hh:mm</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                    </div>
+
+                                </td>
+
+                                <td class="text-center" style="
+                                position: relative;
+                                background-color: #ECF0F1;
+                                text-align: center;
+                                height: 100%;">
+
+                                    <div style="
+                                position: absolute;
+                                top: 50%;
+                                left: 50%;
+                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_dt_auxilio_turistico' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                            <tr class="text-center table-body mt-2">
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Directorio Balnearios Parques Acuaticos</td>
+                                <td class="text-left tb-text">200</td>
+                                <td class="text-left tb-text">dd/mm/aaaa hh:mm</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                    </div>
+
+                                </td>
+
+                                <td class="text-center" style="
+                                position: relative;
+                                background-color: #ECF0F1;
+                                text-align: center;
+                                height: 100%;">
+
+                                    <div style="
+                                position: absolute;
+                                top: 50%;
+                                left: 50%;
+                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_dt_balnearios_parques_acuaticos' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
+                                </td>
+                            </tr>
+                            <tr class="text-center table-body mt-2">
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Directorio Campo de Golf</td>
+                                <td class="text-left tb-text">200</td>
+                                <td class="text-left tb-text">dd/mm/aaaa hh:mm</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                    </div>
+
+                                </td>
+
+
+
+                                <td class="text-center" style="
+                                position: relative;
+                                background-color: #ECF0F1;
+                                text-align: center;
+                                height: 100%;">
+
+                                    <div style="
+                                position: absolute;
+                                top: 50%;
+                                left: 50%;
+                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_dt_campo_de_golf' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                            <tr class="text-center table-body mt-2">
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Directorio Capacitacion Turistica</td>
+                                <td class="text-left tb-text">200</td>
+                                <td class="text-left tb-text">dd/mm/aaaa hh:mm</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                    </div>
+
+                                </td>
+
+                                <td class="text-center" style="
+                                position: relative;
+                                background-color: #ECF0F1;
+                                text-align: center;
+                                height: 100%;">
+
+                                    <div style="
+                                position: absolute;
+                                top: 50%;
+                                left: 50%;
+                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_dt_capacitacion_turistica' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                            <tr class="text-center table-body mt-2">
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Directorio guias de turistas</td>
+                                <td class="text-left tb-text">200</td>
+                                <td class="text-left tb-text">dd/mm/aaaa hh:mm</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                    </div>
+
+                                </td>
+
+                                <td class="text-center" style="
+                                position: relative;
+                                background-color: #ECF0F1;
+                                text-align: center;
+                                height: 100%;">
+
+                                    <div style="
+                                position: absolute;
+                                top: 50%;
+                                left: 50%;
+                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_dt_guias_de_turistas' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                            <tr class="text-center table-body mt-2">
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Directorio operadores</td>
+                                <td class="text-left tb-text">200</td>
+                                <td class="text-left tb-text">dd/mm/aaaa hh:mm</td>
+                                <td class="text-left tb-text">Mensual</td>
+
+
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                    </div>
+
+                                </td>
+
+
+                                <td class="text-center" style="
+                                position: relative;
+                                background-color: #ECF0F1;
+                                text-align: center;
+                                height: 100%;">
+
+                                    <div style="
+                                position: absolute;
+                                top: 50%;
+                                left: 50%;
+                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_dt_operadores' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                            <tr class="text-center table-body mt-2">
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Directorio productos turisticos</td>
+                                <td class="text-left tb-text">200</td>
+                                <td class="text-left tb-text">dd/mm/aaaa hh:mm</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                    </div>
+
+                                </td>
+
+                                <td class="text-center" style="
+                                position: relative;
+                                background-color: #ECF0F1;
+                                text-align: center;
+                                height: 100%;">
+
+                                    <div style="
+                                position: absolute;
+                                top: 50%;
+                                left: 50%;
+                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_dt_productos_turisticos' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
+                                </td>
+
+
+                            </tr>
+                            <tr class="text-center table-body mt-2">
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Directorio Recintos Auditorios y Salones</td>
+                                <td class="text-left tb-text">200</td>
+                                <td class="text-left tb-text">dd/mm/aaaa hh:mm</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                    </div>
+
+                                </td>
+
+
+
+
+                                <td class="text-center" style="
+                                position: relative;
+                                background-color: #ECF0F1;
+                                text-align: center;
+                                height: 100%;">
+
+                                    <div style="
+                                position: absolute;
+                                top: 50%;
+                                left: 50%;
+                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_dt_recintos_auditorios_y_salones' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
+                                </td>
+                            </tr>
+
+                            <tr class="text-center table-body mt-2">
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Directorio SPA</td>
+                                <td class="text-left tb-text">200</td>
+                                <td class="text-left tb-text">dd/mm/aaaa hh:mm</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
+
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                    </div>
+
+                                </td>
+
+
+                                <td class="text-center" style="
+                                position: relative;
+                                background-color: #ECF0F1;
+                                text-align: center;
+                                height: 100%;">
+
+                                    <div style="
+                                position: absolute;
+                                top: 50%;
+                                left: 50%;
+                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:fuente_info_dt_spa' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
+                                </td>
+
+
+
+
+
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+
+    // Get the table element
+    var table = document.getElementById("dataTable");
+
+    // Get all the <td> elements in the table
+    var tds = table.getElementsByTagName("td");
+
+    // Find the tallest height among all the <td> elements
+    var maxHeight = 0;
+    for (var i = 0; i < tds.length; i++) {
+        var tdHeight = tds[i].offsetHeight;
+        if (tdHeight > maxHeight) {
+            maxHeight = tdHeight;
+        }
+    }
+
+    // Set the height of the .fill-height element in each <td>
+    for (var i = 0; i < tds.length; i++) {
+        var fillHeight = document.createElement("div");
+        fillHeight.classList.add("fill-height");
+        fillHeight.style.height = maxHeight + "px";
+        tds[i].appendChild(fillHeight);
+    }
+
+</script>
+
+
+{% endblock %}
+
+{% block footerjs %}
+
+
+
+
+<script src="{% static 'librerias/datatables-1.10.25/js/jquery.dataTables.js' %}"></script>
+<script src="{% static 'librerias/datatables-1.10.25/js/dataTables.bootstrap4.min.js' %}"></script>
+<script
+    src="{% static 'librerias/datatables-1.10.25/plugins/responsive-2.2.9/js/dataTables.responsive.min.js' %}"></script>
+<script
+    src="{% static 'librerias/datatables-1.10.25/plugins/responsive-2.2.9/js/responsive.bootstrap4.min.js' %}"></script>
+<script type="application/javascript">
+    $(document).ready(function () {
+        $('#dataTable').DataTable();
+    });
+</script>
+
+
+{% endblock %}

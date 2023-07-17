@@ -1,0 +1,31 @@
+{% load static %}
+<div class=" main-container sidebar2 side">
+
+    <section>
+        <div>
+
+        </div>
+
+
+
+
+    </section>
+
+    <section style="bottom: 0px; position: absolute;">
+
+
+        <div class="icon-containers">
+            <div role="button" tooltip="Mi perfil" flow="right"
+                [routerLink]="['/pages/colaboradores/profile']">
+                <img src="{% static 'images/icons/user.png' %}" class="icons">
+            </div>
+            <!-- <i class="fas fa-user"></i> -->
+        </div>
+        <div class="icon-containers" onclick="location.href='{% url 'logIn:logout' %}'">
+            <div role="button" tooltip="Cerrar sesión" flow="right">
+                <img src="{% static 'images/icons/lock.png' %}" class="icons">
+                <!-- <i class="fas fa-lock"></i> -->
+            </div>
+        </div>
+    </section>
+</div>

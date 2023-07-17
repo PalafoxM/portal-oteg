@@ -1,0 +1,310 @@
+{% load static %}
+<footer style="
+margin-top: 40px;
+  width: 100%;
+  min-height: 500px;
+  height: fit-content;
+  background-color: #333333;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+">
+    <image style="
+    position: absolute;
+    margin-top: 40px;
+    height: 90%;
+    max-width: 90% !important;
+    bottom: auto;
+    opacity: 0.1;
+    left: -350px;
+    z-index: 1;
+  " src="{% static 'icons/footer_logo.svg' %}" style="width: 150px" />
+    <div style="
+    width: 100%;
+    padding: 40px;
+    flex-grow: 1;
+    z-index: 10;
+  ">
+        <div class="grid-container">
+            <div class="grid-item">
+                <img src="{% static 'img/inicio/logo.png' %}" alt="Logo" class="grid-image" />
+
+                <p style='color: #DEE2E6;
+                    margin-top: 20px;
+                    font-family: Poppins , sans-serif;
+                    font-size: 12px;
+                    text-align: left;'>
+                    Parque Guanajuato Bicentenario
+                    Carretera de Cuota Silao Guanajuato Km 3.8 Silao, Guanajuato., C.P. 36270
+                    <br>Tel. (472) 103 99 00 Ext. 140 observatorioturisticogto@gmail.com
+                </p>
+                <a class="footer-title"> MAPA DE SITIO </a>
+                {% if user.is_authenticated %}
+                <a class="footer-title" href="{% url 'dashboard:fuente_informacion' %}">Panel Admin</a>
+                {% else %}
+                <a class="footer-link" href="{% url 'logIn:login_user' %}">Log In</a>
+                {% endif %}
+
+            </div>
+
+
+            <div class="grid-item">
+                <a href="{% url 'inicio' %}" class="footer-title">INICIO</a>
+
+
+
+
+                <a class="footer-link"> Nacionales </a>
+
+                <a href="{% url 'dashboard:report_detail' 30 %}" class="footer-title">Indicadores</a>
+                <div id="reports"></div>
+
+
+
+
+
+
+            </div>
+            <div class="grid-item">
+                <a href="{% url 'publicaciones_new' %}" class="footer-title">Publicaciones</a>
+                <div id="sections"></div>
+                <a class="footer-link" href="{% url 'noticias_turisticas'%}"> Noticias Turisticas</a>
+                <a class="footer-link" href="{% url 'dashboard:report_mensual_detail'%}"> Boletines Mensuales</a>
+                <!-- <a class="footer-link"> Pacto Centro Occidente </a>
+                <a class="footer-link"> Nacionales </a>
+                <a class="footer-link"> Tablero de Control e Indicadores </a>
+                <a class="footer-link"> Gestión de Destinos </a>
+                <a class="footer-link"> Economía Inclusiva </a>
+                <a class="footer-link"> Sociedad y Cultura </a>
+                <a class="footer-link"> Medio Ambiente </a> -->
+            </div>
+            <div class="grid-item">
+                <a href="{% url 'inventario-turistico' %}" class="footer-title">INVENTARIO TURISTICO</a>
+                <a class="footer-title">ENTORNO NACIONAL</a>
+                <a class="footer-link"> Indicadores Económicos</a>
+                <a href="{% url 'barometro-turistico' %}" class="footer-title">Barometro Turístico</a>
+                <a href="{% url 'eniot'%}" class="footer-title">ENIOT</a>
+                <a href="{% url 'oteg' %}" class="footer-title">OTEG</a>
+
+            </div>
+            <div class="grid-item">
+                <a href="{% url 'sustentabilidad' %}" class="footer-title">Sustentabilidad</a>
+                <a class="footer-title"> Información Turistica </a>
+                <a class="footer-title"> Solicitudes</a>
+                <!-- <a href="http://127.0.0.1:8000/pdf-protocolo_alba/" target="_blank" class="footer-title"> Protocolo
+                    Alba</a>
+                <a class="footer-title"> Eventos y Actividades</a> -->
+            </div>
+            <div class="grid-item">
+                <a class="footer-title" href="{% url 'noticias_turisticas'%}" class="footer-title">Glosario</a>
+                <a href="{% url 'preguntasf'%}" class="footer-title">Preguntas Frecuentes</a>
+
+
+                <a href="{% url 'sitios_interes'%}" class="footer-title">Sitios de Interes</a>
+
+                <div class='bottom-logo-omt'>
+                    <div
+                        style="
+                            width: 100%;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            flex-direction: column;
+
+                        "
+                    
+                    >
+
+
+                        <image style="
+                    height: 90px;
+                    " src="{% static 'img_nav/unwto-white.png' %}" />
+
+                    </div>
+
+
+                    <p
+                        style=" color: #DEE2E6; font-family: Poppins; font-size: 12px; line-height: 32px; text-align: center; font-weight: 600; ">
+                        OTEG Miembro afiliado a la OMT desde 2014 </p>
+
+                </div>
+            </div>
+        </div>
+        <div style="width: 100%; display: flex; justify-content: center; align-items: center; margin-top: 40px; ">
+            <p
+                style=" color: #DEE2E6; font-family: Poppins; font-size: 12px; line-height: 32px; width: 554px; text-align: center; ">
+                Copyright © 2023 Observatorio Turístico del Estado de Guanajuato</p>
+        </div>
+
+
+    </div>
+
+    <style>
+        .footer-title {
+            color: #DEE2E6;
+            font-family: Poppins;
+            font-size: 12px;
+
+            width: 400px !important;
+            font-weight: 600;
+            text-align: left;
+            text-transform: uppercase;
+        }
+
+        .footer-title:hover {
+            color: #DEE2E6;
+            font-family: Poppins;
+            font-size: 12px;
+            font-weight: 600;
+            text-align: left;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .footer-link {
+            display: block;
+            color: #DEE2E6;
+            font-family: Poppins;
+            font-size: 12px;
+            width: fit-content;
+            font-weight: 400;
+            text-align: left;
+            cursor: pointer;
+            text-decoration: none;
+            z-index: 999 !important;
+        }
+
+        .footer-link:hover {
+            display: block;
+            color: #DEE2E6;
+            font-family: Poppins;
+            font-size: 12px;
+            width: fit-content;
+            font-weight: 400;
+            text-align: left;
+            cursor: pointer;
+            text-decoration: underline;
+            z-index: 999 !important;
+        }
+
+        .grid-container {
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .grid-item {
+            width: 160px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .grid-image {
+            width: 100%;
+        }
+
+
+        @media (min-width: 576px) {
+            .grid-container {
+                grid-template-columns: 1fr 1fr;
+
+            }
+
+        }
+
+        @media (min-width: 768px) {
+            .grid-container {
+                grid-template-columns: 1fr 1fr 1fr;
+
+            }
+
+        }
+
+        @media (min-width: 1110px) {
+            .grid-container {
+                grid-template-columns: 1fr 1fr 1fr 1fr;
+
+            }
+
+
+        }
+
+        @media (min-width: 1080px) {
+            .grid-container {
+                grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr 1fr;
+
+            }
+
+            .bottom-logo-omt {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                position: absolute;
+                flex-wrap: wrap;
+                bottom: 0;
+                right: 30px;
+            }
+
+        }
+    </style>
+
+    <script src=" https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: '{% url "dashboard:get_sections" %}',
+                data: { q: '' },
+
+                success: function (data) {
+                    var html = '';
+                    var containerHeight = $('#sections').height();
+                    var rowHeight = 0;
+                    var rowHtml = '<div class="row">';
+
+                    for (var i = 0; i < data.length; i++) {
+                        var url = '{% url "publicaciones_secciones" pk=1 %}'.replace('1', data[i].id);
+
+                        var itemHtml = '<p><a href="' + url + '" class="footer-link">' + data[i].titulo + '</a></p>';
+                        //var itemHtml = '<p><a href ="" class="text-reset">' + data[i].titulo + '</a></p>';
+
+                        $('#sections').append(itemHtml);
+                    }
+                }
+            });
+        });
+
+
+        $(document).ready(function () {
+            $.ajax({
+                url: '{% url "dashboard:get_reports" %}',
+                data: { q: '' },
+
+                success: function (data) {
+                    var html = '';
+                    var containerHeight = $('#reports').height();
+                    var rowHeight = 0;
+                    var rowHtml = '<div class="row">';
+
+                    for (var i = 0; i < data.length; i++) {
+                        var url = '{% url "dashboard:report_detail" pk=1 %}'.replace('1', data[i].id);
+
+                        var itemHtml = '<p><a href="' + url + '" class="footer-link">' + data[i].titulo + '</a></p>';
+                        //var itemHtml = '<p><a href ="" class="text-reset">' + data[i].titulo + '</a></p>';
+
+                        $('#reports').append(itemHtml);
+                    }
+                }
+            });
+        });
+
+    </script>
+</footer>

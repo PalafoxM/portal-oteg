@@ -1,0 +1,217 @@
+{% extends 'web/body.html' %}
+{% load static %}
+
+{% block head_view %}
+<!-- Agregar archivos CSS y JavaScript de SweetAlert2 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.4/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.4/dist/sweetalert2.all.min.js"></script>
+
+
+<style>
+    #calendar {
+        max-width: 1100px;
+        margin: 40px auto;
+        padding: 0 10px;
+    }
+    .search-result {
+        flex: 1;
+        padding: 10px;
+        margin-right: 10px;
+        background-color: white;
+        border: 1px solid #ddd;
+        overflow: auto;
+    }
+
+    .search-result p {
+        margin: 0;
+        font-weight: bold;
+        font-size: 14px;
+    }
+    .legend-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.legend-circle {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+.legend span {
+  font-family: Montserrat;
+  font-size: 14px;
+  color: #333333;
+}
+
+    .fc-button-primary {
+  background-image: linear-gradient(140.57deg, #ED4C02 0%, #ED4C02 100%);
+  border: none;
+  color: #ffffff;
+}
+
+.fc-button-primary:hover {
+  background-image: linear-gradient(140.57deg, #ED4C02 0%, #ED4C02 100%);
+}
+
+
+
+
+</style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+
+
+<script>
+    
+    document.addEventListener('DOMContentLoaded', function () {
+    var initialLocaleCode = 'es';
+    var localeSelectorEl = document.getElementById('locale-selector');
+    var calendarEl = document.getElementById('calendar');
+    let fechaActual = new Date().toISOString().slice(0, 10);
+
+    // Define the colors for each event type
+    
+    let coloresPorTipo = {
+        'internacionales': '#FF1493',
+        'nacionales': '#00BFFF',
+        'estatales': '#5ED506', 
+    };
+
+    // Fetch the events data from the server and render them in the calendar
+
+    $(document).ready(function () {
+        fetch('{% url "eventos-list1" %}')
+            .then(response => response.json())
+            .then(data => {
+                let eventos = data.map(element => ({
+                    title: element.titulo,
+                    start: element.fecha_inicio,
+                    end: element.fecha_fin,
+                    descripcion: element.descripcion,
+                    tipo_evento: element.tipo_evento.toLowerCase()
+                }));
+
+                var calendar = new FullCalendar.Calendar(calendarEl, {
+                    initialView: 'dayGridMonth',
+                    initialDate: fechaActual,
+                    headerToolbar: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                    },
+                    titleFormat: {
+                        year: 'numeric',
+                        month: 'long',
+                    },
+                    buttonText: {
+                        month: 'Mes',
+                        week: 'Semana',
+                        day: 'Día',
+                        today: 'Hoy'
+                    },
+                    locale: initialLocaleCode,
+                    events: eventos,
+                    eventContent: function (info) {
+                        let tipoEvento = info.event.extendedProps.tipo_evento;
+                        let backgroundColor = coloresPorTipo[tipoEvento] || coloresPorTipo.otro; // Use the default color if the event type is not defined
+                        
+                        return {
+                            html: `<div style="background-color:${backgroundColor};">${info.event.title}</div>`
+                        };
+                    },
+                    // Agregar evento de clic en el evento
+                    eventClick: function(info) {
+                        // Obtener información del evento
+                        var title = info.event.title;
+                        var start = info.event.start;
+                        var end = info.event.end;
+                        var descripcion = info.event.extendedProps.descripcion;
+                        var tipoEvento = info.event.extendedProps.tipo_evento;
+
+                        // Crear mensaje de alerta personalizado
+                        var mensaje = "<p>Título del evento: " + title + "</p>" +
+                                    "<p>descripcion: " + descripcion + "</p>" +
+                                    "<p>Fecha de inicio: " + start.toLocaleDateString() + "</p>" +
+                                    "<p>Fecha de fin: " + end.toLocaleDateString() + "</p>" +
+                                    "<p>Tipo de evento: " + tipoEvento + "</p>";
+
+                        // Mostrar alerta personalizado usando SweetAlert2
+                        Swal.fire({
+                            title: 'Detalles del evento',
+                            html: mensaje,
+                            icon: 'info',
+                            confirmButtonText: 'Cerrar',
+                            confirmButtonColor: '#6A5ACD',
+                        });
+                    },
+                    viewDidMount: function(info) {
+                        updateCalendarHeader();
+                    },
+                    datesSet: function (info) {
+                        updateCalendarHeader();
+                    }
+                });
+
+                // Add legend for event types
+                
+                $("#search-results").append(legend);
+                var legend = $("<div>").addClass("legend");
+
+                for (var tipoEvento in coloresPorTipo) {
+                var div = $("<div>").addClass("legend-item");
+                var color = coloresPorTipo[tipoEvento];
+                var span = $("<span>").text(tipoEvento.charAt(0).toUpperCase() + tipoEvento.slice(1));
+                var circulo = $("<div>").addClass("legend-circle").css("background-color", color);
+                div.append(circulo);
+                div.append(span);
+                legend.append(div);
+                }
+
+                $(".legend-container").append(legend);
+
+                function updateCalendarHeader() {
+                    var headerEl = calendarEl.querySelector('.fc-toolbar-chunk h2');
+                    var currentDate = calendar.view.currentStart;
+                    var monthName = currentDate.toLocaleString(initialLocaleCode, { month: 'long' });
+                    var formattedMonth = monthName.charAt(0).toUpperCase() + monthName.slice(1);
+                    var year = currentDate.getFullYear();
+
+                    headerEl.textContent = formattedMonth + ' ' + year;
+                }
+
+                calendar.render();
+            })
+            .catch(error => {
+                // console.log('Error:', error);
+            });
+    });
+});
+
+
+</script>
+{% endblock %}
+
+<!-- contenido -->
+{% block content %}
+<div class="row row-cols-1 row-cols-md-1 mt-5">
+    <div class="col mt-5">
+        <div id="search-results" class="legend-container"></div>
+        <div id='calendar'></div>
+
+    </div>
+</div>
+
+{% endblock %}

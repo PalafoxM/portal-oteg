@@ -1,0 +1,74 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'librerias/datatables-1.10.25/css/dataTables.bootstrap4.min.css' %}" />
+<link rel="stylesheet"
+    href="{% static 'librerias/datatables-1.10.25/plugins/responsive-2.2.9/css/responsive.bootstrap4.min.css' %}" />
+
+<p>El dato que intenta ingresar ya existe en la base de datos. ¿Desea reemplazar el dato actual con el nuevo dato?</p>
+
+
+<div style="overflow-x: auto;">
+    <h4>Dato Histórico</h4>
+    <table class="table table-bordered" id="dataTable" style="table-layout: fixed;">
+        <thead>
+            <tr>
+                <th style="width: 300px;">fecha_inicio</th>
+                <th style="width: 300px;">fecha_fin</th>
+                <th style="width: 300px;">hombres_empleados_gto</th>
+                <th style="width: 300px;">mujeres_empleadas_gto</th>
+                <th style="width: 400px;">hombres_empleados_sec_72_gto</th>
+                <th style="width: 400px;">mujeres_empleadas_sec_72_gto</th>
+                <th style="width: 400px;">hombres_empleados_sec_72_nac</th>
+                <th style="width: 400px;">mujeres_empleadas_sec_72_nac</th>
+                
+                
+            </tr>
+        </thead>
+        <tbody>
+            {% for data in data_list %}
+            <tr>
+                <td>{{ data.fecha_inicio }}</td>
+                <td>{{ data.fecha_fin }}</td>
+                <td>{{ data.hombres_empleados_gto }}</td>
+                <td>{{ data.mujeres_empleadas_gto }}</td>
+                <td>{{ data.hombres_empleados_sec_72_gto }}</td>
+                <td>{{ data.mujeres_empleadas_sec_72_gto }}</td>
+                <td>{{ data.hombres_empleados_sec_72_nac }}</td>
+                <td>{{ data.mujeres_empleadas_sec_72_nac }}</td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h4>Dato que se intento subir</h4>
+
+    <table class="table table-bordered" id="dataTable" style="table-layout: fixed;">
+        <thead>
+            <tr>
+                <th style="width: 300px;">fecha_inicio</th>
+                <th style="width: 300px;">fecha_fin</th>
+                <th style="width: 300px;">hombres_empleados_gto</th>
+                <th style="width: 300px;">mujeres_empleadas_gto</th>
+                <th style="width: 400px;">hombres_empleados_sec_72_gto</th>
+                <th style="width: 400px;">mujeres_empleadas_sec_72_gto</th>
+                <th style="width: 400px;">hombres_empleados_sec_72_nac</th>
+                <th style="width: 400px;">mujeres_empleadas_sec_72_nac</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                {% for data in data_list2 %}
+                <td>{{ data }}</td>
+                <!-- ... -->
+                {% endfor %}
+
+            </tr>
+        </tbody>
+    </table>
+
+
+
+</div>

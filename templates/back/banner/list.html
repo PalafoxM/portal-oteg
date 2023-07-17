@@ -1,0 +1,58 @@
+{% extends 'back/components/list.html' %}
+{% load static %}
+{% block head_list %}
+<!-- <script src="{% static 'admin/banner/list.js' %}"></script> -->
+{% endblock %}
+
+{% block columns %}
+<tr class="text-center table-header">
+    <th class="text-left">ID</th>
+    <th class="text-left">Nombre</th>
+    <th class="text-left">Imagen</th>
+    <th class="text-center" style="width: 20%;" >Acciones</th>
+</tr>
+{% endblock %}
+
+{% block rows %}
+    {% for banner in object_list %}
+    <!-- <tr class="tr-space"></tr> -->
+        <tr class="text-center table-body mt-2">
+            <th class="text-left tb-text">{{ banner.id }}</th>
+
+            <th class="text-left tb-text">{{banner.name}}</th>
+     
+            <th class="text-left tb-text">
+
+                {% if banner.imagen %}
+                <img  
+                    class="img-fluid" 
+                    style=" height: 50%"
+                 src='{{ banner.imagen.url }}'
+                />
+                {% else %}
+                <p>No hay imagen</p>
+
+                {% endif %}
+                </th>
+            <th class="text-center" style="position: relative; background-color: #ECF0F1; text-align: center; height: 100%;">
+                <div class="icon-container">
+                    <!-- <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="location.href='{% url 'dashboard:banner_update' banner.id %}'">
+                        <i class="far fa-eye"></i>
+                    </button> -->
+                    <i class="fas fa-edit" onclick="location.href='{% url 'dashboard:banner_update' banner.id %}'"></i>
+                    <form method="post" action="{% url 'dashboard:banner_delete' banner.id %}" >
+                        {% csrf_token %}
+                        
+                        <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </form>
+                </div>
+            </th>
+        </tr>
+    {% endfor %}
+{% endblock %}
+
+{% block javascript %}
+<!-- <script src="{% static 'admin/banner/list.js' %}"></script> -->
+{% endblock %}
