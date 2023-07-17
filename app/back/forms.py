@@ -2128,6 +2128,9 @@ class ReportsForm(forms.ModelForm):
         fields = '__all__'
         exclude = ['dimension']
 
+        labels = {
+            'nomenclatura': 'Título Corto',}
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
