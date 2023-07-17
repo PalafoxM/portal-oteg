@@ -838,6 +838,7 @@ class Aerolinea(models.Model):
     destino_aeropuerto_id = models.CharField(max_length=256)
     tipo_aerolinea = models.CharField(max_length=256)
     codigo_aerolinea = models.CharField(max_length=256)
+    nombre_aerolinea = models.CharField(max_length=256)
     fecha_actualizacion = models.DateField(auto_now=True)
 
     class Meta:
