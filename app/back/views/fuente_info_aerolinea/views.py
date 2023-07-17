@@ -305,6 +305,7 @@ class AerolineaCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View)
                 destino_aeropuerto_id = row[2].value
                 tipo_aerolinea = row[3].value
                 codigo_aerolinea = row[4].value
+                nombre_aerolinea = row[5].value
 
                 datos = {
                     "fecha": fecha_str,
@@ -312,6 +313,7 @@ class AerolineaCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View)
                     "destino_aeropuerto_id": destino_aeropuerto_id,
                     "tipo_aerolinea": tipo_aerolinea,
                     "codigo_aerolinea": codigo_aerolinea,
+                    "nombre_aerolinea": nombre_aerolinea,
                 }
 
                 try:
@@ -342,6 +344,7 @@ class AerolineaCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View)
                             destino_aeropuerto_id = destino_aeropuerto_id,
                             tipo_aerolinea = tipo_aerolinea,
                             codigo_aerolinea = codigo_aerolinea,
+                            nombre_aerolinea = nombre_aerolinea,
                         )
                         db.save()
                         registros_correctos.append(datos)
@@ -373,6 +376,7 @@ class AerolineaCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View)
                 destino_aeropuerto_id = clean_str_col(row['destino_aeropuerto_id'])
                 tipo_aerolinea = row['tipo_aerolinea']
                 codigo_aerolinea = row['codigo_aerolinea']
+                nombre_aerolinea = row['nombre_aerolinea']
 
                 datos = {
                     "fecha": fecha_str,
@@ -380,6 +384,7 @@ class AerolineaCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View)
                     "destino_aeropuerto_id": destino_aeropuerto_id,
                     "tipo_aerolinea": tipo_aerolinea,
                     "codigo_aerolinea": codigo_aerolinea,
+                    "nombre_aerolinea": nombre_aerolinea,
                 }
 
                 try:
@@ -397,6 +402,7 @@ class AerolineaCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View)
                         fecha = fecha, 
                         tipo_aerolinea = tipo_aerolinea,
                         codigo_aerolinea = codigo_aerolinea,
+                        nombre_aerolinea = nombre_aerolinea,
                     )
                     if existente.exists():
                         # Si ya existe, se omite la fila y se guarda en la lista de registros incorrectos
@@ -410,6 +416,7 @@ class AerolineaCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View)
                             destino_aeropuerto_id = destino_aeropuerto_id,
                             tipo_aerolinea = tipo_aerolinea,
                             codigo_aerolinea = codigo_aerolinea,
+                            nombre_aerolinea = nombre_aerolinea,
                         )
                         db.save()
                         registros_correctos.append(datos)
@@ -436,6 +443,7 @@ class AerolineaDescargarArchivoView(SuperAdminOrAdminMixin, LoginRequiredMixin, 
         worksheet['C1'] = 'destino_aeropuerto_id'
         worksheet['D1'] = 'tipo_aerolinea'
         worksheet['E1'] = 'codigo_aerolinea'
+        worksheet['F1'] = 'nombre_aerolinea'
 
         # Add the incorrect rows to the worksheet
         for i, row in enumerate(registros_incorrectos):
@@ -445,6 +453,7 @@ class AerolineaDescargarArchivoView(SuperAdminOrAdminMixin, LoginRequiredMixin, 
             worksheet.cell(row=fila, column=3, value=row['destino_aeropuerto_id'])
             worksheet.cell(row=fila, column=4, value=row['tipo_aerolinea'])
             worksheet.cell(row=fila, column=5, value=row['codigo_aerolinea'])
+            worksheet.cell(row=fila, column=6, value=row['nombre_aerolinea'])
 
 
 
