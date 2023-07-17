@@ -600,6 +600,11 @@
         transform: scale(1.2);
     }
 
+    #google_translate_element {
+        margin-left: 0px;
+        margin-right: 0px;
+        margin-top: 10px;
+    }
     /* Estilo del contenedor del widget */
     #google_translate_element {
         -moz-transform: translate(0, 0);
@@ -607,70 +612,13 @@
         margin-right: 10px;
     }
 
-    /* Estilo del botón de traducción */
-    .goog-te-combo {
-        border-color: #ccc !important;
-        color: #333 !important;
-        padding: 5px;
-        font-family: Arial, sans-serif;
-        font-size: 14px;
-        background-color: #fff;
-        border-radius: 4px;
-    }
+    
 
-    /* Estilo del texto dentro del botón de traducción */
-    .goog-te-combo option {
-        color: #333;
-    }
-
-    /* Estilo del menú desplegable de idiomas */
-    .goog-te-menu-value {
-        padding: 5px;
-        font-family: Arial, sans-serif;
-        font-size: 14px;
-        background-color: #fff;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    /* Estilo de los elementos del menú desplegable de idiomas */
-    .goog-te-menu2 {
-        max-height: 200px;
-        overflow-y: auto;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    /* Estilo de los elementos del menú desplegable de idiomas cuando se pasa el mouse sobre ellos */
-    .goog-te-menu2-item:hover {
-        background-color: #f0f0f0;
-    }
-
-    /* Estilo del botón de cierre del menú desplegable de idiomas */
-    .goog-te-menu2-close-btn {
-        display: none;
-    }
-
-    /* Estilo del texto "Traducir" en el botón de traducción */
-    .goog-te-combo-label {
-        color: #333;
-        font-family: Arial, sans-serif;
-        font-size: 14px;
-    }
-
-    /* Estilo del ícono de flecha hacia abajo en el botón de traducción */
-    .goog-te-combo-arrow {
-        background-image: url('https://translate.google.com/translate/releases/twsfe_w_20191209_RC00/public/dictionaries/google_default/arrow_down.png');
-        width: 16px;
-        height: 16px;
-        margin-top: -8px;
-    }
-
-    @media screen and (-webkit-min-device-pixel-ratio:0) {
+    @media (max-width: 991px) {
         #google_translate_element {
-            position: absolute;
+            margin: 0;
+            margin-left: 15px;
+            margin-top: 015px;
         }
     }
 

@@ -286,7 +286,7 @@ class InventarioHoteleroEntNacCargaMasivaView(SuperAdminOrAdminMixin, LoginRequi
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
-        return render(request, self.template_name, {'form': form, 'title': 'Carga Masiva'})
+        return render(request, self.template_name, {'form': form, 'title': 'Carga Masiva Hoteles Nac'})
 
 
     def post(self, request, *args, **kwargs):
@@ -315,7 +315,7 @@ class InventarioHoteleroEntNacCargaMasivaView(SuperAdminOrAdminMixin, LoginRequi
             
             return render(request, self.template_name, {
                 'form': form,
-                'title': 'Carga Masiva',
+                'title': 'Carga Masiva Hoteles Nac',
                 'registros_correctos': registros_correctos,
                 'registros_incorrectos': registros_incorrectos,
                 'registros_existentes': registros_existentes,
@@ -350,20 +350,22 @@ class InventarioHoteleroEntNacCargaMasivaView(SuperAdminOrAdminMixin, LoginRequi
                 entidad = homologar_columna_destino(entidad)
                 categoria = homologar_columna_categoria(categoria)
 
-                # Validar si el destino y categoria son válidos
-                if not CatalagoDestino.objects.filter(entidad=entidad).exists():
-                    print(f"El destino {entidad} no está en la tabla CatalagoDestino")
-                    registros_incorrectos.append(row)
-                    continue
-                if categoria not in CatalagoCategoria.objects.values_list('categoria', flat=True):
-                    print(f"La categoría {categoria} no está en la tabla CatalagoCategoria")
-                    registros_incorrectos.append(row)
-                    continue
 
 
                 fecha = row[1].value.date()
                 habitaciones = row[3].value
                 establecimientos = row[4].value
+                fecha_str = str(fecha)
+
+                # Validar si el destino y categoria son válidos
+                if not CatalagoDestino.objects.filter(entidad=entidad).exists():
+                    print(f"El destino {entidad} no está en la tabla CatalagoDestino")
+                    registros_incorrectos.append({'entidad': entidad, 'fecha': fecha_str, 'categoria': categoria, 'habitaciones': habitaciones, 'establecimientos': establecimientos})
+                    continue
+                if categoria not in CatalagoCategoria.objects.values_list('categoria', flat=True):
+                    print(f"La categoría {categoria} no está en la tabla CatalagoCategoria")
+                    registros_incorrectos.append({'entidad': entidad, 'fecha': fecha_str, 'categoria': categoria, 'habitaciones': habitaciones, 'establecimientos': establecimientos})
+                    continue
 
                 try:
                     # Validar los datos
@@ -377,7 +379,7 @@ class InventarioHoteleroEntNacCargaMasivaView(SuperAdminOrAdminMixin, LoginRequi
                     if inventario_existente.exists():
                         # Si ya existe, se omite la fila y se guarda en la lista de registros incorrectos
                         print(f"La fila {row} ya existe en la base de datos")
-                        registros_existentes.append({'fila': i, 'entidad': entidad, 'fecha': fecha_obj, 'categoria': categoria, 'habitaciones': habitaciones_int, 'establecimientos': establecimientos_int})
+                        registros_existentes.append({'entidad': entidad, 'fecha': fecha_obj, 'categoria': categoria, 'habitaciones': habitaciones_int, 'establecimientos': establecimientos_int})
                     else:
                         # Si no existe, se guarda la nueva instancia del modelo en la base de datos y se guarda en la lista de registros correctos
                         inventario = InventarioHoteleroEntNac(entidad=entidad, fecha=fecha_obj, categoria=categoria, habitaciones=habitaciones_int, establecimientos=establecimientos_int)
@@ -457,7 +459,7 @@ class InventarioHoteleroEntNacCargaMasivaView(SuperAdminOrAdminMixin, LoginRequi
 
     
     
-class DescargarArchivoView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
+class InventarioHoteleroEntNacDescargarArchivoView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
 
     def crear_archivo_excel(self, registros_incorrectos):
         workbook = openpyxl.Workbook()

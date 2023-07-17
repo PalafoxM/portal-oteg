@@ -26,7 +26,7 @@
     let registros = {{ descargar_url|safe }};
     console.log("registro: r",registros)
 
-    axios.post('{% url 'dashboard:descargar_archivo' %}', JSON.stringify(registros), {
+    axios.post('{% url 'dashboard:inventario_hotelero_ent_nac_descargar_archivo' %}', JSON.stringify(registros), {
       headers: {
         'X-CSRFToken': csrftoken,
         'Content-Type': 'application/json',
@@ -37,7 +37,7 @@
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement('a');
       link.href = url;
-      link.setAttribute('download', 'registros_incorrectos.xlsx');
+      link.setAttribute('download', 'inventario_hotelero_ent_nac_registros_incorrectos.xlsx'); 
       document.body.appendChild(link);
       link.click();
     }).catch((error) => {
@@ -77,7 +77,7 @@
   <div class="alert alert-danger mt-3">
     <h4>Existen {{registros_incorrectos|length}} filas con errores de un total de {{num_filas_procesadas}} filas</h4>
 
-    <button id="descargar-btn" onclick="descargarArchivo()" class="btn btn-danger">Descargar archivo de errores</button>
+    <button id="descargar-btn" onclick="descargarArchivo()" class="btn btn-danger">Descargar archivo de errores****</button>
   </div>
 </div>
 {% endif %}

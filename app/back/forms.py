@@ -955,6 +955,7 @@ class AerolineaForm(forms.ModelForm):
             'destino_aeropuerto_id': 'ID Destino Aeropuerto',
             'tipo_aerolinea': 'Tipo de Aerolínea',
             'codigo_aerolinea': 'Código de Aerolínea',
+            'nombre_aerolinea': 'Nombre de la Aerolínea',
         }
         widgets = {
             'fecha': forms.DateInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-calendar'}),
@@ -962,6 +963,7 @@ class AerolineaForm(forms.ModelForm):
             'destino_aeropuerto_id': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
             'tipo_aerolinea': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
             'codigo_aerolinea': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'nombre_aerolinea': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
         }
 
 

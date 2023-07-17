@@ -228,7 +228,7 @@ urlpatterns = [
     path('inversion-publica/edit/<int:pk>/', InversionPublicaUpdateView.as_view(), name='inversion_publica_update'),
     path('inversion-publica/delete/<int:pk>/', InversionPublicaDeleteView.as_view(), name='inversion_publica_delete'),
     path('inversion-publica/carga-masiva', InversionPublicaCargaMasivaView.as_view(), name='inversion_publica_carga_masiva'),
-    path('inventario-hotelero-ent-nac/descargar-archivo', DescargarArchivoInversionPublicaView.as_view(), name='descargar_archivo_inversion_publica'),
+    path('inversion-publica/descargar-archivo', DescargarArchivoInversionPublicaView.as_view(), name='descargar_archivo_inversion_publica'),
    
     #inventario_hotelero_ent_nac
     path('inventario-hotelero-ent-nac/list', InventarioHoteleroEntNacListView.as_view(), name='inventario_hotelero_ent_nac_list'),
@@ -236,7 +236,7 @@ urlpatterns = [
     path('inventario-hotelero-ent-nac/edit/<int:pk>/', InventarioHoteleroEntNacUpdateView.as_view(), name='inventario_hotelero_ent_nac_update'),
     path('inventario-hotelero-ent-nac/delete/<int:pk>/', InventarioHoteleroEntNacDeleteView.as_view(), name='inventario_hotelero_ent_nac_delete'),
     path('inventario-hotelero-ent-nac/carga-masiva', InventarioHoteleroEntNacCargaMasivaView.as_view(), name='inventario_hotelero_ent_nac_carga_masiva'),
-    path('inventario-hotelero-ent-nac/descargar-archivo', DescargarArchivoView.as_view(), name='descargar_archivo'),
+    path('inventario-hotelero-ent-nac/descargar-archivo', InventarioHoteleroEntNacDescargarArchivoView.as_view(), name='inventario_hotelero_ent_nac_descargar_archivo'),
 
     #calidad_aire
     path('calidad-aire/list', CalidadAireListView.as_view(), name='calidad_aire_list'),

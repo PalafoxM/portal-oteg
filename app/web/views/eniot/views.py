@@ -85,7 +85,7 @@ class PonenciaEventosView(TemplateView):
             pdf_by_year[year] = Eniot.objects.filter(seccion='ponencia-eventos', anio=year).order_by('-date_created')
 
         context['pdf_by_year'] = pdf_by_year
-        context['nav_title'] = 'PONENCIA A EVENTOS'
+        context['nav_title'] = 'PONENCIAs'
         context['img_url'] = 'img_nav/pexels.jpg'
         context['tipo'] =  'eniot_ponencia_eventos_pdf_viewer'
         return context
