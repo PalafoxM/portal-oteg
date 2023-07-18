@@ -138,7 +138,7 @@ class ReporteMensualDelete(SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteVie
     
 
 
-class ReporteMensualDetail(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
+class ReporteMensualDetail(ListView):
     model = Reportes_Mensuales
     template_name = 'back/reportes_mensuales/detail.html'
 
