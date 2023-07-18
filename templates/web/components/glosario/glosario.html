@@ -124,7 +124,7 @@
 
         " role="search">
         <input type="text" class="custom-search-g" me-2" name="w" placeholder="Buscar por Nombre ">
-        <button type="submit" class="url-custom-btn">Search</button>
+        <button type="submit" class="url-custom-btn">Buscar</button>
     </form>
 
     <button class="letter-btn " id="button1"> A</button>
@@ -154,10 +154,14 @@
     <button class="letter-btn " id="button25"> X</button>
     <button class="letter-btn " id="button26"> Y</button>
     <button class="letter-btn " id="button27"> Z</button>
+   
 
     <div id="myModal" class="modal">
+
+        
         <div id='modal-content' class="modal-content">
             <span class="close">&times;</span>
+ 
             <p>Modal content goes here...</p>
         </div>
     </div>
@@ -269,6 +273,7 @@
                     var html = '';
 
                     if (data.length > 0) {
+                        html+= ' <p style=" color: #333333;font-family: Montserrat; font-size: 18px;" >Presiona en el menú desplegable para encontrar las definiciones.</p>';
                         for (var i = 0; i < data.length; i++) {
                             html += '<button  class="colapse-btn" data-toggle="collapse" data-target="#demo' + i + '">' + data[i].palabra + '</button>';
                             // Wrap the definicion element in a collapse div with id matching the data-target attribute
@@ -277,7 +282,7 @@
                         }
                     }
                     else {
-                        html += '<p>No hay palabras</p>';
+                        html += '<p style=" color: #333333;font-family: Montserrat; font-size: 18px;" >No hay palabras</p>';
                     }
 
                     $('#modal-content').html(html);
@@ -305,7 +310,9 @@
                 var html = '';
 
                 if (data.length > 0) {
+                    html+= ' <p style=" color: #333333;font-family: Montserrat; font-size: 18px;" >Presiona en el menú desplegable para encontrar las definiciones.</p>';
                     for (var i = 0; i < data.length; i++) {
+                        
                         html += '<button  class="colapse-btn" data-toggle="collapse" data-target="#demo' + i + '">' + data[i].palabra + '</button>';
                         // Wrap the definicion element in a collapse div with id matching the data-target attribute
                         html += '<div class="collapse" id="demo' + i + '">  <div class="accordion-body"> '
@@ -313,7 +320,7 @@
                     }
                 }
                 else {
-                    html += '<p>No hay palabras</p>';
+                    html += '<p style=" color: #333333;font-family: Montserrat; font-size: 18px;" >No hay palabras.</p>';
                 }
 
                 $('#modal-content').html(html);
@@ -326,10 +333,6 @@
             }
         });
     });
-
-
-
-
 
 
 </script>
