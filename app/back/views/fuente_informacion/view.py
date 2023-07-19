@@ -12,18 +12,11 @@ from back.mixins import *
 
 from django.contrib.auth.decorators import user_passes_test
 
-def es_admin_o_superadmin(user):
-    return user.is_authenticated and (user.is_staff or user.is_superuser)
+
 
 class FuentesInfoView (SuperAdminOrAdminMixin, LoginRequiredMixin,  TemplateView):
     template_name = 'back/fuente-informacion/list.html'
-    def test_func(self):
-        return es_admin_o_superadmin(self.request.user)
-
-    @classmethod
-    def as_view(cls, **initkwargs):
-        view = super().as_view(**initkwargs)
-        return login_required(view, login_url='/auth/login_user')
+    
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

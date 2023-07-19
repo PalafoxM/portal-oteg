@@ -26,7 +26,7 @@ urlpatterns = [
 
     # path('solicitudes/',OtegView.as_view(), name='solicitudes'),
     path('', InicioView.as_view(), name='inicio'),
-    path('oteg/', OtegView.as_view(), name='oteg'),
+    path('oteg', OtegView.as_view(), name='oteg'),
     path('preguntasf/', PreguntasfView.as_view(), name='preguntasf'),
     path('sitios-interes/', SitiosView.as_view(), name='sitios_interes'),
     path('pdf-protocolo_alba/', PdfView.as_view(), name='pdf_protocolo_alba'),
