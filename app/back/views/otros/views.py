@@ -170,7 +170,7 @@ class CategoriasListView(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
     model = Categorias
     template_name = 'back/centro_documental/categorias.html'
     context_object_name = 'categorias_list'
-    paginate_by = 10
+
 
     def get_queryset(self):
         seccion_id = self.kwargs.get('pk')
