@@ -745,11 +745,10 @@
 
     </div>
 
-    <div class="container " style="margin-top:5rem;">
+    <div class="container " style="margin-top:2rem;">
 
         <div style="
-        margin-top: 40px;
-        width: 50%;
+        width: 100%;
         margin-bottom: 40px;
             ">
 
@@ -762,7 +761,15 @@
         
         text-align: left; ">CENTRO DOCUMENTAL</h2>
 
-            <p align="justify">Este es un espacio colaborativo en permanente construcción y enriquecimiento en el que
+            <p align="justify"
+                style="
+            font-family: Montserrat;
+            font-size: 18px;
+
+            color: #333333;
+                "
+
+            >Este es un espacio colaborativo en permanente construcción y enriquecimiento en el que
                 cualquier
                 persona que así lo desee, puede ingresar sus investigaciones, estudios, ensayos y publicaciones que
                 quiera compartir con los usuarios del portal del observatorio.</p>
@@ -913,9 +920,12 @@
             </div>
 
             <div style="width: 100%;">
-                <p style="
+                <p 
+                
+                align="justify"
+                style="
                     font-family: Montserrat;
-                    font-size: 12px;
+                    font-size: 14px;
                     line-height: 17px;
                     margin: 0;
                     ">DERECHOS DE AUTOR Y DERECHOS CONEXOS, Año 1, No. 1, Enero-Junio 2019, es una publicación
@@ -952,7 +962,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 
-    <script>
+    <!-- <script>
         $(document).ready(function () {
             $.ajax({
                 url: '{% url "dashboard:get_sections" %}',
@@ -1001,7 +1011,7 @@
             });
         });
 
-    </script>
+    </script> -->
 
     <script>
         // Truncate the text within the <p> and <h2> elements

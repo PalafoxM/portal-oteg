@@ -1,12 +1,12 @@
 {% load static %}
 
 <head>
-    
+
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Publicaciones</title>
+    <title>NOTICIAS TURÍSTICAS</title>
 
     <!-- custom css -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
@@ -23,17 +23,18 @@
     <link rel="stylesheet" href="{% static 'web/css/nabar-portal.css' %}">
     <link rel="stylesheet" href="{% static 'normalize/normal.css' %}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        
-        
+
+
 
 </head>
 
 <style>
-#google_translate_element {
+    #google_translate_element {
         margin-left: 0px;
         margin-right: 0px;
         margin-top: 10px;
     }
+
     /* Estilo del contenedor del widget */
     #google_translate_element {
         -moz-transform: translate(0, 0);
@@ -41,7 +42,7 @@
         margin-right: 10px;
     }
 
-    
+
 
     @media (max-width: 991px) {
         #google_translate_element {
@@ -50,6 +51,7 @@
             margin-top: 015px;
         }
     }
+
     .container2 {
         position: relative;
         /* set container position to relative */
@@ -476,9 +478,10 @@
     }
 
     @media (max-width: 991px) {
-        .mt-45{
+        .mt-45 {
             margin-top: 45px !important;
         }
+
         .navbar-header {
             float: none;
         }
@@ -843,9 +846,15 @@
     {% include 'web/components/navbar_new/navbar_new.html' %}
 
 
-    <div class="container" style="
-        margin-bottom: 20px;
-    ">
+    <div class="container">
+
+
+
+        {% include 'web/components/glosario/glosario.html' %}
+
+    </div>
+
+    <div class="container">
 
         <h3 style="
         color: #333333;
@@ -855,12 +864,6 @@
         font-weight: 600;
         margin-left: 20px;
         text-align: left; ">Publicaciones Recientes</h3>
-
-        {% include 'web/components/glosario/glosario.html' %}
-
-    </div>
-
-    <div class="container">
 
         <div class="wrapper2">
             {% for section in noticias %}
@@ -941,8 +944,8 @@
         {% for section in noticias %}
 
 
-
-        <div class='card'>
+        <a href="{% url 'notica_viewer' section.id %}" style=" color: #333333;  text-decoration: none;" > <div
+            class='card'>
             <div style='        
             position: relative;
             overflow: hidden;
@@ -950,15 +953,8 @@
             height: 100%;'>
 
                 {% if section.imagen %}
-                <img style="
-                    border-radius:8px  8px  0px 0px;
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 65%;
-                    object-fit: cover;
-                    object-position: center;" src="{{section.imagen.url}}" alt="">
+                <img style=" border-radius:8px 8px 0px 0px; position: absolute; top: 0; left: 0; width: 100%; height:
+            65%; object-fit: cover; object-position: center;" src="{{section.imagen.url}}" alt="">
                 {% else %}
 
                 <img style="
@@ -999,9 +995,9 @@
 
             </div>
 
-        </div>
-
-        {% endfor %}
+    </div>
+    </a>
+    {% endfor %}
 
 
     </div>
@@ -1262,25 +1258,25 @@
 
     <script>
         function googleTranslateElementInit() {
-  new google.translate.TranslateElement({
-    pageLanguage: 'es',
-    includedLanguages: 'en,it,ja,pt',
-    layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-  }, 'google_translate_element');
-}
+            new google.translate.TranslateElement({
+                pageLanguage: 'es',
+                includedLanguages: 'en,it,ja,pt',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+        }
 
-    function setFixedMenuPosition() {
-      var translateElement = document.getElementById('google_translate_element');
-      var fixedMenu = document.getElementsByClassName('all-fixed')[0];
-      
-      if (translateElement && fixedMenu) {
-        var translateHeight = translateElement.offsetHeight;
-        fixedMenu.style.top = translateHeight + 'px';
-      } else if (fixedMenu) {
-        fixedMenu.style.top = '0';
-      }
-    }
-    window.onload = setFixedMenuPosition;
+        function setFixedMenuPosition() {
+            var translateElement = document.getElementById('google_translate_element');
+            var fixedMenu = document.getElementsByClassName('all-fixed')[0];
+
+            if (translateElement && fixedMenu) {
+                var translateHeight = translateElement.offsetHeight;
+                fixedMenu.style.top = translateHeight + 'px';
+            } else if (fixedMenu) {
+                fixedMenu.style.top = '0';
+            }
+        }
+        window.onload = setFixedMenuPosition;
     </script>
     {% include 'web/components/footer/footer_new.html' %}
 

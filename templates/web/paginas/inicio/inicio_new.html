@@ -226,11 +226,6 @@
             transition: transform 0.3s ease;
         }
 
-        .info-card:hover {
-            transform: scale(1.05);
-            cursor: pointer;
-        }
-
         .info-card h2 {
             font-family: 'Montserrat', sans-serif;
             font-weight: 600;
@@ -318,10 +313,7 @@
         transition: transform 0.3s ease;
     }
 
-    .info-card:hover {
-        transform: scale(1.05);
-        cursor: pointer;
-    }
+
 
     .info-card h2 {
         font-family: 'Montserrat', sans-serif;
@@ -352,10 +344,7 @@
         transition: transform 0.3s ease;
     }
 
-    .card:hover {
-        transform: scale(1.05);
-        cursor: pointer;
-    }
+
 
 
     .n-card {
@@ -644,7 +633,7 @@
 
                         ">
                         <a class="navbar-brand" href="#">
-                            <img src="{% static 'img/inicio/logo.sv' %}" alt="" class="img-responsive"
+                            <img src="{% static 'img/inicio/logo.svg' %}" alt="" class="img-responsive"
                                 style="height: 60px;  margin-top: -16px;">
                         </a>
                         <div>
@@ -711,7 +700,6 @@
                     {% if object.imagen %}
                     <img src="{{object.imagen.url}}" alt="">
                     {% else %}
-
                     {% endif %}
                     <div class="overlay"></div>
                 </div>
@@ -793,7 +781,7 @@
 
                     <div style=" width: 90%; height: 1px; background-color: #FB8A55;"> </div>
                     <p
-                        style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 12px; color: #000; margin-top: 5px;">
+                        style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 12px; color: #000; margin-top: 5px;  margin-bottom: 30px;">
                         Acumulado<br>
                         Enero-Mayo <br>
                         2023<br>
@@ -852,10 +840,9 @@
 
                     <div style=" width: 90%; height: 1px; background-color: #FB8A55;"> </div>
                     <p
-                        style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 12px; color: #000; margin-top: 5px;">
-                        I Trimestre 2023<br>
-
-
+                        style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 12px; color: #000; margin-top: 5px; margin-bottom: 43px;">
+                        I Trimestre 2023
+                    </p>
                     </p>
 
 
@@ -876,11 +863,11 @@
                     <h2
                         style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 14px; color: #333333; ">
                         1 mil 052 <br> <span style=" font-weight: 600;">Participantes</span> en <br> acciones de
-                        <br><span style=" font-weight: 600;">Sensibilización <br> Turística</span> </h2>
+                        <br><span style=" font-weight: 600;">Sensibilización <br> Turística</span>
+                    </h2>
 
                     <div style=" width: 90%; height: 1px; background-color: #FB8A55;"> </div>
-                    <p
-                        style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 12px; color: #000; margin-top: 5px;">
+                    <p style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 12px; color: #000; margin-top: 5px;  margin-bottom: 23px;"">
                         Anual 2022<br>
 
 
@@ -889,7 +876,7 @@
                 </div>
 
 
-                <div class="card">
+                <div class=" card">
 
                     <div style="height: 60px; width: 60px; background-image: linear-gradient(140.57deg, #ED4C02 0%, #FB8A55 100%); border-radius: 50%;
 
@@ -904,8 +891,7 @@
                         $ 1 mil 499 mdp <br> <span style=" font-weight: 600;">Inversión Privada Turística</span> </h2>
 
                     <div style=" width: 90%; height: 1px; background-color: #FB8A55;"> </div>
-                    <p
-                        style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 12px; color: #000; margin-top: 5px;">
+                    <p style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 12px; color: #000; margin-top: 5px;   margin-bottom: 20px;"">
                         Acumulado<br>
                         Enero-Mayo<br>
                         2023<br>
@@ -919,54 +905,58 @@
 
             </section>
 
-            <div class="container" style=" margin-top: 65px;">
-                <h2
-                    style="
-        text-transform: uppercase; text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 40px; color: #333333;">
-                    Consulta el % de Ocupación Hotelera <br> <span style="font-size: 30px;">8 Principales
-                        Destinos</span>
-                </h2>
-                <p
-                 style="
+
+            <div class=" container" style=" margin-top: 65px;
+            
+      
+            
+            ">
+                    <h2
+                        style="
+        text-transform: uppercase; text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 40px; color: #333333;">t
+                        Consulta el % de Ocupación Hotelera <br> <span style="font-size: 30px;">8 Principales
+                            Destinos</span>
+                    </h2>
+                    <p style="
         text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 18px; color: #333333;
-                 "
-                >Para consultar la información de los destinos resaltados posiciona tu cursor sobre ellos.</p>
-            </div>
+                 ">Para consultar la información de los destinos resaltados posiciona tu cursor sobre ellos.</p>
+                </div>
 
-            {% include 'web/components/map/map.html' %}
+                {% include 'web/components/map/map.html' %}
 
 
-            <div style='
+                <div style='
     display: flex;
     justify-content: center;
     align-items: start;
     flex-direction: column;
-    margin-top: 20px;
+    margin-top: 65px;
 
     '>
 
-                <h1 style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 40px; color: #333333;">
-                    NOTICIAS TURÍSTICAS</h1>
-            </div>
+                    <h1
+                        style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 40px; color: #333333;">
+                        NOTICIAS TURÍSTICAS</h1>
+                </div>
 
 
-            <div style="display: flex;
+                <div style="display: flex;
         justify-content: space-around;
         align-items: center;
         flex-wrap: wrap;
         margin-bottom: 50px;
         ">
 
-                {% for object in noticias %}
-
-                <div class='n-card'>
-                    <div style='        position: relative;
+                    {% for object in noticias %}
+                    <a href="{% url 'notica_viewer' object.id %}" style="color: #333333; text-decoration: none;">
+                    <div class='n-card'>
+                        <div style='        position: relative;
                 overflow: hidden;
                 width: 100%;
                 height: 100%;'>
 
-                        {% if object.imagen %}
-                        <img style="
+                            {% if object.imagen %}
+                            <img style="
                         border-radius:8px  8px  0px 0px;
                         position: absolute;
                         top: 0;
@@ -976,9 +966,9 @@
                         object-fit: cover;
                         object-position: center;" src="{{object.imagen.url}}" alt="">
 
-                        {% else %}
+                            {% else %}
 
-                        <img style="
+                            <img style="
                 border-radius:8px  8px  0px 0px;
                 position: absolute;
                 top: 0;
@@ -988,10 +978,10 @@
                 object-fit: cover;
                 object-position: center;" src={% static 'img_nav/defaultimage.webp' %} alt="">
 
-                        {% endif %}
+                            {% endif %}
 
 
-                        <div style="
+                            <div style="
                         border-radius: 0px 0px 8px  8px  ;
                         position: absolute;
                         bottom: 0;
@@ -1003,26 +993,27 @@
                         padding-left: 20px;
                         padding-right: 20px;
                         ">
-                            <h2>{{object.titulo |truncatewords:2}}</h2>
-                            <p>
-                                {{object.descripcion|truncatewords:10 |safe}}
-                            </p>
-                            <a href="{% url 'notica_viewer' object.id %}" style="
+                                <h2>{{object.titulo |truncatewords:2}}</h2>
+                                <p>
+                                    {{object.descripcion|truncatewords:10 |safe}}
+                                </p>
+                                <a href="{% url 'notica_viewer' object.id %}" style="
                             color:#ED4C02 ;
                             font-family: Montserrat;
                             font-size: 14px;
                         ">
-                                Seguir leyendo...
+                                    Seguir leyendo...
 
-                            </a>
+                                </a>
+                            </div>
+
                         </div>
 
+
                     </div>
-
-
-                </div>
-                {% endfor %}
-                <!-- 
+                </a>
+                    {% endfor %}
+                    <!-- 
             <div class='n-card'>
                 <div style='        position: relative;
                 overflow: hidden;
@@ -1113,40 +1104,42 @@
                 </div> -->
 
 
-            </div>
+                </div>
 
 
         </div>
+        <a style="text-decoration: none;" href="{% url 'noticias_turisticas' %}">
+            <div style="
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                margin-top: 40px;
+                margin-bottom: 40px;">
 
-        <div style="
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        margin-top: 80px;
-        margin-bottom: 40px;">
+                <div class="butom-m" style="
+                background-image: linear-gradient(140.57deg, #ED4C02 0%, #FB8A55 100%);
+                border-radius: 20px;
+                width: 291px;
+                height: 40px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin: 0;
+                padding: 0;
+                cursor: pointer;">
 
-            <div class="butom-m" style="
-        background-image: linear-gradient(140.57deg, #ED4C02 0%, #FB8A55 100%);
-        border-radius: 20px;
-        width: 291px;
-        height: 40px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin: 0;
-        padding: 0;
-        cursor: pointer;">
-                <a style="text-decoration: none;" href="{% url 'noticias_turisticas' %}">
                     <h4 style=" padding: 0;
                 margin: 0;
                 color: #fff;
                 font-family: 'Montserrat', sans-serif;
                 font-size: 15px;">VER TODAS LAS NOTICIAS</h4>
-                </a>
-            </div>
 
-        </div>
+                </div>
+
+            </div>
+        </a>
+
     </div>
 
 

@@ -6,7 +6,7 @@
     </div>
     <ul class="nav-links">
         {% if request.user|user_in_group:'Super-Admin' or request.user|user_in_group:'Admin' %}
-        <li>
+        <li class = "main-li-elment" style="z-index: 999;">
             <div class="icon-link">
                 <a href="#">
                     <img src="{% static 'images/icons/grafica.png' %}" class="icons-list">

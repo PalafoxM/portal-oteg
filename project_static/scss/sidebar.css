@@ -129,7 +129,7 @@
   pointer-events: none;
 }
 .sidebar .nav-links li .sub-menu {
-  padding: 0px 0px 10px 50px;
+  padding: 0px;
   margin-top: 0px;
   background: #fff;
   display: none;
@@ -142,7 +142,10 @@
   color: #4A4A4A;
   font-size: 13px;
   padding: 5px 0;
-  white-space: nowrap;
+  padding-left: 50px;
+  width: 100%;
+  height: max-content;
+  
   /* opacity: 0.6; */
   transition: all 0.3s ease;
 }
