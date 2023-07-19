@@ -40,7 +40,7 @@ margin-top: 40px;
                     Carretera de Cuota Silao Guanajuato Km 3.8 Silao, Guanajuato., C.P. 36270
                     <br>Tel. (472) 103 99 00 Ext. 140 observatorioturisticogto@gmail.com
                 </p>
-                <a class="footer-title"> MAPA DE SITIO </a>
+                <a href="{% url 'eventos' %}" class="footer-title"> MAPA DE SITIO </a>
                 {% if user.is_authenticated %}
                 <a class="footer-title" href="{% url 'dashboard:fuente_informacion' %}">Panel Admin</a>
                 {% else %}
@@ -52,11 +52,6 @@ margin-top: 40px;
 
             <div class="grid-item">
                 <a href="{% url 'inicio' %}" class="footer-title">INICIO</a>
-
-
-
-
-                <a class="footer-link"> Nacionales </a>
 
                 <a href="{% url 'dashboard:report_detail' 30 %}" class="footer-title">Indicadores</a>
                 <div id="reports"></div>
@@ -82,8 +77,8 @@ margin-top: 40px;
             </div>
             <div class="grid-item">
                 <a href="{% url 'inventario-turistico' %}" class="footer-title">INVENTARIO TURISTICO</a>
-                <a class="footer-title">ENTORNO NACIONAL</a>
-                <a class="footer-link"> Indicadores Económicos</a>
+                <a href="{% url 'entorno-nacional'%}" class="footer-title">ENTORNO NACIONAL</a>
+                <a href="{% url 'entorno-nacional-indicadores' %}"class="footer-link"> Indicadores Económicos</a>
                 <a href="{% url 'barometro-turistico' %}" class="footer-title">Barometro Turístico</a>
                 <a href="{% url 'eniot'%}" class="footer-title">ENIOT</a>
                 <a href="{% url 'oteg' %}" class="footer-title">OTEG</a>
@@ -91,8 +86,8 @@ margin-top: 40px;
             </div>
             <div class="grid-item">
                 <a href="{% url 'sustentabilidad' %}" class="footer-title">Sustentabilidad</a>
-                <a class="footer-title"> Información Turistica </a>
-                <a class="footer-title"> Solicitudes</a>
+                <a href='https://guanajuato.mx/' target="_blank" class="footer-title"> Información Turistica </a>
+                <a  href="{% url 'solicitudes' %}" class="footer-title"> Solicitudes</a>
                 <!-- <a href="http://127.0.0.1:8000/pdf-protocolo_alba/" target="_blank" class="footer-title"> Protocolo
                     Alba</a>
                 <a class="footer-title"> Eventos y Actividades</a> -->
@@ -103,6 +98,11 @@ margin-top: 40px;
 
 
                 <a href="{% url 'sitios_interes'%}" class="footer-title">Sitios de Interes</a>
+                <a href="{% url 'sitios_interes'%}" class="footer-title">Eventos</a>
+                <a href="{% url 'eventos' %}" class="footer-link">Internacionales</a>
+                <a href="{% url 'eventos' %}" class="footer-link">Naconales</a>
+                <a href="{% url 'eventos' %}" class="footer-link">Estatales</a>
+             
 
                 <div class='bottom-logo-omt'>
                     <div

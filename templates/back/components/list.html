@@ -42,25 +42,28 @@
 
                         {% if is_category %}
 
-                        <div style="display: flex; gap: 1rem;">
-                            <a id="botonMas" href="{% url 'dashboard:centrodocumental' %}"
-                                class="btn btn-primary btn-icon-split">
-                                <span class="icon text-white-50">
-                                    <i class="fas fa-arrow-left"></i>
-                                </span>
-                                <span class="text">Regresar a la Lista</span>
-                            </a>
 
-                            <form method="get" action="{% url 'dashboard:add_categoria' pk %}">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-primary btn-icon-split">
-                                    <span class="icon text-white-50">
-                                        <i class="fas fa-plus"></i>
-                                    </span>
-                                    <span class="text">Nuevo Registro</span>
-                                </button>
-                            </form>
-                        </div>
+                        <a id="botonMas" href="{% url 'dashboard:centrodocumental' %}" style="text-decoration: none;">
+                            <div style="
+                        background-color: #0CAB7B;
+                        width: 370px;
+                        height: 47px;
+                        color: #fff;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        border: none;
+                        border-radius: 5px;
+                    ">
+                                <li class="fas fa-chevron-left">
+                                </li>
+                                <p style="cursor: pointer; color: #fff; 
+                            font-family: avenir;
+                            font-weight: bold; font-size: 15px; margin: 0; padding: 20px; text-align: center;">
+                                    Regresar a la Lista </p>
+                            </div>
+                        </a>
+
                         {% else %}
                         <div style="display: flex; gap: 1rem;">
                             <!-- <a id="botonMas" href="{{ create_url }}" class="btn btn-primary btn-icon-split">

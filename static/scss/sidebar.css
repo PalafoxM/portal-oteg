@@ -113,7 +113,7 @@
   pointer-events: none;
 }
 .sidebar .nav-links li .sub-menu {
-  padding: 0px 0px 10px 50px;
+  padding: 0;
   margin-top: 0px;
   background: #fff;
   display: none;
@@ -133,6 +133,7 @@
 .sidebar .nav-links li .sub-menu a:hover {
   /* opacity: 1; */
   background:#B2C1CC;
+  width: 100%;
   cursor: pointer;
 }
 .sidebar.close .nav-links li .sub-menu {

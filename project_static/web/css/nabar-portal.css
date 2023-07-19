@@ -320,10 +320,7 @@
     transition: transform 0.3s ease;
 }
 
-.info-card:hover {
-    transform: scale(1.05);
-    cursor: pointer;
-}
+
 
 .info-card h2 {
     font-family: 'Montserrat', sans-serif;
@@ -368,10 +365,6 @@
     transition: transform 0.3s ease;
 }
 
-.card:hover {
-    transform: scale(1.05);
-    cursor: pointer;
-}
 
 
 .n-card {
