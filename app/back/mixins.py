@@ -9,7 +9,7 @@ from django.shortcuts import render
 class SuperAdminOrAdminMixin(UserPassesTestMixin):
     def test_func(self):
         user = self.request.user
-        return user.is_authenticated and (user.is_superuser or user.is_staff) and not user.groups.filter(name='Colaborador').exists()
+        return user.is_authenticated and (user.groups.filter(name='Super-Admin').exists() or user.groups.filter(name='Admin').exists()) and not user.groups.filter(name='Colaborador').exists()
 
     def handle_no_permission(self):
         print("Página no encontrada")
@@ -28,12 +28,13 @@ class LoginRequiredMixin(UserPassesTestMixin):
 class SuperAdminMixin(UserPassesTestMixin):
     def test_func(self):
         user = self.request.user
-        return user.is_authenticated and (user.is_superuser)
+        return user.is_authenticated and (user.groups.filter(name='Super-Admin').exists())
 
     def handle_no_permission(self):
-        print("Página no encontrada")
         return render(self.request, 'back/components/404.html', status=404)
 
 def test_func(self):
     user = self.request.user
-    return user.is_authenticated and (user.is_superuser or user.is_staff) and not user.groups.filter(name='Colaborador').exists()
+    print("******  test_func")
+    print(user.groups.filter(name='Super-Admin').exists())
+    return user.is_authenticated and (user.groups.filter(name='Super-Admin').exists() or user.groups.filter(name='Admin').exists()) and not user.groups.filter(name='Colaborador').exists()
