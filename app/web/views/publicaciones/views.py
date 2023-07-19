@@ -270,7 +270,7 @@ class NoticiasTuristicasView(TemplateView):
         context['publicaciones'] = Noticia.objects.order_by(
             F('fecha_nota').desc(nulls_last=True))[:10]  # order by date
         
-        context['img_url'] = 'img_nav/noticia_t.png'
+        context['img_url'] = 'img_nav/noticia_t.jpg'
         context['nav_title'] = 'NOTICIAS TURÍSTICAS'
         context['noticias'] = Noticia.objects.order_by('-fecha_nota')[:10]
         return context
