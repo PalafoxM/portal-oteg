@@ -85,12 +85,9 @@ class Publications(models.Model):
         ('3', 'XLS'),
     )
 
-    section = models.ForeignKey(
-        SeccionesCentroDocumental, on_delete=models.CASCADE, null=True, blank=True)
+    section = models.ForeignKey(SeccionesCentroDocumental, on_delete=models.CASCADE, null=True, blank=True)
     category = models.ForeignKey(Categorias, on_delete=models.CASCADE, null=True, blank=True)
-
     visible = models.BooleanField(default=True)
-
     type = models.CharField(max_length=10, choices=TYPE_CHOICES, verbose_name="Tipo de Documento")
     num_descargas = models.IntegerField(null=True, blank=True, default=0)
     name = models.CharField(max_length=100, verbose_name="Nombre")

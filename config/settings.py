@@ -41,8 +41,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG')
 
 ALLOWED_HOSTS = ['*']
-CSRF_TRUSTED_ORIGINS = ['https://42195556-review-develop-3zknud.visitaguanajuato.com.mx',
-                        'https://develop.observatorioturistico.org']
+CSRF_TRUSTED_ORIGINS = ['https://42195556-review-develop-3zknud.visitaguanajuato.com.mx','https://develop.observatorioturistico.org', 'https://observatorioturistico.org/', 'https://www.observatorioturistico.org/']
 
 
 # Application definition
@@ -54,6 +53,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
     # web
     'web',
     # auth
