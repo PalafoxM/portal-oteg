@@ -17,16 +17,25 @@ from django.contrib import admin
 from django.urls import path ,include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.shortcuts import render, redirect
+
+# Definir la vista personalizada para la página no encontrada
+def custom_page_not_found(request, exception):
+    print("entro???serfwasfsdf")
+    return render(request, 'back/components/404.html', status=404)
 
 
 urlpatterns = [
-    # web
-    path('',include('web.urls')),
     # admin
     path('admin/', admin.site.urls),
     # path('auth/',include('django.contrib.auth.urls', namespace='auth')),
     path('auth/',include('logIn.urls', namespace='auth')),
     path('admin-oteg/',include('back.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
+    # web
+    path('',include('web.urls')),
     
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# Manejo personalizado de errores 404
+handler404 = custom_page_not_found

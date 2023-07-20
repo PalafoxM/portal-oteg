@@ -7,6 +7,7 @@ from django.shortcuts import redirect
 from django.http import StreamingHttpResponse
 from django.views.generic import TemplateView, View
 from web.models import *
+from django.core.exceptions import ObjectDoesNotExist
 
 class EniotView(TemplateView):
     template_name = 'web/paginas/eniot/eniot.html'
@@ -19,7 +20,10 @@ class EniotView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        pdf =  Eniot.objects.filter(seccion='programa-eniot').order_by('-date_created')[:1].get()
+        try:
+            pdf = Eniot.objects.filter(seccion='programa-eniot').order_by('-date_created')[:1].get()
+        except ObjectDoesNotExist:
+            pdf = None
         context['pdf'] = pdf
         context['nav_title'] = 'ENIOT'
         context['img_url'] = 'img_nav/evento-mesa.jpg'
@@ -85,7 +89,7 @@ class PonenciaEventosView(TemplateView):
             pdf_by_year[year] = Eniot.objects.filter(seccion='ponencia-eventos', anio=year).order_by('-date_created')
 
         context['pdf_by_year'] = pdf_by_year
-        context['nav_title'] = 'PONENCIAs'
+        context['nav_title'] = 'PONENCIAS'
         context['img_url'] = 'img_nav/pexels.jpg'
         context['tipo'] =  'eniot_ponencia_eventos_pdf_viewer'
         return context
