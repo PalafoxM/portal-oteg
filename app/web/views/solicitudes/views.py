@@ -21,6 +21,7 @@ def solicitudes(request):
                     'contry': request.POST.get('contry'),
                     'message': request.POST.get('message'),
                 }
+                print(request.POST.get('message'))
                 # agregamos los parametros
                 subject, from_email, to = 'Solicitud de Informacion', settings.EMAIL_HOST_USER, settings.CORREO_DESTINO
                 # contenuido del mensaje
@@ -38,6 +39,7 @@ def solicitudes(request):
                 messages.success(request, 'Solicitud enviada exitosamente.')
                 return redirect('solicitudes')
             except BadHeaderError:
+                print("trono?")
                 return HttpResponse('Invalid header found.')
             print("si pasaron")
     else:

@@ -9,10 +9,15 @@ class SenEmail(forms.Form):
     COUNTRIES = [(country.name, country.name) for country in pycountry.countries]
     COUNTRIES.insert(0, ('', 'Selecciona un País'))
 
-    email = forms.EmailField( widget=forms.TextInput(attrs = { 'placeholder': 'Ingresa un correo'}), required=True, label="Correo electrónico")
+    email = forms.EmailField( widget=forms.TextInput(attrs = { 'placeholder': 'Ingresa un correo', 'class':'col-md-6'}), required=True, label="Correo electrónico")
+    country = forms.ChoiceField(
+        choices=COUNTRIES,
+        widget=forms.Select(attrs={'placeholder': 'Seleccione el país', 'class': 'col-md-6'}),
+        required=True,
+        label="País"
+    )
     subject = forms.CharField(widget=forms.TextInput(attrs = { 'placeholder': 'Agrega tu nombre'}), max_length=100, required=True, label="Nombre completo")
-    message = forms.CharField(widget=forms.Textarea(attrs = { 'placeholder': 'Agrega el mensaje'}), required=True, label="Mensaje")
-    contry = forms.ChoiceField(choices=COUNTRIES, widget=forms.Select(attrs = { 'placeholder': 'Seleccione el pais'}), required=True, label="País")
+    message = forms.CharField(widget=forms.Textarea(attrs = { 'placeholder': 'Agrega el mensaje'}), required=True, label="Requerimiento y objetivo de la solicitud*")
 
     def clean_email(self):
         email = self.cleaned_data.get('email')

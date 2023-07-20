@@ -35,7 +35,7 @@ def logInUser(req):
                 return redirect('dashboard:fuente_informacion')
         else:
             messages.success(req, 'Usuario o Contraseña Incorrectos')
-            return redirect('login_user')
+            return redirect('logIn:login_user')
     else:
         return render(req, 'back/auth/logIn.html', {})
 
