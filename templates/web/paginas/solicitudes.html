@@ -33,7 +33,7 @@
     padding: 20px;
     border-top: 1px solid #eee;
     display: flex;
-    justify-content: flex-end;
+    justify-content: center; /* Cambiamos a "center" para centrar el contenido horizontalmente */
     align-items: center;
   }
 
@@ -82,18 +82,15 @@
 
   /* Estilos del botón */
   .btn-primary-no-icon {
-    background-image: linear-gradient(140.57deg, #ED4C02 0%, #FB8A55 100%);
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 10px 20px;
-    transition: background-color 0.15s ease-in-out;
-    font-size: 14px;
-    cursor: pointer;
+    background-color: #FFFFFF;
+    border: 1px solid #F97B26;
+    border-radius: 25px;
+    width: 184px;
+    height: 50px;
   }
 
   .btn-primary-no-icon:hover {
-    background-color: #e9a36d;
+    background-color: #F97B26;
   }
   .contact-message {
   font-family: 'Montserrat', sans-serif;
@@ -104,6 +101,55 @@
   border-radius: 5px;
   margin-bottom: 20px;
 }
+.input-text{
+  background-color: #FFFFFF !important;
+    border: 1px solid #D2DAE2 !important;
+    border-radius: 10px !important;
+    /* width: 225px; */
+    height: 46px !important;
+}
+.text-area-f{
+  background-color: #FFFFFF !important;
+  border: 1px solid #D2DAE2 !important;
+  border-radius: 10px !important;
+  /* width: 470px; */
+  height: 300px !important;
+}
+.card-lisa{
+  background-color: #FFFFFF;
+  border: 1px solid #F97B26;
+  border-radius: 15px;
+  /* width: 550px; */
+  height: auto;
+  padding: 60px;
+}
+.contactanos {
+  color: #333333;
+  font-family: Montserrat;
+  font-size: 24px;
+  line-height: 34px;
+  /* width: 450px; */
+  font-weight: bold;
+  text-align: center;
+}
+.si-requires-informac {
+  color: #576D99;
+  font-family: Poppins;
+  font-size: 13px;
+  letter-spacing: 0.26px;
+  line-height: 22px;
+  text-align: center;
+}
+.mtb-5{
+  margin-top: 10px;
+  margin-bottom: 50px;
+}
+.mt-5{
+  margin-top: 60px
+}
+.mb-2{
+  margin-bottom: 30px;
+}
 
 </style>
   {% endblock %}
@@ -112,21 +158,14 @@
 <!-- contenido -->
 {% block content %}
 
-{% if messages %}
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <h5><i class="icon fas fa-check"></i> Solicitud enviada correctamente</h5>
-        <p>Gracias por enviar tu solicitud. Nos pondremos en contacto contigo pronto.</p>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-{% endif %}
+
 <form method="post" action="" enctype="multipart/form-data">
-  <div class="card-s shadow mb-4">
-    <div class="card-header">
-      <h4>Requerimiento y objetivo de la solicitud</h4>
+  <div class="card-lisa shadow mb-4 mt-5">
+    <div class="mtb-5">
+      <p class="contactanos">¡Contáctanos!</p>
+      <p class="si-requires-informac">Si requires información detallada de algún tema en especifico</p>
     </div>
-    <div class="card-body">
+    <div class="">
       {% csrf_token %}
       <input type="hidden" name="action">
       {% if form.errors %}
@@ -134,27 +173,46 @@
           <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
           <h5><i class="icon fas fa-ban"></i> Ha ocurrido un error al querer guardar el registro</h5>
           <ul>
-            {% for field in form %}
+            {% for field in form.visible_fields %}
               {% for error in field.errors %}
-                <li>{{ error }}</li>
+                <li>{{ field.label }}: {{ error }}</li>
               {% endfor %}
             {% endfor %}
           </ul>
         </div>
       {% endif %}
 
-      {% for field in form.visible_fields %}
-        <div class="form-group">
-          <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-          {{ field|add_class:'form-control' }}
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="{{ form.email.id_for_label }}">{{ form.email.label }}{% if form.email.field.required %}<span class="text-danger">*</span>{% endif %}</label>
+          {{ form.email|add_class:'input-text' }}
         </div>
-      {% endfor %}
+        <div class="form-group col-md-6">
+          <label for="id_country">País{% if form.country.field.required %}<span class="text-danger">*</span>{% endif %}</label>
+          <select class="form-control input-text" id="id_country" name="{{ form.country.html_name }}">
+            {% for value, label in form.country.field.choices %}
+              <option value="{{ value }}" {% if form.country.value == value %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group col-md-12">
+          <label for="{{ form.subject.id_for_label }}">{{ form.subject.label }}{% if form.subject.field.required %}<span class="text-danger">*</span>{% endif %}</label>
+          {{ form.subject|add_class:'input-text' }}
+        </div>
+        <div class="form-group col-md-12">
+          <label for="{{ form.message.id_for_label }}">{{ form.message.label }}{% if form.message.field.required %}<span class="text-danger">*</span>{% endif %}</label>
+          {{ form.message|add_class:'text-area-f' }}
+        </div>
+      </div>
+      <p class="mb-2">* Campos obligatorios</p>
     </div>
     <div class="card-footer">
       <button type="submit" class="btn btn-primary-no-icon">Enviar</button>
     </div>
   </div>
 </form>
+
+
 
 {% endblock %}
 
