@@ -57,7 +57,6 @@ urlpatterns = [
     path('excel_download/<int:pk>/', ExelDownload.as_view(), name='excel_download'),
     path('reporte_mensual_download/<int:pk>/', PDFReporteMensualDownloadView.as_view(), name='reporte_mensual_download'),
 
-    
     path('perfil_visistante_ciudad/',PerfilVisitanteCiudad.as_view(), name='perfil_visistante_ciudad'),
     path('publicaciones/perfil-visistante-ciudad/<int:pk>/',PerfilVisitanteCiudad.as_view(), name='perfil_visistante_ciudad'),
     path('publicaciones-pdf-viewer/<int:pk>/',PublicacionesPDFViewer.as_view(), name='publicaciones_pdf_viewer'),
