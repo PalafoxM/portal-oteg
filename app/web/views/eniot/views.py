@@ -27,7 +27,7 @@ class EniotView(TemplateView):
         context['pdf'] = pdf
         context['nav_title'] = 'ENIOT'
         context['img_url'] = 'img_nav/evento-mesa.jpg'
-        context['encuesta'] = self.encuesta 
+        context['encuesta'] =Encuesta.objects.filter(seccion=2, activo=True).latest('fecha_registro')
         return context
     
 class ProgramaProximaEdicion(TemplateView):
