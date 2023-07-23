@@ -78,6 +78,19 @@ img.img-fluid {
             rem dolore est eaque.</p>
     </div>
 </div> -->
+
+{% if encuesta %}
+        <div class="encuesta">
+            <a
+                target="_blank"
+                href="{{encuesta.url}}">
+                Encuesta disponible da click aquí.
+            </a>
+        </div>
+
+    {% else %}
+
+{% endif %}
 <div class="row mb-5 mt-5">
     <div id="carouselExampleIndicators" class="carousel slide">
         

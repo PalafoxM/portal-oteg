@@ -651,6 +651,7 @@ class BarometroListView(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
         encuesta = Encuesta.objects.filter(seccion=1, activo=True).latest('fecha_registro')
         print(encuesta.seccion)
     except Encuesta.DoesNotExist:
+        encuesta = None
         print("No matching Encuesta found.")
 
     def get_context_data(self, **kwargs):
