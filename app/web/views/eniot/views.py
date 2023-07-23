@@ -11,23 +11,27 @@ from django.core.exceptions import ObjectDoesNotExist
 
 class EniotView(TemplateView):
     template_name = 'web/paginas/eniot/eniot.html'
-    try:
-        encuesta = Encuesta.objects.filter(seccion=2, activo=True).latest('fecha_registro')
-        print(encuesta.seccion)
-        print(encuesta.url)
-    except Encuesta.DoesNotExist:
-        print("No matching Encuesta found.")
+
+
+
 
     def get_context_data(self, **kwargs):
+        try:
+            encuesta = Encuesta.objects.filter(seccion=2, activo=True).latest('fecha_registro')
+        except Encuesta.DoesNotExist:
+            encuesta = None
+
+        print("No matching Encuesta found.")
         context = super().get_context_data(**kwargs)
         try:
             pdf = Eniot.objects.filter(seccion='programa-eniot').order_by('-date_created')[:1].get()
         except ObjectDoesNotExist:
             pdf = None
+
         context['pdf'] = pdf
         context['nav_title'] = 'ENIOT'
         context['img_url'] = 'img_nav/evento-mesa.jpg'
-        context['encuesta'] =Encuesta.objects.filter(seccion=2, activo=True).latest('fecha_registro')
+        context['encuesta'] = encuesta
         return context
     
 class ProgramaProximaEdicion(TemplateView):
