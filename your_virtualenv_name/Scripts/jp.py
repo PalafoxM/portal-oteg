@@ -1,4 +1,4 @@
-#!C:\Users\rogel\Documents\Purpura_OTEG\portal-oteg\myenv\Scripts\python.exe
+#!C:\Users\rogel\Documents\Purpura_OTEG_MAIN_B\portal-oteg\your_virtualenv_name\Scripts\python.exe
 
 import sys
 import json

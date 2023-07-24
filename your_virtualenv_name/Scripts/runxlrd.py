@@ -1,4 +1,4 @@
-#!C:\Users\rogel\Documents\Purpura_OTEG\portal-oteg\myenv\Scripts\python.exe
+#!C:\Users\rogel\Documents\Purpura_OTEG_MAIN_B\portal-oteg\your_virtualenv_name\Scripts\python.exe
 # Copyright (c) 2005-2012 Stephen John Machin, Lingfo Pty Ltd
 # This script is part of the xlrd package, which is released under a
 # BSD-style licence.
