@@ -660,8 +660,6 @@ class BarometroListView(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
         context['create_url'] = reverse_lazy('dashboard:barometro_create')
         context['encuesta'] = self.encuesta
         context['d_route'] = 'CEDOC > Barometro'
-    
-
         return context
 
 
