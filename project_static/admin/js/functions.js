@@ -154,3 +154,35 @@ function validate_decimals(el, evt) {
 
     return true;
 }
+
+function submit_with_ajaxV2(url, title, content, parameters, callback) {
+    Swal.fire({
+        title: title,
+        text: content,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Si',
+        cancelButtonText: 'No',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: parameters,
+                dataType: 'json',
+                processData: false,
+                contentType: false,
+            }).done(function (data) {
+                if (!data.hasOwnProperty('error')) {
+                    callback(data);
+                } else {
+                    Swal.fire('Error', data.error, 'error');
+                }
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                Swal.fire('Error', textStatus + ': ' + errorThrown, 'error');
+            });
+        }
+    });
+}

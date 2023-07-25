@@ -1,5 +1,5 @@
 import re
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import update_session_auth_hash
@@ -22,7 +22,9 @@ from django.template.loader import render_to_string
 
 
 # Create your views here.
-
+# Create your views here.
+def is_ajax(request):
+    return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 def logInUser(req):
 
@@ -107,9 +109,22 @@ def users_crud(req):
 
 
 @login_required(login_url='login')
-def delete_user(req, user_id):
-    User.objects.get(id=user_id).delete()
-    return redirect('logIn:usuarios-list')
+def delete_user(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+
+    try:
+        user.delete()
+        if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
+            return JsonResponse({'message': 'Eliminación exitosa.'})
+        else:
+            messages.success(request, 'Usuario eliminado exitosamente.')
+            return redirect('logIn:usuarios-list')
+    except Exception as e:
+        if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
+            return JsonResponse({'error': 'Error al eliminar el registro.'}, status=500)
+        else:
+            messages.error(request, 'Error al eliminar el usuario.')
+            return redirect('logIn:usuarios-list')
 
 
 @login_required(login_url='login')
