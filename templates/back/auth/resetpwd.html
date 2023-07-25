@@ -4,10 +4,18 @@
 <html>
 
 <head>
-    <title>OTEG Log-In</title>
+    <title>OTEG Admin | {{ title }}</title>
     <link rel="icon" href="{% static 'images/fuentes_informacion/OTEG_Fav_Icon.svg' %}" type="image/x-icon">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Sweetalert2 -->
+    <script src="{% static 'librerias/sweetalert2-11.7.1/sweetalert2.all.min.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+
+
+    <script src="{% static 'admin/js/functions.js' %}"></script>
 
 
     <style>
@@ -111,7 +119,7 @@
         /* Media queries for larger devices */
         @media only screen and (min-width: 1200px) {
             .log-in-card {
-                width: 20%;
+                width: 30%;
                 height: auto;
                 padding-top: 4rem;
                 padding-bottom: 5rem;
@@ -164,6 +172,103 @@
                 transform: translateX(0);
             }
         }
+        .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.recupera-tu-cuenta {
+    color: #4A4A4A;
+    font-family: Avenir;
+    font-size: 16px;
+    line-height: 19px;
+}
+
+.podemos-ayudarte-a-r {
+    color: #4A4A4A;
+    font-family: Avenir;
+    font-size: 14px;
+    line-height: 22px;
+    width: 302px;
+    /* padding-left: 40px;
+    padding-right: 40px; */
+}
+
+/* Media Query para hacerlo responsivo */
+@media (max-width: 768px) {
+    .container {
+        width: 100%;
+    }
+
+    .podemos-ayudarte-a-r {
+        /* width: 100%; */
+        padding: 0 10px;
+    }
+}
+/* ... Otros estilos ... */
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+}
+
+.submit-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.text-d-container {
+    display: flex;
+    align-items: center;
+    margin-left: auto; /* Alinea a la derecha ocupando el espacio restante */
+    margin-top: 30px;
+}
+
+.text-d-container p {
+    margin-left: 5px;
+}
+
+input[type="submit"] {
+    background-image: linear-gradient(140.57deg, #ED4C02 0%, #FB8A55 100%);
+    border-radius: 24.5px;
+    width: 294px;
+    height: 49px;
+    box-shadow: none;
+    color: white;
+    font-size: 16px;
+    font-family: avenir;
+    padding-left: 20px;
+    cursor: pointer;
+}
+
+.arrow-icon {
+    color: #4A4A4A;
+    font-size: 14px;
+    /* display: flex; */
+    align-items: center;
+    margin-left: 10px;
+}
+
+/* Media Query para hacerlo responsivo */
+@media (max-width: 768px) {
+    /* ... Otros estilos responsivos ... */
+
+    .submit-container {
+        flex-direction: column;
+    }
+
+    .arrow-icon {
+        margin-left: 0;
+        margin-top: 10px;
+    }
+}
+
     </style>
 
 </head>
@@ -174,12 +279,17 @@
     <form method="post" class="log-in-card">
 
         <img style="width: 30%;" src='{% static "img/OTEG_Logo.png" %}' />
+        <div class="container">
+            <p class="recupera-tu-cuenta">RECUPERA TU CUENTA</p>
+            <p class="podemos-ayudarte-a-r">Podemos ayudarte a restablecer tu contraseña, ingresa tu correo electrónico:</p>
+        </div>
+        
 
         {% csrf_token %}
 
         <div style="padding-top: 10px;
-     width: 80%;
-    ">
+            width: 80%;
+            ">
             <div>
 
                 {% if messages %}
@@ -218,7 +328,7 @@
                 height: 30px;
                 padding-left: 10px;
                 font-family: avenir;
-                " type="text" name="usuario" placeholder="Ususario" autocomplete="off" required>
+                " type="text" name="username" placeholder="Ususario" autocomplete="off" required>
 
 
                     {% if messages %}
@@ -243,81 +353,6 @@
                 {% endfor %}
             </div>
             {% endif %}
-            <div>
-
-                {% if messages %}
-
-                <div class="input-containter-bad bounce">
-                    <i style="color: #4A4A4A;" class="fas fa-lock"></i>
-                    <input style="
-                       border: none;
-                border-radius: 5px;
-                width: 80%;
-                height: 30px;
-                padding-left: 10px;
-                
-                " type="password" name="pwd" id="pwd" placeholder="Contraseña" autocomplete="off" required>
-                    {% if messages %}
-                    <i id="eye" style="
-                    font-size: 1em;
-                    width: 1em;
-                    height: 1em;
-                    display: inline-block;
-                    vertical-align: middle;
-                    color:#E70062;  " class="far fa-eye-slash" onclick="togglePasswordVisibility('pwd')"></i>
-                    {% else %}
-
-                    <i id="eye" style="
-                font-size: 1em;
-                width: 1em;
-                height: 1em;
-                display: inline-block;
-                vertical-align: middle;
-                color: #4A4A4A;" class="far fa-eye-slash" onclick="togglePasswordVisibility('pwd')"></i>
-
-                    {% endif %}
-
-                </div>
-
-                {% else %}
-
-                <div class="input-containter">
-                    <i style="color: #4A4A4A;" class="fas fa-lock"></i>
-                    <input style="
-                       border: none;
-                border-radius: 5px;
-                width: 80%;
-                height: 30px;
-                padding-left: 10px;
-                
-                " type="password" name="pwd" id="pwd" placeholder="Contraseña" autocomplete="off" required>
-                    {% if messages %}
-                    <i id="eye" style="
-                font-size: 1em;
-                width: 1em;
-                height: 1em;
-                display: inline-block;
-                vertical-align: middle;
-                color:#E70062;  " class="far fa-eye-slash" onclick="togglePasswordVisibility('pwd')"></i>
-                    {% else %}
-
-                    <i id="eye" style="
-                font-size: 1em;
-                width: 1em;
-                height: 1em;
-                display: inline-block;
-                vertical-align: middle;
-                color: #4A4A4A;" class="far fa-eye-slash" onclick="togglePasswordVisibility('pwd')"></i>
-
-                    {% endif %}
-
-                </div>
-                {% endif %}
-
-
-
-
-            </div>
             {% if messages %}
             <div class="messages">
                 {% for message in messages %}
@@ -330,35 +365,22 @@
             </div>
             {% endif %}
 
-
-            <div style="
-            display: flex;
-            justify-content: flex-end;
-            width: 100%;">
-                <a href="{% url 'logIn:reset_password' %}" style="font-size: 12px;
-            cursor: pointer;
-            ">He olvidado mi contraseña</a>
-
+            <div class="button-container">
+                <div class="submit-container">
+                    <input type="submit" value="Enviar" name="username" placeholder="Iniciar sesión" />
+                </div>
+                <div class="text-d-container">
+                    <a href="{% url 'logIn:login_user' %}" style="font-size: 14px; cursor: pointer; color: #4A4A4A; font-family: avenir; text-decoration: none;">
+                        INICIAR SESIÓN
+                        <span class="arrow-icon">
+                            <i class="fas fa-arrow-right"></i>
+                        </span>
+                    </a>
+                </div>
             </div>
-            <input method="post" style="
-            width: 100%;
-            height: 40px;
-            border-radius:10px;
-            border: none;
-            background-color: #0082F4;
-            /* no shadow */
-            box-shadow: none;
-            color: white;
-            font-size: 16px;
-            margin-top: 2rem;
-            cursor: pointer;
-            font-family: avenir;
-            " type="submit" value="Ingresar" name="username" placeholder="Iniciar sesión" />
-
-
+        </div>
     </form>
 
-    </div>
 
 
     <!-- rest of your HTML content here -->
@@ -379,6 +401,27 @@
             eyeIcon.classList.add("fa-eye-slash");
         }
     }
+
+    $(function () {
+                $('form').on('submit', function (e) {
+                    e.preventDefault();
+                    var parameters = new FormData(this);
+                    console.log("Parameters: ", parameters)
+                    submit_with_ajax(window.location.pathname, 'Notificación', '¿Estas seguro de resetear tu contraseña?', parameters, function () {
+                        Swal.fire({
+                            title: 'Notificación',
+                            text: 'Se ha enviado un correo electrónico con los pasos a seguir para que pueda resetear su contraseña',
+                            icon: 'success',
+                            timer: 5000,
+                            onClose: () => {
+                                location.href = '/';
+                            }
+                        }).then((result) => {
+
+                        });
+                    });
+                });
+            });
 </script>
 
 </html>

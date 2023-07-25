@@ -4,12 +4,21 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
-from .forms import CustomUserCreationForm, CustomUserUpdateForm, ProfileForm, UserForm ,PasswordChangeFormCustom
+from .forms import *
 from .models import User, Profile
 from django.views.generic import ListView, CreateView, UpdateView
 from django.http import JsonResponse, HttpResponseRedirect
 from django.urls import reverse_lazy
 from back.mixins import *
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+from django.views.generic import FormView, RedirectView
+import smtplib
+import uuid
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from config import settings
+from django.template.loader import render_to_string
 
 
 # Create your views here.
@@ -364,3 +373,113 @@ def is_ajax(request):
 
 def error_404(request, exception):
     return render(request, 'back/components/404.html', status=404)
+
+class ResetPasswordView(FormView):
+    form_class = ResetPasswordForm
+    template_name = 'back/auth/resetpwd.html'
+    success_url = reverse_lazy('/')
+
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def send_email_reset_pwd(self, user):
+        data = {}
+        try:
+            URL = self.request.META['HTTP_HOST']
+            token = uuid.uuid4()
+            
+            # Obtén el perfil asociado al usuario
+            profile = Profile.objects.get(user=user)
+
+            # Asigna el token al campo 'token' del perfil
+            profile.token = token
+            profile.save()
+            print(profile.token)
+
+            mailServer = smtplib.SMTP(settings.EMAIL_HOST, settings.EMAIL_PORT)
+            mailServer.starttls()
+            mailServer.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
+
+            email_to = user.email
+            mensaje = MIMEMultipart()
+            mensaje['From'] = settings.EMAIL_HOST_USER
+            mensaje['To'] = email_to
+            mensaje['Subject'] = 'Reseteo de contraseña'
+
+            content = render_to_string('back/auth/send_email.html', {
+                'user': user,
+                'profile': profile,
+                'link_resetpwd': 'http://{}/auth/change/password/{}/'.format(URL, str(profile.token)),
+                'link_home': 'http://{}'.format(URL)
+            })
+            mensaje.attach(MIMEText(content, 'html'))
+
+            mailServer.sendmail(settings.EMAIL_HOST_USER,
+                                email_to,
+                                mensaje.as_string())
+        except Exception as e:
+            data['error'] = str(e)
+        return data
+
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            form = ResetPasswordForm(request.POST)  # self.get_form()
+            if form.is_valid():
+                user = form.get_user()
+                data = self.send_email_reset_pwd(user)
+            else:
+                data['error'] = form.errors
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data, safe=False)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Reseteo de Contraseña'
+        return context
+
+
+class ChangePasswordView(FormView):
+    form_class = ChangePasswordForm
+    template_name = 'back/auth/changepwd.html'
+    success_url = reverse_lazy('/')
+
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        token = self.kwargs['token']
+        if Profile.objects.filter(token=token).exists():
+            return super().get(request, *args, **kwargs)
+        return HttpResponseRedirect('/')
+
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            form = ChangePasswordForm(request.POST)
+            if form.is_valid():
+                profile = Profile.objects.get(token=self.kwargs['token'])
+                token = uuid.uuid4()
+                user = User.objects.get(username=profile.user)
+                print(user)
+                user.set_password(request.POST['password'])
+                user.save()
+
+                # Asigna el token al campo 'token' del perfil
+                profile.token = token
+                profile.save()
+                print(profile.token)
+            else:
+                data['error'] = form.errors
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data, safe=False)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Reseteo de Contraseña'
+        context['login_url'] = 'Reseteo de Contraseña'
+        return context
