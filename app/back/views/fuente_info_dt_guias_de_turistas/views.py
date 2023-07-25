@@ -298,8 +298,14 @@ class FuenteInfoDirectorioGuiasDeTuristasDelete (SuperAdminOrAdminMixin, LoginRe
     model = DirectorioGuiasDeTuristas
     success_url = reverse_lazy('dashboard:fuente_info_dt_guias_de_turistas')
 
-    def post(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
-        return super().post(request, *args, **kwargs)
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
+        try:
+            self.object.delete()
+            return JsonResponse({'message': 'Eliminación exitosa.'})
+        except Exception as e:
+            return JsonResponse({'error': 'Error al eliminar el registro.'}, status=500)
 
 
 class DirectorioGuiasDeTuristasCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):

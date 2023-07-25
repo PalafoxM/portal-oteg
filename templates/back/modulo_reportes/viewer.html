@@ -59,9 +59,8 @@
 
                                         <form method="post" action="{% url 'dashboard:reporte_delete' object.id  %}">
                                             {% csrf_token %}
-                                            <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down"
-                                                onclick="return confirm('¿Está seguro que desea eliminar el reporte?')">
-                                                <i class="fas fa-trash"></i>
+                                            <button type="submit" class="ml-1 mr-1 actions-btn delete-r">
+                                                <i class="fas fa-trash"></i> 
                                             </button>
                                         </form>
                                     </div>

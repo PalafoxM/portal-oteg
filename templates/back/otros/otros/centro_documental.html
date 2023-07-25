@@ -18,8 +18,7 @@
 
 <form action="{% url 'delete_seccion' seccion.id %}" method="post">
     {% csrf_token %}
-    <button type="submit" class="btn btn-danger"
-        onclick="return confirm('¿Está seguro de que desea eliminar esta sección?');">Delete</button>
+    <button type="submit" class="btn btn-danger delete-r">Delete</button>
 </form>
 
 <form action="{% url 'edit_seccion' seccion.id %}" method="get">

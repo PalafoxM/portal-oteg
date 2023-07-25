@@ -53,7 +53,7 @@ var aeropuerto = {
                         html += '<i class="fas fa-edit" onclick="location.href=\'airbnb/edit/' + row.id + '/\'"></i>';
                         html += '<form method="post" action="airbnb/delete/' + row.id + '/">';
                         html += '<input type="hidden" name="csrfmiddlewaretoken" value="' + csrftoken + '">';
-                        html += '<button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="return confirm(\'¿Está seguro de que desea eliminar la informacion?\');">';
+                        html += '<button type="submit" class="ml-1 mr-1 actions-btn delete-r" id="delete-r">';
                         html += '<i class="fas fa-trash"></i>';
                         html += '</button>';
                         html += '</form>';

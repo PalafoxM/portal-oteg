@@ -33,23 +33,20 @@
     <th class="text-left tb-text">{{e.destino}}</th>
     <th class="text-left tb-text">{{e.fecha}}</th>
     <th class="text-left tb-text">{{e.tipo_de_certificacion}}</th>
-    <th class="text-left tb-text"">{{e.empresas_certificadas}}</th>
-
-    <td class="text-center" style="
-    position: relative;
-    background-color: #ECF0F1;
-    text-align: center;
-    height: 100%;
-  ">
-
+    <th class="text-left tb-text">{{e.empresas_certificadas}}</th>
+    <th class="text-center" style="position: relative; background-color: #ECF0F1; text-align: center; height: 100%;">
         <div class="icon-container">
-            <i class="fas fa-edit"
-                onclick="location.href='{% url 'dashboard:fuente_info_certificacion_update'  e.id %}'" style="color: #6c6e7e; cursor: pointer;"> </i>
-            <i class="fas fa-trash"
-                onclick="location.href='{% url 'dashboard:fuente_info_certificacion_delete' e.id  %}'" style="color: #6c6e7e; cursor: pointer;"> </i>
-        </div>
+            <i class="fas fa-pencil-alt" onclick="location.href='{% url 'dashboard:fuente_info_certificacion_update' e.id %}'"></i>
 
-    </td>
+                    <form method="post" action="{% url 'dashboard:fuente_info_certificacion_delete' e.id %}" >
+                        {% csrf_token %}
+                        
+                        <button type="submit" class="ml-1 mr-1 actions-btn delete-r">
+                            <i class="fas fa-trash"></i> 
+                        </button>
+                    </form>
+        </div>
+    </th>
 
 
 

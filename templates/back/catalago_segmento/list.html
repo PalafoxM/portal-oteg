@@ -31,9 +31,8 @@
     
             <form method="post" action="{% url 'dashboard:catalago_segmento_delete' e.id %}">
                 {% csrf_token %}
-                <button class="" tooltip="Consultar" flow="down" style="border:none"
-                    onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">
-                    <i class="fas fa-trash"></i>
+                <button type="submit" class="ml-1 mr-1 actions-btn delete-r">
+                    <i class="fas fa-trash"></i> 
                 </button>
             </form>
         </div>
