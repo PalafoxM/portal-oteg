@@ -5,7 +5,6 @@ import os
 from django.core.validators import RegexValidator
 from django.contrib.auth.models import AbstractUser
 from django.forms import model_to_dict
-from crum import get_current_request
 
 # Crear un RegexValidator para validar un campo numérico de 10 dígitos
 validator = RegexValidator(
