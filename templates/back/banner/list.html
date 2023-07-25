@@ -43,8 +43,10 @@
                     <form method="post" action="{% url 'dashboard:banner_delete' banner.id %}" >
                         {% csrf_token %}
                         
-                        <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">
+                        <button type="submit" class="ml-1 mr-1 actions-btn delete-r" id="delete-r">
+
                             <i class="fas fa-trash"></i>
+        
                         </button>
                     </form>
                 </div>

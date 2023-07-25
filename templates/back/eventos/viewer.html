@@ -29,12 +29,15 @@
     <th class="text-left tb-text"><img src="{{e.imagen.url}}" alt="" width="100px"></th>
     <th class="text-center" style="position: relative; background-color: #ECF0F1; text-align: center; height: 100%;">
         <div class="icon-container">
-            <i class="fas fa-edit" onclick="location.href='{% url 'dashboard:evento_update' e.id %}'"></i>
+            <i class="fas fa-pencil-alt" onclick="location.href='{% url 'dashboard:evento_update' e.id %}'"></i>
+
                     <form method="post" action="{% url 'dashboard:evento_delete' e.id %}" >
                         {% csrf_token %}
                         
-                        <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">
+                        <button type="submit" class="ml-1 mr-1 actions-btn delete-r">
+
                             <i class="fas fa-trash"></i>
+                            
                         </button>
                     </form>
         </div>
