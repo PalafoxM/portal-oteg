@@ -90,9 +90,12 @@ class EniotDeleteView(SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
-        success_url = self.get_success_url()
-        self.object.delete()
-        return HttpResponseRedirect(success_url)
+
+        try:
+            self.object.delete()
+            return JsonResponse({'message': 'Eliminación exitosa.'})
+        except Exception as e:
+            return JsonResponse({'error': 'Error al eliminar el registro.'}, status=500)
 
 
 class EniotUpdateView(SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
@@ -203,9 +206,12 @@ class EniotAlbunDeleteView(SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteVie
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
-        success_url = self.get_success_url()
-        self.object.delete()
-        return HttpResponseRedirect(success_url)
+
+        try:
+            self.object.delete()
+            return JsonResponse({'message': 'Eliminación exitosa.'})
+        except Exception as e:
+            return JsonResponse({'error': 'Error al eliminar el registro.'}, status=500)
 
 
 class EniotAlbunUpdateView(SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):

@@ -51,9 +51,12 @@ class SeccionCentroDocumentalDelete(DeleteView):
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
-        success_url = self.get_success_url()
-        self.object.delete()
-        return HttpResponseRedirect(success_url)
+
+        try:
+            self.object.delete()
+            return JsonResponse({'message': 'Eliminación exitosa.'})
+        except Exception as e:
+            return JsonResponse({'error': 'Error al eliminar el registro.'}, status=500)
 
 
 
@@ -256,6 +259,15 @@ class CategoriasDeleteView(SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteVie
     def get_success_url(self):
         seccion_pk = self.kwargs['seccion_pk']
         return reverse_lazy('dashboard:categorias_list', kwargs={'pk': seccion_pk})
+    
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
+        try:
+            self.object.delete()
+            return JsonResponse({'message': 'Eliminación exitosa.'})
+        except Exception as e:
+            return JsonResponse({'error': 'Error al eliminar el registro.'}, status=500)
 
 
 class CategoriasUpdateView(SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
