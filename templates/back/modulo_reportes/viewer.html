@@ -6,6 +6,11 @@
 <link rel="stylesheet" href="{% static 'librerias/datatables-1.10.25/css/dataTables.bootstrap4.min.css' %}" />
 <link rel="stylesheet"
     href="{% static 'librerias/datatables-1.10.25/plugins/responsive-2.2.9/css/responsive.bootstrap4.min.css' %}" />
+    <script src="{% static 'librerias/sweetalert2-11.7.1/sweetalert2.all.min.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+    <script src="{% static 'admin/js/functions.js' %}"></script>
 
 <!-- head_list -->
 {% block head_list %}
@@ -125,6 +130,33 @@
 <script type="application/javascript">
     $(document).ready(function () {
         $('#dataTable').DataTable();
+    });
+    $(document).on('click', '.delete-r', function(event) {
+        event.preventDefault(); // Prevenir la acción predeterminada del botón
+
+        var form = $(this).closest('form'); // El formulario en el que se hizo clic
+        var url = form.attr('action');
+        var title = 'Confirmar eliminación';
+        var content = '¿Está seguro de que desea eliminar la información?';
+        var parameters = new FormData(form[0]);
+        console.log(parameters);
+
+        submit_with_ajaxV2(url, title, content, parameters, function(data) {
+            console.log('Función de devolución de llamada después de eliminar correctamente:', data);
+            // Coloca aquí tu lógica de devolución de llamada en caso de éxito
+            // Por ejemplo, puedes recargar la lista de elementos después de eliminar uno.
+            Swal.fire({
+                title: 'Notificación',
+                text: 'Se eliminó el registro de forma correcta',
+                icon: 'success',
+                timer: 5000,
+                onClose: () => {
+                    window.location.reload();
+                }
+            }).then((result) => {
+                            window.location.reload();
+                        });;
+        });
     });
 </script>
 

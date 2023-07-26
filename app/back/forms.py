@@ -172,6 +172,11 @@ class CategoriasForm(forms.ModelForm):
             'nombre_categoria': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-search'}),
             'fecha_creacion': forms.DateInput(attrs={'class': 'form-control fecha-input', 'icon_class': 'fas fa-calendar'}),
         }
+        labels = {
+            'nombre_categoria': 'Nombre de la categoría',
+            'fecha_creacion': 'Fecha de creación',
+            'seccion': 'Sección',
+        }
 
     def __init__(self, *args, **kwargs):
         pk = kwargs.pop('pk', None)
@@ -202,6 +207,15 @@ class NoticiaForm(ModelForm):
             'fecha_recuperacion': forms.DateInput(attrs={'class': ' custom-input fecha-input', 'icon_class': 'fas fa-calendar'}),
             'imagen': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
 
+        }
+        labels = {
+            'titulo': 'Título',
+            'sitio_web': 'Sitio Web',
+            'fecha_nota': 'Fecha de Nota',
+            'autor_foto': 'Autor de la Foto',
+            'autor_nota': 'Autor de la Nota',
+            'fecha_recuperacion': 'Fecha de Recuperación',
+            'imagen': 'Imagen',
         }
     
     def clean_imagen(self):
@@ -2129,7 +2143,9 @@ class ReportsForm(forms.ModelForm):
         exclude = ['dimension']
 
         labels = {
-            'nomenclatura': 'Título Corto',}
+            'nomenclatura': 'Título Corto',
+            'titulo': 'Título',
+            'descripcion': 'Descripción',}
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -2170,7 +2186,7 @@ class EniotForm(forms.ModelForm):
 
     class Meta:
         model = Eniot
-        fields = ['nombrePDF', 'doc_url', 'seccion', 'anio']
+        fields = ['nombrePDF', 'seccion', 'anio', 'doc_url',]
         labels = {
             'nombrePDF': 'Nombre del PDF',
             'doc_url': 'Documento',
