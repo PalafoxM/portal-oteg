@@ -26,7 +26,7 @@ class EniotListView(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = ''
+        context['title'] = 'Listado de Eniot'
         context['create_url'] =  reverse_lazy('dashboard:eniot_create')
         context['d_route'] = 'Eniot'
         return context
