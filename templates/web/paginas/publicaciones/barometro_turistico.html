@@ -23,6 +23,8 @@
     <link rel="stylesheet" href="{% static 'normalize/normal.css' %}">
     <script type="text/javascript"src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <link rel="stylesheet" href="{% static 'web/css/nabar-portal.css' %}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 
 </head>
 
@@ -782,6 +784,16 @@
             /* Fully visible */
         }
     }
+
+    html,
+    body {
+        background-color: #F2F2F2;
+        overflow-x: hidden !important;
+    }
+
+    body {
+        max-width: 100%;
+    }
 </style>
 
 <body>
@@ -903,11 +915,8 @@
                 "></div>
 
         </div>
-
-
+        
         <script src=" https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-      
       <script>
             $(document).ready(function () {
                 $.ajax({

@@ -640,6 +640,10 @@
             flex-wrap: wrap;
 
         }
+
+        .scroll-button{
+            display: none !important;
+        }
     }
 
     /* Tablets and larger mobile devices */
@@ -663,7 +667,6 @@
     /* Desktop devices */
     @media only screen and (min-width: 1024px) {
         /* CSS styles for desktop devices */
-
         .scrolling-wrapper {
             display: flex !important;
         }
@@ -673,7 +676,17 @@
             display: none !important;
 
         }
+    }
 
+
+    html,
+    body {
+        background-color: #F2F2F2;
+        overflow-x: hidden !important;
+    }
+
+    body {
+        max-width: 100%;
     }
 </style>
 

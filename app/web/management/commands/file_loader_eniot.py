@@ -1,12 +1,13 @@
 import os
 from web.models import BarometroTuristico
+from back.models import Eniot
 from django.conf import settings
 from django.core.management.base import BaseCommand
 import pandas as pd
 
-source_folder = "C:/Users/rogel/OneDrive/Escritorio/CEDOC/Barometro"  # Replace with the actual path to your source folder
+source_folder = "C:/Users/rogel/OneDrive/Escritorio/CEDOC/Eniot"  # Replace with the actual path to your source folder
 destination_folder = "barometro-turistico"  # Destination folder in S3 (if applicable)
-excel_file_path = "C:/Users/rogel/OneDrive/Escritorio/CEDOC/barometro_keys.xlsx"  # Replace with the actual path to your Excel file
+excel_file_path = "C:/Users/rogel/OneDrive/Escritorio/CEDOC/eniot_keys.xlsx"  # Replace with the actual path to your Excel file
 
 def get_year_by_file_name(df, file_name):
 
@@ -18,9 +19,8 @@ def get_year_by_file_name(df, file_name):
         return None  # Return None if no match is found
     else:
         # Retrieve the year value from the filtered DataFrame
-        year = filtered_df['AÑO'].iloc[0]
+        year = filtered_df['Subsección'].iloc[0]
         return year
-    
     
 def get_name_by_file_name(df, file_name):
     
@@ -35,7 +35,6 @@ def get_name_by_file_name(df, file_name):
             name = filtered_df['Título del documento'].iloc[0]
             return name 
     
-
 def load_files_to_model():
 
     df = pd.read_excel(excel_file_path)
@@ -47,16 +46,19 @@ def load_files_to_model():
         
         try:
             # Create a BarometroTuristico instance and set its attributes
-            barometro = BarometroTuristico()
-            barometro.nombrePDF = str(get_name_by_file_name(df,file_name)) + " " + str(get_year_by_file_name(df,file_name))
-            barometro.yearPDF =  get_year_by_file_name(df,file_name)
+            eniot = Eniot()
+            eniot.nombrePDF = str(get_name_by_file_name(df,file_name)) + " " + str(get_year_by_file_name(df,file_name))
+            eniot.anio =  get_year_by_file_name(df,file_name)
+            eniot.seccion = "ponencia-eventos"
+
             
             with open(source_path, "rb") as f:
-                barometro.doc.save(file_name, f)
+                eniot.doc_url.save(file_name, f)
 
-            barometro.save()
+            eniot.save()
             
             print(f"Loaded '{file_name}' into the model.")
+
         except Exception as e:
             print(f"Error loading '{file_name}': {e}")
 

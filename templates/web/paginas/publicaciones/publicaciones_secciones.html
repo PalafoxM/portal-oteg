@@ -636,12 +636,23 @@
         margin-top: 20px;
         margin-bottom: 20px;
     }
+
+    html,
+    body {
+        background-color: #F2F2F2;
+        overflow-x: hidden !important;
+    }
+
+    body {
+        max-width: 100%;
+    }
 </style>
 
 
 <body>
 
 
+    {% include 'web/components/social_media_stiky/social_media_stiky.html' %}
 
     <div class="myslide carousel slide" id="carousel-example-generic" data-ride="carousel">
         <nav class="navbar navbar-default force-hamburger">
@@ -958,10 +969,7 @@
 
     {% include 'web/components/footer/footer_new.html' %}
 
-    <script src=" https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
+    <script src=" https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
     <!-- <script>
         $(document).ready(function () {

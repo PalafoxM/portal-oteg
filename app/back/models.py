@@ -73,8 +73,7 @@ class SeccionesCentroDocumental(models.Model):
 class Categorias(models.Model):
     nombre_categoria = models.CharField(max_length=100, null=True, blank=True)
     fecha_creacion = models.DateField()
-    seccion = models.ForeignKey(
-        SeccionesCentroDocumental, on_delete=models.CASCADE, null=True, blank=True)
+    seccion = models.ForeignKey(SeccionesCentroDocumental, on_delete=models.CASCADE, null=True, blank=True)
 
 
 class Publications(models.Model):
