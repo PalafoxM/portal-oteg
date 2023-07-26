@@ -26,7 +26,7 @@ class EniotListView(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = ''
+        context['title'] = 'Listado de Eniot'
         context['create_url'] =  reverse_lazy('dashboard:eniot_create')
         context['d_route'] = 'Eniot'
         return context
@@ -130,6 +130,7 @@ class EniotUpdateView(SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['title'] = 'Actualizar Registro Eniot'
         context['form'] = self.form_class(instance=self.object)
         context['list_url'] = reverse_lazy('dashboard:eniot_list')
         context['d_route'] = 'Eniot'
@@ -246,6 +247,7 @@ class EniotAlbunUpdateView(SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateVie
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['title'] = 'Actualizar Registro EniotAlbun'
         context['form'] = self.form_class(instance=self.object)
         context['list_url'] = reverse_lazy('dashboard:eniot_fotos_list')
         context['d_route'] = 'Eniot > Álbum'
