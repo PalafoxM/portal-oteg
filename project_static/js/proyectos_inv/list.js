@@ -53,7 +53,7 @@ var datatur = {
                         html += '<i class="fas fa-edit" onclick="location.href=\'edit/' + row.id_del_proyecto + '/\'"></i>';
                         html += '<form method="post" action="delete/' + row.id_del_proyecto + '/">';
                         html += '<input type="hidden" name="csrfmiddlewaretoken" value="' + csrftoken + '">';
-                        html += '<button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="return confirm(\'¿Está seguro de que desea eliminar la informacion?\');">';
+                        html += '<button type="submit" class="ml-1 mr-1 actions-btn delete-r" id="delete-r">';
                         html += '<i class="fas fa-trash"></i>';
                         html += '</button>';
                         html += '</form>';
