@@ -21,8 +21,6 @@
     <link rel="stylesheet" href="{% static 'normalize/normal.css' %}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-
-
 </head>
 
 <style>
@@ -707,7 +705,10 @@
 
 </style>
 
-<body>
+<body  style="
+    overflow-x: hidden;
+    height: calc(100vh);
+" >
 
 
     {% include 'web/components/social_media_stiky/social_media_stiky.html' %}
@@ -736,7 +737,7 @@
                
 
                         ">
-                        <a class="navbar-brand" href="#">
+                        <a class="navbar-brand" href="{% url 'inicio' %}">
                             <img src="{% static 'img/inicio/logo.svg' %}" alt="" class="img-responsive"
                                 style="height: 60px;  margin-top: -16px;">
                         </a>
@@ -1004,8 +1005,19 @@
             {% else %}
             {% endif %}
             <button
-                style="width: 100%; background-color: #ED4C02; color: #fff; border: none; padding: 10px 20px; border-radius: 5px; margin-top: 20px; margin-bottom: 20px; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 18px;"
-                data-toggle="collapse" data-target="#demo">Descripcion</button>
+                style="width: 100%; background-color: #ED4C02; color: #fff; border: none; padding: 10px 20px; border-radius: 5px; margin-top: 20px; margin-bottom: 20px; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 18px; position: relative;" 
+                data-toggle="collapse" data-target="#demo">Descripción   <i
+                style="
+                    position: absolute;
+                    right: 20px;
+                    font-size: 20px;
+                    color: #fff;
+
+
+                "
+
+                class="fas fa-chevron-down"></i> </button>
+
             <div id="demo" class="collapse">
                 <div class="accordion-body">
                     {{report.descripcion |safe}}
@@ -1158,9 +1170,9 @@
             }
         </script>
 
-        {% include 'web/components/footer/footer_new.html' %}
+       
 </body>
 
-
+{% include 'web/components/footer/footer_new.html' %}
 
 </html>
