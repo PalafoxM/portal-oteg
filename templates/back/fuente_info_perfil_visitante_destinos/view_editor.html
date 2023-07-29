@@ -296,11 +296,18 @@ $(document).ready(function () {
 
     $('#baker').on('click', function (e) {
         e.preventDefault();
-        if (confirm('¿Está seguro de cancelar la operación?...los datos no guardados se perderán')) {
-            window.location.href = '{{ list_url }}';
-        } else {
-            return false;
-        }
+        Swal.fire({
+            title: '¿Está seguro de cancelar la operación?',
+            text: 'Los datos no guardados se perderán.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, cancelar',
+            cancelButtonText: 'No, seguir aquí',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '{{ list_url }}';
+            }
+        });
     });
 
 </script>

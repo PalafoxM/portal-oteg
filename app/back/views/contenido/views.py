@@ -314,7 +314,7 @@ class EventoListView(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
 class EventoCreateView(SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
     model = Evento
     form_class = EventoForm
-    template_name = 'back/components/create_update.html'
+    template_name = 'back/components/create_update_CKE.html'
     success_url = reverse_lazy('dashboard:eventos_list')
 
     def post(self, request, *args, **kwargs):
@@ -384,7 +384,7 @@ def is_ajax(request):
 class EventoUpdateView(SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
     model = Evento
     form_class = EventoForm
-    template_name = 'back/components/create_update.html'
+    template_name = 'back/components/create_update_CKE.html'
     success_url = reverse_lazy('dashboard:eventos_list')
 
     def form_invalid(self, form):

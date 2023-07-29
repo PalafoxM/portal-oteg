@@ -54,7 +54,21 @@
     }
 }
 
+.label-style {
+        margin-left: 5px;
+    }
 
+    label span {
+        margin-left: 5px;
+    }
+
+    .legend {
+        font-family: avenir;
+        font-size: 14px;
+        font-weight: bold;
+        color: red;
+        margin-bottom: 10px;
+    }
 
 </style>
 
@@ -62,7 +76,7 @@
 
 {% endblock %}
 {% block content %}
-
+<p class="legend">* Campos obligatorios</p>
 <form method="post" enctype="multipart/form-data">
 
     <div class=" shadow mb-4" style="
@@ -81,17 +95,18 @@
             <!-- Modify the form rendering loop to add icons to each field -->
             {% for field in form %}
 
-            <div style="
-                    width: 100%;
-      
-                ">
+            <div style="width: 100%;">
                 <label style="
                 font-family: avenir;
                 font-weight: bold;
                 font-size: 15px;
                 margin: 0;
-                padding: 0;
-            " for="{{ field.id_for_label }}">{{ field.label }}</label>
+                padding: 0;" for="{{ field.id_for_label }}">
+                {{ field.label }}
+                    {% if field.field.required %}
+                        <span style="color: red;"> *</span>
+                    {% endif %}
+            </label>
 
             </div>
 
@@ -297,11 +312,18 @@
 
     $('#baker').on('click', function (e) {
         e.preventDefault();
-        if (confirm('¿Está seguro de cancelar la operación?...los datos no guardados se perderán')) {
-            window.location.href = '{{ list_url }}';
-        } else {
-            return false;
-        }
+        Swal.fire({
+            title: '¿Está seguro de cancelar la operación?',
+            text: 'Los datos no guardados se perderán.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, cancelar',
+            cancelButtonText: 'No, seguir aquí',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '{{ list_url }}';
+            }
+        });
     });
 </script>
 {% endblock %}

@@ -167,7 +167,7 @@ class CustomUserCreationForm(UserCreationForm):
     fecha_cumple = forms.DateField(required=False, widget=DateInput(
         attrs={'class': 'form-control fecha-input', 'icon_class': 'fas fa-table', 'placeholder': 'Fecha de cumpleaños', 'class': 'form-control'}), label='Fecha de Cumpleaños')
     direccion = forms.CharField(max_length=100, label='Dirección', widget=forms.TextInput(
-        attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Dirección', 'class': 'form-control'}))
+        attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Dirección', 'class': 'form-control', 'required': True, }))
     tel = forms.CharField(max_length=100, required=False, label='Teléfono',
                           widget=forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Teléfono', 'class': 'form-control'}))
     email = forms.EmailField(max_length=100, label='Correo Electrónico', widget=forms.EmailInput(
@@ -335,9 +335,11 @@ class CustomUserUpdateForm(UserChangeForm):
         queryset=Group.objects.all(), label='Rol / Permisos',
         widget=forms.Select(attrs={'class': 'form-control'}))
     new_password = forms.CharField(max_length=100, required=False, widget=forms.PasswordInput(
-        attrs={'class': 'form-control', 'placeholder': 'Nueva contraseña', 'icon_class': 'fas fa-key'}), label='Nueva Contraseña')
+        attrs={'class': 'form-control', 'placeholder': 'Nueva contraseña', 'icon_class': 'fas fa-key'}), label='Nueva Contraseña',
+        help_text='Mínimo 8 caracteres, al menos una letra mayúscula, una letra minúscula, un número y un carácter especial')
     confirm_password = forms.CharField(max_length=100, required=False, widget=forms.PasswordInput(
-        attrs={'class': 'form-control', 'placeholder': 'Confirmar contraseña', 'icon_class': 'fas fa-key'}), label='Confirmar Contraseña')
+        attrs={'class': 'form-control', 'placeholder': 'Confirmar contraseña', 'icon_class': 'fas fa-key'}), label='Confirmar Contraseña',
+        help_text='Mínimo 8 caracteres, al menos una letra mayúscula, una letra minúscula, un número y un carácter especial')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

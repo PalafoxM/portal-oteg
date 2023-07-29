@@ -144,7 +144,7 @@ class SeccionCentroDocumentalCreate(CreateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Crear una Seccion'
+        context['title'] = 'Crear una Sección'
         context['entity'] = 'Secciones Centro Documental'
         context['list_url'] = reverse_lazy('dashboard:centrodocumental')
         context['action'] = 'add'
@@ -244,7 +244,7 @@ class CategoriasCreateView(SuperAdminOrAdminMixin, LoginRequiredMixin, CreateVie
     def get_context_data(self, **kwargs):
         
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Crear una Seccion'
+        context['title'] = 'Crear una Sección'
         context['entity'] = 'Categoria'
         context['list_url'] = reverse_lazy('dashboard:categorias_list', kwargs={'pk': self.kwargs['pk']})
         context['d_route'] = 'Centro Documental > Categorias > Crear Categoria'

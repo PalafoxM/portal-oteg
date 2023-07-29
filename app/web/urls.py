@@ -49,7 +49,7 @@ urlpatterns = [
     path('publicaciones_new/',PublicacionesNewView.as_view(), name='publicaciones_new'),
     path('publicaciones/perfil_visistante_ciudad/<int:pk>/',PerfilVisitanteCiudad.as_view(), name='perfil_visistante_ciudad'),
     
-    path('puplicaciones/seccion/<int:pk>/',PublicacionesSecciones.as_view(), name='publicaciones_secciones'),
+    path('publicaciones/seccion/<int:pk>/',PublicacionesSecciones.as_view(), name='publicaciones_secciones'),
     
     path('publicaciones_pdf_viewer/<int:pk>/',PublicacionesPDFViewer.as_view(), name='publicaciones_pdf_viewer'),
     path('pdf/<int:pk>/', PDFDownloadView.as_view(), name='pdf_download'),
