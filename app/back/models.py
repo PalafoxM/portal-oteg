@@ -96,7 +96,7 @@ class Publications(models.Model):
 
 class Evento (models.Model):
     titulo = models.CharField(max_length=100)
-    descripcion = models.TextField()
+    descripcion = RichTextField()
     fecha_inicio = models.DateField()
     fecha_fin = models.DateField()
     tipo_evento = models.TextField()
