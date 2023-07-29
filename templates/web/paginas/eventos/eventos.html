@@ -76,8 +76,65 @@
     .custom-popup-class .swal2-popup .swal2-content {
         font-size: 18px; /* Ajusta el tamaño de fuente del contenido según tus preferencias */
     }
+/* Estilos para el modal */
+#modal-container {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 9999;
+  }
 
+  #modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    max-width: 90%;
+    max-height: 90%;
+    overflow-y: auto;
+  }
 
+  #modal-image {
+    width: 100%;
+  height: 200px; /* Ajusta el alto de la imagen como desees */
+  object-fit: cover; /* Para mostrar la imagen como portada */
+  border-radius: 5px;
+  }
+
+  /* Estilos para el botón de cerrar */
+  #modal-close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    }
+/* Estilos para hacer el modal responsive */
+@media screen and (max-width: 768px) {
+  #modal-content {
+    max-width: 100%;
+  }
+}
+/* Estilos personalizados para aumentar el ancho de la alerta */
+.custom-popup-class .swal2-popup {
+        width: 80%;
+        max-width: 800px; /* Puedes ajustar este valor según tus necesidades */
+        font-size: 16px; /* Ajusta el tamaño de fuente según tus preferencias */
+    }
+
+    /* Estilos para aumentar el tamaño de fuente de la descripción */
+    .custom-popup-class .modal-description {
+        font-size: 18px; /* Ajusta el tamaño de fuente del contenido según tus preferencias */
+        line-height: 1.6; /* Ajusta el espaciado entre líneas según tus preferencias */
+    }
 </style>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.js"></script>
@@ -153,30 +210,29 @@
                         var tipoEvento = info.event.extendedProps.tipo_evento;
                         var imagen = info.event.extendedProps.imagen;
 
-                        // Crear el contenido HTML de la card
-                        var cardContent = `
-                            <div style="display: flex; flex-direction: column; align-items: center;">
-                                <h3>${title}</h3>
-                                <div style="max-width: 600px; overflow: hidden;">
-                                    ${imagen ? `<img src="${imagen}" alt="Evento" style="width: 100%; height: auto;">` : ''}
-                                </div>
-                                <div>${descripcion}</div>
-                                <p>Fecha de inicio: ${start.toLocaleDateString()}</p>
-                                <p>Fecha de fin: ${end.toLocaleDateString()}</p>
-                                <p>Tipo de evento: ${tipoEvento}</p>
-                            </div>
-                        `;
+                        // Mostrar el modal
+                        var modalContainer = document.getElementById('modal-container');
+                        var modalTitle = document.getElementById('modal-title');
+                        var modalImage = document.getElementById('modal-image');
+                        var modalDescription = document.getElementById('modal-description');
+                        var modalStartDate = document.getElementById('modal-start-date');
+                        var modalEndDate = document.getElementById('modal-end-date');
+                        var modalEventType = document.getElementById('modal-event-type');
 
-                        // Mostrar alerta personalizada usando SweetAlert2
-                        Swal.fire({
-                            title: 'Detalles del evento',
-                            html: cardContent,
-                            showCloseButton: true,
-                            showConfirmButton: false,
-                            customClass: {
-                                popup: 'custom-popup-class', // Puedes agregar estilos personalizados a la alerta aquí
-                            },
-                        });
+                        modalTitle.textContent = title;
+                        modalImage.src = imagen || ''; // Si no hay imagen, dejar src vacío
+
+                        // Limpiamos el contenido anterior y creamos un nuevo elemento
+                        modalDescription.innerHTML = '';
+                        var descripcionElement = document.createElement('div');
+                        descripcionElement.innerHTML = descripcion; // Utilizamos la función para mostrar solo el texto sin etiquetas HTML
+                        modalDescription.appendChild(descripcionElement);
+
+                        modalStartDate.textContent = 'Fecha de inicio: ' + start.toLocaleDateString();
+                        modalEndDate.textContent = 'Fecha de fin: ' + end.toLocaleDateString();
+                        modalEventType.textContent = 'Tipo de evento: ' + tipoEvento;
+
+                        modalContainer.style.display = 'block';
                     },
                     viewDidMount: function(info) {
                         updateCalendarHeader();
@@ -219,8 +275,14 @@
                 // console.log('Error:', error);
             });
     });
+    // Agregar evento de clic en el botón de cerrar del modal
+    var modalContainer = document.getElementById('modal-container');
+    var modalCloseBtn = document.getElementById('modal-close-btn');
+    
+    modalCloseBtn.addEventListener('click', function() {
+      modalContainer.style.display = 'none';
+    });
 });
-
 
 </script>
 {% endblock %}
@@ -234,5 +296,19 @@
 
     </div>
 </div>
-
+<div id="modal-container">
+    <div id="modal-content">
+      <!-- Agrega el botón de cerrar con el icono de "x" -->
+      <span id="modal-close-btn">&times;</span>
+      <!-- Resto del contenido del modal -->
+      <h3 id="modal-title"></h3>
+      <div id="modal-image-container">
+        <img id="modal-image" alt="Evento">
+      </div>
+      <div id="modal-description"></div>
+      <p id="modal-start-date"></p>
+      <p id="modal-end-date"></p>
+      <p id="modal-event-type"></p>
+    </div>
+  </div>
 {% endblock %}
