@@ -2,8 +2,16 @@
 {% load static %}
 {% load widget_tweaks %}
 {% block head_view %}
+<!-- Sweetalert2 -->
+<script src="{% static 'librerias/sweetalert2-11.7.1/sweetalert2.all.min.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+
+
+<script src="{% static 'admin/js/functions.js' %}"></script>
 <style>
-   .card-s {
+  .card-s {
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -33,7 +41,8 @@
     padding: 20px;
     border-top: 1px solid #eee;
     display: flex;
-    justify-content: center; /* Cambiamos a "center" para centrar el contenido horizontalmente */
+    justify-content: center;
+    /* Cambiamos a "center" para centrar el contenido horizontalmente */
     align-items: center;
   }
 
@@ -92,67 +101,75 @@
   .btn-primary-no-icon:hover {
     background-color: #F97B26;
   }
+
   .contact-message {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 18px;
-  color: #333;
-  padding: 10px;
-  background-color: #F2F2F2;
-  border-radius: 5px;
-  margin-bottom: 20px;
-}
-.input-text{
-  background-color: #FFFFFF !important;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    color: #333;
+    padding: 10px;
+    background-color: #F2F2F2;
+    border-radius: 5px;
+    margin-bottom: 20px;
+  }
+
+  .input-text {
+    background-color: #FFFFFF !important;
     border: 1px solid #D2DAE2 !important;
     border-radius: 10px !important;
     /* width: 225px; */
     height: 46px !important;
-}
-.text-area-f{
-  background-color: #FFFFFF !important;
-  border: 1px solid #D2DAE2 !important;
-  border-radius: 10px !important;
-  /* width: 470px; */
-  height: 300px !important;
-}
-.card-lisa{
-  background-color: #FFFFFF;
-  border: 1px solid #F97B26;
-  border-radius: 15px;
-  /* width: 550px; */
-  height: auto;
-  padding: 60px;
-}
-.contactanos {
-  color: #333333;
-  font-family: Montserrat;
-  font-size: 24px;
-  line-height: 34px;
-  /* width: 450px; */
-  font-weight: bold;
-  text-align: center;
-}
-.si-requires-informac {
-  color: #576D99;
-  font-family: Poppins;
-  font-size: 13px;
-  letter-spacing: 0.26px;
-  line-height: 22px;
-  text-align: center;
-}
-.mtb-5{
-  margin-top: 10px;
-  margin-bottom: 50px;
-}
-.mt-5{
-  margin-top: 60px
-}
-.mb-2{
-  margin-bottom: 30px;
-}
+  }
 
+  .text-area-f {
+    background-color: #FFFFFF !important;
+    border: 1px solid #D2DAE2 !important;
+    border-radius: 10px !important;
+    /* width: 470px; */
+    height: 300px !important;
+  }
+
+  .card-lisa {
+    background-color: #FFFFFF;
+    border: 1px solid #F97B26;
+    border-radius: 15px;
+    /* width: 550px; */
+    height: auto;
+    padding: 60px;
+  }
+
+  .contactanos {
+    color: #333333;
+    font-family: Montserrat;
+    font-size: 24px;
+    line-height: 34px;
+    /* width: 450px; */
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .si-requires-informac {
+    color: #576D99;
+    font-family: Poppins;
+    font-size: 13px;
+    letter-spacing: 0.26px;
+    line-height: 22px;
+    text-align: center;
+  }
+
+  .mtb-5 {
+    margin-top: 10px;
+    margin-bottom: 50px;
+  }
+
+  .mt-5 {
+    margin-top: 60px
+  }
+
+  .mb-2 {
+    margin-bottom: 30px;
+  }
 </style>
-  {% endblock %}
+{% endblock %}
 
 
 <!-- contenido -->
@@ -169,38 +186,41 @@
       {% csrf_token %}
       <input type="hidden" name="action">
       {% if form.errors %}
-        <div class="alert alert-danger alert-dismissible">
-          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-          <h5><i class="icon fas fa-ban"></i> Ha ocurrido un error al querer guardar el registro</h5>
-          <ul>
-            {% for field in form.visible_fields %}
-              {% for error in field.errors %}
-                <li>{{ field.label }}: {{ error }}</li>
-              {% endfor %}
-            {% endfor %}
-          </ul>
-        </div>
+      <div class="alert alert-danger alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <h5><i class="icon fas fa-ban"></i> Ha ocurrido un error al querer guardar el registro</h5>
+        <ul>
+          {% for field in form.visible_fields %}
+          {% for error in field.errors %}
+          <li>{{ field.label }}: {{ error }}</li>
+          {% endfor %}
+          {% endfor %}
+        </ul>
+      </div>
       {% endif %}
 
       <div class="form-row">
         <div class="form-group col-md-6">
-          <label for="{{ form.email.id_for_label }}">{{ form.email.label }}{% if form.email.field.required %}<span class="text-danger">*</span>{% endif %}</label>
+          <label for="{{ form.email.id_for_label }}">{{ form.email.label }}{% if form.email.field.required %}<span
+              class="text-danger">*</span>{% endif %}</label>
           {{ form.email|add_class:'input-text' }}
         </div>
         <div class="form-group col-md-6">
-          <label for="id_country">País{% if form.country.field.required %}<span class="text-danger">*</span>{% endif %}</label>
-          <select class="form-control input-text" id="id_country" name="{{ form.country.html_name }}">
+          <label for="id_country">País{% if form.country.field.required %}<span class="text-danger">*</span>{% endif%}</label>
+          <select class="form-control input-text" id="id_country" name="{{ form.country.html_name }}" required>
             {% for value, label in form.country.field.choices %}
-              <option value="{{ value }}" {% if form.country.value == value %}selected{% endif %}>{{ label }}</option>
+            <option value="{{ value }}" {% if form.country.value == value %}selected="selected"{% endif %}>{{ label }}</option>
             {% endfor %}
           </select>
         </div>
         <div class="form-group col-md-12">
-          <label for="{{ form.subject.id_for_label }}">{{ form.subject.label }}{% if form.subject.field.required %}<span class="text-danger">*</span>{% endif %}</label>
+          <label for="{{ form.subject.id_for_label }}">{{ form.subject.label }}{% if form.subject.field.required %}<span
+              class="text-danger">*</span>{% endif %}</label>
           {{ form.subject|add_class:'input-text' }}
         </div>
         <div class="form-group col-md-12">
-          <label for="{{ form.message.id_for_label }}">{{ form.message.label }}{% if form.message.field.required %}<span class="text-danger">*</span>{% endif %}</label>
+          <label for="{{ form.message.id_for_label }}">{{ form.message.label }}{% if form.message.field.required %}<span
+              class="text-danger">*</span>{% endif %}</label>
           {{ form.message|add_class:'text-area-f' }}
         </div>
       </div>
@@ -215,4 +235,27 @@
 
 
 {% endblock %}
-
+{% block javascript %}
+<script>
+  $(function () {
+    $('form').on('submit', function (e) {
+      e.preventDefault();
+      var parameters = new FormData(this);
+      console.log("Parameters: ", parameters)
+      submit_with_ajaxV2(window.location.pathname, 'Notificación', '¿Estás seguro de enviar la solicitud?', parameters, function () {
+        Swal.fire({
+          title: 'Notificación',
+          text: 'Hemos recibido tu solicitud y se ha enviado un correo electrónico con la información que buscas.',
+          icon: 'success',
+          timer: 10000,
+          onClose: () => {
+            
+          }
+        }).then((result) => {
+          location.href = '/solicitudes/';
+        });
+      });
+    });
+  });
+</script>
+{% endblock %}

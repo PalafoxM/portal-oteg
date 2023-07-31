@@ -4,6 +4,7 @@
 <head>
     {% load static %}
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>OTEG | Reportes</title>
     <link rel="icon" href="{% static 'images/fuentes_informacion/OTEG_Fav_Icon.svg' %}" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
@@ -19,8 +20,6 @@
     <link rel="stylesheet" href="{% static 'web/css/nabar-portal.css' %}">
     <link rel="stylesheet" href="{% static 'normalize/normal.css' %}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        
-
 
 </head>
 
@@ -646,6 +645,7 @@
         margin-right: 20px;
         margin-right: 20px;
     }
+
     .card:active {
         cursor: grabbing;
     }
@@ -676,18 +676,42 @@
         transform: scale(1.1);
         cursor: pointer;
     }
+
+    html,
+    body {
+        background-color: #F2F2F2;
+        overflow-x: hidden !important;
+    }
+
+    body {
+        max-width: 100%;
+    }
+
+
+    /* For devices with a maximum width of 767px (e.g., smartphones) */
+    @media only screen and (max-width: 767px) {
+        /* Your mobile-specific CSS styles go here */
+    }
+
+    /* For devices with a minimum width of 768px and a maximum width of 1023px */
+    @media only screen and (min-width: 768px) and (max-width: 1023px) {
+        /* Your tablet-specific CSS styles go here */
+    }
+
+    /* For devices with a minimum width of 1024px and above */
+    @media only screen and (min-width: 1024px) {
+        /* Your desktop-specific CSS styles go here */
+    }
+
 </style>
 
-<body>
+<body  style="
+    overflow-x: hidden;
+    height: calc(100vh);
+" >
 
 
     {% include 'web/components/social_media_stiky/social_media_stiky.html' %}
-
-
-
-
-
-
 
     <div class="myslide carousel slide" id="carousel-example-generic" data-ride="carousel">
 
@@ -713,7 +737,7 @@
                
 
                         ">
-                        <a class="navbar-brand" href="#">
+                        <a class="navbar-brand" href="{% url 'inicio' %}">
                             <img src="{% static 'img/inicio/logo.svg' %}" alt="" class="img-responsive"
                                 style="height: 60px;  margin-top: -16px;">
                         </a>
@@ -798,28 +822,24 @@
         <div class="container" style="margin-top: 5rem;">
 
             {% if report.nomenclatura == 'Tablero de Control' %}
-            <div class='container'
-             style="
+            <div class='container' style="
              margin-bottom: 20px;
-             " 
-            >
+             ">
 
-                    <p 
-                    style="
+                <p style="
                             font-size: 18px;
-                            font-family: 'Montserrat', sans-serif;"
-
-                    align="justify">Herramienta del OTEG que comunica mediante semáforos, el comportamiento de los
-                        indicadores turísticos monitoreados.
-                        Los resultados de cada indicador aportan un puntaje ponderado a cada dimensión sobre una base de
-                        100 puntos.
-                        Se dividen en las siguientes <span style="
+                            font-family: 'Montserrat', sans-serif;" align="justify">Herramienta del OTEG que comunica
+                    mediante semáforos, el comportamiento de los
+                    indicadores turísticos monitoreados.
+                    Los resultados de cada indicador aportan un puntaje ponderado a cada dimensión sobre una base de
+                    100 puntos.
+                    Se dividen en las siguientes <span style="
                  font-size: 18px;
                             font-family: 'Montserrat', sans-serif;
                             font-weight: 600    ;
 
                          ">cuatro dimensiones: </span>
-                    </p>
+                </p>
 
 
 
@@ -985,8 +1005,19 @@
             {% else %}
             {% endif %}
             <button
-                style="width: 100%; background-color: #ED4C02; color: #fff; border: none; padding: 10px 20px; border-radius: 5px; margin-top: 20px; margin-bottom: 20px; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 18px;"
-                data-toggle="collapse" data-target="#demo">Descripcion</button>
+                style="width: 100%; background-color: #ED4C02; color: #fff; border: none; padding: 10px 20px; border-radius: 5px; margin-top: 20px; margin-bottom: 20px; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 18px; position: relative;" 
+                data-toggle="collapse" data-target="#demo">Descripción   <i
+                style="
+                    position: absolute;
+                    right: 20px;
+                    font-size: 20px;
+                    color: #fff;
+
+
+                "
+
+                class="fas fa-chevron-down"></i> </button>
+
             <div id="demo" class="collapse">
                 <div class="accordion-body">
                     {{report.descripcion |safe}}
@@ -1105,7 +1136,7 @@
 
 
         <script src=" https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-   
+
         <script>
             function googleTranslateElementInit() {
                 new google.translate.TranslateElement({
@@ -1139,9 +1170,9 @@
             }
         </script>
 
-        {% include 'web/components/footer/footer_new.html' %}
+       
 </body>
 
-
+{% include 'web/components/footer/footer_new.html' %}
 
 </html>

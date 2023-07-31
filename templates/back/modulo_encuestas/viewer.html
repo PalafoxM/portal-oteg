@@ -45,12 +45,8 @@
         <div class="icon-container2">
             <form method="post" action="{% url 'dashboard:encuesta_delete' e.id %}">
                 {% csrf_token %}
-                <button type="submit" class="ml-1 mr-1 actions-btn"
-                    onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">
-
-                    <i class="fas fa-trash"></i>
-
-
+                <button type="submit" class="ml-1 mr-1 actions-btn delete-r">
+                    <i class="fas fa-trash"></i> 
                 </button>
             </form>
 

@@ -138,8 +138,14 @@ class ReporteUpdate(UpdateView):
             return response
         
     def get_context_data(self, **kwargs):
+        
         context = super().get_context_data(**kwargs)
+        report_instance = self.get_object()
+        ckeditor_content = report_instance.descripcion
+
+
         context['form'] = self.form_class(instance=self.object)
+        context['report_description'] = ckeditor_content
         context['list_url'] = reverse_lazy('dashboard:modulo_reportes')
         context['d_route'] = 'Estadísticas > Reportes'
         return context 
@@ -154,9 +160,12 @@ class ReporteDelete(DeleteView):
     
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
-        success_url = self.get_success_url()
-        self.object.delete()
-        return HttpResponseRedirect(success_url)
+
+        try:
+            self.object.delete()
+            return JsonResponse({'message': 'Eliminación exitosa.'})
+        except Exception as e:
+            return JsonResponse({'error': 'Error al eliminar el registro.'}, status=500)
     
 
 
@@ -180,7 +189,7 @@ class ReporteDetail (TemplateView):
 def get_reports(request):
     q = request.GET.get('q', '')
 
-    results = Report.objects.filter(~Q(nomenclatura__icontains='OTEG'))
+    results = Report.objects.filter(id__gt=28)
     # results = Report.objects.all()
     data = [{'titulo': obj.nomenclatura, 'id': obj.id } for obj in results]
     return JsonResponse(data, safe=False)

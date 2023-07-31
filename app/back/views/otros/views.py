@@ -51,9 +51,12 @@ class SeccionCentroDocumentalDelete(DeleteView):
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
-        success_url = self.get_success_url()
-        self.object.delete()
-        return HttpResponseRedirect(success_url)
+
+        try:
+            self.object.delete()
+            return JsonResponse({'message': 'Eliminación exitosa.'})
+        except Exception as e:
+            return JsonResponse({'error': 'Error al eliminar el registro.'}, status=500)
 
 
 
@@ -141,7 +144,7 @@ class SeccionCentroDocumentalCreate(CreateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Crear una Seccion'
+        context['title'] = 'Crear una Sección'
         context['entity'] = 'Secciones Centro Documental'
         context['list_url'] = reverse_lazy('dashboard:centrodocumental')
         context['action'] = 'add'
@@ -241,7 +244,7 @@ class CategoriasCreateView(SuperAdminOrAdminMixin, LoginRequiredMixin, CreateVie
     def get_context_data(self, **kwargs):
         
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Crear una Seccion'
+        context['title'] = 'Crear una Sección'
         context['entity'] = 'Categoria'
         context['list_url'] = reverse_lazy('dashboard:categorias_list', kwargs={'pk': self.kwargs['pk']})
         context['d_route'] = 'Centro Documental > Categorias > Crear Categoria'
@@ -256,6 +259,15 @@ class CategoriasDeleteView(SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteVie
     def get_success_url(self):
         seccion_pk = self.kwargs['seccion_pk']
         return reverse_lazy('dashboard:categorias_list', kwargs={'pk': seccion_pk})
+    
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
+        try:
+            self.object.delete()
+            return JsonResponse({'message': 'Eliminación exitosa.'})
+        except Exception as e:
+            return JsonResponse({'error': 'Error al eliminar el registro.'}, status=500)
 
 
 class CategoriasUpdateView(SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):

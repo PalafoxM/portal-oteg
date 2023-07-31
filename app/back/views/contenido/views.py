@@ -157,9 +157,12 @@ class BanneDeleteView(SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
-        success_url = self.get_success_url()
-        self.object.delete()
-        return HttpResponseRedirect(success_url)
+
+        try:
+            self.object.delete()
+            return JsonResponse({'message': 'Eliminación exitosa.'})
+        except Exception as e:
+            return JsonResponse({'error': 'Error al eliminar el registro.'}, status=500)
 
 
 class PlaceListView(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
@@ -311,7 +314,7 @@ class EventoListView(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
 class EventoCreateView(SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
     model = Evento
     form_class = EventoForm
-    template_name = 'back/components/create_update.html'
+    template_name = 'back/components/create_update_CKE.html'
     success_url = reverse_lazy('dashboard:eventos_list')
 
     def post(self, request, *args, **kwargs):
@@ -366,9 +369,12 @@ class EventoDeleteView(SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
-        success_url = self.get_success_url()
-        self.object.delete()
-        return HttpResponseRedirect(success_url)
+
+        try:
+            self.object.delete()
+            return JsonResponse({'message': 'Eliminación exitosa.'})
+        except Exception as e:
+            return JsonResponse({'error': 'Error al eliminar el registro.'}, status=500)
 
 
 def is_ajax(request):
@@ -378,7 +384,7 @@ def is_ajax(request):
 class EventoUpdateView(SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
     model = Evento
     form_class = EventoForm
-    template_name = 'back/components/create_update.html'
+    template_name = 'back/components/create_update_CKE.html'
     success_url = reverse_lazy('dashboard:eventos_list')
 
     def form_invalid(self, form):
@@ -485,9 +491,12 @@ class NoticiaDeleteView(SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
-        success_url = self.get_success_url()
-        self.object.delete()
-        return HttpResponseRedirect(success_url)
+
+        try:
+            self.object.delete()
+            return JsonResponse({'message': 'Eliminación exitosa.'})
+        except Exception as e:
+            return JsonResponse({'error': 'Error al eliminar el registro.'}, status=500)
 
 
 class NoticiaUpdateView(SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
@@ -522,8 +531,15 @@ class NoticiaUpdateView(SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        noticia_instance = self.get_object()
+        ckeditor_content = noticia_instance.descripcion
+
+        print(ckeditor_content)
+
         context['form'] = self.form_class(instance=self.object)
         context['list_url'] = reverse_lazy('dashboard:noticias_list')
+        context['report_description'] = ckeditor_content
         context['d_route'] = 'Contenido > Noticias'
         return context
 
@@ -600,9 +616,12 @@ class GlosarioDeleteView(SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView)
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
-        success_url = self.get_success_url()
-        self.object.delete()
-        return HttpResponseRedirect(success_url)
+
+        try:
+            self.object.delete()
+            return JsonResponse({'message': 'Eliminación exitosa.'})
+        except Exception as e:
+            return JsonResponse({'error': 'Error al eliminar el registro.'}, status=500)
 
 
 class GlosarioUpdateView(SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
@@ -722,9 +741,12 @@ class BarometroDeleteView(SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
-        success_url = self.get_success_url()
-        self.object.delete()
-        return HttpResponseRedirect(success_url)
+
+        try:
+            self.object.delete()
+            return JsonResponse({'message': 'Eliminación exitosa.'})
+        except Exception as e:
+            return JsonResponse({'error': 'Error al eliminar el registro.'}, status=500)
 
 
 class BarometroUpdateView(SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):

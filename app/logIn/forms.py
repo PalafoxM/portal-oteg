@@ -167,7 +167,7 @@ class CustomUserCreationForm(UserCreationForm):
     fecha_cumple = forms.DateField(required=False, widget=DateInput(
         attrs={'class': 'form-control fecha-input', 'icon_class': 'fas fa-table', 'placeholder': 'Fecha de cumpleaños', 'class': 'form-control'}), label='Fecha de Cumpleaños')
     direccion = forms.CharField(max_length=100, label='Dirección', widget=forms.TextInput(
-        attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Dirección', 'class': 'form-control'}))
+        attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Dirección', 'class': 'form-control', 'required': True, }))
     tel = forms.CharField(max_length=100, required=False, label='Teléfono',
                           widget=forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Teléfono', 'class': 'form-control'}))
     email = forms.EmailField(max_length=100, label='Correo Electrónico', widget=forms.EmailInput(
@@ -335,9 +335,11 @@ class CustomUserUpdateForm(UserChangeForm):
         queryset=Group.objects.all(), label='Rol / Permisos',
         widget=forms.Select(attrs={'class': 'form-control'}))
     new_password = forms.CharField(max_length=100, required=False, widget=forms.PasswordInput(
-        attrs={'class': 'form-control', 'placeholder': 'Nueva contraseña', 'icon_class': 'fas fa-key'}), label='Nueva Contraseña')
+        attrs={'class': 'form-control', 'placeholder': 'Nueva contraseña', 'icon_class': 'fas fa-key'}), label='Nueva Contraseña',
+        help_text='Mínimo 8 caracteres, al menos una letra mayúscula, una letra minúscula, un número y un carácter especial')
     confirm_password = forms.CharField(max_length=100, required=False, widget=forms.PasswordInput(
-        attrs={'class': 'form-control', 'placeholder': 'Confirmar contraseña', 'icon_class': 'fas fa-key'}), label='Confirmar Contraseña')
+        attrs={'class': 'form-control', 'placeholder': 'Confirmar contraseña', 'icon_class': 'fas fa-key'}), label='Confirmar Contraseña',
+        help_text='Mínimo 8 caracteres, al menos una letra mayúscula, una letra minúscula, un número y un carácter especial')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -420,6 +422,15 @@ class CustomUserUpdateForm(UserChangeForm):
             if photo:
                 user.profile.photo = photo  # Asignar directamente el archivo al campo 'photo' del perfil
 
+        # Manejar la actualización del Rol/Grupo
+        selected_group = self.cleaned_data['group']
+        if selected_group:
+            # Eliminar al usuario de todos los grupos existentes
+            user.groups.clear()
+
+            # Agregar al usuario al grupo seleccionado
+            user.groups.add(selected_group)
+
         
 
         # update fecha_cumple and direccion in Profile
@@ -455,3 +466,46 @@ class CustomUserUpdateForm(UserChangeForm):
             self.cleaned_data['group'].user_set.add(user)
 
         return user
+
+class ResetPasswordForm(forms.Form):
+    username = forms.CharField(widget=forms.TextInput(attrs={
+        'placeholder': 'Ingrese un username',
+        'class': 'form-control',
+        'autocomplete': 'off'
+    }))
+
+    def clean(self):
+        cleaned = super().clean()
+        if not User.objects.filter(username=cleaned['username']).exists():
+            # self._errors['error'] = self._errors.get('error', self.error_class())
+            # self._errors['error'].append('El usuario no existe')
+            raise forms.ValidationError('El usuario no existe')
+        return cleaned
+
+    def get_user(self):
+        username = self.cleaned_data.get('username')
+        print("metodo:  get_user")
+        print(User.objects.get(username=username))
+        return User.objects.get(username=username)
+
+
+class ChangePasswordForm(forms.Form):
+    password = forms.CharField(widget=forms.PasswordInput(attrs={
+        'placeholder': 'Ingrese un password',
+        'class': 'form-control',
+        'autocomplete': 'off'
+    }))
+
+    confirmPassword = forms.CharField(widget=forms.PasswordInput(attrs={
+        'placeholder': 'Repita el password',
+        'class': 'form-control',
+        'autocomplete': 'off'
+    }))
+
+    def clean(self):
+        cleaned = super().clean()
+        password = cleaned['password']
+        confirmPassword = cleaned['confirmPassword']
+        if password != confirmPassword:
+            raise forms.ValidationError('Las contraseñas deben ser iguales.')
+        return cleaned

@@ -145,9 +145,12 @@ class FuenteInfoGastoDerramaDelete(SuperAdminOrAdminMixin, LoginRequiredMixin, D
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
-        success_url = self.get_success_url()
-        self.object.delete()
-        return HttpResponseRedirect(success_url)
+
+        try:
+            self.object.delete()
+            return JsonResponse({'message': 'Eliminación exitosa.'})
+        except Exception as e:
+            return JsonResponse({'error': 'Error al eliminar el registro.'}, status=500)
 
     
 class GastoDerramaCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):

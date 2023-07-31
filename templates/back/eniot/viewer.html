@@ -35,7 +35,7 @@
             Ponencia a eventos
         {% endif %}
     </th>
-    <th  class="text-left tb-text"><a href="https://portal-oteg.s3.amazonaws.com/media/{{e.doc_url}}">{{e.doc_url}}</a></th>
+    <th  class="text-left tb-text"><a href="{{e.doc_url.url}}">{{e.doc_url}}</a></th>
     <th  class="text-left tb-text">{{e.num_descargas}}</th>
 
     <th class="text-center" style="position: relative; background-color: #ECF0F1; text-align: center; height: 100%;">
@@ -43,8 +43,10 @@
             <i class="fas fa-edit" onclick="location.href='{% url 'dashboard:eniot_update' e.id %}'"></i>
                     <form method="post" action="{% url 'dashboard:eniot_delete' e.id %}" >
                         {% csrf_token %}
-                        <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">
+                        <button type="submit" class="ml-1 mr-1 actions-btn delete-r" id="delete-r">
+
                             <i class="fas fa-trash"></i>
+        
                         </button>
                     </form>
         

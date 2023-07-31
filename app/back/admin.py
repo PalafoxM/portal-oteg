@@ -1,6 +1,7 @@
 from django.contrib import admin
 # Register your models here.
 from .models import * 
+from .forms import *
 
 admin.site.register(Evento)
 admin.site.register(Noticia)
@@ -11,4 +12,9 @@ admin.site.register(SeccionesCentroDocumental)
 admin.site.register(Categorias)
 admin.site.register(Report_Section)
 admin.site.register(Publications)
-admin.site.register(Report)
+
+
+class repotsAdmin (admin.ModelAdmin):
+    form = ReportsForm
+
+admin.site.register(Report, repotsAdmin)

@@ -1,6 +1,23 @@
 {% extends 'web/body.html' %}
 {% load static %}
 {% block head_view %}
+<script>
+  // Wait for the DOM to load
+  document.addEventListener("DOMContentLoaded", function () {
+    // Get all elements with the clickable-card class
+    const cards = document.querySelectorAll(".clickable-card");
+
+    // Add click event listener to each card
+    cards.forEach((card) => {
+      card.addEventListener("click", function () {
+        // Get the link from the card-content
+        const link = this.querySelector(".card-content a").href;
+        // Open the link in a new tab/window
+        window.open(link, "_blank");
+      });
+    });
+  });
+</script>
 <style>
  
  .row {
@@ -21,6 +38,13 @@
   margin-bottom: 50px;
   margin-left: 10px;
   margin-right: 10px;
+  /* ... (existing CSS rules) */
+  transition: transform 0.2s ease-in-out;
+}
+.card-s:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
 }
 
 .card-image img {
@@ -91,7 +115,7 @@
 </div>
 <div class="row row-cols-1 row-cols-md-4 g-4">
   <div class="col">
-    <div class="card-s">
+    <div class="card-s clickable-card">
       <div class="card-image">
         <img src="{% static 'img_nav/SUSTENTABILIDAD4-1.jpg' %}" alt="">
       </div>
@@ -102,7 +126,7 @@
     </div>
   </div>
   <div class="col">
-    <div class="card-s">
+    <div class="card-s clickable-card">
       <div class="card-image">
         <img src="{% static 'img_nav/SUSTENTABILIDAD3.jpg' %}" alt="">
       </div>
@@ -114,7 +138,7 @@
     </div>
   </div>
   <div class="col">
-    <div class="card-s">
+    <div class="card-s clickable-card">
       <div class="card-image">
         <img src="{% static 'img_nav/SUSTENTABILIDAD5.jpg' %}" alt="">
       </div>
@@ -125,7 +149,7 @@
     </div>
   </div>
   <div class="col">
-    <div class="card-s">
+    <div class="card-s clickable-card">
       <div class="card-image">
         <img src="{% static 'img_nav/SUSTENTABILIDAD2.jpg' %}" alt="">
       </div>

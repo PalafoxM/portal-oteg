@@ -40,12 +40,25 @@
     <th class="text-left tb-text">{{e.mujeres_empleadas_sec_72_gto}}</th>
     <th class="text-left tb-text">{{e.hombres_empleados_sec_72_nac}}</th>
     <th class="text-left tb-text">{{e.mujeres_empleadas_sec_72_nac}}</th>
-    <td class="text-center" style="
-    position: relative;
-    background-color: #ECF0F1;
-    text-align: center;
-    height: 100%;
-  ">
+    <th class="text-center" style="position: relative; background-color: #ECF0F1; text-align: center; height: 100%;">
+        <div class="icon-container">
+            <i class="fas fa-pencil-alt" onclick="location.href='{% url 'dashboard:fuente_info_empleo_update' e.id %}'"></i>
+
+                    <form method="post" action="{% url 'dashboard:fuente_info_empleo_delete' e.id %}" >
+                        {% csrf_token %}
+                        
+                        <button type="submit" class="ml-1 mr-1 actions-btn delete-r">
+                            <i class="fas fa-trash"></i> 
+                        </button>
+                    </form>
+        </div>
+    </th>
+    <!-- <td class="text-center" style="
+        position: relative;
+        background-color: #ECF0F1;
+        text-align: center;
+        height: 100%;
+    ">
 
         <div class="icon-container">
             <i class="fas fa-edit" onclick="location.href='{% url 'dashboard:fuente_info_empleo_update' e.id %}'"
@@ -53,7 +66,7 @@
             <i class="fas fa-trash" onclick="location.href='{% url 'dashboard:fuente_info_empleo_delete' e.id %}'"
                 style="color: #6c6e7e; cursor: pointer;"> </i>
         </div>
-        </th>
+        </th> -->
 </tr>
 
 {% endfor %}

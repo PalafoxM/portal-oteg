@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>OTEG | Publicaciones View</title>
+    <title>OTEG | Sitios de Interés</title>
     <link rel="icon" href="{% static 'images/fuentes_informacion/OTEG_Fav_Icon.svg' %}" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,9 +15,15 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'web/css/baner.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'fontawesome-free/css/all.min.css' %}">
     <link rel="stylesheet" href="{% static 'normalize/normal.css' %}">
+    <script type="text/javascript"
+        src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <link rel="stylesheet" href="{% static 'web/css/nabar-portal.css' %}">
+
+    <script>(function (d) { var s = d.createElement("script"); s.setAttribute("data-account", "9HnNMax2Vu"); s.setAttribute("src", "https://cdn.userway.org/widget.js"); (d.body || d.head).appendChild(s); })(document)</script>
+    <noscript>Please ensure Javascript is enabled for purposes of <a href="https://userway.org">website
+            accessibility</a></noscript>
+
 </head>
 
 <style>
@@ -78,7 +84,6 @@
         font-size: 18px;
 
         line-height: 1.9;
-
     }
 
     .carousel-caption a {
@@ -221,11 +226,6 @@
             transition: transform 0.3s ease;
         }
 
-        .info-card:hover {
-            transform: scale(1.05);
-            cursor: pointer;
-        }
-
         .info-card h2 {
             font-family: 'Montserrat', sans-serif;
             font-weight: 600;
@@ -275,9 +275,6 @@
         /* Adjust the gradient colors and opacity as needed */
     }
 
-
-
-
     .navbar {
         position: absolute;
         top: 0;
@@ -316,10 +313,7 @@
         transition: transform 0.3s ease;
     }
 
-    .info-card:hover {
-        transform: scale(1.05);
-        cursor: pointer;
-    }
+
 
     .info-card h2 {
         font-family: 'Montserrat', sans-serif;
@@ -350,10 +344,7 @@
         transition: transform 0.3s ease;
     }
 
-    .card:hover {
-        transform: scale(1.05);
-        cursor: pointer;
-    }
+
 
 
     .n-card {
@@ -371,7 +362,6 @@
         transition: transform 0.3s ease;
     }
 
-
     .n-card:hover {
         transform: scale(1.05);
         cursor: pointer;
@@ -386,10 +376,6 @@
         cursor: pointer;
     }
 
-    body {
-        background-color: #F2F2F2;
-        overflow-x: hidden;
-    }
 
     .otwn-logo {
         display: flex;
@@ -399,10 +385,27 @@
         padding-right: 40px;
     }
 
+    .navbar-nav>li:first-child {
+        margin-right: 10px;
+    }
+
+    #google_translate_element {
+        margin-left: 0px;
+        margin-right: 0px;
+        margin-top: 10px;
+    }
+
     @media (max-width: 991px) {
-        .mt-45{
+        .mt-45 {
             margin-top: 45px !important;
         }
+
+        #google_translate_element {
+            margin: 0;
+            margin-left: 15px;
+            margin-top: 015px;
+        }
+
         .navbar-header {
             float: none;
         }
@@ -467,11 +470,6 @@
 
         .otwn-logo {
             display: none;
-        }
-
-        .p-date {
-            display: none;
-
         }
 
     }
@@ -539,13 +537,6 @@
         /* Set the thumb color */
     }
 
-    /* For Firefox */
-    /* Note: Firefox currently supports a limited range of customization */
-    /* You can experiment with these properties and values */
-    /* to achieve the desired scroll bar design in Firefox */
-    /* scrollbar-color: #888 #f1f1f1;
-    scrollbar-width: thin; */
-
     .nav-text {
         font-family: 'Montserrat', sans-serif;
         font-weight: 300;
@@ -582,7 +573,6 @@
         transition: transform 0.3s ease;
     }
 
-
     .url-custom-btn:hover {
         background-image: linear-gradient(140.57deg, #ED4C02 0%, #FB8A55 100%);
         border: 1px solid #ED4C02;
@@ -590,103 +580,41 @@
         cursor: pointer;
     }
 
-    .pdf-logo {
-        color: #333333;
-        transition: transform 0.3s ease;
+    /* Estilo del contenedor del widget */
+    #google_translate_element {
+        -moz-transform: translate(0, 0);
+        display: inline-block;
+        margin-right: 10px;
     }
 
-    .pdf-logo:hover {
-        transform: scale(1.5);
-        cursor: pointer;
-        color: #ED4C02 !important;
+
+
+    @media screen and (-webkit-min-device-pixel-ratio:0) {
+        /* #google_translate_element {
+            position: absolute;
+        } */
     }
 
-    .not-found-text {
-        font-family: 'Montserrat', sans-serif;
-        font-weight: 600;
-        font-size: 20px;
-        color: #ED4C02 !important;
-        text-align: center;
-        margin-top: 20px;
-        margin-bottom: 20px;
-    }
-</style>
-
-
-<style>
-    .container2 {
-        position: relative;
-        width: 100%;
-        height: 900px;
+    html,
+    body {
+        background-color: #fff; 
+        overflow-x: hidden !important;
     }
 
-    .corner-div {
-        position: absolute;
-        /* set corner-div position to absolute */
-        top: 10 !important;
-        /* position it at the top */
-        right: 0 !important;
-        /* position it at the right */
-
-
-
-        width: 200px;
-        height: 56px;
-        background-image: linear-gradient(140.57deg, #ED4C02 0%, #FB8A55 100%);
-        z-index: 999;
-        /* set a high z-index value to make it appear over other elements */
-
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 10rem;
-        transition: transform 0.3s ease;
-
+    body {
+        max-width: 100%;
     }
 
-    .corner-div:hover {
-        cursor: pointer;
-        text-decoration: none;
-        transform: scale(1.1);
-
-    }
-
-    .corner-div2 {
-        position: absolute;
-        /* set corner-div position to absolute */
-        top: 10 !important;
-        /* position it at the top */
-        right: 0 !important;
-        /* position it at the right */
-
-        width: 200px;
-        height: 56px;
-        background-image: linear-gradient(140.57deg, #ED4C02 0%, #FB8A55 100%);
-        z-index: 999;
-        /* set a high z-index value to make it appear over other elements */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 10rem;
-        transition: transform 0.3s ease;
-
-    }
-
-    .corner-div2:hover {
-        cursor: pointer;
-        text-decoration: none;
-        transform: scale(1.1);
-    }
 </style>
 
 
 <body>
 
-
     {% include 'web/components/navbar_new/navbar_new.html' %}
 
-
-
+    {% include 'web/components/social_media_stiky/social_media_stiky.html' %}
+    
+    
     <div class="container">
 
         <p class=" text-center"
@@ -714,14 +642,14 @@
 
         ">
             <div class="col mt-5" style="display: flex; justify-content: center; align-items: center;">
-                <a href="https://sectur.guanajuato.gob.mx/registro-estatal-de-turismo/" target="_blank" >  
+                <a href="https://sectur.guanajuato.gob.mx/registro-estatal-de-turismo/"  onclick='window.open("https://sectur.guanajuato.gob.mx/registro-estatal-de-turismo/");return false;'  target="_blank" >  
                     
                     <img style="max-width: 200px;"
                         src='{% static 'assets/images/RET.png' %}'></a>
             </div>
 
             <div class="col text-center mt-5" style="display: flex; justify-content: center; align-items: center;">
-                <a href="https://www.gob.mx/sectur"> <img style="max-width: 200px;" src='{% static 'assets/images/sectur.png' %}'></a>
+                <a href="https://www.gob.mx/sectur" target="_blank" > <img style="max-width: 200px;" src='{% static 'assets/images/sectur.png' %}'></a>
             </div>
             <div class="col text-center mt-5" style="display: flex; justify-content: center; align-items: center;">
                 <a href="" target="_blank"> <img style="max-width: 200px;" src='{% static 'assets/images/oteg.png' %}'></a>
@@ -731,36 +659,40 @@
                 <a href=""> <img style="max-width: 200px;" src='{% static 'assets/images/sustentabilidad_gto.jpg'%}'></a>
             </div>
             <div class="col text-center mt-5" style="display: flex; justify-content: center; align-items: center;">
-                <a href=""> <img style="max-width: 200px;"src='{% static 'assets/images/logo-ictur.png'%}'></a>
+                <a href="https://www.gob.mx/sectur/acciones-y-programas/instituto-de-competitividad-turistica"
+                 target="_blank"
+                > <img style="max-width: 200px;"src='{% static 'assets/images/ictur.png'%}'></a>
             </div>
 
             <div class="col text-center mt-5" style="display: flex; justify-content: center; align-items: center;">
-                <a href=""> <img style="max-width: 200px;" src="{% static 'assets/images/alerta-amber.png'%}"'></a>
+                <a href="http://www.alertaamber.gob.mx/"
+                target="_blank"
+                > <img style="max-width: 150px;" src="{% static 'assets/images/alerta-amber.png'%}"></a>
+            </div>
+            <div class="col text-center mt-5" style="display: flex; justify-content: center; align-items: center;">
+                <a href="https://www.atlasturistico.sectur.gob.mx/AtlasTuristico/bienvenido.do"
+                target="_blank"
+                > <img style="max-width: 150px;" src="{% static 'assets/images/atlast.jpg'%}"></a>
+            </div>
+            <div class="col text-center mt-5" style="display: flex; justify-content: center; align-items: center;">
+                <a href="https://www.gob.mx/tramites/ficha/inscripcion-a-la-red-de-investigadores-y-centros-de-investigacion-en-turismo-ricit/ICTUR6101"
+                target="_blank"
+                > <img style="max-width: 150px;" src="{% static 'assets/images/ricit.png'%}"></a>
+            </div>
+
+            <div class="col text-center mt-5" style="display: flex; justify-content: center; align-items: center;">
+                <a href="https://siimt.mx/"
+                target="_blank"
+                > <img style="max-width: 150px;" src="{% static 'assets/images/simit.png'%}"></a>
+            </div>
+
+            <div class="col text-center mt-5" style="display: flex; justify-content: center; align-items: center;">
+                <a href="https://sectur.guanajuato.gob.mx/"
+                target="_blank"
+                > <img style="max-width: 150px;" src="{% static 'assets/images/sgto.jpeg'%}"></a>
             </div>
 
 
-            "ATM LOGO"
-            <div class="col text-center mt-5" style="display: flex; justify-content: center; align-items: center;">
-                <a href=""> <img style="max-width: 200px;" src="http://www.observatorioturistico.org/img/sitios/cedoc.png"></a>
-            </div>
-            <div class="col text-center mt-5" style="display: flex; justify-content: center; align-items: center;">
-                <a href=""> <img style="max-width: 200px;" src="http://www.observatorioturistico.org/img/sitios/ricit.png"></a>
-            </div>
-            <div class="col text-center mt-5" style="display: flex; justify-content: center; align-items: center;">
-                <a href=""> <img style="max-width: 200px;" src="http://www.observatorioturistico.org/img/sitios/siimt.png"></a>
-            </div>
-
-
-            <div class="col text-center mt-5" style="display: flex; justify-content: center; align-items: center;">
-                <a href=""> <img style="max-width: 200px;" src="http://www.observatorioturistico.org/img/sitios/obs_capacitacion.jpg"></a>
-            </div>
-            <div class="col text-center mt-5" style="display: flex; justify-content: center; align-items: center;">
-                <a href=""> <img style="max-width: 200px;" src="http://www.observatorioturistico.org/img/sitios/secturgto.png"></a>
-            </div>
-            <div class="col text-center mt-5" style="display: flex; justify-content: center; align-items: center;">
-                <a href=""> <img style="max-width: 200px;" src="http://www.observatorioturistico.org/img/sitios/gtomx.png"></a>
-            </div>
-    
         </div>
 
 

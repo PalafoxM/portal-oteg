@@ -27,8 +27,8 @@
                 </button>
                 <form method="post" action="{% url 'dashboard:catalogo_destinos_delete' e.id %}" >
                     {% csrf_token %}
-                    <button class=" actions-btn" tooltip="Consultar" flow="down" onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">
-                        <i class="fas fa-trash"></i>
+                    <button type="submit" class="ml-1 mr-1 actions-btn delete-r">
+                        <i class="fas fa-trash"></i> 
                     </button>
                 </form>
             </th>

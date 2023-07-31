@@ -39,14 +39,12 @@
         <div class="icon-container2">
             <form method="post" action="{% url 'dashboard:fuente_info_aeropuertos_delete' e.id %}">
                 {% csrf_token %}
-                <button type="submit" class="ml-1 mr-1 actions-btn"
-                    onclick="return confirm('¿Está seguro de que desea eliminar la informacion?');">
+                <button type="submit" class="ml-1 mr-1 actions-btn delete-r">
 
                     <i class="fas fa-trash"></i>
-
-
+                    
                 </button>
-            </form>
+            </form> 
 
             <form method="get" action="{% url 'dashboard:fuente_info_aeropuertos_update' e.id %}">
                 {% csrf_token %}

@@ -8,10 +8,28 @@
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <link href="{% static 'scss/custom-inputs.css' %}" rel="stylesheet" type="text/css">
 
+<style>
+    .label-style {
+        margin-left: 5px;
+    }
 
+    label span {
+        margin-left: 5px;
+    }
+
+    .legend {
+        font-family: avenir;
+        font-size: 14px;
+        font-weight: bold;
+        color: red;
+        margin-bottom: 10px;
+    }
+</style>
 {% endblock %}
 {% block content %}
-
+<div>
+    <p class="legend">* Campos obligatorios</p>
+</div>
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <!-- {{ form.as_p }} -->
@@ -27,592 +45,534 @@
             padding: 20px;
         
             ">
-           
-                <div style="
+
+            <div style="
                         width: 100%;
         
                     ">
-                    <label style="
-                    font-family: avenir;
-                    font-weight: bold;
-                    font-size: 15px;
-                    margin: 0;
-                    padding: 0;
-                " for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
-
-                </div>
-                <div class="input-with-icon">
-                    {{ form.username }}
-                    {% if form.username.errors %}
-                    <div class="error-message">{{ form.username.errors }}</div>
+                <label class="label-style" for="{{ form.username.id_for_label }}">{{ form.username.label }}
+                    {% if form.username.field.required %}
+                    <span style="color: red; font-weight: bold;">*</span>
                     {% endif %}
-                    <div class="icon">
-                        <i style="margin: 0; padding: 0; color: #fff;"
-                            class="{{ form.username.field.widget.attrs.icon_class }}"></i>
-                    </div>
-                </div>
-            
+                </label>
 
-           
-                <div style="
-                    width: 100%;
-                ">
-                    <label style="
-                        font-family: avenir;
-                        font-weight: bold;
-                        font-size: 15px;
-                        margin: 0;
-                        padding: 0;
-                    " for="{{ form.first_name.id_for_label }}">{{ form.first_name.label }}</label>
-                </div>
-                <div class="input-with-icon">
-                    {{ form.first_name }}
-                    {% if form.first_name.errors %}
-                    <div class="error-message">{{ form.first_name.errors }}</div>
-                    {% endif %}
-                    <div class="icon">
-                        <i style="margin: 0; padding: 0; color: #fff;"
-                            class="{{ form.first_name.field.widget.attrs.icon_class }}"></i>
-                    </div>
-                </div>
-            
-
-           
-                <div style="
-                    width: 100%;
-                ">
-                    <label style="
-                        font-family: avenir;
-                        font-weight: bold;
-                        font-size: 15px;
-                        margin: 0;
-                        padding: 0;
-                    " for="{{ form.last_name.id_for_label }}">{{ form.last_name.label }}</label>
-                </div>
-                <div class="input-with-icon">
-                    {{ form.last_name }}
-                    {% if form.last_name.errors %}
-                    <div class="error-message">{{ form.last_name.errors }}</div>
-                    {% endif %}
-                    <div class="icon">
-                        <i style="margin: 0; padding: 0; color: #fff;"
-                            class="{{ form.last_name.field.widget.attrs.icon_class }}"></i>
-                    </div>
-                </div>
-            
-
-           
-                <div style="
-                    width: 100%;
-                ">
-                    <label style="
-                        font-family: avenir;
-                        font-weight: bold;
-                        font-size: 15px;
-                        margin: 0;
-                        padding: 0;
-                    " for="{{ profile_form.apellido_materno.id_for_label }}">{{ profile_form.apellido_materno.label}}</label>
-                </div>
-                <div class="input-with-icon">
-                    {{ profile_form.apellido_materno }}
-                    {% if profile_form.apellido_materno.errors %}
-                    <div class="error-message">{{ profile_form.apellido_materno.errors }}</div>
-                    {% endif %}
-                    <div class="icon">
-                        <i style="margin: 0; padding: 0; color: #fff;"
-                            class="{{ profile_form.apellido_materno.field.widget.attrs.icon_class }}"></i>
-                    </div>
-                </div>
-                <!-- {{ profile_form.apellido_materno.label_tag }}
-                {{ profile_form.apellido_materno }} -->
-            
-
-           
-                <div style="
-                    width: 100%;
-                ">
-                    <label style="
-                        font-family: avenir;
-                        font-weight: bold;
-                        font-size: 15px;
-                        margin: 0;
-                        padding: 0;
-                    " for="{{ profile_form.fecha_cumple.id_for_label }}">{{ profile_form.fecha_cumple.label }}</label>
-                </div>
-                <div class="input-with-icon">
-                    {{ profile_form.fecha_cumple }}
-                    {% if profile_form.fecha_cumple.errors %}
-                    <div class="error-message">{{ profile_form.fecha_cumple.errors }}</div>
-                    {% endif %}
-                    <div class="icon">
-                        <i style="margin: 0; padding: 0; color: #fff;"
-                            class="{{ profile_form.fecha_cumple.field.widget.attrs.icon_class }}"></i>
-                    </div>
-                </div>
-                <!-- {{ profile_form.fecha_cumple.label_tag }}
-                {{ profile_form.fecha_cumple }} -->
-            
-
-           
-                <div style="
-                    width: 100%;
-                ">
-                    <label style="
-                        font-family: avenir;
-                        font-weight: bold;
-                        font-size: 15px;
-                        margin: 0;
-                        padding: 0;
-                    " for="{{ profile_form.direccion.id_for_label }}">{{ profile_form.direccion.label }}</label>
-                </div>
-                <div class="input-with-icon">
-                    {{ profile_form.direccion }}
-                    {% if profile_form.direccion.errors %}
-                    <div class="error-message">{{ profile_form.direccion.errors }}</div>
-                    {% endif %}
-                    <div class="icon">
-                        <i style="margin: 0; padding: 0; color: #fff;"
-                            class="{{ profile_form.direccion.field.widget.attrs.icon_class }}"></i>
-                    </div>
-                </div>
-                <!-- {{ profile_form.direccion.label_tag }}
-                {{ profile_form.direccion }} -->
-            
-
-           
-                <div style="
-                    width: 100%;
-                ">
-                    <label style="
-                        font-family: avenir;
-                        font-weight: bold;
-                        font-size: 15px;
-                        margin: 0;
-                        padding: 0;
-                    " for="{{ profile_form.tel.id_for_label }}">{{ profile_form.tel.label }}</label>
-                </div>
-                <div class="input-with-icon">
-                    {{ profile_form.tel }}
-                    {% if profile_form.tel.errors %}
-                    <div class="error-message">{{ profile_form.tel.errors }}</div>
-                    {% endif %}
-                    <div class="icon">
-                        <i style="margin: 0; padding: 0; color: #fff;"
-                            class="{{ profile_form.tel.field.widget.attrs.icon_class }}"></i>
-                    </div>
-                </div>
-                <!-- {{ profile_form.tel.label_tag }}
-                {{ profile_form.tel }} -->
-            
-
-           
-                <div style="
-                    width: 100%;
-                ">
-                    <label style="
-                        font-family: avenir;
-                        font-weight: bold;
-                        font-size: 15px;
-                        margin: 0;
-                        padding: 0;
-                    " for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
-                </div>
-                <div class="input-with-icon">
-                    {{ form.email }}
-                    {% if form.email.errors %}
-                    <div class="error-message">{{ form.email.errors }}</div>
-                    {% endif %}
-                    <div class="icon">
-                        <i style="margin: 0; padding: 0; color: #fff;"
-                            class="{{ form.email.field.widget.attrs.icon_class }}"></i>
-                    </div>
-                </div>
-                <!-- {{ form.email.label_tag }}
-                {{ form.email }} -->
-            
-
-           
-                <div style="
-                    width: 100%;
-                ">
-                    <label style="
-                        font-family: avenir;
-                        font-weight: bold;
-                        font-size: 15px;
-                        margin: 0;
-                        padding: 0;
-                    " for="{{ profile_form.facebook.id_for_label }}">{{ profile_form.facebook.label }}</label>
-                </div>
-                <div class="input-with-icon">
-                    {{ profile_form.facebook }}
-                    {% if profile_form.facebook.errors %}
-                    <div class="error-message">{{ profile_form.facebook.errors }}</div>
-                    {% endif %}
-                    <div class="icon">
-                        <i style="margin: 0; padding: 0; color: #fff;"
-                            class="{{ profile_form.facebook.field.widget.attrs.icon_class }}"></i>
-                    </div>
-                </div>
-                <!-- {{ profile_form.facebook.label_tag }}
-                {{ profile_form.facebook }} -->
-            
-
-           
-                <div style="
-                    width: 100%;
-                ">
-                    <label style="
-                        font-family: avenir;
-                        font-weight: bold;
-                        font-size: 15px;
-                        margin: 0;
-                        padding: 0;
-                    " for="{{ profile_form.twitter.id_for_label }}">{{ profile_form.twitter.label }}</label>
-                </div>
-                <div class="input-with-icon">
-                    {{ profile_form.twitter }}
-                    {% if profile_form.twitter.errors %}
-                    <div class="error-message">{{ profile_form.twitter.errors }}</div>
-                    {% endif %}
-                    <div class="icon">
-                        <i style="margin: 0; padding: 0; color: #fff;"
-                            class="{{ profile_form.twitter.field.widget.attrs.icon_class }}"></i>
-                    </div>
-                </div>
-                <!-- {{ profile_form.twitter.label_tag }}
-                {{ profile_form.twitter }} -->
-            
-
-           
-                <div style="
-                    width: 100%;
-                ">
-                    <label style="
-                        font-family: avenir;
-                        font-weight: bold;
-                        font-size: 15px;
-                        margin: 0;
-                        padding: 0;
-                    " for="{{ profile_form.ciudad.id_for_label }}">{{ profile_form.ciudad.label }}</label>
-                </div>
-                <div class="input-with-icon">
-                    {{ profile_form.ciudad }}
-                    {% if profile_form.ciudad.errors %}
-                    <div class="error-message">{{ profile_form.ciudad.errors }}</div>
-                    {% endif %}
-                    <div class="icon">
-                        <i style="margin: 0; padding: 0; color: #fff;"
-                            class="{{ profile_form.ciudad.field.widget.attrs.icon_class }}"></i>
-                    </div>
-                </div>
-                <!-- {{ profile_form.ciudad.label_tag }}
-                {{ profile_form.ciudad }} -->
-            
-
-           
-                <div style="
-                    width: 100%;
-                ">
-                    <label style="
-                        font-family: avenir;
-                        font-weight: bold;
-                        font-size: 15px;
-                        margin: 0;
-                        padding: 0;
-                    " for="{{ profile_form.estado.id_for_label }}">{{ profile_form.estado.label }}</label>
-                </div>
-                <div class="input-with-icon">
-                    {{ profile_form.estado }}
-                    {% if profile_form.estado.errors %}
-                    <div class="error-message">{{ profile_form.estado.errors }}</div>
-                    {% endif %}
-                    <div class="icon">
-                        <i style="margin: 0; padding: 0; color: #fff;"
-                            class="{{ profile_form.estado.field.widget.attrs.icon_class }}"></i>
-                    </div>
-                </div>
-                <!-- {{ profile_form.estado.label_tag }}
-                {{ profile_form.estado }} -->
-            
-
-           
-                <div style="
-                    width: 100%;
-                ">
-                    <label style="
-                        font-family: avenir;
-                        font-weight: bold;
-                        font-size: 15px;
-                        margin: 0;
-                        padding: 0;
-                    " for="{{ profile_form.empresa_institucion.id_for_label }}">{{profile_form.empresa_institucion.label}}</label>
-                </div>
-                <div class="input-with-icon">
-                    {{ profile_form.empresa_institucion }}
-                    {% if profile_form.empresa_institucion.errors %}
-                    <div class="error-message">{{ profile_form.empresa_institucion.errors }}</div>
-                    {% endif %}
-                    <div class="icon">
-                        <i style="margin: 0; padding: 0; color: #fff;"
-                            class="{{ profile_form.empresa_institucion.field.widget.attrs.icon_class }}"></i>
-                    </div>
-                </div>
-                <!-- {{ profile_form.empresa_institucion.label_tag }}
-                {{ profile_form.empresa_institucion }} -->
-            
-
-           
-                <div style="
-                    width: 100%;
-                ">
-                    <label style="
-                        font-family: avenir;
-                        font-weight: bold;
-                        font-size: 15px;
-                        margin: 0;
-                        padding: 0;
-                    " for="{{ profile_form.cargo.id_for_label }}">{{ profile_form.cargo.label }}</label>
-                </div>
-                <div class="input-with-icon">
-                    {{ profile_form.cargo }}
-                    {% if profile_form.cargo.errors %}
-                    <div class="error-message">{{ profile_form.cargo.errors }}</div>
-                    {% endif %}
-                    <div class="icon">
-                        <i style="margin: 0; padding: 0; color: #fff;"
-                            class="{{ profile_form.cargo.field.widget.attrs.icon_class }}"></i>
-                    </div>
-                </div>
-                <!-- {{ profile_form.cargo.label_tag }}
-                {{ profile_form.cargo }} -->
-            
-
-           
-                <div style="
-                    width: 100%;
-                ">
-                    <label style="
-                        font-family: avenir;
-                        font-weight: bold;
-                        font-size: 15px;
-                        margin: 0;
-                        padding: 0;
-                    " for="{{ profile_form.licenciatura.id_for_label }}">{{ profile_form.licenciatura.label }}</label>
-                </div>
-                <div class="input-with-icon">
-                    {{ profile_form.licenciatura }}
-                    {% if profile_form.licenciatura.errors %}
-                    <div class="error-message">{{ profile_form.licenciatura.errors }}</div>
-                    {% endif %}
-                    <div class="icon">
-                        <i style="margin: 0; padding: 0; color: #fff;"
-                            class="{{ profile_form.licenciatura.field.widget.attrs.icon_class }}"></i>
-                    </div>
-                </div>
-                <!-- {{ profile_form.licenciatura.label_tag }}
-                {{ profile_form.licenciatura }} -->
-            
-
-           
-                <div style="
-                    width: 100%;
-                ">
-                    <label style="
-                        font-family: avenir;
-                        font-weight: bold;
-                        font-size: 15px;
-                        margin: 0;
-                        padding: 0;
-                    " for="{{ profile_form.universidad_licenciatura.id_for_label }}">{{profile_form.universidad_licenciatura.label}}</label>
-                </div>
-                <div class="input-with-icon">
-                    {{ profile_form.universidad_licenciatura }}
-                    {% if profile_form.universidad_licenciatura.errors %}
-                    <div class="error-message">{{ profile_form.universidad_licenciatura.errors }}</div>
-                    {% endif %}
-                    <div class="icon">
-                        <i style="margin: 0; padding: 0; color: #fff;"
-                            class="{{ profile_form.universidad_licenciatura.field.widget.attrs.icon_class }}"></i>
-                    </div>
-                </div>
-                <!-- {{ profile_form.universidad_licenciatura.label_tag }}
-                {{ profile_form.universidad_licenciatura }} -->
-            
-
-           
-                <div style="
-                    width: 100%;
-                ">
-                    <label style="
-                        font-family: avenir;
-                        font-weight: bold;
-                        font-size: 15px;
-                        margin: 0;
-                        padding: 0;
-                    " for="{{ profile_form.maestria.id_for_label }}">{{ profile_form.maestria.label }}</label>
-                </div>
-                <div class="input-with-icon">
-                    {{ profile_form.maestria }}
-                    {% if profile_form.maestria.errors %}
-                    <div class="error-message">{{ profile_form.maestria.errors }}</div>
-                    {% endif %}
-                    <div class="icon">
-                        <i style="margin: 0; padding: 0; color: #fff;"
-                            class="{{ profile_form.maestria.field.widget.attrs.icon_class }}"></i>
-                    </div>
-                </div>
-                <!-- {{ profile_form.maestria.label_tag }}
-                {{ profile_form.maestria }} -->
-            
-
-           
-                <div style="
-                    width: 100%;
-                ">
-                    <label style="
-                        font-family: avenir;
-                        font-weight: bold;
-                        font-size: 15px;
-                        margin: 0;
-                        padding: 0;
-                    " for="{{ profile_form.universidad_maestria.id_for_label }}">{{profile_form.universidad_maestria.label}}</label>
-                </div>
-                <div class="input-with-icon">
-                    {{ profile_form.universidad_maestria }}
-                    {% if profile_form.universidad_maestria.errors %}
-                    <div class="error-message">{{ profile_form.universidad_maestria.errors }}</div>
-                    {% endif %}
-                    <div class="icon">
-                        <i style="margin: 0; padding: 0; color: #fff;"
-                            class="{{ profile_form.universidad_maestria.field.widget.attrs.icon_class }}"></i>
-                    </div>
-                </div>
-                <!-- {{ profile_form.universidad_maestria.label_tag }}
-                {{ profile_form.universidad_maestria }} -->
-            
-
-           
-                <div style="
-                    width: 100%;
-                ">
-                    <label style="
-                        font-family: avenir;
-                        font-weight: bold;
-                        font-size: 15px;
-                        margin: 0;
-                        padding: 0;
-                    " for="{{ profile_form.doctorado.id_for_label }}">{{ profile_form.doctorado.label }}</label>
-                </div>
-                <div class="input-with-icon">
-                    {{ profile_form.doctorado }}
-                    {% if profile_form.doctorado.errors %}
-                    <div class="error-message">{{ profile_form.doctorado.errors }}</div>
-                    {% endif %}
-                    <div class="icon">
-                        <i style="margin: 0; padding: 0; color: #fff;"
-                            class="{{ profile_form.doctorado.field.widget.attrs.icon_class }}"></i>
-                    </div>
-                </div>
-                <!-- {{ profile_form.doctorado.label_tag }}
-                {{ profile_form.doctorado }} -->
-            
-
-           
-                <div style="
-                    width: 100%;
-                ">
-                    <label style="
-                        font-family: avenir;
-                        font-weight: bold;
-                        font-size: 15px;
-                        margin: 0;
-                        padding: 0;
-                    " for="{{ profile_form.universidad_doctorado.id_for_label }}">{{profile_form.universidad_doctorado.label}}</label>
-                </div>
-                <div class="input-with-icon">
-                    {{ profile_form.universidad_doctorado }}
-                    {% if profile_form.universidad_doctorado.errors %}
-                    <div class="error-message">{{ profile_form.universidad_doctorado.errors }}</div>
-                    {% endif %}
-                    <div class="icon">
-                        <i style="margin: 0; padding: 0; color: #fff;"
-                            class="{{ profile_form.universidad_doctorado.field.widget.attrs.icon_class }}"></i>
-                    </div>
-                </div>
-                <!-- {{ profile_form.universidad_doctorado.label_tag }}
-                {{ profile_form.universidad_doctorado }} -->
-            
-
-           
-                {{ profile_form.photo.label_tag }}
-                {{ profile_form.photo }}
-                {% if profile_form.photo.value and profile_form.photo.value.size > 1048576 %}
-                    <p style="color: red;">El tamaño del archivo debe ser menor o igual a 1 MB.</p>
+            </div>
+            <div class="input-with-icon">
+                {{ form.username }}
+                {% if form.username.errors %}
+                <div class="error-message">{{ form.username.errors }}</div>
                 {% endif %}
-            
+                <div class="icon">
+                    <i style="margin: 0; padding: 0; color: #fff;"
+                        class="{{ form.username.field.widget.attrs.icon_class }}"></i>
+                </div>
+            </div>
 
-           
-                {{ profile_form.experiencia.label_tag }}
-                {{ profile_form.experiencia }}
-            
 
-           
-                <!-- {{ form.boletin }}
-                {{ form.boletin.label_tag }} -->
-                <div style="
+
+            <div style="
                     width: 100%;
                 ">
-                    <label style="
-                        font-family: avenir;
-                        font-weight: bold;
-                        font-size: 15px;
-                        margin: 0;
-                        padding: 0;
-                    " for="{{ form.boletin.id_for_label }}">{{form.boletin.label}}</label>
-                </div>
-                <div style="width: 100%; display: flex; justify-content: start;">
-
-                    <div class="form-check form-switch" style="margin-left: 15px; transform: scale(1.4);">
-                        {{ form.boletin }}
-                    </div>
-    
-                </div>
-            
-
-           
-                {{ form.group.label_tag }}
-                {{ form.group }}
-
-                <!-- Agregar campos para cambiar la contraseña -->
-                <div style="width: 100%;">
-                    <label for="{{ form.new_password.id_for_label }}">{{ form.new_password.label }}</label>
-                </div>
-
-                <div class="input-with-icon">
-                    {{ form.new_password }}
-                    {% if form.new_password.errors %}
-                    <div class="error-message">{{ form.new_password.errors }}</div>
+                <label class="label-style" for="{{ form.first_name.id_for_label }}">{{ form.first_name.label }}
+                    {% if form.first_name.field.required %}
+                    <span style="color: red; font-weight: bold;">*</span>
                     {% endif %}
-                    <div class="icon">
-                        <i style="margin: 0; padding: 0; color: #fff;"
+                </label>
+            </div>
+            <div class="input-with-icon">
+                {{ form.first_name }}
+                {% if form.first_name.errors %}
+                <div class="error-message">{{ form.first_name.errors }}</div>
+                {% endif %}
+                <div class="icon">
+                    <i style="margin: 0; padding: 0; color: #fff;"
+                        class="{{ form.first_name.field.widget.attrs.icon_class }}"></i>
+                </div>
+            </div>
+
+
+
+            <div style="
+                    width: 100%;
+                ">
+                <label class="label-style" for="{{ form.last_name.id_for_label }}">{{ form.last_name.label }}
+                    {% if form.last_name.field.required %}
+                    <span style="color: red; font-weight: bold;">*</span>
+                    {% endif %}
+                </label>
+            </div>
+            <div class="input-with-icon">
+                {{ form.last_name }}
+                {% if form.last_name.errors %}
+                <div class="error-message">{{ form.last_name.errors }}</div>
+                {% endif %}
+                <div class="icon">
+                    <i style="margin: 0; padding: 0; color: #fff;"
+                        class="{{ form.last_name.field.widget.attrs.icon_class }}"></i>
+                </div>
+            </div>
+
+
+
+            <div style="
+                    width: 100%;
+                ">
+                <label class="label-style" for="{{ profile_form.apellido_materno.id_for_label }}">{{profile_form.apellido_materno.label}}
+                    {% if profile_form.apellido_materno.field.required %}
+                    <span style="color: red; font-weight: bold;">*</span>
+                    {% endif %}
+                </label>
+            </div>
+            <div class="input-with-icon">
+                {{ profile_form.apellido_materno }}
+                {% if profile_form.apellido_materno.errors %}
+                <div class="error-message">{{ profile_form.apellido_materno.errors }}</div>
+                {% endif %}
+                <div class="icon">
+                    <i style="margin: 0; padding: 0; color: #fff;"
+                        class="{{ profile_form.apellido_materno.field.widget.attrs.icon_class }}"></i>
+                </div>
+            </div>
+
+
+
+            <div style="
+                    width: 100%;
+                ">
+                <label class="label-style" for="{{ profile_form.fecha_cumple.id_for_label }}">{{profile_form.fecha_cumple.label }}
+                    {% if profile_form.fecha_cumple.field.required %}
+                    <span style="color: red; font-weight: bold;">*</span>
+                    {% endif %}
+                </label>
+            </div>
+            <div class="input-with-icon">
+                {{ profile_form.fecha_cumple }}
+                {% if profile_form.fecha_cumple.errors %}
+                <div class="error-message">{{ profile_form.fecha_cumple.errors }}</div>
+                {% endif %}
+                <div class="icon">
+                    <i style="margin: 0; padding: 0; color: #fff;"
+                        class="{{ profile_form.fecha_cumple.field.widget.attrs.icon_class }}"></i>
+                </div>
+            </div>
+
+
+
+            <div style="
+                    width: 100%;
+                ">
+                <label class="label-style" for="{{ profile_form.direccion.id_for_label }}">
+                    {{profile_form.direccion.label }}
+                    <span style="color: red; font-weight: bold;">*</span>
+                </label>
+            </div>
+            <div class="input-with-icon">
+                {{ profile_form.direccion }}
+                {% if profile_form.direccion.errors %}
+                <div class="error-message">{{ profile_form.direccion.errors }}</div>
+                {% endif %}
+                <div class="icon">
+                    <i style="margin: 0; padding: 0; color: #fff;"
+                        class="{{ profile_form.direccion.field.widget.attrs.icon_class }}"></i>
+                </div>
+            </div>
+
+
+
+            <div style="
+                    width: 100%;
+                ">
+                <label class="label-style" for="{{ profile_form.tel.id_for_label }}">{{ profile_form.tel.label }}
+                    {% if profile_form.tel.field.required %}
+                    <span style="color: red; font-weight: bold;">*</span>
+                    {% endif %}
+                </label>
+            </div>
+            <div class="input-with-icon">
+                {{ profile_form.tel }}
+                {% if profile_form.tel.errors %}
+                <div class="error-message">{{ profile_form.tel.errors }}</div>
+                {% endif %}
+                <div class="icon">
+                    <i style="margin: 0; padding: 0; color: #fff;"
+                        class="{{ profile_form.tel.field.widget.attrs.icon_class }}"></i>
+                </div>
+            </div>
+
+
+
+            <div style="
+                    width: 100%;
+                ">
+                <label class="label-style" for="{{ form.email.id_for_label }}">{{ form.email.label }}
+                    {% if form.email.field.required %}
+                    <span style="color: red; font-weight: bold;">*</span>
+                    {% endif %}
+                </label>
+            </div>
+            <div class="input-with-icon">
+                {{ form.email }}
+                {% if form.email.errors %}
+                <div class="error-message">{{ form.email.errors }}</div>
+                {% endif %}
+                <div class="icon">
+                    <i style="margin: 0; padding: 0; color: #fff;"
+                        class="{{ form.email.field.widget.attrs.icon_class }}"></i>
+                </div>
+            </div>
+
+
+
+            <div style="
+                    width: 100%;
+                ">
+                <label class="label-style" for="{{ profile_form.facebook.id_for_label }}">{{ profile_form.facebook.label }}
+                    {% if profile_form.facebook.field.required %}
+                    <span style="color: red; font-weight: bold;">*</span>
+                    {% endif %}
+                </label>
+            </div>
+            <div class="input-with-icon">
+                {{ profile_form.facebook }}
+                {% if profile_form.facebook.errors %}
+                <div class="error-message">{{ profile_form.facebook.errors }}</div>
+                {% endif %}
+                <div class="icon">
+                    <i style="margin: 0; padding: 0; color: #fff;"
+                        class="{{ profile_form.facebook.field.widget.attrs.icon_class }}"></i>
+                </div>
+            </div>
+
+
+
+            <div style="
+                    width: 100%;
+                ">
+                <label class="label-style" for="{{ profile_form.twitter.id_for_label }}">{{ profile_form.twitter.label }}
+                    {% if profile_form.twitter.field.required %}
+                    <span style="color: red; font-weight: bold;">*</span>
+                    {% endif %}
+                </label>
+            </div>
+            <div class="input-with-icon">
+                {{ profile_form.twitter }}
+                {% if profile_form.twitter.errors %}
+                <div class="error-message">{{ profile_form.twitter.errors }}</div>
+                {% endif %}
+                <div class="icon">
+                    <i style="margin: 0; padding: 0; color: #fff;"
+                        class="{{ profile_form.twitter.field.widget.attrs.icon_class }}"></i>
+                </div>
+            </div>
+
+
+
+            <div style="
+                    width: 100%;
+                ">
+                <label class="label-style" for="{{ profile_form.ciudad.id_for_label }}">{{ profile_form.ciudad.label }}
+                    {% if profile_form.ciudad.field.required %}
+                    <span style="color: red; font-weight: bold;">*</span>
+                    {% endif %}
+                </label>
+            </div>
+            <div class="input-with-icon">
+                {{ profile_form.ciudad }}
+                {% if profile_form.ciudad.errors %}
+                <div class="error-message">{{ profile_form.ciudad.errors }}</div>
+                {% endif %}
+                <div class="icon">
+                    <i style="margin: 0; padding: 0; color: #fff;"
+                        class="{{ profile_form.ciudad.field.widget.attrs.icon_class }}"></i>
+                </div>
+            </div>
+
+
+
+            <div style="
+                    width: 100%;
+                ">
+                <label class="label-style" for="{{ profile_form.estado.id_for_label }}">
+                    {{ profile_form.estado.label}}
+                    {% if profile_form.estado.field.required %}
+                    <span style="color: red; font-weight: bold;">*</span>
+                    {% endif %}
+                </label>
+            </div>
+            <div class="input-with-icon">
+                {{ profile_form.estado }}
+                {% if profile_form.estado.errors %}
+                <div class="error-message">{{ profile_form.estado.errors }}</div>
+                {% endif %}
+                <div class="icon">
+                    <i style="margin: 0; padding: 0; color: #fff;"
+                        class="{{ profile_form.estado.field.widget.attrs.icon_class }}"></i>
+                </div>
+            </div>
+
+
+
+            <div style="
+                    width: 100%;
+                ">
+                <label class="label-style"
+                    for="{{ profile_form.empresa_institucion.id_for_label }}">{{profile_form.empresa_institucion.label}}
+                    {% if profile_form.empresa_institucio.field.required %}
+                    <span style="color: red; font-weight: bold;">*</span>
+                    {% endif %}
+                </label>
+            </div>
+            <div class="input-with-icon">
+                {{ profile_form.empresa_institucion }}
+                {% if profile_form.empresa_institucion.errors %}
+                <div class="error-message">{{ profile_form.empresa_institucion.errors }}</div>
+                {% endif %}
+                <div class="icon">
+                    <i style="margin: 0; padding: 0; color: #fff;"
+                        class="{{ profile_form.empresa_institucion.field.widget.attrs.icon_class }}"></i>
+                </div>
+            </div>
+
+
+
+            <div style="
+                    width: 100%;
+                ">
+                <label class="label-style" for="{{ profile_form.cargo.id_for_label }}">{{ profile_form.cargo.label }}
+                    {% if profile_form.cargo.field.required %}
+                    <span style="color: red; font-weight: bold;">*</span>
+                    {% endif %}
+                </label>
+            </div>
+            <div class="input-with-icon">
+                {{ profile_form.cargo }}
+                {% if profile_form.cargo.errors %}
+                <div class="error-message">{{ profile_form.cargo.errors }}</div>
+                {% endif %}
+                <div class="icon">
+                    <i style="margin: 0; padding: 0; color: #fff;"
+                        class="{{ profile_form.cargo.field.widget.attrs.icon_class }}"></i>
+                </div>
+            </div>
+            <!-- {{ profile_form.cargo.label_tag }}
+                {{ profile_form.cargo }} -->
+
+
+
+            <div style="
+                    width: 100%;
+                ">
+                <label class="label-style" for="{{ profile_form.licenciatura.id_for_label }}">
+                    {{profile_form.licenciatura.label }}
+                    {% if profile_form.licenciatura.field.required %}
+                    <span style="color: red; font-weight: bold;">*</span>
+                    {% endif %}
+                </label>
+            </div>
+            <div class="input-with-icon">
+                {{ profile_form.licenciatura }}
+                {% if profile_form.licenciatura.errors %}
+                <div class="error-message">{{ profile_form.licenciatura.errors }}</div>
+                {% endif %}
+                <div class="icon">
+                    <i style="margin: 0; padding: 0; color: #fff;"
+                        class="{{ profile_form.licenciatura.field.widget.attrs.icon_class }}"></i>
+                </div>
+            </div>
+            <!-- {{ profile_form.licenciatura.label_tag }}
+                {{ profile_form.licenciatura }} -->
+
+
+
+            <div style="
+                    width: 100%;
+                ">
+                <label class="label-style"
+                    for="{{ profile_form.universidad_licenciatura.id_for_label }}">{{profile_form.universidad_licenciatura.label}}
+                    {% if profile_form.universidad_licenciatura.field.required %}
+                    <span style="color: red; font-weight: bold;">*</span>
+                    {% endif %}
+                </label>
+            </div>
+            <div class="input-with-icon">
+                {{ profile_form.universidad_licenciatura }}
+                {% if profile_form.universidad_licenciatura.errors %}
+                <div class="error-message">{{ profile_form.universidad_licenciatura.errors }}</div>
+                {% endif %}
+                <div class="icon">
+                    <i style="margin: 0; padding: 0; color: #fff;"
+                        class="{{ profile_form.universidad_licenciatura.field.widget.attrs.icon_class }}"></i>
+                </div>
+            </div>
+
+
+
+            <div style="
+                    width: 100%;
+                ">
+                <label class="label-style" for="{{ profile_form.maestria.id_for_label }}">
+                    {{ profile_form.maestria.label}}
+                    {% if profile_form.maestria.field.required %}
+                    <span style="color: red; font-weight: bold;">*</span>
+                    {% endif %}
+                </label>
+            </div>
+            <div class="input-with-icon">
+                {{ profile_form.maestria }}
+                {% if profile_form.maestria.errors %}
+                <div class="error-message">{{ profile_form.maestria.errors }}</div>
+                {% endif %}
+                <div class="icon">
+                    <i style="margin: 0; padding: 0; color: #fff;"
+                        class="{{ profile_form.maestria.field.widget.attrs.icon_class }}"></i>
+                </div>
+            </div>
+
+
+
+            <div style="
+                    width: 100%;
+                ">
+                <label class="label-style"
+                    for="{{ profile_form.universidad_maestria.id_for_label }}">{{profile_form.universidad_maestria.label}}
+                    {% if profile_form.universidad_maestria.field.required %}
+                    <span style="color: red; font-weight: bold;">*</span>
+                    {% endif %}
+                </label>
+            </div>
+            <div class="input-with-icon">
+                {{ profile_form.universidad_maestria }}
+                {% if profile_form.universidad_maestria.errors %}
+                <div class="error-message">{{ profile_form.universidad_maestria.errors }}</div>
+                {% endif %}
+                <div class="icon">
+                    <i style="margin: 0; padding: 0; color: #fff;"
+                        class="{{ profile_form.universidad_maestria.field.widget.attrs.icon_class }}"></i>
+                </div>
+            </div>
+
+
+
+            <div style="
+                    width: 100%;
+                ">
+                <label class="label-style" for="{{ profile_form.doctorado.id_for_label }}">
+                    {{profile_form.doctorado.label }}
+                    {% if profile_form.doctorado.field.required %}
+                    <span style="color: red; font-weight: bold;">*</span>
+                    {% endif %}
+                </label>
+            </div>
+            <div class="input-with-icon">
+                {{ profile_form.doctorado }}
+                {% if profile_form.doctorado.errors %}
+                <div class="error-message">{{ profile_form.doctorado.errors }}</div>
+                {% endif %}
+                <div class="icon">
+                    <i style="margin: 0; padding: 0; color: #fff;"
+                        class="{{ profile_form.doctorado.field.widget.attrs.icon_class }}"></i>
+                </div>
+            </div>
+
+
+
+            <div style="
+                    width: 100%;
+                ">
+                <label class="label-style"
+                    for="{{ profile_form.universidad_doctorado.id_for_label }}">{{profile_form.universidad_doctorado.label}}
+                    {% if profile_form.universidad_doctorado.field.required %}
+                    <span style="color: red; font-weight: bold;">*</span>
+                    {% endif %}
+                </label>
+            </div>
+            <div class="input-with-icon">
+                {{ profile_form.universidad_doctorado }}
+                {% if profile_form.universidad_doctorado.errors %}
+                <div class="error-message">{{ profile_form.universidad_doctorado.errors }}</div>
+                {% endif %}
+                <div class="icon">
+                    <i style="margin: 0; padding: 0; color: #fff;"
+                        class="{{ profile_form.universidad_doctorado.field.widget.attrs.icon_class }}"></i>
+                </div>
+            </div>
+
+
+
+            {{ profile_form.photo.label_tag }}
+            {{ profile_form.photo }}
+            {% if profile_form.photo.value and profile_form.photo.value.size > 1048576 %}
+            <p style="color: red;">El tamaño del archivo debe ser menor o igual a 1 MB.</p>
+            {% endif %}
+
+
+
+            {{ profile_form.experiencia.label_tag }}
+            {{ profile_form.experiencia }}
+
+
+            <div style="
+                    width: 100%;
+                ">
+                <label class="label-style" for="{{ form.boletin.id_for_label }}">{{form.boletin.label}}
+                    {% if form.boletin.field.required %}
+                    <span style="color: red; font-weight: bold;">*</span>
+                    {% endif %}
+                </label>
+            </div>
+            <div style="width: 100%; display: flex; justify-content: start;">
+
+                <div class="form-check form-switch" style="margin-left: 15px; transform: scale(1.4);">
+                    {{ form.boletin }}
+                </div>
+
+            </div>
+
+
+
+            {{ form.group.label_tag }}
+            {{ form.group }}
+
+            <!-- Agregar campos para cambiar la contraseña -->
+            <div style="width: 100%;">
+                <label for="{{ form.new_password.id_for_label }}">{{ form.new_password.label }}
+                    {% if form.new_password.field.required %}
+                    <span style="color: red; font-weight: bold;">*</span>
+                    {% endif %}
+                </label>
+                <br>
+                <small style="color: gray;">{{ form.new_password.help_text }}</small>
+            </div>
+
+            <div class="input-with-icon">
+                {{ form.new_password }}
+                {% if form.new_password.errors %}
+                <div class="error-message">{{ form.new_password.errors }}</div>
+                {% endif %}
+                <div class="icon">
+                    <i style="margin: 0; padding: 0; color: #fff;"
                         class="{{ form.new_password.field.widget.attrs.icon_class }}"></i>
-                    </div>
                 </div>
+            </div>
 
-                <div style="width: 100%;">
-                    <label for="{{ form.confirm_password.id_for_label }}">{{ form.confirm_password.label }}</label>
-                </div>
-                <div class="input-with-icon">
-                    {{ form.confirm_password }}
-                    {% if form.confirm_password.errors %}
-                    <div class="error-message">{{ form.confirm_password.errors }}</div>
+            <div style="width: 100%;">
+                <label for="{{ form.confirm_password.id_for_label }}">{{ form.confirm_password.label }}
+                    {% if form.confirm_password.field.required %}
+                    <span style="color: red; font-weight: bold;">*</span>
                     {% endif %}
-                    <div class="icon">
-                        <i style="margin: 0; padding: 0; color: #fff;"
+                </label>
+            </div>
+            <div class="input-with-icon">
+                {{ form.confirm_password }}
+                {% if form.confirm_password.errors %}
+                <div class="error-message">{{ form.confirm_password.errors }}</div>
+                {% endif %}
+                <div class="icon">
+                    <i style="margin: 0; padding: 0; color: #fff;"
                         class="{{ form.confirm_password.field.widget.attrs.icon_class }}"></i>
-                    </div>
                 </div>
-            
+            </div>
+
         </div>
     </div>
 
@@ -676,7 +636,7 @@
             // Bloquear los botones
             $('button[type="submit"]').prop('disabled', true);
             $('#baker').prop('disabled', true);
-            
+
             // Mostrar alerta de cargando
             Swal.fire({
                 icon: 'info',
@@ -729,19 +689,26 @@
                 // Desbloquear los botones
                 $('button[type="submit"]').prop('disabled', false);
                 $('#baker').prop('disabled', false);
-                
-                
+
+
             });
         });
     });
-
+ 
     $('#baker').on('click', function (e) {
         e.preventDefault();
-        if (confirm('¿Está seguro de cancelar la operación?...los datos no guardados se perderán')) {
-            window.location.href = '{{ list_url }}';
-        } else {
-            return false;
-        }
+        Swal.fire({
+            title: '¿Está seguro de cancelar la operación?',
+            text: 'Los datos no guardados se perderán.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, cancelar',
+            cancelButtonText: 'No, seguir aquí',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '{{ list_url }}';
+            }
+        });
     });
 </script>
 {% endblock %}

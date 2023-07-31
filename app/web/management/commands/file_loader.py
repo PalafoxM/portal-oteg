@@ -20,6 +20,8 @@ def get_year_by_file_name(df, file_name):
         # Retrieve the year value from the filtered DataFrame
         year = filtered_df['AÑO'].iloc[0]
         return year
+    
+    
 def get_name_by_file_name(df, file_name):
     
         # Filter the DataFrame based on the provided file_name
@@ -48,9 +50,7 @@ def load_files_to_model():
             barometro = BarometroTuristico()
             barometro.nombrePDF = str(get_name_by_file_name(df,file_name)) + " " + str(get_year_by_file_name(df,file_name))
             barometro.yearPDF =  get_year_by_file_name(df,file_name)
-
-            # Assuming you are using the S3 storage backend for the doc field
-            # Set the doc field to the S3 URL of the uploaded file
+            
             with open(source_path, "rb") as f:
                 barometro.doc.save(file_name, f)
 

@@ -17,11 +17,18 @@ class EventosView(TemplateView):
 
 @require_GET
 def eventos_list(request):
-
-    eventos = Evento.objects.filter()
+    eventos = Evento.objects.all()
     datos = []
 
     for evento in eventos:
-        datos.append(evento.toJSON())
+        evento_data = evento.toJSON()
+        
+        # Si el campo 'imagen' es un campo de imagen proporcionado por Django (por ejemplo, models.ImageField)
+        # Puedes acceder a la URL de la imagen almacenada en S3 utilizando 'evento.imagen.url'
+        if evento.imagen:
+            imagen_s3_url = evento.imagen.url
+            evento_data['imagen'] = imagen_s3_url
+        
+        datos.append(evento_data)
     print(datos)
     return JsonResponse(datos, safe=False)

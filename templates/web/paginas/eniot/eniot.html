@@ -1,6 +1,34 @@
 {% extends 'web/body.html' %}
 {% load static %}
 {% block head_view %}
+<script>
+   // Wait for the DOM to load
+   document.addEventListener("DOMContentLoaded", function () {
+    // Get all elements with the clickable-card class (excluding PDF card)
+    const cards = document.querySelectorAll(".clickable-card:not(.pdf-card)");
+
+    // Add click event listener to each card (excluding PDF card)
+    cards.forEach((card) => {
+      card.addEventListener("click", function () {
+        // Get the link from the card
+        const link = this.querySelector("a").href;
+        // Navigate to the link within the same page
+        window.location.href = link;
+      });
+    });
+
+    // Get the PDF card element
+    const pdfCard = document.querySelector(".pdf-card");
+
+    // Add click event listener to the PDF card
+    pdfCard.addEventListener("click", function () {
+      // Get the link from the card
+      const link = this.querySelector("a").href;
+      // Open the link in a new tab/window
+      window.open(link, "_blank");
+    });
+  });
+</script>
 <style>
    .carousel-inner .carousel-item {
   position: relative;
@@ -64,7 +92,16 @@ img.img-fluid {
   max-width: 100%;
   height: auto;
 }
+.card {
+  /* ... (existing CSS rules) */
+  transition: transform 0.2s ease-in-out;
+}
 
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
 </style>
 {% endblock %}
 <!-- contenido -->
@@ -116,7 +153,7 @@ img.img-fluid {
     ">
         {% if pdf.doc_url %}
         <div class="col">
-            <div class='card'>
+            <div class='card clickable-card pdf-card'>
                 <div style='        
           position: relative;
           overflow: hidden;
@@ -147,7 +184,7 @@ img.img-fluid {
                   padding-right: 20px;
                   ">
                         <h2>Programa de la próxima edición</h2>
-                        <a href="https://portal-oteg.s3.amazonaws.com/media/{{pdf.doc_url}}" style="
+                        <a href="{{pdf.doc_url.url}}" style="
                           color:#ED4C02 ;
                           font-family: Montserrat;
                           font-size: 14px;
@@ -163,7 +200,7 @@ img.img-fluid {
         </div>
         {% endif %}
         <div class="col">
-            <div class='card'>
+            <div class='card clickable-card'>
                 <div style='        
           position: relative;
           overflow: hidden;
@@ -209,7 +246,7 @@ img.img-fluid {
             </div>
         </div>
         <div class="col">
-            <div class='card'>
+            <div class='card clickable-card'>
                 <div style='        
           position: relative;
           overflow: hidden;

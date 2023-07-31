@@ -1,0 +1,427 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'fontawesome-free/css/all.min.css' %}">
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>OTEG Admin | {{ title }}</title>
+    <link rel="icon" href="{% static 'images/fuentes_informacion/OTEG_Fav_Icon.svg' %}" type="image/x-icon">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Sweetalert2 -->
+    <script src="{% static 'librerias/sweetalert2-11.7.1/sweetalert2.all.min.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+
+
+    <script src="{% static 'admin/js/functions.js' %}"></script>
+
+
+    <style>
+        @font-face {
+            font-family: 'avenir';
+            src: url('{% static "fonts/Avenir-Light.woff" %}');
+        }
+
+        body {
+            background-image: url('{% static "img/logInbg.png" %}');
+            width: 100%;
+            height: 100vh;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: avenir, sans-serif;
+            padding: 0;
+
+
+        }
+
+
+
+        .log-in-card {
+            width: 315px;
+            height: 500px;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1;
+            gap: 0;
+            overflow: hidden;
+
+
+        }
+
+        .rectangle {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-image: linear-gradient(90deg, #2038B3 0%, #E70062 47.52%, #F17E00 100%);
+            opacity: 0.2;
+        }
+
+        .input-containter {
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            border-bottom: 1px solid #4A4A4A;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+            font-family: avenir;
+        }
+
+        .input-containter-bad {
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            border-bottom: 1px solid #E70062;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+            font-family: avenir;
+            animation: shake .9s;
+        }
+
+
+        input:focus {
+            outline: none;
+        }
+
+        /* Media queries for smaller devices */
+        @media screen and (max-width: 600px) {
+            .log-in-card {
+                width: 80%;
+                height: auto;
+                padding-top: 4rem;
+                padding-bottom: 5rem;
+            }
+        }
+
+        /* Media queries for medium devices */
+        @media only screen and (min-width: 600px) and (max-width: 1200px) {
+            .log-in-card {
+                width: 40%;
+                height: auto;
+                padding-top: 4rem;
+                padding-bottom: 5rem;
+            }
+        }
+
+        /* Media queries for larger devices */
+        @media only screen and (min-width: 1200px) {
+            .log-in-card {
+                width: 23%;
+                height: auto;
+                padding-top: 4rem;
+                padding-bottom: 5rem;
+                margin-right: 0;
+            }
+        }
+
+        @keyframes shake {
+            0% {
+                transform: translateX(0);
+            }
+
+            10% {
+                transform: translateX(-10px);
+            }
+
+            20% {
+                transform: translateX(10px);
+            }
+
+            30% {
+                transform: translateX(-10px);
+            }
+
+            40% {
+                transform: translateX(10px);
+            }
+
+            50% {
+                transform: translateX(-10px);
+            }
+
+            60% {
+                transform: translateX(10px);
+            }
+
+            70% {
+                transform: translateX(-10px);
+            }
+
+            80% {
+                transform: translateX(10px);
+            }
+
+            90% {
+                transform: translateX(-10px);
+            }
+
+            100% {
+                transform: translateX(0);
+            }
+        }
+        .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.recupera-tu-cuenta {
+    color: #4A4A4A;
+    font-family: Avenir;
+    font-size: 16px;
+    line-height: 19px;
+}
+
+.podemos-ayudarte-a-r {
+    color: #4A4A4A;
+    font-family: Avenir;
+    font-size: 14px;
+    line-height: 22px;
+    width: 302px;
+    /* padding-left: 40px;
+    padding-right: 40px; */
+}
+
+/* Media Query para hacerlo responsivo */
+@media (max-width: 768px) {
+    .container {
+        width: 100%;
+    }
+
+    .podemos-ayudarte-a-r {
+        /* width: 100%; */
+        padding: 0 10px;
+    }
+}
+/* ... Otros estilos ... */
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+}
+
+.submit-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.text-d-container {
+    display: flex;
+    align-items: center;
+    margin-left: auto; /* Alinea a la derecha ocupando el espacio restante */
+    margin-top: 30px;
+}
+
+.text-d-container p {
+    margin-left: 5px;
+}
+
+input[type="submit"] {
+    background-image: linear-gradient(140.57deg, #ED4C02 0%, #FB8A55 100%);
+    border-radius: 24.5px;
+    width: 294px;
+    height: 49px;
+    box-shadow: none;
+    color: white;
+    font-size: 16px;
+    font-family: avenir;
+    padding-left: 20px;
+    cursor: pointer;
+}
+
+.arrow-icon {
+    color: #4A4A4A;
+    font-size: 14px;
+    /* display: flex; */
+    align-items: center;
+    margin-left: 10px;
+}
+
+/* Media Query para hacerlo responsivo */
+@media (max-width: 768px) {
+    /* ... Otros estilos responsivos ... */
+
+    .submit-container {
+        flex-direction: column;
+    }
+
+    .arrow-icon {
+        margin-left: 0;
+        margin-top: 10px;
+    }
+}
+
+    </style>
+
+</head>
+
+<body>
+
+
+    <form method="post" class="log-in-card">
+
+        <img style="width: 30%;" src='{% static "img/OTEG_Logo.png" %}' />
+        <div class="container">
+            <p class="recupera-tu-cuenta">RECUPERA TU CUENTA</p>
+            <p class="podemos-ayudarte-a-r">Podemos ayudarte a restablecer tu contraseña, ingresa tu usuario:</p>
+        </div>
+        
+
+        {% csrf_token %}
+
+        <div style="padding-top: 10px;
+            width: 80%;
+            ">
+            <div>
+
+                {% if messages %}
+
+                <div class="input-containter-bad">
+                    <i style="color: #4A4A4A;" class="fas regular fa-user"></i>
+                    <input style="
+                border: none;
+                border-radius: 5px;
+                width: 80%;
+                height: 30px;
+                padding-left: 10px;
+                font-family: avenir;
+                " type="text" name="usuario" placeholder="Ususario" autocomplete="off" required>
+
+
+                    {% if messages %}
+                    <i style="color: #E70062;" class="fas fa-exclamation-circle"></i>
+                    {% else %}
+                    <i style="color: #FFF;" class="far fa-eye"></i>
+                    {% endif %}
+
+
+                </div>
+
+                {% else %}
+
+
+
+                <div class="input-containter">
+                    <i style="color: #4A4A4A;" class="fas regular fa-user"></i>
+                    <input style="
+                border: none;
+                border-radius: 5px;
+                width: 80%;
+                height: 30px;
+                padding-left: 10px;
+                font-family: avenir;
+                " type="text" name="username" placeholder="Ususario" autocomplete="off" required>
+
+
+                    {% if messages %}
+                    <i style="color: #E70062;" class="fas fa-exclamation-circle"></i>
+                    {% else %}
+                    <i style="color: #FFF;" class="far fa-eye"></i>
+                    {% endif %}
+
+
+                </div>
+                {% endif %}
+
+
+
+            </div>
+            {% if form.errors %}
+            <div style="color: #E70062; font-size: 12px; margin-top: 0.5rem;">
+                {% for field in form %}
+                {% for error in field.errors %}
+                {{ error }}
+                {% endfor %}
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                <p style=" font-size: 10px; cursor: pointer;
+             color: #E70062;
+            ; ">
+                    {{ message }}
+                </p>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <div class="button-container">
+                <div class="submit-container">
+                    <input type="submit" value="Enviar" name="username" placeholder="Iniciar sesión" />
+                </div>
+                <div class="text-d-container">
+                    <a href="{% url 'logIn:login_user' %}" style="font-size: 14px; cursor: pointer; color: #4A4A4A; font-family: avenir; text-decoration: none;">
+                        INICIAR SESIÓN
+                        <span class="arrow-icon">
+                            <i class="fas fa-arrow-right"></i>
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+
+    <!-- rest of your HTML content here -->
+</body>
+
+
+<script>
+    function togglePasswordVisibility() {
+        var pwdField = document.getElementById("pwd");
+        var eyeIcon = document.querySelector("#eye");
+        if (pwdField.type === "password") {
+            pwdField.type = "text";
+            eyeIcon.classList.remove("fa-eye-slash");
+            eyeIcon.classList.add("fa-eye");
+        } else {
+            pwdField.type = "password";
+            eyeIcon.classList.remove("fa-eye");
+            eyeIcon.classList.add("fa-eye-slash");
+        }
+    }
+
+    $(function () {
+                $('form').on('submit', function (e) {
+                    e.preventDefault();
+                    var parameters = new FormData(this);
+                    console.log("Parameters: ", parameters)
+                    submit_with_ajax(window.location.pathname, 'Notificación', '¿Estas seguro de resetear tu contraseña?', parameters, function () {
+                        Swal.fire({
+                            title: 'Notificación',
+                            text: 'Se ha enviado un correo electrónico con los pasos a seguir para que pueda resetear su contraseña',
+                            icon: 'success',
+                            timer: 5000,
+                            onClose: () => {
+                                location.href = '/';
+                            }
+                        }).then((result) => {
+
+                        });
+                    });
+                });
+            });
+</script>
+
+</html>

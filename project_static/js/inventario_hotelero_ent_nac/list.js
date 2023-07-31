@@ -1,19 +1,28 @@
-var csrftoken = getCookie('csrftoken');
-
-function getCookie(name) {
-    var cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
+// Módulo que contiene la función para obtener el valor de la cookie csrftoken
+var CsrfModule = (function () {
+    function getCookie(name) {
+      var cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
         var cookies = document.cookie.split(';');
         for (var i = 0; i < cookies.length; i++) {
-            var cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
+          var cookie = cookies[i].trim();
+          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
         }
+      }
+      return cookieValue;
     }
-    return cookieValue;
-}
+  
+    // Exportar la función getCookie para que sea accesible desde otros módulos
+    return {
+      getCookie: getCookie
+    };
+  })();
+  
+  // Utilizar la función getCookie del módulo CsrfModule para obtener csrftoken
+  var csrftoken = CsrfModule.getCookie('csrftoken');
 
 var datatur = {
     list: function () {
@@ -53,7 +62,7 @@ var datatur = {
                         html += '<i class="fas fa-edit" onclick="location.href=\'edit/' + row.id + '/\'"></i>';
                         html += '<form method="post" action="delete/' + row.id + '/">';
                         html += '<input type="hidden" name="csrfmiddlewaretoken" value="' + csrftoken + '">';
-                        html += '<button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="return confirm(\'¿Está seguro de que desea eliminar la informacion?\');">';
+                        html += '<button type="submit" class="ml-1 mr-1 actions-btn delete-r" id="delete-r">';
                         html += '<i class="fas fa-trash"></i>';
                         html += '</button>';
                         html += '</form>';

@@ -17,7 +17,7 @@ class SenEmail(forms.Form):
         label="País"
     )
     subject = forms.CharField(widget=forms.TextInput(attrs = { 'placeholder': 'Agrega tu nombre'}), max_length=100, required=True, label="Nombre completo")
-    message = forms.CharField(widget=forms.Textarea(attrs = { 'placeholder': 'Agrega el mensaje'}), required=True, label="Requerimiento y objetivo de la solicitud*")
+    message = forms.CharField(widget=forms.Textarea(attrs = { 'placeholder': 'Agrega el mensaje'}), required=True, label="Requerimiento y objetivo de la solicitud")
 
     def clean_email(self):
         email = self.cleaned_data.get('email')

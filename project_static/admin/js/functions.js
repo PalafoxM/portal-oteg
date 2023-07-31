@@ -1,20 +1,20 @@
-function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
+// function getCookie(name) {
+//     let cookieValue = null;
+//     if (document.cookie && document.cookie !== '') {
+//         const cookies = document.cookie.split(';');
+//         for (let i = 0; i < cookies.length; i++) {
+//             const cookie = cookies[i].trim();
+//             // Does this cookie string begin with the name we want?
+//             if (cookie.substring(0, name.length + 1) === (name + '=')) {
+//                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+//                 break;
+//             }
+//         }
+//     }
+//     return cookieValue;
+// }
 
-const csrftoken = getCookie('csrftoken');
+// const csrftoken = getCookie('csrftoken');
 
 function message_error(obj) {
     var html = '';
@@ -51,25 +51,23 @@ function submit_with_ajax(url, title, content, parameters, callback) {
                 btnClass: 'btn-primary',
                 action: function () {
                     $.ajax({
-                        url: url,
-                        data: parameters,
+                        url: url, //window.location.pathname
                         type: 'POST',
+                        data: parameters,
                         dataType: 'json',
-                        headers: {
-                            'X-CSRFToken': csrftoken
-                        },
                         processData: false,
                         contentType: false,
-                        success: function (request) {
-                            if (!request.hasOwnProperty('error')) {
-                                callback(request);
-                                return false;
-                            }
-                            message_error(request.error);
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            message_error(errorThrown + ' ' + textStatus);
+                    }).done(function (data) {
+                        console.log(data);
+                        if (!data.hasOwnProperty('error')) {
+                            callback(data);
+                            return false;
                         }
+                        message_error(data.error);
+                    }).fail(function (jqXHR, textStatus, errorThrown) {
+                        alert(textStatus + ': ' + errorThrown);
+                    }).always(function (data) {
+
                     });
                 }
             },
@@ -155,4 +153,36 @@ function validate_decimals(el, evt) {
     }
 
     return true;
+}
+
+function submit_with_ajaxV2(url, title, content, parameters, callback) {
+    Swal.fire({
+        title: title,
+        text: content,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Si',
+        cancelButtonText: 'No',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: parameters,
+                dataType: 'json',
+                processData: false,
+                contentType: false,
+            }).done(function (data) {
+                if (!data.hasOwnProperty('error')) {
+                    callback(data);
+                } else {
+                    Swal.fire('Error', data.error, 'error');
+                }
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                Swal.fire('Error', textStatus + ': ' + errorThrown, 'error');
+            });
+        }
+    });
 }

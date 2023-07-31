@@ -31,7 +31,8 @@ urlpatterns = [
     path('sitios-interes/', SitiosView.as_view(), name='sitios_interes'),
     path('pdf-protocolo_alba/', PdfView.as_view(), name='pdf_protocolo_alba'),
     path('protocolo-alba/', ProtocoloAlbaView.as_view(), name='protocolo_alba'),
-    path('solicitudes/',solicitudes, name='solicitudes'),
+    # path('solicitudes/',solicitudes, name='solicitudes'),
+    path('solicitudes/',SolicitudesView.as_view(), name='solicitudes'),
     path('segmento-turistico/cultural',CulturalView.as_view(), name='cultural'),
     path('segmento-turistico/naturaleza',NaturalezaView.as_view(), name='naturaleza'),
     path('segmento-turistico/deportivo',DeportivoView.as_view(), name='deportivo'),
@@ -48,7 +49,7 @@ urlpatterns = [
     path('publicaciones_new/',PublicacionesNewView.as_view(), name='publicaciones_new'),
     path('publicaciones/perfil_visistante_ciudad/<int:pk>/',PerfilVisitanteCiudad.as_view(), name='perfil_visistante_ciudad'),
     
-    path('puplicaciones/seccion/<int:pk>/',PublicacionesSecciones.as_view(), name='publicaciones_secciones'),
+    path('publicaciones/seccion/<int:pk>/',PublicacionesSecciones.as_view(), name='publicaciones_secciones'),
     
     path('publicaciones_pdf_viewer/<int:pk>/',PublicacionesPDFViewer.as_view(), name='publicaciones_pdf_viewer'),
     path('pdf/<int:pk>/', PDFDownloadView.as_view(), name='pdf_download'),

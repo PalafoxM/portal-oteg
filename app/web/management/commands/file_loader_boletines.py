@@ -36,8 +36,8 @@ def get_year_by_file_name(df, file_name):
         # Retrieve the year value from the filtered DataFrame
         year = filtered_df['Año'].iloc[0]
 
-        if year :
-            return int(year)
+        if year:
+            return int(year)    
         else:
             return 0
 
@@ -72,7 +72,7 @@ def load_files_to_model_boletines():
     df = pd.read_excel(excel_file_path)
     df['Mes'] = df['Mes'].map(month_to_number)
     df['Mes'] = df['Mes'].fillna("1")
-
+    df['Año'] = df['Año'].fillna(0)
 
     for file_name in os.listdir(source_folder):
 

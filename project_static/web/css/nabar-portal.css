@@ -561,8 +561,8 @@ body {
 /* oteg */
 .card-oteg {
     
-    cursor: grab;
-    user-select: none;
+    /* cursor: grab;
+    user-select: none; */
     flex-shrink: 0;
     /* padding: 0 !important; */
     margin-right: 20px;

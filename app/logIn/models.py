@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from storages.backends.s3boto3 import S3Boto3Storage
 import os
 from django.core.validators import RegexValidator
+from django.contrib.auth.models import AbstractUser
+from django.forms import model_to_dict
 
 # Crear un RegexValidator para validar un campo numérico de 10 dígitos
 validator = RegexValidator(
@@ -43,6 +45,7 @@ class Profile(models.Model):
     experiencia = models.TextField(null=True, blank=True)
     boletin = models.BooleanField(default=False)
     fecha_registro = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    token = models.UUIDField(primary_key=False, editable=False, null=True, blank=True)
 
     def __str__(self):
         return str(self.user)
@@ -50,4 +53,3 @@ class Profile(models.Model):
     class Meta:
         db_table = 'profile'
         ordering = ['-id']
-

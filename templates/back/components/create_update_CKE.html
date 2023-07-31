@@ -27,36 +27,37 @@
     .help-text-2 {
         margin-top: 5px;
     }
+
     .input-file {
         width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-bottom: 20px;
-}
-
-.input-file label {
-    margin-bottom: 5px;
-}
-
-.error-message {
-    color: red;
-    font-size: 14px;
-    margin-top: 5px;
-}
-
-.text-file {
-    font-size: 14px;
-    color: #888888;
-    margin-top: 5px;
-}
-
-/* Estilos responsivos */
-@media screen and (max-width: 767px) {
-    .input-file {
-        margin-bottom: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom: 20px;
     }
-}
+
+    .input-file label {
+        margin-bottom: 5px;
+    }
+
+    .error-message {
+        color: red;
+        font-size: 14px;
+        margin-top: 5px;
+    }
+
+    .text-file {
+        font-size: 14px;
+        color: #888888;
+        margin-top: 5px;
+    }
+
+    /* Estilos responsivos */
+    @media screen and (max-width: 767px) {
+        .input-file {
+            margin-bottom: 10px;
+        }
+    }
 </style>
 
 
@@ -112,12 +113,12 @@
             {% csrf_token %}
             {{ form.media }}
             {% for field in form %}
-                {% if field.name == 'titulo' or field.name == 'nomenclatura' or field.name == 'dimension' or field.name == 'iframe' %}
-                    <div style="
+            {% if field.name == 'titulo' or field.name == 'nomenclatura' or field.name == 'dimension' or field.name == 'iframe' %}
+            <div style="
                             width: 100%;
             
                         ">
-                        <label style="
+                <label style="
                         font-family: avenir;
                         font-weight: bold;
                         font-size: 15px;
@@ -125,65 +126,68 @@
                         padding: 0;
                     " for="{{ field.id_for_label }}">{{ field.label }}</label>
 
-                    </div>
+            </div>
 
 
-                    <div class="input-with-icon">
-                        {{ field }}
-                        {% if field.errors %}
-                        <div class="error-message">{{ field.errors }}</div>
-                        {% endif %}
-                        {% if field.help_text %}
-                        <div class="help-text">{{ field.help_text }}</div>
-                        {% endif %}
-                        <div class="icon"><i style="
+            <div class="input-with-icon">
+                {{ field }}
+                {% if field.errors %}
+                <div class="error-message">{{ field.errors }}</div>
+                {% endif %}
+                {% if field.help_text %}
+                <div class="help-text">{{ field.help_text }}</div>
+                {% endif %}
+                <div class="icon"><i style="
                                 margin: 0;
                                 padding: 0;
                                 color: #fff;
                             " class="{{ field.field.widget.attrs.icon_class }}"></i></div>
-                    </div>
+            </div>
 
-                {% else %}
+            {% else %}
 
-                    {% if field.field.widget.input_type == 'file' %}
-                        <div class="input-file">
-                            <label style="
+            {% if field.field.widget.input_type == 'file' %}
+            <div class="input-file">
+                <label style="
                                 font-family: avenir;
                                 font-weight: bold;
                                 font-size: 15px;
                                 margin: 0;
                                 padding: 0;
                             " for="{{ field.id_for_label }}">{{ field.label }}</label>
-                            {{ field }}
-                            {% if field.errors %}
-                                <div class="error-message">{{ field.errors }}</div>
-                            {% endif %}
-                            <div class="text-file">Recuerda comprimir el archivo para que no supere 1MB. Te recomendamos utilizar un compresor de archivos como <a href="https://squoosh.app/" target="_blank">Squoosh</a> para imágenes y <a href="https://www.ilovepdf.com/es/comprimir_pdf" target="_blank">iLovePDF</a> para archivos PDF.</div>
+                {{ field }}
+                {% if field.errors %}
+                <div class="error-message">{{ field.errors }}</div>
+                {% endif %}
+                <div class="text-file">Recuerda comprimir el archivo para que no supere 1MB. Te recomendamos utilizar un
+                    compresor de archivos como <a href="https://squoosh.app/" target="_blank">Squoosh</a> para imágenes
+                    y <a href="https://www.ilovepdf.com/es/comprimir_pdf" target="_blank">iLovePDF</a> para archivos
+                    PDF.</div>
 
 
-                        </div>
-                    {% elif field.name == 'descripcion' %}
-                        <div class="input-with-icon">
-                            {{ field }}
-                            {% if field.errors %}
-                                <div class="error-message">{{ field.errors }}</div>
-                            {% endif %}
-                            {% if field.help_text %}
-                                <div class="help-text">{{ field.help_text }}</div>
-                            {% endif %}
-                            <div class="icon"><i style="
+            </div>
+            {% elif field.name == 'descripcion' %}
+            <div class="input-with-icon">
+                {{ field }}
+                {% if field.errors %}
+                <div class="error-message">{{ field.errors }}</div>
+                {% endif %}
+                {% if field.help_text %}
+                <div class="help-text">{{ field.help_text }}</div>
+                {% endif %}
+                <div class="icon"><i style="
                                 margin: 0;
                                 padding: 0;
                                 color: #fff;
                             " class="{{ field.field.widget.attrs.icon_class }}"></i></div>
-                        </div>
+            </div>
 
-                    {% else %}
+            {% else %}
 
-                    
-                    <div style=" width: 100%;">
 
-                    <label style="
+            <div style=" width: 100%;">
+
+                <label style="
                         font-family: avenir;
                         font-weight: bold;
                         font-size: 15px;
@@ -191,46 +195,47 @@
                         padding: 0;
                     " for="{{ field.id_for_label }}">{{ field.label }}</label>
 
-                    </div>
+            </div>
 
-                    <div class="input-with-icon">
-                        {{ field }}
-                        {% if field.errors %}
-                        <div class="error-message">{{ field.errors }}</div>
-                        {% endif %}
-                        {% if field.help_text %}
-                        <div class="help-text">{{ field.help_text }}</div>
-                        {% endif %}
-                        <div class="icon"><i style="
+            <div class="input-with-icon">
+                {{ field }}
+                {% if field.errors %}
+                <div class="error-message">{{ field.errors }}</div>
+                {% endif %}
+                {% if field.help_text %}
+                <div class="help-text">{{ field.help_text }}</div>
+                {% endif %}
+                <div class="icon"><i style="
                                 margin: 0;
                                 padding: 0;
                                 color: #fff;
                             " class="{{ field.field.widget.attrs.icon_class }}"></i></div>
-                    </div>
-                    
-                    {% endif %}
+            </div>
+
+            {% endif %}
 
 
-                {% endif %}
-            
+            {% endif %}
+
 
 
 
             {% endfor %}
 
-            </div>
         </div>
+    </div>
 
 
-        <div style="display: flex;justify-content: space-around;align-items: center;margin-bottom: 20px; gap: 20px;">
-            <div id="baker" style="cursor: pointer; background-color: #EC9711;width: 370px;height: 47px;color: #fff;display: flex;justify-content: center;align-items: center;border-radius: 5px;">
-                <p style="color: #fff; 
+    <div style="display: flex;justify-content: space-around;align-items: center;margin-bottom: 20px; gap: 20px;">
+        <div id="baker"
+            style="cursor: pointer; background-color: #EC9711;width: 370px;height: 47px;color: #fff;display: flex;justify-content: center;align-items: center;border-radius: 5px;">
+            <p style="color: #fff; 
                 font-family: avenir;
                 font-weight: bold; font-size: 15px; margin: 0; padding: 0; text-align: center;">
-                    Cancelar</p>
-            </div>
+                Cancelar</p>
+        </div>
 
-            <button type="submit" style="
+        <button type="submit" style="
             background-color: #0CAB7B;
             width: 370px;
             height: 47px;
@@ -242,14 +247,14 @@
             border-radius: 5px;">
 
 
-                <p style="cursor: pointer; color: #fff; 
+            <p style="cursor: pointer; color: #fff; 
                 font-family: avenir;
                 font-weight: bold; font-size: 15px; margin: 0; padding: 0; text-align: center;">
-                    Guardar </p>
-            </button>
+                Guardar </p>
+        </button>
 
 
-        </div>
+    </div>
 
 </form>
 
@@ -257,16 +262,19 @@
 
 
 {% endblock %}
-
 <script type="text/javascript" src="{% static " ckeditor/ckeditor-init.js" %}"></script>
 <script type="text/javascript" src="{% static " ckeditor/ckeditor/ckeditor.js" %}"></script>
 
 
 {% block javascript %}
+
+
+
 <script type="application/javascript">
 
-  
-$(document).ready(function () {
+
+    $(document).ready(function () {
+
         $('.card-body .input-with-icon [data-icon-class]').each(function () {
             var iconClass = $(this).data('icon-class');
             var iconElement = $(this).closest('.input-with-icon').find('.icon');
@@ -276,100 +284,113 @@ $(document).ready(function () {
         });
 
         flatpickr(".fecha-input", {
-        dateFormat: "Y-m-d",
-        //minDate: "today", // Fecha mínima seleccionable (hoy)
-        locale: "es",
+            dateFormat: "Y-m-d",
+            //minDate: "today", // Fecha mínima seleccionable (hoy)
+            locale: "es",
+        });
+
+        console.log('ready');
+
+        var ckeditorContent ='{% filter escapejs %}{{ report_description }}{% endfilter %}';
+
+        console.log(ckeditorContent);
+
+        
+        CKEDITOR.instances['id_descripcion'].setData(ckeditorContent);
     });
 
-    });
 
 
 
-    $(function () {
-        $('form').on('submit', function (e) {
-            e.preventDefault();
-            // Bloquear los botones
-            $('button[type="submit"]').prop('disabled', true);
-            $('#baker').prop('disabled', true);
-            
-            // Mostrar alerta de cargando
-            Swal.fire({
-                icon: 'info',
-                title: 'Cargando...',
-                showConfirmButton: false,
-                allowOutsideClick: false
-            });
+    $('form').on('submit', function (e) {
+        e.preventDefault();
+        // Bloquear los botones
+        $('button[type="submit"]').prop('disabled', true);
+        $('#baker').prop('disabled', true);
 
-            var parameters = new FormData(this);
+        // Mostrar alerta de cargando
+        Swal.fire({
+            icon: 'info',
+            title: 'Cargando...',
+            showConfirmButton: false,
+            allowOutsideClick: false
+        });
 
-            setTimeout(function () {
-                for (var instanceName in CKEDITOR.instances) {
+        var parameters = new FormData(this);
 
-                    console.log(instanceName);
+        setTimeout(function () {
+            for (var instanceName in CKEDITOR.instances) {
 
-                    var instance = CKEDITOR.instances[instanceName];
+                console.log(instanceName);
 
-                    if (instance) {
-                        CKEDITOR.instances[instanceName].updateElement();
-                        instance.setData(instance.getData());
+                var instance = CKEDITOR.instances[instanceName];
 
-                    }
+                if (instance) {
+                    CKEDITOR.instances[instanceName].updateElement();
+                    instance.setData(instance.getData());
+
                 }
-            }, 500);
+            }
+        }, 500);
 
-            parameters.set('descripcion', CKEDITOR.instances['id_descripcion'].getData());
+        parameters.set('descripcion', CKEDITOR.instances['id_descripcion'].getData());
 
-            $.ajax({
-                url: window.location.pathname,
-                type: 'POST',
-                data: parameters,
-                processData: false,
-                contentType: false,
-                dataType: 'json'
-            }).done(function (data) {
-                // Cerrar la alerta de cargando
-                Swal.close();
-                if (data.success) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Buen trabajo!',
-                        text: 'Operación exitosa.',
-                        timer: 2000,
-                        showConfirmButton: false
-                    }).then(function () {
-                        window.location.href = '{{ list_url }}';
-                    });
-                } else {
-                    var errors = '';
-                    for (var field in data.errors) {
-                        errors += data.errors[field].join('\n');
-                    }
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error!',
-                        text: errors,
-                        timer: 3000, // Cerrar después de 3 segundos (3000 milisegundos)
-                        showConfirmButton: false
-                    });
+        $.ajax({
+            url: window.location.pathname,
+            type: 'POST',
+            data: parameters,
+            processData: false,
+            contentType: false,
+            dataType: 'json'
+        }).done(function (data) {
+            // Cerrar la alerta de cargando
+            Swal.close();
+            if (data.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Buen trabajo!',
+                    text: 'Operación exitosa.',
+                    timer: 2000,
+                    showConfirmButton: false
+                }).then(function () {
+                    window.location.href = '{{ list_url }}';
+                });
+            } else {
+                var errors = '';
+                for (var field in data.errors) {
+                    errors += data.errors[field].join('\n');
                 }
-            }).fail(function (jqXHR, textStatus, errorThrown) {
-                alert(textStatus + ': ' + errorThrown);
-            }).always(function (data) {
-                // Desbloquear los botones
-                $('button[type="submit"]').prop('disabled', false);
-                $('#baker').prop('disabled', false);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: errors,
+                    timer: 3000, // Cerrar después de 3 segundos (3000 milisegundos)
+                    showConfirmButton: false
+                });
+            }
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            alert(textStatus + ': ' + errorThrown);
+        }).always(function (data) {
+            // Desbloquear los botones
+            $('button[type="submit"]').prop('disabled', false);
+            $('#baker').prop('disabled', false);
 
-            });
         });
     });
-
     $('#baker').on('click', function (e) {
         e.preventDefault();
-        if (confirm('¿Está seguro de cancelar la operación?...los datos no guardados se perderán')) {
-            window.location.href = '{{ list_url }}';
-        } else {
-            return false;
-        }
+        Swal.fire({
+            title: '¿Está seguro de cancelar la operación?',
+            text: 'Los datos no guardados se perderán.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, cancelar',
+            cancelButtonText: 'No, seguir aquí',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '{{ list_url }}';
+            }
+        });
     });
 
 

@@ -73,8 +73,7 @@ class SeccionesCentroDocumental(models.Model):
 class Categorias(models.Model):
     nombre_categoria = models.CharField(max_length=100, null=True, blank=True)
     fecha_creacion = models.DateField()
-    seccion = models.ForeignKey(
-        SeccionesCentroDocumental, on_delete=models.CASCADE, null=True, blank=True)
+    seccion = models.ForeignKey(SeccionesCentroDocumental, on_delete=models.CASCADE, null=True, blank=True)
 
 
 class Publications(models.Model):
@@ -97,7 +96,7 @@ class Publications(models.Model):
 
 class Evento (models.Model):
     titulo = models.CharField(max_length=100)
-    descripcion = models.TextField()
+    descripcion = RichTextField()
     fecha_inicio = models.DateField()
     fecha_fin = models.DateField()
     tipo_evento = models.TextField()
@@ -156,10 +155,10 @@ class Alba(models.Model):
 
 class Eniot(models.Model):
     nombrePDF = models.CharField(max_length=100, null=True, blank=True)
-    doc_url = models.FileField(upload_to='eniot', storage=S3Storage(), verbose_name="Documento", blank=True)
     seccion = models.CharField(max_length=100, null=True, blank=True)
     num_descargas = models.IntegerField(null=True, blank=True, default=0)
     anio = models.IntegerField(null=True, blank=False)
+    doc_url = models.FileField(upload_to='eniot', storage=S3Storage(), verbose_name="Documento", blank=True)
     # aniov2 = models.IntegerField(null=True, blank=False)
     date_updated = models.DateTimeField(auto_now=True)
     date_created = models.DateTimeField(auto_now=True)
@@ -167,16 +166,6 @@ class Eniot(models.Model):
     class Meta:
         # db_table = 'eniot'
         ordering = ['-id']
-
-    def save(self, *args, **kwargs):
-        # Actualizar la ruta del documento basado en el campo 'seccion'
-        if self.seccion is not None:
-            filename = os.path.basename(self.doc_url.name)
-            nombre_archivo, extension = os.path.splitext(filename)
-            new_filename = f'{nombre_archivo}-{self.seccion}{extension}'
-            self.doc_url.name = os.path.join( str(self.seccion), new_filename)
-
-        super(Eniot, self).save(*args, **kwargs)
 
 class EniotAlbun(models.Model):
     nombreAlbun = models.CharField(max_length=100, null=True, blank=True)
@@ -188,16 +177,6 @@ class EniotAlbun(models.Model):
     class Meta:
         # db_table = 'eniot'
         ordering = ['-id']
-
-    def save(self, *args, **kwargs):
-        # Actualizar la ruta del documento basado en el nombre del álbum
-        if self.foto_url is not None:
-            filename = os.path.basename(self.foto_url.name)
-            nombre_archivo, extension = os.path.splitext(filename)
-            new_filename = f'{nombre_archivo}-{self.nombreAlbun}{extension}'
-            self.foto_url.name = os.path.join('eniot', self.nombreAlbun, new_filename)
-
-        super(EniotAlbun, self).save(*args, **kwargs)
         
     def get_fotos(self):
         return self.fotos.all()
