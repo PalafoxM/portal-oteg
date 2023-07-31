@@ -49,7 +49,6 @@
 
 
 <form method="post" enctype="multipart/form-data">
-
     <div class=" shadow mb-4" style=" border-radius: 5px;">
         <div style="display: flex;flex-direction: column;justify-content: center;align-items: center;padding: 20px;">
             {% csrf_token %}
@@ -172,6 +171,7 @@
 <script type="text/javascript" src="{% static " ckeditor/ckeditor/ckeditor.js" %}"></script>
 
 
+
 {% block javascript %}
 <script type="application/javascript">
 
@@ -182,15 +182,18 @@
             iconElement.html('<i class="' + iconClass + '"></i>');
 
             console.log('Element found:', $(this));
-
-           
         });
+
+        console.log("kiki");
+        var ckeditorContent = '{{ report_description }}';
+    
+        CKEDITOR.instances["id_descripcion"].setData(ckeditorContent);
+
+        console.log("kiki", ckeditorContent);
+
     });
 
 
-
-
-    $(function () {
         $('form').on('submit', function (e) {
             e.preventDefault();
 
@@ -248,7 +251,7 @@
 
             });
         });
-    });
+
 
     $('#baker').on('click', function (e) {
         e.preventDefault();

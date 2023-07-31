@@ -2137,6 +2137,8 @@ class ReporteMensualForm(forms.ModelForm):
 
 class ReportsForm(forms.ModelForm):
     MAX_SIZE_MB = 1  # Tamaño máximo permitido en MB
+
+    descripcion = forms.CharField(widget=CKEditorWidget())
     class Meta:
         model = Report
         fields = '__all__'

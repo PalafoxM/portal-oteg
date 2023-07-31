@@ -531,8 +531,15 @@ class NoticiaUpdateView(SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        noticia_instance = self.get_object()
+        ckeditor_content = noticia_instance.descripcion
+
+        print(ckeditor_content)
+
         context['form'] = self.form_class(instance=self.object)
         context['list_url'] = reverse_lazy('dashboard:noticias_list')
+        context['report_description'] = ckeditor_content
         context['d_route'] = 'Contenido > Noticias'
         return context
 
