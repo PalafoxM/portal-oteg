@@ -777,7 +777,7 @@
                     
                     ">
 
-                        <img src="{% static 'icons/icon2.svg' %}" alt="" style="width: 55%; height:55%;">
+                        <img src="{% static 'icons/vis.svg' %}" alt="" style="width: 80%; height:80%;">
                     </div>
 
 
@@ -806,7 +806,8 @@
                     justify-content: center;
                     align-items: center;
                     ">
-                        <img src="{% static 'icons/icon3.svg' %}" alt="" style="width: 55%; height:55%;">
+                        <!-- <img src="{% static 'icons/icon3.svg' %}" alt="" style="width: 55%; height:55%;"> -->
+                        <img src="{% static 'icons/icon7.svg' %}" alt="" style="width: 55%; height:55%;">
                     </div>
 
 
@@ -835,7 +836,7 @@
                     justify-content: center;
                     align-items: center;
                     ">
-                        <img src="{% static 'icons/icon4.svg' %}" alt="" style="width: 55%; height:55%;">
+                        <img src="{% static 'icons/per_c.svg' %}" alt="" style="width: 55%; height:55%;">
                     </div>
 
 
@@ -862,7 +863,7 @@
                     justify-content: center;
                     align-items: center;
                     ">
-                        <img src="{% static 'icons/icon7.svg' %}" alt="" style="width: 55%; height:55%;">
+                        <img src="{% static 'icons/sensib_t.svg' %}" alt="" style="width: 65%; height:65%;">
                     </div>
 
 
@@ -890,7 +891,7 @@
                     justify-content: center;
                     align-items: center;
                     ">
-                        <img src="{% static 'icons/icon6.svg' %}" alt="" style="width: 55%; height:55%;">
+                        <img src="{% static 'icons/inv_priv.svg' %}" alt="" style="width: 45%; height:45%;">
                     </div>
                     <h2
                         style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 14px; color: #333333; ">
@@ -932,13 +933,13 @@
 
 
                 <div style='
-    display: flex;
-    justify-content: center;
-    align-items: start;
-    flex-direction: column;
-    margin-top: 65px;
+                display: flex;
+                justify-content: center;
+                align-items: start;
+                flex-direction: column;
+                margin-top: 65px;
 
-    '>
+                '>
 
                     <h1
                         style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 40px; color: #333333;">
@@ -946,21 +947,24 @@
                 </div>
 
 
+            
+
+
+                {% if is_one_new %}
                 <div style="display: flex;
-                width: 100%;
-        justify-content: space-around;
-        align-items: center;
-        flex-wrap: wrap;
-        margin-bottom: 50px;
-        ">
+                        width: 100%;
+                        justify-content: center;
+                        align-items: center;
+                        flex-wrap: wrap;
+                        margin-bottom: 50px; ">
 
                     {% for object in noticias %}
-                    <a href="{% url 'notica_viewer' object.id %}" style="color: #333333; text-decoration: none;">
+                    <a href="{% url 'notica_viewer' object.id %}" style="color: #333333; text-decoration: none; margin:0; padding: 0;">
                         <div class='n-card'>
                             <div style='        position: relative;
-                overflow: hidden;
-                width: 100%;
-                height: 100%;'>
+                                overflow: hidden;
+                                width: 100%;
+                                height: 100%;'>
 
                                 {% if object.imagen %}
                                 <img style="
@@ -1020,98 +1024,97 @@
                         </div>
                     </a>
                     {% endfor %}
-                    <!-- 
-            <div class='n-card'>
-                <div style='        position: relative;
-                overflow: hidden;
-                width: 100%;
-                height: 100%;'>
-                    <img style="
-                        border-radius:8px  8px  0px 0px;
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                        width: 100%;
-                        height: 50%;
-                        object-fit: cover;
-                        object-position: center;"
-                        src="https://guanajuato.mx/wp-content/uploads/2022/05/San-Miguel-de-Allende-Guanajuato-2.jpg"
-                        alt="">
-                    <div style="
-                        border-radius: 0px 0px 8px  8px  ;
-                        position: absolute;
-                        bottom: 0;
-                        left: 0;
-                        width: 100%;
-                        height: 50%;
-                        object-fit: cover;
-                        object-position: center;
-                        padding-left: 20px;
-                        padding-right: 20px;
-                        ">
-                        <h2>Lorem ipsum</h2>
-                        <p>
-                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Expedita voluptate, quibusdam ad
-                            dignissimos qu
-                        </p>
-                        <a style="
-                                color:#ED4C02 ;
-                            ">
-                            Seguir leyendo...
-                        </a>
-                    </div>
+       
 
+        
                 </div>
 
+                {% else %}
 
-            </div>
-
-
-            <div class='n-card'>
-                <div style='        position: relative;
-                overflow: hidden;
+                <div style="display: flex;
                 width: 100%;
-                height: 100%;'>
-                    <img style="
-                        border-radius:8px  8px  0px 0px;
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                        width: 100%;
-                        height: 50%;
-                        object-fit: cover;
-                        object-position: center;"
-                        src="https://guanajuato.mx/wp-content/uploads/2022/05/San-Miguel-de-Allende-Guanajuato-2.jpg"
-                        alt="">
-                    <div style="
-                        border-radius: 0px 0px 8px  8px  ;
-                        position: absolute;
-                        bottom: 0;
-                        left: 0;
-                        width: 100%;
-                        height: 50%;
-                        object-fit: cover;
-                        object-position: center;
-                        padding-left: 20px;
-                        padding-right: 20px;
-                        ">
-                        <h2>Lorem ipsum</h2>
-                        <p>
-                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Expedita voluptate, quibusdam ad
-                            dignissimos qu
-                        </p>
-                        <a style="
-                                color:#ED4C02 ;
-                            ">
-                            Seguir leyendo...
+                justify-content: space-evenly;
+                align-items: center;
+                flex-wrap: wrap;
+                margin-bottom: 50px; 
+                padding: 0;
+                ">
 
-                        </a>
+            {% for object in noticias %}
+            <a href="{% url 'notica_viewer' object.id %}" style="color: #333333; text-decoration: none; margin:0; padding: 0;">
+                <div class='n-card'>
+                    <div style='        position: relative;
+                        overflow: hidden;
+                        width: 100%;
+                        height: 100%;'>
+
+                        {% if object.imagen %}
+                        <img style="
+                border-radius:8px  8px  0px 0px;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 50%;
+                object-fit: cover;
+                object-position: center;" src="{{object.imagen.url}}" alt="">
+
+                        {% else %}
+
+                        <img style="
+        border-radius:8px  8px  0px 0px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 50%;
+        object-fit: cover;
+        object-position: center;" src={% static 'img_nav/defaultimage.webp' %} alt="">
+
+                        {% endif %}
+
+
+                        <div style="
+                border-radius: 0px 0px 8px  8px  ;
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 50%;
+                object-fit: cover;
+                object-position: center;
+                padding-left: 20px;
+                padding-right: 20px;
+                ">
+                            <h2>{{object.titulo |truncatewords:2}}</h2>
+                            <p>
+                                {{object.descripcion|truncatewords:10 |safe}}
+                            </p>
+                            <a href="{% url 'notica_viewer' object.id %}" style="
+                    color:#ED4C02 ;
+                    font-family: Montserrat;
+                    font-size: 14px;
+                ">
+                                Seguir leyendo...
+
+                            </a>
+                        </div>
+
                     </div>
-
-                </div> -->
 
 
                 </div>
+            </a>
+            {% endfor %}
+
+
+
+        </div>
+
+
+
+
+                {% endif %}
 
 
         </div>

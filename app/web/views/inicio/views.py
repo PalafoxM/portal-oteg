@@ -13,6 +13,7 @@ class InicioView(TemplateView):
         context['title'] = 'Inicio'
         context['banners'] = Banner.objects.filter(activo=True).order_by('-date_created')
         context['noticias'] = Noticia.objects.order_by(F('fecha_nota').desc(nulls_last=True))[:3] # order by date
+        context['is_one_new'] = True if len(context['noticias']) == 1 else False    
         context['data'] = int(85)
         context['data2'] = int(18.66)
         return context

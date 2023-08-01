@@ -73,7 +73,7 @@ class PublicacionesPDFViewer (TemplateView):
         pdf = get_object_or_404(Publications, id=self.kwargs.get('pk'))
         context['pdf'] = pdf
         context['nav_title'] = pdf.name
-        context['img_url'] = 'img_nav/pdf.png'
+        context['img_url'] = 'img_nav/pdf.jpg'
         return context
 
 
@@ -323,9 +323,12 @@ def searchBar(request):
 
     results = BarometroTuristico.objects.filter(nombrePDF__icontains=q)
     if year:
-        results = results.filter(yearPDF__icontains=year)
+        results = results.filter(yearPDF=year)
     if bim:
         results = results.filter(semestre__icontains=bim)
+
+    #order by date yearPDF
+    results = results.order_by('-yearPDF')
 
     data = [{'nombrePDF': obj.nombrePDF, 'url': obj.doc.url, 'id': obj.id}
             for obj in results]
@@ -336,7 +339,6 @@ def searchBar(request):
 @require_GET
 def search_reportes_m(request):
 
-   
 
     q = request.GET.get('q', '')
     year = request.GET.get('year', '')
@@ -344,14 +346,16 @@ def search_reportes_m(request):
 
     results = Reportes_Mensuales.objects.filter(titulo__icontains=q)
     if year:
-        results = results.filter(ano__icontains=year)
+        results = results.filter(ano=year)
     if bim:
         results = results.filter(mes__icontains=bim)
 
+
+    #order by date ano
+    results = results.order_by('-ano')
+
     data = [{'nombrePDF': obj.titulo, 'url': obj.doc.url, 'id': obj.id}
             for obj in results]
-    
-    print(data)
     return JsonResponse(data, safe=False)
 
 
