@@ -11,41 +11,47 @@ from django.views import View
 # Create your views here.
 def solicitudes(request):
     if request.method == "POST":
-        # 
         form = SenEmail(request.POST)
         if form.is_valid():
             try:
-                # creamos un modelo para el template de correo
+                # Creamos un modelo para el template de correo
                 context = {
                     'Email': request.POST.get('email'),
                     'name': request.POST.get('subject'),
                     'contry': request.POST.get('contry'),
                     'message': request.POST.get('message'),
                 }
-                print(request.POST.get('message'))
-                # agregamos los parametros
-                subject, from_email, to = 'Solicitud de Informacion', settings.EMAIL_HOST_USER, settings.CORREO_DESTINO
-                # contenuido del mensaje
+                # Parámetros del correo
+                subject, from_email = 'Solicitud de Informacion', settings.EMAIL_HOST_USER
+                #Lista de correos
+                to_list = [settings.CORREO_DESTINO1, settings.CORREO_DESTINO2, settings.CORREO_DESTINO3] 
+
+                # Contenido del mensaje
                 text_content = request.POST.get('message')
-                # plantilla del mensaje
+
+                # Plantilla del mensaje
                 html_content = get_template('web/correo.html')
-                # mandamos la informacion a la plantillas
+
+                # Mandamos la información a la plantilla
                 content = html_content.render(context)
-                # creamos la instancia del mensaje
-                msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
-                # indicamos que va usar html
+
+                # Creamos la instancia del mensaje
+                msg = EmailMultiAlternatives(subject, text_content, from_email, to_list)
+
+                # Indicamos que va a usar HTML
                 msg.attach_alternative(content, "text/html")
-                # mandamos el mensaje
+
+                # Mandamos el mensaje
                 msg.send()
+
                 messages.success(request, 'Solicitud enviada exitosamente.')
                 return redirect('solicitudes')
-            except BadHeaderError:
-                print("trono?")
-                return HttpResponse('Invalid header found.')
-            print("si pasaron")
+            except Exception as e:
+                print("Error al enviar el correo:", e)
+                return HttpResponse('Error al enviar el correo. Por favor, intenta nuevamente más tarde.')
     else:
         form = SenEmail()
-    
+
     context = {
         'form': form,
         'nav_title': 'SOLICITUDES DE INFORMACIÓN',
@@ -66,7 +72,7 @@ class SolicitudesView(View):
                 context = {
                     'Email': request.POST.get('email'),
                     'name': request.POST.get('subject'),
-                    'contry': request.POST.get('contry'),
+                    'country': request.POST.get('country'),
                     'message': request.POST.get('message'),
                 }
 
@@ -80,8 +86,9 @@ class SolicitudesView(View):
                 content = html_content.render(context)
 
                 # Creamos la instancia del mensaje
-                subject, from_email, to = 'Solicitud de Informacion', settings.EMAIL_HOST_USER, settings.CORREO_DESTINO
-                msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+                subject, from_email = 'Solicitud de Informacion', settings.EMAIL_HOST_USER
+                to_list = [settings.CORREO_DESTINO, settings.CORREO_DESTINO1, settings.CORREO_DESTINO2, settings.CORREO_DESTINO3] # Agrega aquí las direcciones de correo de los destinatarios
+                msg = EmailMultiAlternatives(subject, text_content, from_email, to_list)
 
                 # Indicamos que va a usar HTML
                 msg.attach_alternative(content, "text/html")
