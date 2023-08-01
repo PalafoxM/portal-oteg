@@ -72,7 +72,7 @@ class SolicitudesView(View):
                 context = {
                     'Email': request.POST.get('email'),
                     'name': request.POST.get('subject'),
-                    'contry': request.POST.get('contry'),
+                    'country': request.POST.get('country'),
                     'message': request.POST.get('message'),
                 }
 
