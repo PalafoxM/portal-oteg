@@ -81,7 +81,7 @@ class PDFDownloadView(View):
     def get(self, request, *args, **kwargs):
         # Get the PDF object
         pdf = get_object_or_404(Publications, id=kwargs['pk'])
-
+        
         # Download the file from the URL
         r = requests.get(pdf.doc.url, stream=True)
         # how to know the request is successful?
