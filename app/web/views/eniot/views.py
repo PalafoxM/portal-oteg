@@ -21,7 +21,6 @@ class EniotView(TemplateView):
         except Encuesta.DoesNotExist:
             encuesta = None
 
-        print("No matching Encuesta found.")
         context = super().get_context_data(**kwargs)
         try:
             pdf = Eniot.objects.filter(seccion='programa-eniot').order_by('-date_created')[:1].get()
@@ -116,8 +115,6 @@ class EniotEventosFotosView(TemplateView):
         context['nav_title'] = 'ÁLBUM ENIOT'
         context['img_url'] = 'img_nav/pdf.png'
 
-        print(fotos)
-        print(albums)
         return context
 
 class MemoriasPDFViewer (TemplateView):
@@ -128,7 +125,7 @@ class MemoriasPDFViewer (TemplateView):
         pdf = get_object_or_404(Eniot, id=self.kwargs.get('pk'))
         context['pdf'] = pdf
         context['nav_title'] = pdf.nombrePDF
-        context['img_url'] = 'img_nav/pdf.png'
+        context['img_url'] = 'img_nav/arquitectura.jpg'
         context['list'] =  reverse_lazy('eniot_memorias')
         return context
 
@@ -140,7 +137,7 @@ class PonenciaEventosPDFViewer (TemplateView):
         pdf = get_object_or_404(Eniot, id=self.kwargs.get('pk'))
         context['pdf'] = pdf
         context['nav_title'] = pdf.nombrePDF
-        context['img_url'] = 'img_nav/pdf.png'
+        context['img_url'] = 'img_nav/arquitectura.jpg'
         context['list'] =  reverse_lazy('eniot_ponencia_eventos')
         return context
     

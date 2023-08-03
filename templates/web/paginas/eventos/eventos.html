@@ -230,7 +230,8 @@
                         modalDescription.appendChild(descripcionElement);
 
                         modalStartDate.textContent = 'Fecha de inicio: ' + start.toLocaleDateString();
-                        modalEndDate.textContent = 'Fecha de fin: ' + end.toLocaleDateString();
+                        // Mostrar la fecha de fin si está disponible, de lo contrario, mostrar solo la fecha de inicio
+                        modalEndDate.textContent = end ? 'Fecha de fin: ' + end.toLocaleDateString() : 'Fecha de inicio: ' + start.toLocaleDateString();
                         modalEventType.textContent = 'Tipo de evento: ' + tipoEvento;
 
                         modalContainer.style.display = 'block';

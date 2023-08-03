@@ -92,7 +92,7 @@ class BannerForm(ModelForm):
     def clean_imagen(self):
         imagen = self.cleaned_data.get('imagen', False)
         if imagen:
-            print(imagen.size)
+            #print(imagen.size)
             if imagen.size > self.MAX_SIZE_MB * 1024 * 1024:
                 raise ValidationError(f"La imagen no debe superar {self.MAX_SIZE_MB} MB de tamaño.")
         return imagen
@@ -221,7 +221,7 @@ class NoticiaForm(ModelForm):
     def clean_imagen(self):
         imagen = self.cleaned_data.get('imagen', False)
         if imagen:
-            print(imagen.size)
+            #print(imagen.size)
             if imagen.size > self.MAX_SIZE_MB * 1024 * 1024:
                 raise ValidationError(f"La imagen no debe superar {self.MAX_SIZE_MB} MB de tamaño.")
         return imagen
@@ -303,7 +303,7 @@ class EventoForm(forms.ModelForm):
     def clean_imagen(self):
         imagen = self.cleaned_data.get('imagen', False)
         if imagen:
-            print(imagen.size)
+            #print(imagen.size)
             if imagen.size > self.MAX_SIZE_MB * 1024 * 1024:
                 raise ValidationError(f"La imagen no debe superar {self.MAX_SIZE_MB} MB de tamaño.")
         return imagen
@@ -2204,7 +2204,7 @@ class EniotForm(forms.ModelForm):
     def clean_imagen(self):
         imagen = self.cleaned_data.get('doc_url', False)
         if imagen:
-            print(imagen.size)
+            #print(imagen.size)
             if imagen.size > self.MAX_SIZE_MB * 1024 * 1024:
                 raise ValidationError(f"La imagen no debe superar {self.MAX_SIZE_MB} MB de tamaño.")
         return imagen
@@ -2229,7 +2229,7 @@ class EniotAlbunForm(forms.ModelForm):
     def clean_imagen(self):
         imagen = self.cleaned_data.get('foto_url', False)
         if imagen:
-            print(imagen.size)
+            #print(imagen.size)
             if imagen.size > self.MAX_SIZE_MB * 1024 * 1024:
                 raise ValidationError(f"La imagen no debe superar {self.MAX_SIZE_MB} MB de tamaño.")
         return imagen

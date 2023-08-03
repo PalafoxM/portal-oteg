@@ -12,7 +12,6 @@ class SuperAdminOrAdminMixin(UserPassesTestMixin):
         return user.is_authenticated and (user.groups.filter(name='Super-Admin').exists() or user.groups.filter(name='Admin').exists()) and not user.groups.filter(name='Colaborador').exists()
 
     def handle_no_permission(self):
-        print("Página no encontrada")
         return render(self.request, 'back/components/404.html', status=404)
 
 
@@ -35,6 +34,4 @@ class SuperAdminMixin(UserPassesTestMixin):
 
 def test_func(self):
     user = self.request.user
-    print("******  test_func")
-    print(user.groups.filter(name='Super-Admin').exists())
     return user.is_authenticated and (user.groups.filter(name='Super-Admin').exists() or user.groups.filter(name='Admin').exists()) and not user.groups.filter(name='Colaborador').exists()

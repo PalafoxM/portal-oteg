@@ -87,7 +87,7 @@ class SolicitudesView(View):
 
                 # Creamos la instancia del mensaje
                 subject, from_email = 'Solicitud de Informacion', settings.EMAIL_HOST_USER
-                to_list = [settings.CORREO_DESTINO, settings.CORREO_DESTINO1, settings.CORREO_DESTINO2, settings.CORREO_DESTINO3] # Agrega aquí las direcciones de correo de los destinatarios
+                to_list = [settings.CORREO_DESTINO1, settings.CORREO_DESTINO2, settings.CORREO_DESTINO3] # Agrega aquí las direcciones de correo de los destinatarios
                 msg = EmailMultiAlternatives(subject, text_content, from_email, to_list)
 
                 # Indicamos que va a usar HTML

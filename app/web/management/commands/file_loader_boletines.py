@@ -92,7 +92,6 @@ def load_files_to_model_boletines():
 
             reporte.save()
             
-            print(f"Loaded '{file_name}' into the model.")
 
         except Exception as e:
             print(f"Error loading '{file_name}': {e}")
