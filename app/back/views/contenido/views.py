@@ -217,7 +217,6 @@ class PlaceCreateView(SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
             return JsonResponse(data)
 
     def form_invalid(self, form):
-        print("form_invalid")
         response = super().form_invalid(form)
         data = {
             'success': False,
@@ -227,7 +226,6 @@ class PlaceCreateView(SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
         return JsonResponse(data)
 
     def form_valid(self, form):
-        print("form_valid")
         response = super().form_valid(form)
         data = {
             'success': True,
@@ -535,8 +533,6 @@ class NoticiaUpdateView(SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
         noticia_instance = self.get_object()
         ckeditor_content = noticia_instance.descripcion
 
-        print(ckeditor_content)
-
         context['form'] = self.form_class(instance=self.object)
         context['list_url'] = reverse_lazy('dashboard:noticias_list')
         context['report_description'] = ckeditor_content
@@ -668,10 +664,10 @@ class BarometroListView(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
 
     try:
         encuesta = Encuesta.objects.filter(seccion=1, activo=True).latest('fecha_registro')
-        print(encuesta.seccion)
+        
     except Encuesta.DoesNotExist:
         encuesta = None
-        print("No matching Encuesta found.")
+        
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

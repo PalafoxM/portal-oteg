@@ -30,5 +30,5 @@ def eventos_list(request):
             evento_data['imagen'] = imagen_s3_url
         
         datos.append(evento_data)
-    print(datos)
+    
     return JsonResponse(datos, safe=False)

@@ -40,7 +40,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG')
 # Imprime el valor de DEBUG en la consola
-print("DEBUG:", DEBUG)
+
 
 ALLOWED_HOSTS = ['*']
 CSRF_TRUSTED_ORIGINS = ['https://42195556-review-develop-3zknud.visitaguanajuato.com.mx','https://develop.observatorioturistico.org', 'https://observatorioturistico.org', 'https://www.observatorioturistico.org']

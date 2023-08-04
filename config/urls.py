@@ -21,7 +21,7 @@ from django.shortcuts import render, redirect
 
 # Definir la vista personalizada para la página no encontrada
 def custom_page_not_found(request, exception):
-    print("entro???serfwasfsdf")
+    
     return render(request, 'back/components/404.html', status=404)
 
 

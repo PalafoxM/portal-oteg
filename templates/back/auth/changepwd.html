@@ -289,12 +289,12 @@ input[type="submit"] {
                 <div class="input-containter">
                     <i style="color: #4A4A4A;" class="fas fa-lock"></i>
                     <input id="pwd" style="border: none; border-radius: 5px; width: 80%; height: 30px; padding-left: 10px; font-family: avenir;" type="password" name="password" placeholder="Contraseña" required>
-                    <i id="eye" style="color: #4A4A4A; cursor: pointer;" class="fas fa-eye"></i>
+                    <i id="eye" style="color: #4A4A4A; cursor: pointer;" class="fas fa-eye-slash"></i>
                 </div>
                 <div class="input-containter">
                     <i style="color: #4A4A4A;" class="fas fa-lock"></i>
                     <input id="cpwd" style="border: none; border-radius: 5px; width: 80%; height: 30px; padding-left: 10px; font-family: avenir;" type="password" name="confirmPassword" placeholder="Confirmar Contraseña" required>
-                    <i id="eye-cpwd" style="color: #4A4A4A; cursor: pointer;" class="fas fa-eye"></i>
+                    <i id="eye-cpwd" style="color: #4A4A4A; cursor: pointer;" class="fas fa-eye-slash"></i>
                 </div>
             </div>
             {% if form.errors %}
@@ -344,12 +344,12 @@ input[type="submit"] {
         var eyeIcon = document.querySelector("#" + eyeIconId);
         if (pwdField.type === "password") {
             pwdField.type = "text";
-            eyeIcon.classList.remove("fa-eye");
-            eyeIcon.classList.add("fa-eye-slash");
-        } else {
-            pwdField.type = "password";
             eyeIcon.classList.remove("fa-eye-slash");
             eyeIcon.classList.add("fa-eye");
+        } else {
+            pwdField.type = "password";
+            eyeIcon.classList.remove("fa-eye");
+            eyeIcon.classList.add("fa-eye-slash");
         }
     }
 

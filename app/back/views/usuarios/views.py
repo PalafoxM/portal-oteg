@@ -11,7 +11,6 @@ def my_profile(req):
     context = {
         'username': username,
     }
-    print(username + " lklkl")
     return render(req, 'back/users/porfile.html', context)
 
 

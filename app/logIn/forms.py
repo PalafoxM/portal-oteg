@@ -153,8 +153,7 @@ class CustomUserCreationForm(UserCreationForm):
         self.fields['password1'].widget = PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Contraseña', 'icon_class': 'fas fa-key'})
         self.fields['password2'].widget = PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Confirmar contraseña', 'icon_class': 'fas fa-key'})
 
-    
-    print("CustomUserCreationForm")
+
 
     username = forms.CharField(max_length=100, label='Nombre de Usuario', widget=forms.TextInput(
         attrs={'class': 'form-control', 'icon_class': 'fas fa-table', 'placeholder': 'Nombre de usuario', 'class': 'form-control'}))
@@ -219,7 +218,6 @@ class CustomUserCreationForm(UserCreationForm):
     def clean_imagen(self):
         imagen = self.cleaned_data.get('photo', False)
         if imagen:
-            print(imagen.size)
             if imagen.size > self.MAX_SIZE_MB * 1024 * 1024:
                 raise ValidationError(f"La imagen no debe superar {self.MAX_SIZE_MB} MB de tamaño.")
         return imagen
@@ -229,10 +227,10 @@ class CustomUserCreationForm(UserCreationForm):
         email = cleaned_data.get('email')
         username = cleaned_data.get('username')
         if email and User.objects.filter(email=email).exists():
-            print("paso 1 cleaned_data")
+            
             self.add_error('email', 'Este correo electrónico ya está en uso.')
         if username and User.objects.filter(username=username).exists():
-            print("paso 2 cleaned_data")
+            
             self.add_error('username', 'Este nombre de usuario ya está en uso.')
         return cleaned_data
     
@@ -379,21 +377,19 @@ class CustomUserUpdateForm(UserChangeForm):
     def clean_imagen(self):
         imagen = self.cleaned_data.get('photo', False)
         if imagen:
-            print(imagen.size)
             if imagen.size > self.MAX_SIZE_MB * 1024 * 1024:
                 raise ValidationError(f"La imagen no debe superar {self.MAX_SIZE_MB} MB de tamaño.")
         return imagen
     
     def cleaned_data(self):
-        print("cleaned_data")
         cleaned_data = super().cleaned_data()
         email = cleaned_data.get('email')
         username = cleaned_data.get('username')
         if email and User.objects.filter(email=email).exists():
-            print("paso 1 cleaned_data")
+            
             self.add_error('email', 'Este correo electrónico ya está en uso.')
         if username and User.objects.filter(username=username).exists():
-            print("paso 2 cleaned_data")
+            
             self.add_error('username', 'Este nombre de usuario ya está en uso.')
         return cleaned_data
     
@@ -484,8 +480,8 @@ class ResetPasswordForm(forms.Form):
 
     def get_user(self):
         username = self.cleaned_data.get('username')
-        print("metodo:  get_user")
-        print(User.objects.get(username=username))
+        
+        
         return User.objects.get(username=username)
 
 
