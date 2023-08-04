@@ -33,8 +33,6 @@ def logInUser(req):
         username = req.POST.get('usuario')
         password = req.POST.get('pwd')
 
-        # print(username, password)
-
         user = authenticate(req, username=username, password=password)
 
         if user is not None:
@@ -199,9 +197,9 @@ class UserAndProfileCreateView(LoginRequiredMixin, SuperAdminMixin, CreateView):
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         profile_form = ProfileForm(request.POST, request.FILES)
-        print("paso 1 post")
+        
         if form.is_valid() and profile_form.is_valid():
-            print("paso 2 post")
+            
             email = form.cleaned_data.get('email')
             if User.objects.filter(email=email).exists():
                 form.add_error('email', 'Ya existe un usuario con este correo electrónico.')
@@ -222,7 +220,6 @@ class UserAndProfileCreateView(LoginRequiredMixin, SuperAdminMixin, CreateView):
             }
             return JsonResponse(data)
         else:
-            print("paso 3 post")
             errors = {}
             # Agregar los errores del formulario de usuario
             for field, error in form.errors.items():
@@ -238,17 +235,17 @@ class UserAndProfileCreateView(LoginRequiredMixin, SuperAdminMixin, CreateView):
             return JsonResponse(data)
 
     def form_invalid(self, form):
-        print("paso 2")
+        
         response = super().form_invalid(form)
         # Verificar si ya existe un usuario con el mismo correo electrónico
         email = form.cleaned_data.get('email')
         if email and User.objects.filter(email=email).exists():
-            print("paso 1 form_invalid")
+            
             form.add_error('email', 'Ya existe un usuario con este correo electrónico.')
         # Verificar si ya existe un usuario con el mismo nombre de usuario
         username = form.cleaned_data.get('username')
         if username and User.objects.filter(username=username).exists():
-            print("paso 2 form_invalid")
+            
             form.add_error('username', 'Ya existe un usuario con este nombre de usuario.')
         # Devolver la respuesta con los errores correspondientes
         errors = {}
@@ -262,11 +259,11 @@ class UserAndProfileCreateView(LoginRequiredMixin, SuperAdminMixin, CreateView):
         return JsonResponse(data)
 
     def form_valid(self, form):
-        print("paso 1 form_valid")
+        
         response = super().form_valid(form)
         profile_form = ProfileForm(self.request.POST, self.request.FILES)
         if profile_form.is_valid():
-            print("paso 2 form_valid")
+            
             profile = profile_form.save(commit=False)
             profile.user = self.object
             profile.save()
@@ -339,7 +336,7 @@ class UserAndProfileUpdateView(LoginRequiredMixin, SuperAdminMixin, UpdateView):
             return response
 
     def form_invalid(self, form):
-        print("paso 1")
+        
         response = super().form_invalid(form)
 
         # Define profile_form here
@@ -348,18 +345,13 @@ class UserAndProfileUpdateView(LoginRequiredMixin, SuperAdminMixin, UpdateView):
         
                 
         if form.errors or profile_form.errors:
-            print("paso 4")
+            
             data = {
                 'success': False,
                 'message': 'Hubo un error al actualizar el usuario y/o perfil.',
                 'errors':  form.errors
             }
         else:
-            
-            print("profile_form: ", profile_form.errors)
-            print("form: ", form.errors)
-
-            print("paso 5")
             data = {
             'success': True,
             'message': 'Usuario actualizado exitosamente.',
@@ -410,7 +402,6 @@ class ResetPasswordView(FormView):
             # Asigna el token al campo 'token' del perfil
             profile.token = token
             profile.save()
-            print(profile.token)
 
             mailServer = smtplib.SMTP(settings.EMAIL_HOST, settings.EMAIL_PORT)
             mailServer.starttls()
@@ -479,14 +470,13 @@ class ChangePasswordView(FormView):
                 profile = Profile.objects.get(token=self.kwargs['token'])
                 token = uuid.uuid4()
                 user = User.objects.get(username=profile.user)
-                print(user)
+                
                 user.set_password(request.POST['password'])
                 user.save()
 
                 # Asigna el token al campo 'token' del perfil
                 profile.token = token
                 profile.save()
-                print(profile.token)
             else:
                 data['error'] = form.errors
         except Exception as e:
