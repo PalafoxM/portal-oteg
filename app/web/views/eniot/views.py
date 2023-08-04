@@ -113,7 +113,7 @@ class EniotEventosFotosView(TemplateView):
         context['albums'] = albums
         context['fotos'] = fotos
         context['nav_title'] = 'ÁLBUM ENIOT'
-        context['img_url'] = 'img_nav/pdf.png'
+        context['img_url'] = 'img_nav/pexels-daniel-olivares.jpg'
 
         return context
 
