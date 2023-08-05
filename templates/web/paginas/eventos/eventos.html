@@ -198,7 +198,7 @@
                         let backgroundColor = coloresPorTipo[tipoEvento] || coloresPorTipo.otro; // Use the default color if the event type is not defined
                         
                         return {
-                            html: `<div style="background-color:${backgroundColor};">${info.event.title}</div>`
+                            html: `<div style="background-color:${backgroundColor}; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${info.event.title}</div>`
                         };
                     },
                     // Agregar evento de clic en el evento

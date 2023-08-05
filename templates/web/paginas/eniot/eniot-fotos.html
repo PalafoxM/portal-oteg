@@ -80,7 +80,7 @@
           {% for foto in fotos %}
             {% if album == foto.nombreAlbun %}
               <div class="album-photo">
-                <img src="https://portal-oteg.s3.amazonaws.com/media/{{ foto.foto_url }}" alt="" srcset="">
+                <img src="{{ foto.foto_url.url }}" alt="" srcset="">
               </div>
             {% endif %}
           {% endfor %}
