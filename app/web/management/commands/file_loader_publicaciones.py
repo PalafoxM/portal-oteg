@@ -8,9 +8,11 @@ import datetime
 
 
 # Replace with the actual path to your source folder
-source_folder = "C:/Users/rogel/OneDrive/Escritorio/CEDOC/Pub"
+source_folder = "C:/Users/rogel/OneDrive/Escritorio/CEDOC/Pub_Filter"
 # Replace with the actual path to your Excel file
 excel_file_path = "C:/Users/rogel/OneDrive/Escritorio/CEDOC/publicaciones_keys_clean.xlsx"
+
+excel_file_path2 = "C:/Users/rogel/OneDrive/Escritorio/CEDOC/Pub_AI_Naming.xlsx"
 
 month_to_number = {
     'ENERO': "1",
@@ -122,6 +124,7 @@ def get_category_by_file_name(df, file_name ,seccion):
 def load_files_to_model_pub():
 
     df = pd.read_excel(excel_file_path)
+    df2 = pd.read_excel(excel_file_path2)
 
     for file_name in os.listdir(source_folder):
 
@@ -131,7 +134,7 @@ def load_files_to_model_pub():
             # Create a BarometroTuristico instance and set its attributes
 
             publication = Publications()
-            publication.name = str(get_name_by_file_name(df, file_name))
+            publication.name = str(get_name_by_file_name(df2, file_name))
 
             # Assuming you have a function to get the type from the file name.
 
