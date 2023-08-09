@@ -8,7 +8,7 @@
         /* Hide the modal by default */
         position: fixed;
         /* Stay in place */
-        z-index: 1;
+        z-index: 10000;
         /* Sit on top */
         left: 0;
         top: 0;
@@ -102,6 +102,36 @@
         margin-bottom: 20px;
         font-family: 'Montserrat', sans-serif;
         font-weight: 300;
+    }
+
+    
+    @media screen and (min-width: 768px) and (max-width: 1024px) {
+        .nav-text:hover {
+            color: #ED4C02 !important;
+            cursor: pointer;
+            transform: scale(1);
+        }
+
+    }
+    
+    /* Mobile Styles - Screens with width up to 767px */
+    @media screen and (max-width: 767px) {
+        .nav-text:hover {
+            color: #ED4C02 !important;
+            cursor: pointer;
+            transform: scale(1);
+        }
+
+    }
+
+    /* PC Styles - Screens with width above 1024px */
+    @media screen and (min-width: 1025px) {
+        .nav-text:hover {
+            color: #ED4C02 !important;
+            cursor: pointer;
+            transform: scale(1.2);
+        }
+
     }
 </style>
 

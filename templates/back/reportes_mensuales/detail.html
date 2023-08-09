@@ -10,21 +10,22 @@
     <title>Boletines Mensuales</title>
 
     <!-- custom css -->
-       <!-- custom css -->
-       <link rel="stylesheet" href="{% static 'web/css/baner.css' %}">
-       <link rel="stylesheet" type="text/css" href="{% static 'fontawesome-free/css/all.min.css' %}">
-       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-       <link rel="preconnect" href="https://fonts.googleapis.com">
-       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-       <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
-       <link rel="preconnect" href="https://fonts.googleapis.com">
-       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-       <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-       <link rel="stylesheet" href="{% static 'normalize/normal.css' %}">
-       <script type="text/javascript"src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-       <link rel="stylesheet" href="{% static 'web/css/nabar-portal.css' %}">
-       <script src="https://cdn.userway.org/widget.js" data-account="EUDLJPWVtf"></script>
-   
+    <!-- custom css -->
+    <link rel="stylesheet" href="{% static 'web/css/baner.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'fontawesome-free/css/all.min.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'normalize/normal.css' %}">
+    <script type="text/javascript"
+        src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <link rel="stylesheet" href="{% static 'web/css/nabar-portal.css' %}">
+    <script src="https://cdn.userway.org/widget.js" data-account="EUDLJPWVtf"></script>
+
 
 </head>
 
@@ -632,12 +633,34 @@
 
     }
 
-    .nav-text:hover {
-        color: #ED4C02 !important;
-        cursor: pointer;
-        transform: scale(1.2);
+    @media screen and (min-width: 768px) and (max-width: 1024px) {
+        .nav-text:hover {
+            color: #ED4C02 !important;
+            cursor: pointer;
+            transform: scale(1);
+        }
+
     }
 
+    /* Mobile Styles - Screens with width up to 767px */
+    @media screen and (max-width: 767px) {
+        .nav-text:hover {
+            color: #ED4C02 !important;
+            cursor: pointer;
+            transform: scale(1);
+        }
+
+    }
+
+    /* PC Styles - Screens with width above 1024px */
+    @media screen and (min-width: 1025px) {
+        .nav-text:hover {
+            color: #ED4C02 !important;
+            cursor: pointer;
+            transform: scale(1.2);
+        }
+
+    }
 
 
     .url-custom-btn {
@@ -761,6 +784,7 @@
             /* Fully visible */
         }
     }
+
 
     html,
     body {

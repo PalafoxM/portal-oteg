@@ -172,7 +172,7 @@
 
     flatpickr("#id_fecha", {
         dateFormat: "Y-m-d",
-        
+        // minDate: "today", // Fecha mínima seleccionable (hoy)
         locale: "es",
     });
 
@@ -312,13 +312,6 @@
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'Sí, cancelar',
-            cancelButtonText: 'No, seguir aquí',
-        }).then((result) => {
-            if (result.isConfirmed) {
-                window.location.href = '{{ list_url }}';
-            }
-        });
-    });     confirmButtonText: 'Sí, cancelar',
             cancelButtonText: 'No, seguir aquí',
         }).then((result) => {
             if (result.isConfirmed) {

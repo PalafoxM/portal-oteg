@@ -583,12 +583,35 @@
 
     }
 
-    .nav-text:hover {
-        color: #ED4C02 !important;
-        cursor: pointer;
-        transform: scale(1.2);
+
+    @media screen and (min-width: 768px) and (max-width: 1024px) {
+        .nav-text:hover {
+            color: #ED4C02 !important;
+            cursor: pointer;
+            transform: scale(1);
+        }
+
+    }
+    
+    /* Mobile Styles - Screens with width up to 767px */
+    @media screen and (max-width: 767px) {
+        .nav-text:hover {
+            color: #ED4C02 !important;
+            cursor: pointer;
+            transform: scale(1);
+        }
+
     }
 
+    /* PC Styles - Screens with width above 1024px */
+    @media screen and (min-width: 1025px) {
+        .nav-text:hover {
+            color: #ED4C02 !important;
+            cursor: pointer;
+            transform: scale(1.2);
+        }
+
+    }
     .truncate {
         white-space: nowrap;
         overflow: hidden;
@@ -648,6 +671,9 @@
     body {
         max-width: 100%;
     }
+
+
+
 </style>
 
 
@@ -751,7 +777,7 @@
                 <div class="carousel-caption">
 
                     <br>
-                    <h2>{{seccion.seccion}}</h2>
+                    <h2 >{{seccion.seccion}}</h2>
                 </div>
             </div>
         </div>
@@ -867,7 +893,7 @@
                             padding: 0;
                             color: #333333;
                         
-                        " class="truncate">{{ publication.name }}</h4>
+                        " class="truncate">{{ publication.name|truncatechars:60 }}</h2>
                         <!-- <div style="background-color: #026ad1; color: #fff; font-weight: bold; border-radius: 5rem;"> -->
                         <!-- <p style="margin: 0; padding-left: 10px; padding-right: 10px;">Num Descargas :
                             {{publication.num_descargas}} </p> -->
@@ -1026,16 +1052,7 @@
 
     <script>
         // Truncate the text within the <p> and <h2> elements
-        var elements = document.querySelectorAll('.truncat');
-        for (var i = 0; i < elements.length; i++) {
-            var element = elements[i];
-            var maxLength = 100; // Adjust the desired length of the truncated text
-            var text = element.innerHTML;
-            if (text.length > maxLength) {
-                var truncatedText = text.substring(0, maxLength) + '...';
-                element.innerHTML = truncatedText;
-            }
-        }
+
 
         function googleTranslateElementInit() {
             new google.translate.TranslateElement({
