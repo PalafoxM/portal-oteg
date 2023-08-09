@@ -541,14 +541,36 @@
         font-weight: 300;
         font-size: small;
         transition: transform 0.3s ease;
+    }
 
+
+    @media screen and (min-width: 768px) and (max-width: 1024px) {
+        .nav-text:hover {
+            color: #ED4C02 !important;
+            cursor: pointer;
+            transform: scale(1);
+        }
+
+    }
+    
+    /* Mobile Styles - Screens with width up to 767px */
+    @media screen and (max-width: 767px) {
+        .nav-text:hover {
+            color: #ED4C02 !important;
+            cursor: pointer;
+            transform: scale(1);
+        }
 
     }
 
-    .nav-text:hover {
-        color: #ED4C02 !important;
-        cursor: pointer;
-        transform: scale(1.2);
+    /* PC Styles - Screens with width above 1024px */
+    @media screen and (min-width: 1025px) {
+        .nav-text:hover {
+            color: #ED4C02 !important;
+            cursor: pointer;
+            transform: scale(1.2);
+        }
+
     }
 
     .truncate {
@@ -585,6 +607,7 @@
         display: inline-block;
         margin-right: 10px;
     }
+
 
 
 
@@ -780,7 +803,8 @@
 
 
                     <h2
-                        style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 14px; color: #333333; ">8.9 Millones <br> <span style=" font-weight: 600;">Visitantes</span><br></h2>
+                        style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 14px; color: #333333; ">
+                        8.9 Millones <br> <span style=" font-weight: 600;">Visitantes</span><br></h2>
 
                     <div style=" width: 90%; height: 1px; background-color: #FB8A55;"> </div>
                     <p
@@ -811,7 +835,8 @@
 
                     <h2
                         style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 14px; color: #333333;  margin-top: 25px;">
-                        $20 mil 978 <br> <span style=" font-weight: 600;">Derrama <br>Económica</span><br></h2>
+                        $20 mil 978 <br> millones <br> <span style=" font-weight: 600;">Derrama <br>Económica</span><br>
+                    </h2>
 
                     <div style=" width: 90%; height: 1px; background-color: #FB8A55;"> </div>
                     <p
@@ -944,7 +969,7 @@
                 </div>
 
 
-            
+
 
 
                 {% if is_one_new %}
@@ -956,7 +981,8 @@
                         margin-bottom: 50px; ">
 
                     {% for object in noticias %}
-                    <a href="{% url 'notica_viewer' object.id %}" style="color: #333333; text-decoration: none; margin:0; padding: 0;">
+                    <a href="{% url 'notica_viewer' object.id %}"
+                        style="color: #333333; text-decoration: none; margin:0; padding: 0;">
                         <div class='n-card'>
                             <div style='        position: relative;
                                 overflow: hidden;
@@ -1021,9 +1047,9 @@
                         </div>
                     </a>
                     {% endfor %}
-       
 
-        
+
+
                 </div>
 
                 {% else %}
@@ -1037,16 +1063,17 @@
                 padding: 0;
                 ">
 
-            {% for object in noticias %}
-            <a href="{% url 'notica_viewer' object.id %}" style="color: #333333; text-decoration: none; margin:0; padding: 0;">
-                <div class='n-card'>
-                    <div style='        position: relative;
+                    {% for object in noticias %}
+                    <a href="{% url 'notica_viewer' object.id %}"
+                        style="color: #333333; text-decoration: none; margin:0; padding: 0;">
+                        <div class='n-card'>
+                            <div style='        position: relative;
                         overflow: hidden;
                         width: 100%;
                         height: 100%;'>
 
-                        {% if object.imagen %}
-                        <img style="
+                                {% if object.imagen %}
+                                <img style="
                 border-radius:8px  8px  0px 0px;
                 position: absolute;
                 top: 0;
@@ -1056,9 +1083,9 @@
                 object-fit: cover;
                 object-position: center;" src="{{object.imagen.url}}" alt="">
 
-                        {% else %}
+                                {% else %}
 
-                        <img style="
+                                <img style="
         border-radius:8px  8px  0px 0px;
         position: absolute;
         top: 0;
@@ -1068,10 +1095,10 @@
         object-fit: cover;
         object-position: center;" src={% static 'img_nav/defaultimage.webp' %} alt="">
 
-                        {% endif %}
+                                {% endif %}
 
 
-                        <div style="
+                                <div style="
                 border-radius: 0px 0px 8px  8px  ;
                 position: absolute;
                 bottom: 0;
@@ -1083,30 +1110,30 @@
                 padding-left: 20px;
                 padding-right: 20px;
                 ">
-                            <h2>{{object.titulo |truncatewords:2}}</h2>
-                            <p>
-                                {{object.descripcion|truncatewords:10 |safe}}
-                            </p>
-                            <a href="{% url 'notica_viewer' object.id %}" style="
+                                    <h2>{{object.titulo |truncatewords:2}}</h2>
+                                    <p>
+                                        {{object.descripcion|truncatewords:10 |safe}}
+                                    </p>
+                                    <a href="{% url 'notica_viewer' object.id %}" style="
                     color:#ED4C02 ;
                     font-family: Montserrat;
                     font-size: 14px;
                 ">
-                                Seguir leyendo...
+                                        Seguir leyendo...
 
-                            </a>
+                                    </a>
+                                </div>
+
+                            </div>
+
+
                         </div>
+                    </a>
+                    {% endfor %}
 
-                    </div>
 
 
                 </div>
-            </a>
-            {% endfor %}
-
-
-
-        </div>
 
 
 

@@ -48,19 +48,17 @@
                     <li><a href="{% url 'solicitudes' %}" class="nav-text">Solicitudes</a>
                     <li> <a>
 
-                    <form id="search-form" action="{% url 'search_view' %}" method="get"
-                        onsubmit="handleSearch(event)">
-                        <input
-                        autocomplete="off"
-                        type="text" name="query" id="search-input" class="nav-input"
-                            placeholder="Buscador">
-                        <input type="submit" style="display: none;">
-                    </form>
+                            <form id="search-form" action="{% url 'search_view' %}" method="get"
+                                onsubmit="handleSearch(event)">
+                                <input autocomplete="off" type="text" name="query" id="search-input" class="nav-input"
+                                    placeholder="Buscador">
+                                <input type="submit" style="display: none;">
+                            </form>
 
-                    
-                    </a></li>
+
+                        </a></li>
                     <li>
-                        <div id="google_translate_element" ></div>
+                        <div id="google_translate_element"></div>
                     </li>
                 </ul>
 
@@ -74,7 +72,7 @@
                     <li><a href="{% url 'barometro-turistico' %}" class="nav-text">Barómetro Turístico</a></li>
                     <li><a href="{% url 'eniot'%}" class="nav-text">ENIOT</a></li>
 
-                
+
                 </ul>
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
@@ -97,7 +95,7 @@
             <div class="carousel-caption">
 
                 <br>
-                <h2>{{nav_title}}</h2>
+                <h2 class="truncate">{{nav_title}}</h2>
             </div>
         </div>
     </div>
@@ -113,7 +111,7 @@
             <div class="carousel-caption">
 
                 <br>
-                <h2>{{nav_title}}</h2>
+                <h2>{{ nav_title|truncatechars:45 }}</h2>
             </div>
         </div>
     </div>
@@ -130,6 +128,8 @@
         const url = document.getElementById('search-form').action + '?query=' + encodeURIComponent(query);
         window.location.href = url;
     }
+
+
 </script>
 
 {% endblock %}

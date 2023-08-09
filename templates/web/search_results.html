@@ -5,6 +5,7 @@
     {% load static %}
     <meta charset="UTF-8">
     <title>OTEG | Buscador CEDOC</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="{% static 'images/fuentes_informacion/OTEG_Fav_Icon.svg' %}" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -665,9 +666,50 @@
         transition: transform 0.3s ease;
     }
 
+    
+
     .ods-icon:hover {
         transform: scale(1.1);
         cursor: pointer;
+    }
+
+    @media screen and (min-width: 768px) and (max-width: 1024px) {
+        .nav-text:hover {
+            color: #ED4C02 !important;
+            cursor: pointer;
+            transform: scale(1);
+        }
+
+    }
+    
+    /* Mobile Styles - Screens with width up to 767px */
+    @media screen and (max-width: 767px) {
+        .nav-text:hover {
+            color: #ED4C02 !important;
+            cursor: pointer;
+            transform: scale(1);
+        }
+
+    }
+
+    /* PC Styles - Screens with width above 1024px */
+    @media screen and (min-width: 1025px) {
+        .nav-text:hover {
+            color: #ED4C02 !important;
+            cursor: pointer;
+            transform: scale(1.2);
+        }
+
+    }
+
+    html,
+    body {
+        background-color: #F2F2F2;
+        overflow-x: hidden !important;
+    }
+
+    body {
+        max-width: 100%;
     }
 </style>
 
@@ -679,9 +721,8 @@
     <div class="container " style="margin-top:5rem;">
 
         <div style="
-        margin-top: 40px;
-        width: 50%;
-        margin-bottom: 40px;
+        margin-top: 20px;
+        margin-bottom: 20px;
             ">
 
             <h2 style="

@@ -245,7 +245,7 @@ class FuentesInfoView (SuperAdminOrAdminMixin, LoginRequiredMixin,  TemplateView
         context['total_registers'] = total_registers
         context['non_updated_count'] = non_updated_count
         context['last_updated'] = last_updated
-        context['total_F_updated'] = 39 - non_updated_count
+        context['total_F_updated'] = 37 - non_updated_count
 
         user_in_colaboradores_group = self.request.user.groups.filter(name='colaboradores').exists()
         # context['user_in_colaboradores_group'] = user_in_colaboradores_group

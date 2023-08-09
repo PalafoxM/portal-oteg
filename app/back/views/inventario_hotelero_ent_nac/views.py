@@ -94,7 +94,7 @@ class  InventarioHoteleroEntNacCreateView(SuperAdminOrAdminMixin, LoginRequiredM
             categoria = form.cleaned_data['categoria']
 
             try:
-                existing_object = self.get_object(fecha=fecha, entidad=entidad, categoria=categoria)
+                existing_object = InventarioHoteleroEntNac.objects.filter(fecha=fecha, entidad=entidad, categoria=categoria).order_by('-fecha').first()
 
             except InventarioHoteleroEntNac.DoesNotExist:
                 existing_object = None
@@ -159,9 +159,21 @@ class  InventarioHoteleroEntNacCreateView(SuperAdminOrAdminMixin, LoginRequiredM
             # If there is existing data and replace_data is False, return an error
 
             if existing_object:
-                data =  InventarioHoteleroEntNac.objects.filter(fecha=fecha, entidad=entidad, categoria=categoria)
+      
+                data = InventarioHoteleroEntNac.objects.filter(fecha=fecha, entidad=entidad, categoria=categoria).order_by('-fecha').first()
 
-                data_list = list(data.values('fecha', 'entidad', 'categoria', 'establecimientos', 'habitaciones'))
+                if data is not None:
+                    data_dict = {
+                        'fecha': data.fecha,
+                        'entidad': data.entidad,
+                        'categoria': data.categoria,
+                        'establecimientos': data.establecimientos,
+                        'habitaciones': data.habitaciones
+                    }
+                    data_list = [data_dict]
+                else:
+                    data_list = []
+
 
                 data_list2 = list(form.cleaned_data.values())
 
