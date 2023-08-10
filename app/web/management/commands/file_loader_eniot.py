@@ -7,7 +7,7 @@ import pandas as pd
 
 source_folder = "C:/Users/rogel/OneDrive/Escritorio/CEDOC/Eniot"  # Replace with the actual path to your source folder
 destination_folder = "barometro-turistico"  # Destination folder in S3 (if applicable)
-excel_file_path = "C:/Users/rogel/OneDrive/Escritorio/CEDOC/eniot_keys.xlsx"  # Replace with the actual path to your Excel file
+excel_file_path = "C:/Users/rogel/OneDrive/Escritorio/CEDOC/eniot_keys2.xlsx"  # Replace with the actual path to your Excel file
 
 def get_year_by_file_name(df, file_name):
 
@@ -47,7 +47,7 @@ def load_files_to_model():
         try:
             # Create a BarometroTuristico instance and set its attributes
             eniot = Eniot()
-            eniot.nombrePDF = str(get_name_by_file_name(df,file_name)) + " " + str(get_year_by_file_name(df,file_name))
+            eniot.nombrePDF = str(get_name_by_file_name(df,file_name))
             eniot.anio =  get_year_by_file_name(df,file_name)
             eniot.seccion = "ponencia-eventos"
 
