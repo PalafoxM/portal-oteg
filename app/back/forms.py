@@ -34,7 +34,7 @@ import traceback
 #         }
 
 class PublicationForm(forms.ModelForm):
-    MAX_SIZE_MB = 1  # Tamaño máximo permitido en MB
+    MAX_SIZE_MB = 5  # Tamaño máximo permitido en MB
     TYPE_CHOICES = (
         ('1', 'PDF'),
         ('2', 'MP3'),

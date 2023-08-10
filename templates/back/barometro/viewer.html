@@ -25,7 +25,13 @@
 <tr>
     <th class="text-left tb-text">{{e.id}}</th>
     <th  class="text-left tb-text">{{e.nombrePDF}}</th>
-    <th  class="text-left tb-text"><a href="{{e.doc.url}}">{{e.doc}}</a></th>
+
+    {% if e.doc %}
+        <th  class="text-left tb-text">
+        <a href="{{e.doc.url}}">{{e.doc}}</a></th>
+    {% else %}
+        <th  class="text-left tb-text">No hay PDF</th>
+    {% endif %}
     <th  class="text-left tb-text">{{e.num_descargas}}</th>
 
     <th class="text-center" style="position: relative; background-color: #ECF0F1; text-align: center; height: 100%;">
