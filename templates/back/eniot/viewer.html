@@ -35,7 +35,15 @@
             Ponencia a eventos
         {% endif %}
     </th>
-    <th  class="text-left tb-text"><a href="{{e.doc_url.url}}">{{e.doc_url}}</a></th>
+
+    {% if e.doc_url %}
+        <th  class="text-left tb-text">
+        <a href="{{e.doc_url.url}}">{{e.doc_url}}</a></th>
+    {% else %}
+        <th  class="text-left tb-text">No hay PDF</th>
+    {% endif %}
+
+
     <th  class="text-left tb-text">{{e.num_descargas}}</th>
 
     <th class="text-center" style="position: relative; background-color: #ECF0F1; text-align: center; height: 100%;">

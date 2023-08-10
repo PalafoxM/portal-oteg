@@ -83,13 +83,13 @@ class Publications(models.Model):
         ('2', 'MP3'),
         ('3', 'XLS'))
 
-    section = models.ForeignKey(SeccionesCentroDocumental, on_delete=models.CASCADE, null=True, blank=True)
-    category = models.ForeignKey(Categorias, on_delete=models.CASCADE, null=True, blank=True)
+    section = models.ForeignKey(SeccionesCentroDocumental, on_delete=models.CASCADE, null=True, blank=False)
+    category = models.ForeignKey(Categorias, on_delete=models.CASCADE, null=True, blank=False)
     visible = models.BooleanField(default=True)
     type = models.CharField(max_length=10, choices=TYPE_CHOICES, verbose_name="Tipo de Documento")
     num_descargas = models.IntegerField(null=True, blank=True, default=0)
     name = models.CharField(max_length=100, verbose_name="Nombre")
-    doc = models.FileField(upload_to='publications', storage=S3Storage(), verbose_name="Documento", blank=True)#
+    doc = models.FileField(upload_to='publications', storage=S3Storage(), verbose_name="Documento", blank=False)#
     date_created = models.DateTimeField(auto_now=True)
     num_descargas = models.IntegerField(null=True, blank=True, default=0)
 
@@ -157,7 +157,7 @@ class Eniot(models.Model):
     seccion = models.CharField(max_length=100, null=True, blank=True)
     num_descargas = models.IntegerField(null=True, blank=True, default=0)
     anio = models.IntegerField(null=True, blank=False)
-    doc_url = models.FileField(upload_to='eniot', storage=S3Storage(), verbose_name="Documento", blank=True)
+    doc_url = models.FileField(upload_to='eniot', storage=S3Storage(), verbose_name="Documento", blank=False)
     # aniov2 = models.IntegerField(null=True, blank=False)
     date_updated = models.DateTimeField(auto_now=True)
     date_created = models.DateTimeField(auto_now=True)
@@ -168,7 +168,7 @@ class Eniot(models.Model):
 
 class EniotAlbun(models.Model):
     nombreAlbun = models.CharField(max_length=100, null=True, blank=True)
-    foto_url = models.FileField(upload_to='eniot', storage=S3Storage(), verbose_name="Documento", blank=True)
+    foto_url = models.FileField(upload_to='eniot', storage=S3Storage(), verbose_name="Documento", blank=False)
     descripcion = models.CharField(max_length=100, null=True, blank=True)
     date_updated = models.DateTimeField(auto_now=True)
     date_created = models.DateTimeField(auto_now=True)
