@@ -81,8 +81,7 @@ class Publications(models.Model):
     TYPE_CHOICES = (
         ('1', 'PDF'),
         ('2', 'MP3'),
-        ('3', 'XLS'),
-    )
+        ('3', 'XLS'))
 
     section = models.ForeignKey(SeccionesCentroDocumental, on_delete=models.CASCADE, null=True, blank=True)
     category = models.ForeignKey(Categorias, on_delete=models.CASCADE, null=True, blank=True)
