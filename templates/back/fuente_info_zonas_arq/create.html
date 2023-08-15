@@ -26,8 +26,8 @@
 
     <script>
         $j(function () {
-            $j("#id_entidad").autocomplete({
-                source: "{% url 'dashboard:search_entidades' %}"
+            $j("#id_nombre").autocomplete({
+                source: "{% url 'dashboard:search_nombre_za' %}"
             });
 
             $j("#id_destino").autocomplete({
