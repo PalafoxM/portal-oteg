@@ -263,7 +263,6 @@ class FuenteInfoZonasArqueologicasUpdate (SuperAdminOrAdminMixin, LoginRequiredM
         context['form'].fields['fecha'].widget.attrs['readonly'] = True
         # Set the widget for the 'categoria' field to read-only text input
         context['form'].fields['fecha'].widget.attrs['readonly'] = True
-        context['form'].fields['origen_visitante'].widget.attrs['readonly'] = True
 
         context['title'] = 'Editar fuente'
         context['edit_msg'] = 'Los Campos Destino, Fecha, Museo o Zona Arqueologica y Origen Visitante no pueden ser editados' 

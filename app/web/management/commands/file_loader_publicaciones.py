@@ -8,9 +8,9 @@ import datetime
 
 
 # Replace with the actual path to your source folder
-source_folder = "C:/Users/rogel/OneDrive/Escritorio/CEDOC/Pub_Filter"
+source_folder = "C:/Users/rogel/OneDrive/Escritorio/CEDOC/Pub"
 # Replace with the actual path to your Excel file
-excel_file_path = "C:/Users/rogel/OneDrive/Escritorio/CEDOC/publicaciones_keys_clean.xlsx"
+excel_file_path = "C:/Users/rogel/OneDrive/Escritorio/CEDOC/Pub_AI_Naming.xlsx"
 
 excel_file_path2 = "C:/Users/rogel/OneDrive/Escritorio/CEDOC/Pub_AI_Naming.xlsx"
 

@@ -49,18 +49,16 @@ class PublicacionesSecciones (TemplateView):
                 SeccionesCentroDocumental, id=self.kwargs.get('pk'))
         except:
             raise Http404("No existe la seccion")
+        
 
         publicaciones = Publications.objects.filter(
-            section=seccion, visible=True).order_by('category', '-date_created')
+            section=seccion, visible=True).order_by('category__nombre_categoria', 'name')
 
-        groped_publicaciones = groupby(publicaciones, attrgetter('category'))
+        grouped_publicaciones = {}
+        for category, items in groupby(publicaciones, key=attrgetter('category')):
+            grouped_publicaciones[category] = list(items)
 
-        publicaciones_data = []
-        for category, category_publicaciones in groped_publicaciones:
-            publicaciones_data.append((category, list(category_publicaciones)))
-
-        context['publicaciones_data'] = publicaciones_data
-
+        context['publicaciones_data'] = grouped_publicaciones.items()
         context['seccion'] = seccion
         return context
 
