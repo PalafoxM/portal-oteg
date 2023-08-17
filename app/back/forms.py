@@ -486,11 +486,11 @@ class ZonasArqueologicasMuseosForm (forms.ModelForm):
         ('extranjero', 'Extranjero'),
     )
     origen_visitante = forms.ChoiceField(
-        choices=ORIGEN_CHOICES, required=False)
+        choices=ORIGEN_CHOICES, required=True)
 
     class Meta:
         model = zonas_arqueologicas_museos
-        fields = ['destino', 'tipo', 'nombre', 'fecha', 'visitantes']
+        fields = '__all__'
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -520,6 +520,17 @@ class ZonasArqueologicasMuseosForm_edit (forms.ModelForm):
         ('zona arqueologica', 'Zona Arqueológica'),
     )
     tipo = forms.ChoiceField(choices=TIPO_CHOICES, required=False)
+
+
+    
+    ORIGEN_CHOICES = (
+        ('nacional', 'Nacional'),
+        ('extranjero', 'Extranjero'),
+    )
+    origen_visitante = forms.ChoiceField(
+        choices=ORIGEN_CHOICES, required=True)
+
+
 
     class Meta:
         model = zonas_arqueologicas_museos
