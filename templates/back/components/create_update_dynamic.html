@@ -99,7 +99,7 @@
                 <label style="font-family: avenir;font-weight: bold;font-size: 15px;margin: 0;padding: 0;"
                     for="id_section">Sección:</label>
             </div>
-            <select class="custom-input" id="id_section" name="section">
+            <select class="custom-input-pub" id="id_section" name="section">
 
                 <option value="">---------</option>
                 {% for section in sections %}
@@ -118,7 +118,7 @@
                     for="id_category">Categoría:</label>
 
             </div>
-            <select class="custom-input" id="id_category" name="category">
+            <select style="margin-bottom: 20px;"  class="custom-input-pub" id="id_category" name="category">
             </select>
 
 
@@ -140,7 +140,7 @@
                         for="{{ field.id_for_label }}">{{ field.label }} </label>
                     </div>
                     
-                    {% if field.name == 'type' or field.name == 'name' %}
+                    {% if field.name == 'type' or field.name == 'name' or field.name == 'anio' %}
                         <div class="input-with-icon">
                             {{ field }}
                             {% if field.errors %}
