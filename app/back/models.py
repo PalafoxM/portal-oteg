@@ -85,12 +85,14 @@ class Publications(models.Model):
 
     section = models.ForeignKey(SeccionesCentroDocumental, on_delete=models.CASCADE, null=True, blank=False)
     category = models.ForeignKey(Categorias, on_delete=models.CASCADE, null=True, blank=False)
+    anio = models.IntegerField(null=True, blank=False)
     visible = models.BooleanField(default=True)
     type = models.CharField(max_length=10, choices=TYPE_CHOICES, verbose_name="Tipo de Documento")
     num_descargas = models.IntegerField(null=True, blank=True, default=0)
     name = models.CharField(max_length=100, verbose_name="Nombre")
     doc = models.FileField(upload_to='publications', storage=S3Storage(), verbose_name="Documento", blank=False)#
     date_created = models.DateTimeField(auto_now=True)
+    
     num_descargas = models.IntegerField(null=True, blank=True, default=0)
 
 class Evento (models.Model):
@@ -253,11 +255,6 @@ class otros_anuales(models.Model):
         ordering = ['-id']
 
     
-
-
-
-
-
 
 
 

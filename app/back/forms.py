@@ -47,10 +47,12 @@ class PublicationForm(forms.ModelForm):
     class Meta:
         model = Publications
         exclude = ('category', 'section', 'num_descargas')
-        fields = ['type', 'name', 'doc', 'visible']
+        fields = ['type', 'name', 'anio','doc','visible' ] 
+
         widgets = {
             # 'type': forms.Select(attrs={'class': 'custom-input', 'icon_class': 'fas fa-file'}, choices=TYPE_CHOICES),
             'name': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-user'}),
+            'anio': forms.TextInput(attrs={'class': 'custom-input' , 'icon_class': 'fas fa-calendar'}),
             'doc': forms.ClearableFileInput(attrs={'class': 'custom-input-file'}),
         }
         labels = {
@@ -59,6 +61,7 @@ class PublicationForm(forms.ModelForm):
             'name': 'Nombre',
             'doc': 'Documento',
             'visible': 'Visible',
+            'anio': 'Año',
         }
 
     def clean_doc(self):

@@ -12,6 +12,7 @@
     <th>Sección</th>
     <th>Categoría</th>
     <th>No. de Descargas</th>
+    <th>Año</th>
     <th>Acciones</th>
 
     {% endblock %}
@@ -21,11 +22,12 @@
 <tr class="table-body">
     <th class="text-left tb-text">{{e.id }}</th>
     <th class="text-left tb-text">{{e.name}}</th>
-    <th class="text-left tb-text">{{e.date_created}}</th>
+    <th class="text-left tb-text">{{e.date_created|date:"d-m-Y"}}</th>
     <th class="text-left tb-text">{{e.section.seccion}}</th>
-
     <th class="text-left tb-text">{{e.category.nombre_categoria}}</th>
+   
     <th class="text-left tb-text">{{e.num_descargas}}</th>
+    <th class="text-left tb-text">{{e.anio}}</th>
 
     <th class="text-left actions-column tb-text" style="
     position: relative;

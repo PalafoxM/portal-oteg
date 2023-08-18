@@ -104,7 +104,7 @@
                             for="{{ field.id_for_label }}">{{ field.label }}</label>
                     </div>
                     
-                    {% if field.name == 'type' or field.name == 'name' %}
+                    {% if field.name == 'type' or field.name == 'name' or field.name == 'anio' %}
                         <div class="input-with-icon">
                             {{ field }}
                             {% if field.errors %}

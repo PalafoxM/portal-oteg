@@ -40,7 +40,7 @@ def get_year_by_file_name(df, file_name):
         return None  # Return None if no match is found
     else:
         # Retrieve the year value from the filtered DataFrame
-        year = filtered_df['Año'].iloc[0]
+        year = filtered_df['anio'].iloc[0]
 
         if year:
             return int(year)
@@ -141,6 +141,8 @@ def load_files_to_model_pub():
             publication.type = get_type_by_file_name(df, file_name)
 
             publication.visible = True  # Defaulting to True.
+
+            publication.anio = get_year_by_file_name(df, file_name)
 
             # Set the section and category fields based on the corresponding values from the DataFrame.
             publication.section = get_section_by_file_name(df, file_name)
