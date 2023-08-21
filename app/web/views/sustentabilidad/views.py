@@ -5,5 +5,5 @@ class Sustentabilidad(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['nav_title'] = 'SUSTENTABILIDAD'
-        context['img_url'] = 'img_nav/11Torito_Sustentabilidad.jpg'
+        context['img_url'] = 'img_nav/Artesanias_Guanajuato_19.JPG'
         return context
