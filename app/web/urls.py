@@ -17,6 +17,7 @@ from web.views.inventario.views import *
 from web.views.eventos.views import *
 from web.views.publicaciones_new.views import *
 from web.views.buscador.views import *
+from web.views.flujos_turisticos.views import *
 
 
 urlpatterns = [
@@ -103,7 +104,10 @@ urlpatterns = [
     #reportes mensuales search 
     path('reportes_mensuales_search/', search_reportes_m, name='reportes_mensuales_search'),
     #buscador 
-    path('buscador_CEDOC/', search_view, name='search_view'),   
+    path('buscador_CEDOC/', search_view, name='search_view'),
+
+    path ('flujos_turisticos/',FlujosTuristicosView.as_view(), name='flujos_turisticos'),  
+
 
     
 ]
