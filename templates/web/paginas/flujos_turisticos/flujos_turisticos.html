@@ -1,77 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--divinectorweb.com-->
 {% load static %}
 
-
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-
-    <title>Boletines Mensuales</title>
-
-    <!-- custom css -->
+    <title>Publicaciones</title>
     <!-- custom css -->
     <link rel="stylesheet" href="{% static 'web/css/baner.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'fontawesome-free/css/all.min.css' %}">
+    <link rel="icon" href="{% static 'images/fuentes_informacion/OTEG_Fav_Icon.svg' %}" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" type="text/css" href="{% static 'fontawesome-free/css/all.min.css' %}">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'normalize/normal.css' %}">
+    <link href="{% static 'admin/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
     <script type="text/javascript"
         src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <link rel="stylesheet" href="{% static 'web/css/nabar-portal.css' %}">
+    <link rel="stylesheet" href="{% static 'normalize/normal.css' %}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdn.userway.org/widget.js" data-account="EUDLJPWVtf"></script>
-
 
 </head>
 
 
 <style>
-    .container2 {
-        position: relative;
-        /* set container position to relative */
-        width: 100%;
-        height: 80%;
+    #google_translate_element {
+        margin-left: 0px;
+        margin-right: 0px;
+        margin-top: 10px;
+    }
+
+    /* Estilo del contenedor del widget */
+    #google_translate_element {
+        -moz-transform: translate(0, 0);
+        display: inline-block;
+        margin-right: 10px;
     }
 
 
-    .corner-div {
-        position: absolute;
-        /* set corner-div position to absolute */
-        top: 0 !important;
-        /* position it at the top */
-        right: 15 !important;
-        /* position it at the right */
 
-        width: 200px;
-        height: 56px;
-        background-image: linear-gradient(140.57deg, #ED4C02 0%, #FB8A55 100%);
-        z-index: 999;
-        /* set a high z-index value to make it appear over other elements */
-
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 10rem;
-        transition: transform 0.3s ease;
-
+    @media (max-width: 991px) {
+        #google_translate_element {
+            margin: 0;
+            margin-left: 15px;
+            margin-top: 015px;
+        }
     }
 
-    .corner-div:hover {
-        cursor: pointer;
-        text-decoration: none;
-        transform: scale(1.1);
-
-    }
-</style>
-
-
-
-<style>
     .navbar-default {
         background-color: transparent !important;
         border-color: transparent !important;
@@ -160,7 +141,7 @@
         top: 50%;
         left: auto;
         right: 10px;
-        width: 14px;
+        width: 18px;
         margin: 0;
         transform: translateY(-50%);
     }
@@ -212,13 +193,13 @@
     }
 
     #carousel-example-generic {
-        height: 380px;
+        height: 500px;
         width: 100%;
     }
 
     .carousel .carousel-inner>.item>img {
         width: 100%;
-        height: 380px;
+        height: 500px;
     }
 
     @media only screen and (max-width: 991px) {
@@ -302,7 +283,7 @@
         position: relative;
         overflow: hidden;
         width: 100%;
-        height: 380px;
+        height: 500px;
         /* 16:9 aspect ratio */
     }
 
@@ -311,7 +292,7 @@
         top: 0;
         left: 0;
         width: 100%;
-        height: 380px;
+        height: 500px;
         object-fit: cover;
         object-position: center;
     }
@@ -321,17 +302,11 @@
         top: 0;
         left: 0;
         width: 100%;
-        height: 380px;
+        height: 500px;
         background-image: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, #000000 100%);
         /* Adjust the gradient colors and opacity as needed */
     }
 
-    .nav-text {
-        font-family: 'Montserrat', sans-serif;
-        font-weight: 300;
-        font-size: small;
-
-    }
 
 
 
@@ -363,7 +338,7 @@
     .info-card {
         background-color: #DEE2E6;
         border-radius: 20px;
-        width: 380px;
+        width: 500px;
         height: 170px;
         padding: 10px 20px;
         position: absolute;
@@ -457,10 +432,6 @@
     }
 
     @media (max-width: 991px) {
-        .mt-45 {
-            margin-top: 45px !important;
-        }
-
         .navbar-header {
             float: none;
         }
@@ -525,6 +496,11 @@
 
         .otwn-logo {
             display: none;
+        }
+
+        .p-date {
+            display: none;
+
         }
 
     }
@@ -592,37 +568,12 @@
         /* Set the thumb color */
     }
 
-    .card-container {
-        display: flex;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        white-space: nowrap;
-        scrollbar-width: none;
-        /* Hide scrollbar for Firefox */
-        -ms-overflow-style: none;
-        /* Hide scrollbar for IE and Edge */
-    }
-
-    .card-container::-webkit-scrollbar {
-        display: none;
-        /* Hide scrollbar for Chrome, Safari, and Opera */
-    }
-
-    .card {
-        width: 350px;
-        height: 360px;
-        background-color: #f2f2f2;
-        cursor: grab;
-        user-select: none;
-        flex-shrink: 0;
-        padding: 0 !important;
-        margin-right: 20px;
-        margin-right: 20px;
-    }
-
-    .card:active {
-        cursor: grabbing;
-    }
+    /* For Firefox */
+    /* Note: Firefox currently supports a limited range of customization */
+    /* You can experiment with these properties and values */
+    /* to achieve the desired scroll bar design in Firefox */
+    /* scrollbar-color: #888 #f1f1f1;
+    scrollbar-width: thin; */
 
     .nav-text {
         font-family: 'Montserrat', sans-serif;
@@ -632,6 +583,7 @@
 
 
     }
+
 
     @media screen and (min-width: 768px) and (max-width: 1024px) {
         .nav-text:hover {
@@ -662,11 +614,16 @@
 
     }
 
+    .truncate {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 
     .url-custom-btn {
         background-color: transparent !important;
-        color: #ED4C02;
-        border: 1px solid #ED4C02;
+        color: #fff;
+        border: 1px solid #fff;
 
         padding: 10px 25px;
         display: inline-block;
@@ -678,45 +635,12 @@
         transition: transform 0.3s ease;
     }
 
-    .pdf-logo {
-        color: #333333;
-        transition: transform 0.3s ease;
-    }
-
-    .pdf-logo:hover {
-        transform: scale(1.5);
-        cursor: pointer;
-        color: #ED4C02 !important;
-    }
-
-
 
     .url-custom-btn:hover {
         background-image: linear-gradient(140.57deg, #ED4C02 0%, #FB8A55 100%);
         border: 1px solid #ED4C02;
-        color: #fff;
         transform: scale(1.1);
         cursor: pointer;
-    }
-
-    .custom-search {
-
-        width: 40%;
-        height: 40px;
-        border-radius: 20px;
-        border: none;
-        padding-left: 20px;
-        margin-right: 10px;
-        font-family: 'Montserrat', sans-serif;
-        font-weight: 300;
-        color: #000;
-
-    }
-
-    .custom-search:focus {
-        border-color: #ED4C02;
-        outline: #ED4C02;
-
     }
 
     .pdf-logo {
@@ -730,61 +654,15 @@
         color: #ED4C02 !important;
     }
 
-
-    .truncate {
-        white-space: normal;
-        overflow: hidden;
-        text-overflow: clip;
-    }
-
-    .encuesta {
-        height: 60px;
-        width: 180px;
-        background-image: linear-gradient(140.57deg, #ED4C02 0%, #FB8A55 100%);
-        position: fixed;
-        top: 20%;
-        left: 0;
-        /* Set 'right' instead of 'left' */
-        transform: translateY(-50%);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        z-index: 999;
-        border-radius: 0 10px 10px 0;
-        gap: 10px;
-        box-shadow: -12px 15px 18px -3px rgba(0, 0, 0, 0.1);
-        padding: 10px;
-        color: #DEE2E6;
-        opacity: 0;
-        /* Set initial opacity to 0 */
-        animation: slide-in 1.2s ease-out forwards;
-        /* Apply animation */
-    }
-
-    .encuesta a {
-        color: #DEE2E6;
+    .not-found-text {
         font-family: 'Montserrat', sans-serif;
         font-weight: 600;
-        font-size: 14px;
+        font-size: 20px;
+        color: #ED4C02 !important;
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 20px;
     }
-
-    @keyframes slide-in {
-        0% {
-            transform: translateX(-100%);
-            /* Start from the left */
-            opacity: 0;
-            /* Start with 0 opacity */
-        }
-
-        100% {
-            transform: translateX(0%);
-            /* Move to the original position */
-            opacity: 1;
-            /* Fully visible */
-        }
-    }
-
 
     html,
     body {
@@ -797,215 +675,221 @@
     }
 </style>
 
+
 <body>
 
 
     {% include 'web/components/social_media_stiky/social_media_stiky.html' %}
 
+    <div class="myslide carousel slide" id="carousel-example-generic" data-ride="carousel">
+        <nav class="navbar navbar-default force-hamburger">
+
+            <div class="container otwn-logo">/>
+
+            </div>
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+
+                    <div style="
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+               
+
+                        ">
+                        <a class="navbar-brand" href="{% url 'inicio' %}">
+                            <img src="{% static 'img/inicio/logo.svg' %}" alt="" class="img-responsive"
+                                style="height: 60px;  margin-top: -16px;">
+                        </a>
+                        <div>
+                            <image style="
+                                margin-top: 18px;
+                                height: 50px;
+                                object-fit: cover;
+                                object-position: center;
+                                " src="{% static 'img_nav/unwto-white.png' %}" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="{% url 'oteg' %}" class="nav-text">OTEG</a></li>
+                        <li><a href="{% url 'sustentabilidad' %}" class="nav-text">Sustentabilidad</a></li>
+                        <li><a href='https://guanajuato.mx/' target="_blank" class="nav-text">Información Turística</a>
+                        </li>
+                        <li><a href="{% url 'solicitudes' %}" class="nav-text">Solicitudes</a>
+                        <li> <a>
+                                <form id="search-form" action="{% url 'search_view' %}" method="get"
+                                    onsubmit="handleSearch(event)">
+                                    <input autocomplete="off" type="text" name="query" id="search-input"
+                                        class="nav-input" placeholder="Buscador">
+                                    <input type="submit" style="display: none;">
+                                </form>
+                            </a></li>
+                        <li>
+                            <div id="google_translate_element" style="
+                            padding-top: 15px;
+                        "></div>
+                        </li>
+                    </ul>
+
+                    <ul class="nav navbar-nav navbar-right mt-45">
+                        <li><a href="{% url 'inicio' %}" class="nav-text">INICIO</a></li>
+                        <li><a class="nav-text">Indicadores</a></li>
+                        <li><a href="{% url 'publicaciones_new' %}" class="nav-text">Publicaciones</a></li>
+                        <li><a href="{% url 'inventario-turistico' %}" class="nav-text">Inventario Turístico</a></li>
+                        <li><a href="{% url 'entorno-nacional'%}" class="nav-text">Entorno Nacional</a></li>
+                        <li><a href="{% url 'barometro-turistico' %}" class="nav-text">Barómetro Turístico</a></li>
+                        <li><a href="{% url 'eniot'%}" class="nav-text">ENIOT</a></li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
 
 
-
-    {% include 'web/components/navbar_new/navbar_new.html' %}
-
-    <div class="container ">
-
-        <div style="
-        margin-top: 40px;
-        margin-bottom: 40px;
-        width: 50%;
-    ">
-            <!-- <p>Es un estudio cualitativo y cuantitativo que examina la opinión y valoración presente, pasada y futura de
-                la
-                actividad turística y económica dentro del estado de Guanajuato, con fundamento en la experiencia de
-                líderes
-                de opinión, para el diseño de estrategias en pro del desarrollo turístico del Estado.</p> -->
+        <ol class="carousel-indicators">
 
 
+        </ol>
+        <div class="carousel-inner" role="listbox">
+            <div class="item active">
+                <div class="mask">
+                    <img src="{% static 'img_nav/flujos_t.jpg' %}" alt="">
+                    <div class="overlay"></div>
+                </div>
+                <div class="carousel-caption">
 
+                    <br>
+                    <h2>{{nav_title}}</h2>
+                </div>
+            </div>
         </div>
 
 
-        <div style="width: 100%;
-        height: fit-content;
-        background-color: #DEE2E6 ;
-        border-radius: 20px;
-        box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s ease;
-        margin-bottom: 40px;
-        padding: 10px 30px;
-        ">
+    </div>
 
-            <div class="fas-fa-search"> </div>
+    <div class="container " style="margin-top:2rem;">
 
-            <h3 style="
-        color: #333333;
-        font-family: Montserrat;
-        font-size: 30px;
-        line-height: 58px;
-        font-weight: 600;
-        margin-left: 20px;
-        text-align: left; ">RESULTADOS DE LA ACTIVIDAD TURÍSTICA</h3>
-
-            <form id="search-form2" style="display: flex;
-        align-items: center;
-        justify-content: space-between;
-        flex-wrap: wrap;
-
+        <p
         
-        " role="search">
-                <select name="year" style="
-                width: 20%;
-                height: 40px;
-                min-width: 200px;
-                border-radius: 20px;
-                border: none;
-                padding-left: 20px;
-                margin-bottom: 10px;
-
-                font-family: 'Montserrat', sans-serif;
-                font-weight: 300;
-                color: #000;
-                ">
-                    <option value="">Todos los años</option>
-                    {% for year in years %}
-                    <option value="{{ year }}">{{ year }}</option>
-                    {% endfor %}
-                </select>
-
-                <select name="bim" style="
-                width: 20%;
-                height: 40px;
-                min-width: 200px;
-                border-radius: 20px;
-                border: none;
-                padding-left: 20px;
-                margin-bottom: 10px;
-
-                font-family: 'Montserrat', sans-serif;
-                font-weight: 300;
-                color: #000;
-                ">
-                    <option value="">Todos los meses</option>
-                    <option value="1">Enero</option>
-                    <option value="2">Febrero</option>
-                    <option value="3">Marzo</option>
-                    <option value="4">Abril</option>
-                    <option value="5">Mayo</option>
-                    <option value="6">Junio</option>
-                    <option value="7">Julio</option>
-                    <option value="8">Agosto</option>
-                    <option value="9">Septiembre</option>
-                    <option value="10">Octubre</option>
-                    <option value="11">Noviembre</option>
-                    <option value="12">Diciembre</option>
+        align="justify"
+        style="
+            font-family: Montserrat;
+            font-size: 18px;
+            color: #333333;
+            margin-bottom: 40px;
+            margin-top: 40px;
+            "
+        >Herramienta digital diseñada para generar datos a través de la recopilación y captura en los módulos de atención al visitante y principales puntos de afluencia turística de los destinos del estado de Guanajuato, que permite contar con información oportuna y actualizada para el fortalecimiento de la promoción turística y gestión de visitantes.</p>
 
 
-                </select>
+        <iframe width="100%" height="1258" src="https://lookerstudio.google.com/embed/reporting/fb509223-672a-4bb5-9667-eaba77fca9df/page/TC1yC" frameborder="0" style="border:0" allowfullscreen></iframe>
 
 
-                <input autocomplete="off" type="text" class='custom-search' name="q" placeholder="Buscar por Nombre">
-
-
-                <button type="submit" class="url-custom-btn">Buscar</button>
-
-
-            </form>
-
-            <div id="search-results" style="
-                width: 100%;
-                display: flex; 
-                flex-wrap: wrap;
-                justify-content: space-between;
-                align-items: center;
-                height: 50rem;
-                overflow-x: auto;   
-                
-                "></div>
-
-
-
-
-        </div>
-
-
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script>
-            $(document).ready(function () {
-                $.ajax({
-                    url: '{% url "reportes_mensuales_search" %}',
-                    data: { q: '' },
-                    success: function (data) {
-
-                        var html = '';
-                        var containerHeight = $('#search-results').height();
-                        var rowHeight = 0;
-                        var rowHtml = '<div class="row">';
-
-                        for (var i = 0; i < data.length; i++) {
-                            var url = '{% url "reporte_mensual_download" pk=1 %}'.replace('1', data[i].id);
-                            var itemHtml =
-                                '<div class="" style=" display: flex; flex-direction: column; justify-content: center; align-items: center; min-width: 100px; margin: 10px;">' +
-                                '<a href="' + url + '">' +
-                                '<i style="font-size: 4rem; cursor: pointer; color: #333333; align-self:flex-end;" class="fa-solid fa-file-pdf pdf-logo"></i>' +
-                                '</a>' +
-
-                                '<p style="font-size: 10px; text-align: center;max-width: 100px;" class="truncate">' + data[i].nombrePDF + '</p>' +
-                                '</div>';
-
-
-                            html += itemHtml;
-                        }
-
-                        $('#search-results').html(html);
-
-                    }
-                });
-
-                $('#search-form2').on('submit', function (event) {
-                    event.preventDefault();
-                    var query = $(this).find('input[name="q"]').val();
-                    var year = $(this).find('select[name="year"]').val();
-                    var bim = $(this).find('select[name="bim"]').val();
-                    $.ajax({
-                        url: '{% url "reportes_mensuales_search" %}',
-                        data: { q: query, year: year, bim: bim },
-                        success: function (data) {
-                            var html = '';
-                            var containerHeight = $('#search-results').height();
-                            var rowHeight = 0;
-                            var rowHtml = '<div class="row">';
-
-                            for (var i = 0; i < data.length; i++) {
-                                var url = '{% url "reporte_mensual_download" pk=1 %}'.replace('1', data[i].id);
-                                var itemHtml =
-                                    '<div class="" style=" display: flex; flex-direction: column; justify-content: center; align-items: center; min-width: 100px; margin: 10px;">' +
-                                    '<a href="' + url + '">' +
-                                    '<i style="font-size: 4rem; cursor: pointer; color: #333333; align-self:flex-end;" class="fa-solid fa-file-pdf pdf-logo"></i>' +
-                                    '</a>' +
-
-                                    '<p style="font-size: 10px; text-align: center;max-width: 100px;" class="truncate">' + data[i].nombrePDF + '</p>' +
-                                    '</div>';
-
-
-                                html += itemHtml;
-                            }
-
-                            $('#search-results').html(html);
-
-                        }
-                    });
-                });
-            });
-        </script>
-        
-    <iframe width="100%" height="1400rem"
-    src="https://lookerstudio.google.com/embed/reporting/432cacc1-12ed-4006-9756-f224abe68936/page/p_6ukvnja44c?hl=en"
-    frameborder="0" style="border:0" allowfullscreen></iframe>
 
     </div>
 
 
 
+
     {% include 'web/components/footer/footer_new.html' %}
+
+    <script src=" https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: '{% url "dashboard:get_sections" %}',
+                data: { q: '' },
+
+                success: function (data) {
+                    var html = '';
+                    var containerHeight = $('#sections').height();
+                    var rowHeight = 0;
+                    var rowHtml = '<div class="row">';
+
+                    for (var i = 0; i < data.length; i++) {
+                        var url = '{% url "publicaciones_secciones" pk=1 %}'.replace('1', data[i].id);
+
+                        var itemHtml = '<p><a href="' + url + '" class="footer-link">' + data[i].titulo + '</a></p>';
+                        //var itemHtml = '<p><a href ="" class="text-reset">' + data[i].titulo + '</a></p>';
+
+                        $('#sections').append(itemHtml);
+                    }
+                }
+            });
+        });
+
+
+
+        $(document).ready(function () {
+            $.ajax({
+                url: '{% url "dashboard:get_reports" %}',
+                data: { q: '' },
+
+                success: function (data) {
+                    var html = '';
+                    var containerHeight = $('#reports').height();
+                    var rowHeight = 0;
+                    var rowHtml = '<div class="row">';
+
+                    for (var i = 0; i < data.length; i++) {
+                        var url = '{% url "dashboard:report_detail" pk=1 %}'.replace('1', data[i].id);
+
+                        var itemHtml = '<p><a href="' + url + '" class="footer-link">' + data[i].titulo + '</a></p>';
+                        //var itemHtml = '<p><a href ="" class="text-reset">' + data[i].titulo + '</a></p>';
+
+                        $('#reports').append(itemHtml);
+                    }
+                }
+            });
+        });
+
+    </script> -->
+
+    <script>
+        // Truncate the text within the <p> and <h2> elements
+
+
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'es',
+                includedLanguages: 'en,it,ja,pt',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+        }
+
+        function setFixedMenuPosition() {
+            var translateElement = document.getElementById('google_translate_element');
+            var fixedMenu = document.getElementsByClassName('all-fixed')[0];
+
+            if (translateElement && fixedMenu) {
+                var translateHeight = translateElement.offsetHeight;
+                fixedMenu.style.top = translateHeight + 'px';
+            } else if (fixedMenu) {
+                fixedMenu.style.top = '0';
+            }
+        }
+        window.onload = setFixedMenuPosition;
+    </script>
+    <script>
+        function handleSearch(event) {
+            event.preventDefault();  // Prevent form submission
+
+            const query = document.getElementById('search-input').value;
+            const url = document.getElementById('search-form').action + '?query=' + encodeURIComponent(query);
+            window.location.href = url;
+        }
+    </script>
 
 </body>
