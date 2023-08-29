@@ -830,7 +830,7 @@
             <div class="col">
 
                 {% for category, publications in publicaciones_data %}
-                <div style="
+                <div class="category-header" style="
                         width: 100%;
                         height: 40px;
                         background-image: linear-gradient(140.57deg, #ED4C02 0%, #FB8A55 100%);
@@ -838,11 +838,12 @@
                         display: flex;
                         justify-content: start;
                         align-items: center;
-                        padding: 20px;
+                        padding: 25px;
                         border-radius: 5px;
                         box-shadow: -12px 15px 18px -3px rgba(0, 0, 0, 0.1);
+                        margin-bottom: 5px;
                     ">
-                    <h2 style="
+                    <button class="toggle-publications btn btn-link" style="
                             font-family: Montserrat;
                             font-size: 20px;
                             line-height: 29px;
@@ -851,13 +852,15 @@
                             text-transform: uppercase;
                             margin: 0;
                             padding: 0;
+                            color: #fff !important;
                         
-                        " class="truncate">{{ category.nombre_categoria }}</h2>
+                        " class="truncate">{{ category.nombre_categoria }}</button>
 
                 </div>
-
+                
+                <div class="publications-container" style="display:none">
                 {% for publication in publications %}
-                <div style="
+                <div class="publication"style="
                 display: flex; 
                 justify-content: center;
                 align-items: center;
@@ -950,6 +953,7 @@
                 {% empty %}
                 <p class='not-found-text'>No se encontraron publicaciones en esta categoría.</p>
                 {% endfor %}
+                </div>
 
                 {% empty %}
                 <p class='not-found-text'> No se encontraron categorías en esta sección. </p>
@@ -960,31 +964,13 @@
             </div>
 
             <div style="width: 100%;">
-                <p 
-                
-                align="justify"
+                <p align="justify"
                 style="
                     font-family: Montserrat;
                     font-size: 14px;
                     line-height: 17px;
                     margin: 0;
-                    ">DERECHOS DE AUTOR Y DERECHOS CONEXOS, Año 1, No. 1, Enero-Junio 2019, es una publicación
-                    semestral,
-                    editada por el Observatorio Turístico del Estado de Guanajuato (OTEG), Parque Guanajuato
-                    Bicentenario,
-                    Carretera de Cuota Silao-Guanajuato Km 3.8 Silao, Guanajuato, C. P. 36270, Tel. 01 (472) 103 99 00
-                    Ext.
-                    140, http://www.observatorioturistico.org observatorioturisticogto@gmail.com Editor Responsable:
-                    Observatorio Turístico del Estado Turístico de Guanajuato. Reserva de Derechos al Uso Exclusivo al
-                    No.
-                    EN TRÁMITE, ISSN EN TRÁMITE, ambos otorgados por el Instituto Nacional del Derecho de Autor.
-                    Responsable
-                    de la última actualización, Secretaria de Turismo del Estado de Guanajuato Parque Guanajuato
-                    Bicentenario, Carretera de Cuota Silao- Guanajuato Km 3.8 Silao, Guanajuato, C. P. 36270 , fecha de
-                    la
-                    última modificación, 11 marzo 2019.
-                    Las opiniones expresadas por los autores no necesariamente reflejan la postura del editor de la
-                    publicación.</p>
+                    "></p>
 
             </div>
 
@@ -1084,5 +1070,14 @@
                 window.location.href = url;
             }
         </script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.toggle-publications').click(function() {
+                $(this).closest('.category-header').next('.publications-container').slideToggle();
+            });
+        });
+    </script>
 
 </body>
