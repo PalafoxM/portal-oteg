@@ -876,8 +876,8 @@ class CatalogoDestinoForm (forms.ModelForm):
         fields = '__all__'
 
         widgets = {
-            'destino': forms.DateInput(attrs={'class': 'custom-input','icon_class': 'fas fa-search'}),
-            'entidad': forms.NumberInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
+            'destino': forms.TextInput(attrs={'class': 'custom-input','icon_class': 'fas fa-search'}),
+            'entidad': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
 
         }
 
