@@ -2202,17 +2202,17 @@ class EniotForm(forms.ModelForm):
 
     class Meta:
         model = Eniot
-        fields = ['nombrePDF', 'seccion', 'anio', 'doc_url',]
+        fields = ['nombrePDF', 'seccion', 'categoria', 'doc_url',]
         labels = {
             'nombrePDF': 'Nombre del PDF',
             'doc_url': 'Documento',
             'seccion': 'Sección',
-            'anio': 'Año',
+            'categoria': 'Categoria',
         }
         widgets = {
             'nombrePDF': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
             'doc_url': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
-            'anio': forms.NumberInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
+            'categoria': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
         }
 
     def clean_imagen(self):
@@ -2255,3 +2255,12 @@ class EniotAlbunForm(forms.ModelForm):
                 raise forms.ValidationError(
                     "Solo se permiten archivos de imagen (JPG, JPEG, PNG, GIF).")
         return foto
+
+
+class EniotCategoriasForm(forms.ModelForm):
+    class Meta: 
+        model=Categorias_Eniot
+        fields = '__all__'
+        widgets = {
+            'categoria' : forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'})
+        }
