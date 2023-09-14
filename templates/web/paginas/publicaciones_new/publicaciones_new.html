@@ -904,27 +904,26 @@
         <div class="scrolling-wrapper">
 
             {% for section in secciones %}
-            <a href="{% url 'publicaciones_secciones' section.id %}" style="text-decoration: none;color: #333333;">
-                <div class='card'>
-                    <div style='        
-                position: relative;
-                overflow: hidden;
-                width: 100%;
-                height: 100%;'>
+            <div class='card'>
+                <div style='        
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;'>
 
-                        {% if section.imagen %}
-                        <img style="
-                        border-radius:8px  8px  0px 0px;
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                        width: 100%;
-                        height: 65%;
-                        object-fit: cover;
-                        object-position: center;" src="{{section.imagen.url}}" alt="">
-                        {% else %}
+                    {% if section.imagen %}
+                    <img style="
+                    border-radius:8px  8px  0px 0px;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 65%;
+                    object-fit: cover;
+                    object-position: center;" src="{{section.imagen.url}}" alt="">
+                    {% else %}
 
-                        <img style="
+                    <img style="
                     border-radius:8px  8px  0px 0px;
                     position: absolute;
                     top: 0;
@@ -934,190 +933,171 @@
                     object-fit: cover;
                     object-position: center;" src="{% static 'img_nav/defaultimage.webp' %}" alt="">
 
+                    {% endif %}
 
-                        {% endif %}
-
-                        <div style="
-                        border-radius: 0px 0px 8px  8px  ;
-                        position: absolute;
-                        bottom: 0;
-                        left: 0;
-                        width: 100%;
-                        height: 35%;
-                        object-fit: cover;
-                        object-position: center;
-                        padding-left: 20px;
-                        padding-right: 20px;
+                    <div style="
+                    border-radius: 0px 0px 8px  8px  ;
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 35%;
+                    object-fit: cover;
+                    object-position: center;
+                    padding-left: 20px;
+                    padding-right: 20px;
+                    ">
+                        <h2>{{section.seccion}}</h2>
+                        <a href="{% url 'publicaciones_secciones' section.id %}" style="
+                            color:#ED4C02 ;
+                            font-family: Montserrat;
+                            font-size: 14px;
                         ">
-                            <h2>{{section.seccion}}</h2>
-                            <a href="{% url 'publicaciones_secciones' section.id %}" style="
-                                color:#ED4C02 ;
-                                font-family: Montserrat;
-                                font-size: 14px;
-                            ">
-                                Seguir leyendo...
+                            Seguir leyendo...
 
-                            </a>
-                        </div>
-
+                        </a>
                     </div>
 
                 </div>
-            </a>
+
+            </div>
 
             {% endfor %}
 
-            <a href="{% url 'flujos_turisticos'%}" style="text-decoration: none;color: #333333;">
-                <div class='card'>
-                    <div style='        
-                position: relative;
-                overflow: hidden;
-                width: 100%;
-                height: 100%;'>
+            <div class='card'>
+                <div style='        
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;'>
 
-                        <img style="
-                    border-radius:8px  8px  0px 0px;
+                    <img style="
+                border-radius:8px  8px  0px 0px;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 65%;
+                object-fit: cover;
+                object-position: center;" src="{% static 'img_nav/flujos_t.jpg' %}" alt="">
+
+                    <div style="
+                    border-radius: 0px 0px 8px  8px  ;
                     position: absolute;
-                    top: 0;
+                    bottom: 0;
                     left: 0;
                     width: 100%;
-                    height: 65%;
+                    height: 35%;
                     object-fit: cover;
-                    object-position: center;" src="{% static 'img_nav/flujos_t.jpg' %}" alt="">
-
-                        <div style="
-                        border-radius: 0px 0px 8px  8px  ;
-                        position: absolute;
-                        bottom: 0;
-                        left: 0;
-                        width: 100%;
-                        height: 35%;
-                        object-fit: cover;
-                        object-position: center;
-                        padding-left: 20px;
-                        padding-right: 20px;
+                    object-position: center;
+                    padding-left: 20px;
+                    padding-right: 20px;
+                    ">
+                        <h2>Flujos Turisticos</h2>
+                        <a href="{% url 'flujos_turisticos'%}" style="
+                            color:#ED4C02 ;
+                            font-family: Montserrat;
+                            font-size: 14px;
                         ">
-                            <h2>Flujos Turisticos</h2>
-                            <a href="{% url 'flujos_turisticos'%}" style="
-                                color:#ED4C02 ;
-                                font-family: Montserrat;
-                                font-size: 14px;
-                            ">
-                                Seguir leyendo...
+                            Seguir leyendo...
 
-                            </a>
-                        </div>
-
+                        </a>
                     </div>
 
                 </div>
 
-            </a>
+            </div>
 
-            <a href="{% url 'dashboard:report_mensual_detail'%}" style="text-decoration: none;color: #333333;">
-                <div class='card'>
-                    <div style='        
-                position: relative;
-                overflow: hidden;
+            <div class='card'>
+                <div style='        
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;'>
+
+                    <img style="
+                border-radius:8px  8px  0px 0px;
+                position: absolute;
+                top: 0;
+                left: 0;
                 width: 100%;
-                height: 100%;'>
+                height: 65%;
+                object-fit: cover;
+                object-position: center;" src="{% static 'img_nav/Portada-2.jpg' %}" alt="">
 
-                        <img style="
-                    border-radius:8px  8px  0px 0px;
+                    <div style="
+                    border-radius: 0px 0px 8px  8px  ;
                     position: absolute;
-                    top: 0;
+                    bottom: 0;
                     left: 0;
                     width: 100%;
-                    height: 65%;
+                    height: 35%;
                     object-fit: cover;
-                    object-position: center;" src="{% static 'img_nav/Portada-2.jpg' %}" alt="">
-
-                        <div style="
-                        border-radius: 0px 0px 8px  8px  ;
-                        position: absolute;
-                        bottom: 0;
-                        left: 0;
-                        width: 100%;
-                        height: 35%;
-                        object-fit: cover;
-                        object-position: center;
-                        padding-left: 20px;
-                        padding-right: 20px;
+                    object-position: center;
+                    padding-left: 20px;
+                    padding-right: 20px;
+                    ">
+                        <h2>Boletines Mensuales</h2>
+                        <a href="{% url 'dashboard:report_mensual_detail'%}" style="
+                            color:#ED4C02 ;
+                            font-family: Montserrat;
+                            font-size: 14px;
                         ">
-                            <h2>Boletines Mensuales</h2>
-                            <a href="{% url 'dashboard:report_mensual_detail'%}" style="
-                                color:#ED4C02 ;
-                                font-family: Montserrat;
-                                font-size: 14px;
-                            ">
-                                Seguir leyendo...
+                            Seguir leyendo...
 
-                            </a>
-                        </div>
-
+                        </a>
                     </div>
 
                 </div>
 
-            </a>
+            </div>
 
-            <a href="{% url 'noticias_turisticas'%}" style="text-decoration: none;color: #333333;">
-                <div class='card'>
-                    <div style='        
-                position: relative;
-                overflow: hidden;
+            <div class='card'>
+                <div style='        
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;'>
+
+                    <img style="
+                border-radius:8px  8px  0px 0px;
+                position: absolute;
+                top: 0;
+                left: 0;
                 width: 100%;
-                height: 100%;'>
+                height: 65%;
+                object-fit: cover;
+                object-position: center;" src="{% static 'img_nav/pub_not.jpg' %}" alt="">
 
-                        <img style="
-                    border-radius:8px  8px  0px 0px;
+                    <div style="
+                    border-radius: 0px 0px 8px  8px  ;
                     position: absolute;
-                    top: 0;
+                    bottom: 0;
                     left: 0;
                     width: 100%;
-                    height: 65%;
+                    height: 35%;
                     object-fit: cover;
-                    object-position: center;" src="{% static 'img_nav/pub_not.jpg' %}" alt="">
-
-                        <div style="
-                        border-radius: 0px 0px 8px  8px  ;
-                        position: absolute;
-                        bottom: 0;
-                        left: 0;
-                        width: 100%;
-                        height: 35%;
-                        object-fit: cover;
-                        object-position: center;
-                        padding-left: 20px;
-                        padding-right: 20px;
+                    object-position: center;
+                    padding-left: 20px;
+                    padding-right: 20px;
+                    ">
+                        <h2>Noticias Turisticas</h2>
+                        <a  href="{% url 'noticias_turisticas'%}" style="
+                            color:#ED4C02 ;
+                            font-family: Montserrat;
+                            font-size: 14px;
                         ">
-                            <h2>Noticias Turisticas</h2>
-                            <a  href="{% url 'noticias_turisticas'%}" style="
-                                color:#ED4C02 ;
-                                font-family: Montserrat;
-                                font-size: 14px;
-                            ">
-                                Seguir leyendo...
+                            Seguir leyendo...
 
-                            </a>
-                        </div>
-
+                        </a>
                     </div>
 
                 </div>
 
-            </a>
+            </div>
 
         </div>
     </div>
-
-
-
-
-
-
-
-
 
     <style>
         .scrolling-wrapper {
@@ -1152,7 +1132,6 @@
         }
     </style>
 
-
     <script>
         const wrappers = document.querySelectorAll('.scrolling-wrapper');
 
@@ -1183,6 +1162,27 @@
                 };
                 animateScroll();
             };
+
+
+            // Scroll arrastrado al hacer clic en cualquier elemento dentro del div
+            wrapper.addEventListener('mousedown', (e) => {
+                e.preventDefault();
+                const startX = e.pageX;
+                const startScrollLeft = wrapper.scrollLeft;
+
+                const handleMouseMove = (e) => {
+                    const deltaX = e.pageX - startX;
+                    wrapper.scrollLeft = startScrollLeft - deltaX;
+                };
+
+                const handleMouseUp = () => {
+                    wrapper.removeEventListener('mousemove', handleMouseMove);
+                    wrapper.removeEventListener('mouseup', handleMouseUp);
+                };
+
+                wrapper.addEventListener('mousemove', handleMouseMove);
+                wrapper.addEventListener('mouseup', handleMouseUp);
+            });
 
             leftButton.addEventListener('click', () => {
                 smoothScrollTo(wrapper, wrapper.scrollLeft - scrollAmount, animationDuration);
