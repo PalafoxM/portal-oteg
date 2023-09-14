@@ -106,3 +106,11 @@ def search_entidad_aeropuerto (request):
     return JsonResponse({'other_data_value': other_data_value})
 
 
+def search_categorias_eniot (request):
+
+    query_original = request.GET.get('term', '')
+    queryset = Categorias_Eniot.objects.filter(categoria__icontains=query_original)
+    
+    categorias = [ categorias.categoria for categorias in queryset ]
+
+    return JsonResponse(categorias, safe=False)

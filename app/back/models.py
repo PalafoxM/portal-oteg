@@ -158,7 +158,7 @@ class Eniot(models.Model):
     nombrePDF = models.CharField(max_length=100, null=True, blank=True)
     seccion = models.CharField(max_length=100, null=True, blank=True)
     num_descargas = models.IntegerField(null=True, blank=True, default=0)
-    anio = models.IntegerField(null=True, blank=False)
+    categoria = models.CharField(max_length=100, null=True, blank=True)
     doc_url = models.FileField(upload_to='eniot', storage=S3Storage(), verbose_name="Documento", blank=False)
     # aniov2 = models.IntegerField(null=True, blank=False)
     date_updated = models.DateTimeField(auto_now=True)
@@ -1390,3 +1390,5 @@ class Reportes_Mensuales(models.Model):
     doc = models.FileField(upload_to='reportes_mensuales', storage=S3Storage(), verbose_name="Documento", blank=True)#
     num_descargas =  models.IntegerField(null=True, blank=True, default=0)
  
+class Categorias_Eniot(models.Model):
+    categoria = models.CharField(max_length=100, blank= True)
