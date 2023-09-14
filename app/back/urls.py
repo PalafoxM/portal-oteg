@@ -53,9 +53,9 @@ from back.views.fuente_info_dt_recintos_auditorios_y_salones.views import *
 from back.views.fuente_info_dt_spa.views import *
 from back.views.fuente_info_pasajeros_ent_nac.views import *
 from back.views.modulo_reportes.views import *
-from back.views.eniot.views import *
 from back.views.modulo_encuestas.views import *
 from back.views.reportes_mensuales.views import *
+from back.views.eniot.views import *
 
 
 from django.conf import settings
@@ -260,6 +260,8 @@ urlpatterns = [
     path('typeahead/nombre-za', search_nombre_za, name='search_nombre_za'),
     #Typeahead  entidades
     path('typeahead/entidades', search_entidades, name='search_entidades'),
+    #Typeahead categorias Eniot
+    path('typeahead/categorias_eniot', search_categorias_eniot, name='search_categorias_eniot'),
 
     #Typeahead Destinos Aeropuerto
     path('typeahead/destinos-aeropuerto', search_destino_aeropuerto, name='search_destino_aeropuerto'),
@@ -317,13 +319,14 @@ urlpatterns = [
     path('proyectos-inversion/edit/<int:pk>/', ProyectoInversionUpdateView.as_view(), name='proyectos_inversion_update'),
     path('proyectos-inversion/delete/<int:pk>/', ProyectoInversionDeleteView.as_view(), name='proyectos_inversion_delete'),
 
-    #modlulos configuracion
+    #modulos configuracion
     
     #modlulo Configuracion DEstinos 
     path('configuracion-destinos/list', ModiuloConfigDestinos.as_view(), name='configuracion_destinos_list'),
     path('configuracion-destinos/add', ModiuloConfigDestinosCreateView.as_view(), name='configuracion_destinos_create'),
     path('configuracion-destinos/edit/<int:pk>/', ModiuloConfigDestinosUpdateView.as_view(), name='configuracion_destinos_update'),
     path('configuracion-destinos/delete/<int:pk>/', ModiuloConfigDestinosDeleteView.as_view(), name='configuracion_destinos_delete'),
+    
     #fuentes info discapacidad
     path('fuentes-info/discapacidad', FuenteInfoDiscapacidad.as_view(), name='fuente_info_discapacidad'),
     path('fuentes-info/discapacidad/add', FuenteInfoDiscapacidadCreate.as_view(), name='fuente_info_discapacidad_create'),
@@ -534,6 +537,10 @@ urlpatterns = [
     path('eniot/fotos/add', EniotAlbunCreateView.as_view(), name='eniot_fotos_create'),
     path('eniot/fotos/edit/<int:pk>/', EniotAlbunUpdateView.as_view(), name='eniot_fotos_update'),
     path('eniot/fotos/delete/<int:pk>/', EniotAlbunDeleteView.as_view(), name='eniot_fotos_delete'),
+    path('eniot/categorias/list', ListadoCategoriasEniot.as_view(), name= 'eniot_categorias'),
+    path('eniot/categorias/add', CategoriaEniotCreateView.as_view(), name='eniot_categorias_create'),
+    path('eniot/categorias/<int:pk>', EniotCategoriaUpdateView.as_view(), name='eniot_categorias_update'),
+    path('eniot/categorias/delete/<int:pk>', EniotCategoriaDeleteView.as_view(), name='eniot_categorias_delete'),
     # encuestas
 
     path('encuestas/', EncuestaView.as_view(), name='modulo_encuestas'),

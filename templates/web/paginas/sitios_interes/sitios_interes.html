@@ -19,10 +19,8 @@
     <script type="text/javascript"
         src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <link rel="stylesheet" href="{% static 'web/css/nabar-portal.css' %}">
-
-    <script>(function (d) { var s = d.createElement("script"); s.setAttribute("data-account", "9HnNMax2Vu"); s.setAttribute("src", "https://cdn.userway.org/widget.js"); (d.body || d.head).appendChild(s); })(document)</script>
-    <noscript>Please ensure Javascript is enabled for purposes of <a href="https://userway.org">website
-            accessibility</a></noscript>
+    <script src="https://cdn.userway.org/widget.js" data-account="EUDLJPWVtf"></script>
+    <noscript>Please ensure Javascript is enabled for purposes of <a href="https://userway.org">website accessibility</a></noscript>
 
 </head>
 
@@ -344,9 +342,6 @@
         transition: transform 0.3s ease;
     }
 
-
-
-
     .n-card {
         background-color: #DEE2E6;
         border-radius: 8px;
@@ -375,7 +370,6 @@
         transform: scale(1.05);
         cursor: pointer;
     }
-
 
     .otwn-logo {
         display: flex;
@@ -587,8 +581,6 @@
         margin-right: 10px;
     }
 
-
-
     @media screen and (-webkit-min-device-pixel-ratio:0) {
         /* #google_translate_element {
             position: absolute;
@@ -614,7 +606,6 @@
 
     {% include 'web/components/social_media_stiky/social_media_stiky.html' %}
     
-    
     <div class="container">
 
         <p class=" text-center"
@@ -624,89 +615,101 @@
             font-family: 'Montserrat', sans-serif;
             font-weight: 400;
             font-size: 18px;
-            color: #333333
-            "
-        
-        
-        > Una y otra vez, México te sorprenderá con nuevas experiencias: un sabor distinto,
-            una aventura única o un rincón que ha aguardado por siglos para cautivarte. ¡Lo que te falta por conocer!
+            color: #333333"> 
+        Una y otra vez, México te sorprenderá con nuevas experiencias: un sabor distinto, 
+        una aventura única o un rincón que ha aguardado por siglos para cautivarte. ¡Lo que te falta por conocer!
         </p>
+
         <div style="
             width: 100%;
             height: fit-content;
             display: flex;
-            justify-content: space-around;
+            justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 20px;
+            gap: 20px;">
 
-        ">
-            <div class="col mt-5" style="display: flex; justify-content: center; align-items: center;">
-                <a href="https://sectur.guanajuato.gob.mx/registro-estatal-de-turismo/"  onclick='window.open("https://sectur.guanajuato.gob.mx/registro-estatal-de-turismo/");return false;'  target="_blank" >  
-                    
-                    <img style="max-width: 200px;"
-                        src='{% static 'assets/images/RET.png' %}'></a>
-            </div>
-
-            <div class="col text-center mt-5" style="display: flex; justify-content: center; align-items: center;">
-                <a href="https://www.gob.mx/sectur" target="_blank" > <img style="max-width: 200px;" src='{% static 'assets/images/sectur.png' %}'></a>
-            </div>
-            <div class="col text-center mt-5" style="display: flex; justify-content: center; align-items: center;">
-                <a href="" target="_blank"> <img style="max-width: 200px;" src='{% static 'assets/images/oteg.png' %}'></a>
+            <!-- Imagen y enlace de SecTur GTO-->
+            <div class="col text-center mt-5" style="flex-basis: calc(33.33% - 13.33px); display: flex; justify-content: center; align-items: center;">
+                <a href="https://sectur.guanajuato.gob.mx/" target="_blank"> 
+                    <img style="max-width: 150px;" src="{% static 'assets/images/sgto.jpeg'%}">
+                </a>
             </div>
 
-            <div class="col text-center mt-5" style="display: flex; justify-content: center; align-items: center;">
-                <a href=""> <img style="max-width: 200px;" src='{% static 'assets/images/sustentabilidad_gto.jpg'%}'></a>
+            <!-- Imagen y enlace de SECTUR MEXICO-->
+            <div class="col text-center mt-5" style="flex-basis: calc(33.33% - 13.33px); display: flex; justify-content: center; align-items: center;">
+                <a href="https://www.gob.mx/sectur" target="_blank" > 
+                    <img style="max-width: 200px;" src='{% static 'assets/images/sectur.png' %}'>
+                </a>
             </div>
-            <div class="col text-center mt-5" style="display: flex; justify-content: center; align-items: center;">
-                <a href="https://www.gob.mx/sectur/acciones-y-programas/instituto-de-competitividad-turistica"
-                 target="_blank"
-                > <img style="max-width: 200px;"src='{% static 'assets/images/comtur.png'%}'></a>
+            
+            <!-- Imagen y enlace de RET -->
+            <div class="col mt-5" style="flex-basis: calc(33.33% - 13.33px); display: flex; justify-content: center; align-items: center;">
+                <a href="https://registroestataldeturismo.guanajuato.gob.mx/" target="_blank" >
+                    <img style="max-width: 200px;" src='{% static 'assets/images/LOGO_RET_2023.png' %}'>
+                </a>
+            </div>
+                                    
+            <!-- Imagen y enlace de Sustentabilidad GTO-->
+            <div class="col text-center mt-5" style="flex-basis: calc(33.33% - 13.33px); display: flex; justify-content: center; align-items: center;">
+                <a href=""> 
+                    <img style="max-width: 200px;" src='{% static 'assets/images/sustentabilidad_gto.jpg'%}'>
+                </a>
+            </div>
+            
+            <!-- Imagen y enlace de COMTUR-->
+            <div class="col text-center mt-5" style="flex-basis: calc(33.33% - 13.33px); display: flex; justify-content: center; align-items: center;">
+                <a href="https://www.gob.mx/sectur/acciones-y-programas/instituto-de-competitividad-turistica" target="_blank"> 
+                    <img style="max-width: 200px;"src='{% static 'assets/images/comtur.png'%}'>
+                </a>
+            </div>
+            
+            <!-- Imagen y enlace de Alerta Amber MX-->
+            <div class="col text-center mt-5" style="flex-basis: calc(33.33% - 13.33px); display: flex; justify-content: center; align-items: center;">
+                <a href="http://www.alertaamber.gob.mx/" target="_blank"> 
+                    <img style="max-width: 150px;" src="{% static 'assets/images/alerta-amber.png'%}">
+                </a>
+            </div>
+            
+            <!-- Imagen y enlace de Atlas turistico MX-->
+            <div class="col text-center mt-5" style="flex-basis: calc(33.33% - 13.33px); display: flex; justify-content: center; align-items: center;">
+                <a href="https://www.atlasturistico.sectur.gob.mx/AtlasTuristico/bienvenido.do" target="_blank"> 
+                    <img style="max-width: 150px;" src="{% static 'assets/images/atlast.jpg'%}">
+                </a>
+            </div>
+            
+            <!-- Imagen y enlace de RICIT-->
+            <div class="col text-center mt-5" style="flex-basis: calc(33.33% - 13.33px); display: flex; justify-content: center; align-items: center;">
+                <a href="https://www.gob.mx/tramites/ficha/inscripcion-a-la-red-de-investigadores-y-centros-de-investigacion-en-turismo-ricit/ICTUR6101" target="_blank"> 
+                    <img style="max-width: 150px;" src="{% static 'assets/images/ricit.png'%}">
+                </a>
+            </div>
+            
+
+            
+            <!-- Imagen y enlace de CEDOC MX-->
+            <div class="col text-center mt-5" style="flex-basis: calc(33.33% - 13.33px); display: flex; justify-content: center; align-items: center;">
+                <a href="https://cedocvirtual.sectur.gob.mx/janium-bin/janium_login.pl" target="_blank"> 
+                    <img style="max-width: 150px;" src="{% static 'assets/images/CEDOC_virtual.jpeg'%}">
+                </a>
             </div>
 
-            <div class="col text-center mt-5" style="display: flex; justify-content: center; align-items: center;">
-                <a href="http://www.alertaamber.gob.mx/"
-                target="_blank"
-                > <img style="max-width: 150px;" src="{% static 'assets/images/alerta-amber.png'%}"></a>
-            </div>
-            <div class="col text-center mt-5" style="display: flex; justify-content: center; align-items: center;">
-                <a href="https://www.atlasturistico.sectur.gob.mx/AtlasTuristico/bienvenido.do"
-                target="_blank"
-                > <img style="max-width: 150px;" src="{% static 'assets/images/atlast.jpg'%}"></a>
-            </div>
-            <div class="col text-center mt-5" style="display: flex; justify-content: center; align-items: center;">
-                <a href="https://www.gob.mx/tramites/ficha/inscripcion-a-la-red-de-investigadores-y-centros-de-investigacion-en-turismo-ricit/ICTUR6101"
-                target="_blank"
-                > <img style="max-width: 150px;" src="{% static 'assets/images/ricit.png'%}"></a>
-            </div>
+            <!-- Imagen y enlace de OTEG-->
+            <!--<div class="col text-center mt-5" style="display: flex; justify-content: center; align-items: center;">
+                <a href="" target="_blank"> 
+                    <img style="max-width: 200px;" src='{% static 'assets/images/oteg.png' %}'>
+                </a>
+            </div> -->
 
-            <div class="col text-center mt-5" style="display: flex; justify-content: center; align-items: center;">
-                <a href="https://siimt.mx/"
-                target="_blank"
-                > <img style="max-width: 150px;" src="{% static 'assets/images/simit.png'%}"></a>
-            </div>
-
-            <div class="col text-center mt-5" style="display: flex; justify-content: center; align-items: center;">
-                <a href="https://cedocvirtual.sectur.gob.mx/janium-bin/janium_login.pl"
-                target="_blank"
-                > <img style="max-width: 150px;" src="{% static 'assets/images/CEDOC_virtual.jpeg'%}"></a>
-            </div>
-
-            <div class="col text-center mt-5" style="display: flex; justify-content: center; align-items: center;">
-                <a href="https://sectur.guanajuato.gob.mx/"
-                target="_blank"
-                > <img style="max-width: 150px;" src="{% static 'assets/images/sgto.jpeg'%}"></a>
-            </div>
-
-
+            <!-- Imagen y enlace de SIMIT-->
+            <!--<div class="col text-center mt-5" style="display: flex; justify-content: center; align-items: center;">
+                <a href="https://siimt.mx/" target="_blank">
+                    <img style="max-width: 150px;" src="{% static 'assets/images/simit.png'%}">
+                </a>
+            </div>-->
+            
         </div>
-
-
-
-
-
     </div>
-
 
 
 {% include 'web/components/footer/footer_new.html' %} </body>

@@ -12,6 +12,7 @@ admin.site.register(SeccionesCentroDocumental)
 admin.site.register(Categorias)
 admin.site.register(Report_Section)
 admin.site.register(Publications)
+admin.site.register(Categorias_Eniot)
 
 
 class repotsAdmin (admin.ModelAdmin):

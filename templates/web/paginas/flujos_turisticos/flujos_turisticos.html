@@ -304,7 +304,9 @@
         width: 100%;
         height: 500px;
         background-image: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, #000000 100%);
-        /* Adjust the gradient colors and opacity as needed */
+        background-color: rgba(0, 0, 0, 0.7); /* Color de fondo oscuro con opacidad */
+        display: none; /* Inicialmente oculto */
+        z-index: 1000; /* Coloca el fondo oscuro por encima de otros elementos */
     }
 
 
@@ -664,6 +666,60 @@
         margin-bottom: 20px;
     }
 
+    /* Estilo para la ventana emergente */
+    #popupBackground {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro con opacidad */
+        z-index: 1000; /* Z-index por debajo del popup */
+    }
+
+    #miPopup {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #F2F2F2;
+        width: 400px;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        font-family: Arial, sans-serif;
+        z-index: 1001;
+    }
+
+    #miPopup h2 {
+        font-size: 40px;
+        margin-bottom: 5px;
+        color:#FDC10F;
+        background-color: #ED4C02;
+    }
+
+    #miPopup p {
+        font-size: 12px;
+    }
+
+    #cerrarPopup {
+        background-color: #ff5733;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 5px;
+        margin-top: 20px;
+    }
+
+    #cerrarPopup:hover {
+        background-color: #ED4C02;
+    }
+
     html,
     body {
         background-color: #F2F2F2;
@@ -678,6 +734,13 @@
 
 <body>
 
+    <div id="miPopup" style="display: none;">
+        <h2>¡ATENCIÓN!</h2>
+        <h3>Es necesario contar con credenciales oficiales para la muestra de este tablero</h3>
+        <p><br>En caso de contar con sus credenciales, espere un momento, el informe puede tardar un poco en mostrarse.</p>
+        <button id="cerrarPopup">Cerrar</button>
+    </div>
+    <div id="popupBackground"></div>
 
     {% include 'web/components/social_media_stiky/social_media_stiky.html' %}
 
@@ -792,72 +855,29 @@
             "
         >Herramienta digital diseñada para generar datos a través de la recopilación y captura en los módulos de atención al visitante y principales puntos de afluencia turística de los destinos del estado de Guanajuato, que permite contar con información oportuna y actualizada para el fortalecimiento de la promoción turística y gestión de visitantes.</p>
 
-
-        <iframe width="100%" height="1258" src="https://lookerstudio.google.com/embed/reporting/fb509223-672a-4bb5-9667-eaba77fca9df/page/TC1yC" frameborder="0" style="border:0" allowfullscreen></iframe>
-
-
+        <iframe width="100%" height="1950 px" src="https://lookerstudio.google.com/embed/reporting/fb509223-672a-4bb5-9667-eaba77fca9df/page/TC1yC" frameborder="0" style="border:0" allowfullscreen></iframe>
 
     </div>
-
-
-
 
     {% include 'web/components/footer/footer_new.html' %}
 
     <script src=" https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-    <!-- <script>
-        $(document).ready(function () {
-            $.ajax({
-                url: '{% url "dashboard:get_sections" %}',
-                data: { q: '' },
-
-                success: function (data) {
-                    var html = '';
-                    var containerHeight = $('#sections').height();
-                    var rowHeight = 0;
-                    var rowHtml = '<div class="row">';
-
-                    for (var i = 0; i < data.length; i++) {
-                        var url = '{% url "publicaciones_secciones" pk=1 %}'.replace('1', data[i].id);
-
-                        var itemHtml = '<p><a href="' + url + '" class="footer-link">' + data[i].titulo + '</a></p>';
-                        //var itemHtml = '<p><a href ="" class="text-reset">' + data[i].titulo + '</a></p>';
-
-                        $('#sections').append(itemHtml);
-                    }
-                }
-            });
-        });
-
-
-
-        $(document).ready(function () {
-            $.ajax({
-                url: '{% url "dashboard:get_reports" %}',
-                data: { q: '' },
-
-                success: function (data) {
-                    var html = '';
-                    var containerHeight = $('#reports').height();
-                    var rowHeight = 0;
-                    var rowHtml = '<div class="row">';
-
-                    for (var i = 0; i < data.length; i++) {
-                        var url = '{% url "dashboard:report_detail" pk=1 %}'.replace('1', data[i].id);
-
-                        var itemHtml = '<p><a href="' + url + '" class="footer-link">' + data[i].titulo + '</a></p>';
-                        //var itemHtml = '<p><a href ="" class="text-reset">' + data[i].titulo + '</a></p>';
-
-                        $('#reports').append(itemHtml);
-                    }
-                }
-            });
-        });
-
-    </script> -->
 
     <script>
+
+        $(document).ready(function() {
+            // Mostrar la ventana emergente automáticamente al cargar la página
+            $("#popupBackground").fadeIn();
+            $("#miPopup").fadeIn();
+
+            // Cerrar la ventana emergente cuando se hace clic en el botón "Cerrar"
+            $("#cerrarPopup").click(function() {
+                $("#miPopup").fadeOut();
+                $("#popupBackground").fadeOut();
+            });
+        });
+
         // Truncate the text within the <p> and <h2> elements
 
 
