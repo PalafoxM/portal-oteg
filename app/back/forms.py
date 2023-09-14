@@ -74,7 +74,7 @@ class PublicationForm(forms.ModelForm):
 
 
 class BannerForm(ModelForm):
-    MAX_SIZE_MB = 1  # Tamaño máximo permitido en MB
+    MAX_SIZE_MB = 5  # Tamaño máximo permitido en MB
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -193,7 +193,7 @@ class CategoriasForm(forms.ModelForm):
 
 
 class NoticiaForm(ModelForm):
-    MAX_SIZE_MB = 1  # Tamaño máximo permitido en MB
+    MAX_SIZE_MB = 5  # Tamaño máximo permitido en MB
 
     descripcion = forms.CharField(widget=CKEditorWidget())
 
@@ -232,7 +232,7 @@ class NoticiaForm(ModelForm):
 
 class BarometroForm(forms.ModelForm):
 
-    MAX_SIZE_MB = 1  # Tamaño máximo permitido en MB
+    MAX_SIZE_MB = 5  # Tamaño máximo permitido en MB
     
     class Meta:
         model = BarometroTuristico
@@ -269,7 +269,7 @@ class DateInput(forms.DateInput):
 
 
 class EventoForm(forms.ModelForm):
-    MAX_SIZE_MB = 1  # Tamaño máximo permitido en MB
+    MAX_SIZE_MB = 5  # Tamaño máximo permitido en MB
     
     
     TIPOS_EVENTO_CHOICES = [
@@ -876,7 +876,7 @@ class CatalogoDestinoForm (forms.ModelForm):
         fields = '__all__'
 
         widgets = {
-            'destino': forms.TextInput(attrs={'class': 'custom-input','icon_class': 'fas fa-search'}),
+            'destino': forms.TextInput(attrs={'class': 'custom-input','icon_class': 'fas fa-search'}), 
             'entidad': forms.TextInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
 
         }
@@ -2150,7 +2150,7 @@ class ReporteMensualForm(forms.ModelForm):
 
 
 class ReportsForm(forms.ModelForm):
-    MAX_SIZE_MB = 1  # Tamaño máximo permitido en MB
+    MAX_SIZE_MB = 5  # Tamaño máximo permitido en MB
 
     descripcion = forms.CharField(widget=CKEditorWidget())
     class Meta:
@@ -2192,7 +2192,7 @@ class ReportsForm(forms.ModelForm):
 
 
 class EniotForm(forms.ModelForm):
-    MAX_SIZE_MB = 1  # Tamaño máximo permitido en MB
+    MAX_SIZE_MB = 5  # Tamaño máximo permitido en MB
     seccion = forms.ChoiceField(choices=(
         ('', 'Selecciona una sección'),
         ('programa-eniot', 'Programa ENIOT'),
@@ -2224,7 +2224,7 @@ class EniotForm(forms.ModelForm):
         return imagen
 
 class EniotAlbunForm(forms.ModelForm):
-    MAX_SIZE_MB = 1  # Tamaño máximo permitido en MB
+    MAX_SIZE_MB = 5  # Tamaño máximo permitido en MB
     class Meta:
         model = EniotAlbun
         fields = ['nombreAlbun', 'descripcion', 'foto_url']
