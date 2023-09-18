@@ -166,3 +166,4 @@ class PDFDownloadEniot(View):
         except (ConnectionResetError, BrokenPipeError):
             pass
         return response
+    

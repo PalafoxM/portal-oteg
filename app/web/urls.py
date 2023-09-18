@@ -45,8 +45,8 @@ urlpatterns = [
     path('segmento-turistico/destilados',DestiladosView.as_view(), name='destilados'),
     path('segmento-turistico/',TuristicosView.as_view(), name='turisticos'),
     path('pueblos-magicos/',PueblosmagicosView.as_view(), name='pueblos_magicos'),
-    #Publicacione
-    #
+    
+    #Publicaciones #
     path('publicaciones_new/',PublicacionesNewView.as_view(), name='publicaciones_new'),
     path('publicaciones/perfil_visistante_ciudad/<int:pk>/',PerfilVisitanteCiudad.as_view(), name='perfil_visistante_ciudad'),
     

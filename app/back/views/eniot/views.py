@@ -10,6 +10,7 @@ from django.http import Http404
 from django.core.exceptions import PermissionDenied
 from back.mixins import *
 from django.contrib.auth.decorators import user_passes_test
+from django.views.generic import TemplateView 
 
 def es_admin_o_superadmin(user):
     return user.is_authenticated and (user.is_staff or user.is_superuser)
@@ -37,7 +38,7 @@ class EniotListView(SuperAdminOrAdminMixin, LoginRequiredMixin, ListView):
 class EniotCreateView(SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
     model = Eniot
     form_class = EniotForm
-    template_name = 'back/components/create_update.html'
+    template_name = 'back/eniot/create_update.html'
     success_url = reverse_lazy('dashboard:eniot_list')
     
     def post(self, request, *args, **kwargs):
@@ -103,7 +104,7 @@ class EniotDeleteView(SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
 class EniotUpdateView(SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
     model = Eniot
     form_class = EniotForm
-    template_name = 'back/components/create_update.html'
+    template_name = 'back/eniot/create_update.html'
     success_url = reverse_lazy('dashboard:eniot_list')
 
     def form_invalid(self, form):
@@ -254,3 +255,118 @@ class EniotAlbunUpdateView(SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateVie
         context['list_url'] = reverse_lazy('dashboard:eniot_fotos_list')
         context['d_route'] = 'Eniot > Álbum'
         return context
+    
+class ListadoCategoriasEniot(TemplateView):
+    model = Categorias_Eniot
+    template_name= 'back/eniot/categoria_eniot_viewer.html'
+        
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Categorias ENIOT'
+        context['create_url'] = reverse_lazy('dashboard:eniot_categorias_create')
+        context['entity'] = 'ENIOT / Categorias'
+        context['d_route'] = 'Configuración  > Tipo de categoria'
+        context['object_list'] = Categorias_Eniot.objects.all()
+        return context
+    
+class CategoriaEniotCreateView(SuperAdminOrAdminMixin, LoginRequiredMixin, CreateView):
+    model = Categorias_Eniot
+    form_class = EniotCategoriasForm
+    template_name = 'back/components/create_update.html'
+    success_url = reverse_lazy('dashboard:eniot_categorias')
+    
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST, request.FILES)  # Incluir request.FILES para manejar los archivos subidos
+        if form.is_valid():
+            self.object = form.save()
+            data = {
+                'success': True,
+                'message': 'Registro creado exitosamente.',
+                'url': self.success_url
+            }
+            return JsonResponse(data)
+        else:
+            data = {
+                'success': False,
+                'message': 'Hubo un error al crear registro.',
+                'errors': form.errors
+            }
+            return JsonResponse(data)
+
+    def form_invalid(self, form):
+        response = super().form_invalid(form)
+        data = {
+            'success': False,
+            'message': 'Hubo un error al crear registro.',
+            'errors': form.errors
+        }
+        return JsonResponse(data)
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        data = {
+            'success': True,
+            'message': 'Registro creado exitosamente.',
+            'url': self.success_url
+        }
+        return JsonResponse(data)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Crear Registro Categoria Eniot'
+        context['entity'] = 'EniotCategoria'
+        context['list_url'] = reverse_lazy('dashboard:eniot_categorias')
+        context['action'] = 'add'
+        context['d_route'] = 'Eniot > Categoria'
+        return context
+    
+class EniotCategoriaUpdateView(SuperAdminOrAdminMixin, LoginRequiredMixin, UpdateView):
+    model = Categorias_Eniot
+    form_class = EniotCategoriasForm
+    template_name = 'back/components/create_update.html'
+    success_url = reverse_lazy('dashboard:eniot_categorias')
+
+    def form_invalid(self, form):
+        response = super().form_invalid(form)
+        data = {
+            'success': False,
+            'message': 'Hubo un error al crear el evento.',
+            'errors': form.errors
+        }
+        if is_ajax(self.request):
+            return JsonResponse(data)
+        else:
+            return response
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        data = {
+            'success': True,
+            'message': 'Evento creado exitosamente.',
+            'url': self.success_url
+        }
+        if is_ajax(self.request):
+            return JsonResponse(data)
+        else:
+            return response
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Actualizar Registro Categorias Eniot'
+        context['form'] = self.form_class(instance=self.object)
+        context['list_url'] = reverse_lazy('dashboard:eniot_categorias')
+        context['d_route'] = 'Eniot > Álbum'
+        return context
+    
+class EniotCategoriaDeleteView(SuperAdminOrAdminMixin, LoginRequiredMixin, DeleteView):
+    model = Categorias_Eniot
+    success_url = reverse_lazy('dashboard:eniot_categorias')
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
+        try:
+            self.object.delete()
+            return JsonResponse({'message': 'Eliminación exitosa.'})
+        except Exception as e:
+            return JsonResponse({'error': 'Error al eliminar el registro.'}, status=500)

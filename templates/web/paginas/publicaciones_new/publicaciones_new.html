@@ -655,15 +655,6 @@
             display: none !important;
         }
 
-        .wrapper2 {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-
-        }
 
         .scroll-button {
             display: none !important;
@@ -678,14 +669,6 @@
             display: none !important;
         }
 
-        .wrapper2 {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-        }
     }
 
     /* Desktop devices */
@@ -696,11 +679,6 @@
             display: flex !important;
         }
 
-        .wrapper2 {
-
-            display: none !important;
-
-        }
     }
 
 
@@ -713,414 +691,8 @@
     body {
         max-width: 100%;
     }
-</style>
 
-<body>
-
-
-    {% include 'web/components/social_media_stiky/social_media_stiky.html' %}
-
-
-    {% include 'web/components/navbar_new/navbar_new.html' %}
-
-    <div class='container'>
-
-
-        <h2 style="
-                    color: #333333;
-                    font-family: Montserrat;
-                    font-size: 40px;
-                    line-height: 58px;
-                    font-weight: 600;
-                    
-                    text-align: left; ">CENTRO DOCUMENTAL</h2>
-
-        <p align="justify" style="
-                    color: #333333;
-                    font-family: Montserrat;
-                    font-size: 18px;
-                    line-height: 20px;
-                    font-weight: 300;
-                    margin-top: 20px;
-                    margin-bottom: 20px;
-                    text-align: left;
-            ">Este es un espacio colaborativo en permanente construcción y enriquecimiento en el que
-            cualquier
-            persona que así lo desee, puede ingresar sus investigaciones, estudios, ensayos y publicaciones que
-            quiera compartir con los usuarios del portal del observatorio.</p>
-
-
-
-    </div>
-
-    <div class='container'>
-        <div style="
-                    margin-top: 40px;
-                    width: 100%; ">
-
-            <h2 style="
-                    color: #333333;
-                    font-family: Montserrat;
-                    font-size: 40px;
-                    line-height: 58px;
-                    font-weight: 600;
-                    
-                    text-align: left; ">Secciones Centro Documental</h2>
-        </div>
-
-
-
-
-    </div>
-
-    <div class="wrapper2">
-        {% for section in secciones %}
-
-        <div class='card'>
-            <div style='        
-                position: relative;
-                overflow: hidden;
-                width: 100%;
-                height: 100%;'>
-
-                {% if section.imagen %}
-                <img style="
-                        border-radius:8px  8px  0px 0px;
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                        width: 100%;
-                        height: 65%;
-                        object-fit: cover;
-                        object-position: center;" src="{{section.imagen.url}}" alt="">
-                {% else %}
-
-                <img style="
-                    border-radius:8px  8px  0px 0px;
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 65%;
-                    object-fit: cover;
-                    object-position: center;" src="{% static 'img_nav/defaultimage.webp' %}" alt="">
-
-
-                {% endif %}
-
-                <div style="
-                        border-radius: 0px 0px 8px  8px  ;
-                        position: absolute;
-                        bottom: 0;
-                        left: 0;
-                        width: 100%;
-                        height: 35%;
-                        object-fit: cover;
-                        object-position: center;
-                        padding-left: 20px;
-                        padding-right: 20px;
-                        ">
-                    <h2>{{section.seccion}}</h2>
-                    <a href="{% url 'publicaciones_secciones' section.id %}" style="
-                                color:#ED4C02 ;
-                                font-family: Montserrat;
-                                font-size: 14px;
-                            ">
-                        Seguir leyendo...
-
-                    </a>
-                </div>
-
-            </div>
-
-        </div>
-
-        {% endfor %}
-
-        <div class='card'>
-            <div style='        
-                position: relative;
-                overflow: hidden;
-                width: 100%;
-                height: 100%;'>
-
-
-                <img style="
-                    border-radius:8px  8px  0px 0px;
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 65%;
-                    object-fit: cover;
-                    object-position: center;" src="{% static 'img_nav/Portada-2.jpg' %}" alt="">
-
-
-
-                <div style="
-                        border-radius: 0px 0px 8px  8px  ;
-                        position: absolute;
-                        bottom: 0;
-                        left: 0;
-                        width: 100%;
-                        height: 35%;
-                        object-fit: cover;
-                        object-position: center;
-                        padding-left: 20px;
-                        padding-right: 20px;
-                        ">
-                    <h2>Boletines Mensuales</h2>
-                    <a href="{% url 'dashboard:report_mensual_detail'%}" style="
-                                color:#ED4C02 ;
-                                font-family: Montserrat;
-                                font-size: 14px;
-                            ">
-                        Seguir leyendo...
-
-                    </a>
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <div style="position: relative; display: flex; justify-content: center;">
-        <button class="scroll-button  left-button  fas fa-chevron-circle-left" style="position: absolute; top: 40%; left: 40px; z-index: 999; font-size: 60px; color: #ED4C02; background-color: transparent; border: none;
-        border-radius: 50%;
-        box-shadow: 20px 31px 19px 0px rgba(0,0,0,0.1);
-        padding: 0px;
-    
-        "></button>
-        <button class="scroll-button right-button fas fa-chevron-circle-right" style="position: absolute; top: 40%; right: 50px; z-index: 999; font-size: 60px; color: #ED4C02; background-color: transparent; border: none;
-        border-radius: 50%;
-        box-shadow: 20px 31px 19px 0px rgba(0,0,0,0.1);
-        padding: 0px;
-    
-        "></button>
-
-        <div class="scrolling-wrapper">
-
-            {% for section in secciones %}
-            <a href="{% url 'publicaciones_secciones' section.id %}" style="text-decoration: none;color: #333333;">
-                <div class='card'>
-                    <div style='        
-                position: relative;
-                overflow: hidden;
-                width: 100%;
-                height: 100%;'>
-
-                        {% if section.imagen %}
-                        <img style="
-                        border-radius:8px  8px  0px 0px;
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                        width: 100%;
-                        height: 65%;
-                        object-fit: cover;
-                        object-position: center;" src="{{section.imagen.url}}" alt="">
-                        {% else %}
-
-                        <img style="
-                    border-radius:8px  8px  0px 0px;
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 65%;
-                    object-fit: cover;
-                    object-position: center;" src="{% static 'img_nav/defaultimage.webp' %}" alt="">
-
-
-                        {% endif %}
-
-                        <div style="
-                        border-radius: 0px 0px 8px  8px  ;
-                        position: absolute;
-                        bottom: 0;
-                        left: 0;
-                        width: 100%;
-                        height: 35%;
-                        object-fit: cover;
-                        object-position: center;
-                        padding-left: 20px;
-                        padding-right: 20px;
-                        ">
-                            <h2>{{section.seccion}}</h2>
-                            <a href="{% url 'publicaciones_secciones' section.id %}" style="
-                                color:#ED4C02 ;
-                                font-family: Montserrat;
-                                font-size: 14px;
-                            ">
-                                Seguir leyendo...
-
-                            </a>
-                        </div>
-
-                    </div>
-
-                </div>
-            </a>
-
-            {% endfor %}
-
-            <a href="{% url 'flujos_turisticos'%}" style="text-decoration: none;color: #333333;">
-                <div class='card'>
-                    <div style='        
-                position: relative;
-                overflow: hidden;
-                width: 100%;
-                height: 100%;'>
-
-                        <img style="
-                    border-radius:8px  8px  0px 0px;
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 65%;
-                    object-fit: cover;
-                    object-position: center;" src="{% static 'img_nav/flujos_t.jpg' %}" alt="">
-
-                        <div style="
-                        border-radius: 0px 0px 8px  8px  ;
-                        position: absolute;
-                        bottom: 0;
-                        left: 0;
-                        width: 100%;
-                        height: 35%;
-                        object-fit: cover;
-                        object-position: center;
-                        padding-left: 20px;
-                        padding-right: 20px;
-                        ">
-                            <h2>Flujos Turisticos</h2>
-                            <a href="{% url 'flujos_turisticos'%}" style="
-                                color:#ED4C02 ;
-                                font-family: Montserrat;
-                                font-size: 14px;
-                            ">
-                                Seguir leyendo...
-
-                            </a>
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </a>
-
-            <a href="{% url 'dashboard:report_mensual_detail'%}" style="text-decoration: none;color: #333333;">
-                <div class='card'>
-                    <div style='        
-                position: relative;
-                overflow: hidden;
-                width: 100%;
-                height: 100%;'>
-
-                        <img style="
-                    border-radius:8px  8px  0px 0px;
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 65%;
-                    object-fit: cover;
-                    object-position: center;" src="{% static 'img_nav/Portada-2.jpg' %}" alt="">
-
-                        <div style="
-                        border-radius: 0px 0px 8px  8px  ;
-                        position: absolute;
-                        bottom: 0;
-                        left: 0;
-                        width: 100%;
-                        height: 35%;
-                        object-fit: cover;
-                        object-position: center;
-                        padding-left: 20px;
-                        padding-right: 20px;
-                        ">
-                            <h2>Boletines Mensuales</h2>
-                            <a href="{% url 'dashboard:report_mensual_detail'%}" style="
-                                color:#ED4C02 ;
-                                font-family: Montserrat;
-                                font-size: 14px;
-                            ">
-                                Seguir leyendo...
-
-                            </a>
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </a>
-
-            <a href="{% url 'noticias_turisticas'%}" style="text-decoration: none;color: #333333;">
-                <div class='card'>
-                    <div style='        
-                position: relative;
-                overflow: hidden;
-                width: 100%;
-                height: 100%;'>
-
-                        <img style="
-                    border-radius:8px  8px  0px 0px;
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 65%;
-                    object-fit: cover;
-                    object-position: center;" src="{% static 'img_nav/pub_not.jpg' %}" alt="">
-
-                        <div style="
-                        border-radius: 0px 0px 8px  8px  ;
-                        position: absolute;
-                        bottom: 0;
-                        left: 0;
-                        width: 100%;
-                        height: 35%;
-                        object-fit: cover;
-                        object-position: center;
-                        padding-left: 20px;
-                        padding-right: 20px;
-                        ">
-                            <h2>Noticias Turisticas</h2>
-                            <a  href="{% url 'noticias_turisticas'%}" style="
-                                color:#ED4C02 ;
-                                font-family: Montserrat;
-                                font-size: 14px;
-                            ">
-                                Seguir leyendo...
-
-                            </a>
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </a>
-
-        </div>
-    </div>
-
-
-
-
-
-
-
-
-
-    <style>
-        .scrolling-wrapper {
+    .scrolling-wrapper {
             width: 90%;
             height: 400px;
             display: flex;
@@ -1150,7 +722,275 @@
         .scrolling-wrapper[data-dragging="true"] a {
             pointer-events: none;
         }
-    </style>
+
+</style>
+
+<body>
+
+
+    {% include 'web/components/social_media_stiky/social_media_stiky.html' %}
+    {% include 'web/components/navbar_new/navbar_new.html' %}
+
+    <div class='container'>
+
+
+        <h2 style="
+                    color: #333333;
+                    font-family: Montserrat;
+                    font-size: 40px;
+                    line-height: 58px;
+                    font-weight: 600;
+                    
+                    text-align: left; ">CENTRO DOCUMENTAL</h2>
+
+        <p align="justify" style="
+                    color: #333333;
+                    font-family: Montserrat;
+                    font-size: 18px;
+                    line-height: 20px;
+                    font-weight: 300;
+                    margin-top: 20px;
+                    margin-bottom: 20px;
+                    text-align: left;
+            ">Este es un espacio colaborativo en permanente construcción y enriquecimiento en el que
+            cualquier
+            persona que así lo desee, puede ingresar sus investigaciones, estudios, ensayos y publicaciones que
+            quiera compartir con los usuarios del portal del observatorio.</p>
+    </div>
+
+    <div class='container'>
+        <div style="
+                    margin-top: 40px;
+                    width: 100%; ">
+
+            <h2 style="
+                    color: #333333;
+                    font-family: Montserrat;
+                    font-size: 40px;
+                    line-height: 58px;
+                    font-weight: 600;
+                    
+                    text-align: left; ">Secciones Centro Documental</h2>
+        </div>
+    </div>
+
+
+
+    <div style="position: relative; display: flex; justify-content: center;">
+        <button class="scroll-button  left-button  fas fa-chevron-circle-left" style="position: absolute; top: 40%; left: 40px; z-index: 999; font-size: 60px; color: #ED4C02; background-color: transparent; border: none;
+        border-radius: 50%;
+        box-shadow: 20px 31px 19px 0px rgba(0,0,0,0.1);
+        padding: 0px;
+        "></button>
+
+        <button class="scroll-button right-button fas fa-chevron-circle-right" style="position: absolute; top: 40%; right: 50px; z-index: 999; font-size: 60px; color: #ED4C02; background-color: transparent; border: none;
+        border-radius: 50%;
+        box-shadow: 20px 31px 19px 0px rgba(0,0,0,0.1);
+        padding: 0px;    
+        "></button>
+
+        <div class="scrolling-wrapper">
+
+            {% for section in secciones %}
+            <div class='card'>
+                <div style='        
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;'>
+
+                    {% if section.imagen %}
+                    <img style="
+                    border-radius:8px  8px  0px 0px;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 65%;
+                    object-fit: cover;
+                    object-position: center;" src="{{section.imagen.url}}" alt="">
+                    {% else %}
+
+                    <img style="
+                    border-radius:8px  8px  0px 0px;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 65%;
+                    object-fit: cover;
+                    object-position: center;" src="{% static 'img_nav/defaultimage.webp' %}" alt="">
+
+                    {% endif %}
+
+                    <div style="
+                    border-radius: 0px 0px 8px  8px  ;
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 35%;
+                    object-fit: cover;
+                    object-position: center;
+                    padding-left: 20px;
+                    padding-right: 20px;
+                    ">
+                        <a href="{% url 'publicaciones_secciones' section.id %}" style="color: #333333;">
+                            <h2>{{section.seccion}}</h2>
+                            <p style="
+                                color:#ED4C02;
+                                font-family: Montserrat;
+                                font-size: 14px;
+                            ">
+                                Seguir leyendo...
+
+                            </p>
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+            <div class='card'>
+                <div style='        
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;'>
+
+                    <img style="
+                border-radius:8px  8px  0px 0px;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 65%;
+                object-fit: cover;
+                object-position: center;" src="{% static 'img_nav/flujos_t.jpg' %}" alt="">
+
+                    <div style="
+                    border-radius: 0px 0px 8px  8px  ;
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 35%;
+                    object-fit: cover;
+                    object-position: center;
+                    padding-left: 20px;
+                    padding-right: 20px;
+                    ">
+                        <a href="{% url 'flujos_turisticos'%}" style="color: #333333;">
+                            <h2>Flujos Turisticos</h2>
+                            <p  style="
+                                color:#ED4C02 ;
+                                font-family: Montserrat;
+                                font-size: 14px;
+                            ">
+                                Seguir leyendo...
+
+                            </p>
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class='card'>
+                <div style='        
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;'>
+
+                    <img style="
+                border-radius:8px  8px  0px 0px;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 65%;
+                object-fit: cover;
+                object-position: center;" src="{% static 'img_nav/Portada-2.jpg' %}" alt="">
+
+                    <div style="
+                    border-radius: 0px 0px 8px  8px  ;
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 35%;
+                    object-fit: cover;
+                    object-position: center;
+                    padding-left: 20px;
+                    padding-right: 20px;
+                    ">
+                        <a href="{% url 'dashboard:report_mensual_detail'%}" style="color:#333333">
+                            <h2>Boletines Mensuales</h2>
+                            <p href="{% url 'dashboard:report_mensual_detail'%}" style="
+                                color:#ED4C02 ;
+                                font-family: Montserrat;
+                                font-size: 14px;
+                            ">
+                                Seguir leyendo...
+                            </p>
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class='card'>
+                <div style='        
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;'>
+
+                    <img style="
+                border-radius:8px  8px  0px 0px;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 65%;
+                object-fit: cover;
+                object-position: center;" src="{% static 'img_nav/pub_not.jpg' %}" alt="">
+
+                    <div style="
+                    border-radius: 0px 0px 8px  8px  ;
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 35%;
+                    object-fit: cover;
+                    object-position: center;
+                    padding-left: 20px;
+                    padding-right: 20px;
+                    ">
+                        <a href="{% url 'noticias_turisticas'%}" style="color:#333333">
+                            <h2>Noticias Turisticas</h2>
+                            <p  href="" style="
+                                color:#ED4C02 ;
+                                font-family: Montserrat;
+                                font-size: 14px;
+                            ">Seguir leyendo...
+                            </p>
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
 
 
     <script>
@@ -1184,6 +1024,27 @@
                 animateScroll();
             };
 
+
+            // Scroll arrastrado al hacer clic en cualquier elemento dentro del div
+            wrapper.addEventListener('mousedown', (e) => {
+                e.preventDefault();
+                const startX = e.pageX;
+                const startScrollLeft = wrapper.scrollLeft;
+
+                const handleMouseMove = (e) => {
+                    const deltaX = e.pageX - startX;
+                    wrapper.scrollLeft = startScrollLeft - deltaX;
+                };
+
+                const handleMouseUp = () => {
+                    wrapper.removeEventListener('mousemove', handleMouseMove);
+                    wrapper.removeEventListener('mouseup', handleMouseUp);
+                };
+
+                wrapper.addEventListener('mousemove', handleMouseMove);
+                wrapper.addEventListener('mouseup', handleMouseUp);
+            });
+
             leftButton.addEventListener('click', () => {
                 smoothScrollTo(wrapper, wrapper.scrollLeft - scrollAmount, animationDuration);
             });
@@ -1205,98 +1066,9 @@
     </script>
 
 
-
-    <!-- <script>
-        const wrappers = document.querySelectorAll('.scrolling-wrapper');
-
-        wrappers.forEach((wrapper) => {
-            // Your existing code...
-
-            // Find the buttons (assuming they are the immediate preceding and following siblings)
-            const parent = wrapper.parentElement;
-            const leftButton = parent.querySelector('.left-button');
-            const rightButton = parent.querySelector('.right-button');
-
-            leftButton.addEventListener('click', () => {
-                wrapper.scrollLeft -= 200; // Adjust the scrolling amount as needed
-            });
-
-            rightButton.addEventListener('click', () => {
-                wrapper.scrollLeft += 200; // Adjust the scrolling amount as needed
-            });
-        });
-
-    </script> -->
-
-    <!-- <script>
-        const wrappers = document.querySelectorAll('.scrolling-wrapper');
-
-        wrappers.forEach((wrapper) => {
-            let isDown = false;
-            let startX;
-            let scrollLeft;
-
-            wrapper.addEventListener('mousedown', (e) => {
-                let rect = wrapper.getBoundingClientRect();
-                isDown = true;
-                wrapper.classList.add('active');
-                // Get initial mouse position
-                startX = e.pageX - rect.left;
-                // Get initial scroll position in pixels from left
-                scrollLeft = wrapper.scrollLeft;
-                console.log(startX, scrollLeft);
-            });
-
-            wrapper.addEventListener('mouseleave', () => {
-                isDown = false;
-                wrapper.dataset.dragging = false;
-                wrapper.classList.remove('active');
-            });
-
-            wrapper.addEventListener('mouseup', () => {
-                isDown = false;
-                wrapper.dataset.dragging = false;
-                wrapper.classList.remove('active');
-            });
-
-            wrapper.addEventListener('mousemove', (e) => {
-                if (!isDown) return;
-                let rect = wrapper.getBoundingClientRect();
-                e.preventDefault();
-                wrapper.dataset.dragging = true;
-                // Get new mouse position
-                const x = e.pageX - rect.left;
-                // Get distance mouse has moved (new mouse position minus initial mouse position)
-                const walk = x - startX;
-                // Update scroll position of wrapper from left (amount mouse has moved minus initial scroll position)
-                wrapper.scrollLeft = scrollLeft - walk;
-                console.log(x, walk, wrapper.scrollLeft);
-            });
-        });
-
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({
-                pageLanguage: 'es',
-                includedLanguages: 'en,it,ja,pt',
-                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-            }, 'google_translate_element');
-        }
-
-        function setFixedMenuPosition() {
-            var translateElement = document.getElementById('google_translate_element');
-            var fixedMenu = document.getElementsByClassName('all-fixed')[0];
-
-            if (translateElement && fixedMenu) {
-                var translateHeight = translateElement.offsetHeight;
-                fixedMenu.style.top = translateHeight + 'px';
-            } else if (fixedMenu) {
-                fixedMenu.style.top = '0';
-            }
-        }
-        window.onload = setFixedMenuPosition;
-    </script> -->
-
     {% include 'web/components/footer/footer_new.html' %}
+
+
 </body>
 
 
