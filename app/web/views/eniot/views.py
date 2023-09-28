@@ -13,8 +13,6 @@ class EniotView(TemplateView):
     template_name = 'web/paginas/eniot/eniot.html'
 
 
-
-
     def get_context_data(self, **kwargs):
         try:
             encuesta = Encuesta.objects.filter(seccion=2, activo=True).latest('fecha_registro')
@@ -55,7 +53,7 @@ class MemoriasView(TemplateView):
         context = super().get_context_data(**kwargs)
 
         # Obtener los años únicos de los PDF
-        years = Eniot.objects.filter(seccion='memorias').order_by('anio').values_list('anio', flat=True).distinct()
+        years = Eniot.objects.filter(seccion='memorias').order_by('categoria').values_list('anio', flat=True).distinct()
 
         # Crear un diccionario para almacenar los PDF clasificados por año
         pdf_by_year = {}
@@ -82,7 +80,7 @@ class PonenciaEventosView(TemplateView):
         context = super().get_context_data(**kwargs)
 
         # Obtener los años únicos de los PDF
-        years = Eniot.objects.filter(seccion='ponencia-eventos').order_by('anio').values_list('anio', flat=True).distinct()
+        years = Eniot.objects.filter(seccion='ponencia-eventos').order_by('categoria').values_list('anio', flat=True).distinct()
 
         # Crear un diccionario para almacenar los PDF clasificados por año
         pdf_by_year = {}

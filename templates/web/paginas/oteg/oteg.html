@@ -166,7 +166,7 @@
         groups.forEach(function (group) {
             group.addEventListener("click", function () {
             console.log("Se hizo clic en el grupo:", group.id);
-                if (group.id  === "Layer_2") {
+                if (group.id  === "Layer_2_00000152246711229522528470000015875953515762991783_") {
                     window.open("https://enes.unam.mx/", "_blank");
                 }else if (group.id  === "Layer_3") {
                     window.open("https://www.udec.edu.mx/", "_blank");
@@ -214,6 +214,9 @@
                 // Realizar acciones adicionales para <rect>
                 if (rect.id === "Universidad_de_la_Salle_Bajío") {
                     window.open("https://www.lasallebajio.edu.mx/", "_blank");
+                }
+                else if (rect.id === "Layer_2_00000152246711229522528470000015875953515762991783_") {
+                    window.open("https://enes.unam.mx/", "_blank");
                 }
                 else if (rect.id === "Instituto_Irapuato") {
                     window.open("https://www.uii.edu.mx/", "_blank");
@@ -271,6 +274,9 @@
                 console.log("Se hizo clic en el elemento <text>:", text.id);
                 if (text.id === "Universidad_De_La_Salle_Bajío") {
                     window.open("https://www.lasallebajio.edu.mx/", "_blank");
+                }
+                else if (text.id === "Layer_2_00000152246711229522528470000015875953515762991783_") {
+                    window.open("https://enes.unam.mx/", "_blank");
                 }
                 else if (text.id === "Insituto_Irapuato") {
                     window.open("https://www.uii.edu.mx/", "_blank");
