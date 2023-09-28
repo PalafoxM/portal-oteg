@@ -2202,17 +2202,19 @@ class EniotForm(forms.ModelForm):
 
     class Meta:
         model = Eniot
-        fields = ['nombrePDF', 'seccion', 'categoria', 'doc_url',]
+        fields = ['nombrePDF', 'seccion', 'categoria', 'doc_url', 'anio']
         labels = {
             'nombrePDF': 'Nombre del PDF',
             'doc_url': 'Documento',
             'seccion': 'Sección',
-            'categoria': 'Categoria',
+            'categoria': 'Categoria', 
+            'anio':'año'
         }
         widgets = {
             'nombrePDF': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
             'doc_url': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
             'categoria': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
+            'anio': forms.NumberInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
         }
 
     def clean_imagen(self):
