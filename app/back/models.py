@@ -163,6 +163,7 @@ class Eniot(models.Model):
     # aniov2 = models.IntegerField(null=True, blank=False)
     date_updated = models.DateTimeField(auto_now=True)
     date_created = models.DateTimeField(auto_now=True)
+    anio = models.IntegerField(null=True, blank= False)
 
     class Meta:
         # db_table = 'eniot'
