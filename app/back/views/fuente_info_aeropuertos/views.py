@@ -76,7 +76,7 @@ class FuenteInfoAeropuertoCreate(SuperAdminOrAdminMixin, LoginRequiredMixin, Cre
 
         
             try:
-                existing_object = self.get_object(fecha=fecha)
+                existing_object = self.model.objects.get(fecha=fecha)
 
             except Aeropuerto.DoesNotExist:
                 existing_object = None

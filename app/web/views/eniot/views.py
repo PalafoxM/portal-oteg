@@ -53,14 +53,14 @@ class MemoriasView(TemplateView):
         context = super().get_context_data(**kwargs)
 
         # Obtener los años únicos de los PDF
-        years = Eniot.objects.filter(seccion='memorias').order_by('categoria').values_list('anio', flat=True).distinct()
+        years = Eniot.objects.filter(seccion='memorias').order_by('categoria').values_list('categoria', flat=True).distinct()
 
         # Crear un diccionario para almacenar los PDF clasificados por año
         pdf_by_year = {}
 
         # Clasificar los PDF por año
         for year in years:
-            pdf_by_year[year] = Eniot.objects.filter(seccion='memorias', anio=year).order_by('-date_created')
+            pdf_by_year[year] = Eniot.objects.filter(seccion='memorias', categoria=year).order_by('-date_created')
 
         context['pdf_by_year'] = pdf_by_year
         context['nav_title'] = 'MEMORIAS'
@@ -80,14 +80,18 @@ class PonenciaEventosView(TemplateView):
         context = super().get_context_data(**kwargs)
 
         # Obtener los años únicos de los PDF
-        years = Eniot.objects.filter(seccion='ponencia-eventos').order_by('categoria').values_list('anio', flat=True).distinct()
+        years = Eniot.objects.filter(seccion='ponencia-eventos').order_by('categoria').values_list('categoria', flat=True).distinct()
 
         # Crear un diccionario para almacenar los PDF clasificados por año
         pdf_by_year = {}
 
         # Clasificar los PDF por año
         for year in years:
-            pdf_by_year[year] = Eniot.objects.filter(seccion='ponencia-eventos', anio=year).order_by('-date_created')
+            pdf_by_year[year] = Eniot.objects.filter(seccion='ponencia-eventos', categoria=year).order_by('-date_created')
+
+
+        print(pdf_by_year)
+
 
         context['pdf_by_year'] = pdf_by_year
         context['nav_title'] = 'PONENCIAS'
