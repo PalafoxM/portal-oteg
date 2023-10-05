@@ -795,7 +795,6 @@ class Aeropuerto(models.Model):
     pasajeros_nacionales = models.FloatField()
     pasajeros_internacionales = models.FloatField()
     fecha_actualizacion = models.DateField(auto_now=True)
-
     vuelos = models.FloatField()
 
     class Meta:

@@ -26,6 +26,15 @@
     <link rel="stylesheet" href="{% static 'normalize/normal.css' %}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdn.userway.org/widget.js" data-account="EUDLJPWVtf"></script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-20555984-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-20555984-1');
+    </script>
 
 </head>
 
@@ -604,7 +613,7 @@
         }
 
     }
-    
+
     /* Mobile Styles - Screens with width up to 767px */
     @media screen and (max-width: 767px) {
         .nav-text:hover {
@@ -693,36 +702,35 @@
     }
 
     .scrolling-wrapper {
-            width: 90%;
-            height: 400px;
-            display: flex;
-            flex-wrap: no-wrap;
-            overflow-x: auto;
-            cursor: grab;
-            -webkit-overflow-scrolling: touch;
-            /* Scrollbar hidden */
-            scrollbar-width: none !important;
+        width: 90%;
+        height: 400px;
+        display: flex;
+        flex-wrap: no-wrap;
+        overflow-x: auto;
+        cursor: grab;
+        -webkit-overflow-scrolling: touch;
+        /* Scrollbar hidden */
+        scrollbar-width: none !important;
 
-            /* Firefox */
-            -ms-overflow-style: none;
-            overflow-x: hidden;
+        /* Firefox */
+        -ms-overflow-style: none;
+        overflow-x: hidden;
 
-            padding-right: 40px;
+        padding-right: 40px;
 
-            overflow-y: hidden;
-            position: relative;
-            /* IE 10+ */
+        overflow-y: hidden;
+        position: relative;
+        /* IE 10+ */
 
-        }
+    }
 
-        .scrolling-wrapper.active {
-            cursor: grabbing;
-        }
+    .scrolling-wrapper.active {
+        cursor: grabbing;
+    }
 
-        .scrolling-wrapper[data-dragging="true"] a {
-            pointer-events: none;
-        }
-
+    .scrolling-wrapper[data-dragging="true"] a {
+        pointer-events: none;
+    }
 </style>
 
 <body>
@@ -885,7 +893,7 @@
                     ">
                         <a href="{% url 'flujos_turisticos'%}" style="color: #333333;">
                             <h2>Flujos Turisticos</h2>
-                            <p  style="
+                            <p style="
                                 color:#ED4C02 ;
                                 font-family: Montserrat;
                                 font-size: 14px;
@@ -976,7 +984,7 @@
                     ">
                         <a href="{% url 'noticias_turisticas'%}" style="color:#333333">
                             <h2>Noticias Turisticas</h2>
-                            <p  href="" style="
+                            <p href="" style="
                                 color:#ED4C02 ;
                                 font-family: Montserrat;
                                 font-size: 14px;
