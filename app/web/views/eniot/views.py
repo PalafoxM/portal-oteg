@@ -69,6 +69,7 @@ class MemoriasView(TemplateView):
         return context
 
 class PonenciaEventosView(TemplateView):
+    
     template_name = 'web/paginas/eniot/memorias.html'
 
     def get_queryset(self):
