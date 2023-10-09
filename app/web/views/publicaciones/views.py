@@ -237,7 +237,7 @@ class BarometroTuristicoView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        pdf = BarometroTuristico.objects.latest('fecha_registro')
+        pdf = BarometroTuristico.objects.latest('yearPDF')
         distinct_years = BarometroTuristico.objects.values(
             'yearPDF').distinct().order_by('yearPDF')
         years_list = [item['yearPDF'] for item in distinct_years]
