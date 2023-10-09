@@ -799,6 +799,51 @@
 
         <div class="scrolling-wrapper">
 
+            <div class='card'>
+                <div style='        
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;'>
+
+                    <img style="
+                border-radius:8px  8px  0px 0px;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 65%;
+                object-fit: cover;
+                object-position: center;" src="{% static 'img_nav/Portada-2.jpg' %}" alt="">
+
+                    <div style="
+                    border-radius: 0px 0px 8px  8px  ;
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 35%;
+                    object-fit: cover;
+                    object-position: center;
+                    padding-left: 20px;
+                    padding-right: 20px;
+                    ">
+                        <a href="{% url 'dashboard:report_mensual_detail'%}" style="color:#333333">
+                            <h2>Boletines Mensuales</h2>
+                            <p href="{% url 'dashboard:report_mensual_detail'%}" style="
+                                color:#ED4C02 ;
+                                font-family: Montserrat;
+                                font-size: 14px;
+                            ">
+                                Seguir leyendo...
+                            </p>
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+
             {% for section in secciones %}
             <div class='card'>
                 <div style='        
@@ -908,50 +953,7 @@
 
             </div>
 
-            <div class='card'>
-                <div style='        
-            position: relative;
-            overflow: hidden;
-            width: 100%;
-            height: 100%;'>
-
-                    <img style="
-                border-radius:8px  8px  0px 0px;
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 65%;
-                object-fit: cover;
-                object-position: center;" src="{% static 'img_nav/Portada-2.jpg' %}" alt="">
-
-                    <div style="
-                    border-radius: 0px 0px 8px  8px  ;
-                    position: absolute;
-                    bottom: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 35%;
-                    object-fit: cover;
-                    object-position: center;
-                    padding-left: 20px;
-                    padding-right: 20px;
-                    ">
-                        <a href="{% url 'dashboard:report_mensual_detail'%}" style="color:#333333">
-                            <h2>Boletines Mensuales</h2>
-                            <p href="{% url 'dashboard:report_mensual_detail'%}" style="
-                                color:#ED4C02 ;
-                                font-family: Montserrat;
-                                font-size: 14px;
-                            ">
-                                Seguir leyendo...
-                            </p>
-                        </a>
-                    </div>
-
-                </div>
-
-            </div>
+            
 
             <div class='card'>
                 <div style='        
