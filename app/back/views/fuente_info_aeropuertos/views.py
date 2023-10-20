@@ -275,6 +275,10 @@ class AeropuertoCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View
             for i, row in enumerate(filas):
                 if i == 0:
                     continue # Ignorar la primera fila si es el encabezado
+
+                if not row:
+                    continue  # Salta filas vacías
+
                 num_filas_procesadas += 1
 
                 fecha_str = row[3].value.date().strftime('%Y-%m-%d') if len(row) > 0 and row[0].value else ''
