@@ -312,6 +312,10 @@ class InversionPublicaCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin
             for i, row in enumerate(filas):
                 if i == 0:
                     continue # Ignorar la primera fila si es el encabezado
+
+                if not row:
+                    continue  # Salta filas vacías
+
                 num_filas_procesadas += 1
                 # Limpieza de datos
                 destino = clean_str_col(row[1].value)
