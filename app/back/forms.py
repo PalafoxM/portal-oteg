@@ -670,17 +670,28 @@ class InventarioHoteleroEntNacForm(ModelForm):
 class CalidadAireForm(forms.ModelForm):
     class Meta:
         model = CalidadAire
-        fields = ['fecha', 'destino', 'calidad_del_aire']
-        widgets = {
-            'fecha': forms.DateInput(attrs={'class': 'form-control fecha-input', 'icon_class': 'fas fa-calendar'}),
-            'destino': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-search'}),
-            'calidad_del_aire': forms.TextInput(attrs={'class': 'form-control', 'icon_class': 'fas fa-table'}),
-        },
+        fields = ['fecha','destino' , 'calidad_del_aire']
+
         labels = {
-            'fecha': 'Fecha:',
+             'fecha': 'Fecha:',
             'destino': 'Destino:',
             'calidad_del_aire': 'Calidad del aire:',
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['destino'].widget.attrs['class'] = 'custom-input'                   
+        self.fields['destino'].widget.attrs['icon_class'] = 'fas fa-search'
+
+        self.fields['fecha'].widget.attrs['class'] = 'custom-input'
+        self.fields['fecha'].widget.attrs['icon_class'] = 'fas fa-calendar'
+
+        self.fields['calidad_del_aire'].widget.attrs['class'] = 'custom-input'
+        self.fields['calidad_del_aire'].widget.attrs['icon_class'] = 'fas fa-table'
+
+        
+
 
 
 class ProyectoInversionForm(forms.ModelForm):
@@ -1227,10 +1238,10 @@ class InventarioTuristicoForm(forms.ModelForm):
             'inventario': 'Inventario',
         }
         widgets = {
-            'ano': forms.NumberInput(attrs={'class': 'form-control'}),
-            'giro': forms.TextInput(attrs={'class': 'form-control'}),
-            'destino': forms.TextInput(attrs={'class': 'form-control'}),
-            'inventario': forms.NumberInput(attrs={'class': 'form-control'}),
+            'ano': forms.NumberInput(attrs={'class': 'form-control','icon_class': 'fas fa-calendar'}),
+            'giro': forms.TextInput(attrs={'class': 'form-control','icon_class': 'fas fa-table'}),
+            'destino': forms.TextInput(attrs={'class': 'form-control','icon_class': 'fas fa-table'}),
+            'inventario': forms.NumberInput(attrs={'class': 'form-control','icon_class': 'fas fa-table'}),
         }
 
 

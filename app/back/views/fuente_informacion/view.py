@@ -213,8 +213,11 @@ class FuentesInfoView (SuperAdminOrAdminMixin, LoginRequiredMixin,  TemplateView
             'model': ProyectoInversion,
             'key': 'proyecto_inversion',
             'update_period':3.154e+7 #año
+        },{
+            'model': CalidadAire,
+            'key': 'calidad_aire',
+            'update_period': 2.628e+6 #mes
         }
-
         ]
 
         model_updated = {}
@@ -245,7 +248,8 @@ class FuentesInfoView (SuperAdminOrAdminMixin, LoginRequiredMixin,  TemplateView
         context['total_registers'] = total_registers
         context['non_updated_count'] = non_updated_count
         context['last_updated'] = last_updated
-        context['total_F_updated'] = 37 - non_updated_count
+        context['total_Fuentes'] = 38
+        context['total_F_updated'] = 38 - non_updated_count
 
         user_in_colaboradores_group = self.request.user.groups.filter(name='colaboradores').exists()
         # context['user_in_colaboradores_group'] = user_in_colaboradores_group
