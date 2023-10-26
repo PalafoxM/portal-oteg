@@ -13,6 +13,7 @@ admin.site.register(Categorias)
 admin.site.register(Report_Section)
 admin.site.register(Publications)
 admin.site.register(Categorias_Eniot)
+admin.site.register(InventarioTuristico)
 
 
 class repotsAdmin (admin.ModelAdmin):

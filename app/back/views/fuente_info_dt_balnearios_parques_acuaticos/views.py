@@ -371,7 +371,11 @@ class DirectorioBalneariosParquesAcuaticosCargaMasivaView(SuperAdminOrAdminMixin
             filas = list(worksheet.rows)
             for i, row in enumerate(filas):
                 if i == 0:
-                    continue  # Ignorar la primera fila si es el encabezado
+                    continue # Ignorar la primera fila si es el encabezado
+
+                if not row:
+                    continue  # Salta filas vacías
+
                 num_filas_procesadas += 1
 
                 # Limpieza de datos

@@ -191,7 +191,7 @@ class FuenteInfoInventarioTuristicoCreate (SuperAdminOrAdminMixin, LoginRequired
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Crear una fuente'
-        context['entity'] = 'Glosario'
+        context['entity'] = 'Inentario Turistico'
         context['list_url'] = reverse_lazy('dashboard:fuente_info_inventario_turistico')
         context['action'] = 'add'
         return context
@@ -232,9 +232,9 @@ class FuenteInfoInventarioTuristicoUpdate (SuperAdminOrAdminMixin, LoginRequired
         context = super().get_context_data(**kwargs)
         context['list_url'] = reverse_lazy('dashboard:fuente_info_inventario_turistico')
             # Set the widget for the 'destino' field to read-only text input
-        context['form'].fields['ano'].widget = forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly'})
-        context['form'].fields['giro'].widget = forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly'})
-        context['form'].fields['destino'].widget = forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly'})
+        context['form'].fields['destino'].widget.attrs['readonly'] = True
+        context['form'].fields['ano'].widget.attrs['readonly'] = True
+        context['form'].fields['giro'].widget.attrs['readonly'] = True
 
         context['title'] = 'Editar fuente'
         context['edit_msg'] = 'Los Campos Destino y Año no pueden ser editados' 
@@ -312,6 +312,10 @@ class InventarioTuristicoCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMi
             for i, row in enumerate(filas):
                 if i == 0:
                     continue # Ignorar la primera fila si es el encabezado
+
+                if not row:
+                    continue  # Salta filas vacías
+
                 num_filas_procesadas += 1
 
                 ano = row[0].value

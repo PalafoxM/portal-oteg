@@ -36,7 +36,7 @@
                     <span class="card-text-black">
                         Total de<br>Fuentes
                     </span>
-                    <h3 class="card-text-black-num">37</h3>
+                    <h3 class="card-text-black-num">{{total_Fuentes}}</h3>
                 </div>
                 <div
                     class="col-lg-4 col-md-5 col-sm-5 d-none d-sm-none d-md-block text-center content-icon-card justify-content-center align-self-center">
@@ -1868,6 +1868,57 @@
                                 transform: translate(-50%, -50%);">
                                         <i class="far fa-eye"
                                             onclick="location.href='{% url 'dashboard:fuente_info_dt_spa' %}'"
+                                            style="color: #6c6e7e; cursor: pointer;"></i>
+                                    </div>
+
+                                </td>
+
+
+
+
+
+                            </tr>
+
+                            <tr class="text-center table-body mt-2">
+                                <td class="text-left tb-text">Sin clave</td>
+                                <td class="text-left tb-text">Aire</td>
+                                <td class="text-left tb-text">{{total_registers.calidad_aire}}</td>
+                                <td class="text-left tb-text">{{last_updated.calidad_aire}}</td>
+                                <td class="text-left tb-text">Mensual</td>
+                                <td class="text-center ">
+
+                            
+                                    <div style="display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        width: 100%;
+                                        height: 100%;
+                                        ">
+                                        {% if model_updated.calidad_aire %}
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #0CAB7B;" />
+                                        {% else %}
+                                        <div
+                                            style="width: 20px; height: 20px; border-radius: 50%; background-color: #B50D0D;" />
+                                        {% endif %}
+                                    </div>
+
+                                </td>
+
+
+                                <td class="text-center" style="
+                                position: relative;
+                                background-color: #ECF0F1;
+                                text-align: center;
+                                height: 100%;">
+
+                                    <div style="
+                                position: absolute;
+                                top: 50%;
+                                left: 50%;
+                                transform: translate(-50%, -50%);">
+                                        <i class="far fa-eye"
+                                            onclick="location.href='{% url 'dashboard:calidad_aire_list' %}'"
                                             style="color: #6c6e7e; cursor: pointer;"></i>
                                     </div>
 

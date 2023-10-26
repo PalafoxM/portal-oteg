@@ -23,7 +23,7 @@
 
 ##### 5) Instalar todas las librerias del proyecto que se encuentran en la carpeta deploy
 
-- `pip install -r deploy/requirements.txt`
+- `pip install -r requirements/requirements.txt`
 
 ##### 6) Crear la base de datos con las migraciones y el superuser para iniciar sesión
 

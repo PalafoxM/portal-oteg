@@ -299,6 +299,10 @@ class DiscapacidadCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, Vi
             for i, row in enumerate(filas):
                 if i == 0:
                     continue # Ignorar la primera fila si es el encabezado
+
+                if not row:
+                    continue  # Salta filas vacías
+
                 num_filas_procesadas += 1
                 # Limpieza de datos
                 fecha_str = row[1].value.date().strftime('%d-%m-%Y') if len(row) > 0 and row[0].value else ''
