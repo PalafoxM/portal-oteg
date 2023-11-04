@@ -313,7 +313,7 @@ class DirectorioAgenciasDeViajesCargaMasivaView(SuperAdminOrAdminMixin, LoginReq
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
-        return render(request, self.template_name, {'form': form, 'title': 'Carga Masiva de DirectorioAgenciasDeViajes'})
+        return render(request, self.template_name, {'form': form, 'title': 'Carga Masiva de Directorio Agencias de Viajes'})
 
     def convert_to_serializable(self, obj):
         if isinstance(obj, (datetime, date)):
@@ -350,7 +350,7 @@ class DirectorioAgenciasDeViajesCargaMasivaView(SuperAdminOrAdminMixin, LoginReq
 
             return render(request, self.template_name, {
                 'form': form,
-                'title': 'Carga Masiva de DirectorioAgenciasDeViajes',
+                'title': 'Carga Masiva de Directorio Agencias de Viajes',
                 'registros_correctos': registros_correctos,
                 'registros_incorrectos': registros_incorrectos,
                 'registros_existentes': registros_existentes,
@@ -372,7 +372,7 @@ class DirectorioAgenciasDeViajesCargaMasivaView(SuperAdminOrAdminMixin, LoginReq
                 if i == 0:
                     continue # Ignorar la primera fila si es el encabezado
 
-                if not row:
+                if not row or all(cell.value is None for cell in row):
                     continue  # Salta filas vacías
 
                 num_filas_procesadas += 1
@@ -384,20 +384,33 @@ class DirectorioAgenciasDeViajesCargaMasivaView(SuperAdminOrAdminMixin, LoginReq
                 # Homologación de datos
                 destino = homologar_columna_destino(destino)
 
-                giro = row[0].value
+                giro = clean_str_col(row[0].value)
                 clave_del_giro = row[1].value
                 # entidad 
                 clave_entidad = row[3].value
                 # destino 
                 clave_municipio = row[5].value
-                nombre_comercial = row[6].value
-                razon_social = row[7].value
+                nombre_comercial = clean_str_col(row[6].value)
+                razon_social = clean_str_col(row[7].value)
                 rfc = row[8].value
-                calle = row[9].value
+                calle = clean_str_col(row[9].value)
                 numero = row[10].value
-                colonia = row[11].value
+                colonia = clean_str_col(row[11].value)
+
+                # Antes de asignar el valor a codigo_postal, verifica si es numérico
                 codigo_postal = row[12].value
+                if not isinstance(codigo_postal, (int, float)) or codigo_postal is None:
+                    codigo_postal = None  # Asigna None si no es numérico o si es None
+                else:
+                    codigo_postal = str(int(codigo_postal))  # Convierte a cadena numérica si es numérico
+
+                # Antes de asignar el valor a lada, verifica si es numérico
                 lada = row[13].value
+                if not isinstance(lada, (int, float)) or lada is None:
+                    lada = None  # Asigna None si no es numérico o si es None
+                else:
+                    lada = str(int(lada))  # Convierte a cadena numérica si es numérico
+
                 telefono_1 = row[14].value
                 telefono_2 = row[15].value
                 celular = row[16].value
@@ -446,10 +459,11 @@ class DirectorioAgenciasDeViajesCargaMasivaView(SuperAdminOrAdminMixin, LoginReq
                         clave_del_giro=clave_del_giro,
                         entidad=entidad,
                         destino=destino,
+                        nombre_comercial= nombre_comercial
                     )
                     if existente.exists():
                         # Si ya existe, se omite la fila y se guarda en la lista de registros incorrectos
-                        print(f"La fila {row} ya existe en la base de datos")
+                        # print(f"La fila {row} ya existe en la base de datos")
                         registros_existentes.append(datos)
                     else:
                         # Si no existe, se guarda la nueva instancia del modelo en la base de datos y se guarda en la lista de registros correctos

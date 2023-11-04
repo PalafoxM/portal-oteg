@@ -264,7 +264,7 @@ class InventarioTuristicoCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMi
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
-        return render(request, self.template_name, {'form': form, 'title': 'Carga Masiva de InventarioTuristico'})
+        return render(request, self.template_name, {'form': form, 'title': 'Carga Masiva de Inventario Turístico'})
 
 
     def post(self, request, *args, **kwargs):
@@ -291,7 +291,7 @@ class InventarioTuristicoCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMi
             
             return render(request, self.template_name, {
                 'form': form,
-                'title': 'Carga Masiva de InventarioTuristico',
+                'title': 'Carga Masiva de Inventario Turístico ',
                 'registros_correctos': registros_correctos,
                 'registros_incorrectos': registros_incorrectos,
                 'registros_existentes': registros_existentes,
@@ -313,13 +313,13 @@ class InventarioTuristicoCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMi
                 if i == 0:
                     continue # Ignorar la primera fila si es el encabezado
 
-                if not row:
+                if not row or all(cell.value is None for cell in row):
                     continue  # Salta filas vacías
 
                 num_filas_procesadas += 1
 
                 ano = row[0].value
-                giro = row[1].value
+                giro = clean_str_col(row[1].value)
                 inventario = row[3].value
                 # Limpieza de datos
                 destino = clean_str_col(row[2].value)

@@ -276,13 +276,13 @@ class AeropuertoCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View
                 if i == 0:
                     continue # Ignorar la primera fila si es el encabezado
 
-                if not row:
+                if not row or all(cell.value is None for cell in row):
                     continue  # Salta filas vacías
 
                 num_filas_procesadas += 1
 
-                fecha_str = row[3].value.date().strftime('%Y-%m-%d') if len(row) > 0 and row[0].value else ''
-                fecha_obj = datetime.strptime(fecha_str, '%Y-%m-%d').date() if fecha_str else ''
+                fecha_str = row[3].value
+                fecha_obj = fecha_str if fecha_str else None
                 
                 vuelos = row[4].value if len(row) > 5 else 0
                 pasajeros_aeropuerto_gto = row[0].value if len(row) > 0 else 0
