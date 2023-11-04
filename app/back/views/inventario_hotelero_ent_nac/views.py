@@ -355,7 +355,7 @@ class InventarioHoteleroEntNacCargaMasivaView(SuperAdminOrAdminMixin, LoginRequi
                 if i == 0:
                     continue # Ignorar la primera fila si es el encabezado
 
-                if not row:
+                if not row or all(cell.value is None for cell in row):
                     continue  # Salta filas vacías
 
                 num_filas_procesadas += 1
