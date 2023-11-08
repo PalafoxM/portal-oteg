@@ -225,7 +225,7 @@ class CalidadAireCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, Vie
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
-        return render(request, self.template_name, {'form': form, 'title': 'Carga Masiva'})
+        return render(request, self.template_name, {'form': form, 'title': 'Carga Masiva Aire'})
 
 
     def post(self, request, *args, **kwargs):
@@ -248,7 +248,7 @@ class CalidadAireCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, Vie
 
         if len(registros_incorrectos) > 0 or len(registros_existentes) > 0:
             messages.error(request, 'Hay errores de registros')
-            datos_json = json.dumps(registros_incorrectos)
+            # datos_json = json.dumps(registros_incorrectos)
             
             return render(request, self.template_name, {
                 'form': form,
@@ -256,7 +256,7 @@ class CalidadAireCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, Vie
                 'registros_correctos': registros_correctos,
                 'registros_incorrectos': registros_incorrectos,
                 'registros_existentes': registros_existentes,
-                'descargar_url': datos_json,
+                'descargar_url': registros_incorrectos,
                 'num_filas_procesadas': num_filas_procesadas,
             })
             
@@ -275,10 +275,14 @@ class CalidadAireCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, Vie
             for i, row in enumerate(filas):
                 if i == 0:
                     continue # Ignorar la primera fila si es el encabezado
-                num_filas_procesadas += 1
 
+                if not row or all(cell.value is None for cell in row):
+                    continue  # Salta filas vacías
+
+                num_filas_procesadas += 1
+                destinoSTR = row[1].value
                 # Limpieza de datos
-                destino = clean_str_col(row[1].value)
+                destino = clean_str_col(destinoSTR)
 
                 # Homologación de datos
                 destino = homologar_columna_destino(destino)
@@ -298,8 +302,10 @@ class CalidadAireCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, Vie
 
                     # Buscar si la fila ya existe en la base de datos
                     inventario_existente = CalidadAire.objects.filter(fecha=fecha_obj, destino=destino)
+
                     if inventario_existente.exists():
-                        # Si ya existe, se omite la fila y se guarda en la lista de registros incorrectos
+                        # Si ya existe, obtén el objeto y muestra sus valores
+                        registro = inventario_existente.get()
                         print(f"La fila {row} ya existe en la base de datos")
                         registros_existentes.append({'fila': i, 'fecha': fecha_obj, 'destino': destino, 'calidad_del_aire': calidad_del_aire})
                     else:

@@ -37,7 +37,7 @@
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement('a');
       link.href = url;
-      link.setAttribute('download', 'registros_incorrectos.xlsx');
+      link.setAttribute('download', 'registros_incorrectos_calidad_aire.xlsx');
       document.body.appendChild(link);
       link.click();
     }).catch((error) => {

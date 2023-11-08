@@ -191,7 +191,7 @@ class FuenteInfoInventarioTuristicoCreate (SuperAdminOrAdminMixin, LoginRequired
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Crear una fuente'
-        context['entity'] = 'Glosario'
+        context['entity'] = 'Inentario Turistico'
         context['list_url'] = reverse_lazy('dashboard:fuente_info_inventario_turistico')
         context['action'] = 'add'
         return context
@@ -232,9 +232,9 @@ class FuenteInfoInventarioTuristicoUpdate (SuperAdminOrAdminMixin, LoginRequired
         context = super().get_context_data(**kwargs)
         context['list_url'] = reverse_lazy('dashboard:fuente_info_inventario_turistico')
             # Set the widget for the 'destino' field to read-only text input
-        context['form'].fields['ano'].widget = forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly'})
-        context['form'].fields['giro'].widget = forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly'})
-        context['form'].fields['destino'].widget = forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly'})
+        context['form'].fields['destino'].widget.attrs['readonly'] = True
+        context['form'].fields['ano'].widget.attrs['readonly'] = True
+        context['form'].fields['giro'].widget.attrs['readonly'] = True
 
         context['title'] = 'Editar fuente'
         context['edit_msg'] = 'Los Campos Destino y Año no pueden ser editados' 
@@ -264,7 +264,7 @@ class InventarioTuristicoCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMi
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
-        return render(request, self.template_name, {'form': form, 'title': 'Carga Masiva de InventarioTuristico'})
+        return render(request, self.template_name, {'form': form, 'title': 'Carga Masiva de Inventario Turístico'})
 
 
     def post(self, request, *args, **kwargs):
@@ -291,7 +291,7 @@ class InventarioTuristicoCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMi
             
             return render(request, self.template_name, {
                 'form': form,
-                'title': 'Carga Masiva de InventarioTuristico',
+                'title': 'Carga Masiva de Inventario Turístico ',
                 'registros_correctos': registros_correctos,
                 'registros_incorrectos': registros_incorrectos,
                 'registros_existentes': registros_existentes,
@@ -312,10 +312,14 @@ class InventarioTuristicoCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMi
             for i, row in enumerate(filas):
                 if i == 0:
                     continue # Ignorar la primera fila si es el encabezado
+
+                if not row or all(cell.value is None for cell in row):
+                    continue  # Salta filas vacías
+
                 num_filas_procesadas += 1
 
                 ano = row[0].value
-                giro = row[1].value
+                giro = clean_str_col(row[1].value)
                 inventario = row[3].value
                 # Limpieza de datos
                 destino = clean_str_col(row[2].value)
