@@ -964,7 +964,7 @@ class AeropuertoForm(forms.ModelForm):
             'pasajeros_nacionales': 'Pasajeros nacionales',
             'pasajeros_internacionales': 'Pasajeros internacionales',
             'fecha': 'Fecha',
-            'vuelos': 'Vuelos'
+            'vuelos': 'Vuelos semanales'
         }
         widgets = {
             'pasajeros_aeropuerto_gto': forms.NumberInput(attrs={'class': 'custom-input', 'icon_class': 'fas fa-table'}),
