@@ -52,7 +52,7 @@ class PublicacionesSecciones (TemplateView):
         
 
         publicaciones = Publications.objects.filter(
-            section=seccion, visible=True).order_by('category__nombre_categoria','-anio' ,'name')
+            section=seccion, visible=True).order_by('category__nombre_categoria','-anio','-date_created','name')
 
         grouped_publicaciones = {}
         for category, items in groupby(publicaciones, key=attrgetter('category')):
