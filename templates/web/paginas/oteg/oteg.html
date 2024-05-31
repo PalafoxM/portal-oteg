@@ -38,6 +38,24 @@
     margin-top: 35px !important;
 }
 
+.btn-orange{
+    background-color: #ff9800;
+    font-weight: bold;
+    color:white;
+}
+.btn-orange:hover{
+    background-color: #e68900;
+}
+
+.full-width-center{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100%; 
+}
+
 </style>
 {% endblock %}
 
@@ -45,7 +63,7 @@
 {% block content %}
 
 <div class="row pl-5 pr-5 pt-5 pb-5">
-    <div class="col-lg-12 mt-5 mf-pf">
+    <div class="col-lg-12 col-12 mt-5 mf-pf">
         <h3 class="card-title">¿ QUÉ ES EL OBSERVATORIO TURÍSTICO DEL ESTADO DE GUANAJUATO ?</h3>
         <p>Es un espacio de análisis, técnico, intersectorial e interdisciplinario bajo el cual un grupo de personas y/o
             entidades se agrupan y organizan con el propósito de vigilar, medir y verificar la evolución del sector
@@ -151,6 +169,33 @@
                         previstos por falta de información o investigación.
                     </li>
                 </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12 mt-5">
+        <div class="card-oteg">
+            <div class="card-body">
+                <h5 class="card-title">ENFOQUE INTERNACIONAL</h5>
+                <div class="row">
+                    <div>
+                        <img src="{% static 'images/fuentes_informacion/datos_interancional.png' %}" alt="Imagen datos INSTO" style="width: 100%; height: auto; ">
+                    </div>
+                    <div>
+                        <a href="https://www.unwto.org/sustainable-development/unwto-international-network-of-sustainable-tourism-observatories" target="_blank">
+                            <img src="{% static 'images/fuentes_informacion/INSTO_2024_ES.png' %}" alt="Imagen INSTO" style="width: 100%; height: auto; ">
+                        </a>
+                        <div class="card-oteg  full-width-center">
+                            <div class="card-body">
+                                <p class="card-text">La Red Internacional de Observatorios de Turismo Sostenible de las Naciones Unidas (INSTO) es una red de observatorios turísticos que monitorean el impacto económico, ambiental y social del turismo a nivel de destino. La iniciativa se basa en el compromiso de larga data de Turismo de las Naciones Unidas con el crecimiento sostenible y resiliente del sector a través de la medición y el seguimiento, apoyando la gestión del turismo basada en evidencia.</p>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">Conoce los objetivos, beneficios y los Observatorios Turísticos pertenecientes a INSTO en el siguiente enlace:</p>
+                                <div class="card-body">
+                                    <a href="https://www.unwto.org/sustainable-development/unwto-international-network-of-sustainable-tourism-observatories" class= "btn btn-orange" target="_blank">Haga Click aquí para obtener más información sobre INSTO</a>
+                                </div>
+                            </div>
+                        </div>                
+                </div>
             </div>
         </div>
     </div>
