@@ -10,6 +10,7 @@
   margin-bottom: 10px; /* Ajusta el valor según el espacio deseado */
   padding-bottom: 10px; /* Ajusta el valor según el espacio deseado */
   border-bottom: 2px solid #FB8A55;
+  width: 100%;
 
 }
  .card-title-v2 {
@@ -38,6 +39,56 @@
     margin-top: 35px !important;
 }
 
+.btn-orange{
+    background-color: #ff9800;
+    font-weight: bold;
+    color:white;
+}
+.btn-orange:hover{
+    background-color: #e68900;
+}
+
+.full-width-center{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100%; 
+}
+
+.centrar-enlace {
+  display: block;
+  max-width: 50%;
+  margin: 0 auto;
+  text-align: center; 
+  font-size: 1em;
+}
+
+@media (max-width: 719px) {
+    #insto-link::after {
+        content: "Más información";
+        display: inline;
+    }
+
+    #insto-link span {
+        display: none;
+    }
+}
+
+@media (min-width: 720px) and (max-width: 992px) {
+    #insto-link::after {
+        content: "Haga click aquí para obtener más información";
+        display: inline;
+    }
+
+    #insto-link span {
+        display: none;
+    }
+}
+
+
+
 </style>
 {% endblock %}
 
@@ -45,7 +96,7 @@
 {% block content %}
 
 <div class="row pl-5 pr-5 pt-5 pb-5">
-    <div class="col-lg-12 mt-5 mf-pf">
+    <div class="col-lg-12 col-12 mt-5 mf-pf">
         <h3 class="card-title">¿ QUÉ ES EL OBSERVATORIO TURÍSTICO DEL ESTADO DE GUANAJUATO ?</h3>
         <p>Es un espacio de análisis, técnico, intersectorial e interdisciplinario bajo el cual un grupo de personas y/o
             entidades se agrupan y organizan con el propósito de vigilar, medir y verificar la evolución del sector
@@ -78,8 +129,9 @@
         <div class="mt-6">
             <div class="">
                 <h5 class="card-title-v2">¿QUIÉNES LO INTEGRAN?</h5>
+
                 <div id="svg-container" style="width: 100%; height: auto;">
-                    <embed src="{% static 'images/fuentes_informacion/Organigrama-v9.svg' %}" type="image/svg+xml"
+                    <embed src="{% static 'images/fuentes_informacion/Organigrama-v8.svg' %}" type="image/svg+xml"
                         onload="handleSVGLoad()" style="width: 100%; height: auto;"/>
                 </div>
             </div>
@@ -154,8 +206,36 @@
             </div>
         </div>
     </div>
+
+    <div class="col-lg-12 col-12 mt-5 mf-pf">
+        <h5 class="card-title">ENFOQUE INTERNACIONAL</h5>
+        
+        <div class="">
+            <img src="{% static 'images/fuentes_informacion/datos_interancional.png' %}" alt="Imagen datos INSTO" style="width: 100%; height: auto; ">
+        <a href="https://www.unwto.org/sustainable-development/unwto-international-network-of-sustainable-tourism-observatories" target="_blank">
+            <img src="{% static 'images/fuentes_informacion/INSTO_2024_ES.png' %}" alt="Imagen INSTO" style="width: 100%; height: auto; ">
+        </a>
+
+        <p class="mf-pf card-text">La Red Internacional de Observatorios de Turismo Sostenible de las Naciones Unidas (INSTO)
+            es una red de observatorios turísticos que monitorean el impacto económico, ambiental y social del turismo a nivel de destino. 
+            La iniciativa se basa en el compromiso de larga data de Turismo de las Naciones Unidas con el crecimiento sostenible y resiliente del 
+            sector a través de la medición y el seguimiento, apoyando la gestión del turismo basada en evidencia.<br></p>
+        
+        <p class="mf-pf card-text">Conoce los objetivos, beneficios y los Observatorios Turísticos pertenecientes a INSTO en el siguiente enlace:</p>
+
+        <a id="insto-link" href="https://www.unwto.org/sustainable-development/unwto-international-network-of-sustainable-tourism-observatories" class="btn btn-orange centrar-enlace" target="_blank">
+            <span>Haga clic aquí para más información sobre INSTO</span>
+            <span style="display:none;">más información</span>
+        </a>
+
+        </div>
+    </div>
+
 </div>
+
+
 <script>
+
     function handleSVGLoad() {
         var svgDocument = document.querySelector("#svg-container embed").getSVGDocument();
         // var ellipses = svgDocument.querySelectorAll("ellipse");
