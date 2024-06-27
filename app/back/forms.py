@@ -362,76 +362,35 @@ class DataTurForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
 
         self.fields['destino'].widget.attrs['class'] = 'custom-input'
-        self.fields['destino'].widget.attrs['icon_class'] = 'fas fa-search'
-
-        self.fields['fecha'].widget.attrs['class'] = 'custom-input'
-        self.fields['fecha'].widget.attrs['icon_class'] = 'fas fa-calendar'
+        self.fields['destino'].widget.attrs['icon_class'] = 'fas fa-map-marker-alt'
 
         self.fields['categoria'].widget.attrs['class'] = 'custom-input'
-        self.fields['categoria'].widget.attrs['icon_class'] = 'fas fa-search'
+        self.fields['categoria'].widget.attrs['icon_class'] = 'fas fa-tag'
 
-        self.fields['cuartos_registrados_fin_periodo'].widget.attrs['class'] = 'custom-input'
-        self.fields['cuartos_registrados_fin_periodo'].widget.attrs['icon_class'] = 'fas fa-table'
-
-        self.fields['cuartos_disponibles_promedio'].widget.attrs['class'] = 'custom-input'
-        self.fields['cuartos_disponibles_promedio'].widget.attrs['icon_class'] = 'fas fa-table'
+        self.fields['fecha'].widget.attrs['class'] = 'custom-input'
+        self.fields['fecha'].widget.attrs['icon_class'] = 'fas fa-calendar-alt'
 
         self.fields['cuartos_disponibles'].widget.attrs['class'] = 'custom-input'
-        self.fields['cuartos_disponibles'].widget.attrs['icon_class'] = 'fas fa-table'
+        self.fields['cuartos_disponibles'].widget.attrs['icon_class'] = 'fas fa-bed'
 
         self.fields['cuartos_ocupados'].widget.attrs['class'] = 'custom-input'
-        self.fields['cuartos_ocupados'].widget.attrs['icon_class'] = 'fas fa-table'
-
-        self.fields['cuartos_ocupados_residentes'].widget.attrs['class'] = 'custom-input'
-        self.fields['cuartos_ocupados_residentes'].widget.attrs['icon_class'] = 'fas fa-table'
-
-        self.fields['cuartos_ocupados_no_residentes'].widget.attrs['class'] = 'custom-input'
-        self.fields['cuartos_ocupados_no_residentes'].widget.attrs['icon_class'] = 'fas fa-table'
+        self.fields['cuartos_ocupados'].widget.attrs['icon_class'] = 'fas fa-bed'
 
         self.fields['llegadas_de_turistas'].widget.attrs['class'] = 'custom-input'
-        self.fields['llegadas_de_turistas'].widget.attrs['icon_class'] = 'fas fa-table'
-
-        self.fields['llegadas_de_turistas_residentes'].widget.attrs['class'] = 'custom-input'
-        self.fields['llegadas_de_turistas_residentes'].widget.attrs['icon_class'] = 'fas fa-table'
-
-        self.fields['llegadas_de_turistas_no_residentes'].widget.attrs['class'] = 'custom-input'
-        self.fields['llegadas_de_turistas_no_residentes'].widget.attrs['icon_class'] = 'fas fa-table'
+        self.fields['llegadas_de_turistas'].widget.attrs['icon_class'] = 'fas fa-plane-arrival'
 
         self.fields['turistas_noche'].widget.attrs['class'] = 'custom-input'
-        self.fields['turistas_noche'].widget.attrs['icon_class'] = 'fas fa-table'
-
-        self.fields['turistas_noche_residentes'].widget.attrs['class'] = 'custom-input'
-        self.fields['turistas_noche_residentes'].widget.attrs['icon_class'] = 'fas fa-table'
-
-        self.fields['turistas_noche_no_residentes'].widget.attrs['class'] = 'custom-input'
-        self.fields['turistas_noche_no_residentes'].widget.attrs['icon_class'] = 'fas fa-table'
+        self.fields['turistas_noche'].widget.attrs['icon_class'] = 'fas fa-moon'
 
         self.fields['porcentaje_de_ocupacion'].widget.attrs['class'] = 'custom-input'
-        self.fields['porcentaje_de_ocupacion'].widget.attrs['icon_class'] = 'fas fa-table'
-
-        self.fields['porcentaje_de_ocupacion_residentes'].widget.attrs['class'] = 'custom-input'
-        self.fields['porcentaje_de_ocupacion_residentes'].widget.attrs['icon_class'] = 'fas fa-table'
-
-        self.fields['porcentaje_de_ocupacion_no_residentes'].widget.attrs['class'] = 'custom-input'
-        self.fields['porcentaje_de_ocupacion_no_residentes'].widget.attrs['icon_class'] = 'fas fa-table'
+        self.fields['porcentaje_de_ocupacion'].widget.attrs['icon_class'] = 'fas fa-percentage'
 
         self.fields['estadia_promedio'].widget.attrs['class'] = 'custom-input'
-        self.fields['estadia_promedio'].widget.attrs['icon_class'] = 'fas fa-table'
-
-        self.fields['estadia_promedio_residentes'].widget.attrs['class'] = 'custom-input'
-        self.fields['estadia_promedio_residentes'].widget.attrs['icon_class'] = 'fas fa-table'
-
-        self.fields['estadia_promedio_no_residentes'].widget.attrs['class'] = 'custom-input'
-        self.fields['estadia_promedio_no_residentes'].widget.attrs['icon_class'] = 'fas fa-table'
+        self.fields['estadia_promedio'].widget.attrs['icon_class'] = 'fas fa-clock'
 
         self.fields['densidad_de_ocupacion'].widget.attrs['class'] = 'custom-input'
-        self.fields['densidad_de_ocupacion'].widget.attrs['icon_class'] = 'fas fa-table'
+        self.fields['densidad_de_ocupacion'].widget.attrs['icon_class'] = 'fas fa-users'
 
-        self.fields['densidad_de_ocupacion_residentes'].widget.attrs['class'] = 'custom-input'
-        self.fields['densidad_de_ocupacion_residentes'].widget.attrs['icon_class'] = 'fas fa-table'
-
-        self.fields['densidad_de_ocupacion_no_residentes'].widget.attrs['class'] = 'custom-input'
-        self.fields['densidad_de_ocupacion_no_residentes'].widget.attrs['icon_class'] = 'fas fa-table'
 
 
 class GastoDerramaForm (forms.ModelForm):

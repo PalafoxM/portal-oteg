@@ -18,7 +18,7 @@ from django.http import HttpResponse
 from django.template.loader import render_to_string
 
 import json
-from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino
+from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino, clean_str_col_des
 from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.decorators import method_decorator
 from django.http import Http404
@@ -318,35 +318,64 @@ class InversionPublicaCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin
 
                 num_filas_procesadas += 1
                 # Limpieza de datos
-                destino = clean_str_col(row[1].value)
+                destino = clean_str_col_des(row[0].value)
 
                 # Homologación de datos
-                destino = homologar_columna_destino(destino)
+                # destino = homologar_columna_destino(destino)
 
-                # Validar si el destino es válido
-                if destino not in CatalagoDestino.objects.values_list('destino', flat=True):
-                    print(f"El destino {destino} no está en la tabla CatalagoDestino")
-                    registros_incorrectos.append(row)
-                    continue
                 
-                fecha = row[0].value.date()
+                fecha = row[1].value.date()
                 nombre_de_la_obra = row[2].value
                 monto_de_inversion_municipal = row[3].value
                 monto_de_inversion_estatal = row[4].value
                 monto_de_inversion_federal = row[5].value
-                monto_total = row[6].value
+                monto_total = str(row[6].value).strip() if row[6].value else ''
+                
+
+                # Validar los datos
+                fecha_str = str(fecha)
+                fecha_obj = datetime.datetime.strptime(fecha_str, '%Y-%m-%d').date()
+
+                datos = {
+                    'fecha': fecha_str,
+                    'destino': destino,
+                    'nombre_de_la_obra': nombre_de_la_obra,
+                    'monto_de_inversion_municipal': monto_de_inversion_municipal,
+                    'monto_de_inversion_estatal': monto_de_inversion_estatal,
+                    'monto_de_inversion_federal': monto_de_inversion_federal,
+                    'monto_total': monto_total,
+                }
 
                 try:
-                    # Validar los datos
-                    fecha_str = str(fecha)
-                    fecha_obj = datetime.datetime.strptime(fecha_str, '%Y-%m-%d').date()
+
+                    # Validar si el destino es válido
+                    if destino not in CatalagoDestino.objects.values_list('destino', flat=True):
+                        error_msg = f"El destino {destino} no está en la tabla CatalagoDestino"
+                        print(error_msg)
+                        datos['errores'] = error_msg
+                        registros_incorrectos.append(datos)
+                        continue
+                    # Validar si monto_total_str no es numérico
+                    if not monto_total.isdigit():
+                        error_msg = f"El monto_total '{monto_total}' no es un número válido."
+                        print(error_msg)
+                        datos['errores'] = error_msg
+                        registros_incorrectos.append(datos)
+                        continue
+
+                    
                     monto_de_inversion_municipal_float = float(monto_de_inversion_municipal)
                     monto_de_inversion_estatal_float = float(monto_de_inversion_estatal)
                     monto_de_inversion_federal_float = float(monto_de_inversion_federal)
                     monto_total_float = float(monto_total)
 
                     # Buscar si la fila ya existe en la base de datos
-                    inventario_existente = InversionPublica.objects.filter(fecha=fecha_obj, destino=destino, nombre_de_la_obra=nombre_de_la_obra)
+                    inventario_existente = InversionPublica.objects.filter(
+                        fecha=fecha_obj, 
+                        destino=destino, 
+                        nombre_de_la_obra=nombre_de_la_obra
+                    )
+                    
                     if inventario_existente.exists():
                         # Si ya existe, se omite la fila y se guarda en la lista de registros incorrectos
                         print(f"La fila {row} ya existe en la base de datos")
@@ -358,12 +387,15 @@ class InversionPublicaCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin
                         registros_correctos.append({  'fecha': fecha_obj, 'destino': destino, 'nombre_de_la_obra': nombre_de_la_obra, 'monto_de_inversion_municipal': monto_de_inversion_municipal_float, 'monto_de_inversion_estatal': monto_de_inversion_estatal_float, 'monto_de_inversion_federal': monto_de_inversion_federal_float, 'monto_total': monto_total_float})
                 except (ValueError, TypeError) as e:
                     # Si los datos no son válidos, se guarda el número de fila en la lista de registros incorrectos
-                    registros_incorrectos.append({'fecha': fecha, 'destino': destino, 'nombre_de_la_obra': nombre_de_la_obra, 'monto_de_inversion_municipal': monto_de_inversion_municipal, 'monto_de_inversion_estatal': monto_de_inversion_estatal, 'monto_de_inversion_federal': monto_de_inversion_federal_float, 'monto_total': monto_total})
+                    error_msg = f"Error al procesar la fila {datos}: {e}"
+                    print(error_msg)
+                    datos['errores'] = error_msg
+                    registros_incorrectos.append(datos)
                     
         except FileNotFoundError:
                 print(f"El archivo {archivo} no se pudo abrir")
                 
-        return registros_correctos, registros_incorrectos, registros_existentes
+        return registros_correctos, registros_incorrectos, registros_existentes, num_filas_procesadas
     
     def procesar_archivo_csv(self, archivo):
         archivo = self.request.FILES['archivo']
@@ -439,7 +471,7 @@ class DescargarArchivoInversionPublicaView(SuperAdminOrAdminMixin, LoginRequired
         worksheet['E1'] = 'monto_de_inversion_estatal'
         worksheet['F1'] = 'monto_de_inversion_federal'
         worksheet['G1'] = 'monto_total'
-        # worksheet['F1'] = 'Error'
+        worksheet['H1'] = 'errores'
 
         # Add the incorrect rows to the worksheet
         for i, row in enumerate(registros_incorrectos):
@@ -452,7 +484,7 @@ class DescargarArchivoInversionPublicaView(SuperAdminOrAdminMixin, LoginRequired
             worksheet.cell(row=fila, column=5, value=row['monto_de_inversion_estatal'])
             worksheet.cell(row=fila, column=6, value=row['monto_de_inversion_federal'])
             worksheet.cell(row=fila, column=7, value=row['monto_total'])
-            # worksheet.cell(row=fila, column=7, value=row['error'])
+            worksheet.cell(row=fila, column=8, value=row['errores'])
 
         # Set the column widths to auto-fit
         for column in worksheet.columns:

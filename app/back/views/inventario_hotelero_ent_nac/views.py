@@ -18,7 +18,7 @@ from django.http import HttpResponse
 from django.template.loader import render_to_string
 
 import json
-from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino
+from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino, clean_str_col_des
 from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.decorators import method_decorator
 from django.http import Http404
@@ -361,12 +361,12 @@ class InventarioHoteleroEntNacCargaMasivaView(SuperAdminOrAdminMixin, LoginRequi
                 num_filas_procesadas += 1
 
                 # Limpieza de datos
-                entidad = clean_str_col(row[0].value)
-                categoria = clean_str_col(row[2].value)
+                entidad = clean_str_col_des(row[0].value)
+                categoria = clean_str_col_des(row[2].value)
 
                 # Homologación de datos
-                entidad = homologar_columna_destino(entidad)
-                categoria = homologar_columna_categoria(categoria)
+                # entidad = homologar_columna_destino(entidad)
+                # categoria = homologar_columna_categoria(categoria)
 
 
 
@@ -375,14 +375,29 @@ class InventarioHoteleroEntNacCargaMasivaView(SuperAdminOrAdminMixin, LoginRequi
                 establecimientos = row[4].value
                 fecha_str = str(fecha)
 
-                # Validar si el destino y categoria son válidos
-                if not CatalagoDestino.objects.filter(entidad=entidad).exists():
-                    print(f"El destino {entidad} no está en la tabla CatalagoDestino")
-                    registros_incorrectos.append({'entidad': entidad, 'fecha': fecha_str, 'categoria': categoria, 'habitaciones': habitaciones, 'establecimientos': establecimientos})
+                # Validar si el destino y categoría son válidos
+                if not CatalogoEntidad.objects.filter(entidad=entidad).exists():
+                    error_msg = f"El destino {entidad} no está en la tabla CatalagoDestino"
+                    registros_incorrectos.append({
+                        'entidad': entidad,
+                        'fecha': fecha_str,
+                        'categoria': categoria,
+                        'habitaciones': habitaciones,
+                        'establecimientos': establecimientos,
+                        'errores': error_msg
+                    })
                     continue
+
                 if categoria not in CatalagoCategoria.objects.values_list('categoria', flat=True):
-                    print(f"La categoría {categoria} no está en la tabla CatalagoCategoria")
-                    registros_incorrectos.append({'entidad': entidad, 'fecha': fecha_str, 'categoria': categoria, 'habitaciones': habitaciones, 'establecimientos': establecimientos})
+                    error_msg = f"La categoría {categoria} no está en la tabla CatalagoCategoria"
+                    registros_incorrectos.append({
+                        'entidad': entidad,
+                        'fecha': fecha_str,
+                        'categoria': categoria,
+                        'habitaciones': habitaciones,
+                        'establecimientos': establecimientos,
+                        'errores': error_msg
+                    })
                     continue
 
                 try:
@@ -489,7 +504,7 @@ class InventarioHoteleroEntNacDescargarArchivoView(SuperAdminOrAdminMixin, Login
         worksheet['C1'] = 'Categoría'
         worksheet['D1'] = 'Habitaciones'
         worksheet['E1'] = 'Establecimientos'
-        # worksheet['F1'] = 'Error'
+        worksheet['F1'] = 'errores'
 
         # Add the incorrect rows to the worksheet
         for i, row in enumerate(registros_incorrectos):
@@ -500,7 +515,7 @@ class InventarioHoteleroEntNacDescargarArchivoView(SuperAdminOrAdminMixin, Login
             worksheet.cell(row=fila, column=3, value=row['categoria'])
             worksheet.cell(row=fila, column=4, value=row['habitaciones'])
             worksheet.cell(row=fila, column=5, value=row['establecimientos'])
-            # worksheet.cell(row=fila, column=7, value=row['error'])
+            worksheet.cell(row=fila, column=6, value=row['errores'])
 
         # Set the column widths to auto-fit
         for column in worksheet.columns:

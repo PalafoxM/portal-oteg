@@ -27,6 +27,9 @@ from django.http import Http404
 from django.core.exceptions import PermissionDenied
 from back.mixins import *
 from django.contrib.auth.decorators import user_passes_test
+import logging
+
+logger = logging.getLogger(__name__)
 
 def es_admin_o_superadmin(user):
     return user.is_authenticated and (user.is_staff or user.is_superuser)
@@ -330,7 +333,9 @@ class OrigenCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
 
                 try:
                     if destino not in CatalagoDestino.objects.values_list('destino', flat=True):
-                        print(f"El destino {destino} no está en la tabla CatalagoDestinoAeropuerto")
+                        error_msg = f"El destino {destino} no está en la tabla CatalagoDestinoAeropuerto"
+                        print(error_msg)
+                        datos['errores'] = error_msg
                         registros_incorrectos.append(datos)
                         continue
 
@@ -355,7 +360,9 @@ class OrigenCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
                         db.save()
                         registros_correctos.append(datos)
                 except (ValueError, TypeError) as e:
-                    print(f"Error al procesar la fila {datos}: {e}")
+                    error_msg = f"Error al procesar la fila {datos}: {e}"
+                    print(error_msg)
+                    datos['errores'] = error_msg
                     registros_incorrectos.append(datos)
 
         except FileNotFoundError:
@@ -442,6 +449,10 @@ class OrigenDescargarArchivoView(SuperAdminOrAdminMixin, LoginRequiredMixin, Vie
         column_labels = [field.verbose_name for field in fields if field.name != 'id']
         column_names = [field.name for field in fields if field.name != 'id']
 
+        # Agregar encabezado para la columna de errores
+        column_labels.append('Errores')
+        column_names.append('errores')
+
         # Escribir los encabezados de las columnas
         for i, campo in enumerate(column_labels):
             columna = i + 1
@@ -456,7 +467,9 @@ class OrigenDescargarArchivoView(SuperAdminOrAdminMixin, LoginRequiredMixin, Vie
             for i, campo in enumerate(column_names):
                 if campo != 'id':  # Omitir la clave 'id'
                     columna = i + 1
-                    valor = registro[campo]
+                    valor = registro.get(campo, 'N/A')  # Utiliza 'N/A' o cualquier valor por defecto
+                    if campo == 'fecha_actualizacion' and valor == 'N/A':
+                        logger.warning(f'Falta la clave: {campo} en el registro: {registro}')
                     worksheet.cell(row=fila, column=columna, value=valor)
             fila += 1
 
