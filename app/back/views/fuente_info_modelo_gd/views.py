@@ -29,9 +29,10 @@ class FuenteInfoModeloGD (ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Listado de Fuentes de Informacion de Modelo GD'
-        context['create_url'] = reverse_lazy('dashboard:fuente_info_modelo_gd_create')
+        context['create_url'] = reverse_lazy('dashboard:fuente_info_gasto_derrama_create')
         context['entity'] = 'ModeloGD'
         context['is_fuente'] = True
+        context['carga_masiva_url'] = reverse_lazy('dashboard:fuente_gasto_derrama_carga_masiva') 
         
         return context
     

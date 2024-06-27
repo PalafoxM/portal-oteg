@@ -15,12 +15,12 @@ from django.contrib import messages
 from openpyxl import load_workbook
 import csv
 import os
-import datetime
+from datetime import datetime
 from django.urls import reverse
 import openpyxl
 from django.http import HttpResponse
 import json
-from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino
+from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino, clean_str_col_des
 from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.decorators import method_decorator
 from django.http import Http404
@@ -28,6 +28,9 @@ from django.core.exceptions import PermissionDenied
 from back.mixins import *
 from django.contrib.auth.decorators import user_passes_test
 from django.views.decorators.csrf import csrf_exempt
+import logging
+
+logger = logging.getLogger(__name__)
 def es_admin_o_superadmin(user):
     return user.is_authenticated and (user.is_staff or user.is_superuser)
 
@@ -346,20 +349,21 @@ class ZonasArqueoCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, Vie
                     continue  # Salta filas vacías
 
                 num_filas_procesadas += 1
+                
+                # Validar los datos
+                # fecha = row[3].value.date()
+                fecha_str = str(row[4].value).strip() if row[4].value else ''
+                # fecha_obj = datetime.datetime.strptime(fecha_str, '%Y-%m-%d').date()
+
+                origen_visitante = row[5].value if len(row) > 5 else ''
+
+                visitantes = row[6].value if len(row) > 6 else 0
+
                 # Limpieza de datos
-                fecha_str = row[3].value.date().strftime('%Y-%m-%d') if len(row) > 3 and row[3].value else ''
-                fecha_obj = datetime.datetime.strptime(fecha_str, '%Y-%m-%d').date() if fecha_str else None
-                json_fecha = json.dumps(fecha_obj.strftime('%Y-%m-%d')) if fecha_obj else ''
-                json_fecha = json_fecha.strip('"') if json_fecha else ''
-
-                origen_visitante = row[4].value if len(row) > 4 else ''
-
-                visitantes = row[5].value if len(row) > 5 else 0
-
-                # Limpieza de datos
-                destino = clean_str_col(row[0].value if len(row) > 0 else '')
-                tipo = clean_str_col(row[1].value if len(row) > 1 else '')
-                nombre = clean_str_col(row[2].value if len(row) > 1 else '')
+                entidad = clean_str_col_des(row[0].value if len(row) > 0 else '')
+                destino = clean_str_col_des(row[1].value if len(row) > 1 else '')
+                tipo = clean_str_col_des(row[2].value if len(row) > 2 else '')
+                nombre = clean_str_col_des(row[3].value if len(row) > 3 else '')
 
                 # Homologación de datos
                 destino = homologar_columna_destino(destino)
@@ -373,6 +377,21 @@ class ZonasArqueoCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, Vie
                     "origen_visitante": origen_visitante,
                     "visitantes": visitantes
                 }
+                # Validar y convertir la fecha
+                try:
+                    fecha = datetime.strptime(fecha_str, '%Y-%m-%d')
+                    logging.error(f"****************fecha {fecha}. Se omite la fila.")
+                except ValueError:
+                    try:
+                        # Si falla, intentar convertir con el formato '%Y-%m-%d %H:%M:%S'
+                        fecha = datetime.strptime(fecha_str, '%Y-%m-%d %H:%M:%S')
+                    except ValueError:
+                        # Si ambos formatos fallan, registrar como error
+                        error_msg = f"Formato de fecha inválido en la fila {i+1}: {fecha_str}. Debe estar en el formato YYYY-MM-DD o YYYY-MM-DD HH:MM:SS."
+                        logging.error(error_msg)
+                        datos['errores'] = error_msg
+                        registros_incorrectos.append(datos)
+                        continue
 
                 try:
                     # Validar los datos
@@ -380,17 +399,24 @@ class ZonasArqueoCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, Vie
                     visitantes_int = int(visitantes)
 
                     if destino not in CatalagoDestino.objects.values_list('destino', flat=True):
-                        print(f"El destino {destino} no está en la tabla CatalagoDestino")
+                        error_msg = f"El destino {destino} no está en la tabla CatalagoDestino"
+                        print(error_msg)
+                        datos['errores'] = error_msg
                         registros_incorrectos.append(datos)
                         continue
                     # Validar si el tipo_visitante es válido
                     if not CatalagoZAMuseos.objects.filter(tipo=tipo).exists():
-                        print(f"El tipo_visitante: {tipo} no está en la tabla CatalagoTipoVisistante")
+                        error_msg = f"El tipo_visitante: {tipo} no está en la tabla CatalagoTipoVisistante"
+                        print(error_msg)
+                        datos['errores'] = error_msg
                         registros_incorrectos.append(datos)
                         continue
                     # Validar si el tipo_visitante es válido
                     if not CatalagoZAMuseos.objects.filter(nombre=nombre).exists():
-                        print(f"El tipo_visitante: {nombre} no está en la tabla CatalagoTipoVisistante")
+                        # print(f"El tipo_visitante: {nombre} no está en la tabla CatalagoTipoVisistante")
+                        error_msg = f"El tipo_visitante: {nombre} no está en la tabla CatalagoTipoVisistante"
+                        print(error_msg)
+                        datos['errores'] = error_msg
                         registros_incorrectos.append(datos)
                         continue
 
@@ -398,7 +424,7 @@ class ZonasArqueoCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, Vie
                     existente = zonas_arqueologicas_museos.objects.filter(
                         destino = destino, 
                         tipo = tipo,
-                        fecha = fecha_obj, 
+                        fecha = fecha, 
                         nombre = nombre)
                     if existente.exists():
                         # Si ya existe, se omite la fila y se guarda en la lista de registros incorrectos
@@ -410,7 +436,7 @@ class ZonasArqueoCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, Vie
                             destino = destino,
                             tipo = tipo,
                             nombre = nombre,
-                            fecha = fecha_obj,
+                            fecha = fecha,
                             origen_visitante = origen_visitante,
                             visitantes = visitantes_int,
                         )
@@ -529,6 +555,7 @@ class ZonasArqueoDescargarArchivoView(SuperAdminOrAdminMixin, LoginRequiredMixin
         worksheet['D1'] = 'fecha'
         worksheet['E1'] = 'origen_visitante'
         worksheet['F1'] = 'visitantes'
+        worksheet['G1'] = 'errores'
 
         # Add the incorrect rows to the worksheet
         for i, row in enumerate(registros_incorrectos):
@@ -539,6 +566,7 @@ class ZonasArqueoDescargarArchivoView(SuperAdminOrAdminMixin, LoginRequiredMixin
             worksheet.cell(row=fila, column=4, value=row['fecha'])
             worksheet.cell(row=fila, column=5, value=row['origen_visitante'])
             worksheet.cell(row=fila, column=6, value=row['visitantes'])
+            worksheet.cell(row=fila, column=7, value=row['errores'])
 
 
 

@@ -140,6 +140,19 @@ def clean_str_col(value):
     # Reemplaza \n por espacios
     value = value.replace("\n"," ")
     # Convierte a minúsculas
+    # value = value.lower()
+    # Limpia espacios al principio y al final de nuevo
+    value = value.strip()
+    return value
+# Limpiar columnas de tipo str
+def clean_str_col_des(value):
+    # Convierte a string
+    value = str(value)
+    # Limpia espacios al principio y al final
+    value = value.strip()
+    # Reemplaza \n por espacios
+    value = value.replace("\n"," ")
+    # Convierte a minúsculas
     value = value.lower()
     # Limpia espacios al principio y al final de nuevo
     value = value.strip()

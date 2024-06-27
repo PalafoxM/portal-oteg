@@ -51,9 +51,9 @@
 <div class="col-12">
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ form.as_p }}
+    {{ form.as_p }} 
     <button class="btn btn-primary" type="submit">Cargar archivo</button>
-    <a href="{% url 'dashboard:fuente_info_datatour' %}" class="btn btn-outline-danger">Cancelar</a>
+    <a href="{% url 'dashboard:fuente_info_zonas_arqueologicas' %}" class="btn btn-outline-danger">Cancelar</a>
 </form>
 </div>
 

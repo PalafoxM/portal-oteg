@@ -46,7 +46,7 @@ class FuenteInfoGastoDerrama (SuperAdminOrAdminMixin, LoginRequiredMixin, ListVi
         context['create_url'] = reverse_lazy('dashboard:fuente_info_gasto_derrama_create')
         context['entity'] = 'Categorias'
         context['is_fuente']    = True
-        context['carga_masiva_url'] = reverse_lazy('dashboard:fuente_gasto_derrama_carga_masiva')
+        context['carga_masiva_url'] = reverse_lazy('dashboard:fuente_gasto_derrama_carga_masiva') 
         return context
 
     

@@ -353,8 +353,8 @@ class CargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
                 categoria = clean_str_col(row[2].value)
 
                 # Homologación de datos
-                destino = homologar_columna_destino(destino)
-                categoria = homologar_columna_categoria(categoria)
+                # destino = homologar_columna_destino(destino)
+                # categoria = homologar_columna_categoria(categoria)
 
 
 
@@ -371,7 +371,7 @@ class CargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
                         registros_incorrectos.append({'destino': destino, 'fecha': fecha_str, 'categoria': categoria, 'habitaciones': habitaciones, 'establecimientos': establecimientos})
                         continue
                     if categoria not in CatalagoCategoria.objects.values_list('categoria', flat=True):
-                        print(f"La categoría {categoria} no está en la tabla CatalagoCategoria")
+                        print(f"--- --- La categoría {categoria} no está en la tabla CatalagoCategoria")
                         registros_incorrectos.append({'destino': destino, 'fecha': fecha_str, 'categoria': categoria, 'habitaciones': habitaciones, 'establecimientos': establecimientos})
                         continue
                     fecha_obj = datetime.datetime.strptime(fecha_str, '%Y-%m-%d').date()
