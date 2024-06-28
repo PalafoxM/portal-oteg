@@ -32,13 +32,16 @@ from django.urls import reverse
 import openpyxl
 from django.http import HttpResponse
 import json
-from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino
+from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino, parse_fecha
 from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.decorators import method_decorator
 from django.http import Http404
 from django.core.exceptions import PermissionDenied
 from back.mixins import *
 from django.contrib.auth.decorators import user_passes_test
+import logging
+
+logger = logging.getLogger(__name__)
 
 def es_admin_o_superadmin(user):
     return user.is_authenticated and (user.is_staff or user.is_superuser)
@@ -369,14 +372,14 @@ class DataturCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
                 destino = homologar_columna_destino(destino)
                 categoria = homologar_columna_categoria(categoria)
 
-                fecha = row[2].value
+                fecha_str = row[2].value
                 # Validar los datos
-                fecha_str = str(fecha)
-                fecha_str = fecha_str.split()[0] if fecha_str else ''  # Eliminar la parte de la hora si existe la fecha
-                fecha_obj = datetime.datetime.strptime(fecha_str, '%Y-%m-%d').date()
+                # fecha_str = str(fecha)
+                # fecha_str = fecha_str.split()[0] if fecha_str else ''  # Eliminar la parte de la hora si existe la fecha
+                # fecha_obj = datetime.datetime.strptime(fecha_str, '%Y-%m-%d').date()
                 # Serializar la fecha en formato JSON
-                json_fecha = json.dumps(fecha_obj.strftime('%Y-%m-%d'))
-                json_fecha = str(json_fecha).strip('"')
+                # json_fecha = json.dumps(fecha_obj.strftime('%Y-%m-%d'))
+                # json_fecha = str(json_fecha).strip('"')
 
                 
                 # Extracción de otros campos
@@ -388,9 +391,9 @@ class DataturCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
                 estadia_promedio = row[8].value
                 densidad_de_ocupacion = row[9].value
 
-                data = {
+                datos = {
                     'destino': destino,
-                    'fecha': json_fecha,
+                    'fecha': fecha_str,
                     'categoria': categoria,
                     'cuartos_disponibles': cuartos_disponibles,
                     'cuartos_ocupados': cuartos_ocupados,
@@ -400,20 +403,27 @@ class DataturCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
                     'estadia_promedio': estadia_promedio,
                     'densidad_de_ocupacion': densidad_de_ocupacion
                 }
+                fecha = parse_fecha(fecha_str)
+                if fecha is None:
+                    error_msg = f"Formato de fecha inválido en la fila {i+1}: {fecha_str}. Debe estar en un formato válido."
+                    logging.error(error_msg)
+                    datos['errores'] = error_msg
+                    registros_incorrectos.append(datos)
+                    continue
 
                 # Validar si el destino y categoria son válidos
                 if destino not in CatalagoDestino.objects.values_list('destino', flat=True):
                     error_msg = f"El destino {destino} no está en la tabla CatalagoDestino"
                     print(error_msg)
-                    data['errores'] = error_msg
-                    registros_incorrectos.append(data)
+                    datos['errores'] = error_msg
+                    registros_incorrectos.append(datos)
                     continue
                 if categoria not in CatalagoCategoria.objects.values_list('categoria', flat=True):
                     print(f"La categoría {categoria} no está en la tabla CatalagoCategoria")
                     error_msg = f"La categoría {categoria} no está en la tabla CatalagoCategoria"
                     print(error_msg)
-                    data['errores'] = error_msg
-                    registros_incorrectos.append(data)
+                    datos['errores'] = error_msg
+                    registros_incorrectos.append(datos)
                     continue
 
 
@@ -422,17 +432,17 @@ class DataturCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
                     
 
                     # Buscar si la fila ya existe en la base de datos
-                    inventario_existente = InventarioHotelero.objects.filter(destino=destino, fecha=fecha_obj, categoria=categoria)
+                    inventario_existente = InventarioHotelero.objects.filter(destino=destino, fecha=fecha, categoria=categoria)
                     if inventario_existente.exists():
                         # Si ya existe, se omite la fila y se guarda en la lista de registros incorrectos
                         print(f"La fila {row} ya existe en la base de datos")
-                        registros_existentes.append(data)
+                        registros_existentes.append(datos)
 
                     else:
                         # Si no existe, se guarda la nueva instancia del modelo en la base de datos y se guarda en la lista de registros correctos
                         inventario = DataTour(
                         destino=destino,
-                        fecha=fecha_obj,
+                        fecha=fecha,
                         categoria=categoria,
                         cuartos_disponibles=cuartos_disponibles,
                         cuartos_ocupados=cuartos_ocupados,
@@ -444,13 +454,13 @@ class DataturCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
                         fecha_actualizacion=datetime.datetime.now()
                     )
                         inventario.save()
-                        registros_correctos.append(data)
+                        registros_correctos.append(datos)
                 except (ValueError, TypeError) as e:
                     # Si los datos no son válidos, se guarda el número de fila en la lista de registros incorrectos
-                    error_msg = f"Error al procesar la fila {data}: {e}"
+                    error_msg = f"Error al procesar la fila {datos}: {e}"
                     print(error_msg)
-                    data['errores'] = error_msg
-                    registros_incorrectos.append(data)
+                    datos['errores'] = error_msg
+                    registros_incorrectos.append(datos)
                     
         except FileNotFoundError:
                 print(f"El archivo {archivo} no se pudo abrir")

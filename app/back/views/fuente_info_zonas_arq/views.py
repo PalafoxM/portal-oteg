@@ -20,7 +20,7 @@ from django.urls import reverse
 import openpyxl
 from django.http import HttpResponse
 import json
-from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino, clean_str_col_des
+from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino, clean_str_col_des, parse_fecha
 from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.decorators import method_decorator
 from django.http import Http404
@@ -332,7 +332,7 @@ class ZonasArqueoCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, Vie
         else:
             return HttpResponseRedirect(reverse('dashboard:fuente_info_zonas_arqueologicas'))
         
-        
+           
 
     def procesar_archivo_xlsx(self, archivo):
         registros_correctos, registros_incorrectos, registros_existentes = [], [], []
@@ -352,11 +352,8 @@ class ZonasArqueoCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, Vie
                 
                 # Validar los datos
                 # fecha = row[3].value.date()
-                fecha_str = str(row[4].value).strip() if row[4].value else ''
-                # fecha_obj = datetime.datetime.strptime(fecha_str, '%Y-%m-%d').date()
-
+                fecha_str = str(row[4].value).strip() if row[4].value else ''                
                 origen_visitante = row[5].value if len(row) > 5 else ''
-
                 visitantes = row[6].value if len(row) > 6 else 0
 
                 # Limpieza de datos
@@ -367,8 +364,7 @@ class ZonasArqueoCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, Vie
 
                 # Homologación de datos
                 destino = homologar_columna_destino(destino)
-                # tipo = homologar_columna_destino(tipo)
-                # nombre = homologar_columna_destino(nombre)
+                
                 datos = {
                     "destino": destino,
                     "tipo": tipo,
@@ -378,20 +374,15 @@ class ZonasArqueoCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, Vie
                     "visitantes": visitantes
                 }
                 # Validar y convertir la fecha
-                try:
-                    fecha = datetime.strptime(fecha_str, '%Y-%m-%d')
-                    logging.error(f"****************fecha {fecha}. Se omite la fila.")
-                except ValueError:
-                    try:
-                        # Si falla, intentar convertir con el formato '%Y-%m-%d %H:%M:%S'
-                        fecha = datetime.strptime(fecha_str, '%Y-%m-%d %H:%M:%S')
-                    except ValueError:
-                        # Si ambos formatos fallan, registrar como error
-                        error_msg = f"Formato de fecha inválido en la fila {i+1}: {fecha_str}. Debe estar en el formato YYYY-MM-DD o YYYY-MM-DD HH:MM:SS."
-                        logging.error(error_msg)
-                        datos['errores'] = error_msg
-                        registros_incorrectos.append(datos)
-                        continue
+                fecha = parse_fecha(fecha_str)
+                if fecha is None:
+                    error_msg = f"Formato de fecha inválido en la fila {i+1}: {fecha_str}. Debe estar en un formato válido."
+                    logging.error(error_msg)
+                    datos['errores'] = error_msg
+                    registros_incorrectos.append(datos)
+                    continue
+                # Si la fecha es válida, puedes continuar con el procesamiento
+                datos['fecha'] = fecha.strftime('%Y-%m-%d')  # Convertir a string 
 
                 try:
                     # Validar los datos
@@ -439,6 +430,7 @@ class ZonasArqueoCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, Vie
                             fecha = fecha,
                             origen_visitante = origen_visitante,
                             visitantes = visitantes_int,
+                            entidad = entidad
                         )
                         db.save()
                         registros_correctos.append(datos)
