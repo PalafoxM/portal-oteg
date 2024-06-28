@@ -249,11 +249,7 @@ class OrigenCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
         form = self.form_class()
         return render(request, self.template_name, {'form': form, 'title': 'Carga Masiva de Origen'})
 
-    def convert_to_serializable(self, obj):
-        if isinstance(obj, (datetime, date)):
-            return obj.isoformat()
-        raise TypeError(
-            f'Object of type {obj.__class__.__name__} is not JSON serializable')
+    
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST, request.FILES)

@@ -1,3 +1,4 @@
+from datetime import datetime
 # destinos
 destinos={'abasolo' : 'abasolo',
     'acambao' : 'acambaro',
@@ -169,3 +170,12 @@ def homologar_columna_categoria(categoria):
         return categorias[categoria]
     else:
         return categoria
+
+def parse_fecha(self, fecha_str):
+    formatos_fecha = ['%Y-%m-%d', '%Y-%m-%d %H:%M:%S', '%d/%m/%Y', '%d/%m/%Y %H:%M:%S']
+    for formato in formatos_fecha:
+        try:
+            return datetime.strptime(fecha_str, formato)
+        except ValueError:
+            continue
+    return None 

@@ -22,7 +22,7 @@ from django.urls import reverse
 import openpyxl
 from django.http import HttpResponse
 import json
-from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino, clean_str_col_des
+from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino, clean_str_col_des, parse_fecha
 from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.decorators import method_decorator
 from django.http import Http404
@@ -320,34 +320,7 @@ class SensivilizacionCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin,
 
                 num_filas_procesadas += 1
                 # Limpieza de datos
-                fecha_str = str(row[0].value).strip() if row[0].value else '' 
-            
-                if not fecha_str:
-                    logging.error(f"Fecha vacía en la fila {i+1}. Se omite la fila.")
-                    continue
-
-                # Validar y convertir la fecha
-                try:
-                    fecha = datetime.strptime(fecha_str, '%Y-%m-%d')
-                    logging.info(f"fecha {fecha}. Se omite la fila.")
-                except ValueError:
-                    try:
-                        # Si falla, intentar convertir con el formato '%Y-%m-%d %H:%M:%S'
-                        fecha = datetime.strptime(fecha_str, '%Y-%m-%d %H:%M:%S')
-                    except ValueError:
-                        # Si ambos formatos fallan, registrar como error
-                        error_msg = f"Formato de fecha inválido en la fila {i+1}: {fecha_str}. Debe estar en el formato YYYY-MM-DD o YYYY-MM-DD HH:MM:SS."
-                        logging.error(error_msg)
-                        datos = {
-                            "fecha": fecha_str,
-                            "destino": clean_str_col_des(row[1].value),
-                            "accion_de_sensibilizacion": row[2].value,
-                            "participantes": row[3].value,
-                            "subcategoria": row[4].value or '',
-                            "errores": error_msg
-                        }
-                        registros_incorrectos.append(datos)
-                        continue
+                fecha_str = str(row[0].value).strip() if row[0].value else ''
 
                 participantes = row[3].value
                 accion_de_sensibilizacion = row[2].value
@@ -374,6 +347,14 @@ class SensivilizacionCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin,
                     "accion_de_sensibilizacion": accion_de_sensibilizacion,
                     "subcategoria": subcategoria
                 }
+                 #Validar y convertir la fecha
+                fecha = parse_fecha(fecha_str)
+                if fecha is None:
+                    error_msg = f"Formato de fecha inválido en la fila {i+1}: {fecha_str}. Debe estar en un formato válido."
+                    logging.error(error_msg)
+                    datos['errores'] = error_msg
+                    registros_incorrectos.append(datos)
+                    continue
 
                 try:
                     # Validar los datos
