@@ -32,13 +32,16 @@ from django.urls import reverse
 import openpyxl
 from django.http import HttpResponse
 import json
-from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino
+from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino, parse_fecha
 from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.decorators import method_decorator
 from django.http import Http404
 from django.core.exceptions import PermissionDenied
 from back.mixins import *
 from django.contrib.auth.decorators import user_passes_test
+import logging
+
+logger = logging.getLogger(__name__)
 
 def es_admin_o_superadmin(user):
     return user.is_authenticated and (user.is_staff or user.is_superuser)
@@ -180,31 +183,8 @@ class FuenteInfoDataturCreate (SuperAdminOrAdminMixin, LoginRequiredMixin, Creat
             if existing_object  :
                 data = DataTour.objects.filter(fecha=fecha, destino=destino, categoria=categoria)
                 
-                data_list = list(data.values('destino',
-'categoria',
-    'fecha',
-    'cuartos_registrados_fin_periodo',
-    'cuartos_disponibles_promedio',
-    'cuartos_disponibles',
-    'cuartos_ocupados',
-    'cuartos_ocupados_residentes',
-    'cuartos_ocupados_no_residentes',
-    'llegadas_de_turistas',
-    'llegadas_de_turistas_residentes',
-    'llegadas_de_turistas_no_residentes',
-    'turistas_noche',
-    'turistas_noche_residentes',
-    'turistas_noche_no_residentes',
-    'porcentaje_de_ocupacion',
-    'porcentaje_de_ocupacion_residentes',
-    'porcentaje_de_ocupacion_no_residentes',
-    'estadia_promedio',
-    'estadia_promedio_residentes',
-    'estadia_promedio_no_residentes',
-    'densidad_de_ocupacion',
-    'densidad_de_ocupacion_residentes',
-    'densidad_de_ocupacion_no_residentes',))                                                 
-                data_list2 =  list(form.cleaned_data.values())
+                data_list = list(data.values('destino', 'categoria', 'fecha', 'cuartos_disponibles', 'cuartos_ocupados', 'llegadas_de_turistas', 'turistas_noche', 'porcentaje_de_ocupacion', 'estadia_promedio', 'densidad_de_ocupacion'))
+                data_list2 = list(form.cleaned_data.values())
                 table_html = render_to_string('back/fuente_info_datatur/data_tour_table.html', {'data_list': data_list , 'actual':True , 'data_list2':data_list2})                            
                 
                 datajsn = {
@@ -392,73 +372,58 @@ class DataturCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
                 destino = homologar_columna_destino(destino)
                 categoria = homologar_columna_categoria(categoria)
 
-                fecha = row[2].value
+                fecha_str = row[2].value
                 # Validar los datos
-                fecha_str = str(fecha)
-                fecha_str = fecha_str.split()[0] if fecha_str else ''  # Eliminar la parte de la hora si existe la fecha
-                fecha_obj = datetime.datetime.strptime(fecha_str, '%Y-%m-%d').date()
+                # fecha_str = str(fecha)
+                # fecha_str = fecha_str.split()[0] if fecha_str else ''  # Eliminar la parte de la hora si existe la fecha
+                # fecha_obj = datetime.datetime.strptime(fecha_str, '%Y-%m-%d').date()
                 # Serializar la fecha en formato JSON
-                json_fecha = json.dumps(fecha_obj.strftime('%Y-%m-%d'))
-                json_fecha = str(json_fecha).strip('"')
+                # json_fecha = json.dumps(fecha_obj.strftime('%Y-%m-%d'))
+                # json_fecha = str(json_fecha).strip('"')
 
                 
-                cuartos_registrados_fin_periodo = row[3].value
-                cuartos_disponibles_promedio = row[4].value
-                cuartos_disponibles = row[5].value
-                cuartos_ocupados = row[6].value
-                cuartos_ocupados_residentes = row[7].value
-                cuartos_ocupados_no_residentes = row[8].value
-                llegadas_de_turistas = row[9].value
-                llegadas_de_turistas_residentes = row[10].value
-                llegadas_de_turistas_no_residentes = row[11].value
-                turistas_noche = row[12].value
-                turistas_noche_residentes = row[13].value
-                turistas_noche_no_residentes = row[14].value
-                porcentaje_de_ocupacion = row[15].value
-                porcentaje_de_ocupacion_residentes = row[16].value
-                porcentaje_de_ocupacion_no_residentes = row[17].value
-                estadia_promedio = row[18].value
-                estadia_promedio_residentes = row[19].value
-                estadia_promedio_no_residentes = row[20].value
-                densidad_de_ocupacion = row[21].value
-                densidad_de_ocupacion_residentes = row[22].value
-                densidad_de_ocupacion_no_residentes = row[23].value
+                # Extracción de otros campos
+                cuartos_disponibles = row[3].value
+                cuartos_ocupados = row[4].value
+                llegadas_de_turistas = row[5].value
+                turistas_noche = row[6].value
+                porcentaje_de_ocupacion = row[7].value
+                estadia_promedio = row[8].value
+                densidad_de_ocupacion = row[9].value
 
-                data = {
+                datos = {
                     'destino': destino,
-                    'fecha': json_fecha,
+                    'fecha': fecha_str,
                     'categoria': categoria,
-                    'cuartos_registrados_fin_periodo': cuartos_registrados_fin_periodo,
-                    'cuartos_disponibles_promedio': cuartos_disponibles_promedio,
                     'cuartos_disponibles': cuartos_disponibles,
                     'cuartos_ocupados': cuartos_ocupados,
-                    'cuartos_ocupados_residentes': cuartos_ocupados_residentes,
-                    'cuartos_ocupados_no_residentes': cuartos_ocupados_no_residentes,
                     'llegadas_de_turistas': llegadas_de_turistas,
-                    'llegadas_de_turistas_residentes': llegadas_de_turistas_residentes,
-                    'llegadas_de_turistas_no_residentes': llegadas_de_turistas_no_residentes,
                     'turistas_noche': turistas_noche,
-                    'turistas_noche_residentes': turistas_noche_residentes,
-                    'turistas_noche_no_residentes': turistas_noche_no_residentes,
                     'porcentaje_de_ocupacion': porcentaje_de_ocupacion,
-                    'porcentaje_de_ocupacion_residentes': porcentaje_de_ocupacion_residentes,
-                    'porcentaje_de_ocupacion_no_residentes': porcentaje_de_ocupacion_no_residentes,
                     'estadia_promedio': estadia_promedio,
-                    'estadia_promedio_residentes': estadia_promedio_residentes,
-                    'estadia_promedio_no_residentes': estadia_promedio_no_residentes,
-                    'densidad_de_ocupacion': densidad_de_ocupacion,
-                    'densidad_de_ocupacion_residentes': densidad_de_ocupacion_residentes,
-                    'densidad_de_ocupacion_no_residentes': densidad_de_ocupacion_no_residentes
+                    'densidad_de_ocupacion': densidad_de_ocupacion
                 }
+                fecha = parse_fecha(fecha_str)
+                if fecha is None:
+                    error_msg = f"Formato de fecha inválido en la fila {i+1}: {fecha_str}. Debe estar en un formato válido."
+                    logging.error(error_msg)
+                    datos['errores'] = error_msg
+                    registros_incorrectos.append(datos)
+                    continue
 
                 # Validar si el destino y categoria son válidos
                 if destino not in CatalagoDestino.objects.values_list('destino', flat=True):
-                    print(f"El destino {destino} no está en la tabla CatalagoDestino")
-                    registros_incorrectos.append(data)
+                    error_msg = f"El destino {destino} no está en la tabla CatalagoDestino"
+                    print(error_msg)
+                    datos['errores'] = error_msg
+                    registros_incorrectos.append(datos)
                     continue
                 if categoria not in CatalagoCategoria.objects.values_list('categoria', flat=True):
                     print(f"La categoría {categoria} no está en la tabla CatalagoCategoria")
-                    registros_incorrectos.append(data)
+                    error_msg = f"La categoría {categoria} no está en la tabla CatalagoCategoria"
+                    print(error_msg)
+                    datos['errores'] = error_msg
+                    registros_incorrectos.append(datos)
                     continue
 
 
@@ -467,45 +432,35 @@ class DataturCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
                     
 
                     # Buscar si la fila ya existe en la base de datos
-                    inventario_existente = InventarioHotelero.objects.filter(destino=destino, fecha=fecha_obj, categoria=categoria)
+                    inventario_existente = InventarioHotelero.objects.filter(destino=destino, fecha=fecha, categoria=categoria)
                     if inventario_existente.exists():
                         # Si ya existe, se omite la fila y se guarda en la lista de registros incorrectos
                         print(f"La fila {row} ya existe en la base de datos")
-                        registros_existentes.append(data)
+                        registros_existentes.append(datos)
 
                     else:
                         # Si no existe, se guarda la nueva instancia del modelo en la base de datos y se guarda en la lista de registros correctos
-                        inventario = inventario = InventarioHotelero(
-                            destino=destino, 
-                            fecha=fecha_obj, 
-                            categoria=categoria, 
-                            cuartos_registrados_fin_periodo = cuartos_registrados_fin_periodo,
-                            cuartos_disponibles_promedio = cuartos_disponibles_promedio,
-                            cuartos_disponibles = cuartos_disponibles,
-                            cuartos_ocupados = cuartos_ocupados,
-                            cuartos_ocupados_residentes = cuartos_ocupados_residentes,
-                            cuartos_ocupados_no_residentes = cuartos_ocupados_no_residentes,
-                            llegadas_de_turistas = llegadas_de_turistas,
-                            llegadas_de_turistas_residentes = llegadas_de_turistas_residentes,
-                            llegadas_de_turistas_no_residentes = llegadas_de_turistas_no_residentes,
-                            turistas_noche = turistas_noche,
-                            turistas_noche_residentes = turistas_noche_residentes,
-                            turistas_noche_no_residentes = turistas_noche_no_residentes,
-                            porcentaje_de_ocupacion = porcentaje_de_ocupacion,
-                            porcentaje_de_ocupacion_residentes = porcentaje_de_ocupacion_residentes,
-                            porcentaje_de_ocupacion_no_residentes = porcentaje_de_ocupacion_no_residentes,
-                            estadia_promedio = estadia_promedio,
-                            estadia_promedio_residentes = estadia_promedio_residentes,
-                            estadia_promedio_no_residentes = estadia_promedio_no_residentes,
-                            densidad_de_ocupacion = densidad_de_ocupacion,
-                            densidad_de_ocupacion_residentes = densidad_de_ocupacion_residentes,
-                            densidad_de_ocupacion_no_residentes = densidad_de_ocupacion_no_residentes
-                        )
+                        inventario = DataTour(
+                        destino=destino,
+                        fecha=fecha,
+                        categoria=categoria,
+                        cuartos_disponibles=cuartos_disponibles,
+                        cuartos_ocupados=cuartos_ocupados,
+                        llegadas_de_turistas=llegadas_de_turistas,
+                        turistas_noche=turistas_noche,
+                        porcentaje_de_ocupacion=porcentaje_de_ocupacion,
+                        estadia_promedio=estadia_promedio,
+                        densidad_de_ocupacion=densidad_de_ocupacion,
+                        fecha_actualizacion=datetime.datetime.now()
+                    )
                         inventario.save()
-                        registros_correctos.append(data)
+                        registros_correctos.append(datos)
                 except (ValueError, TypeError) as e:
                     # Si los datos no son válidos, se guarda el número de fila en la lista de registros incorrectos
-                    registros_incorrectos.append(data)
+                    error_msg = f"Error al procesar la fila {datos}: {e}"
+                    print(error_msg)
+                    datos['errores'] = error_msg
+                    registros_incorrectos.append(datos)
                     
         except FileNotFoundError:
                 print(f"El archivo {archivo} no se pudo abrir")
@@ -630,55 +585,32 @@ class DescargarArchivoDataturView(SuperAdminOrAdminMixin, LoginRequiredMixin, Vi
         worksheet['A1'] = 'destino'
         worksheet['B1'] = 'categoria'
         worksheet['C1'] = 'fecha'
-        worksheet['D1'] = 'cuartos_registrados_fin_periodo'
-        worksheet['E1'] = 'cuartos_disponibles_promedio'
-        worksheet['F1'] = 'cuartos_disponibles'
-        worksheet['G1'] = 'cuartos_ocupados'
-        worksheet['H1'] = 'cuartos_ocupados_residentes'
-        worksheet['I1'] = 'cuartos_ocupados_no_residentes'
-        worksheet['J1'] = 'llegadas_de_turistas'
-        worksheet['K1'] = 'llegadas_de_turistas_residentes'
-        worksheet['L1'] = 'llegadas_de_turistas_no_residentes'
-        worksheet['M1'] = 'turistas_noche'
-        worksheet['N1'] = 'turistas_noche_residentes'
-        worksheet['O1'] = 'turistas_noche_no_residentes'
-        worksheet['P1'] = 'porcentaje_de_ocupacion'
-        worksheet['Q1'] = 'porcentaje_de_ocupacion_residentes'
-        worksheet['R1'] = 'porcentaje_de_ocupacion_no_residentes'
-        worksheet['S1'] = 'estadia_promedio'
-        worksheet['T1'] = 'estadia_promedio_residentes'
-        worksheet['U1'] = 'estadia_promedio_no_residentes'
-        worksheet['V1'] = 'densidad_de_ocupacion'
-        worksheet['W1'] = 'densidad_de_ocupacion_residentes'
-        worksheet['X1'] = 'densidad_de_ocupacion_no_residentes'
+        worksheet['D1'] = 'cuartos_disponibles'
+        worksheet['E1'] = 'cuartos_ocupados'
+        worksheet['F1'] = 'llegadas_de_turistas'
+        worksheet['G1'] = 'turistas_noche'
+        worksheet['H1'] = 'porcentaje_de_ocupacion'
+        worksheet['I1'] = 'estadia_promedio'
+        worksheet['J1'] = 'densidad_de_ocupacion'
+        worksheet['K1'] = 'fecha_actualizacion'
+        worksheet['L1'] = 'errores'
 
-        # Add the incorrect rows to the worksheet
         # Add the incorrect rows to the worksheet
         for i, row in enumerate(registros_incorrectos):
             fila = i + 2
             worksheet.cell(row=fila, column=1, value=row['destino'])
             worksheet.cell(row=fila, column=2, value=row['categoria'])
             worksheet.cell(row=fila, column=3, value=row['fecha'])
-            worksheet.cell(row=fila, column=4, value=row['cuartos_registrados_fin_periodo'])
-            worksheet.cell(row=fila, column=5, value=row['cuartos_disponibles_promedio'])
-            worksheet.cell(row=fila, column=6, value=row['cuartos_disponibles'])
-            worksheet.cell(row=fila, column=7, value=row['cuartos_ocupados'])
-            worksheet.cell(row=fila, column=8, value=row['cuartos_ocupados_residentes'])
-            worksheet.cell(row=fila, column=9, value=row['cuartos_ocupados_no_residentes'])
-            worksheet.cell(row=fila, column=10, value=row['llegadas_de_turistas'])
-            worksheet.cell(row=fila, column=11, value=row['llegadas_de_turistas_residentes'])
-            worksheet.cell(row=fila, column=12, value=row['llegadas_de_turistas_no_residentes'])
-            worksheet.cell(row=fila, column=13, value=row['turistas_noche'])
-            worksheet.cell(row=fila, column=14, value=row['turistas_noche_residentes'])
-            worksheet.cell(row=fila, column=15, value=row['turistas_noche_no_residentes'])
-            worksheet.cell(row=fila, column=16, value=row['porcentaje_de_ocupacion'])
-            worksheet.cell(row=fila, column=18, value=row['porcentaje_de_ocupacion_no_residentes'])
-            worksheet.cell(row=fila, column=19, value=row['estadia_promedio'])
-            worksheet.cell(row=fila, column=20, value=row['estadia_promedio_residentes'])
-            worksheet.cell(row=fila, column=21, value=row['estadia_promedio_no_residentes'])
-            worksheet.cell(row=fila, column=22, value=row['densidad_de_ocupacion'])
-            worksheet.cell(row=fila, column=23, value=row['densidad_de_ocupacion_residentes'])
-            worksheet.cell(row=fila, column=24, value=row['densidad_de_ocupacion_no_residentes'])
+            worksheet.cell(row=fila, column=4, value=row['cuartos_disponibles'])
+            worksheet.cell(row=fila, column=5, value=row['cuartos_ocupados'])
+            worksheet.cell(row=fila, column=6, value=row['llegadas_de_turistas'])
+            worksheet.cell(row=fila, column=7, value=row['turistas_noche'])
+            worksheet.cell(row=fila, column=8, value=row['porcentaje_de_ocupacion'])
+            worksheet.cell(row=fila, column=9, value=row['estadia_promedio'])
+            worksheet.cell(row=fila, column=10, value=row['densidad_de_ocupacion'])
+            worksheet.cell(row=fila, column=11, value=row['fecha_actualizacion'])
+            worksheet.cell(row=fila, column=12, value=row['errores'])
+            
 
 
 

@@ -18,13 +18,16 @@ from django.http import HttpResponse
 from django.template.loader import render_to_string
 
 import json
-from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino
+from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino, clean_str_col_des, parse_fecha
 from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.decorators import method_decorator
 from django.http import Http404
 from django.core.exceptions import PermissionDenied
 from back.mixins import *
 from django.contrib.auth.decorators import user_passes_test
+import logging
+
+logger = logging.getLogger(__name__)
 
 def es_admin_o_superadmin(user):
     return user.is_authenticated and (user.is_staff or user.is_superuser)
@@ -361,46 +364,65 @@ class InventarioHoteleroEntNacCargaMasivaView(SuperAdminOrAdminMixin, LoginRequi
                 num_filas_procesadas += 1
 
                 # Limpieza de datos
-                entidad = clean_str_col(row[0].value)
-                categoria = clean_str_col(row[2].value)
+                entidad = clean_str_col_des(row[0].value)
+                categoria = clean_str_col_des(row[2].value)
 
-                # Homologación de datos
-                entidad = homologar_columna_destino(entidad)
-                categoria = homologar_columna_categoria(categoria)
-
-
-
-                fecha = row[1].value.date()
+                fecha_str = row[1].value
                 habitaciones = row[3].value
                 establecimientos = row[4].value
-                fecha_str = str(fecha)
 
-                # Validar si el destino y categoria son válidos
-                if not CatalagoDestino.objects.filter(entidad=entidad).exists():
-                    print(f"El destino {entidad} no está en la tabla CatalagoDestino")
-                    registros_incorrectos.append({'entidad': entidad, 'fecha': fecha_str, 'categoria': categoria, 'habitaciones': habitaciones, 'establecimientos': establecimientos})
+                # Validar si el destino y categoría son válidos
+                if not CatalogoEntidad.objects.filter(entidad=entidad).exists():
+                    error_msg = f"El destino {entidad} no está en la tabla CatalagoDestino"
+                    registros_incorrectos.append({
+                        'entidad': entidad,
+                        'fecha': fecha_str,
+                        'categoria': categoria,
+                        'habitaciones': habitaciones,
+                        'establecimientos': establecimientos,
+                        'errores': error_msg
+                    })
                     continue
+
                 if categoria not in CatalagoCategoria.objects.values_list('categoria', flat=True):
-                    print(f"La categoría {categoria} no está en la tabla CatalagoCategoria")
-                    registros_incorrectos.append({'entidad': entidad, 'fecha': fecha_str, 'categoria': categoria, 'habitaciones': habitaciones, 'establecimientos': establecimientos})
+                    error_msg = f"La categoría {categoria} no está en la tabla CatalagoCategoria"
+                    registros_incorrectos.append({
+                        'entidad': entidad,
+                        'fecha': fecha_str,
+                        'categoria': categoria,
+                        'habitaciones': habitaciones,
+                        'establecimientos': establecimientos,
+                        'errores': error_msg
+                    })
+                    continue
+                # Validar y convertir la fecha
+                fecha = parse_fecha(fecha_str)
+                if fecha is None:
+                    error_msg = f"Formato de fecha inválido en la fila {i+1}: {fecha_str}. Debe estar en un formato válido."
+                    logging.error(error_msg)
+                    registros_incorrectos.append({
+                        'entidad': entidad,
+                        'fecha': fecha_str,
+                        'categoria': categoria,
+                        'habitaciones': habitaciones,
+                        'establecimientos': establecimientos,
+                        'errores': error_msg
+                    })
                     continue
 
                 try:
-                    # Validar los datos
-                    fecha_str = str(fecha)
-                    fecha_obj = datetime.datetime.strptime(fecha_str, '%Y-%m-%d').date()
                     habitaciones_int = int(habitaciones)
                     establecimientos_int = int(establecimientos)
 
                     # Buscar si la fila ya existe en la base de datos
-                    inventario_existente = InventarioHoteleroEntNac.objects.filter(entidad=entidad, fecha=fecha_obj, categoria=categoria)
+                    inventario_existente = InventarioHoteleroEntNac.objects.filter(entidad=entidad, fecha= fecha, categoria=categoria)
                     if inventario_existente.exists():
                         # Si ya existe, se omite la fila y se guarda en la lista de registros incorrectos
                         print(f"La fila {row} ya existe en la base de datos")
-                        registros_existentes.append({'entidad': entidad, 'fecha': fecha_obj, 'categoria': categoria, 'habitaciones': habitaciones_int, 'establecimientos': establecimientos_int})
+                        registros_existentes.append({'entidad': entidad, 'fecha': fecha, 'categoria': categoria, 'habitaciones': habitaciones_int, 'establecimientos': establecimientos_int})
                     else:
                         # Si no existe, se guarda la nueva instancia del modelo en la base de datos y se guarda en la lista de registros correctos
-                        inventario = InventarioHoteleroEntNac(entidad=entidad, fecha=fecha_obj, categoria=categoria, habitaciones=habitaciones_int, establecimientos=establecimientos_int)
+                        inventario = InventarioHoteleroEntNac(entidad=entidad, fecha=fecha, categoria=categoria, habitaciones=habitaciones_int, establecimientos=establecimientos_int)
                         inventario.save()
                         registros_correctos.append({'entidad': entidad, 'fecha': fecha_str, 'categoria': categoria, 'habitaciones': habitaciones_int, 'establecimientos': establecimientos_int})
                 except (ValueError, TypeError) as e:
@@ -489,7 +511,7 @@ class InventarioHoteleroEntNacDescargarArchivoView(SuperAdminOrAdminMixin, Login
         worksheet['C1'] = 'Categoría'
         worksheet['D1'] = 'Habitaciones'
         worksheet['E1'] = 'Establecimientos'
-        # worksheet['F1'] = 'Error'
+        worksheet['F1'] = 'errores'
 
         # Add the incorrect rows to the worksheet
         for i, row in enumerate(registros_incorrectos):
@@ -500,7 +522,7 @@ class InventarioHoteleroEntNacDescargarArchivoView(SuperAdminOrAdminMixin, Login
             worksheet.cell(row=fila, column=3, value=row['categoria'])
             worksheet.cell(row=fila, column=4, value=row['habitaciones'])
             worksheet.cell(row=fila, column=5, value=row['establecimientos'])
-            # worksheet.cell(row=fila, column=7, value=row['error'])
+            worksheet.cell(row=fila, column=6, value=row['errores'])
 
         # Set the column widths to auto-fit
         for column in worksheet.columns:

@@ -22,13 +22,16 @@ from django.urls import reverse
 import openpyxl
 from django.http import HttpResponse
 import json
-from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino
+from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino, clean_str_col_des, parse_fecha
 from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.decorators import method_decorator
 from django.http import Http404
 from django.core.exceptions import PermissionDenied
 from back.mixins import *
 from django.contrib.auth.decorators import user_passes_test
+import logging
+
+logger = logging.getLogger(__name__)
 
 def es_admin_o_superadmin(user):
     return user.is_authenticated and (user.is_staff or user.is_superuser)
@@ -317,18 +320,25 @@ class SensivilizacionCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin,
 
                 num_filas_procesadas += 1
                 # Limpieza de datos
-                fecha_str = row[0].value if len(row) > 0 and isinstance(row[0].value, str) else ''
-                
+                fecha_str = str(row[0].value).strip() if row[0].value else ''
 
                 participantes = row[3].value
                 accion_de_sensibilizacion = row[2].value
-                subcategoria = row[4].value
+                try:
+                    subcategoria = row[4].value or ''
+                except IndexError as e:
+                    logging.error(f"Error de índice al acceder a la subcategoría en la fila {i+1}: {e}")
+                    subcategoria = ''
+                except Exception as e:
+                    logging.error(f"Error desconocido al acceder a la subcategoría en la fila {i+1}: {e}")
+                    subcategoria = ''
 
                 # Limpieza de datos
-                destino = clean_str_col(row[1].value)
+                destino = clean_str_col_des(row[1].value)
+                logging.error(f"el destino es {destino}")
 
                 # Homologación de datos
-                destino = homologar_columna_destino(destino)
+                # destino = homologar_columna_destino(destino)
 
                 datos = {
                     "destino": destino,
@@ -337,13 +347,23 @@ class SensivilizacionCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin,
                     "accion_de_sensibilizacion": accion_de_sensibilizacion,
                     "subcategoria": subcategoria
                 }
+                 #Validar y convertir la fecha
+                fecha = parse_fecha(fecha_str)
+                if fecha is None:
+                    error_msg = f"Formato de fecha inválido en la fila {i+1}: {fecha_str}. Debe estar en un formato válido."
+                    logging.error(error_msg)
+                    datos['errores'] = error_msg
+                    registros_incorrectos.append(datos)
+                    continue
 
                 try:
                     # Validar los datos
                     participantes_int = int(participantes)
 
                     if destino not in CatalagoDestino.objects.values_list('destino', flat=True):
-                        print(f"El destino {destino} no está en la tabla CatalagoDestino")
+                        error_msg = f"El destino {destino} no está en la tabla CatalagoDestino"
+                        print(error_msg)
+                        datos['errores'] = error_msg
                         registros_incorrectos.append(datos)
                         continue
 
@@ -351,7 +371,7 @@ class SensivilizacionCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin,
                     existente = Sensivilizacion.objects.filter(
                         destino = destino, 
                         participantes = participantes_int,
-                        fecha = fecha_str, 
+                        fecha = fecha, 
                         accion_de_sensibilizacion = accion_de_sensibilizacion)
                     if existente.exists():
                         # Si ya existe, se omite la fila y se guarda en la lista de registros incorrectos
@@ -362,7 +382,7 @@ class SensivilizacionCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin,
                         db = Sensivilizacion(
                             destino = destino, 
                             participantes = participantes_int,
-                            fecha = fecha_str, 
+                            fecha = fecha, 
                             accion_de_sensibilizacion = accion_de_sensibilizacion,
                             subcategoria = subcategoria
                         )
@@ -370,6 +390,9 @@ class SensivilizacionCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin,
                         registros_correctos.append(datos)
                 except (ValueError, TypeError) as e:
                     # Si los datos no son válidos, se guarda el número de fila en la lista de registros incorrectos
+                    error_msg = f"Error al procesar la fila {datos}: {e}"
+                    print(error_msg)
+                    datos['errores'] = error_msg
                     registros_incorrectos.append(datos)
                     
         except FileNotFoundError:
@@ -465,6 +488,7 @@ class SensivilizacionDescargarArchivoView(SuperAdminOrAdminMixin, LoginRequiredM
         worksheet['C1'] = 'accion_de_sensibilizacion'
         worksheet['D1'] = 'participantes'
         worksheet['E1'] = 'subcategoria'
+        worksheet['F1'] = 'errores'
 
         # Add the incorrect rows to the worksheet
         for i, row in enumerate(registros_incorrectos):
@@ -474,6 +498,7 @@ class SensivilizacionDescargarArchivoView(SuperAdminOrAdminMixin, LoginRequiredM
             worksheet.cell(row=fila, column=3, value=row['accion_de_sensibilizacion'])
             worksheet.cell(row=fila, column=4, value=row['participantes'])
             worksheet.cell(row=fila, column=5, value=row['subcategoria'])
+            worksheet.cell(row=fila, column=6, value=row['errores'])
 
 
 

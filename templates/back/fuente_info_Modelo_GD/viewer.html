@@ -32,12 +32,7 @@
 {% block rows %}
 {% for e in object_list %}
 <tr class="text-center table-body mt-2">
-    <th class="class="text-center" style="
-    position: relative;
-    background-color: #ECF0F1;
-    text-align: center;
-    height: 100%;
-  ">">{{e.id}}</th>
+    <th class="text-left tb-text">{{e.id}}</th>
     <th class="text-left tb-text">{{e.ano}}</th>
     <th class="text-left tb-text">{{e.destino}}</th>
     <th class="text-left tb-text">{{e.gasto_diario_prom}}</th>
@@ -51,19 +46,22 @@
     height: 100%;
   ">
 
-        <div class="icon-container">
-            <button style="border: none;" tooltip="Consultar" flow="down"
-                onclick="location.href='{% url 'dashboard:fuente_info_modelo_gd_update' e.id %}'">
-                <i class="far fa-eye"></i>
+        
+        <div
+    class="icon-container2"
+    >
+
+
+        <button class="ml-1 mr-1 actions-btn" tooltip="Consultar" flow="down" onclick="location.href='{% url 'dashboard:fuente_info_gasto_derrama_update' e.id %}'">
+            <i class="far fa-edit"></i>
+        </button>
+        <form method="post" action="{% url 'dashboard:fuente_info_gasto_derrama_delete' e.id %}" >
+            {% csrf_token %}
+            <button type="submit" class="ml-1 mr-1 actions-btn delete-r">
+                <i class="fas fa-trash"></i> 
             </button>
-            
-            <form method="post" action="{% url 'dashboard:fuente_info_modelo_gd_delete' e.id %}">
-                {% csrf_token %}
-                <button type="submit" class="ml-1 mr-1 actions-btn delete-r">
-                    <i class="fas fa-trash"></i> 
-                </button>
-            </form>
-        </div>
+        </form>
+    </div>
     </th>
 </tr>
 {% endfor %}
