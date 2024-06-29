@@ -608,7 +608,6 @@ class DescargarArchivoDataturView(SuperAdminOrAdminMixin, LoginRequiredMixin, Vi
             worksheet.cell(row=fila, column=8, value=row['porcentaje_de_ocupacion'])
             worksheet.cell(row=fila, column=9, value=row['estadia_promedio'])
             worksheet.cell(row=fila, column=10, value=row['densidad_de_ocupacion'])
-            worksheet.cell(row=fila, column=11, value=row['fecha_actualizacion'])
             worksheet.cell(row=fila, column=12, value=row['errores'])
             
 
