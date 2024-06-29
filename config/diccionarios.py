@@ -171,7 +171,7 @@ def homologar_columna_categoria(categoria):
     else:
         return categoria
 
-def parse_fecha(self, fecha_str):
+def parse_fecha(fecha_str):
     formatos_fecha = ['%Y-%m-%d', '%Y-%m-%d %H:%M:%S', '%d/%m/%Y', '%d/%m/%Y %H:%M:%S']
     for formato in formatos_fecha:
         try:
