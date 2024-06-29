@@ -38,9 +38,27 @@ var datatur = {
                 {"data": "id", className: "text-left pl-3"},
                 {"data": "destino", className: "text-center hidden-t"},
                 {"data": "fecha", className: "text-left hidden-t"},
-                {"data": "categoria", className: "text-center hidden-t"},
-                {"data": "cuartos_registrados_fin_periodo", className: "text-left hidden-t"},
-                {"data": "cuartos_disponibles_promedio", className: "text-left hidden-t"},
+                {
+                    "data": "porcentaje_de_ocupacion",
+                    className: "text-left hidden-t",
+                    "render": function (data, type, row) {
+                        return data + '%';
+                    }
+                },
+                {
+                    "data": "estadia_promedio",
+                    className: "text-left hidden-t",
+                    "render": function (data, type, row) {
+                        return data + '%';
+                    }
+                },
+                {
+                    "data": "densidad_de_ocupacion",
+                    className: "text-left hidden-t",
+                    "render": function (data, type, row) {
+                        return data + '%';
+                    }
+                },
                 {"data": "id", className: "actions-container"},
             ],
             columnDefs: [
