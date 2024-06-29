@@ -317,6 +317,9 @@ class OtrosAnualesCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, Vi
                         registros_correctos.append(datos)
                 except (ValueError, TypeError) as e:
                     # Si los datos no son válidos, se guarda el número de fila en la lista de registros incorrectos
+                    error_msg = f"Error al procesar la fila {datos}: {e}"
+                    print(error_msg)
+                    datos['errores'] = error_msg
                     registros_incorrectos.append(datos)
                     
         except FileNotFoundError:
@@ -390,6 +393,7 @@ class OtrosAnualeDescargarArchivoView(SuperAdminOrAdminMixin, LoginRequiredMixin
         worksheet['B1'] = 'PIB_sector_72'
         worksheet['C1'] = 'PIB_actividades_terciarias'
         worksheet['D1'] = 'basura_generada_persona_diaria_Kg'
+        worksheet['E1'] = 'errores'
 
         # Add the incorrect rows to the worksheet
         for i, row in enumerate(registros_incorrectos):
@@ -398,6 +402,7 @@ class OtrosAnualeDescargarArchivoView(SuperAdminOrAdminMixin, LoginRequiredMixin
             worksheet.cell(row=fila, column=2, value=row['PIB_sector_72'])
             worksheet.cell(row=fila, column=3, value=row['PIB_actividades_terciarias'])
             worksheet.cell(row=fila, column=4, value=row['basura_generada_persona_diaria_Kg'])
+            worksheet.cell(row=fila, column=5, value=row['errores'])
 
 
 

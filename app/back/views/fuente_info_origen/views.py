@@ -275,8 +275,8 @@ class OrigenCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
 
         if len(registros_incorrectos) > 0 or len(registros_existentes) > 0:
             messages.error(request, 'Hay errores de registros')
-            datos_json = json.dumps(
-                registros_incorrectos, default=self.convert_to_serializable)
+            # datos_json = json.dumps(
+            #     registros_incorrectos, default=self.convert_to_serializable)
 
             return render(request, self.template_name, {
                 'form': form,
@@ -284,7 +284,7 @@ class OrigenCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
                 'registros_correctos': registros_correctos,
                 'registros_incorrectos': registros_incorrectos,
                 'registros_existentes': registros_existentes,
-                'descargar_url': datos_json,
+                'descargar_url': registros_incorrectos,
                 'num_filas_procesadas': num_filas_procesadas,
             })
 
