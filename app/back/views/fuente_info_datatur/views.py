@@ -372,7 +372,7 @@ class DataturCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
                 destino = homologar_columna_destino(destino)
                 categoria = homologar_columna_categoria(categoria)
 
-                fecha_str = row[2].value
+                fecha_str = str(row[2].value).strip() if row[2].value else ''                
                 # Validar los datos
                 # fecha_str = str(fecha)
                 # fecha_str = fecha_str.split()[0] if fecha_str else ''  # Eliminar la parte de la hora si existe la fecha

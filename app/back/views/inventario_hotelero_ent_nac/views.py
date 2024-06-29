@@ -367,7 +367,7 @@ class InventarioHoteleroEntNacCargaMasivaView(SuperAdminOrAdminMixin, LoginRequi
                 entidad = clean_str_col_des(row[0].value)
                 categoria = clean_str_col_des(row[2].value)
 
-                fecha_str = row[1].value
+                fecha_str = str(row[1].value).strip() if row[1].value else ''
                 habitaciones = row[3].value
                 establecimientos = row[4].value
 
