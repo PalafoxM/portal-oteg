@@ -16,7 +16,7 @@ from django.urls import reverse
 import openpyxl
 from django.http import HttpResponse
 import json
-from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino
+from config.diccionarios import clean_str_col, homologar_columna_categoria, homologar_columna_destino, parse_fecha
 from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.decorators import method_decorator
 from django.http import Http404
@@ -24,6 +24,9 @@ from django.core.exceptions import PermissionDenied
 from back.mixins import *
 from django.contrib.auth.decorators import user_passes_test
 from django.template.loader import render_to_string
+import logging
+
+logger = logging.getLogger(__name__)
 
 def es_admin_o_superadmin(user):
     return user.is_authenticated and (user.is_staff or user.is_superuser)
@@ -358,18 +361,40 @@ class CargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
 
 
 
-                fecha = row[1].value.date()
+                fecha_str = str(row[1].value).strip() if row[1].value else ''
                 habitaciones = row[3].value
                 establecimientos = row[4].value
 
                 try:
                     # Validar los datos
-                    fecha_str = str(fecha)
-                    # Validar si el destino y categoria son válidos
-                    if destino not in CatalagoDestino.objects.values_list('destino', flat=True):
-                        print(f"El destino {destino} no está en la tabla CatalagoDestino")
-                        registros_incorrectos.append({'destino': destino, 'fecha': fecha_str, 'categoria': categoria, 'habitaciones': habitaciones, 'establecimientos': establecimientos})
+                    fecha = parse_fecha(fecha_str)
+                    if fecha is None:
+                        error_msg = f"Formato de fecha inválido en la fila {i+1}: {fecha_str}. Debe estar en un formato válido."
+                        logging.error(error_msg)
+                        registros_incorrectos.append({
+                            'Destino': destino,
+                            'fecha': fecha_str,
+                            'Categoria': categoria,
+                            'Habitaciones': habitaciones,
+                            'Establecimientos': establecimientos,
+                            'errores': error_msg
+                        })
                         continue
+                    # Validar si el destino y categoria son válidos
+
+                    if destino not in CatalagoDestino.objects.values_list('destino', flat=True):
+                        error_msg = f"El destino {destino} no está en la tabla CatalagoDestino"
+                        logging.error(error_msg)
+                        registros_incorrectos.append({
+                            'Destino': destino,
+                            'fecha': fecha_str,
+                            'Categoria': categoria,
+                            'Habitaciones': habitaciones,
+                            'Establecimientos': establecimientos,
+                            'errores': error_msg
+                        })
+                        continue
+
                     if categoria not in CatalagoCategoria.objects.values_list('categoria', flat=True):
                         print(f"--- --- La categoría {categoria} no está en la tabla CatalagoCategoria")
                         registros_incorrectos.append({'destino': destino, 'fecha': fecha_str, 'categoria': categoria, 'habitaciones': habitaciones, 'establecimientos': establecimientos})
@@ -472,7 +497,7 @@ class DescargarArchivoGTOView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
         worksheet['C1'] = 'Categoría'
         worksheet['D1'] = 'Habitaciones'
         worksheet['E1'] = 'Establecimientos'
-        # worksheet['F1'] = 'Error'
+        worksheet['F1'] = 'Errores'
 
         # Add the incorrect rows to the worksheet
         for i, row in enumerate(registros_incorrectos):
@@ -483,7 +508,7 @@ class DescargarArchivoGTOView(SuperAdminOrAdminMixin, LoginRequiredMixin, View):
             worksheet.cell(row=fila, column=3, value=row['categoria'])
             worksheet.cell(row=fila, column=4, value=row['habitaciones'])
             worksheet.cell(row=fila, column=5, value=row['establecimientos'])
-            # worksheet.cell(row=fila, column=7, value=row['error'])
+            worksheet.cell(row=fila, column=6, value=row['errores'])
 
         # Set the column widths to auto-fit
         for column in worksheet.columns:

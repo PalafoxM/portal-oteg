@@ -256,13 +256,17 @@ class GastoDerramaCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, Vi
 
                     # Validar si el destino es válido
                     if destino not in CatalagoDestino.objects.values_list('destino', flat=True):
-                        print(f"El destino {destino} no está en la tabla CatalagoDestino")
+                        error_msg = f"El destino {destino} no está en la tabla CatalagoDestino"
+                        print(error_msg)
+                        datos['errores'] = error_msg
                         registros_incorrectos.append(datos)
                         continue
 
                     # Validar si el tipo_visitante es válido
                     if not CatalagoTipoVisistante.objects.filter(tipo_visitante=tipo_visitante).exists():
-                        print(f"El tipo_visitante: {tipo_visitante} no está en la tabla CatalagoTipoVisistante")
+                        error_msg = f"El tipo_visitante: {tipo_visitante} no está en la tabla CatalagoTipoVisistante"
+                        print(error_msg)
+                        datos['errores'] = error_msg
                         registros_incorrectos.append(datos)
                         continue
 
@@ -286,6 +290,7 @@ class GastoDerramaCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, Vi
                         registros_correctos.append(datos)
                 except (ValueError, TypeError) as e:
                     # Si los datos no son válidos, se guarda el número de fila en la lista de registros incorrectos
+                    print(f"Los registros están incorrectos")
                     registros_incorrectos.append(datos)
                     
         except FileNotFoundError:
@@ -376,6 +381,7 @@ class GastoDerramaDescargarArchivoView(SuperAdminOrAdminMixin, LoginRequiredMixi
         worksheet['D1'] = 'destino'
         worksheet['E1'] = 'participacion_en_hospedaje'
         worksheet['F1'] = 'estadia_promedio'
+        worksheet['G1'] = 'errores'
 
         # Add the incorrect rows to the worksheet
         for i, row in enumerate(registros_incorrectos):
@@ -386,6 +392,7 @@ class GastoDerramaDescargarArchivoView(SuperAdminOrAdminMixin, LoginRequiredMixi
             worksheet.cell(row=fila, column=4, value=row['destino'])
             worksheet.cell(row=fila, column=5, value=row['participacion_en_hospedaje'])
             worksheet.cell(row=fila, column=6, value=row['estadia_promedio'])
+            worksheet.cell(row=fila, column=7, value=row['errores'])
 
 
 
