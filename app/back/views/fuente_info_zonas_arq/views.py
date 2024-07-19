@@ -436,6 +436,7 @@ class ZonasArqueoCargaMasivaView(SuperAdminOrAdminMixin, LoginRequiredMixin, Vie
                         registros_correctos.append(datos)
                 except (ValueError, TypeError) as e:
                     # Si los datos no son válidos, se guarda el número de fila en la lista de registros incorrectos
+                    print(f"Los registros están incorrectos")
                     registros_incorrectos.append(datos)
                     
         except FileNotFoundError:
