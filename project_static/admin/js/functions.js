@@ -181,6 +181,7 @@ function submit_with_ajaxV2(url, title, content, parameters, callback) {
                     Swal.fire('Error', data.error, 'error');
                 }
             }).fail(function (jqXHR, textStatus, errorThrown) {
+                /*console.log(jqXHR.responseText);*/
                 Swal.fire('Error', textStatus + ': ' + errorThrown, 'error');
             });
         }
