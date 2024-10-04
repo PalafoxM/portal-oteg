@@ -3,6 +3,8 @@
 {% block head_view %}
 <!-- <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
 <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script> -->
+
+<script src="path-to-your-script.js"></script>
 <style>
  .card-title {
   font-weight: bold;
@@ -132,7 +134,7 @@
 
                 <div id="svg-container" style="width: 100%; height: auto;">
                     <embed src="{% static 'images/fuentes_informacion/Organigrama-v8.svg' %}" type="image/svg+xml"
-                        onload="handleSVGLoad()" style="width: 100%; height: auto;"/>
+       onload="handleSVGLoad()" style="width: 100%; height: auto;"/>
                 </div>
             </div>
         </div>
@@ -234,188 +236,84 @@
 </div>
 
 
+
 <script>
 
-    function handleSVGLoad() {
-        var svgDocument = document.querySelector("#svg-container embed").getSVGDocument();
-        // var ellipses = svgDocument.querySelectorAll("ellipse");
-        // var rects = svgDocument.querySelectorAll("rect");
-        // var texts = svgDocument.querySelectorAll("text");
-        var groups = svgDocument.querySelectorAll("g"); // Obtener todos los elementos <g>
-        
-        groups.forEach(function (group) {
-            group.addEventListener("click", function () {
-            console.log("Se hizo clic en el grupo:", group.id);
-                if (group.id  === "Layer_2_00000152246711229522528470000015875953515762991783_") {
-                    window.open("https://enes.unam.mx/", "_blank");
-                }else if (group.id  === "Layer_3") {
-                    window.open("https://www.udec.edu.mx/", "_blank");
-                }else if (group.id  === "Layer_4") {
-                    window.open("https://www.ugto.mx/", "_blank");
-                }else if (group.id  === "Layer_5") {
-                    window.open("https://www.lasallebajio.edu.mx/", "_blank");
-                }else if (group.id  === "Layer_6") {
-                    window.open("https://www.utsma.edu.mx/", "_blank");
-                }else if (group.id  === "Layer_7") {
-                    window.open("https://www.inegi.org.mx/", "_blank");
-                }else if (group.id  === "Layer_8") {
-                    window.open("https://cultura.guanajuato.gob.mx/", "_blank");
-                }else if (group.id  === "Layer_9") {
-                    window.open("https://iplaneg.guanajuato.gob.mx/", "_blank");
-                }else if (group.id  === "Layer_10") {
-                    window.open("https://sde.guanajuato.gob.mx/sdes/", "_blank");
-                }else if (group.id  === "Layer_11") {
-                    window.open("https://smaot.guanajuato.gob.mx/sitio/", "_blank");
-                }else if (group.id  === "Layer_13") {
-                    window.open("http://www.escondidoplace.com/aguas-termales-san-miguel-de-allende/", "_blank");
-                }else if (group.id  === "Layer_14") {
-                    window.open("https://atuceg.experienciasmx.travel/#/", "_blank");
-                }else if (group.id  === "Layer_12") {
-                    window.open("https://www.amhm.org/", "_blank");
-                }else if (group.id  === "Layer_12_00000008141986428353084590000012954195723694450321_") {
-                    window.open("https://www.conectagfa.com.mx/#es/principal", "_blank");//fecla amarilla
-                }else if (group.id  === "Layer_15") {
-                    window.open("https://www.poliforumleon.com.mx/", "_blank");//Poliforum_León
-                }else if (group.id  === "Layer_17") {
-                    window.open("https://atnag.com/", "_blank");//Asoc._De_Turismo_de_Naturaleza_y_Aventura_de_Guanajuato
-                }else if (group.id  === "Layer_18") {
-                    window.open("https://canacoguanajuato.com/", "_blank");//Cámara_Nacional_de_Comercio
-                }else if (group.id  === "Layer_19") {
-                    window.open("https://guanajuato.mx/romance/", "_blank");//Representante_del_Segmento_de_Romance
-                }
-            })
-        });
-
-        
-
-        rects.forEach(function (rect) {
-            rect.addEventListener("click", function () {
-                console.log("Se hizo clic en el elemento <rect>:", rect.id);
-                // Realizar acciones adicionales para <rect>
-                if (rect.id === "Universidad_de_la_Salle_Bajío") {
-                    window.open("https://www.lasallebajio.edu.mx/", "_blank");
-                }
-                else if (rect.id === "Layer_2_00000152246711229522528470000015875953515762991783_") {
-                    window.open("https://enes.unam.mx/", "_blank");
-                }
-                else if (rect.id === "Instituto_Irapuato") {
-                    window.open("https://www.uii.edu.mx/", "_blank");
-                }
-                else if (rect.id === "Universidad_de_celaya-2") {
-                    window.open("https://www.udec.edu.mx/", "_blank");
-                }
-                else if (rect.id === "Universidad_de_Guanajuato-2") {
-                    window.open("https://www.ugto.mx/", "_blank");
-                }
-                else if (rect.id === "Universidad_tecnológica_de_SMA") {
-                    window.open("https://www.utsma.edu.mx/", "_blank");
-                }
-                else if (rect.id === "INEGI-2") {
-                    window.open("https://www.inegi.org.mx/", "_blank");
-                }
-                else if (rect.id === "Instituto_Estatal_de_Cultura-2") {
-                    window.open("https://cultura.guanajuato.gob.mx/", "_blank");
-                }
-                else if (rect.id === "Instituto_de_planeación_del_Estado_de_Guanajuato") {
-                    window.open("https://iplaneg.guanajuato.gob.mx/", "_blank");
-                }
-                else if (rect.id === "Secretaria_de_Desarrollo_Económico_Sustentable") {
-                    window.open("https://sde.guanajuato.gob.mx/sdes/", "_blank");
-                }
-                else if (rect.id === "Secretaria_de_Medio_Ambiente_y_Ordenamiento_Territorial") {
-                    window.open("https://smaot.guanajuato.gob.mx/sitio/", "_blank");
-                }
-                else if (rect.id === "Escondido_Place-2") {
-                    window.open("http://www.escondidoplace.com/aguas-termales-san-miguel-de-allende/", "_blank");
-                }
-                else if (rect.id === "Asociación_de_empresarios_de_Turismo_del_Estado_de_Guanajuato") {
-                    window.open("https://atuceg.experienciasmx.travel/#/", "_blank");
-                }
-                else if (rect.id === "Asociación_Mexicana_de_Hoteles_de_León") {
-                    window.open("https://www.amhm.org/", "_blank");
-                }
-                else if (rect.id === "Poliforum_León") {
-                    window.open("https://www.poliforumleon.com.mx/", "_blank");
-                }
-                else if (rect.id === "Asoc._De_Turismo_de_Naturaleza_y_Aventura_de_Guanajuato-2") {
-                    window.open("https://atnag.com/", "_blank");
-                }
-                else if (rect.id === "Representante_del_Segmento_de_Romance-2") {
-                    window.open("https://guanajuato.mx/romance/", "_blank");
-                }
-                else if (rect.id === "SECTUR") {
-                    window.open("https://sectur.guanajuato.gob.mx/", "_blank");
-                }
-            });
-        });
-
-        texts.forEach(function (text) {
-            text.addEventListener("click", function () {
-                console.log("Se hizo clic en el elemento <text>:", text.id);
-                if (text.id === "Universidad_De_La_Salle_Bajío") {
-                    window.open("https://www.lasallebajio.edu.mx/", "_blank");
-                }
-                else if (text.id === "Layer_2_00000152246711229522528470000015875953515762991783_") {
-                    window.open("https://enes.unam.mx/", "_blank");
-                }
-                else if (text.id === "Insituto_Irapuato") {
-                    window.open("https://www.uii.edu.mx/", "_blank");
-                }
-                else if (text.id === "Universidad_de_celaya") {
-                    window.open("https://www.lasallebajio.edu.mx/", "_blank");
-                }
-                else if (text.id === "Universidad_de_Guanajuato") {
-                    window.open("https://www.ugto.mx/", "_blank");
-                }
-                else if (text.id === "Universidad_Tecnológica_De_SMA") {
-                    window.open("https://www.utsma.edu.mx/", "_blank");
-                }
-                else if (text.id === "INEGI") {
-                    window.open("https://www.inegi.org.mx/", "_blank");
-                }
-                else if (text.id === "Instituto_Estatal_de_Cultura") {
-                    window.open("https://cultura.guanajuato.gob.mx/", "_blank");
-                }
-                else if (text.id === "Instituto_de_Planeación_del_Estado_de_Guanajuato") {
-                    window.open("https://iplaneg.guanajuato.gob.mx/", "_blank");
-                }
-                else if (text.id === "Secretaría_de_Desarrollo_Económico_Sustentable") {
-                    window.open("https://sde.guanajuato.gob.mx/sdes/", "_blank");
-                }
-                else if (text.id === "Secretaría_de_Medio_Ambiente_y_Ordenamiento_Territorial") {
-                    window.open("https://smaot.guanajuato.gob.mx/sitio/", "_blank");
-                }
-                else if (text.id === "Escondido_Place") {
-                    window.open("http://www.escondidoplace.com/aguas-termales-san-miguel-de-allende/", "_blank");
-                }
-                else if (text.id === "Asoc._De_Empresarios_de_Turismo_Cultural_del_Estado_de_Guanajuato") {
-                    window.open("https://atuceg.experienciasmx.travel/#/", "_blank");
-                }
-                else if (text.id === "Asociación_Mexicana_de_Hoteles_De_León") {
-                    window.open("https://www.amhm.org/", "_blank");
-                }
-                else if (text.id === "Grupo_Flecha_Amarilla-2") {
-                    window.open("https://www.conectagfa.com.mx/#/es/principal", "_blank");
-                    console.log("Grupo_Flecha_Amarilla-2")
-                }
-                else if (text.id === "Poliforum_León") {
-                    window.open("https://www.poliforumleon.com.mx/", "_blank");
-                }
-                else if (text.id === "Asoc._De_Turismo_de_Naturaleza_y_Aventura_de_Guanajuato") {
-                    window.open("https://atnag.com/", "_blank");
-                }
-                else if (text.id === "Cámara_Nacional_de_Comercio") {
-                    window.open("https://canacoguanajuato.com/", "_blank");
-                }
-                else if (text.id === "Representante_del_Segmento_de_Romance") {
-                    window.open("https://guanajuato.mx/romance/", "_blank");
-                }
-                else if (text.id === "Secretario_Técnico_Dirección_de_Información_y_Análisis_SECTUR") {
-                    window.open("https://sectur.guanajuato.gob.mx/", "_blank");
-                }
-            });
-        });
+function handleSVGLoad() {
+    var svgEmbed = document.querySelector('embed[type="image/svg+xml"]');
+    var svgDoc = svgEmbed.getSVGDocument();
+    
+    if (!svgDoc) {
+        console.error('SVG document not loaded');
+        return;
     }
+
+    var clickableElements = svgDoc.querySelectorAll('rect, text, g');
+    
+    clickableElements.forEach(function(element) {
+        element.addEventListener('click', function() {
+            var id = element.id || element.parentNode.id;
+            console.log("Clicked element ID:", id);
+            
+            var url = getUrlForId(id);
+            if (url) {
+                window.open(url, "_blank");
+            }
+        });
+
+        // Optional: Add hover effect
+        element.addEventListener('mouseover', function() {
+            this.style.cursor = 'pointer';
+            this.style.opacity = '0.8';
+        });
+
+        element.addEventListener('mouseout', function() {
+            this.style.opacity = '1';
+        });
+    });
+}
+
+function getUrlForId(id) {
+    var urlMap = {
+        /* Hola, esta función fue reformulada por mi, Daniel Lugo, el proveevor (purpuraa) 
+        realizó otras adaptaciones porque el archivo SVG del organigrama era otro y la verdad tanto desarrolladores como diseñador(es) hicieron algo menos practico para lectura, espero que estas adecuaciones sirvan.
+        primero rehice el diseño del organigrama en FIGMA y después realicé esta adaptacion
+        por eso cada renglon del directorio tiene el identificador.
+        Al final voy al código del SVG y en cada etiqueta "<rect>" le agrego un atributo id 
+            con cada uno, posterior me baso en el identificador que tiene en el atributo Fill en el SVG
+            y le doy al atributo id el valor del siguiente directorio
+        Espero te sirva... :3*/
+        "sectursecre": "https://sectur.guanajuato.gob.mx/",            /* #pattern3_90_2 -> Sectur Secre Tecnico*/
+        "secturpresi": "https://sectur.guanajuato.gob.mx/",            /* #pattern4_90_2 -> SECTUR Presidente*/
+        "sectursuplente": "https://sectur.guanajuato.gob.mx/",         /* #pattern5_90_2 -> Sectur Presi Suplente*/
+        "atnag": "https://atnag.com/",                                 /* #pattern6_90_2 -> ATNAG */
+        "canaco": "https://canacoguanajuato.com/",                     /* #pattern7_90_2 -> CANACO */
+        "manchon": "https://enoturismo.cavasmanchon.com/",             /* #pattern8_90_2 -> Manchon */ 
+        "lovely": "https://www.lovely-planners.com/",                  /* #pattern9_90_2 -> LovelyPlanner */
+        "atuceg": "https://atuceg.experienciasmx.travel/#/",           /* #pattern10_90_2 -> ATUSEG */
+        "amhm": "https://www.amhm.org/",                               /* #pattern11_90_2 -> Moteles y Hoteles */
+        "grupoflecha": "https://www.conectagfa.com.mx/#es/principal",  /* #pattern12_90_2 -> Grupo Flecha Amarilla*/
+        "inegi": "https://www.inegi.org.mx/",                          /* #pattern13_90_2 -> INEGI*/
+        "poliforum": "https://www.poliforumleon.com.mx/",              /* #pattern14_90_2 -> Poliforum*/
+        "aeropuerto": "https://www.aeropuertosgap.com.mx/es/",         /* #pattern15_90_2 -> Aeropuerto */ 
+        "cultura": "https://cultura.guanajuato.gob.mx/",               /* #pattern16_90_2 -> CULTURA */
+        "iplaneg": "https://iplaneg.guanajuato.gob.mx/",               /* #pattern17_90_2 -> IPLANEG*/
+        "medioambiente": "https://smaot.guanajuato.gob.mx/sitio/",     /* #pattern18_90_2 -> MedioAmbiente*/
+        "economia": "https://sde.guanajuato.gob.mx/sdes/",             /* #pattern19_90_2 -> Economia */
+        "subdisca": "https://ingudis.guanajuato.gob.mx/",              /* #pattern20_90_2 -> SubseDiscapacidad*/
+        "enes": "https://enes.unam.mx/",                               /* #pattern21_90_2 -> ENES*/
+        "ucelaya": "https://www.udec.edu.mx/",                         /* #pattern22_90_2 -> UCelaya*/
+        "uguanajuato": "https://www.ugto.mx/",                         /* #pattern23_90_2  -> UniversidaddeGuanajuato*/
+        "lasalle": "https://www.lasallebajio.edu.mx/",                 /* #pattern24_90_2 -> LaSalle*/
+        "utsma": "https://www.utsma.edu.mx/",                          /* #pattern25_90_2 -> UTSMA*/
+        "ustafe": "https://www.usf.com.mx/"                            /* #pattern26_90_2  -> UStaFe*/
+        // Aquí puedes ir agregando los demás directorios que gustes.
+    };
+
+    return urlMap[id] || null;
+}
+
+// No need for window.addEventListener('load', ...) as we're using the onload attribute
 </script>
 
 {% endblock %}
