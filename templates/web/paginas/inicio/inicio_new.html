@@ -633,6 +633,122 @@
     body {
         max-width: 100%;
     }
+
+    
+    :root {
+    --primary-color: #ED4C02;
+    --secondary-color: #333;
+    --hover-color: #FB8A55;
+    --bg-color: #f8f8f8;
+    --text-color: #666;
+    }
+
+    .popup-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 9999; /* Valor alto para asegurarse de que esté sobre otras capas */
+    overflow-y: auto;
+    }
+
+    .popup-content {
+    position: relative;
+    width: 90%;
+    max-width: 800px;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    z-index: 10000; /* Asegura que el contenido del pop-up esté por encima del overlay */
+    }
+
+    .popup-content h2 {
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 28px;
+    text-align: center;
+    }
+
+    .section-grid {
+    display: flex; /* Cambia a flexbox */
+    justify-content: space-between; /* Espaciado entre los elementos */
+    margin-bottom: 20px;
+    }
+
+    .section-item {
+    flex: 1; /* Cada sección ocupa el mismo espacio */
+    margin: 0 10px; /* Espaciado entre secciones */
+    max-width: 220px; /* Ajusta el ancho máximo según sea necesario */
+    }
+
+    .section-item:hover {
+    transform: translateY(-5px);
+    }
+
+    .section-item img {
+    width: 100%;
+    max-width: 150px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    }
+
+    .section-item h3 {
+    color: var(--primary-color);
+    margin-bottom: 10px;
+    font-size: 20px;
+    }
+
+    .section-item p {
+    color: var(--text-color);
+    margin-bottom: 15px;
+    font-size: 14px;
+    }
+
+    .btn {
+    display: inline-block;
+    padding: 8px 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    font-weight: bold;
+    margin-top: auto; /* Empuja el botón al final del contenedor */
+    }
+
+    .btn:hover {
+    background-color: var(--hover-color);
+    }
+
+    .btn-close {
+    background-color: var(--secondary-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    }
+
+    .btn-close:hover {
+    background-color: #555;
+    }
+
+    @media (max-width: 600px) {
+    .popup-content {
+    padding: 20px;
+    }
+    .section-grid {
+    grid-template-columns: 1fr;
+    }
+    }
+
+
 </style>
 
 <body>
@@ -640,6 +756,44 @@
 
     {% include 'web/components/social_media_stiky/social_media_stiky.html' %}
 
+    <!---Este es el HTML del pop-up de "secciones destacadas"-->
+
+    <!-- Pop-up HTML -->
+    <div id="popup-overlay" class="popup-overlay">
+        <div class="popup-content">
+          <h2>¡Descubre nuestras secciones destacadas!</h2>
+          <div class="section-grid">
+            <div class="section-item">
+              <img src="{% static 'img/sustentabilidad/Logo_DistintivoGTOTurismoSostenible.png' %}" alt="Sustentabilidad">
+              <h3>Sustentabilidad</h3>
+              <p>Explora nuestros herramientas y buenas practicas ambientales</p>
+              <a href="{% url 'sustentabilidad' %}" class="btn">Ver más</a>
+            </div>
+            <div class="section-item">
+              <img src="{% static 'img_nav/city.png' %}" alt="ENIOT">
+              <h3>ENIOT</h3>
+              <p>Conoce las ediciones pasadas y futuras del Encuentro Nacional e Internacional de Observatorios Turisticos</p>
+              <a href="{% url 'eniot'%}" class="btn">Ver más</a>
+            </div>
+            <div class="section-item">
+              <img src="{% static 'img/OTEG_Logo.png' %}" alt="Entorno Nacional">
+              <h3>Entorno Nacional</h3>
+              <p>Descubre las metricas y variables influyentes en el país</p>
+              <a href="{% url 'entorno-nacional'%}" class="btn">Ver más</a>
+            </div>
+            <!--
+            <div class="section-item">
+              <img src="/api/placeholder/150/150" alt="Inventario Turístico">
+              <h3>Inventario Turístico</h3>
+              <p>Descubre los atractivos turísticos de Guanajuato</p>
+              <a href="{% url 'inventario-turistico' %}" class="btn">Ver más</a>
+            </div>
+            -->
+          </div>
+          <button id="close-popup" class="btn-close">Cerrar</button>
+        </div>
+      </div>
+      
 
     <div class="myslide carousel slide" id="carousel-example-generic" data-ride="carousel">
 
@@ -1211,6 +1365,50 @@
             const url = document.getElementById('search-form').action + '?query=' + encodeURIComponent(query);
             window.location.href = url;
         }
+    </script>
+    
+    <!--Script del pop up-->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const popup = document.getElementById('popup-overlay');
+            const closeButton = document.getElementById('close-popup');
+
+        const showPopup = () => {
+            popup.style.display = 'block';
+        };
+
+        const hidePopup = () => {
+            popup.style.display = 'none';
+        };
+
+        // Función para verificar si se debe mostrar el pop-up
+        const checkPopupDisplay = () => {
+            const currentDate = new Date().toDateString();
+            const popupData = JSON.parse(localStorage.getItem('popupData')) || { count: 0, date: '' };
+
+            // Resetear el contador si es un nuevo día
+            if (popupData.date !== currentDate) {
+                popupData.count = 0;
+                popupData.date = currentDate;
+            }
+
+            // Mostrar el pop-up si no se ha mostrado el límite de veces
+            if (popupData.count < 2) {
+                showPopup();
+                popupData.count++;
+                localStorage.setItem('popupData', JSON.stringify(popupData));
+                }
+        };
+
+        // Verificar el pop-up al cargar la página
+        checkPopupDisplay();
+
+            closeButton.addEventListener('click', hidePopup);
+            popup.addEventListener('click', (e) => {
+            if (e.target === popup) hidePopup();
+            });
+        });
+
     </script>
 
     {% include 'web/components/footer/footer_new.html' %}
