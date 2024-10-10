@@ -182,18 +182,19 @@
       <p class="contactanos">¡Contáctanos!</p>
       <p class="si-requires-informac">Si requieres información detallada de algún tema en específico.</p>
     </div>
-    <div class="">
+    <div>
       {% csrf_token %}
       <input type="hidden" name="action">
+
       {% if form.errors %}
       <div class="alert alert-danger alert-dismissible">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
         <h5><i class="icon fas fa-ban"></i> Ha ocurrido un error al querer guardar el registro</h5>
         <ul>
           {% for field in form.visible_fields %}
-          {% for error in field.errors %}
-          <li>{{ field.label }}: {{ error }}</li>
-          {% endfor %}
+            {% for error in field.errors %}
+              <li>{{ field.label }}: {{ error }}</li>
+            {% endfor %}
           {% endfor %}
         </ul>
       </div>
@@ -201,27 +202,36 @@
 
       <div class="form-row">
         <div class="form-group col-md-6">
-          <label for="{{ form.email.id_for_label }}">{{ form.email.label }}{% if form.email.field.required %}<span
-              class="text-danger">*</span>{% endif %}</label>
+          <label for="{{ form.email.id_for_label }}">{{ form.email.label }}{% if form.email.field.required %}<span class="text-danger">*</span>{% endif %}</label>
           {{ form.email|add_class:'input-text' }}
+          {% for error in form.email.errors %}
+            <small class="text-danger">{{ error }}</small>
+          {% endfor %}
         </div>
         <div class="form-group col-md-6">
-          <label for="id_country">País{% if form.country.field.required %}<span class="text-danger">*</span>{% endif%}</label>
+          <label for="id_country">País{% if form.country.field.required %}<span class="text-danger">*</span>{% endif %}</label>
           <select class="form-control input-text" id="id_country" name="{{ form.country.html_name }}" required>
             {% for value, label in form.country.field.choices %}
             <option value="{{ value }}" {% if form.country.value == value %}selected="selected"{% endif %}>{{ label }}</option>
             {% endfor %}
           </select>
+          {% for error in form.country.errors %}
+            <small class="text-danger">{{ error }}</small>
+          {% endfor %}
         </div>
         <div class="form-group col-md-12">
-          <label for="{{ form.subject.id_for_label }}">{{ form.subject.label }}{% if form.subject.field.required %}<span
-              class="text-danger">*</span>{% endif %}</label>
+          <label for="{{ form.subject.id_for_label }}">{{ form.subject.label }}{% if form.subject.field.required %}<span class="text-danger">*</span>{% endif %}</label>
           {{ form.subject|add_class:'input-text' }}
+          {% for error in form.subject.errors %}
+            <small class="text-danger">{{ error }}</small>
+          {% endfor %}
         </div>
         <div class="form-group col-md-12">
-          <label for="{{ form.message.id_for_label }}">{{ form.message.label }}{% if form.message.field.required %}<span
-              class="text-danger">*</span>{% endif %}</label>
+          <label for="{{ form.message.id_for_label }}">{{ form.message.label }}{% if form.message.field.required %}<span class="text-danger">*</span>{% endif %}</label>
           {{ form.message|add_class:'text-area-f' }}
+          {% for error in form.message.errors %}
+            <small class="text-danger">{{ error }}</small>
+          {% endfor %}
         </div>
       </div>
       <p class="mb-2">* Campos obligatorios</p>
@@ -234,28 +244,30 @@
 
 
 
+
 {% endblock %}
 {% block javascript %}
 <script>
   $(function () {
     $('form').on('submit', function (e) {
       e.preventDefault();
-      var parameters = new FormData(this);
-      console.log("Parameters: ", parameters)
-      submit_with_ajaxV2(window.location.pathname, 'Notificación', '¿Estás seguro de enviar la solicitud?', parameters, function () {
+      const parameters = new FormData(this);
+      console.log("Parameters: ", parameters);
+
+      const handleSuccess = () => {
         Swal.fire({
           title: 'Notificación',
           text: 'Hemos recibido tu solicitud y se ha enviado un correo electrónico con la información que buscas.',
           icon: 'success',
-          timer: 10000,
-          onClose: () => {
-            
-          }
-        }).then((result) => {
+          timer: 10000
+        }).then(() => {
           location.href = '/solicitudes/';
         });
-      });
+      };
+
+      submit_with_ajaxV2(window.location.pathname, 'Notificación', '¿Estás seguro de enviar la solicitud?', parameters, handleSuccess);
     });
   });
 </script>
+
 {% endblock %}
