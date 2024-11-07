@@ -633,6 +633,147 @@
     body {
         max-width: 100%;
     }
+
+/* CSS que compone el pop-up del comienzo */
+    :root {
+        --primary-color: #ED4C02;
+        --secondary-color: #333;
+        --hover-color: #FB8A55;
+        --bg-color: #f8f8f8;
+        --text-color: #666;
+    }
+    
+    .popup-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background-color: rgba(0, 0, 0, 0.8);
+        z-index: 9999;
+        overflow-y: auto;
+    }
+
+    .popup-content {
+        position: relative;
+        width: 90%;
+        max-width: 800px;
+        margin: 50px auto;
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        z-index: 10000;
+    }
+
+    .popup-content h2 {
+        margin-bottom: 20px;
+        color: var(--secondary-color);
+        font-size: 28px;
+        text-align: center;
+    }
+
+    .section-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+
+    .section-item {
+        flex: 1 1 200px;
+        margin: 0 10px 20px;
+        max-width: 220px;
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.3s ease;
+    }
+
+    .section-item:hover {
+        transform: translateY(-5px);
+    }
+
+    .section-item img {
+        width: 100%;
+        max-width: 150px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+    }
+
+    .section-item h3 {
+        color: var(--primary-color);
+        margin-bottom: 10px;
+        font-size: 20px;
+    }
+
+    .section-item p {
+        color: var(--text-color);
+        margin-bottom: 15px;
+        font-size: 14px;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 8px 20px;
+        background-color: var(--primary-color);
+        color: #fff;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+        font-weight: bold;
+        text-align: center;
+        text-decoration: none;
+        margin-top: auto;
+    }
+
+    .btn:hover {
+        background-color: var(--hover-color);
+    }
+
+    .btn-close {
+        background-color: var(--secondary-color);
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s;
+    }
+
+    .btn-close:hover {
+        background-color: #555;
+    }
+
+    @media (max-width: 768px) {
+        .popup-content {
+            padding: 20px;
+            margin: 20px auto;
+        }
+
+        .section-grid {
+            justify-content: center;
+        }
+
+        .section-item {
+            flex-basis: 100%;
+            max-width: 100%;
+            margin-bottom: 30px;
+        }
+
+        .popup-content h2 {
+            font-size: 24px;
+        }
+
+        .section-item h3 {
+            font-size: 18px;
+        }
+
+        .btn, .btn-close {
+            width: 100%;
+            padding: 12px 20px;
+            font-size: 16px;
+        }
+    }
+
+
 </style>
 
 <body>
@@ -640,6 +781,44 @@
 
     {% include 'web/components/social_media_stiky/social_media_stiky.html' %}
 
+    <!---Este es el HTML del pop-up de "secciones destacadas"-->
+
+    <!-- Pop-up HTML -->
+    <div id="popup-overlay" class="popup-overlay">
+        <div class="popup-content">
+          <h2>¡Descubre nuestras secciones destacadas!</h2>
+          <div class="section-grid">
+            <div class="section-item">
+              <img src="{% static 'img/sustentabilidad/Logo_DistintivoGTOTurismoSostenible.png' %}" alt="Sustentabilidad">
+              <h3>Sustentabilidad</h3>
+              <p>Explora nuestros herramientas y buenas practicas ambientales</p>
+              <a href="{% url 'sustentabilidad' %}" class="btn">Ver más</a>
+            </div>
+            <div class="section-item">
+              <img src="{% static 'img_nav/city.png' %}" alt="ENIOT">
+              <h3>ENIOT</h3>
+              <p>Conoce las ediciones pasadas y futuras del Encuentro Nacional e Internacional de Observatorios Turisticos</p>
+              <a href="{% url 'eniot'%}" class="btn">Ver más</a>
+            </div>
+            <div class="section-item">
+              <img src="{% static 'img/OTEG_Logo.png' %}" alt="Entorno Nacional">
+              <h3>Entorno Nacional</h3>
+              <p>Descubre las metricas y variables influyentes en el país</p>
+              <a href="{% url 'entorno-nacional'%}" class="btn">Ver más</a>
+            </div>
+            <!--
+            <div class="section-item">
+              <img src="/api/placeholder/150/150" alt="Inventario Turístico">
+              <h3>Inventario Turístico</h3>
+              <p>Descubre los atractivos turísticos de Guanajuato</p>
+              <a href="{% url 'inventario-turistico' %}" class="btn">Ver más</a>
+            </div>
+            -->
+          </div>
+          <button id="close-popup" class="btn-close">Cerrar</button>
+        </div>
+      </div>
+      
 
     <div class="myslide carousel slide" id="carousel-example-generic" data-ride="carousel">
 
@@ -810,12 +989,12 @@
 
                     <h2
                         style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 14px; color: #333333; ">
-                        12.5 Millones <br> <span style=" font-weight: 600;">Visitantes</span><br></h2>
+                        14.3 Millones <br> <span style=" font-weight: 600;">Visitantes</span><br></h2>
 
                     <div style=" width: 90%; height: 1px; background-color: #FB8A55;"> </div>
                     <p style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 12px; color: #000; margin-top: 5px;  margin-bottom: 30px;">
                         Acumulado<br>
-                        Enero-Julio<br>
+                        Enero-Agosto<br>
                         2024<br>
                     </p>
 
@@ -839,14 +1018,14 @@
 
                     <h2
                         style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 14px; color: #333333;  margin-top: 25px;">
-                        $29 mil 638 <br> millones <br> <span style=" font-weight: 600;">Derrama <br>Económica</span><br>
+                        $33 mil 905 <br> millones <br> <span style=" font-weight: 600;">Derrama <br>Económica</span><br>
                     </h2>
 
                     <div style=" width: 90%; height: 1px; background-color: #FB8A55;"> </div>
                     <p
                         style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 12px; color: #000; margin-top: 5px;">
                         Acumulado<br>
-                        Enero-Julio <br>
+                        Enero-Agosto <br>
                         2024<br>
 
                     </p>
@@ -869,12 +1048,12 @@
 
                     <h2
                         style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 14px; color: #333333; ">
-                        200 mil 116 <br> <span style=" font-weight: 600;">Personas<br>Ocupadas</span><br></h2>
+                        190 mil 931 <br> <span style=" font-weight: 600;">Personas<br>Ocupadas</span><br></h2>
 
                     <div style=" width: 90%; height: 1px; background-color: #FB8A55;"> </div>
                     <p
                         style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 12px; color: #000; margin-top: 5px; margin-bottom: 43px;">
-                        1er Trimestre 2024
+                        2do Trimestre 2024
                     </p>
                     </p>
 
@@ -1212,12 +1391,52 @@
             window.location.href = url;
         }
     </script>
+    
+    <!--Script del pop up-->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const popup = document.getElementById('popup-overlay');
+            const closeButton = document.getElementById('close-popup');
+
+        const showPopup = () => {
+            popup.style.display = 'block';
+        };
+
+        const hidePopup = () => {
+            popup.style.display = 'none';
+        };
+
+        // Función para verificar si se debe mostrar el pop-up
+        const checkPopupDisplay = () => {
+            const currentDate = new Date().toDateString();
+            const popupData = JSON.parse(localStorage.getItem('popupData')) || { count: 0, date: '' };
+
+            // Resetear el contador si es un nuevo día
+            if (popupData.date !== currentDate) {
+                popupData.count = 0;
+                popupData.date = currentDate;
+            }
+
+            // Mostrar el pop-up si no se ha mostrado el límite de veces
+            if (popupData.count < 2) {
+                showPopup();
+                popupData.count++;
+                localStorage.setItem('popupData', JSON.stringify(popupData));
+                }
+        };
+
+        // Verificar el pop-up al cargar la página
+        checkPopupDisplay();
+
+            closeButton.addEventListener('click', hidePopup);
+            popup.addEventListener('click', (e) => {
+            if (e.target === popup) hidePopup();
+            });
+        });
+
+    </script>
 
     {% include 'web/components/footer/footer_new.html' %}
 </body>
-
-
-
-
 
 </html>
