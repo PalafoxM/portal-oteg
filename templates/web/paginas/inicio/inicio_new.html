@@ -723,6 +723,19 @@
         margin-top: auto;
     }
 
+    .btn-info{
+        display: inline-block;
+        padding: 8px 20px;
+        background-color: #00aae4;
+        color: #fff;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+        font-weight: bold;
+        text-align: center;
+        text-decoration: none;
+        margin-top: auto;
+    }
+
     .btn:hover {
         background-color: var(--hover-color);
     }
@@ -785,14 +798,23 @@
 
     <!-- Pop-up HTML -->
     <div id="popup-overlay" class="popup-overlay">
-        <div class="popup-content">
-          <h2>¡Descubre nuestras secciones destacadas!</h2>
-          <div class="section-grid">
-            <div class="section-item">
-              <img src="{% static 'img/sustentabilidad/Logo_DistintivoGTOTurismoSostenible.png' %}" alt="Sustentabilidad">
-              <h3>Sustentabilidad</h3>
-              <p>Explora nuestros herramientas y buenas practicas ambientales</p>
-              <a href="{% url 'sustentabilidad' %}" class="btn">Ver más</a>
+        <div class="popup-content"> 
+          <h2>¡Participa en nuestra encuesta para el banco de iniciativas!</h2> <!--pop-up con el contenido del bnaco de Iniciativas.-->
+          <div class="w-100"> <!-- "section-grid" modificado para ocupar todo el ancho -->
+            <div class="w-100 d-flex flex-column align-items-center text-center p-3"> <!-- "section-item" modificado -->
+                <img src="{% static 'img/banco_iniciativas_2025.png' %}" alt="Banco_de_iniciativas" class="img-fluid mb-3 w-100" style="max-width: 250px;">
+                <h3>Banco de Iniciativas 2025.</h3>
+                <p>Realiza nuestra encuesta para participar en el banco de iniciativas</p>
+                <a href="https://www.observatorioturistico.org/publicaciones-pdf-viewer/733/" class="btn btn-info">Consulta las bases</a>
+                <a href="https://zfrmz.com/cvKqnCV7ejZN5NFJu3U9" class="btn btn-primary">Realiza tu encuesta</a>
+                <button id="close-popup" class="btn-close">Cerrar</button>
+            </div>
+          </div>
+            <!--<div class="section-item">
+              <img src="{% static 'img_nav/city.png' %}" alt="ENIOT">
+              <h3>ENIOT</h3>
+              <p>Conoce las ediciones pasadas y futuras del Encuentro Nacional e Internacional de Observatorios Turisticos</p>
+              <a href="{% url 'eniot'%}" class="btn">Ver más</a>
             </div>
             <div class="section-item">
               <img src="{% static 'img_nav/city.png' %}" alt="ENIOT">
@@ -805,19 +827,9 @@
               <h3>Entorno Nacional</h3>
               <p>Descubre las metricas y variables influyentes en el país</p>
               <a href="{% url 'entorno-nacional'%}" class="btn">Ver más</a>
-            </div>
-            <!--
-            <div class="section-item">
-              <img src="/api/placeholder/150/150" alt="Inventario Turístico">
-              <h3>Inventario Turístico</h3>
-              <p>Descubre los atractivos turísticos de Guanajuato</p>
-              <a href="{% url 'inventario-turistico' %}" class="btn">Ver más</a>
-            </div>
-            -->
-          </div>
-          <button id="close-popup" class="btn-close">Cerrar</button>
+            </div>-->
         </div>
-      </div>
+    </div>
       
 
     <div class="myslide carousel slide" id="carousel-example-generic" data-ride="carousel">
@@ -989,12 +1001,12 @@
 
                     <h2
                         style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 14px; color: #333333; ">
-                        20.1 Millones <br> <span style=" font-weight: 600;">Visitantes</span><br></h2>
+                        21.9 Millones <br> <span style=" font-weight: 600;">Visitantes</span><br></h2>
 
                     <div style=" width: 90%; height: 1px; background-color: #FB8A55;"> </div>
                     <p style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 12px; color: #000; margin-top: 5px;  margin-bottom: 30px;">
                         Acumulado<br>
-                        Enero-Noviembre<br>
+                        Enero-Diciembre<br>
                         2024<br>
                     </p>
 
@@ -1018,14 +1030,14 @@
 
                     <h2
                         style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 14px; color: #333333;  margin-top: 25px;">
-                        $47 mil 695 <br> millones <br> <span style=" font-weight: 600;">Derrama <br>Económica</span><br>
+                        $51 mil 786 <br> millones <br> <span style=" font-weight: 600;">Derrama <br>Económica</span><br>
                     </h2>
 
                     <div style=" width: 90%; height: 1px; background-color: #FB8A55;"> </div>
                     <p
                         style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 12px; color: #000; margin-top: 5px;">
                         Acumulado<br>
-                        Enero-Noviembre <br>
+                        Enero-Diciembre <br>
                         2024<br>
 
                     </p>
@@ -1048,12 +1060,12 @@
 
                     <h2
                         style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 14px; color: #333333; ">
-                        190 mil 931 <br> <span style=" font-weight: 600;">Personas<br>Ocupadas</span><br></h2>
+                        202 mil 080 <br> <span style=" font-weight: 600;">Personas<br>Ocupadas</span><br></h2>
 
                     <div style=" width: 90%; height: 1px; background-color: #FB8A55;"> </div>
                     <p
                         style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 12px; color: #000; margin-top: 5px; margin-bottom: 43px;">
-                        2do Trimestre 2024
+                        4to Trimestre 2024
                     </p>
                     </p>
 
@@ -1074,13 +1086,13 @@
 
                     <h2
                         style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 14px; color: #333333; ">
-                        2 mil 005 <br> <span style=" font-weight: 600;">Participantes</span> en <br> acciones de
+                        1 mil 071 <br> <span style=" font-weight: 600;">Participantes</span> en <br> acciones de
                         <br><span style=" font-weight: 600;">Sensibilización <br> Turística</span>
                     </h2>
 
                     <div style=" width: 90%; height: 1px; background-color: #FB8A55;"> </div>
                     <p style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 12px; color: #000; margin-top: 5px;  margin-bottom: 23px;"">
-                        Anual 2023<br>
+                        Anual 2024<br>
                     </p>
 
                 </div>
@@ -1418,7 +1430,7 @@
             }
 
             // Mostrar el pop-up si no se ha mostrado el límite de veces
-            if (popupData.count < 2) {
+            if (popupData.count < 3) {
                 showPopup();
                 popupData.count++;
                 localStorage.setItem('popupData', JSON.stringify(popupData));
