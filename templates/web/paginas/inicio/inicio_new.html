@@ -611,6 +611,7 @@
     /* Estilo del contenedor del widget */
     #google_translate_element {
         -moz-transform: translate(0, 0);
+        transform: translate(0, 0);
         display: inline-block;
         margin-right: 10px;
     }
@@ -799,14 +800,14 @@
     <!-- Pop-up HTML -->
     <div id="popup-overlay" class="popup-overlay">
         <div class="popup-content"> 
-          <h2>¡Participa en nuestra encuesta para el banco de iniciativas!</h2> <!--pop-up con el contenido del bnaco de Iniciativas.-->
+          <h2>¡Participa en el registro del banco de iniciativas!</h2> <!--pop-up con el contenido del banco de Iniciativas.-->
           <div class="w-100"> <!-- "section-grid" modificado para ocupar todo el ancho -->
             <div class="w-100 d-flex flex-column align-items-center text-center p-3"> <!-- "section-item" modificado -->
                 <img src="{% static 'img/banco_iniciativas_2025.png' %}" alt="Banco_de_iniciativas" class="img-fluid mb-3 w-100" style="max-width: 250px;">
                 <h3>Banco de Iniciativas 2025.</h3>
                 <p>Realiza nuestra encuesta para participar en el banco de iniciativas</p>
                 <a href="https://www.observatorioturistico.org/publicaciones-pdf-viewer/733/" class="btn btn-info">Consulta las bases</a>
-                <a href="https://zfrmz.com/cvKqnCV7ejZN5NFJu3U9" class="btn btn-primary">Realiza tu encuesta</a>
+                <a href="https://zfrmz.com/cvKqnCV7ejZN5NFJu3U9" class="btn btn-primary">Registra tu Iniciativa</a>
                 <button id="close-popup" class="btn-close">Cerrar</button>
             </div>
           </div>
