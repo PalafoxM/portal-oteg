@@ -794,45 +794,8 @@
 
 
     {% include 'web/components/social_media_stiky/social_media_stiky.html' %}
-
-    <!---Este es el HTML del pop-up de "secciones destacadas"-->
-
-    <!-- Pop-up HTML -->
-    <div id="popup-overlay" class="popup-overlay">
-        <div class="popup-content"> 
-          <h2>¡Participa en el registro del banco de iniciativas!</h2> <!--pop-up con el contenido del banco de Iniciativas.-->
-          <div class="w-100"> <!-- "section-grid" modificado para ocupar todo el ancho -->
-            <div class="w-100 d-flex flex-column align-items-center text-center p-3"> <!-- "section-item" modificado -->
-                <img src="{% static 'img/banco_iniciativas_2025.png' %}" alt="Banco_de_iniciativas" class="img-fluid mb-3 w-100" style="max-width: 250px;">
-                <h3>Banco de Iniciativas 2025.</h3>
-                <p>Realiza nuestra encuesta para participar en el banco de iniciativas</p>
-                <a href="https://www.observatorioturistico.org/publicaciones-pdf-viewer/733/" class="btn btn-info">Consulta las bases</a>
-                <a href="https://zfrmz.com/cvKqnCV7ejZN5NFJu3U9" class="btn btn-primary">Registra tu Iniciativa</a>
-                <button id="close-popup" class="btn-close">Cerrar</button>
-            </div>
-          </div>
-            <!--<div class="section-item">
-              <img src="{% static 'img_nav/city.png' %}" alt="ENIOT">
-              <h3>ENIOT</h3>
-              <p>Conoce las ediciones pasadas y futuras del Encuentro Nacional e Internacional de Observatorios Turisticos</p>
-              <a href="{% url 'eniot'%}" class="btn">Ver más</a>
-            </div>
-            <div class="section-item">
-              <img src="{% static 'img_nav/city.png' %}" alt="ENIOT">
-              <h3>ENIOT</h3>
-              <p>Conoce las ediciones pasadas y futuras del Encuentro Nacional e Internacional de Observatorios Turisticos</p>
-              <a href="{% url 'eniot'%}" class="btn">Ver más</a>
-            </div>
-            <div class="section-item">
-              <img src="{% static 'img/OTEG_Logo.png' %}" alt="Entorno Nacional">
-              <h3>Entorno Nacional</h3>
-              <p>Descubre las metricas y variables influyentes en el país</p>
-              <a href="{% url 'entorno-nacional'%}" class="btn">Ver más</a>
-            </div>-->
-        </div>
-    </div>
-      
-
+    <!--{% include 'web/components/pop_up/pop-up.html' %}-->
+    
     <div class="myslide carousel slide" id="carousel-example-generic" data-ride="carousel">
 
 
@@ -1403,50 +1366,6 @@
             const url = document.getElementById('search-form').action + '?query=' + encodeURIComponent(query);
             window.location.href = url;
         }
-    </script>
-    
-    <!--Script del pop up-->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const popup = document.getElementById('popup-overlay');
-            const closeButton = document.getElementById('close-popup');
-
-        const showPopup = () => {
-            popup.style.display = 'block';
-        };
-
-        const hidePopup = () => {
-            popup.style.display = 'none';
-        };
-
-        // Función para verificar si se debe mostrar el pop-up
-        const checkPopupDisplay = () => {
-            const currentDate = new Date().toDateString();
-            const popupData = JSON.parse(localStorage.getItem('popupData')) || { count: 0, date: '' };
-
-            // Resetear el contador si es un nuevo día
-            if (popupData.date !== currentDate) {
-                popupData.count = 0;
-                popupData.date = currentDate;
-            }
-
-            // Mostrar el pop-up si no se ha mostrado el límite de veces
-            if (popupData.count < 3) {
-                showPopup();
-                popupData.count++;
-                localStorage.setItem('popupData', JSON.stringify(popupData));
-                }
-        };
-
-        // Verificar el pop-up al cargar la página
-        checkPopupDisplay();
-
-            closeButton.addEventListener('click', hidePopup);
-            popup.addEventListener('click', (e) => {
-            if (e.target === popup) hidePopup();
-            });
-        });
-
     </script>
 
     {% include 'web/components/footer/footer_new.html' %}
