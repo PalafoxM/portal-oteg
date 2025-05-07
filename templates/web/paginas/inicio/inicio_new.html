@@ -353,6 +353,33 @@
         cursor: auto !important;
     }
 
+    .card__imagen{
+        height: 60px; width: 60px;
+            background-image: linear-gradient(140.57deg, #ED4C02 0%, #FB8A55 100%);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+    }
+
+    .card__titulo{
+        text-align: center;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 300;
+            font-size: 14px;
+            color: #333333;
+    }
+
+    .card__parrafo{
+        text-align: center;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 300;
+            font-size: 12px;
+            color: #000;
+            margin-top: 5px;
+            margin-bottom: 30px;
+    }
+
     .n-card {
         background-color: #DEE2E6;
         border-radius: 8px;
@@ -910,149 +937,80 @@
         
         </div>
 
-            <section style=" 
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        flex-wrap: wrap;
+        <section style=" 
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap; 
         ">
 
-                <div class="card">
+    <!-- CARD 1 -->
+        <div class="card">
+            <div class="card__imagen">
+                <img src="{% static 'icons/vis.svg' %}" alt="" style="width: 80%; height: 80%;">
+            </div>
+            <h2 class="card__titulo"> 3.4 Millones <br>
+                <span style="font-weight: 600;">Visitantes</span><br>
+            </h2>
+            <div style="width: 90%; height: 1px; background-color: #FB8A55;"></div>
+            <p class="card__parrafo">
+                Acumulado<br>
+                Enero-Febrero<br>
+                2025<br>
+            </p>
+        </div>
 
-                    <div style="height: 60px; width: 60px; background-image: linear-gradient(140.57deg, #ED4C02 0%, #FB8A55 100%); border-radius: 50%;
-                            display: flex;
-                            justify-content: center;
-                            align-items: center;
-                    
-                    ">
+    <!-- CARD 2 -->
+        <div class="card">
+            <div class="card__imagen">
+                <img src="{% static 'icons/icon7.svg' %}" alt="" style="width: 55%; height: 55%;">
+            </div>
+            <h2 class="card__titulo"> $8 mil 380 millones <br>
+                <span style="font-weight: 600;">Derrama <br>Económica</span><br>
+            </h2>
+            <div style="width: 90%; height: 1px; background-color: #FB8A55;"></div>
+            <p class="card__parrafo"> Acumulado<br> Enero-Febrero<br> 2025<br></p>
+        </div>
 
-                        <img src="{% static 'icons/vis.svg' %}" alt="" style="width: 80%; height:80%;">
-                    </div>
+    <!-- CARD 3 -->
+        <div class="card">
+            <div class="card__imagen">
+                <img src="{% static 'icons/per_c.svg' %}" alt="" style="width: 55%; height: 55%;">
+            </div>
+            <h2 class="card__titulo"> 202 mil 080 <br>
+                <span style="font-weight: 600;">Personas Ocupadas</span><br>
+            </h2>
+            <div style="width: 90%; height: 1px; background-color: #FB8A55;"></div>
+            <p class="card__parrafo">4to Trimestre 2024</p>
+        </div>
 
+    <!-- CARD 4 -->
+        <div class="card">
+            <div class="card__imagen">
+                <img src="{% static 'icons/sensib_t.svg' %}" alt="" style="width: 65%; height: 65%;">
+            </div>
+            <h2 class="card__titulo"> 1 mil 071 <br>
+                <span style="font-weight: 600;">Participantes</span> en <br> acciones de <br>
+                <span style="font-weight: 600;">Sensibilización Turística</span>
+            </h2>
+            <div style="width: 90%; height: 1px; background-color: #FB8A55;"></div>
+            <p class="card__parrafo"> Anual 2024<br> </p>
+        </div>
 
-                    <h2
-                        style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 14px; color: #333333; ">
-                        21.9 Millones <br> <span style=" font-weight: 600;">Visitantes</span><br></h2>
+    <!-- CARD 5 -->
+        <div class="card">
+            <div class="card__imagen">
+                <img src="{% static 'icons/inv_priv.svg' %}" alt="" style="width: 80%; height: 80%;">
+            </div>
 
-                    <div style=" width: 90%; height: 1px; background-color: #FB8A55;"> </div>
-                    <p style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 12px; color: #000; margin-top: 5px;  margin-bottom: 30px;">
-                        Acumulado<br>
-                        Enero-Diciembre<br>
-                        2024<br>
-                    </p>
+            <h2 class="card__titulo">278 mil 400 <br> <span style="font-weight: 600;">Pasajeros al aeropuerto del Bajío</span>
+            </h2>
+            <div style="width: 90%; height: 1px; background-color: #FB8A55;"></div>
+            <p class="card__parrafo"> Acumulado<br> Enero - Abril<br>2025<br>
+            </p>
+        </div>
 
-
-
-                </div>
-
-                <div class="card">
-
-                    <div style="height: 60px; width: 60px; background-image: linear-gradient(140.57deg, #ED4C02 0%, #FB8A55 100%); border-radius: 50%;
-                    
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    ">
-                        <!-- <img src="{% static 'icons/icon3.svg' %}" alt="" style="width: 55%; height:55%;"> -->
-                        <img src="{% static 'icons/icon7.svg' %}" alt="" style="width: 55%; height:55%;">
-                    </div>
-
-
-
-                    <h2
-                        style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 14px; color: #333333;  margin-top: 25px;">
-                        $51 mil 786 <br> millones <br> <span style=" font-weight: 600;">Derrama <br>Económica</span><br>
-                    </h2>
-
-                    <div style=" width: 90%; height: 1px; background-color: #FB8A55;"> </div>
-                    <p
-                        style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 12px; color: #000; margin-top: 5px;">
-                        Acumulado<br>
-                        Enero-Diciembre <br>
-                        2024<br>
-
-                    </p>
-
-
-
-                </div>
-                <div class="card">
-
-                    <div style="height: 60px; width: 60px; background-image: linear-gradient(140.57deg, #ED4C02 0%, #FB8A55 100%); border-radius: 50%;
-                    
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    ">
-                        <img src="{% static 'icons/per_c.svg' %}" alt="" style="width: 55%; height:55%;">
-                    </div>
-
-
-
-                    <h2
-                        style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 14px; color: #333333; ">
-                        202 mil 080 <br> <span style=" font-weight: 600;">Personas<br>Ocupadas</span><br></h2>
-
-                    <div style=" width: 90%; height: 1px; background-color: #FB8A55;"> </div>
-                    <p
-                        style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 12px; color: #000; margin-top: 5px; margin-bottom: 43px;">
-                        4to Trimestre 2024
-                    </p>
-                    </p>
-
-
-                </div>
-
-                <div class="card">
-
-                    <div style="height: 60px; width: 60px; background-image: linear-gradient(140.57deg, #ED4C02 0%, #FB8A55 100%); border-radius: 50%;
-
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    ">
-                        <img src="{% static 'icons/sensib_t.svg' %}" alt="" style="width: 65%; height:65%;">
-                    </div>
-
-
-                    <h2
-                        style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 14px; color: #333333; ">
-                        1 mil 071 <br> <span style=" font-weight: 600;">Participantes</span> en <br> acciones de
-                        <br><span style=" font-weight: 600;">Sensibilización <br> Turística</span>
-                    </h2>
-
-                    <div style=" width: 90%; height: 1px; background-color: #FB8A55;"> </div>
-                    <p style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 12px; color: #000; margin-top: 5px;  margin-bottom: 23px;"">
-                        Anual 2024<br>
-                    </p>
-
-                </div>
-
-
-                <div class=" card">
-
-                    <div style="height: 60px; width: 60px; background-image: linear-gradient(140.57deg, #ED4C02 0%, #FB8A55 100%); border-radius: 50%;
-
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    ">
-                        <img src="{% static 'icons/inv_priv.svg' %}" alt="" style="width: 45%; height:45%;">
-                    </div>
-                    <h2
-                        style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 14px; color: #333333; ">
-                        $ 3 mil 069 mdp <br> <span style=" font-weight: 600;">Inversión Privada Turística</span> </h2>
-
-                    <div style=" width: 90%; height: 1px; background-color: #FB8A55;"> </div>
-                    <p style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 12px; color: #000; margin-top: 5px;   margin-bottom: 20px;"">
-                        Acumulado<br>
-                        Anual<br>
-                        2023<br>
-                    </p>
-                </div>
-
-            </section>
-
+</section>
 
             <div class="container" style="margin-top: 65px;">
                     <h2
