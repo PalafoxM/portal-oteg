@@ -10,7 +10,7 @@ from web.views.solicitudes.views import *
 from web.views.segmentosTuristicos.views import *
 from web.views.pueblos_magicos.views import *
 from web.views.publicaciones.views import *
-from web.views.sustentabilidad.views import *
+from web.views.sostenibilidad.views import *
 from web.views.eniot.views import *
 from web.views.entornonacional.views import *
 from web.views.inventario.views import *
@@ -75,8 +75,8 @@ urlpatterns = [
     path('searchBar/', searchBar, name='search_bar'),
 
 
-    # sustentabilidad
-    path('sustentabilidad/',Sustentabilidad.as_view(), name='sustentabilidad'),
+    # sostenibilidad
+    path('sostenibilidad/',Sostenibilidad.as_view(), name='sostenibilidad'),
     # eniot
     path('eniot/',EniotView.as_view(), name='eniot'),
     path('eniot/memorias',MemoriasView.as_view(), name='eniot_memorias'),

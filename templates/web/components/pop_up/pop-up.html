@@ -1,0 +1,163 @@
+<!-- Pop-up HTML -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+{% load static %}
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>Pop-up Cargado Automáticamente</title>
+<style>
+  /* Basic Reset */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  /* Popup Overlay */
+  #popupOverlay {
+    display: flex; /* Show popup automatically */
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(4px);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Popup Content Box */
+  #popupContent {
+    background: #fff;
+    border-radius: 12px;
+    padding: 24px 32px;
+    width: 90%;
+    max-width: 350px;
+    max-height: 600px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  /* Close Button */
+  #closePopupBtn {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #555;
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+  #closePopupBtn:hover, #closePopupBtn:focus {
+    color: #d9534f;
+    outline: none;
+  }
+
+  /* Popup Title */
+  #popupContent h2 {
+    margin-top: 0;
+    margin-bottom: 12px;
+    font-size: 1.5rem;
+    color: #333;
+  }
+
+  /* Popup Body */
+  #popupContent p {
+    font-size: 1rem;
+    color: #666;
+    line-height: 1.4;
+    flex-grow: 1;
+  }
+
+  /* Responsive font scaling for mobile */
+  @media (max-width: 400px) {
+    #popupContent {
+      padding: 20px 24px;
+    }
+    #popupContent h2 {
+      font-size: 1.3rem;
+    }
+    #popupContent p {
+      font-size: 0.95rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <div id="popupOverlay" role="dialog" aria-modal="true" aria-labelledby="popupTitle" tabindex="-1">
+    <div id="popupContent">
+      <button id="closePopupBtn" aria-label="Cerrar pop-up">&times;</button>
+      <h2 id="popupTitle">PRUEBA CORRESPONDIENTE</h2>
+      <p>
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam, ad sed. Explicabo accusantium facilis accusamus ipsam repellat nulla asperiores nam dicta, a saepe atque pariatur iure quisquam soluta at? Sequi?
+      </p>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+        const popupOverlay = document.getElementById('popupOverlay');
+        const closeBtn = document.getElementById('closePopupBtn');
+        
+        // Obtener o inicializar datos del popup
+        const now = new Date();
+        const today = now.toISOString().split('T')[0];
+        let popupData = JSON.parse(localStorage.getItem('popupData')) || { date: '', count: 0 };
+
+        // Resetear contador si es un nuevo día
+        if (popupData.date !== today) {
+            popupData.date = today;
+            popupData.count = 0;
+            localStorage.setItem('popupData', JSON.stringify(popupData));
+        }
+
+        // Función para verificar si se debe mostrar el popup
+        function shouldShowPopup() {
+            return popupData.count < 2;
+        }
+
+        // Mostrar popup solo si no ha alcanzado el límite
+        if (shouldShowPopup()) {
+            popupOverlay.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            
+            // Incrementar contador solo cuando realmente se muestra
+            popupData.count++;
+            localStorage.setItem('popupData', JSON.stringify(popupData));
+        } else {
+            popupOverlay.style.display = 'none';
+        }
+
+        function closePopup() {
+            popupOverlay.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+
+        closeBtn.addEventListener('click', closePopup);
+
+        popupOverlay.addEventListener('click', function(e){
+            if(e.target === popupOverlay){
+                closePopup();
+            }
+        });
+
+        window.addEventListener('keydown', function(e){
+            if(e.key === 'Escape' && popupOverlay.style.display === 'flex'){
+                closePopup();
+            }
+        });
+
+        console.log(popupData)
+    })();
+</script>
+    
+  
+</body>
+</html>
+
+
